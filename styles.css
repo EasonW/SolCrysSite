@@ -21,6 +21,8 @@
   --radius: 22px;
   --radius-pill: 999px;
   --transition: all 0.25s ease;
+  --logo-height: 118px;
+  --logo-height-mobile: 84px;
 }
 
 * {
@@ -120,13 +122,9 @@ img {
 }
 
 .brand-mark img {
-  height: 96px;
+  height: var(--logo-height);
   width: auto;
   display: block;
-}
-
-.site-header .brand-mark img {
-  height: 96px;
 }
 
 .hero {
@@ -386,8 +384,9 @@ img {
 }
 
 .footer-logo {
-  height: 68px;
+  max-height: var(--logo-height);
   width: auto;
+  height: auto;
   display: block;
   margin-bottom: 1.25rem;
 }
@@ -400,6 +399,11 @@ img {
 
 .footer-summary p {
   max-width: 32ch;
+}
+
+.footer-tagline {
+  margin-top: 0.8rem;
+  color: #fff;
 }
 
 .site-footer p {
@@ -502,6 +506,11 @@ img {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 1.8rem;
+  }
+
+  .brand-mark img,
+  .footer-logo {
+    max-height: var(--logo-height-mobile);
   }
 
   .footer-summary p {
