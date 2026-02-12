@@ -3,23 +3,23 @@ import { AlertTriangle, Eye, TrendingDown } from "lucide-react";
 const problems = [
   {
     icon: Eye,
-    title: "Visibility Has Shifted",
+    title: "Zero-Click Future",
     description:
-      "Discovery is no longer driven by keywords alone. AI systems interpret authority, intent, and credibility across fragmented sources.",
+      "Users aren't clicking links anymore. They are reading AI summaries. If the LLM doesn't cite you, you don't exist.",
     glow: "hsl(195 90% 55% / 0.08)",
   },
   {
     icon: AlertTriangle,
-    title: "Legacy Solutions Fall Short",
+    title: "Social Listening is Blind Here",
     description:
-      "Current solutions rely on opaque, biased, and inferred data that cannot reflect how real users interact with AI systems.",
+      "Traditional tools track keywords on Twitter/Reddit. They cannot see inside the 'Black Box' of LLM inference layers.",
     glow: "hsl(40 85% 55% / 0.08)",
   },
   {
     icon: TrendingDown,
-    title: "Insight That Looks Right — But Isn't",
+    title: "Hallucination Risk",
     description:
-      "The result is data that may look directionally interesting but is fundamentally unsafe and wrong.",
+      "AI models confabulate. Without monitoring, you won't know when an AI is actively damaging your brand reputation with false info.",
     glow: "hsl(0 70% 55% / 0.08)",
   },
 ];
@@ -36,10 +36,10 @@ const ProblemSection = () => {
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="text-center mb-16">
           <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
-            The Problem
+            The Rules of Discovery Have Changed
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
-            The Rules of Discovery Have Changed
+            SEO is Dying. AI Answers are the New Gatekeeper.
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             As discovery shifts from traditional search results to AI-generated
