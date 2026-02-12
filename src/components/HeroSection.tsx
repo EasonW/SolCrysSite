@@ -28,7 +28,8 @@ const HeroSection = () => {
         </h1>
 
         {/* Subheadline */}
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed opacity-0 animate-fade-up-delay-2">The AI-native growth engine that grounds AI discovery in user intent—not inference or guesswork
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed opacity-0 animate-fade-up-delay-2">
+          The AEO engine that grows your business in the age of AI.
 
         </p>
 
