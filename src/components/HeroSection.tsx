@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import EarlyAccessDialog from "./EarlyAccessDialog";
+import reportImage from "@/assets/report.png";
 
 const HeroSection = () => {
   return (
@@ -43,73 +44,38 @@ const HeroSection = () => {
         </div>
 
         {/* Dashboard Placeholder - Share of Voice Chart */}
-        <div className="relative w-full max-w-4xl mx-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl overflow-hidden opacity-0 animate-fade-up-delay-3 translate-y-4">
-           {/* Mock Window Controls */}
-           <div className="h-8 border-b border-white/5 bg-white/5 flex items-center px-4 gap-2">
-             <div className="w-3 h-3 rounded-full bg-red-500/20" />
-             <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-             <div className="w-3 h-3 rounded-full bg-green-500/20" />
-           </div>
-           
-           {/* Dashboard Content Mockup */}
-           <div className="p-6 md:p-10 grid gap-8">
-             <div className="flex items-center justify-between mb-4">
-               <div className="h-6 w-32 bg-white/10 rounded animate-pulse" />
-               <div className="h-8 w-24 bg-primary/20 rounded animate-pulse" />
-             </div>
-             
-             {/* Chart Area */}
-             <div className="relative h-[300px] w-full bg-gradient-to-b from-transparent to-primary/5 rounded border border-white/5 p-4 flex items-end gap-2 md:gap-4 overflow-hidden">
-                {/* SVG Line Chart Mockup */}
-                <svg className="absolute inset-0 w-full h-full p-8" viewBox="0 0 400 200" preserveAspectRatio="none">
-                  {/* Grid Lines */}
-                  <line x1="0" y1="180" x2="400" y2="180" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
-                  <line x1="0" y1="140" x2="400" y2="140" stroke="white" strokeOpacity="0.05" strokeWidth="1" />
-                  <line x1="0" y1="100" x2="400" y2="100" stroke="white" strokeOpacity="0.05" strokeWidth="1" />
-                  <line x1="0" y1="60" x2="400" y2="60" stroke="white" strokeOpacity="0.05" strokeWidth="1" />
+        <div className="relative w-full max-w-4xl mx-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_20px_50px_rgba(0,_0,_0,_0.1)] overflow-hidden opacity-0 animate-fade-up-delay-3 translate-y-4">
+          {/* Mock Window Controls */}
+          <div className="h-8 border-b border-white/5 bg-white/5 flex items-center px-4 gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-500/20" />
+            <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
+            <div className="w-3 h-3 rounded-full bg-green-500/20" />
+          </div>
 
-                  {/* Competitor Line (Gray/Blue) */}
-                  <path d="M0,150 C50,140 100,130 150,145 C200,160 250,120 300,130 C350,140 400,110 400,100" fill="none" stroke="#64748b" strokeWidth="2" strokeDasharray="5,5" />
-                  
-                  {/* MyBrand Line (Primary/Gradient) */}
-                  <path d="M0,170 C50,160 100,100 150,80 C200,60 250,90 300,50 C350,20 400,30 400,30" fill="none" stroke="url(#gradient)" strokeWidth="3" />
-                  <defs>
-                    <linearGradient id="gradient" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="hsl(195, 90%, 55%)" />
-                      <stop offset="100%" stopColor="hsl(40, 85%, 55%)" />
-                    </linearGradient>
-                  </defs>
-                  
-                   {/* Tooltip Mockup */}
-                   <circle cx="300" cy="50" r="4" fill="white" />
-                   <rect x="270" y="10" width="60" height="24" rx="4" fill="white" fillOpacity="0.1" stroke="white" strokeOpacity="0.2" />
-                   <text x="300" y="27" textAnchor="middle" fill="white" fontSize="10" fontFamily="sans-serif">85% SoV</text>
-                </svg>
-             </div>
-             
-             {/* Stats Row */}
-             <div className="grid grid-cols-3 gap-4">
-               {[1, 2, 3].map((i) => (
-                 <div key={i} className="h-16 rounded bg-white/5 border border-white/5" />
-               ))}
-             </div>
-           </div>
-           
-           {/* Glass overlay */}
-           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-50" />
+          {/* Dashboard Content - Report Image */}
+          <div className="relative w-full">
+            <img
+              src={reportImage}
+              alt="Dashboard Report"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+
+          {/* Glass overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-10" />
         </div>
 
         {/* Trust Bar */}
         <div className="mt-16 pt-8 border-t border-white/5">
-           <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Monitor your narrative across:</p>
-           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">ChatGPT</span>
-             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Gemini</span>
-             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Amazon Rufus</span>
-             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Perplexity</span>
-             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Google AI Overview</span>
-             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Claude</span>
-           </div>
+          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Monitor your narrative across:</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">ChatGPT</span>
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Gemini</span>
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Amazon Rufus</span>
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Perplexity</span>
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Google AI Overview</span>
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Claude</span>
+          </div>
         </div>
       </div>
     </section>);
