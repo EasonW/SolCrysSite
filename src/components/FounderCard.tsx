@@ -11,7 +11,7 @@ interface FounderCardProps {
 const FounderCard = ({ image, initials, name, title, background, expertise, linkedin }: FounderCardProps) => {
   return (
     <div className="fade-in-scroll group rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm p-6 text-center transition-all hover:-translate-y-1 hover:shadow-lg">
-      <div className="mx-auto mb-4 h-24 w-24 overflow-hidden rounded-full bg-muted flex items-center justify-center">
+      <div className="mx-auto mb-4 h-24 w-24 overflow-hidden rounded-full bg-muted border border-border/40 flex items-center justify-center">
         {image ? (
           <img
             src={image}
