@@ -12,6 +12,7 @@ const Navbar = () => {
           <a href="#problem" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Why AEO</a>
           <a href="#approach" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Our Approach</a>
           <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
+          <a href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</a>
         </div>
         <EarlyAccessDialog>
           <Button variant="hero" size="sm">Get Early Access</Button>
