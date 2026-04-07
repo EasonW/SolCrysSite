@@ -14,6 +14,7 @@ const founders = [
     title: "Co-Founder & CEO",
     background: "Ex-Amazon, Alibaba",
     expertise: "SEO & Growth since 2007",
+    linkedin: "https://www.linkedin.com/in/gwenchenx/",
   },
   {
     image: easonImg,
@@ -22,6 +23,7 @@ const founders = [
     title: "Co-Founder & CPO",
     background: "Ex-Tencent, Alibaba",
     expertise: "Search & Product since 2003",
+    linkedin: "https://www.linkedin.com/in/eason-wang/",
   },
   {
     image: jiaImg,
@@ -30,6 +32,7 @@ const founders = [
     title: "Co-Founder & CTO",
     background: "Ex-Microsoft, Amazon",
     expertise: "Data & Security since 2008",
+    linkedin: "https://www.linkedin.com/in/jia-c/",
   },
 ];
 
