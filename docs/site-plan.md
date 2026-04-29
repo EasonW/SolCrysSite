@@ -1,45 +1,53 @@
-# SolCrys AI Website Outline
+# SolCrys AI SEO/AEO Site Plan
 
-## Brand Direction
-- Core palette inspired by SolCrys logo guide: deep navy (#050922), signature violet (#7F56AE), supporting violet (#534C9A), teal accents (#558D95, #7EB4AF, #69C98B).
-- Typography: MiSans VF (titles) with Inter/Segoe UI fallbacks for web.
-- Clean, high-contrast layouts with generous safe space around the logo per VI rules (1.4x clear space, min width 80px on web).
+## Positioning
 
-## Page Map
-1. `index.html` – Marketing landing page for US market.
-2. `privacy.html` – Privacy Policy aligned with US expectations (CCPA-ready, GDPR awareness).
-3. `terms.html` – Terms of Use summary.
-4. Shared `/styles.css` – Global styling, responsive layout, color variables.
+SolCrys AI is an Answer Engine Optimization platform for brands that need to measure and improve how they appear in AI-generated discovery journeys.
 
-## Index Page Sections
-1. Hero: "SolCrys AI – The Trusted AI Co-Pilot for Responsible Growth" with CTA buttons (Book a Strategy Call / Download Product Brief).
-2. Proof Bar: quick stats on adoption, compliance readiness, support.
-3. Solutions Overview: three cards (Knowledge Hub, Workflow Automation, Responsible AI Ops).
-4. Industry Use Cases: finance, healthcare, support & operations.
-5. Partnership Approach: 3-step timeline (Discover, Pilot, Scale).
-6. Responsible AI & Compliance: highlights on data residency, auditing, human oversight.
-7. Integrations Strip: logos/text list (Salesforce, Slack, Snowflake, Google Workspace, Zendesk).
-8. Testimonials carousel (static cards) + CTA.
-9. Resources & Support: links to knowledge base, security brief, support desk.
-10. Footer: contact info, office address, social links placeholders, copyright.
+Primary message: win discovery when customers ask AI what to buy, trust, or compare.
 
-## Privacy Policy Key Points
-- Data we collect: account, usage, support, integrations.
-- How we use data: deliver services, operations, security, compliance.
-- Sharing: service providers, legal, change of control.
-- Security measures and retention practices.
-- Your Choices & Rights (US federal + California).
-- Contact & updates.
+## Architecture
 
-## Terms of Use Highlights
-- Acceptance, account responsibilities, acceptable use.
-- Intellectual property and feedback license.
-- Service availability and disclaimers.
-- Limitation of liability and indemnification.
-- Governing law (Delaware) and dispute resolution (informal negotiation + arbitration option placeholder).
+- Vite/React remains the interactive application layer.
+- `npm run build` runs Vite, then `scripts/prerender.mjs` writes static HTML for indexable pages.
+- Static HTML is generated for crawlers and no-JavaScript agents; React still mounts for interactive users.
+- Canonical URLs use `https://solcrys.com`.
 
-## Content Strategy Notes
-- Tone: confident, collaborative, compliant, targeted at mid-market/enterprise stakeholders in the US.
-- Include clear CTA placements every major scroll depth.
-- Emphasize responsible AI, governance, and measurable outcomes.
-- Ensure imagery/illustration slots respect Logo safety area; prepare alt text for accessibility.
+## Published URLs
+
+- `/` - product homepage
+- `/about/` - company and founding team
+- `/resources/` - AEO resource hub
+- `/answer-engine-optimization/`
+- `/aeo-vs-seo/`
+- `/ai-brand-visibility-monitoring/`
+- `/chatgpt-brand-mentions/`
+- `/ai-search-share-of-voice/`
+- `/ai-hallucination-risk-monitoring/`
+- `/privacy.html`
+- `/terms.html`
+
+## SEO/AEO Outputs
+
+- `sitemap.xml` lists all canonical URLs.
+- `robots.txt` allows Google, Bing, OpenAI search, Perplexity, and Claude search/user crawlers, and declares the sitemap.
+- `llms.txt` and `llms-full.txt` provide optional machine-readable summaries for AI agents that use the convention.
+- JSON-LD is generated for Organization, WebSite, SoftwareApplication, CollectionPage, Article, BreadcrumbList, AboutPage, and FAQPage where relevant.
+
+## Content Pattern
+
+Each AEO resource page follows the same extractable pattern:
+
+- Direct answer
+- Definition and context
+- Practical framework
+- Tables or bullet lists where useful
+- FAQ with visible answers
+- Updated date
+- Related guide links in the React page
+
+## Measurement Priorities
+
+- Google Search Console: indexing, Core Web Vitals, query coverage.
+- Bing Webmaster Tools: AI Performance, cited pages, grounding queries.
+- Prompt tracking: brand mention rate, citation rate, answer accuracy, sentiment, and competitor share of voice.

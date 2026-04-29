@@ -1,14 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 @layer base {
   :root {
@@ -159,6 +155,115 @@
     content: '';
     @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent;
   }
+}
+
+.seo-prerender {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.seo-prerender a {
+  color: inherit;
+}
+
+.seo-prerender .seo-container {
+  width: min(100% - 2rem, 1100px);
+  margin: 0 auto;
+}
+
+.seo-prerender .seo-hero {
+  padding: 8rem 0 4rem;
+}
+
+.seo-prerender .seo-kicker {
+  color: hsl(195 90% 55%);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.seo-prerender h1 {
+  max-width: 900px;
+  margin: 1rem 0;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  line-height: 1.05;
+}
+
+.seo-prerender h2 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1.12;
+}
+
+.seo-prerender h3 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+.seo-prerender p {
+  color: hsl(var(--muted-foreground));
+}
+
+.seo-prerender .seo-lede {
+  max-width: 760px;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.seo-prerender .seo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.seo-prerender .seo-card {
+  border: 1px solid hsl(var(--border) / 0.25);
+  background: hsl(var(--card) / 0.65);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.seo-prerender .seo-section {
+  border-top: 1px solid hsl(var(--border) / 0.25);
+  padding: 3rem 0;
+}
+
+.seo-prerender .seo-list {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.seo-prerender .seo-list li {
+  border: 1px solid hsl(var(--border) / 0.25);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.seo-prerender table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border) / 0.25);
+  border-radius: 0.75rem;
+}
+
+.seo-prerender th,
+.seo-prerender td {
+  border-top: 1px solid hsl(var(--border) / 0.25);
+  padding: 0.9rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.seo-prerender th {
+  color: hsl(var(--foreground));
 }
 
 /* About page styles */

@@ -5,21 +5,21 @@ const problems = [
     icon: Eye,
     title: "Zero-Click Future",
     description:
-      "Users aren't clicking links anymore. They are reading AI summaries. If the LLM doesn't cite you, you don't exist.",
+      "More discovery journeys now start with summaries and recommendations. If AI systems cannot retrieve or cite your evidence, your brand may be absent from the answer.",
     glow: "hsl(195 90% 55% / 0.08)",
   },
   {
     icon: AlertTriangle,
     title: "Social Listening is Blind Here",
     description:
-      "Traditional tools track keywords on Twitter/Reddit. They cannot see inside the 'Black Box' of LLM inference layers.",
+      "Traditional listening tools track social mentions and keywords. They do not show how answer engines frame your category, competitors, and brand claims.",
     glow: "hsl(40 85% 55% / 0.08)",
   },
   {
     icon: TrendingDown,
     title: "Hallucination Risk",
     description:
-      "AI models confabulate. Without monitoring, you won't know when an AI is actively damaging your brand reputation with false info.",
+      "AI systems can repeat outdated or unsupported facts. Without monitoring, teams often learn about inaccurate answers after buyers have already seen them.",
     glow: "hsl(0 70% 55% / 0.08)",
   },
 ];
@@ -39,11 +39,11 @@ const ProblemSection = () => {
             The Rules of Discovery Have Changed
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
-            SEO is Dying. AI Answers are the New Gatekeeper.
+            SEO Alone Is No Longer Enough. AI Answers Are a New Gatekeeper.
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            As discovery shifts from traditional search results to AI-generated
-            answers, brands face a new reality
+            As discovery shifts from result pages to generated answers, brands
+            need visibility into what AI systems retrieve, cite, and repeat.
           </p>
         </div>
 

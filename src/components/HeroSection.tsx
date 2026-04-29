@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import EarlyAccessDialog from "./EarlyAccessDialog";
 import reportImage from "@/assets/report.png";
+import siteContent from "@/content/siteContent.json";
 
 const HeroSection = () => {
   return (
@@ -19,18 +20,18 @@ const HeroSection = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 rounded-full border border-[hsl(195_90%_55%/0.3)] bg-[hsl(195_90%_55%/0.08)] px-4 py-1.5 mb-8 opacity-0 animate-fade-up">
           <div className="h-1.5 w-1.5 rounded-full bg-[hsl(195_90%_55%)] animate-pulse-glow" />
-          <span className="text-xs font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase">BETA: AI BRAND AUDIT AVAILABLE</span>
+          <span className="text-xs font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase">BETA: AI VISIBILITY AUDIT AVAILABLE</span>
         </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight mb-6 opacity-0 animate-fade-up-delay-1">
-          Stop Flying Blind. <br className="hidden md:block" />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">Control What AI Says About Your Brand.</span>
+          {siteContent.home.title.split(" when ")[0]} <br className="hidden md:block" />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">when customers ask AI what to buy, trust, or compare.</span>
         </h1>
 
         {/* Subheadline */}
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed opacity-0 animate-fade-up-delay-2">
-          The first AEO platform to monitor real-time mentions, audit hallucination risks, and optimize your brand's ranking across ChatGPT, Amazon Rufus, Gemini, Perplexity, Google AI Overview and more.
+          {siteContent.home.description}
         </p>
 
         {/* CTAs */}
@@ -56,7 +57,7 @@ const HeroSection = () => {
           <div className="relative w-full">
             <img
               src={reportImage}
-              alt="Dashboard Report"
+              alt="SolCrys AI visibility report showing answer engine mentions, citations, and share of voice"
               className="w-full h-auto object-cover"
             />
           </div>
