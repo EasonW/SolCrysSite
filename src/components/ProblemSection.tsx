@@ -3,23 +3,23 @@ import { AlertTriangle, Eye, TrendingDown } from "lucide-react";
 const problems = [
   {
     icon: Eye,
-    title: "Zero-Click Future",
+    title: "Discovery is moving into answers",
     description:
-      "More discovery journeys now start with summaries and recommendations. If AI systems cannot retrieve or cite your evidence, your brand may be absent from the answer.",
+      "More research journeys now include AI summaries and recommendations. If AI systems cannot retrieve or cite your evidence, your brand may be missing when buyers form a shortlist.",
     glow: "hsl(195 90% 55% / 0.08)",
   },
   {
     icon: AlertTriangle,
-    title: "Social Listening is Blind Here",
+    title: "Traditional monitoring misses AI framing",
     description:
-      "Traditional listening tools track social mentions and keywords. They do not show how answer engines frame your category, competitors, and brand claims.",
+      "Social listening and keyword tools do not show how answer engines describe your category, compare competitors, or repeat brand claims.",
     glow: "hsl(40 85% 55% / 0.08)",
   },
   {
     icon: TrendingDown,
-    title: "Hallucination Risk",
+    title: "Inaccurate answers create trust risk",
     description:
-      "AI systems can repeat outdated or unsupported facts. Without monitoring, teams often learn about inaccurate answers after buyers have already seen them.",
+      "AI systems can repeat outdated or unsupported facts. Without monitoring, teams often find inaccurate answers only after prospects have already seen them.",
     glow: "hsl(0 70% 55% / 0.08)",
   },
 ];
@@ -36,10 +36,10 @@ const ProblemSection = () => {
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="text-center mb-16">
           <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
-            The Rules of Discovery Have Changed
+            AI Search Visibility
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
-            SEO Alone Is No Longer Enough. AI Answers Are a New Gatekeeper.
+            Search visibility now includes what AI systems retrieve, cite, and repeat.
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             As discovery shifts from result pages to generated answers, brands

@@ -11,10 +11,10 @@ const ResourcesSection = () => {
               AEO Resource Hub
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
-              Pages built around the questions AI engines need to answer.
+              Guides built around the questions marketing teams need to measure.
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
-              Each resource gives crawlers and buyers a direct answer, clear definitions, and evidence-oriented structure.
+              Each resource pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions.
             </p>
           </div>
           <a

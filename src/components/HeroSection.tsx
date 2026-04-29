@@ -5,6 +5,9 @@ import reportImage from "@/assets/report.png";
 import siteContent from "@/content/siteContent.json";
 
 const HeroSection = () => {
+  const heroTitleLead = "Measure and improve how your brand appears in";
+  const heroTitleHighlight = "AI answers.";
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-16">
       {/* Aurora Borealis Background */}
@@ -25,8 +28,8 @@ const HeroSection = () => {
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight mb-6 opacity-0 animate-fade-up-delay-1">
-          {siteContent.home.title.split(" when ")[0]} <br className="hidden md:block" />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">when customers ask AI what to buy, trust, or compare.</span>
+          {heroTitleLead} <br className="hidden md:block" />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">{heroTitleHighlight}</span>
         </h1>
 
         {/* Subheadline */}
@@ -38,7 +41,7 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up-delay-3 mb-16">
           <EarlyAccessDialog>
             <Button variant="hero" size="lg" className="text-base px-8 py-6 h-auto">
-              Check Your AI Visibility Score
+              Request an AI Visibility Audit
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </EarlyAccessDialog>
@@ -68,7 +71,7 @@ const HeroSection = () => {
 
         {/* Trust Bar */}
         <div className="mt-16 pt-8 border-t border-white/5">
-          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Monitor your narrative across:</p>
+          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Monitor visibility across:</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">ChatGPT</span>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Gemini</span>

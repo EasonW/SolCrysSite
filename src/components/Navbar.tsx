@@ -18,7 +18,7 @@ const Navbar = () => {
           <a href="/about/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</a>
         </div>
         <EarlyAccessDialog>
-          <Button variant="hero" size="sm">Get Early Access</Button>
+          <Button variant="hero" size="sm">Request Audit</Button>
         </EarlyAccessDialog>
       </div>
     </nav>

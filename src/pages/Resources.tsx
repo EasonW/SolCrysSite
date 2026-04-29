@@ -13,10 +13,10 @@ const Resources = () => {
             AEO Resource Hub
           </p>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            Research pages for AI search visibility.
+            Practical guides for AI search visibility.
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed mb-12">
-            These pages are structured for buyers, search crawlers, and AI answer engines: direct answer first, supporting evidence next, and clear follow-up questions throughout.
+            These pages explain how to measure AI mentions, citations, share of voice, and answer accuracy, then turn weak coverage into concrete content actions.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">

@@ -59,7 +59,7 @@ const AboutUs = () => {
               <span className="text-foreground">AI</span>
             </h1>
             <p className="fade-in-scroll mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Engineering the new blueprint of AI search.
+              AI search visibility and Answer Engine Optimization for marketing teams.
             </p>
           </div>
         </section>
@@ -72,25 +72,25 @@ const AboutUs = () => {
           <p className="fade-in-scroll section-label mb-4">Our Story</p>
           <div className="fade-in-scroll space-y-6 text-base md:text-lg text-muted-foreground leading-relaxed">
             <p>
-              We've been in the SEO trenches since 2007, navigating every major shift from
-              keyword stuffing to intent modeling. But the transition to AI-generated search
-              isn't just another algorithm update—it's a paradigm shift. Today, traditional
-              Google rankings no longer guarantee visibility, and marketers are watching their
-              traffic and CTRs evaporate.
+              We have worked through search shifts from keyword-era SEO to intent modeling,
+              large-scale product discovery, and data-driven growth. AI-generated answers add a
+              new layer to that work: a brand can rank, yet still be absent, uncited, or
+              misrepresented inside the answer a buyer sees first.
             </p>
             <p>
-              The industry's response so far? Tools that simply track this decline.
+              Marketing teams now need to know which prompts matter, which sources AI systems
+              cite, how competitors are framed, and which facts should be clarified across the
+              web.
             </p>
             <p>
-              SolCrys AI was built because tracking losing metrics isn't a strategy. We are
-              moving the industry from passive observation to proactive action. Our platform is
-              a closed-loop content optimization agent that doesn't just report on performance
-              gaps—it actively generates specific recommendations and deploys content
-              optimizations to close them.
+              SolCrys AI was built to connect AI visibility measurement with practical content
+              action. The platform helps teams monitor mentions, citations, share of voice,
+              sentiment, and answer accuracy, then translate those findings into page updates,
+              content briefs, FAQ improvements, and source corrections.
             </p>
             <p>
-              We founded SolCrys AI to give marketing teams the engine they need to stop
-              bleeding traffic and start dominating the AI-first search landscape.
+              Our focus is straightforward: help brands make official, accurate information
+              easier for answer engines to retrieve, trust, cite, and summarize.
             </p>
           </div>
         </section>

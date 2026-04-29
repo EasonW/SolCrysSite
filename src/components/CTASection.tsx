@@ -16,14 +16,14 @@ const CTASection = () => {
 
           <div className="relative">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Ready to Own Your AI Narrative?
+              See where AI answers are helping or hurting your brand.
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Join the brands building durable visibility in the age of AI-driven discovery.
+              Request an AI visibility audit across priority prompts, cited sources, competitors, and answer accuracy.
             </p>
             <EarlyAccessDialog>
               <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                Get Early Access
+                Request an Audit
                 <ArrowRight className="ml-1" />
               </Button>
             </EarlyAccessDialog>

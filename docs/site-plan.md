@@ -2,9 +2,9 @@
 
 ## Positioning
 
-SolCrys AI is an Answer Engine Optimization platform for brands that need to measure and improve how they appear in AI-generated discovery journeys.
+SolCrys AI is an AI search visibility and Answer Engine Optimization platform for marketing teams that need to monitor mentions, citations, competitors, share of voice, and answer accuracy across AI-generated discovery journeys.
 
-Primary message: win discovery when customers ask AI what to buy, trust, or compare.
+Primary message: measure and improve how your brand appears in AI answers.
 
 ## Architecture
 

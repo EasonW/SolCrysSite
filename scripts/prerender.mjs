@@ -253,13 +253,13 @@ function aboutHtml() {
   <main>
     <section class="seo-container seo-hero">
       <p class="seo-kicker">About SolCrys AI</p>
-      <h1>Engineering the new blueprint of AI search.</h1>
-      <p class="seo-lede">SolCrys AI was built by search, growth, data, and product operators to help brands move from passive AI visibility tracking to evidence-backed action.</p>
+      <h1>AI search visibility and Answer Engine Optimization for marketing teams.</h1>
+      <p class="seo-lede">SolCrys AI was built by search, growth, data, and product operators to help brands connect AI visibility measurement with evidence-backed content action.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Our story</h2>
-      <p>We have worked through search shifts from keyword-era SEO to intent modeling. The transition to AI-generated discovery is different because ranking alone no longer guarantees that a brand appears in the answer.</p>
-      <p>SolCrys AI helps teams monitor what AI systems say, understand why competitors are cited, and ship the content improvements that close visibility and accuracy gaps.</p>
+      <p>We have worked through search shifts from keyword-era SEO to intent modeling, large-scale product discovery, and data-driven growth. AI-generated answers add a new layer to that work: a brand can rank, yet still be absent, uncited, or misrepresented inside the answer a buyer sees first.</p>
+      <p>SolCrys AI helps teams monitor mentions, citations, share of voice, sentiment, and answer accuracy, then translate those findings into page updates, content briefs, FAQ improvements, and source corrections.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Founding team</h2>
@@ -289,8 +289,8 @@ function resourcesHtml() {
   <main>
     <section class="seo-container seo-hero">
       <p class="seo-kicker">AEO Resource Hub</p>
-      <h1>Research pages for AI search visibility.</h1>
-      <p class="seo-lede">These guides are structured around direct answers, definitions, measurement frameworks, and follow-up questions that help buyers and AI systems understand SolCrys AI's domain.</p>
+      <h1>Practical guides for AI search visibility.</h1>
+      <p class="seo-lede">These guides explain how to measure AI mentions, citations, share of voice, and answer accuracy, then turn weak coverage into concrete content actions.</p>
     </section>
     <section class="seo-container seo-section">
       <div class="seo-grid">
@@ -380,7 +380,7 @@ writePage(
   "index.html",
   renderLayout({
     routePath: "/",
-    title: "SolCrys AI - Win Discovery in the Age of AI Answers",
+    title: "SolCrys AI - AI Search Visibility and AEO Platform",
     description: site.description,
     body: homeHtml(),
     schemas: [

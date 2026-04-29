@@ -1,27 +1,49 @@
 import { BarChart3, FileText, Activity } from "lucide-react";
 
 const features = [
-{
-  icon: BarChart3,
-  title: "Brand Visibility & Share of Voice",
-  description: "Track how your brand appears and is positioned across major AI engines. Understand your share of voice in AI-generated answers.",
-  color: "hsl(195 90% 55%)",
-  glowColor: "hsl(195 90% 55% / 0.08)"
-},
-{
-  icon: FileText,
-  title: "Authoritative Content Creation",
-  description: "Create content designed to perform in AI engines—built on real user intent and structured for AI credibility signals.",
-  color: "hsl(40 85% 55%)",
-  glowColor: "hsl(40 85% 55% / 0.08)"
-},
-{
-  icon: Activity,
-  title: "Real-Time Sentiment Monitoring",
-  description: "Monitor customer sentiment and friction points in real time—before they become brand or revenue risks.",
-  color: "hsl(270 60% 60%)",
-  glowColor: "hsl(270 60% 60% / 0.08)"
-}];
+  {
+    icon: BarChart3,
+    title: "Prompt-Level AI Visibility",
+    description: "Track whether your brand appears, where it appears, and how it is framed across high-intent prompts.",
+    color: "hsl(195 90% 55%)",
+    glowColor: "hsl(195 90% 55% / 0.08)",
+  },
+  {
+    icon: FileText,
+    title: "Citation & Source Analysis",
+    description: "See which owned and third-party pages AI systems cite when they answer category and brand questions.",
+    color: "hsl(40 85% 55%)",
+    glowColor: "hsl(40 85% 55% / 0.08)",
+  },
+  {
+    icon: Activity,
+    title: "Competitive Share of Voice",
+    description: "Compare brand mentions, recommendations, and source coverage against the competitors buyers see in AI answers.",
+    color: "hsl(270 60% 60%)",
+    glowColor: "hsl(270 60% 60% / 0.08)",
+  },
+  {
+    icon: Activity,
+    title: "Answer Accuracy Monitoring",
+    description: "Flag outdated, unsupported, or confusing AI-generated claims before they shape buyer perception.",
+    color: "hsl(0 70% 55%)",
+    glowColor: "hsl(0 70% 55% / 0.08)",
+  },
+  {
+    icon: FileText,
+    title: "Content Gap Recommendations",
+    description: "Turn missing citations and weak answers into page briefs, FAQ updates, comparison pages, and source fixes.",
+    color: "hsl(150 65% 45%)",
+    glowColor: "hsl(150 65% 45% / 0.08)",
+  },
+  {
+    icon: BarChart3,
+    title: "AI Crawler Readiness",
+    description: "Review whether important pages, facts, and structured content are accessible to search and answer-engine crawlers.",
+    color: "hsl(220 80% 60%)",
+    glowColor: "hsl(220 80% 60% / 0.08)",
+  },
+];
 
 
 const FeaturesSection = () => {
@@ -35,17 +57,17 @@ const FeaturesSection = () => {
         <div className="text-center mb-16">
           <p className="text-sm font-medium text-[hsl(270_60%_60%)] tracking-wider uppercase mb-3">Capabilities</p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
-            From Visibility to Narrative Control
+            From AI visibility measurement to content action
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Not just better visibility—sustained narrative control and higher customer retention
-
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            SolCrys helps teams understand where AI answers are accurate, where competitors are winning, and what content should be improved next.
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {features.map((feature, index) =>
+          {features.map((feature) =>
           <div
-            key={index}
+            key={feature.title}
             className="relative rounded-xl p-8 border border-border/30 bg-card/40 backdrop-blur-sm hover:border-border/50 transition-all duration-500 group overflow-hidden">
 
               {/* Glow on hover */}

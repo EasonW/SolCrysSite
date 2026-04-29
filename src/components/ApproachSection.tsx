@@ -3,18 +3,18 @@ import { CheckCircle2 } from "lucide-react";
 const steps = [
 {
   number: "01",
-  title: "Real User Prompts",
-  description: "Starts with real user prompts and signals distilled from authentic sources — conversations, forums, product reviews, and trusted media."
+  title: "Prompt Set Design",
+  description: "Start with category, comparison, competitor, risk, and branded prompts that mirror how buyers research options in AI tools."
 },
 {
   number: "02",
-  title: "Continuous Measurement",
-  description: "Continuously measures how brands are mentioned, positioned, and cited in AI-generated answers to separate durable trends from noise."
+  title: "Cross-Engine Measurement",
+  description: "Measure mentions, citations, competitor placement, sentiment, and answer accuracy across the AI surfaces that influence discovery."
 },
 {
   number: "03",
-  title: "Evidence-Backed Insights",
-  description: "Delivers evidence-backed insights into why competitors outperform and why messages fail to break through."
+  title: "Evidence-Backed Actions",
+  description: "Map each visibility or accuracy gap to a page update, content brief, FAQ improvement, or source correction your team can ship."
 }];
 
 
@@ -30,15 +30,15 @@ const ApproachSection = () => {
           <div>
             <p className="text-sm font-medium text-[hsl(40_85%_55%)] tracking-wider uppercase mb-3">Our Approach</p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-5">
-              Grounded in Reality,{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">Not Guesswork</span>
+              Measure the answer,{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">then fix the source</span>
             </h2>
-            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">SolCrys AI takes a fundamentally different approach to AEO (Answer Engine Optimization). We track what real users are asking—not what algorithms assume they might ask.
+            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">SolCrys connects AI answer monitoring with the source-level work needed to improve citations, accuracy, and competitive positioning.
 
             </p>
             <div className="flex items-center gap-3 text-sm text-[hsl(195_90%_55%)]">
               <CheckCircle2 className="h-5 w-5" />
-              <span className="font-medium">Not inference. Not guesswork. Real signals.</span>
+              <span className="font-medium">Prompt data, cited sources, and clear next actions.</span>
             </div>
           </div>
 
