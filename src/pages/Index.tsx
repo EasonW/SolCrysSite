@@ -5,6 +5,7 @@ import ApproachSection from "@/components/ApproachSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import AnswerEngineSection from "@/components/AnswerEngineSection";
 import ResourcesSection from "@/components/ResourcesSection";
+import SourceNotesSection from "@/components/SourceNotesSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -19,6 +20,7 @@ const Index = () => {
       <ApproachSection />
       <FeaturesSection />
       <ResourcesSection />
+      <SourceNotesSection />
       <FAQSection />
       <CTASection />
       <Footer />

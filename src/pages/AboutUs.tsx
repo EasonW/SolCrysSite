@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import gwenImg from "@/assets/gwen-chen.jpg";
 import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
+import siteContent from "@/content/siteContent.json";
 
 const founders = [
   {
@@ -53,13 +54,17 @@ const AboutUs = () => {
             }}
           />
           <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-            <p className="fade-in-scroll section-label mb-6">About Us</p>
-            <h1 className="fade-in-scroll font-heading text-5xl md:text-7xl font-bold leading-tight">
-              <span className="gradient-text">SolCrys</span>{" "}
-              <span className="text-foreground">AI</span>
+            <p className="fade-in-scroll section-label mb-6">About SolCrys AI</p>
+            <h1 className="fade-in-scroll font-heading text-4xl md:text-6xl font-bold leading-tight">
+              AI search visibility and Answer Engine Optimization for marketing teams.
             </h1>
             <p className="fade-in-scroll mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              AI search visibility and Answer Engine Optimization for marketing teams.
+              SolCrys AI was built by search, growth, data, and product operators to help brands
+              connect AI visibility measurement with evidence-backed content action.
+            </p>
+            <p className="fade-in-scroll mt-5 text-xs text-muted-foreground/80 uppercase tracking-wider">
+              Maintained by {siteContent.site.maintainer} · Last updated{" "}
+              <time dateTime={siteContent.site.updated}>{siteContent.site.updated}</time>
             </p>
           </div>
         </section>
@@ -79,18 +84,19 @@ const AboutUs = () => {
             </p>
             <p>
               Marketing teams now need to know which prompts matter, which sources AI systems
-              cite, how competitors are framed, and which facts should be clarified across the
-              web.
+              cite, how competitors are framed, and how to establish topical authority across
+              AI-visible sources.
             </p>
             <p>
               SolCrys AI was built to connect AI visibility measurement with practical content
               action. The platform helps teams monitor mentions, citations, share of voice,
               sentiment, and answer accuracy, then translate those findings into page updates,
-              content briefs, FAQ improvements, and source corrections.
+              publisher and analyst content briefs, FAQ improvements, and user-generated content
+              (UGC) strategies.
             </p>
             <p>
-              Our focus is straightforward: help brands make official, accurate information
-              easier for answer engines to retrieve, trust, cite, and summarize.
+              Our focus is straightforward: help brands sharpen their content strategy so their
+              content is easier for answer engines to retrieve, trust, cite, and summarize.
             </p>
           </div>
         </section>
@@ -115,6 +121,33 @@ const AboutUs = () => {
             {founders.map((founder) => (
               <FounderCard key={founder.name} {...founder} />
             ))}
+          </div>
+
+          <div className="fade-in-scroll mt-12 overflow-x-auto rounded-xl border border-border/30 bg-card/30">
+            <table className="w-full border-collapse text-left text-sm">
+              <thead className="bg-card/60 text-foreground">
+                <tr>
+                  <th className="px-4 py-3 font-semibold">Name</th>
+                  <th className="px-4 py-3 font-semibold">Role</th>
+                  <th className="px-4 py-3 font-semibold">Background</th>
+                  <th className="px-4 py-3 font-semibold">Search/AEO relevance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {founders.map((founder) => (
+                  <tr key={founder.name} className="border-t border-border/30">
+                    <td className="px-4 py-3 align-top">
+                      <a href={founder.linkedin} className="hover:text-[hsl(195_90%_55%)]">
+                        {founder.name}
+                      </a>
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground align-top">{founder.title}</td>
+                    <td className="px-4 py-3 text-muted-foreground align-top">{founder.background}</td>
+                    <td className="px-4 py-3 text-muted-foreground align-top">{founder.expertise}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
       </main>

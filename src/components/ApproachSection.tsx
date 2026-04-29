@@ -14,7 +14,7 @@ const steps = [
 {
   number: "03",
   title: "Evidence-Backed Actions",
-  description: "Map each visibility or accuracy gap to a page update, content brief, FAQ improvement, or source correction your team can ship."
+  description: "Map each visibility or accuracy gap to a page update, publisher or analyst brief, FAQ improvement, or UGC strategy your team can ship."
 }];
 
 

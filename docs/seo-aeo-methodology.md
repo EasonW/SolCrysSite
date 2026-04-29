@@ -75,6 +75,18 @@ Practical implication:
 - Publish `llms.txt` and `llms-full.txt` as helpful, optional source maps.
 - Do not treat them as replacements for crawlable HTML, sitemap, internal links, or structured data.
 
+### 2.6 Audit tools are inputs, not rules
+
+Automated AEO audit reports are useful for finding missing signals, but their recommendations must be interpreted through page intent and official platform guidance. For example, an About page should normally use `AboutPage`, `Organization`, and `Person`-oriented schema rather than being forced into `BlogPosting` simply because an audit template labels it as a blog page.
+
+Practical implication:
+
+- Treat low-risk findings as quick wins: visible freshness, maintainer attribution, clearer definitions, source notes, and better schema alignment.
+- Do not add schema that misrepresents the page type.
+- Do not add external links only to satisfy a score; add sources when they genuinely support methodology, crawler access, or factual claims.
+- Keep product CTAs separate from informational sections so pages remain useful and not overly promotional.
+- Prefer official sources and owned methodology pages over generic marketing blogs.
+
 ## 3. Diagnosis Framework
 
 Use this checklist before major site or content changes.
@@ -99,21 +111,27 @@ Use this checklist before major site or content changes.
 - Does each page have one canonical URL?
 - Are Open Graph and Twitter images available and crawlable?
 - Are favicon and logo assets valid?
+- Is there a visible maintainer or author signal where it helps credibility?
+- Is there a visible updated date for evergreen pages that make current claims?
 
 ### 3.4 Structured Data
 
 - Does the page use the most specific relevant schema type?
 - Does JSON-LD describe visible page content?
 - Are Organization, WebSite, SoftwareApplication, Article, CollectionPage, FAQPage, AboutPage, and BreadcrumbList used where relevant?
+- Do product and company pages include appropriate WebPage/AboutPage freshness fields without pretending to be blog posts?
+- Do founder/team details appear both visibly and, where appropriate, in Organization/Person schema?
 - Can the JSON-LD be parsed by validation tools?
 
 ### 3.5 Answer Readiness
 
 - Is there a direct answer near the top?
+- Are technical terms such as AEO, citation, share of voice, and hallucination risk defined before or near first use?
 - Are definitions and comparisons written plainly?
 - Are FAQs visible in HTML, not hidden only in client state?
 - Are important claims supported by page context?
 - Does the page reduce ambiguity around SolCrys AI's category, audience, and use cases?
+- Does the page distinguish owned-page updates from publisher, analyst, and user-generated content strategies?
 
 ### 3.6 Measurement
 
@@ -185,10 +203,23 @@ Recommended page structure:
 4. Direct answer: one or two paragraphs that can stand alone.
 5. Framework: steps, criteria, or comparison tables.
 6. FAQ: visible question-answer pairs.
-7. Related guides: internal links to the topic cluster.
-8. CTA: relevant next step, not an intrusive interruption.
+7. Source notes: official references or owned methodology links when the page makes methodology or crawler-access claims.
+8. Related guides: internal links to the topic cluster.
+9. CTA: relevant next step, not an intrusive interruption.
 
 This pattern helps both search snippets and AI answer extraction.
+
+### 4.7 Separate credibility content from conversion content
+
+Product CTAs are still useful, but they should not overwhelm informational pages. For AEO, pages should read as reliable source material before they read as a sales pitch.
+
+Recommended rules:
+
+- Keep the primary CTA in navigation, hero, or final section.
+- Do not repeat the same product claim in every section.
+- On About and methodology pages, prioritize company context, team expertise, measurement definitions, and transparent limitations.
+- Use tables for team credentials, scoring models, and comparison criteria because they are easier for users and AI systems to parse.
+- Link methodology claims to official references or the site's own methodology page.
 
 ### 4.5 Keep crawler controls explicit
 

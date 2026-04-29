@@ -21,6 +21,12 @@ const reportAsset = fs
 const ogImage = reportAsset ? `${site.url}/assets/${reportAsset}` : `${site.url}/logo.png`;
 const reportPath = reportAsset ? `/assets/${reportAsset}` : "/logo.png";
 
+const founders = [
+  ["Gwen Chen", "Co-Founder & CEO", "Ex-Amazon, Alibaba", "SEO & Growth since 2007", "https://www.linkedin.com/in/gwenchenx/"],
+  ["Eason Wang", "Co-Founder & CPO", "Ex-Tencent, Alibaba", "Search & Product since 2003", "https://www.linkedin.com/in/eason-wang/"],
+  ["Jia Chang", "Co-Founder & CTO", "Ex-Microsoft, Amazon", "Data & Security since 2008", "https://www.linkedin.com/in/jia-c/"]
+];
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -104,6 +110,7 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <link rel="canonical" href="${escapeAttr(canonical)}" />
     <link rel="icon" type="image/png" href="/solcrys-logo-tab-2.png" />
     <meta name="author" content="${escapeAttr(site.name)}" />
+    <meta name="date" content="${escapeAttr(generatedAt)}" />
     <meta name="theme-color" content="#000000" />
     <meta property="og:title" content="${escapeAttr(title)}" />
     <meta property="og:description" content="${escapeAttr(description)}" />
@@ -137,7 +144,14 @@ const organizationSchema = {
   logo: site.logo,
   description: site.description,
   email: site.email,
-  sameAs: [site.linkedin]
+  sameAs: [site.linkedin],
+  founder: founders.map(([name, title, background, expertise, linkedin]) => ({
+    "@type": "Person",
+    name,
+    jobTitle: title,
+    description: `${background}. ${expertise}.`,
+    sameAs: linkedin
+  }))
 };
 
 const websiteSchema = {
@@ -180,6 +194,36 @@ function breadcrumbSchema(items) {
   };
 }
 
+function webPageSchema({ routePath, title, description }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    headline: title,
+    name: title,
+    url: canonicalUrl(routePath),
+    description,
+    datePublished: site.published || generatedAt,
+    dateModified: site.updated || generatedAt,
+    author: {
+      "@type": "Organization",
+      name: site.maintainer || site.name,
+      url: site.url
+    },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: {
+        "@type": "ImageObject",
+        url: site.logo
+      }
+    },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: ogImage
+    }
+  };
+}
+
 function homeHtml() {
   return `
 <div class="seo-prerender">
@@ -189,10 +233,15 @@ function homeHtml() {
       <p class="seo-kicker">${escapeHtml(home.eyebrow)}</p>
       <h1>${escapeHtml(home.title)}</h1>
       <p class="seo-lede">${escapeHtml(home.description)}</p>
+      <p>Maintained by ${escapeHtml(site.maintainer || site.name)}. Last updated <time datetime="${escapeAttr(site.updated || generatedAt)}">${escapeHtml(site.updated || generatedAt)}</time>.</p>
       <ul class="seo-grid" aria-label="SolCrys AI proof points">
         ${home.proofPoints.map((point) => `<li class="seo-card">${escapeHtml(point)}</li>`).join("")}
       </ul>
       <img src="${reportPath}" alt="SolCrys AI visibility report showing answer engine mentions, citations, and share of voice" width="1200" height="760" style="width: 100%; height: auto; border-radius: 0.9rem; border: 1px solid hsl(var(--border) / 0.25); margin-top: 2rem;" fetchpriority="high">
+    </section>
+    <section class="seo-container seo-section">
+      <h2>What Answer Engine Optimization means</h2>
+      <p><dfn>Answer Engine Optimization (AEO)</dfn> is the practice of making brand facts, proof, and pages easier for AI systems to retrieve, trust, cite, and summarize. SolCrys connects prompt-level measurement with crawlable, evidence-backed content strategy.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>How SolCrys improves AI discovery</h2>
@@ -223,6 +272,17 @@ function homeHtml() {
           .join("")}
       </div>
     </section>
+    <section id="source-notes" class="seo-container seo-section">
+      <h2>Source notes</h2>
+      <p>These references guide how SolCrys evaluates AI search visibility, crawler access, and answer readiness.</p>
+      <ul class="seo-list">
+        ${home.sourceNotes
+          .map(
+            (source) => `<li><a href="${escapeAttr(source.url)}" rel="noopener" target="_blank">${escapeHtml(source.label)}</a>: ${escapeHtml(source.description)}</li>`
+          )
+          .join("")}
+      </ul>
+    </section>
     <section class="seo-container seo-section">
       <h2>FAQ</h2>
       ${home.faqs
@@ -242,11 +302,6 @@ function homeHtml() {
 }
 
 function aboutHtml() {
-  const founders = [
-    ["Gwen Chen", "Co-Founder & CEO", "Ex-Amazon, Alibaba", "SEO & Growth since 2007", "https://www.linkedin.com/in/gwenchenx/"],
-    ["Eason Wang", "Co-Founder & CPO", "Ex-Tencent, Alibaba", "Search & Product since 2003", "https://www.linkedin.com/in/eason-wang/"],
-    ["Jia Chang", "Co-Founder & CTO", "Ex-Microsoft, Amazon", "Data & Security since 2008", "https://www.linkedin.com/in/jia-c/"]
-  ];
   return `
 <div class="seo-prerender">
   ${navHtml()}
@@ -255,11 +310,14 @@ function aboutHtml() {
       <p class="seo-kicker">About SolCrys AI</p>
       <h1>AI search visibility and Answer Engine Optimization for marketing teams.</h1>
       <p class="seo-lede">SolCrys AI was built by search, growth, data, and product operators to help brands connect AI visibility measurement with evidence-backed content action.</p>
+      <p>Maintained by ${escapeHtml(site.maintainer || site.name)}. Last updated <time datetime="${escapeAttr(site.updated || generatedAt)}">${escapeHtml(site.updated || generatedAt)}</time>.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Our story</h2>
       <p>Our background sits at the intersection of SEO, search intent, product discovery, and data-driven growth. AI-generated answers add a new distribution layer to that work: a brand can perform well in traditional search, yet still be absent, uncited, or misrepresented inside the answer a buyer sees first.</p>
-      <p>SolCrys AI helps teams monitor mentions, citations, share of voice, sentiment, and answer accuracy, then translate those findings into page updates, content briefs, FAQ improvements, and source corrections.</p>
+      <p>Marketing teams now need to know which prompts matter, which sources AI systems cite, how competitors are framed, and how to establish topical authority across AI-visible sources.</p>
+      <p>SolCrys AI was built to connect AI visibility measurement with practical content action. The platform helps teams monitor mentions, citations, share of voice, sentiment, and answer accuracy, then translate those findings into page updates, publisher and analyst content briefs, FAQ improvements, and user-generated content (UGC) strategies.</p>
+      <p>Our focus is straightforward: help brands sharpen their content strategy so their content is easier for answer engines to retrieve, trust, cite, and summarize.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Founding team</h2>
@@ -275,8 +333,19 @@ function aboutHtml() {
           )
           .join("")}
       </div>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Role</th><th>Background</th><th>Search/AEO relevance</th></tr>
+        </thead>
+        <tbody>
+          ${founders
+            .map(
+              ([name, title, background, expertise, linkedin]) => `<tr><td><a href="${escapeAttr(linkedin)}">${escapeHtml(name)}</a></td><td>${escapeHtml(title)}</td><td>${escapeHtml(background)}</td><td>${escapeHtml(expertise)}</td></tr>`
+            )
+            .join("")}
+        </tbody>
+      </table>
     </section>
-    <div class="seo-container">${ctaHtml()}</div>
   </main>
   ${footerHtml()}
 </div>`;
@@ -386,6 +455,11 @@ writePage(
     schemas: [
       organizationSchema,
       websiteSchema,
+      webPageSchema({
+        routePath: "/",
+        title: "SolCrys AI - AI Search Visibility and AEO Platform",
+        description: site.description
+      }),
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
@@ -420,9 +494,27 @@ writePage(
       {
         "@context": "https://schema.org",
         "@type": "AboutPage",
+        headline: "About SolCrys AI - AI Search and AEO Team",
         name: "About SolCrys AI",
         url: canonicalUrl("/about/"),
-        about: organizationSchema
+        description: "Meet the SolCrys AI founding team and learn why the company is building an AEO platform for AI-driven discovery.",
+        datePublished: site.published || generatedAt,
+        dateModified: site.updated || generatedAt,
+        author: {
+          "@type": "Organization",
+          name: site.maintainer || site.name,
+          url: site.url
+        },
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          logo: {
+            "@type": "ImageObject",
+            url: site.logo
+          }
+        },
+        about: organizationSchema,
+        mainEntity: organizationSchema
       }
     ]
   })

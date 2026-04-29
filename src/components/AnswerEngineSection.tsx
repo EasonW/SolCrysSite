@@ -16,7 +16,10 @@ const AnswerEngineSection = () => {
             Build pages AI systems can retrieve, trust, cite, and summarize.
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            SolCrys combines prompt-level measurement with crawlable, evidence-backed content strategy so marketing teams can improve AI visibility without guessing.
+            <dfn className="not-italic text-foreground">Answer Engine Optimization (AEO)</dfn> is the
+            practice of making brand facts, proof, and pages easier for AI systems to retrieve, trust,
+            cite, and summarize. SolCrys connects prompt-level measurement with crawlable,
+            evidence-backed content strategy.
           </p>
         </div>
 

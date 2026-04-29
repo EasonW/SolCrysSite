@@ -32,7 +32,9 @@ Primary message: measure and improve how your brand appears in AI answers.
 - `sitemap.xml` lists all canonical URLs.
 - `robots.txt` allows Google, Bing, OpenAI search, Perplexity, and Claude search/user crawlers, and declares the sitemap.
 - `llms.txt` and `llms-full.txt` provide optional machine-readable summaries for AI agents that use the convention.
-- JSON-LD is generated for Organization, WebSite, SoftwareApplication, CollectionPage, Article, BreadcrumbList, AboutPage, and FAQPage where relevant.
+- JSON-LD is generated for Organization, WebSite, WebPage, SoftwareApplication, CollectionPage, Article, BreadcrumbList, AboutPage, and FAQPage where relevant.
+- Homepage and About include visible maintainer and last-updated signals.
+- Homepage source notes link to official crawler and AI search guidance.
 
 ## Content Pattern
 

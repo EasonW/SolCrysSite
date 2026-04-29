@@ -32,7 +32,7 @@ const features = [
   {
     icon: FileText,
     title: "Content Gap Recommendations",
-    description: "Turn missing citations and weak answers into page briefs, FAQ updates, comparison pages, and source fixes.",
+    description: "Turn missing citations and weak answers into page briefs, publisher and analyst briefs, FAQ updates, and UGC strategies.",
     color: "hsl(150 65% 45%)",
     glowColor: "hsl(150 65% 45% / 0.08)",
   },
