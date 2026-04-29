@@ -22,9 +22,9 @@ const ogImage = reportAsset ? `${site.url}/assets/${reportAsset}` : `${site.url}
 const reportPath = reportAsset ? `/assets/${reportAsset}` : "/logo.png";
 
 const founders = [
-  ["Gwen Chen", "Co-Founder & CEO", "Ex-Amazon, Alibaba", "SEO & Growth since 2007", "https://www.linkedin.com/in/gwenchenx/"],
-  ["Eason Wang", "Co-Founder & CPO", "Ex-Tencent, Alibaba", "Search & Product since 2003", "https://www.linkedin.com/in/eason-wang/"],
-  ["Jia Chang", "Co-Founder & CTO", "Ex-Microsoft, Amazon", "Data & Security since 2008", "https://www.linkedin.com/in/jia-c/"]
+  ["Gwen Chen", "Co-Founder & CEO", "AI search & GTM strategy", "AEO, content authority, and brand visibility", "https://www.linkedin.com/in/gwenchenx/"],
+  ["Eason Wang", "Co-Founder & CPO", "Product & AI systems", "Product strategy, agentic AI, and enterprise workflows", "https://www.linkedin.com/in/eason-wang/"],
+  ["Jia Chang", "Co-Founder & CTO", "AI architect; ex-Microsoft engineering leader", "15+ years in AI architecture and engineering systems", "https://www.linkedin.com/in/jia-c/"]
 ];
 
 function escapeHtml(value) {
@@ -321,6 +321,7 @@ function aboutHtml() {
     </section>
     <section class="seo-container seo-section">
       <h2>Founding team</h2>
+      <p>The founding team combines AI search strategy, product systems thinking, and AI architecture experience for the shift from rankings to answer visibility.</p>
       <div class="seo-grid">
         ${founders
           .map(

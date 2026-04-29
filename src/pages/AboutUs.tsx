@@ -13,8 +13,8 @@ const founders = [
     initials: "GC",
     name: "Gwen Chen",
     title: "Co-Founder & CEO",
-    background: "Ex-Amazon, Alibaba",
-    expertise: "SEO & Growth since 2007",
+    background: "Ex-AWS · Ex-Google (AppSheet)",
+    expertise: "Customer-driven B2B GTM; hosts the Signals podcast with marketing & growth leaders",
     linkedin: "https://www.linkedin.com/in/gwenchenx/",
   },
   {
@@ -22,8 +22,8 @@ const founders = [
     initials: "EW",
     name: "Eason Wang",
     title: "Co-Founder & CPO",
-    background: "Ex-Tencent, Alibaba",
-    expertise: "Search & Product since 2003",
+    background: "Ex-Microsoft (since MSRA) · PhD in Machine Learning",
+    expertise: "18+ years shipping enterprise products; focused on agentic AI workflows",
     linkedin: "https://www.linkedin.com/in/eason-wang/",
   },
   {
@@ -31,8 +31,8 @@ const founders = [
     initials: "JC",
     name: "Jia Chang",
     title: "Co-Founder & CTO",
-    background: "Ex-Microsoft, Amazon",
-    expertise: "Data & Security since 2008",
+    background: "Ex-Microsoft engineering leader",
+    expertise: "14+ years architecting scalable data infrastructure — the backbone of AEO measurement",
     linkedin: "https://www.linkedin.com/in/jia-c/",
   },
 ];
@@ -109,11 +109,11 @@ const AboutUs = () => {
           <div className="text-center mb-16">
             <p className="fade-in-scroll section-label mb-4">Founding Team</p>
             <h2 className="fade-in-scroll font-heading text-3xl md:text-4xl text-foreground">
-              Built by veterans of the world's leading tech companies
+              Built by operators across AI search, product, and engineering
             </h2>
             <p className="fade-in-scroll mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
-              Decades of combined experience in search, SEO, data infrastructure, and security
-              from Amazon, Microsoft, Tencent, and Alibaba.
+              The founding team combines AI search strategy, product systems thinking, and AI
+              architecture experience for the shift from rankings to answer visibility.
             </p>
           </div>
 
@@ -121,33 +121,6 @@ const AboutUs = () => {
             {founders.map((founder) => (
               <FounderCard key={founder.name} {...founder} />
             ))}
-          </div>
-
-          <div className="fade-in-scroll mt-12 overflow-x-auto rounded-xl border border-border/30 bg-card/30">
-            <table className="w-full border-collapse text-left text-sm">
-              <thead className="bg-card/60 text-foreground">
-                <tr>
-                  <th className="px-4 py-3 font-semibold">Name</th>
-                  <th className="px-4 py-3 font-semibold">Role</th>
-                  <th className="px-4 py-3 font-semibold">Background</th>
-                  <th className="px-4 py-3 font-semibold">Search/AEO relevance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {founders.map((founder) => (
-                  <tr key={founder.name} className="border-t border-border/30">
-                    <td className="px-4 py-3 align-top">
-                      <a href={founder.linkedin} className="hover:text-[hsl(195_90%_55%)]">
-                        {founder.name}
-                      </a>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground align-top">{founder.title}</td>
-                    <td className="px-4 py-3 text-muted-foreground align-top">{founder.background}</td>
-                    <td className="px-4 py-3 text-muted-foreground align-top">{founder.expertise}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </section>
       </main>
