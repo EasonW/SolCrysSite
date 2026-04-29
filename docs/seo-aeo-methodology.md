@@ -1,6 +1,6 @@
 # SEO/AEO Methodology for SolCrys AI
 
-Last updated: 2026-04-29
+Last updated: 2026-04-28
 
 This document records the research basis, diagnosis framework, and refactor methodology used to make the SolCrys AI site more SEO and AEO friendly. It should be used as the operating playbook for future site changes, content expansion, and technical validation.
 
@@ -218,7 +218,7 @@ Recommended rules:
 - Keep the primary CTA in navigation, hero, or final section.
 - Do not repeat the same product claim in every section.
 - On About and methodology pages, prioritize company context, team expertise, measurement definitions, and transparent limitations.
-- Use tables for team credentials, scoring models, and comparison criteria because they are easier for users and AI systems to parse.
+- For founder and team credentials, anchor each visible line to a verifiable past role (company, degree, or shipping track record) and one highlight that links that past to the current venture. Cards are sufficient when they already carry that information — do not add a duplicate credentials table next to them. Reserve tables for genuine multi-axis comparisons.
 - Link methodology claims to official references or the site's own methodology page.
 
 ### 4.5 Keep crawler controls explicit
@@ -366,6 +366,7 @@ Use these rules for every new page:
 - Avoid generating many near-duplicate pages for keyword variants.
 - Keep updated dates accurate.
 - Keep schema aligned with visible content.
+- For team and founder bios, ground every line in verifiable past experience that an AEO crawler or human reader can cross-check (LinkedIn, company directory, public alumni record). Pair each past role with the single highlight most relevant to the current venture; avoid generic taglines such as "AI search & GTM strategy" that float free of any prior role.
 
 ## 8. Current Implementation Map
 
