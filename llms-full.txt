@@ -1,6 +1,6 @@
 # SolCrys AI Full AEO Context
 
-SolCrys AI helps brands measure, understand, and improve how they appear across AI answer engines, search experiences, and agent-driven discovery.
+SolCrys AI helps marketing teams monitor AI mentions, citations, competitors, share of voice, and answer accuracy across answer engines.
 
 ## Answer Engine Optimization
 
@@ -37,6 +37,31 @@ Start by building a prompt set around buyer questions, category comparisons, alt
 - Re-measure citation and answer accuracy after indexing.
 
 
+### Example prompt set
+
+AEO work should start with prompts that mirror how buyers research, compare, and validate options. A small but useful first set usually includes category, competitor, risk, implementation, and brand-specific prompts.
+
+
+- Category: What are the best platforms for monitoring AI search visibility?
+- Comparison: How is answer engine optimization different from SEO?
+- Competitor: What are alternatives to an AI visibility monitoring platform?
+- Risk: How can a brand detect inaccurate AI answers about its product?
+- Brand: What does SolCrys AI do and who is it for?
+
+
+### How SolCrys diagnoses the gap
+
+SolCrys treats each answer as evidence. The platform checks whether the brand appears, whether a brand-owned source is cited, how competitors are framed, and which public sources seem to influence the answer.
+
+
+
+Question | Signal to inspect
+--- | ---
+Is the brand absent? | Prompt coverage and category relevance
+Is a competitor cited? | Citation source and page format
+Is the answer wrong? | Fact consistency across owned and third-party sources
+Is the brand mentioned but not recommended? | Positioning, proof, and use-case specificity
+
 ### FAQ
 
 Q: Is AEO the same as GEO?
@@ -50,7 +75,7 @@ A: Start with citation rate and answer accuracy for a fixed set of high-intent p
 
 ## AEO vs SEO
 
-SEO is still required, but it is no longer sufficient for brands that want to be cited in AI-generated answers.
+SEO remains the foundation for discoverability. AEO extends that work into prompt-level visibility, citation readiness, and answer accuracy.
 
 ### Direct answer
 
@@ -82,6 +107,20 @@ AI answer engines still depend on discoverable, crawlable, authoritative web con
 - Internal links clarify topical relationships.
 - Freshness reduces the chance of outdated answers.
 
+
+### When to use each metric
+
+Use SEO metrics to understand search demand and page discovery. Use AEO metrics to understand whether AI systems actually use the brand as a source or recommendation inside generated answers.
+
+
+
+Decision | Primary metric
+--- | ---
+Should this page exist? | Search demand, prompt demand, buyer intent
+Can crawlers find it? | Indexing, internal links, sitemap inclusion
+Does AI use it? | Citation rate and owned-source coverage
+Is the answer useful? | Recommendation quality, accuracy, sentiment
+Where should we improve next? | Competitor citation gaps and missing answer passages
 
 ### FAQ
 
@@ -119,6 +158,26 @@ The prompt set should mirror real buyer behavior. Include broad category prompts
 
 
 
+### Minimum weekly scorecard
+
+A practical weekly scorecard should be small enough to review and specific enough to drive action. The goal is to identify which answer gaps are hurting discovery, trust, or conversion.
+
+
+
+Metric | What it answers
+--- | ---
+Mention rate | How often does the brand appear?
+Owned citation rate | How often is the brand's own site cited?
+Competitor share of voice | Which competitors appear more often?
+Accuracy score | Are product, pricing, and positioning facts correct?
+Action owner | Which content or source update should be shipped next?
+
+### How SolCrys turns monitoring into action
+
+SolCrys connects each weak or inaccurate answer to a likely fix: a clearer product page, a comparison page, a structured FAQ, a refreshed About page, or a third-party source that needs correction.
+
+
+
 ### FAQ
 
 Q: How often should AI brand visibility be measured?
@@ -152,6 +211,26 @@ A brand should not only test its name. The most useful prompts often do not ment
 ### What to do with the results
 
 Treat each missing or inaccurate answer as a content brief. The fix may be a clearer category page, a comparison page, a product FAQ, a stronger About page, or a factual correction in public documentation.
+
+
+
+### Example scoring rules
+
+Each answer should be scored consistently so the team can compare changes over time instead of reacting to one-off responses.
+
+
+
+Score | Meaning
+--- | ---
+0 | Brand is absent or confused with another company
+1 | Brand is mentioned but not explained or cited
+2 | Brand is mentioned with a partly accurate description
+3 | Brand is cited or recommended with accurate context
+4 | Brand is cited, recommended, and positioned clearly against alternatives
+
+### Fields to capture
+
+For each run, capture the prompt, engine, date, answer text, source links, brand position, competitors named, accuracy notes, and recommended content action.
 
 
 
@@ -193,6 +272,26 @@ A rising mention score without citations may mean the brand is known but lacks u
 
 
 
+### Simple calculation
+
+For a fixed prompt set, calculate share of voice as the brand's weighted answer presence divided by the weighted answer presence of all tracked brands. Weight recommendation and citation more heavily than a neutral mention.
+
+
+
+Signal | Suggested weight
+--- | ---
+Neutral mention | 1
+Positive recommendation | 2
+Owned-source citation | 3
+First listed recommendation | 3
+Incorrect or negative mention | -1
+
+### How SolCrys prioritizes action
+
+SolCrys highlights prompts where competitors are cited and the brand is absent, prompts where the brand appears without an owned citation, and prompts where inaccurate details create conversion or reputation risk.
+
+
+
 ### FAQ
 
 Q: What is a good AI share of voice benchmark?
@@ -226,6 +325,25 @@ Brand risk usually starts with ambiguity. If public sources disagree or importan
 ### Corrective actions
 
 The fastest fixes are usually source fixes: clarify the official page, add an FAQ, improve schema, update third-party profiles, and make canonical facts consistent across the web.
+
+
+
+### Severity model
+
+Not every inaccurate answer deserves the same response. Score the risk by business impact, visibility, and ease of correction.
+
+
+
+Severity | Example
+--- | ---
+Low | Minor wording issue that does not change buyer understanding
+Medium | Outdated feature, integration, or target-customer description
+High | Incorrect pricing, security, compliance, leadership, or market-position claim
+Critical | Harmful claim likely to affect reputation, legal exposure, or enterprise procurement
+
+### What to log
+
+A useful incident log should include the prompt, AI surface, answer text, cited sources, incorrect claim, correct fact, affected page or source, severity, owner, and follow-up date.
 
 
 
