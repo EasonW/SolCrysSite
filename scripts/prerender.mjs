@@ -258,7 +258,7 @@ function aboutHtml() {
     </section>
     <section class="seo-container seo-section">
       <h2>Our story</h2>
-      <p>We have worked through search shifts from keyword-era SEO to intent modeling, large-scale product discovery, and data-driven growth. AI-generated answers add a new layer to that work: a brand can rank, yet still be absent, uncited, or misrepresented inside the answer a buyer sees first.</p>
+      <p>Our background sits at the intersection of SEO, search intent, product discovery, and data-driven growth. AI-generated answers add a new distribution layer to that work: a brand can perform well in traditional search, yet still be absent, uncited, or misrepresented inside the answer a buyer sees first.</p>
       <p>SolCrys AI helps teams monitor mentions, citations, share of voice, sentiment, and answer accuracy, then translate those findings into page updates, content briefs, FAQ improvements, and source corrections.</p>
     </section>
     <section class="seo-container seo-section">

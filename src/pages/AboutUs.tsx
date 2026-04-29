@@ -72,10 +72,10 @@ const AboutUs = () => {
           <p className="fade-in-scroll section-label mb-4">Our Story</p>
           <div className="fade-in-scroll space-y-6 text-base md:text-lg text-muted-foreground leading-relaxed">
             <p>
-              We have worked through search shifts from keyword-era SEO to intent modeling,
-              large-scale product discovery, and data-driven growth. AI-generated answers add a
-              new layer to that work: a brand can rank, yet still be absent, uncited, or
-              misrepresented inside the answer a buyer sees first.
+              Our background sits at the intersection of SEO, search intent, product discovery,
+              and data-driven growth. AI-generated answers add a new distribution layer to that
+              work: a brand can perform well in traditional search, yet still be absent,
+              uncited, or misrepresented inside the answer a buyer sees first.
             </p>
             <p>
               Marketing teams now need to know which prompts matter, which sources AI systems
