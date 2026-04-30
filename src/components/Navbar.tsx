@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-2">
             <a href="/" aria-label="SolCrys AI home">
-              <img src="/logo.png" alt="SolCrys AI Logo" className="h-24 w-auto" />
+              <img src="/logo.png" alt="SolCrys AI Logo" className="h-10 w-auto" />
             </a>
           </div>
         <div className="hidden md:flex items-center gap-8">

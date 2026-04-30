@@ -18,8 +18,8 @@ const scriptTags = [...distIndex.matchAll(/<script[^>]+type="module"[^>]*><\/scr
 const reportAsset = fs
   .readdirSync(path.join(distDir, "assets"))
   .find((file) => /^report-.*\.png$/.test(file));
-const ogImage = reportAsset ? `${site.url}/assets/${reportAsset}` : `${site.url}/logo.png`;
-const reportPath = reportAsset ? `/assets/${reportAsset}` : "/logo.png";
+const ogImage = reportAsset ? `${site.url}/assets/${reportAsset}` : `${site.url}/solcrys-og-card.png`;
+const reportPath = reportAsset ? `/assets/${reportAsset}` : "/solcrys-og-card.png";
 
 const founders = [
   ["Gwen Chen", "Co-Founder & CEO", "AI search & GTM strategy", "AEO, content authority, and brand visibility", "https://www.linkedin.com/in/gwenchenx/"],
@@ -61,7 +61,7 @@ function jsonLd(data) {
 function navHtml() {
   return `
     <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-      <a href="/" aria-label="SolCrys AI home"><img src="/logo.png" alt="SolCrys AI Logo" width="168" height="84" style="height: 84px; width: auto;"></a>
+      <a href="/" aria-label="SolCrys AI home"><img src="/logo.png" alt="SolCrys AI Logo" width="134" height="40" style="height: 40px; width: auto;"></a>
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
         <a href="/#aeo">Why AEO</a>
         <a href="/#features">Features</a>
