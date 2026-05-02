@@ -18,8 +18,23 @@ const scriptTags = [...distIndex.matchAll(/<script[^>]+type="module"[^>]*><\/scr
 const reportAsset = fs
   .readdirSync(path.join(distDir, "assets"))
   .find((file) => /^report-.*\.png$/.test(file));
-const ogImage = reportAsset ? `${site.url}/assets/${reportAsset}` : `${site.url}/solcrys-og-card.png`;
 const reportPath = reportAsset ? `/assets/${reportAsset}` : "/solcrys-og-card.png";
+const fallbackOgPath = site.defaultOgImage || "/solcrys-og-card.png";
+const ogPublicDir = path.join(distDir, "og");
+const availableOgImages = fs.existsSync(ogPublicDir) ? new Set(fs.readdirSync(ogPublicDir)) : new Set();
+
+function resolveOgImage(preferredPath) {
+  if (preferredPath && preferredPath.startsWith("/og/")) {
+    const filename = preferredPath.replace("/og/", "");
+    if (availableOgImages.has(filename)) return `${site.url}${preferredPath}`;
+  } else if (preferredPath && preferredPath.startsWith("/")) {
+    const candidate = path.join(distDir, preferredPath.replace(/^\//, ""));
+    if (fs.existsSync(candidate)) return `${site.url}${preferredPath}`;
+  }
+  return `${site.url}${fallbackOgPath}`;
+}
+
+const defaultOgImage = resolveOgImage(fallbackOgPath);
 
 const founders = [
   ["Gwen Chen", "Co-Founder & CEO", "AI search & GTM strategy", "AEO, content authority, and brand visibility", "https://www.linkedin.com/in/gwenchenx/"],
@@ -64,6 +79,7 @@ function navHtml() {
       <a href="/" aria-label="SolCrys AI home"><img src="/logo.png" alt="SolCrys AI Logo" width="134" height="40" style="height: 40px; width: auto;"></a>
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
         <a href="/#aeo">Why AEO</a>
+        <a href="/#approach">Our Approach</a>
         <a href="/#features">Features</a>
         <a href="/resources/">Resources</a>
         <a href="/about/">About</a>
@@ -97,8 +113,10 @@ function ctaHtml() {
     </section>`;
 }
 
-function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false }) {
+function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false, ogImage, lastModified }) {
   const canonical = canonicalUrl(routePath);
+  const pageOgImage = ogImage ? resolveOgImage(ogImage) : defaultOgImage;
+  const dateMeta = lastModified || site.updated || generatedAt;
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -108,17 +126,20 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <meta name="description" content="${escapeAttr(description)}" />
     <meta name="robots" content="${noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}" />
     <link rel="canonical" href="${escapeAttr(canonical)}" />
-    <link rel="icon" type="image/png" href="/solcrys-logo-tab-2.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-logo-tab-2.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/solcrys-logo-tab-2.png" />
     <meta name="author" content="${escapeAttr(site.name)}" />
-    <meta name="date" content="${escapeAttr(generatedAt)}" />
+    <meta name="date" content="${escapeAttr(dateMeta)}" />
     <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="${escapeAttr(site.name)}" />
+    <meta property="og:locale" content="${escapeAttr(site.locale || "en_US")}" />
     <meta property="og:title" content="${escapeAttr(title)}" />
     <meta property="og:description" content="${escapeAttr(description)}" />
     <meta property="og:url" content="${escapeAttr(canonical)}" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="${escapeAttr(ogImage)}" />
+    <meta property="og:image" content="${escapeAttr(pageOgImage)}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="${escapeAttr(ogImage)}" />
+    <meta name="twitter:image" content="${escapeAttr(pageOgImage)}" />
     ${stylesheetTags}
     ${schemas.map(jsonLd).join("\n    ")}
   </head>
@@ -136,6 +157,10 @@ function writePage(relativePath, html) {
   fs.writeFileSync(filePath, html);
 }
 
+const organizationSameAs = Array.from(
+  new Set([...(site.sameAs || []), site.linkedin].filter(Boolean))
+);
+
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -144,13 +169,18 @@ const organizationSchema = {
   logo: site.logo,
   description: site.description,
   email: site.email,
-  sameAs: [site.linkedin],
+  sameAs: organizationSameAs,
   founder: founders.map(([name, title, background, expertise, linkedin]) => ({
     "@type": "Person",
     name,
     jobTitle: title,
     description: `${background}. ${expertise}.`,
-    sameAs: linkedin
+    worksFor: {
+      "@type": "Organization",
+      name: site.name,
+      url: site.url
+    },
+    sameAs: [linkedin]
   }))
 };
 
@@ -219,7 +249,7 @@ function webPageSchema({ routePath, title, description }) {
     },
     primaryImageOfPage: {
       "@type": "ImageObject",
-      url: ogImage
+      url: defaultOgImage
     }
   };
 }
@@ -239,11 +269,15 @@ function homeHtml() {
       </ul>
       <img src="${reportPath}" alt="SolCrys AI visibility report showing answer engine mentions, citations, and share of voice" width="1200" height="760" style="width: 100%; height: auto; border-radius: 0.9rem; border: 1px solid hsl(var(--border) / 0.25); margin-top: 2rem;" fetchpriority="high">
     </section>
-    <section class="seo-container seo-section">
+    <section id="aeo" class="seo-container seo-section">
       <h2>What Answer Engine Optimization means</h2>
       <p><dfn>Answer Engine Optimization (AEO)</dfn> is the practice of making brand facts, proof, and pages easier for AI systems to retrieve, trust, cite, and summarize. SolCrys connects prompt-level measurement with crawlable, evidence-backed content strategy.</p>
     </section>
-    <section class="seo-container seo-section">
+    <section id="approach" class="seo-container seo-section">
+      <h2>Our approach to AI search visibility</h2>
+      <p>SolCrys treats every AI answer as evidence. We score whether your brand is mentioned, whether your own pages are cited, how competitors are framed, and which third-party sources shape the answer. Each finding becomes a concrete content action.</p>
+    </section>
+    <section id="features" class="seo-container seo-section">
       <h2>How SolCrys improves AI discovery</h2>
       <div class="seo-grid">
         ${home.answerBlocks
@@ -453,6 +487,8 @@ writePage(
     title: "SolCrys AI - AI Search Visibility and AEO Platform",
     description: site.description,
     body: homeHtml(),
+    ogImage: home.ogImage,
+    lastModified: site.updated,
     schemas: [
       organizationSchema,
       websiteSchema,
@@ -465,14 +501,48 @@ writePage(
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         name: site.name,
-        applicationCategory: "BusinessApplication",
+        applicationCategory: site.softwareCategory || "BusinessApplication",
+        applicationSubCategory: site.softwareSubCategory || undefined,
         operatingSystem: "Web",
         url: site.url,
         description: site.description,
+        softwareVersion: site.softwareVersion || undefined,
+        featureList: home.proofPoints,
+        screenshot: `${site.url}${reportPath}`,
+        audience: site.audienceType
+          ? {
+              "@type": "Audience",
+              audienceType: site.audienceType
+            }
+          : undefined,
         publisher: {
           "@type": "Organization",
-          name: site.name
+          name: site.name,
+          logo: {
+            "@type": "ImageObject",
+            url: site.logo
+          }
         }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: `${site.name} Answer Engine Optimization Platform`,
+        serviceType: "Answer Engine Optimization",
+        provider: {
+          "@type": "Organization",
+          name: site.name,
+          url: site.url
+        },
+        areaServed: "Global",
+        audience: site.audienceType
+          ? {
+              "@type": "Audience",
+              audienceType: site.audienceType
+            }
+          : undefined,
+        description: site.description,
+        url: site.url
       },
       faqSchema(home.faqs, "/")
     ]
@@ -558,6 +628,8 @@ for (const page of resourcePages) {
       title: page.metaTitle,
       description: page.description,
       body: resourcePageHtml(page),
+      ogImage: page.ogImage,
+      lastModified: page.updated,
       schemas: [
         organizationSchema,
         breadcrumbSchema([
@@ -604,13 +676,15 @@ writePage(
   })
 );
 
+// Sitemap: per Google guidance, omit <priority> and <changefreq> (they are ignored)
+// and only set <lastmod> from real content updates, never deploy timestamps.
 const sitemapUrls = [
-  { path: "/", priority: "1.0" },
-  { path: "/about/", priority: "0.7" },
-  { path: "/resources/", priority: "0.8" },
-  ...resourcePages.map((page) => ({ path: `/${page.slug}/`, priority: "0.8", lastmod: page.updated })),
-  { path: "/privacy.html", priority: "0.3" },
-  { path: "/terms.html", priority: "0.3" }
+  { path: "/", lastmod: site.updated || generatedAt },
+  { path: "/about/", lastmod: site.updated || generatedAt },
+  { path: "/resources/", lastmod: site.updated || generatedAt },
+  ...resourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
+  { path: "/privacy.html", lastmod: site.updated || generatedAt },
+  { path: "/terms.html", lastmod: site.updated || generatedAt }
 ];
 
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -619,14 +693,19 @@ ${sitemapUrls
   .map(
     (url) => `  <url>
     <loc>${xmlEscape(canonicalUrl(url.path))}</loc>
-    <lastmod>${xmlEscape(url.lastmod || generatedAt)}</lastmod>
-    <priority>${url.priority}</priority>
+    <lastmod>${xmlEscape(url.lastmod)}</lastmod>
   </url>`
   )
   .join("\n")}
 </urlset>
 `;
 writePage("sitemap.xml", sitemapXml);
+
+// Emit canonical URL list for IndexNow ping (consumed by scripts/ping-indexnow.mjs)
+writePage(
+  "indexnow-urls.json",
+  `${JSON.stringify(sitemapUrls.map((url) => canonicalUrl(url.path)), null, 2)}\n`
+);
 
 const llmsTxt = `# ${site.name}
 

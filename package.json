@@ -12,7 +12,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "postdeploy": "node scripts/ping-indexnow.mjs",
+    "indexnow": "node scripts/ping-indexnow.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
