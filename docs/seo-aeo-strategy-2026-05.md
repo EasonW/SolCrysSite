@@ -26,6 +26,67 @@
 
 ---
 
+## 0.5 实施进度（2026-05-02 更新）
+
+### 已实施（P0 第一波）
+
+| 项目 | 状态 | 涉及文件 |
+|---|---|---|
+| Sitemap 删 `<priority>` / `<changefreq>` | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| Sitemap `lastmod` 改用每页真实 `updated` 字段 | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| OG image 拆分基础设施（per-page `ogImage` 字段、不再带 hash 路径） | ✅ | [siteContent.json](../src/content/siteContent.json) + [prerender.mjs](../scripts/prerender.mjs) |
+| 静态 home 加 `id="aeo"` / `id="approach"` / `id="features"` 锚点 | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| 静态 nav 加上 `Our Approach` 链接（与 React Navbar 对齐） | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| SoftwareApplication schema 扩展（applicationSubCategory / featureList / screenshot / audience / softwareVersion / publisher.logo） | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| 新增 Service schema（首页） | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| Organization `sameAs` 改成数组（为 Wikidata / Crunchbase 留位） | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| Person schema 加 `worksFor`（指向 SolCrys） | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| `og:site_name` / `og:locale` / `apple-touch-icon` | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| `<meta name="date">` 用每页真实 `updated` | ✅ | [scripts/prerender.mjs](../scripts/prerender.mjs) |
+| robots.txt 扩展到 2026 全量 AI 爬虫名单（13 个新增） | ✅ | [public/robots.txt](../public/robots.txt) |
+| IndexNow ping 脚本 + npm `postdeploy` 自动钩子 | ✅ | [scripts/ping-indexnow.mjs](../scripts/ping-indexnow.mjs) + [package.json](../package.json) |
+| 构建 / 测试 / lint 全部通过 | ✅ | `npm run build` / `npm test` / `npm run lint` |
+
+### 待用户操作才能激活
+
+| 项目 | 状态 | 阻塞原因 |
+|---|---|---|
+| per-page OG 图片**生效** | ⏳ 等图片 | 脚本逻辑就绪，需要在 `public/og/` 放 7 张 1200×630 PNG（home + 6 cluster）；没图自动 fallback 到 `solcrys-og-card.png` |
+| IndexNow **真正发包** | ⏳ 等 key | 需要 `openssl rand -hex 16` 生成 key，放 `public/<key>.txt`，部署环境设 `INDEXNOW_KEY` env var |
+| Founder schema `alumniOf` / 历史 `worksFor` | ⏳ 等数据 | 不能编造；需要三位创始人的真实过往雇主 + 学校 + 一句 highlight。Jia 当前 description 已含 ex-Microsoft，可先单独补 |
+| Founder description 文案修复（[seo-aeo-methodology.md §4.7](seo-aeo-methodology.md) 违规） | ⏳ 等数据 | 同上。Gwen 的 "AI search & GTM strategy" 仍是漂浮 tagline |
+| Organization `sameAs` 加 Wikidata Q-number / Crunchbase | ⏳ 等实体 | 需要先完成 P1-1 Wikidata 实体建立 |
+| `SoftwareApplication.offers` / `aggregateRating` | ⏳ 不做 | 没有真实定价 / 真实 G2 评分；**禁止造假**，否则全域处罚风险 |
+
+### 仍是 P0 但**未实施**（保留在 backlog）
+
+无 —— P0 全部站内技术修补已落地或已就位。
+
+### 验证记录
+
+```
+$ npm run build
+✓ built in 938ms
+Prerendered 10 static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.
+
+$ npm test
+Test Files  1 passed (1)
+Tests       1 passed (1)
+
+$ npm run lint
+(0 errors)
+
+$ node scripts/ping-indexnow.mjs
+[indexnow] INDEXNOW_KEY not set; skipping ping. (no-op as designed)
+```
+
+抽查产物：
+- `dist/sitemap.xml` —— 11 个 URL，无 `<priority>` / `<changefreq>`，仅 `<loc>` + `<lastmod>`
+- `dist/index.html` —— 含 `id="aeo"` / `id="approach"` / `id="features"`、新 SoftwareApplication 字段、Service schema、`og:site_name` / `og:locale`、`apple-touch-icon`
+- `dist/indexnow-urls.json` —— canonical URL 列表，供 IndexNow 脚本消费
+
+---
+
 ## 1. 现状审计
 
 ### 1.1 站点架构
@@ -420,7 +481,9 @@ Google 政策更新："no level of publisher involvement in creating third-party
 
 ### 3.1 P0 站内技术缺口（1 周内可全部修完）
 
-#### P0-1. OG image 全站共用且文件名带 hash —— 破坏社交缓存
+#### P0-1. OG image 全站共用且文件名带 hash —— 破坏社交缓存 · ⏳ 基础设施完成，等图
+
+> **2026-05-02 更新**：脚本已支持 per-page OG，`siteContent.json` 每页 `ogImage` 字段已加。**fallback 行为**：当 `public/og/<filename>.png` 不存在时自动回到 `/solcrys-og-card.png`（无 hash）。**激活步骤**：在 `public/og/` 放 7 张 1200×630 PNG，文件名匹配 `siteContent.json` 中各页 `ogImage` 字段。下次 build 自动按页生效。
 
 [dist/index.html](../dist/index.html) 全站所有页面 `og:image` 都指向 `/assets/report-C8IaPPdQ.png`。
 - Vite 内容哈希意味着每次 rebuild URL 都会变 → Twitter / LinkedIn / Slack 缓存失效
@@ -431,7 +494,9 @@ Google 政策更新："no level of publisher involvement in creating third-party
 - 在 [src/content/siteContent.json](../src/content/siteContent.json) 每个 page 加 `ogImage` 字段
 - prerender 里按页面输出，不复用同一张
 
-#### P0-2. sitemap.xml 所有 lastmod 都是 `2026-04-29`
+#### P0-2. sitemap.xml 所有 lastmod 都是 `2026-04-29` · ✅ 已完成
+
+> **2026-05-02 更新**：`<priority>` 和 `<changefreq>` 已从 [scripts/prerender.mjs](../scripts/prerender.mjs) 移除。`<lastmod>` 改用每页真实 `updated` 字段（当前 6 个 cluster 页确实都是 `2026-04-29`，因为内容没动）。**后续维护规则**：仅当真实改 resource 内容时才在 [siteContent.json](../src/content/siteContent.json) 改对应页的 `updated`。绝对不要按 deploy 时间盖。
 
 [dist/sitemap.xml](../dist/sitemap.xml) 11 个 URL 全是同一天。Google 官方："`lastmod` consistently and verifiably accurate" 才被信任，否则**整张 sitemap 被降权**。
 
@@ -440,7 +505,9 @@ Google 政策更新："no level of publisher involvement in creating third-party
 - 把 `<priority>` 和 `<changefreq>` 删掉（Google 完全忽略）
 - 实际改内容才更新 `lastmod`，不要按 deploy 自动盖
 
-#### P0-3. SoftwareApplication schema 太薄
+#### P0-3. SoftwareApplication schema 太薄 · ✅ 部分完成（offers/aggregateRating 故意留空）
+
+> **2026-05-02 更新**：已加 `applicationSubCategory: "Marketing Technology"`、`featureList`（来源 `home.proofPoints`）、`screenshot`、`audience`、`softwareVersion`、完整 `publisher.logo`。**故意未加**：`offers`（无真实定价）、`aggregateRating`（无真实 G2 评分）。等定价层级和 G2 入驻完成再补——**禁止造假**。
 
 当前 [dist/index.html](../dist/index.html)：
 ```json
@@ -458,7 +525,9 @@ DigitalApplied 数据：完整 SoftwareApplication schema 在 **Gemini 引用率
 - `softwareVersion`、`releaseNotes`
 - `audience` → `Audience` with `audienceType: "Marketing teams"`
 
-#### P0-4. Founder 描述违反自己的方法论
+#### P0-4. Founder 描述违反自己的方法论 · ⏳ Schema 框架就位，等真实数据
+
+> **2026-05-02 更新**：`Person.worksFor` 已加（指向 SolCrys）。`alumniOf` / 历史 `worksFor` / `knowsAbout` / 文案修复**未做** —— 不能编造创始人过往。**激活步骤**：用户提供三人真实过往雇主、学校、与 AEO 相关的一句 highlight，我按 schema 模板填进去。当前 Gwen 的 `"AI search & GTM strategy"` 仍是漂浮 tagline。
 
 [seo-aeo-methodology.md §4.7](seo-aeo-methodology.md) 明确写：
 > avoid generic taglines such as "AI search & GTM strategy" that float free of any prior role
@@ -478,13 +547,17 @@ Gwen Chen — "AI search & GTM strategy. AEO, content authority, and brand visib
 
 不只是方法论合规，**Person 实体绑定可验证过往是 LLM E-E-A-T 抽取最强信号之一**。
 
-#### P0-5. Static nav 的 hash 链接断了
+#### P0-5. Static nav 的 hash 链接断了 · ✅ 已完成
+
+> **2026-05-02 更新**：静态 home 的三个对应 H2 加了 `id="aeo"` / `id="approach"` / `id="features"`。静态 nav 同时加了 `Our Approach` 链接（与 React Navbar 完全对齐）。从任何静态页点 `/#aeo` 现在都能落到正确锚点。
 
 [dist/answer-engine-optimization/index.html](../dist/answer-engine-optimization/index.html) 静态版导航里 `/#aeo` 和 `/#features` —— 这些 anchor 只在 React 客户端组件里，prerendered HTML 没有对应 ID。爬虫和无 JS 用户点了会落空。
 
 **修法**：要么把这两个 section 也写进 prerender，要么把 nav 改成跳真实页面（如 `/resources/`、`/about/`）。
 
-#### P0-6. IndexNow 没接入
+#### P0-6. IndexNow 没接入 · ✅ 脚本就位，⏳ 等 key
+
+> **2026-05-02 更新**：[scripts/ping-indexnow.mjs](../scripts/ping-indexnow.mjs) 已加，自动在 `npm run deploy` 之后跑（`postdeploy` hook）。同时 [package.json](../package.json) 加了 `npm run indexnow` 作为手动触发。**激活步骤**：(1) `openssl rand -hex 16` 生成 key；(2) `echo "<KEY>" > public/<KEY>.txt`；(3) deploy 环境（GitHub Actions secrets / 本地 .env）设 `INDEXNOW_KEY=<KEY>`。脚本在 key 缺失时安全 no-op（不会让 CI 失败）。
 
 Bing 2026：**搜索结果点击的 22% 来自 IndexNow 提交**，几分钟内索引。15 分钟工作量。
 
@@ -497,20 +570,26 @@ curl -X POST https://api.indexnow.org/IndexNow \
 ```
 key 文件放 `public/<key>.txt`。
 
-#### P0-7. 缺少必要的 schema 类型
+#### P0-7. 缺少必要的 schema 类型 · ✅ Service 已加，其余按需
 
-- **`Service`** —— 比单纯 SoftwareApplication 更精确描述 SolCrys 提供的服务
-- **`Person.sameAs`** 指向 Wikidata / Crunchbase（建实体后）
-- **`Course` / `LearningResource`** —— resource 页本质是教学材料
-- **不要加** `WebSite.SearchAction` —— Google 2026/1 已弃用 Sitelinks Search Box
+> **2026-05-02 更新**：`Service` schema 已加到首页。`Organization.sameAs` 改成数组格式，等 Wikidata Q-number 出来直接 push 进 [siteContent.json](../src/content/siteContent.json) 的 `site.sameAs`。`Course` / `LearningResource` 暂未加（resource 页 Article schema 已经够用，Learning Resource rich result 在 SaaS 类目实际收益不明显）。`WebSite.SearchAction` 没加（已弃用，与策略一致）。
 
-#### P0-8. 其他细节
+- **`Service`** ✅ —— 已添加
+- **`Organization.sameAs` 数组结构** ✅ —— 已就绪，等 Wikidata
+- **`Person.sameAs`** ⏳ —— 当前只有 LinkedIn，等 Wikidata Person 实体 Q-number
+- **`Course` / `LearningResource`** ⏸️ —— 按需，先不加
+- **`WebSite.SearchAction`** ❌ —— 不加（已弃用）
 
-- `<html lang="en">` —— 多语言时切 `lang="en-US"` + `<link rel="alternate" hreflang>`
-- 没有 `apple-touch-icon` (180x180)、`<link rel="manifest">` —— 移动 PWA 差
-- 没有 `<meta property="og:site_name">`、`<meta property="og:locale">`
-- 没有 `<link rel="preconnect">` 给 fonts/CDN
-- LCP 图（hero `report-...png`）已 `fetchpriority="high"` ✅，但缺 `srcset` —— 多分辨率版本对 INP/LCP 都好
+#### P0-8. 其他细节 · ✅ 大部分完成
+
+> **2026-05-02 更新**：
+
+- `<html lang="en">` ⏸️ —— 多语言暂未上，保持 `en`
+- `<link rel="apple-touch-icon">` ✅ —— 已加（512x512 sizes 标注）
+- `<meta property="og:site_name">` / `<meta property="og:locale">` ✅ —— 已加
+- `<link rel="manifest">` ⏸️ —— PWA 暂不优先
+- `<link rel="preconnect">` ⏸️ —— 当前没用第三方 fonts/CDN，待引入时再加
+- LCP 图 `srcset` ⏸️ —— 当前 `report-*.png` 单分辨率，建议下一轮做响应式版本
 
 ### 3.2 P1 实体存在性缺口（最高 ROI）
 
@@ -693,11 +772,14 @@ key 文件放 `public/<key>.txt`。
 
 ## 5. 实施路线图
 
-| 周次 | 任务 | 类型 | 预期影响 |
-|---|---|---|---|
-| Week 1 | OG image 拆分；sitemap lastmod 修复；删 priority/changefreq；nav hash 修复；IndexNow 接入；扩 robots 名单 | P0 技术 | 修复信号污染，加速 Bing 索引 |
-| Week 1 | 建 Wikidata 实体（公司 + 3 个 founder） | P1 实体 | 长期 LLM grounding 最强单一信号 |
-| Week 2 | SoftwareApplication 加 offers/featureList/screenshot；Service schema；Person 加 worksFor/alumniOf 并改文案 | P0 技术 | 修复方法论违规 + 提升 Gemini 引用率 |
+| 周次 | 任务 | 类型 | 状态 | 预期影响 |
+|---|---|---|---|---|
+| Week 1 | OG 拆分基础设施；sitemap lastmod 修复；删 priority/changefreq；nav hash 修复；扩 robots 名单；IndexNow 脚本 | P0 技术 | ✅ 完成（2026-05-02）| 修复信号污染，加速 Bing 索引 |
+| Week 1 | OG 实际图片（7 张 PNG） | P0 内容 | ⏳ 等用户出图 | per-page 社交 CTR 提升 |
+| Week 1 | IndexNow key 生成 + env 配置 | P0 ops | ⏳ 等用户操作 | 真正的 IndexNow 提交 |
+| Week 1 | 建 Wikidata 实体（公司 + 3 个 founder） | P1 实体 | ⏳ 等用户操作 | 长期 LLM grounding 最强单一信号 |
+| Week 2 | SoftwareApplication 扩展（featureList / screenshot / audience）；Service schema | P0 技术 | ✅ 完成（2026-05-02）| 提升 Gemini 引用率 |
+| Week 2 | Person 加 alumniOf / 历史 worksFor + 改 founder 描述文案 | P0 技术 | ⏳ 等用户提供过往经历 | 修复方法论违规 + Person 实体 grounding |
 | Week 2 | 公开 `/methodology/` 和 `/glossary/`（DefinedTerm schema） | P1 内容 | 抢占 entity definition |
 | Week 3-4 | 6 篇竞品对比页 (`/solcrys-vs-X/` + `/X-alternatives/`) | P1 内容 | ChatGPT 对比类引用 +51% |
 | Week 3-4 | `/pricing/`、`/demo/`、`/customers/` 骨架 | P1 转化 | demo +35-40% |
@@ -1102,7 +1184,10 @@ curl -I https://solcrys.com/robots.txt
 
 ## 文档维护
 
-- **版本**：1.0
+- **版本**：1.1（2026-05-02 加入实施进度）
+- **变更日志**：
+  - **1.0**（2026-05-02）：首次发布，完整调研 + 策略 + 路线图
+  - **1.1**（2026-05-02）：P0 第一波站内技术修补全部落地，加 §0.5 实施进度，inline 标注每个 P0 状态
 - **下次重大复审**：2026-08（季度）或重大算法更新后
 - **小修小改**：直接 PR 到本文件，更新文档日期
-- **关联文档同步**：本策略落地后，[site-plan.md](site-plan.md) 和 [seo-aeo-methodology.md](seo-aeo-methodology.md) 需要同步更新已实施的部分
+- **关联文档同步**：[site-plan.md](site-plan.md) 已实施部分将随下次结构变化同步更新；[seo-aeo-methodology.md](seo-aeo-methodology.md) 中的 founder credentials 规则待获得真实过往数据后兑现
