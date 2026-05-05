@@ -36,11 +36,6 @@ const HeroSection = () => {
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed opacity-0 animate-fade-up-delay-2">
           {siteContent.home.description}
         </p>
-        <p className="text-xs text-muted-foreground/80 uppercase tracking-wider mb-10 opacity-0 animate-fade-up-delay-2">
-          Maintained by {siteContent.site.maintainer} · Last updated{" "}
-          <time dateTime={siteContent.site.updated}>{siteContent.site.updated}</time>
-        </p>
-
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up-delay-3 mb-16">
           <EarlyAccessDialog surface="hero">

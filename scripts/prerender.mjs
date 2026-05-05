@@ -8,7 +8,7 @@ const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
 
 const { site, home, resourcePages } = content;
-const generatedAt = "2026-04-29";
+const generatedAt = "2026-05-04";
 
 const distIndexPath = path.join(distDir, "index.html");
 const distIndex = fs.readFileSync(distIndexPath, "utf8");
@@ -267,7 +267,6 @@ function homeHtml() {
       <p class="seo-kicker">${escapeHtml(home.eyebrow)}</p>
       <h1>${escapeHtml(home.title)}</h1>
       <p class="seo-lede">${escapeHtml(home.description)}</p>
-      <p>Maintained by ${escapeHtml(site.maintainer || site.name)}. Last updated <time datetime="${escapeAttr(site.updated || generatedAt)}">${escapeHtml(site.updated || generatedAt)}</time>.</p>
       <ul class="seo-grid" aria-label="SolCrys AI proof points">
         ${home.proofPoints.map((point) => `<li class="seo-card">${escapeHtml(point)}</li>`).join("")}
       </ul>
