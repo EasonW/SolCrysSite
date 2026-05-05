@@ -88,8 +88,8 @@
       
     </section>
     <section class="seo-section">
-      <h2>Severity model</h2>
-      <p>Not every inaccurate answer deserves the same response. Score the risk by business impact, visibility, and ease of correction.</p>
+      <h2>Starter severity rubric (illustrative)</h2>
+      <p>Not every inaccurate answer deserves the same response. The four-tier rubric below is a useful starting point for triage and stakeholder alignment - production hallucination monitoring uses richer detection and prioritization signals, discussed at the end of this page.</p><p>Score the risk by business impact, visibility, and ease of correction.</p>
       
       <table>
               <thead><tr><th>Severity</th><th>Example</th></tr></thead>
@@ -97,9 +97,15 @@
             </table>
     </section>
     <section class="seo-section">
-      <h2>What to log</h2>
-      <p>A useful incident log should include the prompt, AI surface, answer text, cited sources, incorrect claim, correct fact, affected page or source, severity, owner, and follow-up date.</p>
+      <h2>What to log (manual baseline)</h2>
+      <p>For a manual incident log, capture the prompt, AI surface, answer text, cited sources, incorrect claim, correct fact, affected page or source, severity, owner, and follow-up date. This is the minimum a spreadsheet-based first pass should record.</p>
       
+      
+    </section>
+    <section class="seo-section">
+      <h2>Beyond the starter rubric</h2>
+      <p>Manual triage with a fixed severity rubric is fine for a first incident pass. Production hallucination monitoring at scale needs more than that. SolCrys&#39;s platform extends the primitives above with:</p>
+      <ul class="seo-list"><li>Automated detection of factual disagreement between AI answers and authoritative owned or third-party sources.</li><li>Engine-specific propagation tracking - the same incorrect claim may spread through different engines on different timelines.</li><li>Severity scoring weighted by prompt popularity and buyer-stage intent, not just the rubric tier.</li><li>Calibration against human-reviewed ground truth, with severity thresholds re-fit as engine versions change.</li><li>Repeat-offender pattern detection so recurring hallucinations escalate before they become reputational issues.</li></ul>
       
     </section>
       <section class="seo-section">
@@ -137,6 +143,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-ZqSiUkrD.js"></script>
+    <script type="module" crossorigin src="/assets/index-CBsy11MC.js"></script>
   </body>
 </html>
