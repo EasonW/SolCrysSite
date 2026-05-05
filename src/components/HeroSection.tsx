@@ -43,7 +43,7 @@ const HeroSection = () => {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up-delay-3 mb-16">
-          <EarlyAccessDialog>
+          <EarlyAccessDialog surface="hero">
             <Button variant="hero" size="lg" className="text-base px-8 py-6 h-auto">
               Request an AI Visibility Audit
               <ArrowRight className="ml-2 w-5 h-5" />

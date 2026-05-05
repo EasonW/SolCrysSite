@@ -21,7 +21,7 @@ const CTASection = () => {
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
               Request an AI visibility audit across priority prompts, cited sources, competitors, and answer accuracy.
             </p>
-            <EarlyAccessDialog>
+            <EarlyAccessDialog surface="cta_section">
               <Button variant="hero" size="lg" className="text-base px-8 py-6">
                 Request an Audit
                 <ArrowRight className="ml-1" />

@@ -17,7 +17,7 @@ const Navbar = () => {
           <a href="/resources/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resources</a>
           <a href="/about/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</a>
         </div>
-        <EarlyAccessDialog>
+        <EarlyAccessDialog surface="navbar">
           <Button variant="hero" size="sm">Request Audit</Button>
         </EarlyAccessDialog>
       </div>

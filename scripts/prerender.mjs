@@ -14,6 +14,8 @@ const distIndexPath = path.join(distDir, "index.html");
 const distIndex = fs.readFileSync(distIndexPath, "utf8");
 const stylesheetTags = [...distIndex.matchAll(/<link[^>]+rel="stylesheet"[^>]*>/g)].map((match) => match[0]).join("\n    ");
 const scriptTags = [...distIndex.matchAll(/<script[^>]+type="module"[^>]*><\/script>/g)].map((match) => match[0]).join("\n    ");
+const analyticsMatch = distIndex.match(/<!--\s*analytics:start\s*-->[\s\S]*?<!--\s*analytics:end\s*-->/);
+const analyticsTags = analyticsMatch ? analyticsMatch[0] : "";
 
 const reportAsset = fs
   .readdirSync(path.join(distDir, "assets"))
@@ -141,6 +143,7 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="${escapeAttr(pageOgImage)}" />
     ${stylesheetTags}
+    ${analyticsTags}
     ${schemas.map(jsonLd).join("\n    ")}
   </head>
   <body>

@@ -9,20 +9,27 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea"; 
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { trackEvent, type AuditSurface } from "@/lib/analytics";
 
 interface EarlyAccessDialogProps {
   children: React.ReactNode;
+  surface: AuditSurface;
 }
 
-const EarlyAccessDialog = ({ children }: EarlyAccessDialogProps) => {
+const EarlyAccessDialog = ({ children, surface }: EarlyAccessDialogProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xojnjoda"; 
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xojnjoda";
+
+  const handleOpenChange = (next: boolean) => {
+    if (next && !open) trackEvent("request_audit_open", { surface });
+    setOpen(next);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,6 +49,7 @@ const EarlyAccessDialog = ({ children }: EarlyAccessDialogProps) => {
       });
 
       if (response.ok) {
+        trackEvent("request_audit_submit", { surface });
         toast.success("Thanks. We'll follow up about your audit.");
         setOpen(false);
       } else {
@@ -56,7 +64,7 @@ const EarlyAccessDialog = ({ children }: EarlyAccessDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
