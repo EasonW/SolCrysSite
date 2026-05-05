@@ -7,7 +7,8 @@ const rootDir = path.resolve(__dirname, "..");
 const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
 
-const { site, home, resourcePages } = content;
+const { site, home, resourcePages, resourceClusters = [] } = content;
+const resourceBySlug = new Map(resourcePages.map((p) => [p.slug, p]));
 const generatedAt = "2026-05-04";
 
 const distIndexPath = path.join(distDir, "index.html");
@@ -390,6 +391,19 @@ function aboutHtml() {
 }
 
 function resourcesHtml() {
+  const declared = resourceClusters.map((c) => c.key);
+  const grouped = new Map();
+  for (const page of resourcePages) {
+    const list = grouped.get(page.category) || [];
+    list.push(page);
+    grouped.set(page.category, list);
+  }
+  const orderedKeys = [
+    ...declared.filter((k) => grouped.has(k)),
+    ...Array.from(grouped.keys()).filter((k) => !declared.includes(k)),
+  ];
+  const blurbByKey = new Map(resourceClusters.map((c) => [c.key, c.blurb]));
+
   return `
 <div class="seo-prerender">
   ${navHtml()}
@@ -397,25 +411,44 @@ function resourcesHtml() {
     <section class="seo-container seo-hero">
       <p class="seo-kicker">AEO Resource Hub</p>
       <h1>Practical guides for AI search visibility.</h1>
-      <p class="seo-lede">These guides explain how to measure AI mentions, citations, share of voice, and answer accuracy, then turn weak coverage into concrete content actions.</p>
+      <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic cluster below.</p>
     </section>
+    ${orderedKeys
+      .map((key) => {
+        const pages = grouped.get(key) || [];
+        if (pages.length === 0) return "";
+        const blurb = blurbByKey.get(key) || "";
+        return `
     <section class="seo-container seo-section">
+      <h2>${escapeHtml(key)}</h2>
+      ${blurb ? `<p>${escapeHtml(blurb)}</p>` : ""}
       <div class="seo-grid">
-        ${resourcePages
+        ${pages
           .map(
             (page) => `
           <article class="seo-card">
             <p class="seo-kicker">${escapeHtml(page.category)}</p>
-            <h2><a href="/${escapeAttr(page.slug)}/">${escapeHtml(page.title)}</a></h2>
+            <h3><a href="/${escapeAttr(page.slug)}/">${escapeHtml(page.title)}</a></h3>
             <p>${escapeHtml(page.description)}</p>
           </article>`
           )
           .join("")}
       </div>
-    </section>
+    </section>`;
+      })
+      .join("")}
   </main>
   ${footerHtml()}
 </div>`;
+}
+
+function subsectionHtml(subsection) {
+  return `
+      <div class="seo-subsection">
+        <h3>${escapeHtml(subsection.heading)}</h3>
+        ${subsection.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+        ${subsection.bullets ? `<ul class="seo-list">${subsection.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
+      </div>`;
 }
 
 function sectionHtml(section) {
@@ -434,7 +467,45 @@ function sectionHtml(section) {
             </table>`
           : ""
       }
+      ${section.subsections ? section.subsections.map(subsectionHtml).join("") : ""}
     </section>`;
+}
+
+function relatedGuidesHtml(page) {
+  const explicit = Array.isArray(page.relatedSlugs)
+    ? page.relatedSlugs.map((slug) => resourceBySlug.get(slug)).filter(Boolean)
+    : [];
+  const related = explicit.length > 0
+    ? explicit.slice(0, 3)
+    : resourcePages.filter((p) => p.slug !== page.slug).slice(0, 3);
+  if (related.length === 0) return "";
+  return `
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          ${related
+            .map(
+              (item) => `
+          <article class="seo-card">
+            <p class="seo-kicker">${escapeHtml(item.category)}</p>
+            <h3><a href="/${escapeAttr(item.slug)}/">${escapeHtml(item.title)}</a></h3>
+            <p>${escapeHtml(item.description)}</p>
+          </article>`
+            )
+            .join("")}
+        </div>
+      </section>`;
+}
+
+function aeoTargetsHtml(page) {
+  if (!Array.isArray(page.aeoTargets) || page.aeoTargets.length === 0) return "";
+  return `
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          ${page.aeoTargets.map((q) => `<li>${escapeHtml(q)}</li>`).join("")}
+        </ul>
+      </section>`;
 }
 
 function resourcePageHtml(page) {
@@ -449,6 +520,7 @@ function resourcePageHtml(page) {
         <p class="seo-lede">${escapeHtml(page.summary)}</p>
         <p>Updated ${escapeHtml(page.updated)}</p>
       </header>
+      ${aeoTargetsHtml(page)}
       ${page.sections.map(sectionHtml).join("")}
       <section class="seo-section">
         <h2>FAQ</h2>
@@ -462,6 +534,7 @@ function resourcePageHtml(page) {
           )
           .join("")}
       </section>
+      ${relatedGuidesHtml(page)}
       ${ctaHtml()}
     </article>
   </main>
@@ -742,14 +815,15 @@ ${resourcePages
     (page) => `## ${page.title}
 
 ${page.summary}
-
+${Array.isArray(page.aeoTargets) && page.aeoTargets.length > 0 ? `\n### Questions this guide answers\n\n${page.aeoTargets.map((q) => `- ${q}`).join("\n")}\n` : ""}
 ${page.sections
   .map(
     (section) => `### ${section.heading}
 
 ${section.body.join("\n\n")}
 ${section.bullets ? `\n\n${section.bullets.map((item) => `- ${item}`).join("\n")}` : ""}
-${section.table ? `\n\n${section.table.headers.join(" | ")}\n${section.table.headers.map(() => "---").join(" | ")}\n${section.table.rows.map((row) => row.join(" | ")).join("\n")}` : ""}`
+${section.table ? `\n\n${section.table.headers.join(" | ")}\n${section.table.headers.map(() => "---").join(" | ")}\n${section.table.rows.map((row) => row.join(" | ")).join("\n")}` : ""}
+${section.subsections ? section.subsections.map((sub) => `\n\n#### ${sub.heading}\n\n${sub.body.join("\n\n")}${sub.bullets ? `\n\n${sub.bullets.map((item) => `- ${item}`).join("\n")}` : ""}`).join("") : ""}`
   )
   .join("\n\n")}
 
