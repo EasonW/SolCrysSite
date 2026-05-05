@@ -108,10 +108,10 @@ function ctaHtml() {
   return `
     <section class="seo-section">
       <div class="seo-card">
-        <p class="seo-kicker">AI visibility audit</p>
+        <p class="seo-kicker">Free AI visibility audit</p>
         <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
         <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
-        <p><a href="mailto:${escapeAttr(site.email)}?subject=SolCrys%20AI%20visibility%20audit">Request an audit</a></p>
+        <p><a href="mailto:${escapeAttr(site.email)}?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
       </div>
     </section>`;
 }

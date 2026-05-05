@@ -19,11 +19,11 @@ const CTASection = () => {
               See where AI answers are helping or hurting your brand.
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Request an AI visibility audit across priority prompts, cited sources, competitors, and answer accuracy.
+              Get a free AI visibility audit across priority prompts, cited sources, competitors, and answer accuracy.
             </p>
             <EarlyAccessDialog surface="cta_section">
               <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                Request an Audit
+                Get a Free Audit
                 <ArrowRight className="ml-1" />
               </Button>
             </EarlyAccessDialog>

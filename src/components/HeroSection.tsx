@@ -23,7 +23,7 @@ const HeroSection = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 rounded-full border border-[hsl(195_90%_55%/0.3)] bg-[hsl(195_90%_55%/0.08)] px-4 py-1.5 mb-8 opacity-0 animate-fade-up">
           <div className="h-1.5 w-1.5 rounded-full bg-[hsl(195_90%_55%)] animate-pulse-glow" />
-          <span className="text-xs font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase">BETA: AI VISIBILITY AUDIT AVAILABLE</span>
+          <span className="text-xs font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase">BETA · FREE AI VISIBILITY AUDIT</span>
         </div>
 
         {/* Headline */}
@@ -40,7 +40,7 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up-delay-3 mb-16">
           <EarlyAccessDialog surface="hero">
             <Button variant="hero" size="lg" className="text-base px-8 py-6 h-auto">
-              Request an AI Visibility Audit
+              Get a Free AI Visibility Audit
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </EarlyAccessDialog>

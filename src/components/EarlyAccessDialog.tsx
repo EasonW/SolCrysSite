@@ -70,9 +70,9 @@ const EarlyAccessDialog = ({ children, surface }: EarlyAccessDialogProps) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Request an AI Visibility Audit</DialogTitle>
+          <DialogTitle>Get Your Free AI Visibility Audit</DialogTitle>
           <DialogDescription>
-            Tell us where to start and we will review priority prompts, citations, competitors, and answer accuracy.
+            Tell us where to start and we will review priority prompts, citations, competitors, and answer accuracy. Free, no commitment.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
@@ -102,7 +102,7 @@ const EarlyAccessDialog = ({ children, surface }: EarlyAccessDialogProps) => {
           </div>
           <Button type="submit" disabled={loading} className="w-full">
             {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            {loading ? "Submitting..." : "Request Audit"}
+            {loading ? "Submitting..." : "Get My Free Audit"}
           </Button>
           <p className="text-xs text-muted-foreground text-center px-4">
             We respect your privacy. Unsubscribe at any time.

@@ -1,26 +1,79 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import EarlyAccessDialog from "./EarlyAccessDialog";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { href: "/#aeo", label: "Why AEO" },
+  { href: "/#loop", label: "The Loop" },
+  { href: "/#features", label: "Features" },
+  { href: "/resources/", label: "Resources" },
+  { href: "/about/", label: "About Us" },
+];
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <a href="/" aria-label="SolCrys AI home">
-              <img src="/logo.png" alt="SolCrys AI Logo" className="h-10 w-auto" />
-            </a>
-          </div>
-        <div className="hidden md:flex items-center gap-8">
-          <a href="/#aeo" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Why AEO</a>
-          <a href="/#loop" className="text-sm text-muted-foreground hover:text-foreground transition-colors">The Loop</a>
-          <a href="/#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
-          <a href="/resources/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resources</a>
-          <a href="/about/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</a>
+        <div className="flex items-center gap-2">
+          <a href="/" aria-label="SolCrys AI home">
+            <img src="/logo.png" alt="SolCrys AI Logo" className="h-10 w-auto" />
+          </a>
         </div>
-        <EarlyAccessDialog surface="navbar">
-          <Button variant="hero" size="sm">Request Audit</Button>
-        </EarlyAccessDialog>
+
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Right cluster: mobile hamburger + Free Audit CTA (always visible) */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav-panel"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+          <EarlyAccessDialog surface="navbar">
+            <Button variant="hero" size="sm">Free Audit</Button>
+          </EarlyAccessDialog>
+        </div>
       </div>
+
+      {/* Mobile dropdown panel */}
+      {open ? (
+        <div
+          id="mobile-nav-panel"
+          className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl"
+        >
+          <div className="container mx-auto px-6 py-3 flex flex-col">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20 last:border-0"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </nav>
   );
 };
