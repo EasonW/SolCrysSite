@@ -76,8 +76,8 @@
       
     </section>
     <section class="seo-section">
-      <h2>Recommended scoring model</h2>
-      <p>A useful score separates weak visibility from useful visibility. A brand mention in a negative comparison is not the same as a cited recommendation.</p>
+      <h2>Starter scoring signals (illustrative)</h2>
+      <p>A useful score separates weak visibility from useful visibility. A brand mention in a negative comparison is not the same as a cited recommendation. The signals below are a teaching framework - production share-of-voice systems also weight prompt importance, engine consensus, answer position within the response, and ground-truth comparisons.</p>
       
       <table>
               <thead><tr><th>Signal</th><th>Example scoring question</th></tr></thead>
@@ -91,11 +91,11 @@
       
     </section>
     <section class="seo-section">
-      <h2>Simple calculation</h2>
-      <p>For a fixed prompt set, calculate share of voice as the brand&#39;s weighted answer presence divided by the weighted answer presence of all tracked brands. Weight recommendation and citation more heavily than a neutral mention.</p>
+      <h2>Simple back-of-envelope calculation</h2>
+      <p>The weights below are illustrative starting points so a team can compute a defensible v1 score in a spreadsheet. SolCrys does not use these fixed weights in production - real weights are learned from observed answer behavior, prompt popularity, and longitudinal accuracy review.</p><p>For a fixed prompt set, calculate share of voice as the brand&#39;s weighted answer presence divided by the weighted answer presence of all tracked brands. Weight recommendation and citation more heavily than a neutral mention.</p>
       
       <table>
-              <thead><tr><th>Signal</th><th>Suggested weight</th></tr></thead>
+              <thead><tr><th>Signal</th><th>Illustrative weight</th></tr></thead>
               <tbody><tr><td>Neutral mention</td><td>1</td></tr><tr><td>Positive recommendation</td><td>2</td></tr><tr><td>Owned-source citation</td><td>3</td></tr><tr><td>First listed recommendation</td><td>3</td></tr><tr><td>Incorrect or negative mention</td><td>-1</td></tr></tbody>
             </table>
     </section>
@@ -103,6 +103,12 @@
       <h2>How SolCrys prioritizes action</h2>
       <p>SolCrys highlights prompts where competitors are cited and the brand is absent, prompts where the brand appears without an owned citation, and prompts where inaccurate details create conversion or reputation risk.</p>
       
+      
+    </section>
+    <section class="seo-section">
+      <h2>Beyond the starter framework</h2>
+      <p>The signals and weights on this page are intentionally simplified so teams can ship a first internal scorecard and align stakeholders. Production share-of-voice measurement has to handle several layers a static rubric cannot. SolCrys&#39;s platform extends these primitives with:</p>
+      <ul class="seo-list"><li>Prompt-popularity weighting from observed buyer intent across markets, not uniform weights per signal.</li><li>Engine-specific retrieval, grounding, and citation signals - what counts as a citation differs across engines and changes over time.</li><li>Calibrated scoring against periodic human-reviewed ground truth, with weights re-fit as engines evolve.</li><li>Time-weighted accuracy and recency, so a fresh accurate answer outweighs an old stale one.</li><li>Multi-engine consensus and divergence detection, so a one-off bad answer does not skew share-of-voice trend lines.</li></ul>
       
     </section>
       <section class="seo-section">
@@ -140,6 +146,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-ZqSiUkrD.js"></script>
+    <script type="module" crossorigin src="/assets/index-CBsy11MC.js"></script>
   </body>
 </html>

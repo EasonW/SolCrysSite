@@ -86,7 +86,7 @@
       "metaTitle": "Answer Engine Optimization: How Brands Win AI Discovery | SolCrys AI",
       "description": "Learn what Answer Engine Optimization is, why it matters, and how brands can structure content to be cited accurately by AI answer engines.",
       "h1": "Answer Engine Optimization: how brands become usable sources for AI answers",
-      "summary": "AEO is not a replacement for SEO. It is an operating layer that makes your brand easier for AI systems to retrieve, verify, cite, and summarize when users ask high-intent questions.",
+      "summary": "AEO is not a replacement for SEO. It is an operating layer that makes your brand easier for AI systems to retrieve, verify, cite, and summarize when users ask high-intent questions. The frameworks on this page are foundational - production-grade AEO measurement layers in real prompt-intent data, engine-specific retrieval signals, and calibrated scoring beyond what a primer can show.",
       "category": "AEO Fundamentals",
       "ogImage": "/og/answer-engine-optimization.png",
       "updated": "2026-04-29",
@@ -277,9 +277,10 @@
           ]
         },
         {
-          "heading": "Minimum weekly scorecard",
+          "heading": "Starter weekly scorecard (illustrative)",
           "body": [
-            "A practical weekly scorecard should be small enough to review and specific enough to drive action. The goal is to identify which answer gaps are hurting discovery, trust, or conversion."
+            "A practical weekly scorecard should be small enough to review and specific enough to drive action. The five-row table below is a useful internal-alignment tool, not a representation of how SolCrys actually scores brands - production scoring layers in the signals discussed at the end of this page.",
+            "The goal of the starter scorecard is to identify which answer gaps are hurting discovery, trust, or conversion."
           ],
           "table": {
             "headers": ["Metric", "What it answers"],
@@ -296,6 +297,19 @@
           "heading": "How SolCrys turns monitoring into action",
           "body": [
             "SolCrys connects each weak or inaccurate answer to a likely fix: a clearer product page, a comparison page, a structured FAQ, a publisher or analyst brief, or a user-generated content strategy."
+          ]
+        },
+        {
+          "heading": "Beyond the starter scorecard",
+          "body": [
+            "The starter scorecard above is built for stakeholder alignment and a first measurement cycle. It is intentionally simpler than what a production AI visibility monitoring system has to handle. SolCrys's platform extends these primitives with:"
+          ],
+          "bullets": [
+            "Prompt-popularity weighting from observed buyer intent, so high-traffic prompts move the score more than rare ones.",
+            "Engine-specific retrieval, grounding, and citation signals - mention quality is not the same across ChatGPT, Claude, Perplexity, and Gemini.",
+            "Calibrated scoring against periodic human-reviewed ground truth, recalibrated as engine versions change.",
+            "Time-weighted accuracy and recency tracking instead of point-in-time snapshots.",
+            "Multi-engine consensus and divergence detection so a single bad answer does not trigger noise alerts."
           ]
         }
       ],
@@ -347,9 +361,10 @@
           ]
         },
         {
-          "heading": "Example scoring rules",
+          "heading": "Illustrative starter scorecard",
           "body": [
-            "Each answer should be scored consistently so the team can compare changes over time instead of reacting to one-off responses."
+            "The 0-4 rubric below is intentionally simple so a team can run a first measurement cycle by hand and align internally. It is not how SolCrys actually scores answers in production - production scoring uses richer signals discussed at the end of this page.",
+            "Each answer should still be scored consistently so the team can compare changes over time instead of reacting to one-off responses."
           ],
           "table": {
             "headers": ["Score", "Meaning"],
@@ -363,9 +378,22 @@
           }
         },
         {
-          "heading": "Fields to capture",
+          "heading": "Fields to capture (manual baseline)",
           "body": [
-            "For each run, capture the prompt, engine, date, answer text, source links, brand position, competitors named, accuracy notes, and recommended content action."
+            "For each manual run, capture the prompt, engine, date, answer text, source links, brand position, competitors named, accuracy notes, and recommended content action. This is the minimum a spreadsheet-based first pass should record."
+          ]
+        },
+        {
+          "heading": "Beyond the starter rubric",
+          "body": [
+            "The framework above is a starting point teams use to align stakeholders and run a first cycle by hand. Production-grade monitoring requires deeper signals than a spreadsheet rubric can capture. SolCrys's platform extends these primitives with:"
+          ],
+          "bullets": [
+            "Real prompt-popularity weighting from observed buyer intent across markets, not uniform weights.",
+            "Engine-specific retrieval, grounding, and citation signals beyond surface text matching.",
+            "Calibrated scoring against periodic human-reviewed ground truth, not single-pass heuristics.",
+            "Time-weighted accuracy and recency tracking across engine versions.",
+            "Multi-engine consensus and divergence detection so a one-off bad answer does not skew the picture."
           ]
         }
       ],
@@ -398,9 +426,9 @@
           ]
         },
         {
-          "heading": "Recommended scoring model",
+          "heading": "Starter scoring signals (illustrative)",
           "body": [
-            "A useful score separates weak visibility from useful visibility. A brand mention in a negative comparison is not the same as a cited recommendation."
+            "A useful score separates weak visibility from useful visibility. A brand mention in a negative comparison is not the same as a cited recommendation. The signals below are a teaching framework - production share-of-voice systems also weight prompt importance, engine consensus, answer position within the response, and ground-truth comparisons."
           ],
           "table": {
             "headers": ["Signal", "Example scoring question"],
@@ -420,12 +448,13 @@
           ]
         },
         {
-          "heading": "Simple calculation",
+          "heading": "Simple back-of-envelope calculation",
           "body": [
+            "The weights below are illustrative starting points so a team can compute a defensible v1 score in a spreadsheet. SolCrys does not use these fixed weights in production - real weights are learned from observed answer behavior, prompt popularity, and longitudinal accuracy review.",
             "For a fixed prompt set, calculate share of voice as the brand's weighted answer presence divided by the weighted answer presence of all tracked brands. Weight recommendation and citation more heavily than a neutral mention."
           ],
           "table": {
-            "headers": ["Signal", "Suggested weight"],
+            "headers": ["Signal", "Illustrative weight"],
             "rows": [
               ["Neutral mention", "1"],
               ["Positive recommendation", "2"],
@@ -439,6 +468,19 @@
           "heading": "How SolCrys prioritizes action",
           "body": [
             "SolCrys highlights prompts where competitors are cited and the brand is absent, prompts where the brand appears without an owned citation, and prompts where inaccurate details create conversion or reputation risk."
+          ]
+        },
+        {
+          "heading": "Beyond the starter framework",
+          "body": [
+            "The signals and weights on this page are intentionally simplified so teams can ship a first internal scorecard and align stakeholders. Production share-of-voice measurement has to handle several layers a static rubric cannot. SolCrys's platform extends these primitives with:"
+          ],
+          "bullets": [
+            "Prompt-popularity weighting from observed buyer intent across markets, not uniform weights per signal.",
+            "Engine-specific retrieval, grounding, and citation signals - what counts as a citation differs across engines and changes over time.",
+            "Calibrated scoring against periodic human-reviewed ground truth, with weights re-fit as engines evolve.",
+            "Time-weighted accuracy and recency, so a fresh accurate answer outweighs an old stale one.",
+            "Multi-engine consensus and divergence detection, so a one-off bad answer does not skew share-of-voice trend lines."
           ]
         }
       ],
@@ -490,9 +532,10 @@
           ]
         },
         {
-          "heading": "Severity model",
+          "heading": "Starter severity rubric (illustrative)",
           "body": [
-            "Not every inaccurate answer deserves the same response. Score the risk by business impact, visibility, and ease of correction."
+            "Not every inaccurate answer deserves the same response. The four-tier rubric below is a useful starting point for triage and stakeholder alignment - production hallucination monitoring uses richer detection and prioritization signals, discussed at the end of this page.",
+            "Score the risk by business impact, visibility, and ease of correction."
           ],
           "table": {
             "headers": ["Severity", "Example"],
@@ -505,9 +548,22 @@
           }
         },
         {
-          "heading": "What to log",
+          "heading": "What to log (manual baseline)",
           "body": [
-            "A useful incident log should include the prompt, AI surface, answer text, cited sources, incorrect claim, correct fact, affected page or source, severity, owner, and follow-up date."
+            "For a manual incident log, capture the prompt, AI surface, answer text, cited sources, incorrect claim, correct fact, affected page or source, severity, owner, and follow-up date. This is the minimum a spreadsheet-based first pass should record."
+          ]
+        },
+        {
+          "heading": "Beyond the starter rubric",
+          "body": [
+            "Manual triage with a fixed severity rubric is fine for a first incident pass. Production hallucination monitoring at scale needs more than that. SolCrys's platform extends the primitives above with:"
+          ],
+          "bullets": [
+            "Automated detection of factual disagreement between AI answers and authoritative owned or third-party sources.",
+            "Engine-specific propagation tracking - the same incorrect claim may spread through different engines on different timelines.",
+            "Severity scoring weighted by prompt popularity and buyer-stage intent, not just the rubric tier.",
+            "Calibration against human-reviewed ground truth, with severity thresholds re-fit as engine versions change.",
+            "Repeat-offender pattern detection so recurring hallucinations escalate before they become reputational issues."
           ]
         }
       ],
