@@ -82,7 +82,7 @@ function navHtml() {
       <a href="/" aria-label="SolCrys AI home"><img src="/logo.png" alt="SolCrys AI Logo" width="134" height="40" style="height: 40px; width: auto;"></a>
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
         <a href="/#aeo">Why AEO</a>
-        <a href="/#approach">Our Approach</a>
+        <a href="/#loop">The Loop</a>
         <a href="/#features">Features</a>
         <a href="/resources/">Resources</a>
         <a href="/about/">About</a>
@@ -277,9 +277,15 @@ function homeHtml() {
       <h2>What Answer Engine Optimization means</h2>
       <p><dfn>Answer Engine Optimization (AEO)</dfn> is the practice of making brand facts, proof, and pages easier for AI systems to retrieve, trust, cite, and summarize. SolCrys connects prompt-level measurement with crawlable, evidence-backed content strategy.</p>
     </section>
-    <section id="approach" class="seo-container seo-section">
-      <h2>Our approach to AI search visibility</h2>
-      <p>SolCrys treats every AI answer as evidence. We score whether your brand is mentioned, whether your own pages are cited, how competitors are framed, and which third-party sources shape the answer. Each finding becomes a concrete content action.</p>
+    <section id="loop" class="seo-container seo-section">
+      <h2>The SolCrys Loop: measure, diagnose, execute, verify</h2>
+      <p>SolCrys closes the loop on AI search visibility. Each shipped action is tied to the same prompt set so teams can see which fixes actually changed the answer.</p>
+      <ol class="seo-list">
+        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Perplexity, Google AI, Gemini, Claude, and Amazon Rufus. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.</li>
+        <li><strong>Diagnose the answer gap.</strong> Classify each weak answer as an absence, citation, accuracy, comparison, or action gap. Map each gap to the page or source most likely to fix it.</li>
+        <li><strong>Execute with Corporate Context.</strong> The AEO Agent uses your approved facts, claims, and guardrails to draft page updates, comparison sections, FAQ improvements, and listing rewrites your team can review and ship.</li>
+        <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track citation rate, answer accuracy, and recommendation share to prove which fixes actually moved the answer.</li>
+      </ol>
     </section>
     <section id="features" class="seo-container seo-section">
       <h2>How SolCrys improves AI discovery</h2>

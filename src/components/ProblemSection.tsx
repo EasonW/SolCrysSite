@@ -1,25 +1,25 @@
-import { AlertTriangle, Eye, TrendingDown } from "lucide-react";
+import { AlertTriangle, Eye, ShieldAlert } from "lucide-react";
 
 const problems = [
   {
     icon: Eye,
     title: "Discovery is moving into answers",
     description:
-      "More research journeys now include AI summaries and recommendations. If AI systems cannot retrieve or cite your evidence, your brand may be missing when buyers form a shortlist.",
+      "More research journeys now end inside an AI answer. If your brand cannot be retrieved, cited, or recommended, the buyer's shortlist is shaped before they ever reach your site.",
     glow: "hsl(195 90% 55% / 0.08)",
   },
   {
     icon: AlertTriangle,
-    title: "Traditional monitoring misses AI framing",
+    title: "Reports are not actions",
     description:
-      "Social listening and keyword tools do not show how answer engines describe your category, compare competitors, or repeat brand claims.",
+      "Most AI visibility tools surface gaps but leave the fix to a human team. Without a structured workflow, prompt screenshots pile up and the pages buyers actually read do not change.",
     glow: "hsl(40 85% 55% / 0.08)",
   },
   {
-    icon: TrendingDown,
-    title: "Inaccurate answers create trust risk",
+    icon: ShieldAlert,
+    title: "Brand facts drift across answers",
     description:
-      "AI systems can repeat outdated or unsupported facts. Without monitoring, teams often find inaccurate answers only after prospects have already seen them.",
+      "Outdated, inferred, or unsupported AI claims compound across engines until they become the default narrative. Reactive correction is too slow without a governed source of truth.",
     glow: "hsl(0 70% 55% / 0.08)",
   },
 ];
@@ -36,14 +36,15 @@ const ProblemSection = () => {
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="text-center mb-16">
           <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
-            AI Search Visibility
+            Why teams come to SolCrys
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
-            Search visibility now includes what AI systems retrieve, cite, and repeat.
+            AI search now decides what buyers see — before they click.
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            As discovery shifts from result pages to generated answers, brands
-            need visibility into what AI systems retrieve, cite, and repeat.
+            As discovery shifts from result pages to generated answers, marketing teams
+            need more than a dashboard. They need a workflow that turns answer gaps into
+            shipped, verified action.
           </p>
         </div>
 

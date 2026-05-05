@@ -12,7 +12,7 @@ const Navbar = () => {
           </div>
         <div className="hidden md:flex items-center gap-8">
           <a href="/#aeo" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Why AEO</a>
-          <a href="/#approach" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Our Approach</a>
+          <a href="/#loop" className="text-sm text-muted-foreground hover:text-foreground transition-colors">The Loop</a>
           <a href="/#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
           <a href="/resources/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resources</a>
           <a href="/about/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</a>
