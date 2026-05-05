@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import EarlyAccessDialog from "./EarlyAccessDialog";
-import reportImage from "@/assets/report.png";
+import LoopDiagram from "./LoopDiagram";
 import siteContent from "@/content/siteContent.json";
 
 const HeroSection = () => {
@@ -46,26 +46,9 @@ const HeroSection = () => {
           </EarlyAccessDialog>
         </div>
 
-        {/* Dashboard Placeholder - Share of Voice Chart */}
-        <div className="relative w-full max-w-4xl mx-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_20px_50px_rgba(0,_0,_0,_0.1)] overflow-hidden opacity-0 animate-fade-up-delay-3 translate-y-4">
-          {/* Mock Window Controls */}
-          <div className="h-8 border-b border-white/5 bg-white/5 flex items-center px-4 gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500/20" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-            <div className="w-3 h-3 rounded-full bg-green-500/20" />
-          </div>
-
-          {/* Dashboard Content - Report Image */}
-          <div className="relative w-full">
-            <img
-              src={reportImage}
-              alt="SolCrys AI visibility report showing answer engine mentions, citations, and share of voice"
-              className="w-full h-auto object-cover"
-            />
-          </div>
-
-          {/* Glass overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-10" />
+        {/* The SolCrys Loop — operational visualization, not aspirational claims */}
+        <div className="opacity-0 animate-fade-up-delay-3 translate-y-4">
+          <LoopDiagram />
         </div>
 
         {/* Trust Bar */}

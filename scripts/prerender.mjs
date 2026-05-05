@@ -271,7 +271,15 @@ function homeHtml() {
       <ul class="seo-grid" aria-label="SolCrys AI proof points">
         ${home.proofPoints.map((point) => `<li class="seo-card">${escapeHtml(point)}</li>`).join("")}
       </ul>
-      <img src="${reportPath}" alt="SolCrys AI visibility report showing answer engine mentions, citations, and share of voice" width="1200" height="760" style="width: 100%; height: auto; border-radius: 0.9rem; border: 1px solid hsl(var(--border) / 0.25); margin-top: 2rem;" fetchpriority="high">
+      <figure style="margin-top: 2rem;">
+        <figcaption><strong>The SolCrys Loop</strong> — operational snapshot of one customer workspace. Numbers reflect actual state, not aggregate marketing claims.</figcaption>
+        <ol class="seo-list" style="margin-top: 1rem;">
+          <li><strong>Step 01 · Measure.</strong> 20 prompts tracked across ChatGPT, Perplexity, Google AI, Gemini, Claude, and Amazon Rufus.</li>
+          <li><strong>Step 02 · Diagnose.</strong> 3 gaps detected, classified as absence, citation, accuracy, comparison, or action gap.</li>
+          <li><strong>Step 03 · Execute.</strong> 1 action queued — brand-safe drafts via Corporate Context, routed for human review.</li>
+          <li><strong>Step 04 · Verify.</strong> +5pp citation rate after re-testing the same prompt set. Loop continues.</li>
+        </ol>
+      </figure>
     </section>
     <section id="aeo" class="seo-container seo-section">
       <h2>What Answer Engine Optimization means</h2>
