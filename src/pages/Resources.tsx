@@ -45,17 +45,15 @@ const Resources = () => {
             if (pages.length === 0) return null;
             return (
               <div key={key} className="mb-16">
-                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-6">
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-[hsl(40_85%_55%)] mb-2">
-                      Cluster
-                    </p>
-                    <h2 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">
-                      {key}
-                    </h2>
-                  </div>
+                <div className="mb-6 max-w-3xl">
+                  <p className="text-xs uppercase tracking-wider text-[hsl(40_85%_55%)] mb-2">
+                    Cluster
+                  </p>
+                  <h2 className="font-display text-2xl md:text-3xl font-semibold tracking-tight mb-3">
+                    {key}
+                  </h2>
                   {blurbByKey.get(key) ? (
-                    <p className="text-sm md:text-base text-muted-foreground max-w-xl md:text-right leading-relaxed">
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                       {blurbByKey.get(key)}
                     </p>
                   ) : null}
