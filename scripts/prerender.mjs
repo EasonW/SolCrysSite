@@ -79,7 +79,10 @@ function jsonLd(data) {
 function navHtml() {
   return `
     <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-      <a href="/" aria-label="SolCrys AI home"><img src="/logo.png" alt="SolCrys AI Logo" width="134" height="40" style="height: 40px; width: auto;"></a>
+      <a href="/" aria-label="SolCrys AI home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys AI Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys AI Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
         <a href="/#aeo">Why AEO</a>
         <a href="/#loop">The Loop</a>
@@ -125,6 +128,18 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeAttr(description)}" />
     <meta name="robots" content="${noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}" />
