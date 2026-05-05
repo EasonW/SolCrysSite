@@ -128,6 +128,7 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <meta name="description" content="${escapeAttr(description)}" />
     <meta name="robots" content="${noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}" />
     <link rel="canonical" href="${escapeAttr(canonical)}" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/solcrys-logo-tab-2.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/solcrys-logo-tab-2.png" />
     <meta name="author" content="${escapeAttr(site.name)}" />
