@@ -19,9 +19,9 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
         <div className="flex items-center gap-2">
-          <a href="/" aria-label="SolCrys AI home" className="inline-flex items-center">
-            <img src="/logo-light.png" alt="SolCrys AI Logo" className="h-10 w-auto block dark:hidden" />
-            <img src="/logo-dark.png" alt="SolCrys AI Logo" className="h-10 w-auto hidden dark:block" />
+          <a href="/" aria-label="SolCrys home" className="inline-flex items-center">
+            <img src="/logo-light.png" alt="SolCrys Logo" className="h-10 w-auto block dark:hidden" />
+            <img src="/logo-dark.png" alt="SolCrys Logo" className="h-10 w-auto hidden dark:block" />
           </a>
         </div>
 

@@ -79,9 +79,9 @@ function jsonLd(data) {
 function navHtml() {
   return `
     <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-      <a href="/" aria-label="SolCrys AI home" style="display: inline-flex; align-items: center;">
-        <img src="/logo-light.png" alt="SolCrys AI Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
-        <img src="/logo-dark.png" alt="SolCrys AI Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
       </a>
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
         <a href="/#aeo">Why AEO</a>
@@ -283,7 +283,7 @@ function homeHtml() {
       <p class="seo-kicker">${escapeHtml(home.eyebrow)}</p>
       <h1>${escapeHtml(home.title)}</h1>
       <p class="seo-lede">${escapeHtml(home.description)}</p>
-      <ul class="seo-grid" aria-label="SolCrys AI proof points">
+      <ul class="seo-grid" aria-label="SolCrys proof points">
         ${home.proofPoints.map((point) => `<li class="seo-card">${escapeHtml(point)}</li>`).join("")}
       </ul>
       <figure style="margin-top: 2rem;">
@@ -374,16 +374,16 @@ function aboutHtml() {
   ${navHtml()}
   <main>
     <section class="seo-container seo-hero">
-      <p class="seo-kicker">About SolCrys AI</p>
+      <p class="seo-kicker">About SolCrys</p>
       <h1>AI search visibility and Answer Engine Optimization for marketing teams.</h1>
-      <p class="seo-lede">SolCrys AI was built by search, growth, data, and product operators to help brands connect AI visibility measurement with evidence-backed content action.</p>
+      <p class="seo-lede">SolCrys was built by search, growth, data, and product operators to help brands connect AI visibility measurement with evidence-backed content action.</p>
       <p>Maintained by ${escapeHtml(site.maintainer || site.name)}. Last updated <time datetime="${escapeAttr(site.updated || generatedAt)}">${escapeHtml(site.updated || generatedAt)}</time>.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Our story</h2>
       <p>Our background sits at the intersection of SEO, search intent, product discovery, and data-driven growth. AI-generated answers add a new distribution layer to that work: a brand can perform well in traditional search, yet still be absent, uncited, or misrepresented inside the answer a buyer sees first.</p>
       <p>Marketing teams now need to know which prompts matter, which sources AI systems cite, how competitors are framed, and how to establish topical authority across AI-visible sources.</p>
-      <p>SolCrys AI was built to connect AI visibility measurement with practical content action. The platform helps teams monitor mentions, citations, share of voice, sentiment, and answer accuracy, then translate those findings into page updates, publisher and analyst content briefs, FAQ improvements, and user-generated content (UGC) strategies.</p>
+      <p>SolCrys was built to connect AI visibility measurement with practical content action. The platform helps teams monitor mentions, citations, share of voice, sentiment, and answer accuracy, then translate those findings into page updates, publisher and analyst content briefs, FAQ improvements, and user-generated content (UGC) strategies.</p>
       <p>Our focus is straightforward: help brands sharpen their content strategy so their content is easier for answer engines to retrieve, trust, cite, and summarize.</p>
     </section>
     <section class="seo-container seo-section">
@@ -578,7 +578,7 @@ function notFoundHtml() {
   <main class="seo-container seo-hero">
     <p class="seo-kicker">404</p>
     <h1>Page not found</h1>
-    <p class="seo-lede">The page you requested does not exist. Return to SolCrys AI resources or the homepage.</p>
+    <p class="seo-lede">The page you requested does not exist. Return to SolCrys resources or the homepage.</p>
     <p><a href="/">Return home</a></p>
   </main>
   ${footerHtml()}
@@ -589,7 +589,7 @@ writePage(
   "index.html",
   renderLayout({
     routePath: "/",
-    title: "SolCrys AI - AI Search Visibility and AEO Platform",
+    title: "SolCrys - AI Search Visibility and AEO Platform",
     description: site.description,
     body: homeHtml(),
     ogImage: home.ogImage,
@@ -599,7 +599,7 @@ writePage(
       websiteSchema,
       webPageSchema({
         routePath: "/",
-        title: "SolCrys AI - AI Search Visibility and AEO Platform",
+        title: "SolCrys - AI Search Visibility and AEO Platform",
         description: site.description
       }),
       {
@@ -658,8 +658,8 @@ writePage(
   "about/index.html",
   renderLayout({
     routePath: "/about/",
-    title: "About SolCrys AI - AI Search and AEO Team",
-    description: "Meet the SolCrys AI founding team and learn why the company is building an AEO platform for AI-driven discovery.",
+    title: "About SolCrys - AI Search and AEO Team",
+    description: "Meet the SolCrys founding team and learn why the company is building an AEO platform for AI-driven discovery.",
     body: aboutHtml(),
     schemas: [
       organizationSchema,
@@ -670,10 +670,10 @@ writePage(
       {
         "@context": "https://schema.org",
         "@type": "AboutPage",
-        headline: "About SolCrys AI - AI Search and AEO Team",
-        name: "About SolCrys AI",
+        headline: "About SolCrys - AI Search and AEO Team",
+        name: "About SolCrys",
         url: canonicalUrl("/about/"),
-        description: "Meet the SolCrys AI founding team and learn why the company is building an AEO platform for AI-driven discovery.",
+        description: "Meet the SolCrys founding team and learn why the company is building an AEO platform for AI-driven discovery.",
         datePublished: site.published || generatedAt,
         dateModified: site.updated || generatedAt,
         author: {
@@ -700,7 +700,7 @@ writePage(
   "resources/index.html",
   renderLayout({
     routePath: "/resources/",
-    title: "AEO Resources for AI Search Visibility | SolCrys AI",
+    title: "AEO Resources for AI Search Visibility | SolCrys",
     description: "Guides on Answer Engine Optimization, AI brand visibility, ChatGPT brand mentions, AI share of voice, and hallucination risk monitoring.",
     body: resourcesHtml(),
     schemas: [
@@ -712,7 +712,7 @@ writePage(
       {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        name: "SolCrys AI AEO Resource Hub",
+        name: "SolCrys AEO Resource Hub",
         url: canonicalUrl("/resources/"),
         hasPart: resourcePages.map((page) => ({
           "@type": "WebPage",
@@ -773,8 +773,8 @@ writePage(
   "404.html",
   renderLayout({
     routePath: "/404.html",
-    title: "Page Not Found | SolCrys AI",
-    description: "The requested SolCrys AI page could not be found.",
+    title: "Page Not Found | SolCrys",
+    description: "The requested SolCrys page could not be found.",
     body: notFoundHtml(),
     includeApp: false,
     noindex: true
@@ -816,7 +816,7 @@ const llmsTxt = `# ${site.name}
 
 > ${site.description}
 
-SolCrys AI helps marketing and growth teams monitor answer engine visibility, identify missing citations, and improve the content sources that AI systems use when answering buyer questions.
+SolCrys helps marketing and growth teams monitor answer engine visibility, identify missing citations, and improve the content sources that AI systems use when answering buyer questions.
 
 ## Core Pages
 

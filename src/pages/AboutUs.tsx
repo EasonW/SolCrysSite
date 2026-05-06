@@ -58,12 +58,12 @@ const AboutUs = () => {
             }}
           />
           <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-            <p className="fade-in-scroll section-label mb-6">About SolCrys AI</p>
+            <p className="fade-in-scroll section-label mb-6">About SolCrys</p>
             <h1 className="fade-in-scroll font-heading text-4xl md:text-6xl font-bold leading-tight">
               AI search visibility and Answer Engine Optimization for marketing teams.
             </h1>
             <p className="fade-in-scroll mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              SolCrys AI was built by search, growth, data, and product operators to help brands
+              SolCrys was built by search, growth, data, and product operators to help brands
               connect AI visibility measurement with evidence-backed content action.
             </p>
             <p className="fade-in-scroll mt-5 text-xs text-muted-foreground/80 uppercase tracking-wider">
@@ -92,7 +92,7 @@ const AboutUs = () => {
               AI-visible sources.
             </p>
             <p>
-              SolCrys AI was built to connect AI visibility measurement with practical content
+              SolCrys was built to connect AI visibility measurement with practical content
               action. The platform helps teams monitor mentions, citations, share of voice,
               sentiment, and answer accuracy, then translate those findings into page updates,
               publisher and analyst content briefs, FAQ improvements, and user-generated content
@@ -189,7 +189,7 @@ const AboutUs = () => {
                 Member of the NVIDIA Inception Program
               </h2>
               <p className="fade-in-scroll text-muted-foreground text-base md:text-lg leading-relaxed">
-                SolCrys AI was selected for NVIDIA Inception, NVIDIA's program
+                SolCrys was selected for NVIDIA Inception, NVIDIA's program
                 supporting AI startups with platform access, technical
                 expertise, and ecosystem connections. We're applying that
                 support to the AI infrastructure behind prompt-level
