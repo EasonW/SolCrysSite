@@ -1,0 +1,89 @@
+import { useState } from "react";
+
+const NVIDIA_GREEN = "#76B900";
+
+const RecognitionSection = () => {
+  const [badgeFailed, setBadgeFailed] = useState(false);
+
+  return (
+    <section className="relative py-24 md:py-32 section-fade overflow-hidden">
+      <div className="absolute inset-x-0 top-1/3 h-64 bg-[radial-gradient(circle_at_center,rgba(118,185,0,0.08),transparent_60%)]" />
+
+      <div className="container mx-auto px-6 max-w-5xl relative">
+        <div className="grid md:grid-cols-[auto_1fr] items-center gap-10 md:gap-14">
+          {/* Badge */}
+          <div className="flex justify-center md:justify-start">
+            <a
+              href="https://www.nvidia.com/en-us/startups/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="NVIDIA Inception Program member page"
+              className="block rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm p-6 transition-colors hover:border-[rgba(118,185,0,0.5)]"
+            >
+              {!badgeFailed ? (
+                <img
+                  src="/nvidia-inception-badge.png"
+                  alt="Member of NVIDIA Inception Program"
+                  width={220}
+                  height={110}
+                  loading="lazy"
+                  onError={() => setBadgeFailed(true)}
+                  className="h-auto w-[220px] max-w-full"
+                />
+              ) : (
+                <div
+                  className="flex w-[220px] max-w-full items-center gap-3 rounded-md border-2 px-4 py-3"
+                  style={{ borderColor: NVIDIA_GREEN }}
+                >
+                  <span
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded font-display text-xs font-bold uppercase tracking-tight text-white"
+                    style={{ backgroundColor: NVIDIA_GREEN }}
+                    aria-hidden="true"
+                  >
+                    NV
+                  </span>
+                  <span className="flex flex-col leading-tight">
+                    <span
+                      className="text-[11px] font-semibold uppercase tracking-[0.18em]"
+                      style={{ color: NVIDIA_GREEN }}
+                    >
+                      NVIDIA
+                    </span>
+                    <span className="text-sm font-semibold text-foreground">
+                      Inception Program
+                    </span>
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                      Member
+                    </span>
+                  </span>
+                </div>
+              )}
+            </a>
+          </div>
+
+          {/* Copy */}
+          <div className="text-center md:text-left">
+            <p
+              className="text-sm font-medium tracking-wider uppercase mb-3"
+              style={{ color: NVIDIA_GREEN }}
+            >
+              Recognized by
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              SolCrys joins the NVIDIA Inception Program.
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl md:max-w-2xl mx-auto md:mx-0">
+              NVIDIA Inception supports AI startups with platform access,
+              technical expertise, and ecosystem connections. For SolCrys
+              customers, that means continued investment in the AI
+              infrastructure behind prompt-level AEO measurement, citation
+              tracking, and answer-accuracy monitoring.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default RecognitionSection;

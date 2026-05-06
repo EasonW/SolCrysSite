@@ -7,6 +7,7 @@ import AnswerEngineSection from "@/components/AnswerEngineSection";
 import ResourcesSection from "@/components/ResourcesSection";
 import SourceNotesSection from "@/components/SourceNotesSection";
 import FAQSection from "@/components/FAQSection";
+import RecognitionSection from "@/components/RecognitionSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -22,6 +23,7 @@ const Index = () => {
       <ResourcesSection />
       <SourceNotesSection />
       <FAQSection />
+      <RecognitionSection />
       <CTASection />
       <Footer />
     </div>

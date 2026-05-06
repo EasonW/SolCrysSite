@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import FounderCard from "@/components/FounderCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const NVIDIA_GREEN = "#76B900";
 import gwenImg from "@/assets/gwen-chen.jpg";
 import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
@@ -39,6 +42,7 @@ const founders = [
 
 const AboutUs = () => {
   const containerRef = useScrollReveal();
+  const [badgeFailed, setBadgeFailed] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -121,6 +125,79 @@ const AboutUs = () => {
             {founders.map((founder) => (
               <FounderCard key={founder.name} {...founder} />
             ))}
+          </div>
+        </section>
+
+        {/* Glow divider */}
+        <div className="glow-line w-full" />
+
+        {/* Recognition */}
+        <section className="max-w-4xl mx-auto px-6 py-24">
+          <div className="grid md:grid-cols-[auto_1fr] items-center gap-10 md:gap-12">
+            <div className="fade-in-scroll flex justify-center md:justify-start">
+              <a
+                href="https://www.nvidia.com/en-us/startups/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="NVIDIA Inception Program member page"
+                className="block rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm p-6 transition-colors hover:border-[rgba(118,185,0,0.5)]"
+              >
+                {!badgeFailed ? (
+                  <img
+                    src="/nvidia-inception-badge.png"
+                    alt="Member of NVIDIA Inception Program"
+                    width={200}
+                    height={100}
+                    loading="lazy"
+                    onError={() => setBadgeFailed(true)}
+                    className="h-auto w-[200px] max-w-full"
+                  />
+                ) : (
+                  <div
+                    className="flex w-[200px] max-w-full items-center gap-3 rounded-md border-2 px-4 py-3"
+                    style={{ borderColor: NVIDIA_GREEN }}
+                  >
+                    <span
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded font-display text-xs font-bold uppercase tracking-tight text-white"
+                      style={{ backgroundColor: NVIDIA_GREEN }}
+                      aria-hidden="true"
+                    >
+                      NV
+                    </span>
+                    <span className="flex flex-col leading-tight">
+                      <span
+                        className="text-[11px] font-semibold uppercase tracking-[0.18em]"
+                        style={{ color: NVIDIA_GREEN }}
+                      >
+                        NVIDIA
+                      </span>
+                      <span className="text-sm font-semibold text-foreground">
+                        Inception Program
+                      </span>
+                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                        Member
+                      </span>
+                    </span>
+                  </div>
+                )}
+              </a>
+            </div>
+
+            <div className="text-center md:text-left">
+              <p className="fade-in-scroll section-label mb-4">Recognition</p>
+              <h2 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground mb-4">
+                Member of the NVIDIA Inception Program
+              </h2>
+              <p className="fade-in-scroll text-muted-foreground text-base md:text-lg leading-relaxed">
+                SolCrys AI was selected for NVIDIA Inception, NVIDIA's program
+                supporting AI startups with platform access, technical
+                expertise, and ecosystem connections. We're applying that
+                support to the AI infrastructure behind prompt-level
+                measurement, citation tracking, and answer-accuracy monitoring
+                — the layer of AEO that has to scale as answer engines and the
+                prompts buyers ask continue to multiply.
+              </p>
+            </div>
           </div>
         </section>
       </main>
