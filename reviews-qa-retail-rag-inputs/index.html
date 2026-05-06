@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>Reviews and Q&amp;A as Retail RAG Inputs | SolCrys</title>
+    <meta name="description" content="Retail AI assistants appear to use customer reviews and Q&amp;A as evidence for product fit. This guide breaks down review attributes, Q&amp;A coverage, and compliant customer-question workflows." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/reviews-qa-retail-rag-inputs/" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/solcrys-logo-tab-2.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/solcrys-logo-tab-2.png" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-06" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Reviews and Q&amp;A as Retail RAG Inputs | SolCrys" />
+    <meta property="og:description" content="Retail AI assistants appear to use customer reviews and Q&amp;A as evidence for product fit. This guide breaks down review attributes, Q&amp;A coverage, and compliant customer-question workflows." />
+    <meta property="og:url" content="https://solcrys.com/reviews-qa-retail-rag-inputs/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CPIlp_ia.css">
+    <!-- analytics:start -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E3VGGM7P1G');
+    </script>
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "wm2vxbdu8k");
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams monitor AI mentions, citations, competitors, share of voice, and answer accuracy across answer engines.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Reviews and Q&A as Retail RAG Inputs: How AI Reads Customer Voice","item":"https://solcrys.com/reviews-qa-retail-rag-inputs/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Reviews and Q&A as Retail RAG Inputs: How AI Reads Customer Voice","description":"Retail AI assistants appear to use customer reviews and Q&A as evidence for product fit. This guide breaks down review attributes, Q&A coverage, and compliant customer-question workflows.","dateModified":"2026-05-06","datePublished":"2026-05-06","mainEntityOfPage":"https://solcrys.com/reviews-qa-retail-rag-inputs/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/reviews-qa-retail-rag-inputs/","mainEntity":[{"@type":"Question","name":"Should I incentivize specific reviews?","acceptedAnswer":{"@type":"Answer","text":"Marketplace TOS generally prohibits incentivizing specific star ratings or content. You can ask buyers to share their experience without specifying what to say. Amazon and Walmart both detect incentive-driven review patterns and downweight them."}},{"@type":"Question","name":"Are answered Q&A treated differently from unanswered ones?","acceptedAnswer":{"@type":"Answer","text":"Yes. Unanswered questions sit but don't function as RAG content. Answered questions become structured retrievable units. Always answer the questions that get asked."}},{"@type":"Question","name":"How many reviews do I need before AI engines have enough text to retrieve?","acceptedAnswer":{"@type":"Answer","text":"Empirically: 30+ specific reviews per SKU produces measurable retrieval. Below 15, retrieval is noisy. The bigger the gap between you and the leading competitor's review base, the larger the absence-gap risk."}},{"@type":"Question","name":"Can I delete bad reviews?","acceptedAnswer":{"@type":"Answer","text":"No, and you would not want to. Reviews acknowledging tradeoffs actually help retrieval. Brands that delete or suppress reviews damage trust signals and risk platform penalties."}},{"@type":"Question","name":"Do reviews on third-party sites (Wirecutter, niche review sites) help retail AI?","acceptedAnswer":{"@type":"Answer","text":"Yes for ChatGPT Shopping (which pulls from open web), less so for Rufus and Sparky (which stay within their respective marketplaces). Build review presence on both your marketplace listings and major third-party review sites."}},{"@type":"Question","name":"How does this differ for B2B SaaS?","acceptedAnswer":{"@type":"Answer","text":"B2B SaaS doesn't have marketplace-style review/Q&A surfaces, but the equivalent is G2, Capterra, and TrustRadius reviews. The same principles apply: specificity, recency, prompt alignment, acknowledged tradeoffs."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#aeo">Why AEO</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/#features">Features</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">About</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Retail AEO</p>
+        <h1>Reviews and Q&amp;A as Retail RAG Inputs: How AI Reads Customer Voice</h1>
+        <p class="seo-lede">Retail AI assistants like Amazon Rufus, Walmart Sparky, and ChatGPT Shopping can use customer reviews and Q&amp;A as evidence when deciding whether a product fits a buyer&#39;s prompt. The exact weights are not public, but prompt tests consistently show that specific review text and clear question-answer pairs are more useful than star count alone. The four review attributes worth improving are specificity, recency, alignment with the prompt&#39;s intent, and acknowledged tradeoffs. Product-level Q&amp;A is often underused because many brands either ignore it or turn it into marketing copy. If your top SKUs have strong star ratings but are not appearing in retail AI answers for relevant prompts, review-text specificity and Q&amp;A coverage are useful audit areas alongside listing copy, attributes, and seller signals. This guide explains how retail AI may use reviews and Q&amp;A, walks through the five buyer-concern Q&amp;A categories that should be covered systematically, and lays out compliant customer-question workflows that stay within marketplace TOS while building durable retrieval evidence.</p>
+        <p>Updated 2026-05-06</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Do reviews affect AI product recommendations?</li><li>How do retail AI assistants use Q&amp;A?</li><li>What makes a review useful for AI search?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Retail AI assistants like Amazon Rufus, Walmart Sparky, and ChatGPT Shopping can use customer reviews and Q&amp;A as evidence when deciding whether a product fits a buyer&#39;s prompt. The exact weights are not public, but prompt tests consistently show that specific review text and clear question-answer pairs are more useful than star count alone.</p><p>If your top SKUs have strong star ratings but are not appearing in retail AI answers for relevant prompts, audit review-text specificity and Q&amp;A coverage alongside listing copy, structured attributes, and seller signals.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why retail AI engines weight reviews and Q&amp;A so heavily</h2>
+      <p>Three structural reasons explain why customer voice is useful evidence rather than only a UI element.</p><p>Reviews are a data layer the brand does not fully control. Listing copy, A+ content, and bullets are brand-controlled. Reviews are buyer-attributed, subject to marketplace integrity systems and astroturfing risk. For an AI engine making a recommendation that the buyer will trust, specific customer voice can carry more evidence value than generic brand copy.</p><p>Reviews answer &#39;for whom&#39; and &#39;in what conditions.&#39; A buyer asking Rufus &#39;best detergent for HE washers and septic systems&#39; needs evidence that the product actually performs in those conditions. Reviews are where that evidence lives.</p><p>Q&amp;A directly answers the buyer&#39;s question shape. A Q&amp;A pair is structurally similar to the buyer prompt format that retail AI consumes, which makes it easy to retrieve as evidence.</p><p>The result: reviews and Q&amp;A can influence the recommendation more than the listing&#39;s marketing copy does for use-case-specific prompts. A lower-rated item with many specific reviews can sometimes be easier to justify than a higher-rated item with only generic praise.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 4 review attributes that move recommendations</h2>
+      <p>Each attribute compounds: a review that is specific, recent, prompt-aligned, and tradeoff-honest is the highest-value retrieval unit a SKU can hold.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Attribute 1: Specificity</h3>
+        <p>A review that mentions specific use cases, conditions, or product attributes is a signal-dense unit. Generic praise is filtered as low-signal.</p><p>Generic example: &#39;Great product, love it!&#39; (low signal). Specific example: &#39;Used this on a 50-lb dog with sensitive skin for 8 weeks; no flare-ups, scent dissipates within 30 minutes.&#39; (high signal).</p><p>Action: After-purchase review prompts should ask buyers to describe what they used the product for and under what conditions, not to rate it. Star count compounds; specific text is what AI cites.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Attribute 2: Recency</h3>
+        <p>Retail AI engines often appear to prefer recent, specific reviews over old, generic volume, particularly for use-case prompts and time-sensitive categories.</p><p>This is a velocity problem more than a count problem. Brands with one-time review campaigns plateau; brands with sustained review velocity compound.</p><p>Action: Build a quarterly review velocity target by SKU. Use legitimate post-purchase outreach to keep recent reviews flowing.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Attribute 3: Alignment with prompt intent</h3>
+        <p>A review that contains the exact phrases of likely buyer prompts gets retrieved when those prompts are asked. This is RAG retrieval at work: the engine finds the text most similar to the prompt and uses it as evidence.</p><p>For &#39;detergent for sensitive skin&#39; prompts, &#39;Smells nice, works well&#39; has no prompt alignment, while &#39;I switched to this because of my eczema and have had no skin reactions in 6 months&#39; is a direct alignment.</p><p>Action: Map your top 5 buyer prompts per SKU. Identify which review phrases would match each prompt. Encourage future reviews to mention those use cases by structuring post-purchase prompts around them.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Attribute 4: Acknowledged tradeoffs</h3>
+        <p>Counterintuitively, reviews that acknowledge a downside or tradeoff can increase the credibility of the evidence. Tradeoff-aware reviews often read as more trustworthy than all-positive generic praise.</p><p>&#39;Perfect in every way!&#39; often reads as suspicious and gets downweighted. &#39;Works great for my needs but the bottle is awkward to grip with wet hands. Worth it for the formula.&#39; reads as trustworthy.</p><p>Action: Do not filter or suppress reviews that mention minor downsides. Honest tradeoffs can help buyers, and filtering reviews you control may violate platform TOS.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The Q&amp;A layer: an underused retail AEO asset</h2>
+      <p>Most brands either ignore product Q&amp;A or use it as a marketing channel. Both approaches lose to brands that treat Q&amp;A as a structured information layer.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>How retail AI engines use Q&amp;A</h3>
+        <p>Q&amp;A pairs are structurally similar to buyer prompts. Engines retrieve them with high relevance for prompts that match the question shape.</p><p>For a prompt like &#39;is this dishwasher safe?&#39;, a Q&amp;A pair &#39;Q: Is this dishwasher safe? A: Yes, top rack only, on regular cycle. We&#39;ve tested this through 200+ wash cycles.&#39; is a high-relevance retrieval match. The same fact buried in 2,000 words of A+ content has a much lower retrieval signal.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What gets filtered</h3>
+        <p>Brands often try to use Q&amp;A for marketing — for example, &#39;Q: Why is this the best product? A: Because of our patented Ultra-Pro formula...&#39; This pattern reads as marketing and gets downweighted. AI engines have trained on enough examples to recognize the pattern.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What works</h3>
+        <p>Specific, factual answers to real questions, owned by the brand or seller (not anonymous), with no marketing language. Examples include &#39;Q: Does it work for hard water? A: Tested at 200ppm; effective. Below 100ppm we recommend half the dose.&#39; and &#39;Q: How long does the battery last in cold weather? A: Tested at -10C: 6 hours, vs 9 hours at room temperature.&#39;</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The 5 buyer-concern Q&amp;A categories</h2>
+      <p>When building Q&amp;A coverage across your top SKUs, cover these five categories systematically. A SKU with clear answers across these categories gives retail AI and buyers more evidence than a SKU with few or no answered questions.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Category 1: Fit and sizing</h3>
+        <p>For each SKU: who is this for, who is it not for, and what size, dimension, or specification matters?</p><p>Example: &#39;Q: Will this fit a 14-inch laptop? A: Internal sleeve fits up to 14.2 inches. 14.5-inch laptops will not fit.&#39;</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Category 2: Use case</h3>
+        <p>Specific use cases the product was tested in.</p><p>Example: &#39;Q: Can I use this for [specific use]? A: Yes, with these conditions: [conditions]. Not recommended for [exclusions].&#39;</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Category 3: Ingredients / materials / specifications</h3>
+        <p>What it&#39;s made of, in what ratios, with what certifications.</p><p>Example: &#39;Q: Is this gluten-free? A: Yes, certified gluten-free, manufactured in a facility that processes wheat. Cross-contamination tested at &lt; 5ppm.&#39;</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Category 4: Comparison</h3>
+        <p>How it compares to specific alternatives.</p><p>Example: &#39;Q: How is this different from [competitor&#39;s similar product]? A: Same formula but in a smaller bottle. Our 8oz lasts about 90 days vs their 12oz lasting 100 days.&#39;</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Category 5: Durability and edge cases</h3>
+        <p>How does it perform over time, in unusual conditions, or with heavy use.</p><p>Example: &#39;Q: Does this hold up to daily use? A: Tested daily for 6 months; no visible wear. Our durability spec is 2 years of daily use.&#39;</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Compliant Q&amp;A coverage</h2>
+      <p>Q&amp;A work should start from real customer questions and seller-owned answers. Done right, it serves buyers. Done wrong, it can violate marketplace TOS.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>The &#39;is this allowed?&#39; test</h3>
+        <p>Ask three questions about every Q&amp;A workflow: Is the answer factually accurate? Lying about specifications, ingredients, or capabilities violates TOS and is detectable. Is the answer attributed to the right party? Brand-attributed answers should be marked as the seller; buyer-asked questions should come from real buyers, not sock-puppet accounts. Would a reviewer at Amazon or Walmart see this Q&amp;A as serving the customer? If you would not be comfortable showing it to the marketplace&#39;s compliance team, do not publish it.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Within-policy Q&amp;A methods</h3>
+        <p>Three methods stay clearly inside marketplace policy.</p>
+        <ul class="seo-list"><li>Brand-answered questions: When a buyer asks a question, the brand can (and should) answer it as the verified seller. This is fully within policy.</li><li>Customer service follow-up: Customers who email customer service often ask the same questions. Turning those questions into public, seller-attributed answers can be legitimate when handled with permission or proper anonymization and platform-policy review.</li><li>Soliciting questions in post-purchase emails: Asking buyers &#39;what questions did you have when shopping for this?&#39; produces real questions you can then answer publicly.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Outside-of-policy practices to avoid</h3>
+        <p>Several practices get detected by Amazon and Walmart&#39;s review/Q&amp;A integrity systems and produce real consequences (suspension, listing removal).</p>
+        <ul class="seo-list"><li>Creating sock-puppet buyer accounts to ask questions</li><li>Paying influencers to ask seed questions</li><li>Posting questions disguised as buyer questions but actually marketing copy</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Risks and limits</h2>
+      <p>A few constraints brands should hold in mind before scaling any review or Q&amp;A program.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Fake reviews are detectable and counterproductive</h3>
+        <p>Marketplace fraud detection has improved markedly through 2025-2026. Fake reviews now produce direct downweighting of the listing, risk of seller account suspension, and detection by retail AI engines reflected in lower citation share. The cost-benefit is bad. Don&#39;t.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Star count alone hits a ceiling</h3>
+        <p>A 4.9-star SKU with 50 generic reviews loses to a 4.4-star SKU with 800 specific reviews for use-case prompts. Optimizing only for star count is a half-measure.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>TOS changes</h3>
+        <p>Marketplace TOS evolves. Check Amazon and Walmart&#39;s current marketplace policies before scaling Q&amp;A or review programs, especially when customer outreach or externally posted content is involved.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Illustrative scenario: a kitchen appliance brand recovers Rufus inclusion</h2>
+      <p>The following is an illustrative scenario, not a real client engagement.</p><p>Imagine a kitchen appliance brand with strong reviews on Amazon (around 4.6 stars across roughly 1,200 reviews) but Rufus inclusion of only a small fraction of its priority SKUs for use-case prompts.</p><p>Audit findings might include: reviews skewed toward generic praise (&#39;works great&#39;) with little specificity; Q&amp;A coverage of 0-2 Q&amp;A per SKU, mostly &#39;Is this dishwasher safe?&#39; with one-word answers; and top buyer prompts (&#39;juicer for hard vegetables,&#39; &#39;blender for nut butter&#39;) finding no matching review or Q&amp;A text.</p><p>Actions taken across 60 days: rewrite the post-purchase email to ask buyers to describe &#39;what you used it for and how it performed&#39;; build Q&amp;A coverage per SKU across the five buyer-concern categories with specific factual answers; have the customer service team answer common questions as seller-attributed Q&amp;A where allowed; and add specific FAQ-style answers derived from real customer support themes after anonymization and policy review.</p><p>Directional results at 60 days: meaningful Rufus inclusion lift on the priority prompt set; specific reviews mentioning use cases rise as a share of recent reviews; star count holds steady (specific reviews don&#39;t always reduce star count, despite acknowledged tradeoffs).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to use this guide</h2>
+      <p>Run a review specificity audit on your top 30 SKUs (read the last 25 reviews; count how many mention specific use cases or conditions). For SKUs scoring under 30% specificity, rewrite post-purchase prompts to elicit specifics. Build 5 Q&amp;A per priority SKU covering the five buyer-concern categories. Post seed Q&amp;A within marketplace policy (brand-answered, customer-service-derived, or post-purchase-elicited). Re-audit Rufus, Sparky, and ChatGPT Shopping inclusion at 60 days.</p><p>If you manage 50+ SKUs and want automated Q&amp;A coverage scoring and review specificity tracking, talk to us about early access.</p>
+      
+      
+      
+    </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Should I incentivize specific reviews?</h3>
+            <p>Marketplace TOS generally prohibits incentivizing specific star ratings or content. You can ask buyers to share their experience without specifying what to say. Amazon and Walmart both detect incentive-driven review patterns and downweight them.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are answered Q&amp;A treated differently from unanswered ones?</h3>
+            <p>Yes. Unanswered questions sit but don&#39;t function as RAG content. Answered questions become structured retrievable units. Always answer the questions that get asked.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many reviews do I need before AI engines have enough text to retrieve?</h3>
+            <p>Empirically: 30+ specific reviews per SKU produces measurable retrieval. Below 15, retrieval is noisy. The bigger the gap between you and the leading competitor&#39;s review base, the larger the absence-gap risk.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I delete bad reviews?</h3>
+            <p>No, and you would not want to. Reviews acknowledging tradeoffs actually help retrieval. Brands that delete or suppress reviews damage trust signals and risk platform penalties.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do reviews on third-party sites (Wirecutter, niche review sites) help retail AI?</h3>
+            <p>Yes for ChatGPT Shopping (which pulls from open web), less so for Rufus and Sparky (which stay within their respective marketplaces). Build review presence on both your marketplace listings and major third-party review sites.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does this differ for B2B SaaS?</h3>
+            <p>B2B SaaS doesn&#39;t have marketplace-style review/Q&amp;A surfaces, but the equivalent is G2, Capterra, and TrustRadius reviews. The same principles apply: specificity, recency, prompt alignment, acknowledged tradeoffs.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/retail-aeo/">Retail AEO</a></h3>
+            <p>Retail AEO helps brands become visible, accurate, and recommended inside AI shopping assistants such as Amazon Rufus, Walmart Sparky, and ChatGPT Shopping.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/walmart-sparky-optimization/">Walmart Sparky Optimization</a></h3>
+            <p>Walmart Sparky appears to use a different discovery pattern than Amazon Rufus. This guide breaks down practical Sparky readiness factors, a 30-minute audit, and recovery actions for marketplace brands.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/amazon-rufus-optimization/">Amazon Rufus Optimization Guide</a></h3>
+            <p>A practical Amazon Rufus optimization guide for brands that want to improve AI shopping recommendation visibility through better listings, reviews, Q&amp;A, and prompt testing.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams monitor AI mentions, citations, competitors, share of voice, and answer accuracy across answer engines.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BBP3JrBS.js"></script>
+  </body>
+</html>

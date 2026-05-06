@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>AEO Recovery Score: A Quantified Framework for Action-to-Result Tracking | SolCrys</title>
+    <meta name="description" content="AEO Recovery Score is a quantified metric measuring how much of an answer gap your fix actions actually closed. This guide defines the formula, measurement windows, and how to set expectations without overclaiming recovery." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-recovery-score/" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/solcrys-logo-tab-2.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/solcrys-logo-tab-2.png" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-06" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO Recovery Score: A Quantified Framework for Action-to-Result Tracking | SolCrys" />
+    <meta property="og:description" content="AEO Recovery Score is a quantified metric measuring how much of an answer gap your fix actions actually closed. This guide defines the formula, measurement windows, and how to set expectations without overclaiming recovery." />
+    <meta property="og:url" content="https://solcrys.com/aeo-recovery-score/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CPIlp_ia.css">
+    <!-- analytics:start -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E3VGGM7P1G');
+    </script>
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "wm2vxbdu8k");
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams monitor AI mentions, citations, competitors, share of voice, and answer accuracy across answer engines.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AEO Recovery Score","item":"https://solcrys.com/aeo-recovery-score/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AEO Recovery Score: a quantified framework for action-to-result tracking","description":"AEO Recovery Score is a quantified metric measuring how much of an answer gap your fix actions actually closed. This guide defines the formula, measurement windows, and how to set expectations without overclaiming recovery.","dateModified":"2026-05-06","datePublished":"2026-05-06","mainEntityOfPage":"https://solcrys.com/aeo-recovery-score/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-recovery-score/","mainEntity":[{"@type":"Question","name":"Should I report Recovery Scores to my CFO?","acceptedAnswer":{"@type":"Answer","text":"Probably not directly. CFOs care about revenue. Use Recovery Score internally to track program health and feed your AEO ROI model. Report ROI to the CFO; report Recovery Score distribution to the CMO or VP Marketing."}},{"@type":"Question","name":"What if a fix has a Recovery Score above 100%?","acceptedAnswer":{"@type":"Answer","text":"It happens when post-fix performance exceeds the target you set. It usually means the target was too conservative. Note the over-recovery, raise the target for similar gaps in the future, and treat it as a signal that this fix pattern is exceptional."}},{"@type":"Question","name":"Can I use Recovery Score for SEO investments too?","acceptedAnswer":{"@type":"Answer","text":"Conceptually yes - the framework adapts. Practically, traditional SEO has more mature attribution models. Recovery Score adds the most value for AEO and AI search where attribution is fuzzier."}},{"@type":"Question","name":"How does Recovery Score relate to share of voice?","acceptedAnswer":{"@type":"Answer","text":"Share of voice is a baseline metric (where you stand). Recovery Score is a delta metric (how much you closed a specific gap). Both are useful; they answer different questions."}},{"@type":"Question","name":"What if my fix appears to work but the engine then updates and the gain disappears?","acceptedAnswer":{"@type":"Answer","text":"That is a regression. Common after Google updates or major model releases. Track regression rate as a separate metric. Some regression is normal and should not invalidate the original Recovery Score - note that recovery was achieved and the gap subsequently re-emerged due to platform change."}},{"@type":"Question","name":"Do I need a platform to measure this, or can I do it manually?","acceptedAnswer":{"@type":"Answer","text":"For 5 SKUs and 25 prompts, manual measurement in a spreadsheet works. For 100+ SKUs or 50+ prompts, the manual cost exceeds the value. SolCrys and similar platforms automate the measurement loop."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#aeo">Why AEO</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/#features">Features</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">About</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Attribution &amp; ROI</p>
+        <h1>AEO Recovery Score: a quantified framework for action-to-result tracking</h1>
+        <p class="seo-lede">AEO Recovery Score is the percentage of an identified answer gap that has been closed within a defined measurement window after a fix action ships. The formula is simple - post-fix performance minus pre-fix performance, divided by target performance minus pre-fix performance, expressed as a percentage - but the discipline around it is not. Every term needs precise definition: the right metric for each gap type, a baseline measured over a fixed pre-fix window, post-fix measurement at a fixed window, and a realistic target derived from category-leader benchmarks rather than 100%. Without a per-fix recovery metric, AEO programs accumulate fixes without learning which ones worked. With one, teams can replicate winning patterns, retire failing ones, and produce finance-reviewable inputs to the AEO ROI model. This guide defines the formula, gives illustrative worked examples for absence, citation, and accuracy gaps, and connects Recovery Score to revenue using the bridge formula.</p>
+        <p>Updated 2026-05-06</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is AEO Recovery Score?</li><li>How do I measure AEO content impact?</li><li>How do I track if my AEO fixes are working?</li><li>What is action-to-result tracking in AI search?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>AEO Recovery Score is the percentage of an identified answer gap that has been closed within a defined measurement window after a fix action was shipped. The formula: Recovery Score equals (post-fix performance minus pre-fix performance) divided by (target performance minus pre-fix performance), expressed as a percent. A 0% score means the fix produced no measurable change. A 100% score means the gap is fully closed.</p><p>Recovery timing and magnitude vary by gap type, engine, category, and competitive movement. Recovery Score replaces the loose &#39;did our AEO program work?&#39; question with a per-fix, per-prompt, per-engine quantified answer. It is the metric that closes the loop between identifying gaps and feeding a finance-reviewable ROI model.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why a recovery metric is necessary</h2>
+      <p>AI visibility platforms typically report two kinds of metrics: baseline (where you are now) and trend (how the baseline changed). Neither answers the operationally critical question - &#39;for the gap I tried to fix in March, did the fix work?&#39; That question is hard for three reasons.</p>
+      <ul class="seo-list"><li>Gaps are heterogeneous. A citation gap in ChatGPT requires different signals than an absence gap in Google AI Overviews.</li><li>Engines respond on different timelines. Owned-content fixes can show up sooner than third-party citation work, but the exact window should be validated by repeated measurements.</li><li>External factors confound trends. Competitor moves, AI engine updates, and category-wide shifts make raw trend data noisy.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The Recovery Score formula</h2>
+      <p>Each term in the formula has a precise definition: pre-fix performance, post-fix performance, and target performance.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Pre-fix performance (baseline)</h3>
+        <p>The metric value before the fix shipped, measured against a fixed prompt set. The metric depends on the gap type. Measure over at least a 7-day window before the fix, not a single point measurement.</p>
+        <ul class="seo-list"><li>Absence Gap: inclusion rate (% of prompts where SKU/brand appears).</li><li>Citation Gap: citation share (% of prompts where your source is cited vs competitor).</li><li>Accuracy Gap: accuracy rate (% of mentions with correct attributes).</li><li>Comparison Gap: recommendation rank (average position when included).</li><li>Action Gap: operational close rate (% of identified gaps converted to shipped fixes).</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Post-fix performance</h3>
+        <p>The same metric measured at a defined window after the fix ships. Use a fixed window (14, 30, 60, or 90 days), not &#39;until it looks good.&#39;</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Target performance</h3>
+        <p>The performance level you would have if the gap were fully closed. Targets should be realistic: the strongest competitor&#39;s inclusion rate, parity with the closest one or two competitors, an accuracy threshold agreed with product or compliance, or the category leader&#39;s recommendation rank. Setting unrealistic targets makes every fix look like a failure.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Engine-specific measurement windows</h2>
+      <p>Recovery timing varies by engine. Use the table below as planning windows, not guarantees.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>First measurement</th><th>Stable measurement</th></tr></thead>
+              <tbody><tr><td>Google AI Overviews</td><td>14 days</td><td>60 days</td></tr><tr><td>ChatGPT</td><td>21 days</td><td>60-90 days</td></tr><tr><td>Perplexity</td><td>14 days</td><td>30 days (often more responsive to recency)</td></tr><tr><td>Claude</td><td>21 days</td><td>60 days</td></tr><tr><td>Gemini</td><td>14 days</td><td>45 days</td></tr><tr><td>Amazon Rufus</td><td>14 days</td><td>30-45 days</td></tr><tr><td>Walmart Sparky</td><td>14 days</td><td>30 days</td></tr><tr><td>ChatGPT Shopping</td><td>21 days</td><td>45 days</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Illustrative worked examples</h2>
+      <p>Illustrative scenarios only. The numbers are pedagogical inputs, not benchmarks or customer results.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Example 1: Absence Gap on Walmart Sparky</h3>
+        <p>Assume a DTC supplements brand identifies that 9 of 12 SKUs do not appear in Sparky for the prompt &#39;best multivitamin for [persona].&#39; Pre-fix inclusion rate: 25% (3 of 12 SKUs). Sample target: 75% based on the category leader&#39;s observed rate in this hypothetical prompt set. Fix action: filled structured attributes, rewrote titles, and built compliant Q&amp;A coverage across all 12 SKUs.</p><p>In the sample calculation, inclusion rate rises to 58% (7 of 12 SKUs). Recovery Score: (58 minus 25) divided by (75 minus 25), times 100% = 66%. This shows partial gap closure. Investigate why 5 SKUs still do not appear before repeating the fix.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Example 2: Citation Gap on ChatGPT</h3>
+        <p>Assume a B2B SaaS brand identifies that ChatGPT cites 4 competitors but never the brand for &#39;best [category] for mid-market&#39; prompts. Pre-fix citation share: 0%. Sample target: 25% based on the strongest non-leader competitor&#39;s share in this hypothetical prompt set. Fix action: published a category overview pillar, secured two vertical newsletter mentions, and began compliant community engagement.</p><p>In the sample calculation, citation share rises to 8%. Recovery Score: 32%. This shows lift but not parity. Continue investment only if the underlying sources are improving and the prompt set remains commercially relevant.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Example 3: Accuracy Gap on Google AI Overviews</h3>
+        <p>Assume a health brand identifies AI Overviews mentions the brand but cites an outdated dosage guideline. Pre-fix accuracy: 30%. Sample target: 95%. Fix: updated dosage page with current data, refreshed schema, requested re-crawl.</p><p>In the sample calculation, accuracy rises to 92%. Recovery Score: 95%. The example shows how owned-source fixes can be measured when the source of the error is known and controllable.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Engine-specific recovery patterns</h2>
+      <p>Recovery rates vary substantially by engine and gap type. Use the patterns below as measurement expectations, not benchmarks.</p>
+      <ul class="seo-list"><li>Owned-content gap fixes can move faster than third-party citation fixes because the brand controls the source.</li><li>Schema and structural fixes should be measured after a consistent waiting window across the same prompt set.</li><li>Third-party citation fixes (Reddit, G2, editorial) compound slowly and should be evaluated over longer windows.</li><li>Recency-only fixes (refreshing date without content change) should not be counted as real fixes; engines can discount cosmetic updates.</li><li>Retail engine fixes should be re-tested after marketplace catalog, listing, review, and Q&amp;A data has had time to refresh.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a healthy AEO program&#39;s Recovery Scores look like</h2>
+      <p>Healthy distributions should include a mix of clear wins, partial wins, weak fixes, and occasional regressions. Distributions that are sharply one-sided - everything looks like a win, or nothing moves at all - usually mean targets are miscalibrated, measurement windows are wrong, or the prompt set is too small.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How Recovery Score connects to AEO ROI</h2>
+      <p>Recovery Score is the operational metric. AEO ROI is the financial metric. The bridge: estimated revenue lift from a fix equals prompt revenue value multiplied by Recovery Score (as a percentage) multiplied by the probability that recovered visibility converts to revenue. Stacked across a quarter&#39;s worth of fixes, this produces a finance-reviewable estimate when assumptions and confidence ranges are documented.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Common mistakes</h2>
+      <p>Five recurring mistakes degrade Recovery Score reliability.</p>
+      <ul class="seo-list"><li>Measuring too soon. Reporting Recovery Score immediately after a fix produces noise; use a consistent window matched to the engine, gap type, and source-refresh cycle.</li><li>Confusing absolute lift with Recovery Score. A 5% citation share lift can be either great or weak - it depends on the target.</li><li>Cherry-picking which fixes to score. Score every shipped fix, including failures.</li><li>Using overlapping measurement windows. Stagger fixes by category or prompt cluster.</li><li>No prompt-set discipline. If the prompt set drifts between pre-fix and post-fix measurement, the comparison is invalid.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to use this guide</h2>
+      <p>Define your prompt set, measure pre-fix performance for every gap before shipping, set realistic targets (not 100%), define measurement windows up front, calculate Recovery Score for every fix, roll up monthly, and triage low-scoring fixes. Connect Recovery Scores to revenue using the bridge formula.</p><p>If you want a working tracker that automates pre-fix baseline, post-fix measurement, and Recovery Score calculation, request early access from the SolCrys team.</p>
+      
+      
+      
+    </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Should I report Recovery Scores to my CFO?</h3>
+            <p>Probably not directly. CFOs care about revenue. Use Recovery Score internally to track program health and feed your AEO ROI model. Report ROI to the CFO; report Recovery Score distribution to the CMO or VP Marketing.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if a fix has a Recovery Score above 100%?</h3>
+            <p>It happens when post-fix performance exceeds the target you set. It usually means the target was too conservative. Note the over-recovery, raise the target for similar gaps in the future, and treat it as a signal that this fix pattern is exceptional.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I use Recovery Score for SEO investments too?</h3>
+            <p>Conceptually yes - the framework adapts. Practically, traditional SEO has more mature attribution models. Recovery Score adds the most value for AEO and AI search where attribution is fuzzier.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does Recovery Score relate to share of voice?</h3>
+            <p>Share of voice is a baseline metric (where you stand). Recovery Score is a delta metric (how much you closed a specific gap). Both are useful; they answer different questions.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if my fix appears to work but the engine then updates and the gain disappears?</h3>
+            <p>That is a regression. Common after Google updates or major model releases. Track regression rate as a separate metric. Some regression is normal and should not invalidate the original Recovery Score - note that recovery was achieved and the gap subsequently re-emerged due to platform change.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need a platform to measure this, or can I do it manually?</h3>
+            <p>For 5 SKUs and 25 prompts, manual measurement in a spreadsheet works. For 100+ SKUs or 50+ prompts, the manual cost exceeds the value. SolCrys and similar platforms automate the measurement loop.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/answer-gap-content-brief/">The Answer Gap Is the New Content Brief</a></h3>
+            <p>Learn what an AI answer gap is, why it matters for AEO, and how marketing teams can turn weak AI answers into practical content briefs.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-roi-business-case/">AEO ROI Business Case</a></h3>
+            <p>A practitioner framework for estimating and reviewing AEO ROI with finance. Includes the AEO Revenue Model formula, three attribution methods, a 5-slide deck structure, and a 12-month measurement template.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams monitor AI mentions, citations, competitors, share of voice, and answer accuracy across answer engines.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BBP3JrBS.js"></script>
+  </body>
+</html>
