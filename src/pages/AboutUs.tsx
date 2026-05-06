@@ -1,10 +1,7 @@
-import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import FounderCard from "@/components/FounderCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-const NVIDIA_GREEN = "#76B900";
 import gwenImg from "@/assets/gwen-chen.jpg";
 import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
@@ -42,7 +39,6 @@ const founders = [
 
 const AboutUs = () => {
   const containerRef = useScrollReveal();
-  const [badgeFailed, setBadgeFailed] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -140,46 +136,16 @@ const AboutUs = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="NVIDIA Inception Program member page"
-                className="block rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm p-6 transition-colors hover:border-[rgba(118,185,0,0.5)]"
+                className="block rounded-xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)] transition-shadow duration-300 hover:shadow-[0_2px_4px_rgba(0,0,0,0.06),0_16px_40px_rgba(118,185,0,0.18)]"
               >
-                {!badgeFailed ? (
-                  <img
-                    src="/nvidia-inception-badge.png"
-                    alt="Member of NVIDIA Inception Program"
-                    width={200}
-                    height={100}
-                    loading="lazy"
-                    onError={() => setBadgeFailed(true)}
-                    className="h-auto w-[200px] max-w-full"
-                  />
-                ) : (
-                  <div
-                    className="flex w-[200px] max-w-full items-center gap-3 rounded-md border-2 px-4 py-3"
-                    style={{ borderColor: NVIDIA_GREEN }}
-                  >
-                    <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded font-display text-xs font-bold uppercase tracking-tight text-white"
-                      style={{ backgroundColor: NVIDIA_GREEN }}
-                      aria-hidden="true"
-                    >
-                      NV
-                    </span>
-                    <span className="flex flex-col leading-tight">
-                      <span
-                        className="text-[11px] font-semibold uppercase tracking-[0.18em]"
-                        style={{ color: NVIDIA_GREEN }}
-                      >
-                        NVIDIA
-                      </span>
-                      <span className="text-sm font-semibold text-foreground">
-                        Inception Program
-                      </span>
-                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                        Member
-                      </span>
-                    </span>
-                  </div>
-                )}
+                <img
+                  src="/nvidia-inception-badge.jpg"
+                  alt="Member of NVIDIA Inception Program"
+                  width={220}
+                  height={110}
+                  loading="lazy"
+                  className="h-auto w-[220px] max-w-full block"
+                />
               </a>
             </div>
 
