@@ -6,6 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
+const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
 const resourceBySlug = new Map(resourcePages.map((p) => [p.slug, p]));
@@ -87,6 +88,7 @@ function navHtml() {
         <a href="/#aeo">Why AEO</a>
         <a href="/#loop">The Loop</a>
         <a href="/#features">Features</a>
+        <a href="/pricing/">Pricing</a>
         <a href="/resources/">Resources</a>
         <a href="/about/">About</a>
       </nav>
@@ -99,6 +101,7 @@ function footerHtml() {
       <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/pricing/">Pricing</a>
           <a href="/resources/">Resources</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
@@ -585,6 +588,69 @@ function notFoundHtml() {
 </div>`;
 }
 
+function pricingTierCardHtml(audienceLabel, tier) {
+  return `
+    <article class="seo-card">
+      <h3>${escapeHtml(audienceLabel)} · ${escapeHtml(tier.name)}${tier.recommended ? " (Recommended)" : ""}</h3>
+      <p><strong>$${tier.monthly.toLocaleString("en-US")} / mo</strong> billed monthly · $${tier.annualMonthly.toLocaleString("en-US")} / mo billed annually</p>
+      <p>${escapeHtml(tier.tagline)}</p>
+      <ul class="seo-list">
+        ${tier.features.map((f) => `<li>${escapeHtml(f)}</li>`).join("")}
+      </ul>
+    </article>`;
+}
+
+function pricingHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main class="seo-container">
+    <section class="seo-hero">
+      <p class="seo-kicker">${escapeHtml(pricingContent.hero.eyebrow)}</p>
+      <h1>${escapeHtml(pricingContent.hero.title)}</h1>
+      <p class="seo-lede">${escapeHtml(pricingContent.hero.subtitle)}</p>
+    </section>
+    <section class="seo-section">
+      <h2>Included on every plan</h2>
+      <ul class="seo-list">
+        ${pricingContent.alwaysIncluded.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}
+      </ul>
+    </section>
+    ${pricingContent.audiences
+      .map(
+        (block) => `
+    <section class="seo-section">
+      <h2>${escapeHtml(block.label)}</h2>
+      <p>${escapeHtml(block.description)}</p>
+      <div class="seo-grid">
+        ${block.tiers.map((t) => pricingTierCardHtml(block.label, t)).join("")}
+      </div>
+    </section>`
+      )
+      .join("")}
+    <section class="seo-section">
+      <h2>${escapeHtml(pricingContent.enterprise.title)}</h2>
+      <p>${escapeHtml(pricingContent.enterprise.description)}</p>
+      <p><a href="mailto:${escapeAttr(site.email)}?subject=SolCrys%20Enterprise%20Inquiry">${escapeHtml(pricingContent.enterprise.ctaLabel)}</a></p>
+    </section>
+    <section class="seo-section">
+      <h2>Pricing FAQ</h2>
+      ${pricingContent.faqs
+        .map(
+          (faq) => `
+        <article class="seo-card">
+          <h3>${escapeHtml(faq.question)}</h3>
+          <p>${escapeHtml(faq.answer)}</p>
+        </article>`
+        )
+        .join("")}
+    </section>
+    ${ctaHtml()}
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
 writePage(
   "index.html",
   renderLayout({
@@ -697,6 +763,55 @@ writePage(
 );
 
 writePage(
+  "pricing/index.html",
+  renderLayout({
+    routePath: "/pricing/",
+    title: pricingContent.meta.title,
+    description: pricingContent.meta.description,
+    body: pricingHtml(),
+    ogImage: pricingContent.meta.ogImage,
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Pricing", path: "/pricing/" }
+      ]),
+      webPageSchema({
+        routePath: "/pricing/",
+        title: pricingContent.meta.title,
+        description: pricingContent.meta.description
+      }),
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: `${site.name} AEO Platform`,
+        description: site.description,
+        brand: { "@type": "Organization", name: site.name },
+        offers: pricingContent.audiences.flatMap((block) =>
+          block.tiers.map((tier) => ({
+            "@type": "Offer",
+            name: `${block.label} · ${tier.name}`,
+            price: tier.monthly,
+            priceCurrency: "USD",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: tier.monthly,
+              priceCurrency: "USD",
+              unitCode: "MON",
+              billingDuration: "P1M"
+            },
+            url: canonicalUrl("/pricing/"),
+            availability: "https://schema.org/InStock",
+            category: block.label
+          }))
+        )
+      },
+      faqSchema(pricingContent.faqs, "/pricing/")
+    ]
+  })
+);
+
+writePage(
   "resources/index.html",
   renderLayout({
     routePath: "/resources/",
@@ -786,6 +901,7 @@ writePage(
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
+  { path: "/pricing/", lastmod: site.updated || generatedAt },
   { path: "/resources/", lastmod: site.updated || generatedAt },
   ...resourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
   { path: "/privacy.html", lastmod: site.updated || generatedAt },
@@ -869,4 +985,4 @@ if (fs.existsSync(legacyStyles)) {
   fs.copyFileSync(legacyStyles, path.join(distDir, "styles.css"));
 }
 
-console.log(`Prerendered ${resourcePages.length + 4} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);
+console.log(`Prerendered ${resourcePages.length + 5} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);

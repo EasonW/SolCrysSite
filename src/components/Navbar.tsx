@@ -8,6 +8,7 @@ const navLinks = [
   { href: "/#aeo", label: "Why AEO" },
   { href: "/#loop", label: "The Loop" },
   { href: "/#features", label: "Features" },
+  { href: "/pricing/", label: "Pricing" },
   { href: "/resources/", label: "Resources" },
   { href: "/about/", label: "About Us" },
 ];
