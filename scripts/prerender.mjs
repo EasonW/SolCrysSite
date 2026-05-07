@@ -8,7 +8,8 @@ const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
 const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
 
-const { site, home, resourcePages, resourceClusters = [] } = content;
+const { site, home, resourcePages, resourceClusters = [], flags = {} } = content;
+const pricingPublic = Boolean(flags.pricingPublic);
 const resourceBySlug = new Map(resourcePages.map((p) => [p.slug, p]));
 const generatedAt = "2026-05-04";
 
@@ -88,7 +89,7 @@ function navHtml() {
         <a href="/#aeo">Why AEO</a>
         <a href="/#loop">The Loop</a>
         <a href="/#features">Features</a>
-        <a href="/pricing/">Pricing</a>
+        ${pricingPublic ? '<a href="/pricing/">Pricing</a>' : ""}
         <a href="/resources/">Resources</a>
         <a href="/about/">About</a>
       </nav>
@@ -101,7 +102,7 @@ function footerHtml() {
       <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
-          <a href="/pricing/">Pricing</a>
+          ${pricingPublic ? '<a href="/pricing/">Pricing</a>' : ""}
           <a href="/resources/">Resources</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
@@ -762,7 +763,7 @@ writePage(
   })
 );
 
-writePage(
+if (pricingPublic) writePage(
   "pricing/index.html",
   renderLayout({
     routePath: "/pricing/",
@@ -901,7 +902,7 @@ writePage(
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
-  { path: "/pricing/", lastmod: site.updated || generatedAt },
+  ...(pricingPublic ? [{ path: "/pricing/", lastmod: site.updated || generatedAt }] : []),
   { path: "/resources/", lastmod: site.updated || generatedAt },
   ...resourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
   { path: "/privacy.html", lastmod: site.updated || generatedAt },
@@ -985,4 +986,4 @@ if (fs.existsSync(legacyStyles)) {
   fs.copyFileSync(legacyStyles, path.join(distDir, "styles.css"));
 }
 
-console.log(`Prerendered ${resourcePages.length + 5} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);
+console.log(`Prerendered ${resourcePages.length + 4 + (pricingPublic ? 1 : 0)} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);
