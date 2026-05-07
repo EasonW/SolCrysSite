@@ -37,7 +37,7 @@ const Resources = () => {
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed mb-12">
             Each guide pairs a direct answer with prompt examples, scoring guidance, and
-            concrete follow-up actions. Browse by topic cluster below.
+            concrete follow-up actions. Browse by topic below.
           </p>
 
           {orderedKeys.map((key) => {
@@ -46,9 +46,6 @@ const Resources = () => {
             return (
               <div key={key} className="mb-16">
                 <div className="mb-6 max-w-3xl">
-                  <p className="text-xs uppercase tracking-wider text-[hsl(40_85%_55%)] mb-2">
-                    Cluster
-                  </p>
                   <h2 className="font-display text-2xl md:text-3xl font-semibold tracking-tight mb-3">
                     {key}
                   </h2>

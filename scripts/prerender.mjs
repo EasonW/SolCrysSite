@@ -444,7 +444,7 @@ function resourcesHtml() {
     <section class="seo-container seo-hero">
       <p class="seo-kicker">AEO Resource Hub</p>
       <h1>Practical guides for AI search visibility.</h1>
-      <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic cluster below.</p>
+      <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic below.</p>
     </section>
     ${orderedKeys
       .map((key) => {
