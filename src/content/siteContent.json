@@ -620,6 +620,7 @@
         "Is a dashboard enough for AEO?"
       ],
       "relatedSlugs": [
+        "evaluate-aeo-platform-methodology-checklist",
         "answer-gap-content-brief",
         "corporate-context-ai-marketing",
         "citation-gap-audit"
@@ -629,7 +630,7 @@
           "heading": "Direct answer",
           "body": [
             "AEO platforms divide into two architectures. AI visibility dashboards measure brand presence in AI answers (citation share, mention rate, share of voice) and produce reports; the team takes the report and decides what to do next. AEO execution engines measure, diagnose specific gaps, generate or assist with fix actions, and verify the fix's outcome in a closed loop.",
-            "Several AEO vendors (Quattr, AEO Engine, and others) have written about this category split, usually as a positioning argument that 'execution engines are better than dashboards.' The more useful framing is diagnostic, not directional: which architecture matches your team's actual bottleneck? A team whose problem is 'we cannot see' needs a dashboard. A team whose problem is 'we can see but cannot ship' needs execution. Both are real bottlenecks; neither architecture solves the other one.",
+            "Several AEO platforms have written about this category split, usually as a positioning argument that 'execution engines are better than dashboards.' The more useful framing is diagnostic, not directional: which architecture matches your team's actual bottleneck? A team whose problem is 'we cannot see' needs a dashboard. A team whose problem is 'we can see but cannot ship' needs execution. Both are real bottlenecks; neither architecture solves the other one.",
             "The pricing gap reflects the capability gap. Dashboard-only platforms cost roughly $99 to $700 per month and serve teams that already have content production capacity. Execution engines cost $999 to $15K+ per month and serve teams that need fixes shipped without scaling content headcount. The most common buying mistake is buying for the wrong bottleneck — usually a dashboard purchased by a team whose actual blocker is execution capacity, which means the dashboard's insights pile up unaddressed."
           ]
         },
@@ -722,9 +723,9 @@
               ]
             },
             {
-              "heading": "Use case 6. Brand with strong existing SEO suite (Ahrefs, Semrush)",
+              "heading": "Use case 6. Brand with a major SEO suite already in place",
               "body": [
-                "Recommendation: start with the SEO suite's AEO module. Upgrade to a dedicated execution engine only if the suite's AEO depth is insufficient. Do not pay twice for similar measurement."
+                "Recommendation: use the SEO suite for what it is good at — keyword tracking, technical SEO, and entry-level AI mention monitoring. Add a dedicated AEO execution engine when the team's bottleneck is shipping fixes, not seeing them. The two layers do different jobs: the SEO suite (and any bundled AEO dashboard inside it) tells you where you stand; the execution engine diagnoses each gap, generates the fix action, and verifies whether the answer moved. Avoid paying twice for the same measurement signals, but expect to pay separately for measurement and for execution."
               ]
             }
           ]
@@ -974,10 +975,10 @@
       "metaTitle": "AI Brand Visibility Monitoring for Answer Engines | SolCrys",
       "description": "A practical guide to measuring brand mentions, citations, sentiment, and competitive position across AI answer engines.",
       "h1": "AI brand visibility monitoring: know where your brand appears in AI answers",
-      "summary": "AI brand visibility monitoring measures whether AI systems mention, cite, recommend, compare, or misrepresent your brand when buyers ask relevant questions.",
+      "summary": "AI brand visibility monitoring measures whether AI systems mention, cite, recommend, compare, or misrepresent your brand when buyers ask relevant questions. For the underlying capture methodology - dual-channel measurement across consumer surfaces and APIs, traceable to a prompt, engine, region, and timestamp - see the Visibility Measurement methodology page.",
       "category": "Measurement",
       "ogImage": "/og/ai-brand-visibility-monitoring.png",
-      "updated": "2026-05-04",
+      "updated": "2026-05-08",
       "primaryKeyword": "AI brand visibility monitoring",
       "aeoTargets": [
         "How do brands measure AI search visibility?",
@@ -985,7 +986,7 @@
         "How can I know whether AI tools cite my brand?"
       ],
       "relatedSlugs": [
-        "ai-search-share-of-voice",
+        "visibility-measurement-methodology",
         "ai-share-of-recommendation",
         "chatgpt-brand-mentions"
       ],
@@ -1098,8 +1099,8 @@
         "How do you score ChatGPT answer accuracy?"
       ],
       "relatedSlugs": [
-        "ai-search-share-of-voice",
         "ai-share-of-recommendation",
+        "visibility-measurement-methodology",
         "ai-search-prompt-set"
       ],
       "sections": [
@@ -1195,140 +1196,6 @@
       ]
     },
     {
-      "slug": "ai-search-share-of-voice",
-      "title": "AI Search Share of Voice",
-      "metaTitle": "AI Search Share of Voice: Measurement Framework | SolCrys",
-      "description": "Measure how often a brand appears versus competitors in AI-generated answers, citations, and recommendations.",
-      "h1": "AI search share of voice: measure who owns the answer",
-      "summary": "AI search share of voice measures how often a brand appears, is cited, and is recommended compared with competitors across a defined prompt set.",
-      "category": "Measurement",
-      "ogImage": "/og/ai-search-share-of-voice.png",
-      "updated": "2026-05-04",
-      "primaryKeyword": "AI search share of voice",
-      "aeoTargets": [
-        "What is AI search share of voice?",
-        "How do you calculate AI share of voice?",
-        "What is the difference between mention rate and citation rate?"
-      ],
-      "relatedSlugs": [
-        "ai-share-of-recommendation",
-        "chatgpt-brand-mentions",
-        "ai-brand-visibility-monitoring"
-      ],
-      "sections": [
-        {
-          "heading": "Direct answer",
-          "body": [
-            "AI search share of voice is the percentage of relevant AI-generated answers in which a brand is mentioned, cited, or recommended relative to competitors."
-          ]
-        },
-        {
-          "heading": "Starter scoring signals (illustrative)",
-          "body": [
-            "A useful score separates weak visibility from useful visibility. A brand mention in a negative comparison is not the same as a cited recommendation. The signals below are a teaching framework - production share-of-voice systems also weight prompt importance, engine consensus, answer position within the response, and ground-truth comparisons."
-          ],
-          "table": {
-            "headers": [
-              "Signal",
-              "Example scoring question"
-            ],
-            "rows": [
-              [
-                "Mention",
-                "Was the brand included in the answer?"
-              ],
-              [
-                "Citation",
-                "Was a brand-owned page cited?"
-              ],
-              [
-                "Recommendation",
-                "Was the brand recommended for the use case?"
-              ],
-              [
-                "Position",
-                "Was the brand first, middle, or last?"
-              ],
-              [
-                "Accuracy",
-                "Were the stated facts correct?"
-              ]
-            ]
-          }
-        },
-        {
-          "heading": "How to interpret movement",
-          "body": [
-            "A rising mention score without citations may mean the brand is known but lacks useful owned sources. A rising citation score often means the content library is becoming more retrievable and useful."
-          ]
-        },
-        {
-          "heading": "Simple back-of-envelope calculation",
-          "body": [
-            "The weights below are illustrative starting points so a team can compute a defensible v1 score in a spreadsheet. SolCrys does not use these fixed weights in production - real weights are learned from observed answer behavior, prompt popularity, and longitudinal accuracy review.",
-            "For a fixed prompt set, calculate share of voice as the brand's weighted answer presence divided by the weighted answer presence of all tracked brands. Weight recommendation and citation more heavily than a neutral mention."
-          ],
-          "table": {
-            "headers": [
-              "Signal",
-              "Illustrative weight"
-            ],
-            "rows": [
-              [
-                "Neutral mention",
-                "1"
-              ],
-              [
-                "Positive recommendation",
-                "2"
-              ],
-              [
-                "Owned-source citation",
-                "3"
-              ],
-              [
-                "First listed recommendation",
-                "3"
-              ],
-              [
-                "Incorrect or negative mention",
-                "-1"
-              ]
-            ]
-          }
-        },
-        {
-          "heading": "How SolCrys prioritizes action",
-          "body": [
-            "SolCrys highlights prompts where competitors are cited and the brand is absent, prompts where the brand appears without an owned citation, and prompts where inaccurate details create conversion or reputation risk."
-          ]
-        },
-        {
-          "heading": "Beyond the starter framework",
-          "body": [
-            "The signals and weights on this page are intentionally simplified so teams can ship a first internal scorecard and align stakeholders. Production share-of-voice measurement has to handle several layers a static rubric cannot. SolCrys's platform extends these primitives with:"
-          ],
-          "bullets": [
-            "Prompt-popularity weighting from observed buyer intent across markets, not uniform weights per signal.",
-            "Engine-specific retrieval, grounding, and citation signals - what counts as a citation differs across engines and changes over time.",
-            "Calibrated scoring against periodic human-reviewed ground truth, with weights re-fit as engines evolve.",
-            "Time-weighted accuracy and recency, so a fresh accurate answer outweighs an old stale one.",
-            "Multi-engine consensus and divergence detection, so a one-off bad answer does not skew share-of-voice trend lines."
-          ]
-        }
-      ],
-      "faqs": [
-        {
-          "question": "What is a good AI share of voice benchmark?",
-          "answer": "There is no universal benchmark. Compare against your top competitors within the same prompt set and category over time."
-        },
-        {
-          "question": "Should citations and mentions be weighted equally?",
-          "answer": "Usually no. Citations often deserve more weight because they show the engine is using your content as evidence, not merely naming the brand."
-        }
-      ]
-    },
-    {
       "slug": "ai-share-of-recommendation",
       "title": "AI Share of Recommendation",
       "metaTitle": "AI Share of Recommendation: Beyond Share of Voice | SolCrys",
@@ -1345,9 +1212,9 @@
         "What AEO metrics should marketing teams track?"
       ],
       "relatedSlugs": [
-        "ai-search-share-of-voice",
         "ai-search-prompt-set",
-        "ai-brand-visibility-monitoring"
+        "ai-brand-visibility-monitoring",
+        "visibility-measurement-methodology"
       ],
       "sections": [
         {
@@ -1544,10 +1411,10 @@
       "metaTitle": "How to Build an AI Search Prompt Set for AEO | SolCrys",
       "description": "A practical guide to building an AI search prompt set across category, comparison, risk, implementation, competitor, and brand-specific prompts.",
       "h1": "How to build an AI search prompt set for AEO",
-      "summary": "An AI search prompt set is a repeatable list of questions used to measure how answer engines mention, cite, compare, and recommend a brand. A strong set includes category, comparison, competitor, risk, implementation, persona, and brand-specific prompts - it should mirror how real buyers research decisions, not just how marketers describe keywords.",
+      "summary": "An AI search prompt set is a repeatable list of questions used to measure how answer engines mention, cite, compare, and recommend a brand. A strong set includes category, comparison, competitor, risk, implementation, persona, and brand-specific prompts - it should mirror how real buyers research decisions, not just how marketers describe keywords. For the methodology behind how SolCrys grounds its prompt sets on real intent volume, public community signals, AI query data, and live engine follow-ups, see the Golden Prompt Set methodology.",
       "category": "Prompt Intelligence",
       "ogImage": "/og/ai-search-prompt-set.png",
-      "updated": "2026-05-04",
+      "updated": "2026-05-08",
       "primaryKeyword": "AI search prompt set",
       "aeoTargets": [
         "How do you choose prompts for AI visibility tracking?",
@@ -1555,6 +1422,7 @@
         "How many prompts should an AI visibility audit include?"
       ],
       "relatedSlugs": [
+        "golden-prompt-set-methodology",
         "ai-brand-visibility-monitoring",
         "ai-share-of-recommendation",
         "answer-gap-content-brief"
@@ -2464,7 +2332,7 @@
       "relatedSlugs": [
         "corporate-context-ai-marketing",
         "answer-gap-content-brief",
-        "ai-search-share-of-voice"
+        "ai-share-of-recommendation"
       ],
       "sections": [
         {
@@ -3868,15 +3736,16 @@
       "primaryKeyword": "reviews influence AI shopping",
       "aeoTargets": [
         "Do reviews affect AI product recommendations?",
-        "How do retail AI assistants use Q&A?",
-        "What makes a review useful for AI search?"
+        "How do retail AI assistants read reviews and Q&A as RAG inputs?",
+        "Which review attributes (specificity, recency, intent alignment, acknowledged tradeoffs) make a review useful for AI search?",
+        "How are reviews used differently from product Q&A in retail AI?"
       ],
       "relatedSlugs": [
         "retail-aeo",
+        "q-and-a-coverage-retail-aeo",
         "walmart-sparky-optimization",
         "amazon-rufus-optimization",
-        "retail-ai-shelf-diagnostic",
-        "answer-engine-optimization"
+        "retail-ai-shelf-diagnostic"
       ],
       "sections": [
         {
@@ -5542,18 +5411,18 @@
       "updated": "2026-05-06",
       "primaryKeyword": "Reddit AI citations",
       "aeoTargets": [
-        "How do I get my brand mentioned on Reddit for AI search?",
-        "Does Reddit influence ChatGPT recommendations?",
-        "How do I optimize for community citations?",
+        "Which community sources do AI engines cite most?",
+        "How does Reddit influence compare to G2, Capterra, and forum citations?",
+        "How do I balance investment across Reddit, review sites, and niche forums?",
         "Are G2 reviews cited by AI?"
       ],
       "relatedSlugs": [
+        "reddit-aeo-playbook",
         "ai-answer-citations",
         "owned-earned-community-sources-ai",
         "earn-llm-citations-content-source-match",
         "citation-gap-audit",
-        "answer-gap-content-brief",
-        "ai-search-share-of-voice"
+        "answer-gap-content-brief"
       ],
       "sections": [
         {
@@ -5656,7 +5525,7 @@
               "heading": "Rule 2: Don't pitch unless asked, and even then go easy",
               "body": [
                 "Most community engagement should answer questions outside your product, share knowledge, or contribute to the community. Mention your product only when genuinely relevant.",
-                "Application: A SolCrys community manager spends most of their r/SaaS time helping growth marketers think about content strategy, only mentioning SolCrys when someone asks about AEO platform options."
+                "Application: a community manager spends most of their time in marketer- and category-specific communities helping people think about content strategy, only mentioning their own product when someone asks for category options."
               ]
             },
             {
@@ -6254,6 +6123,7 @@
         "How much does an AEO platform cost?"
       ],
       "relatedSlugs": [
+        "evaluate-aeo-platform-methodology-checklist",
         "ai-visibility-dashboard-vs-aeo-execution-engine",
         "generic-aeo-vs-retail-aeo",
         "aeo-platform-pilot-playbook",
@@ -9313,9 +9183,10 @@
       "updated": "2026-05-06",
       "primaryKeyword": "amazon q and a optimization",
       "aeoTargets": [
-        "How do I optimize Amazon Q&A for AI search?",
-        "What is product Q&A coverage?",
-        "How does customer Q&A affect Rufus?"
+        "How do I build compliant product Q&A coverage for retail AEO?",
+        "Which 5 buyer-concern Q&A categories should every SKU cover?",
+        "What marketplace TOS limits apply to seeding product Q&A?",
+        "What does a 30-day Q&A coverage playbook look like for a top-SKU shortlist?"
       ],
       "relatedSlugs": [
         "retail-aeo",
@@ -10092,6 +9963,738 @@
         {
           "question": "Should I take this essay's advice if SolCrys benefits from it?",
           "answer": "The honest answer is yes - if SolCrys is wrong about llms.txt, the AEO platforms that promoted it benefit and SolCrys looks behind. The advice in this essay reflects what we believe to be the empirical reality, not a competitive jab. Test our claim against your own data and make your own call."
+        }
+      ]
+    },
+    {
+      "slug": "golden-prompt-set-methodology",
+      "title": "Golden Prompt Set Methodology",
+      "metaTitle": "Golden Prompt Set Methodology - How SolCrys Builds AEO Prompt Sets | SolCrys",
+      "description": "How SolCrys grounds AEO tracking on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists.",
+      "h1": "How SolCrys builds prompt sets - the Golden Prompt Set methodology",
+      "summary": "SolCrys generates a Golden Prompt Set (GPS) for each product category by grounding on four real-world signals: organic intent volume across major search and marketplace surfaces, trending questions from leading public community platforms, AI query volume signals, and live follow-up questions captured from rendered consumer surfaces such as ChatGPT and Rufus. Every prompt carries projected query volume and source provenance so customers can prioritize the questions buyers actually run, not the ones marketers wish they ran. This page is the trust-building methodology document behind the GPS - it explains how prompts are chosen, why the four-source grounding matters, how customer-supplied prompts blend in, how the templates update, and what GPS deliberately does not promise. Prompt selection is the single biggest determinant of AEO data quality, and we publish ours in full so buyers can evaluate before they sign.",
+      "category": "Prompt Intelligence",
+      "ogImage": "/og/golden-prompt-set-methodology.png",
+      "updated": "2026-05-08",
+      "primaryKeyword": "AI prompt set methodology",
+      "aeoTargets": [
+        "How do AI visibility platforms choose prompts to track?",
+        "What is a Golden Prompt Set?",
+        "How does SolCrys decide which prompts to monitor?",
+        "Where do AEO prompt sets come from?"
+      ],
+      "relatedSlugs": [
+        "ai-search-prompt-set",
+        "visibility-measurement-methodology",
+        "evaluate-aeo-platform-methodology-checklist",
+        "ai-share-of-recommendation"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "SolCrys generates a Golden Prompt Set (GPS) for each product category by grounding on four real-world data sources: organic intent volume across major search and marketplace surfaces, trending questions from leading public community platforms, AI query volume signals, and live follow-up questions captured from the rendering of answer engines like Rufus and ChatGPT. Each prompt in the GPS comes with projected query volume, so customers can prioritize the questions buyers actually run - not the ones marketers wish they ran.",
+            "Prompt selection is the single biggest determinant of AEO data quality. If a platform tracks the wrong prompts, every chart it produces is wrong - no matter how polished the dashboard or how accurate the per-prompt scoring."
+          ]
+        },
+        {
+          "heading": "Three failure modes the GPS is designed to avoid",
+          "body": [
+            "We designed the GPS to avoid three patterns we have observed in how AEO prompt selection commonly goes wrong."
+          ],
+          "table": {
+            "headers": [
+              "Failure mode",
+              "What goes wrong",
+              "What buyers experience"
+            ],
+            "rows": [
+              [
+                "Synthetic keyword lists",
+                "Tools pull SEO keywords and reformat them as questions ('best [X]?', '[X] vs [Y]?'). They look like prompts but don't match how buyers phrase questions to AI assistants.",
+                "'Why is my AEO tool tracking 200 prompts but I never see traffic move when I fix things?'"
+              ],
+              [
+                "Customer-only prompts",
+                "Tools rely entirely on customer-supplied prompts. Marketers tend to ask brand-flattering questions; real buyers ask harder, more skeptical ones.",
+                "'Our SOV looks great but our pipeline isn't growing.'"
+              ],
+              [
+                "LLM-generated synthetic prompts",
+                "Tools prompt an LLM to 'generate 100 questions a buyer might ask.' This produces plausible-sounding but volume-unverified queries - many are never actually asked.",
+                "'We're tracking lots of prompts but only 3 of them seem to drive any decisions.'"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "The four grounding sources",
+          "body": [
+            "Every GPS is built from four grounded data sources. A prompt only enters the GPS if it can be evidenced from at least one source - preferably more than one."
+          ],
+          "subsections": [
+            {
+              "heading": "Source 1: Organic intent volume across major search and marketplace surfaces",
+              "body": [
+                "We start with organic intent-volume data across the customer's category, covering general web search and, for ecommerce categories, marketplace-side search behavior. The exact data composition draws on multiple aggregate sources and partnerships and is tuned per category; we treat the supplier mix as part of our internal methodology.",
+                "Intent volume is the closest public proxy to real demand. A query asked at high volume in conventional search is highly likely to be asked in similar form in AI assistants. The phrasing differs - AI prompts are longer and more conversational - but the underlying intent is the same. We convert each intent-volume query into a prompt-style phrasing and add buyer context, comparative framing, and follow-up structure that AI assistants tend to elicit."
+              ]
+            },
+            {
+              "heading": "Source 2: Trending consumer questions from public community platforms",
+              "body": [
+                "Intent volume tells us what people search. Communities tell us how they actually phrase questions when asking other humans, which is much closer to how they ask AI.",
+                "We continuously monitor leading public community platforms in the customer's category - the discussion forums and Q&A sites where buyers ask category questions of other humans. The platform mix varies by industry and is tuned per category as part of our internal methodology. Public community Q&A is consistently among the most-cited source layers in AI answers; multiple third-party citation studies place community-discussion sites in the top tier of ChatGPT and Perplexity citations.",
+                "Real AI-search prompts are typically much longer than typed search queries - multi-clause, conversational, and explicitly problem-stated. Community-grounded prompts close that gap because human-to-human Q&A in communities phrases questions the same way humans phrase them to AI."
+              ]
+            },
+            {
+              "heading": "Source 3: AI query volume signals",
+              "body": [
+                "Direct AI query volume data is not fully public yet, but it is no longer guesswork. We aggregate signals from a combination of public engine disclosures, third-party research, and SERP-side trigger data, drawing on multiple aggregate sources rather than any single supplier. Specific input mix is part of our internal methodology.",
+                "Some queries are far more common in AI assistants than in traditional search - especially long, conversational, multi-clause questions. These queries don't show up in keyword-planner-style tools but dominate AI engine traffic. SEO-keyword-only prompt sets miss them entirely."
+              ]
+            },
+            {
+              "heading": "Source 4: Live follow-up questions from answer engines",
+              "body": [
+                "This is the source most platforms don't use, and it's where the GPS gets its edge. When a user asks ChatGPT, Rufus, Perplexity, or Google AI Overviews a question, the engines themselves often suggest follow-up questions. These follow-ups reflect the engine's own model of 'what users ask next,' expose the prompt journey from question to comparison to risk validation to recommendation, and surface buyer-stage transitions that pure search data cannot see.",
+                "We capture follow-ups from the rendered consumer-surface output of each engine, from marketplace-side AI assistant follow-up Q&A, and from supported SERP surfaces' 'People also ask' expansion. See the companion Visibility Measurement methodology for the broader capture approach."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "What a Golden Prompt Set looks like in practice",
+          "body": [
+            "A typical GPS for a B2B SaaS category includes 30 to 150 prompts depending on plan, grouped into six prompt types. The mix below is a design target for a generic B2B SaaS category, not a survey result. Actual mix is tuned per industry and per customer."
+          ],
+          "table": {
+            "headers": [
+              "Prompt type",
+              "Target mix",
+              "Illustrative example",
+              "Typical sources"
+            ],
+            "rows": [
+              [
+                "Category leadership",
+                "~20%",
+                "Who are the top CRM platforms for B2B SaaS in 2026?",
+                "Intent volume + AI query signals"
+              ],
+              [
+                "Comparison",
+                "~25%",
+                "How does HubSpot compare to Salesforce for a 50-person team?",
+                "Engine follow-ups + community signals"
+              ],
+              [
+                "Use case fit",
+                "~20%",
+                "Best CRM for SaaS with a 6-month sales cycle",
+                "Community signals + intent volume"
+              ],
+              [
+                "Risk / objection",
+                "~10%",
+                "What are the downsides of HubSpot for enterprise sales teams?",
+                "Community signals"
+              ],
+              [
+                "Implementation",
+                "~10%",
+                "How long does Salesforce implementation take for a mid-market company?",
+                "Intent volume + community"
+              ],
+              [
+                "Brand-specific",
+                "~15%",
+                "Is [your brand] worth the price?",
+                "Customer-supplied + brand mentions"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "What metadata each prompt carries",
+          "body": [
+            "Examples above use well-known public products purely for illustration; they are not taken from any specific customer's prompt set. Real customer prompts are private to each workspace. Each prompt in the GPS comes with metadata that lets customers prioritize."
+          ],
+          "bullets": [
+            "Projected query volume - estimated monthly run frequency on AI engines.",
+            "Buyer journey stage - awareness, consideration, decision, or risk validation.",
+            "Engine relevance - which AI engines this prompt is most likely to appear on.",
+            "Source provenance - which of the four grounding sources it came from."
+          ]
+        },
+        {
+          "heading": "How customer-supplied prompts blend in",
+          "body": [
+            "The GPS is the foundation, but every customer knows their buyers in ways we don't. SolCrys reserves a meaningful share of prompt slots for customer-supplied prompts. For Free Audit reports, that means five SolCrys-generated prompts paired with five customer-entered prompts. On paid plans, customers can replace any GPS prompt with their own, and an in-app prompt suggestion panel recommends additions based on gaps in the current set, trending discussion patterns, and engine follow-ups discovered in the customer's tracked responses.",
+            "When a customer adds a prompt, we run a sanity check that flags off-topic prompts, brand-flattering bias, and duplicates. The customer can override any flag - it is guidance, not gating."
+          ]
+        },
+        {
+          "heading": "How often the GPS updates",
+          "body": [
+            "Buyer questions shift, community discussion patterns spike, and engines change which follow-ups they suggest. The GPS is not a static template."
+          ],
+          "table": {
+            "headers": [
+              "Update cadence",
+              "What changes"
+            ],
+            "rows": [
+              [
+                "Weekly",
+                "Engine follow-up questions re-captured from the consumer-surface rendering."
+              ],
+              [
+                "Monthly",
+                "Community trending question signals refreshed."
+              ],
+              [
+                "Quarterly",
+                "Intent volume baselines re-grounded; full GPS template review per category."
+              ],
+              [
+                "On-trigger",
+                "Major news event or new entrant in a category triggers an out-of-cycle GPS refresh within 48 hours."
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "What the GPS is not",
+          "body": [
+            "We are explicit about what we do not do."
+          ],
+          "bullets": [
+            "Not a guarantee of revenue lift. A perfect prompt set does not fix bad content or weak brand presence; it just measures the right things.",
+            "Not a replacement for human judgment. The customer-supplied share exists because real buyers know nuances we don't.",
+            "Not pulled from a single LLM. We do not ask one model to 'generate 100 questions' and call it research. Every prompt has external evidence.",
+            "Not infinitely customizable in real time. Templates update on the cadence above, not on every customer request, to maintain quality."
+          ]
+        },
+        {
+          "heading": "Why we publish this methodology",
+          "body": [
+            "Most AEO platforms keep their prompt-selection methodology opaque. We publish ours because trust is the product - if you don't trust how prompts were chosen, every chart we show you is meaningless. Methodology should be falsifiable: a customer should be able to look at any prompt in their GPS and see why it was selected. And buyers deserve to evaluate before they sign, not after."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How is the Golden Prompt Set different from just using SEO keywords?",
+          "answer": "SEO keywords measure what people type into a search box. AI prompts are longer, more conversational, and increasingly bypass conventional search engines entirely. SEO keywords are one input to the GPS; the other three (community questions, AI query volume signals, engine follow-ups) capture the parts of buyer behavior that SEO data does not see."
+        },
+        {
+          "question": "How many prompts should I be tracking?",
+          "answer": "It depends on your category and buyer complexity. A solo founder or small SMB usually surfaces the meaningful 80% of buyer journeys with 15 to 30 prompts. Mid-market B2B teams typically run 50 to 100 prompts to cover personas, ICPs, and use cases. Enterprise and agency accounts often track 200+ prompts across product lines, regions, or client brands."
+        },
+        {
+          "question": "Can I track prompts in languages other than English?",
+          "answer": "Currently the GPS supports English-language prompts across English-dominant markets (US, UK, Canada, Australia). Multi-language GPS support is on the roadmap; please contact sales for current localization availability."
+        },
+        {
+          "question": "Do you share my custom prompts with anyone?",
+          "answer": "No. Customer-supplied prompts are private to your workspace and never used to update other customers' GPS templates. Industry-template GPS updates are derived from public sources only."
+        },
+        {
+          "question": "How do you verify a prompt is actually asked by real buyers and not just an SEO artifact?",
+          "answer": "We require evidence from at least one of the four grounding sources before a prompt enters the GPS, and we prioritize prompts evidenced by two or more sources. Synthetic SEO-only prompts get the lowest priority weighting in your dashboard, so you can see at a glance which prompts have strong evidence and which are speculative."
+        },
+        {
+          "question": "What happens to my historical data if the GPS template updates?",
+          "answer": "Your tracked prompts do not change unless you accept the update. Template changes appear as suggestions in your suggestion panel; you decide which to adopt. Historical trend lines for prompts you keep tracking stay continuous, with no breaks or recalibration needed."
+        }
+      ]
+    },
+    {
+      "slug": "visibility-measurement-methodology",
+      "title": "AI Visibility Measurement Methodology",
+      "metaTitle": "AI Visibility Measurement Methodology - Real-User Fidelity | SolCrys",
+      "description": "How SolCrys captures AI visibility data: dual-channel measurement that combines consumer-surface capture from ChatGPT, Google AI Overviews, and Rufus with API capture for agents - every data point traceable to a prompt, platform, and timestamp.",
+      "h1": "How SolCrys measures AI visibility - real-user fidelity, not API approximations",
+      "summary": "SolCrys measures AI visibility across two complementary channels because real users interact with AI both ways. For ChatGPT, Google AI Overviews, and Amazon Rufus, we capture from the rendered consumer surface - the same view a buyer sees when they actually use the product. For agents and deep research tools that query AI through programmatic interfaces, we query each engine's current default consumer-grade model with live grounding enabled, matching how agents call the API in production. Every data point is traceable to a specific prompt, engine, region, and timestamp. Snapshot cadence ranges from one-time audits to daily refresh on higher-tier plans, building the sample sizes that turn noisy single-snapshot reads into high-confidence visibility scores and trend lines. This page is the methodology document the most rigorous evaluators ask for - we publish it before sales calls so buyers can evaluate measurement quality on their own terms.",
+      "category": "Measurement",
+      "ogImage": "/og/visibility-measurement-methodology.png",
+      "updated": "2026-05-08",
+      "primaryKeyword": "AI visibility measurement methodology",
+      "aeoTargets": [
+        "How do AI visibility platforms capture data?",
+        "Why should I trust AI visibility data?",
+        "How does SolCrys measure brand mentions in ChatGPT?",
+        "Browser channel vs API channel for AEO measurement"
+      ],
+      "relatedSlugs": [
+        "ai-brand-visibility-monitoring",
+        "golden-prompt-set-methodology",
+        "evaluate-aeo-platform-methodology-checklist",
+        "ai-hallucination-risk-monitoring"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "SolCrys measures AI visibility across two complementary channels because real users interact with AI both ways. For ChatGPT, Google AI Overviews, and Amazon Rufus, we capture data from the rendered consumer surface - the same view a buyer sees when they use the product. The responses we record reflect what your customers see, including product cards, retailer pricing, and follow-up Q&A. For agents and deep research tools that query AI through programmatic interfaces, we query each engine's current default consumer-grade model with live grounding enabled, matching how agents call the API in production.",
+            "Every data point is traceable to a specific prompt, platform, region, and timestamp. Snapshot cadence runs from one-time audits up to daily refresh on higher-tier plans, building the sample sizes that turn noisy single-snapshot reads into high-confidence visibility scores and trend lines."
+          ]
+        },
+        {
+          "heading": "Why measurement methodology is the trust question buyers should ask first",
+          "body": [
+            "AI engines are noisy. Ask the same question twice in two minutes and you can get materially different answers - this is a documented property of how the underlying language models sample tokens, not a bug. Different users on the same engine often get different responses depending on regional model routing, account history, and live-web variability. An AEO platform that hides how it deals with this is asking you to trust their charts on faith.",
+            "The harder question to answer well is: does the platform measure what your buyers actually see? Not what some API endpoint returns under default settings - the actual experience of a real person typing your category question into a consumer chat surface or asking Rufus on a product page. Public engine documentation and third-party research consistently find that consumer chat UIs use different system prompts, different default tools, and sometimes different model routing than the same provider's public API. The same prompt can return a different answer through the same brand's two doors."
+          ]
+        },
+        {
+          "heading": "Channel 1: Consumer-surface capture",
+          "body": [
+            "For ChatGPT, Google AI Overviews and AI Mode, Amazon Rufus, and similar consumer-facing AI assistants, we capture from the rendered consumer surface - the same view a buyer sees when they open the product or ask a shopping assistant. This is harder and more expensive to operate than pure API calls, but it is the only way to capture what your buyers actually experience.",
+            "For each tracked prompt the capture pipeline records the engine's consumer-surface state, including the model the engine routes to by default, whether web search is enabled by default for that surface, regional settings, and any UI elements the engine renders alongside the textual response. The technical details vary per engine and evolve over time. We comply with each provider's terms of service and use the access methods each provider supports, including third-party SERP capture infrastructure for surfaces with no official API. For enterprise customers with strict compliance requirements, we provide written documentation of the access methods used per engine."
+          ],
+          "bullets": [
+            "The full rendered response text - the answer your buyer reads.",
+            "Source citations and their URLs - what the engine pointed buyers to.",
+            "Product modules and pricing where shown - product cards, shopping carousels, retailer placements.",
+            "Suggested follow-up questions - the engine's own model of 'what users ask next.'",
+            "Engine-disclosed model signals when available.",
+            "A timestamped audit artifact for every data point."
+          ]
+        },
+        {
+          "heading": "Why the consumer surface matters more than the API",
+          "body": [
+            "The consumer products are not thin wrappers over the public API. Consumer ChatGPT routes to a specific default model, with web search enabled by default in many regions, and applies post-processing that the public API does not. Google AI Overviews and AI Mode have no public API at all - every Overviews tracker on the market today is doing some form of SERP capture under the hood; we just do it openly and document it. Amazon Rufus is embedded inside the Amazon shopping UX and surfaces product cards, prices, and Q&A that reflect live retailer data, none of which is exposed via any public Amazon API.",
+            "A platform that 'tracks ChatGPT' by hitting a generic API endpoint is measuring something - but it is not measuring what your buyers see. The two outputs can diverge enough that fixing one does not move the other."
+          ]
+        },
+        {
+          "heading": "What we capture per data point",
+          "body": [
+            "Every captured response produces an audit trail with the fields below. If you ever question a specific data point, our team can reproduce it down to the exact prompt, engine, region, and time, and show you what the rendered response looked like."
+          ],
+          "table": {
+            "headers": [
+              "Field",
+              "What it captures",
+              "Why it matters"
+            ],
+            "rows": [
+              [
+                "prompt_text",
+                "Exact prompt submitted, character-for-character.",
+                "So you can replay it manually and verify."
+              ],
+              [
+                "engine",
+                "Which consumer surface or API endpoint.",
+                "So data is not blended across surfaces."
+              ],
+              [
+                "region / locale",
+                "Geographic and language settings.",
+                "Engines route differently by region."
+              ],
+              [
+                "timestamp_utc",
+                "When the capture ran.",
+                "Engines change behavior over time."
+              ],
+              [
+                "response_text",
+                "Full rendered response.",
+                "The thing your buyer reads."
+              ],
+              [
+                "citations[]",
+                "Each cited URL with title and snippet.",
+                "What the engine pointed buyers to."
+              ],
+              [
+                "product_cards[]",
+                "Any product modules shown.",
+                "What buyers can click to buy."
+              ],
+              [
+                "follow_up_questions[]",
+                "Engine-suggested next questions.",
+                "The buyer journey continuation."
+              ],
+              [
+                "model_signal",
+                "What the engine disclosed about the responding model where available.",
+                "Engines update defaults; we track when."
+              ],
+              [
+                "artifact_hash",
+                "Cryptographic hash of the captured artifact.",
+                "Tamper-evidence for the audit trail."
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "Channel 2: API capture for agents and deep research tools",
+          "body": [
+            "A growing share of brand mentions and product recommendations no longer happen on consumer chat surfaces at all. They happen inside agents, deep research tools, and enterprise AI assistants that query the engines through their public APIs. For this channel, we query each engine's current default consumer-grade model with live grounding enabled, matching how agents call the API in production. We run sessions with no memory or personalization, in standardized regions and languages, so data is comparable across snapshots and across customers.",
+            "An agent built on top of an engine's API will typically return different answers than the same query in the same brand's consumer chat product. Both surfaces matter. By running both channels, SolCrys customers see the full picture: what individual buyers experience on consumer chat surfaces, and what agents and deep research tools surface when they programmatically query the engines."
+          ]
+        },
+        {
+          "heading": "Traceability: every data point should be falsifiable",
+          "body": [
+            "A claim like 'your brand was mentioned in 23% of category prompts last week' is meaningless unless you can answer the obvious follow-up: show me which prompts, on which engines, at which times, with what exact response. Customers can drill from any chart or trend line back to the underlying responses. If you suspect a result is wrong, request the source artifact and reproduce the prompt yourself in the same engine - the response should match in substance.",
+            "This kind of traceability is the difference between a dashboard you can defend internally to your CMO or board and one you cannot."
+          ]
+        },
+        {
+          "heading": "Statistical confidence: handling AI engine variability",
+          "body": [
+            "A single snapshot of an AI response is a snapshot of a noisy system. AI engines are non-deterministic by design - sampling introduces randomness so the conversation feels dynamic. Engines also re-route between models, update defaults, and change citation behavior day-to-day. To produce trustworthy trend lines, single snapshots are not enough; repeated capture is required.",
+            "Free Audit reports include a single snapshot for a directional read on where your brand stands today. Paid plans re-run prompts on a recurring cadence (weekly to daily depending on plan). Trend lines and recommendation share metrics are reported with rolling windows (typically 7-day, 30-day, 90-day) and confidence bands where the underlying sample is large enough to support them. When a movement is within the expected variance for a given engine, we flag it as such instead of reporting it as a real trend change.",
+            "The goal is not to eliminate engine noise - that is impossible. The goal is to give you enough sample size that your trend lines reflect genuine movement, not yesterday's coin flip."
+          ]
+        },
+        {
+          "heading": "Model-version transparency",
+          "body": [
+            "A common opacity in this category is vendors saying 'we track ChatGPT' without disclosing which model version they are querying. Our policy: for each engine we track, we maintain a published model registry in our platform changelog and customer dashboard, showing the current consumer-surface model the engine reports for that surface and the API model we query in the API channel. When a provider changes a default, we update tracking and disclose the change in the changelog so customers can interpret any discontinuities in their trend lines.",
+            "We do not claim to track every variant of every engine. We track the consumer-default surface for each engine we cover, plus a parallel API track for engines where the API and consumer surface diverge meaningfully."
+          ]
+        },
+        {
+          "heading": "What we deliberately do not claim",
+          "body": [
+            "To make the methodology credible, here is what we are explicit about not claiming."
+          ],
+          "bullets": [
+            "We do not promise that fixing a flagged answer gap will guarantee citation lift. Engine behavior is influenced by hundreds of inputs we cannot fully see; we tell you what to fix and we re-measure after.",
+            "We do not promise daily refresh on every plan. Cadence is plan-dependent; the trade-off between cost and refresh frequency is honest and disclosed in pricing.",
+            "We do not promise complete coverage of every AI engine. New engines launch frequently; we track the engines our customers' buyers actually use.",
+            "We do not promise consumer-surface capture will never miss a UI element. Engines redesign their interfaces; when extraction fails for a new layout, we flag it in the data instead of silently degrading.",
+            "We do not personalize results based on a fake user identity. Sessions run with default state - no logged-in personalization, no memory, no account history.",
+            "We do not blend channels silently. Consumer-surface and API capture data are tagged separately; you can filter to either channel or compare them."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How is consumer-surface capture different from just calling an API?",
+          "answer": "A consumer chat product is not a thin shell over the public API. It uses a specific default model, enables tools and post-processing the API does not, and renders UI elements like product cards and follow-up suggestions the API never returns. Capturing from the rendered consumer surface is the only way to measure what a buyer actually sees on these surfaces."
+        },
+        {
+          "question": "Why don't you just use the engine's API for everything? It is cheaper.",
+          "answer": "Cheaper to operate, but the data does not match what consumer users see. For Google AI Overviews specifically, no public API even exists. For ChatGPT and similar consumer chat surfaces, the API and consumer product can return materially different answers to the same prompt. Running both channels costs more but produces data that holds up when a customer reproduces a result manually."
+        },
+        {
+          "question": "How do you handle the fact that AI engines give different answers each time?",
+          "answer": "By repeated capture and statistical reporting. Daily or near-daily refreshes (depending on plan) over a rolling window let us report visibility scores and trend lines that reflect real movement rather than per-snapshot variance. We also report rolling confidence intervals where the sample size supports them, so you can see when a trend is statistically meaningful versus when it might still be noise."
+        },
+        {
+          "question": "What happens when an engine changes its default model?",
+          "answer": "We monitor provider announcements and model deprecations on an ongoing basis. When an engine changes its default consumer model, we update our tracking configuration to match within days and disclose the change in the platform changelog so customers can interpret any trend-line discontinuities."
+        },
+        {
+          "question": "Can I verify a specific result myself?",
+          "answer": "Yes. Every data point is traceable to the exact prompt, engine, region, and timestamp. Open any tracked prompt, select a snapshot, and you can see the full response we captured. To verify, copy the prompt text, set your browser to the same region, and submit it on the engine yourself within a short time window. The response should match in substance."
+        },
+        {
+          "question": "Is consumer-surface capture allowed under the engines' Terms of Service?",
+          "answer": "Our capture follows public-content access patterns each provider supports and does not require account login or personalization on consumer surfaces where that is the default user experience. We monitor provider terms and adjust our methods accordingly. For enterprise customers with strict compliance requirements, we can provide documentation of the access methods used per engine under NDA."
+        },
+        {
+          "question": "How is this methodology different from 'AI visibility' tools that just ping public APIs?",
+          "answer": "API-only trackers measure what a developer would get back from a generic API call. Consumer-surface capture measures what a buyer actually experiences. Both have value, but they answer different questions. SolCrys runs both because real-world AI visibility happens on both surfaces, and the answers diverge often enough that single-channel measurement misses things buyers actually care about."
+        }
+      ]
+    },
+    {
+      "slug": "evaluate-aeo-platform-methodology-checklist",
+      "title": "Evaluate an AEO Platform's Data Methodology",
+      "metaTitle": "Evaluate an AEO Platform's Data Methodology - 7 Questions | SolCrys",
+      "description": "A buyer's checklist for evaluating AEO and AI visibility platforms on data methodology. Seven questions that distinguish vendors with auditable, fidelity-first measurement from vendors with synthetic dashboards.",
+      "h1": "How to evaluate an AEO platform's data methodology - 7 questions that separate real measurement from vanity metrics",
+      "summary": "Most AEO platforms describe their measurement in marketing-speak ('comprehensive AI visibility tracking across all major engines') and hope buyers don't ask harder questions. The seven questions below separate vendors with reproducible, auditable data from vendors selling beautiful dashboards on weak foundations: where prompts come from, whether responses are captured from the consumer surface or the API, which model versions are queried, how engine non-determinism is handled, whether a single data point can be reproduced, what happens when an engine changes its default, and whether the cost model is honest about per-engine multipliers. This is the data-trust companion to the broader AEO Platform Buyer's Guide. Send the questions in writing before the call. A vendor that bristles at any of them is signaling something about how they handle scrutiny.",
+      "category": "Buyer Guides & Platform Decisions",
+      "ogImage": "/og/evaluate-aeo-platform-methodology-checklist.png",
+      "updated": "2026-05-08",
+      "primaryKeyword": "evaluate AEO platform methodology",
+      "aeoTargets": [
+        "How do I evaluate an AEO platform's data?",
+        "What questions should I ask an AI visibility vendor about methodology?",
+        "How do I know if AEO data is accurate?",
+        "What's the difference between AI visibility platforms?"
+      ],
+      "relatedSlugs": [
+        "ai-visibility-platform-buyers-guide",
+        "golden-prompt-set-methodology",
+        "visibility-measurement-methodology",
+        "ai-visibility-dashboard-vs-aeo-execution-engine"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "Most AEO and AI visibility platforms describe their measurement in marketing-speak ('comprehensive AI visibility tracking across all major engines') and hope buyers don't ask harder questions. The seven questions below separate vendors with reproducible, auditable data from vendors selling beautiful dashboards on weak foundations: where do prompts come from, are responses captured from the consumer surface or the API, which model versions are queried, how is engine non-determinism handled, can a single data point be reproduced, what happens when an engine changes its default, and is the cost model honest about per-engine multipliers.",
+            "This is the data-trust companion to the broader AEO Platform Buyer's Guide. That guide covers full vendor selection. This post focuses specifically on the data-and-methodology dimension - the part most buyers under-investigate before signing."
+          ]
+        },
+        {
+          "heading": "Why methodology is the under-investigated dimension",
+          "body": [
+            "Buyers comparing AEO platforms typically focus on three dimensions: feature parity, price, and engine coverage. The fourth - whether the underlying data is reliable - is harder to evaluate from a sales call and easier to wave away with a slide. So most buyers skip it. Two specific failure modes recur.",
+            "Synthetic prompts dressed as research: a vendor says 'we track 300 prompts in your category' but the prompts were generated by a language model at indexing time, not grounded in real buyer behavior. The questions real users ask AI assistants are typically much longer and more problem-stated than synthetic SEO-keyword-derived prompts. If the prompts don't reflect real questions, the visibility numbers don't reflect real exposure.",
+            "API-only tracking sold as consumer measurement: a vendor says 'we track ChatGPT' but in practice queries an API endpoint that uses different default models, system prompts, and web-search behavior than the consumer chat product. The two surfaces can diverge enough that fixing one does not move the other."
+          ]
+        },
+        {
+          "heading": "The 7 methodology questions",
+          "body": [
+            "Each question lists what you are listening for, common red flags, and why it matters."
+          ],
+          "subsections": [
+            {
+              "heading": "Question 1: Where do your tracked prompts come from?",
+              "body": [
+                "What you are listening for: specific data sources, not vague phrases like 'AI-generated based on your category.' Strong answers include some combination of intent volume data, trending community questions from public Q&A platforms, live follow-up questions captured from the engines themselves, and customer-supplied prompts at a transparent ratio.",
+                "Red flags: 'We use AI to generate prompts based on your category' (translation: synthetic), vague phrases like 'ensemble deep-learning models on 50+ sources' without naming the sources, refusal to disclose template-vs-customer ratio, and no mechanism for declining or replacing the vendor's default prompts."
+              ]
+            },
+            {
+              "heading": "Question 2: Are responses captured from the consumer surface or the API?",
+              "body": [
+                "What you are listening for: a clear distinction, ideally with both. Strong answers explain that consumer-surface capture is used for engines like ChatGPT, Google AI Overviews, and Rufus because that is what buyers actually see; that the API is used separately for agent and deep-research use cases; and that each data point is tagged so you can filter to either channel.",
+                "Red flags: 'We use the API because it is more reliable' (translation: the data does not match what consumer users see); inability to explain how Google AI Overviews is captured (it has no public API); implicit claim that API and consumer-surface data are interchangeable."
+              ]
+            },
+            {
+              "heading": "Question 3: Which specific model versions do you track?",
+              "body": [
+                "What you are listening for: named models and surfaces, plus a public registry that updates when defaults change. Strong answers describe a model registry published in a changelog, an SLA for updating tracking when a default changes, and per-data-point model signal where the engine discloses it.",
+                "Red flags: 'We track ChatGPT' without specifying the variant or surface; 'the platform decides which model gets used' (this means data is not reproducible); no public model registry or changelog."
+              ]
+            },
+            {
+              "heading": "Question 4: How do you handle the fact that AI engines give different answers each time?",
+              "body": [
+                "What you are listening for: explicit acknowledgement of non-determinism, plus a methodology for it. Strong answers describe repeated capture on a recurring cadence with rolling-window aggregates and confidence bands; flag single-snapshot data points as such; and treat movement within historical engine variance as 'within noise' rather than as a real trend change.",
+                "Red flags: 'Our data is highly accurate' without explaining how non-determinism is handled; one run per refresh cycle treated as one data point; no confidence intervals, rolling windows, or acknowledgement that engines are non-deterministic."
+              ]
+            },
+            {
+              "heading": "Question 5: Can a specific data point be reproduced?",
+              "body": [
+                "What you are listening for: yes, with specifics. The vendor should be able to walk you from any chart to the underlying captured response, including prompt text, engine, region, timestamp, response, and citations. On higher-tier plans, raw structured data should be exportable.",
+                "Red flags: 'Our methodology is proprietary' (translation: you can't audit it); no drill-down from charts to raw responses; case studies that show only AI response screenshots without capture metadata."
+              ]
+            },
+            {
+              "heading": "Question 6: What happens when an engine changes its default model?",
+              "body": [
+                "What you are listening for: a documented update process plus disclosure to customers. Strong answers describe ongoing monitoring of provider announcements, an SLA for updating tracking, dashboard surfacing of model changes, and automated alerting so the team does not miss provider updates.",
+                "Red flags: 'We use the latest model' without specifying how 'latest' is defined or who watches for changes; no changelog visible to customers; inability to describe what happened the last time a major engine updated its default."
+              ]
+            },
+            {
+              "heading": "Question 7: Is the cost model honest about per-engine multipliers?",
+              "body": [
+                "What you are listening for: a pricing model that reconciles to forecastable spend. Strong answers express pricing as tracked prompts and included engines with a transparent multiplier structure; price add-ons individually; and avoid per-credit pricing that hides engine multipliers.",
+                "Red flags: '1 credit = 1 AI response' (the hidden multiplier is engines x cadence x refresh cycles); tiered plans with no published per-engine consumption rules; custom pricing with no reference points. Credit pricing without clear per-engine rules makes it almost impossible to forecast spend."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "How to use this checklist",
+          "body": [
+            "Treat the seven questions as documentation requests, not accusations. A credible vendor will welcome them and have ready answers."
+          ],
+          "bullets": [
+            "Send the seven questions in writing before the call. This filters out vendors who can't answer in writing.",
+            "Score each answer 0/1/2 (no answer / vague answer / specific answer). A vendor below 10/14 is not yet ready for production buyer work.",
+            "Ask for documentation on the strongest claims. A vendor that says 'we publish a model registry' should be able to show it on the spot.",
+            "Run a side-by-side test. Pick five prompts in your category, have the vendor run them, and run them yourself manually. The vendor's reported responses should align in substance with your manual checks.",
+            "Read the vendor's methodology page if they have one before the call. If they don't have one, that is itself an answer."
+          ]
+        },
+        {
+          "heading": "What we deliberately do not claim",
+          "body": [
+            "To make this checklist credible, we want to be explicit about what no AEO platform - including SolCrys - can honestly promise."
+          ],
+          "bullets": [
+            "No platform can guarantee citation lift. Engine behavior is influenced by hundreds of inputs no vendor can fully control. The right promise is measurement and recommended actions, not outcomes.",
+            "No platform fully covers every AI engine. Coverage trade-offs are real. Beware vendors who claim universal coverage; ask which engines are tracked at full fidelity vs. partial.",
+            "No platform is immune to engine changes. What matters is how quickly the vendor responds and how transparently they disclose updates to customers."
+          ]
+        },
+        {
+          "heading": "How SolCrys answers its own checklist",
+          "body": [
+            "We publish our prompt-selection methodology in the Golden Prompt Set methodology page and our visibility-measurement methodology in the Visibility Measurement methodology page. Every paid plan includes per-data-point drill-down with the prompt, engine, region, timestamp, and captured response. We disclose model versions in our changelog. Pricing is published with no per-engine multiplier surprises. We try to model the standard we are asking other vendors to meet."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "What is the single most important question on this list?",
+          "answer": "If we had to pick one: Question 5 (reproducibility). If a platform cannot show you the raw captured response behind any chart, none of the other questions matter - every claim becomes unfalsifiable. Reproducibility is the foundation that makes the other six questions checkable."
+        },
+        {
+          "question": "How is this different from your other Buyer's Guide?",
+          "answer": "The AEO Platform Buyer's Guide covers the full vendor selection: positioning fit, feature breadth, support, integrations, agency scenarios, and pricing fairness. This post zooms in on the data-and-methodology dimension specifically - the part most buyers underweight in vendor selection but that determines whether the data they pay for is trustworthy."
+        },
+        {
+          "question": "Should I ask all seven questions even if the vendor seems credible?",
+          "answer": "Yes. The questions are documentation requests, not accusations. A credible vendor will welcome them and have ready answers. A vendor that bristles at any of them is signaling something about how they handle scrutiny."
+        },
+        {
+          "question": "What about smaller or newer AEO vendors that haven't published methodology pages yet?",
+          "answer": "Some early-stage vendors have legitimate methodology that is not yet documented publicly. In that case, ask for a methodology document under NDA. If they can produce one in writing, they pass. If they cannot, treat them like any other vendor that won't show their work."
+        },
+        {
+          "question": "Is there a single failing answer that should disqualify a vendor outright?",
+          "answer": "Two: 'The platform decides which model gets used' (data is non-reproducible) and 'Our methodology is proprietary' (methodology that cannot be audited cannot be trusted). Implementation details can be confidential; the methodology itself should be transparent."
+        },
+        {
+          "question": "How does SolCrys score on its own checklist?",
+          "answer": "We publish prompt-selection and measurement methodology, disclose model versions, ship per-data-point drill-down on paid plans, and publish pricing with transparent per-engine rules. We try to model the standard we are asking other vendors to meet."
+        }
+      ]
+    },
+    {
+      "slug": "marketing-agent-infrastructure-aeo-positioning",
+      "title": "When 'Marketing Agent Infrastructure' Helps or Hurts AEO Buyers",
+      "metaTitle": "When 'Marketing Agent Infrastructure' Helps or Hurts AEO Buyers | SolCrys",
+      "description": "'Marketing agent infrastructure' has become a common AEO category claim. This essay explains when the framing helps buyers, when it stays too abstract to be useful, and how SolCrys keeps generic AEO plus retail execution concrete.",
+      "h1": "When 'marketing agent infrastructure' helps or hurts AEO buyers",
+      "summary": "'Marketing agent infrastructure' has become a popular category claim across AEO platforms in 2025-2026. The term can be useful when the buyer needs governance, context management, workflow, and execution across many answer surfaces. It becomes weak when it stays abstract and doesn't name the concrete surfaces where the work actually happens: Google AI Overviews, ChatGPT, Perplexity, Amazon Rufus, Walmart Sparky, ChatGPT Shopping, or other category-specific engines. The stronger framing is not 'infrastructure vs. retail.' It is generic AEO execution with concrete wedges where the buyer has urgent visibility and recovery problems. SolCrys uses infrastructure language only when it clarifies the governed execution layer; for public buyer messaging, the sharper language is AEO execution, prompt-level diagnosis, Corporate Context, and retail AI recovery where the retail wedge is the buyer's urgent problem.",
+      "category": "Strategy & Positioning",
+      "ogImage": "/og/marketing-agent-infrastructure-aeo-positioning.png",
+      "updated": "2026-05-08",
+      "primaryKeyword": "AEO category positioning",
+      "aeoTargets": [
+        "What category does AEO belong to?",
+        "Is AEO marketing infrastructure?",
+        "How should AEO be positioned?"
+      ],
+      "relatedSlugs": [
+        "retail-aeo",
+        "answer-gap-content-brief",
+        "ai-search-is-decision-layer",
+        "ai-visibility-platform-buyers-guide"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "'Marketing agent infrastructure' has become a popular category claim across AEO platforms in 2025-2026. The term can be useful when the buyer needs governance, context management, workflow, and execution across many answer surfaces. It becomes weak when it stays abstract and does not name the concrete buyer surfaces where the work happens - Google AI Overviews, ChatGPT, Perplexity, Amazon Rufus, Walmart Sparky, ChatGPT Shopping, or other category-specific engines.",
+            "The stronger framing is not 'infrastructure vs. retail.' It is generic AEO execution with concrete wedges where the buyer has urgent visibility and recovery problems. SolCrys uses infrastructure language only when it clarifies the governed execution layer. For public buyer messaging, the sharper language is AEO execution, prompt-level diagnosis, Corporate Context, and retail AI recovery where the retail wedge is the buyer's urgent problem."
+          ]
+        },
+        {
+          "heading": "The pattern: vendors crowding into 'infrastructure' claims",
+          "body": [
+            "Through 2024, AEO platforms mostly described themselves as 'AI visibility tools' or 'AI search optimization platforms.' Through 2025, several started repositioning as 'marketing AI infrastructure' or 'marketing agent infrastructure.' By 2026, this is a crowded claim. When five-plus platforms all claim to be 'the infrastructure' for the same category, the term loses meaning. Buyers can't differentiate; vendors fight over a hill no one will take."
+          ]
+        },
+        {
+          "heading": "Three problems with 'marketing agent infrastructure' as a frame",
+          "body": [
+            "Three structural issues recur whenever a category leans on the infrastructure claim."
+          ],
+          "subsections": [
+            {
+              "heading": "Problem 1: Category boundary is fuzzy",
+              "body": [
+                "Is marketing agent infrastructure a content workflow platform, a measurement dashboard, an execution engine, a content generation tool, or a category-specific solution? The term covers all of these, which means it differentiates none. A buyer comparing platforms against an 'infrastructure' claim has to ask 'what does that actually mean?' - and the platform's answer reveals the real category."
+              ]
+            },
+            {
+              "heading": "Problem 2: Adjacency conflict with martech",
+              "body": [
+                "Existing large martech infrastructure players already own the 'marketing infrastructure' category. AEO platforms claiming the same term invite an uncomfortable comparison: are you replacing them, supplementing them, or just borrowing the language? Most AEO platforms supplement the existing martech stack with AEO-specific capabilities. Saying 'we are the AEO layer that connects to your existing martech' is honest and useful. Saying 'we are the marketing infrastructure' overclaims."
+              ]
+            },
+            {
+              "heading": "Problem 3: Abstraction away from concrete buyer surfaces",
+              "body": [
+                "'Marketing agent infrastructure' abstracts away from what buyers actually need - showing up in Amazon Rufus when buyers ask for a category, getting cited in ChatGPT for a comparison query, or recovering from a Walmart Sparky drop on the top SKUs. These concrete asks are the actual buying motivations. A platform selling 'infrastructure' requires the buyer to translate concrete pain into the abstract product claim, which is extra cognitive work that often results in the buyer choosing a competitor whose claim is more concrete."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "What works instead: category-specific framing",
+          "body": [
+            "The platforms winning customers most successfully in 2026 are not claiming 'infrastructure.' They are naming a category-specific capability: AI visibility for a defined buyer scope, all you need for a specific category, a specific layer experience, or a specific outcome - 'grow visibility, not headcount.' Each names a job to be done; buyers can immediately self-identify whether they fit."
+          ]
+        },
+        {
+          "heading": "SolCrys's positioning stance",
+          "body": [
+            "The useful part of 'marketing agent infrastructure' is the underlying system: gap diagnosis, execution, governance, and verification. The risk is using the phrase as the buyer-facing category before the buyer understands the job to be done.",
+            "The 2026 stance: SolCrys is generic AEO execution with a retail wedge. Generic AEO execution covers prompt-level visibility, answer gap diagnosis, Corporate Context, governed actions, and action-to-result tracking. The retail wedge covers concrete engines and workflows for Rufus, Sparky, ChatGPT Shopping, listing rewrites, attribute completeness, Q&A coverage, and SKU-level recovery. Buyers can quickly understand whether they need broad AEO execution, retail AI recovery, or both. This isn't backing down from the underlying capabilities; 'infrastructure' was a shorthand for measurement plus diagnosis plus execution plus verification. It's choosing a buyer-recognizable name for those capabilities."
+          ]
+        },
+        {
+          "heading": "When 'infrastructure' claims do work",
+          "body": [
+            "'Infrastructure' is a useful category claim for the right vendor. It works when the platform's capability genuinely spans multiple traditionally-separate categories, when the platform is large enough that the claim is not aspirational, and when customers themselves describe it as 'infrastructure' (not just the marketing copy). For most AEO platforms today, none of these are true. The 'infrastructure' claim is aspirational. Better to claim what is actually true: a strong product in a defined category."
+          ]
+        },
+        {
+          "heading": "What this means for AEO buyers",
+          "body": [
+            "Three implications when you are evaluating platforms."
+          ],
+          "bullets": [
+            "Demand category-specific demos. When a platform pitches 'marketing agent infrastructure,' ask: show me how you handle my specific surface - Rufus, ChatGPT, AI Overviews, retail AI. Depth on the specific surface reveals whether the broader claim is real.",
+            "Avoid generalist platforms when you have specific needs. If most of your AEO problem is retail AI, a generalist platform without retail workflows may be less useful than one with deep retail coverage.",
+            "Watch for the 'infrastructure' cliche as a signal of vagueness. Platforms leading with 'infrastructure' often haven't decided what category they are winning. That ambiguity becomes your problem at year-2 expansion or year-3 contract renewal."
+          ]
+        },
+        {
+          "heading": "What this means for AEO vendors",
+          "body": [
+            "Three implications for platforms positioning themselves in this category."
+          ],
+          "bullets": [
+            "Choose a defensible cleavage. Don't compete for 'infrastructure'; compete for a category with clear boundaries (Retail AEO, enterprise AEO with governance, agency-friendly AEO, B2B SaaS AEO).",
+            "Make the cleavage concrete in the product. A 'Retail AI' claim requires retail-specific capabilities (Rufus listing audit, Sparky attribute completeness, ChatGPT Shopping schema). If the product doesn't have these, the claim is hollow.",
+            "Acknowledge the limits. Brands that claim category-specific positioning honestly also acknowledge 'we're not the right fit for [other category].' This builds trust."
+          ]
+        },
+        {
+          "heading": "How SolCrys is applying this lesson",
+          "body": [
+            "Concrete moves: keeping homepage and sales narratives anchored in AEO execution rather than abstract infrastructure claims; making the retail wedge concrete where the buyer has marketplace or DTC exposure; doubling down on retail-specific tooling (Rufus listing audits, Sparky attribute completeness, ChatGPT Shopping schema); and acknowledging openly when a buyer needs broad generic AEO, retail AEO, or both. This is more useful for actual buyers than a broad infrastructure claim that doesn't name the work."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Does a retail wedge exclude B2B SaaS buyers?",
+          "answer": "No. SolCrys supports generic AEO execution while using retail as a focused wedge where the workflows are especially concrete. B2B SaaS buyers should evaluate whether they need broad AEO execution, retail AEO, or both."
+        },
+        {
+          "question": "What about brands that have both retail and SaaS components?",
+          "answer": "A growing class of buyer. We serve them, but we are honest that the retail surface is our depth and the SaaS surface is supported but secondary. As needs become clear, we recommend the right tool for each surface."
+        },
+        {
+          "question": "Will 'Retail AI' hold up as a category for years, or get absorbed into 'AEO'?",
+          "answer": "Likely it remains distinct for the near term. Retail surfaces have different mechanics than generic AI engines. Whether the categories merge or stay distinct is a 2027-2028 question."
+        },
+        {
+          "question": "Does this essay imply other AEO platforms are wrong?",
+          "answer": "It implies that the 'infrastructure' cliche doesn't differentiate. Platforms using it can be excellent products; the language just doesn't help buyers identify which they should pick."
+        },
+        {
+          "question": "Should I switch to SolCrys based on this argument?",
+          "answer": "No. Switch only if SolCrys solves your specific problem better than alternatives. The right test is 'does SolCrys handle my specific surface better than my shortlisted alternative?' That is a product comparison, not a category-claim debate."
         }
       ]
     }

@@ -986,4 +986,28 @@ if (fs.existsSync(legacyStyles)) {
   fs.copyFileSync(legacyStyles, path.join(distDir, "styles.css"));
 }
 
-console.log(`Prerendered ${resourcePages.length + 4 + (pricingPublic ? 1 : 0)} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);
+const retiredRedirects = [
+  { from: "ai-search-share-of-voice", to: "ai-share-of-recommendation" },
+];
+
+for (const { from, to } of retiredRedirects) {
+  const target = canonicalUrl(`/${to}/`);
+  const redirectHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Moved - see AI Share of Recommendation | SolCrys</title>
+    <link rel="canonical" href="${target}" />
+    <meta name="robots" content="noindex, follow" />
+    <meta http-equiv="refresh" content="0; url=${target}" />
+    <script>window.location.replace(${JSON.stringify(target)});</script>
+  </head>
+  <body>
+    <p>This page has moved. Redirecting to <a href="${target}">${target}</a>.</p>
+  </body>
+</html>
+`;
+  writePage(`${from}/index.html`, redirectHtml);
+}
+
+console.log(`Prerendered ${resourcePages.length + 4 + retiredRedirects.length + (pricingPublic ? 1 : 0)} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);
