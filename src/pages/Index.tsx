@@ -3,7 +3,8 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
 import ApproachSection from "@/components/ApproachSection";
-import FeaturesSection from "@/components/FeaturesSection";
+import PlatformLayersSection from "@/components/PlatformLayersSection";
+import SolutionsSection from "@/components/SolutionsSection";
 import AnswerEngineSection from "@/components/AnswerEngineSection";
 import ResourcesSection from "@/components/ResourcesSection";
 import SourceNotesSection from "@/components/SourceNotesSection";
@@ -47,7 +48,8 @@ const Index = () => {
       <AnswerEngineSection />
       <ProblemSection />
       <ApproachSection />
-      <FeaturesSection />
+      <PlatformLayersSection />
+      <SolutionsSection />
       <ResourcesSection />
       <SourceNotesSection />
       <FAQSection />

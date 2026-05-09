@@ -5,8 +5,10 @@ import LoopDiagram from "./LoopDiagram";
 import siteContent from "@/content/siteContent.json";
 
 const HeroSection = () => {
-  const heroTitleLead = "Measure and improve how your brand appears in";
-  const heroTitleHighlight = "AI answers.";
+  const heroTitleHighlight = "governed marketing execution.";
+  const heroTitleLead = siteContent.home.title
+    .replace(heroTitleHighlight, "")
+    .trim();
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-16">
@@ -44,6 +46,9 @@ const HeroSection = () => {
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </EarlyAccessDialog>
+          <Button asChild variant="hero-outline" size="lg" className="text-base px-8 py-6 h-auto">
+            <a href="#loop">See the SolCrys Loop</a>
+          </Button>
         </div>
 
         {/* The SolCrys Loop — operational visualization, not aspirational claims */}

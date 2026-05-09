@@ -3,20 +3,14 @@ import { Button } from "@/components/ui/button";
 import EarlyAccessDialog from "./EarlyAccessDialog";
 import ThemeToggle from "./ThemeToggle";
 import { Menu, X } from "lucide-react";
-import siteContent from "@/content/siteContent.json";
 
-const allNavLinks = [
-  { href: "/#aeo", label: "Why AEO" },
+const navLinks = [
+  { href: "/#features", label: "Platform" },
+  { href: "/#solutions", label: "Solutions" },
   { href: "/#loop", label: "The Loop" },
-  { href: "/#features", label: "Features" },
-  { href: "/pricing/", label: "Pricing", flag: "pricingPublic" as const },
   { href: "/resources/", label: "Resources" },
-  { href: "/about/", label: "About Us" },
+  { href: "/about/", label: "Company" },
 ];
-
-const navLinks = allNavLinks.filter(
-  (link) => !link.flag || (siteContent.flags?.[link.flag] ?? false)
-);
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
