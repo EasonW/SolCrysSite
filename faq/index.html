@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>SolCrys FAQ - 19 Questions Buyers Ask About How We Work | SolCrys</title>
+    <meta name="description" content="How we build prompt sets, capture AI visibility data, handle engine non-determinism, run our Free Audit, and document methodology. The 19 questions buyers ask us most often during evaluation." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/faq/" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/solcrys-logo-tab-2.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/solcrys-logo-tab-2.png" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-09" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="SolCrys FAQ - 19 Questions Buyers Ask About How We Work | SolCrys" />
+    <meta property="og:description" content="How we build prompt sets, capture AI visibility data, handle engine non-determinism, run our Free Audit, and document methodology. The 19 questions buyers ask us most often during evaluation." />
+    <meta property="og:url" content="https://solcrys.com/faq/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C7WgzNMX.css">
+    <!-- analytics:start -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E3VGGM7P1G');
+    </script>
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "wm2vxbdu8k");
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"SolCrys FAQ","item":"https://solcrys.com/faq/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SolCrys FAQ - 19 questions buyers ask about how we work","description":"How we build prompt sets, capture AI visibility data, handle engine non-determinism, run our Free Audit, and document methodology. The 19 questions buyers ask us most often during evaluation.","dateModified":"2026-05-09","datePublished":"2026-05-09","mainEntityOfPage":"https://solcrys.com/faq/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/faq/","mainEntity":[{"@type":"Question","name":"Something I want to know isn't on this page. What now?","acceptedAnswer":{"@type":"Answer","text":"Contact us. We'd rather answer a hard question directly than have you infer the answer from marketing copy. We also update this page as buyers send us questions we should have anticipated."}},{"@type":"Question","name":"Where can I see SolCrys's full methodology?","acceptedAnswer":{"@type":"Answer","text":"We publish three companion methodology pages: Golden Prompt Set methodology (how we choose prompts), Visibility Measurement methodology (how we capture data), and the AEO platform methodology checklist (the questions we'd want any buyer to send to any vendor). Each is linked from the relevant section above."}},{"@type":"Question","name":"Do these answers reflect what SolCrys does today, or what it plans to do?","acceptedAnswer":{"@type":"Answer","text":"They reflect how we work today. If a capability is on our roadmap rather than in production, we say so explicitly instead of burying it in positioning copy."}},{"@type":"Question","name":"Can I share this FAQ with my procurement or compliance team?","acceptedAnswer":{"@type":"Answer","text":"Yes - we wrote this page for that purpose. If your team has additional questions (audit logs, SOC 2, vendor risk forms, regional data residency), contact us and we'll send the relevant documentation."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>SolCrys FAQ - 19 questions buyers ask about how we work</h1>
+        <p class="seo-lede">This page answers the 19 questions prospects ask us most often during evaluation - how we build prompt sets, how we capture visibility data, how we handle engine non-determinism, what the Free Audit includes, and how we document methodology. We&#39;ve tried to give concrete, falsifiable answers; wherever a question deserves more depth, we link to the full methodology page. We publish this FAQ because most platforms in our category describe their methodology in marketing-speak, and we&#39;d rather you read specific answers before you talk to sales than infer answers from positioning. If a question you have isn&#39;t here, contact us - we&#39;d rather answer hard questions than have buyers guess.</p>
+        <p>Updated 2026-05-09</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How does SolCrys build prompt sets?</li><li>How does SolCrys measure AI visibility?</li><li>Can I trust SolCrys&#39;s data?</li><li>How does SolCrys handle AI engine randomness?</li><li>What is SolCrys&#39;s Free AI Visibility Audit?</li><li>Does SolCrys export data?</li><li>Which AI engines does SolCrys cover?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>How we build prompt sets</h2>
+      <p>Five questions about prompt grounding, customer prompts, and update cadence.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>How does SolCrys build prompt sets?</h3>
+        <p>We build a Golden Prompt Set (GPS) for every customer category, grounded on four real-world signals: intent volume across major search and marketplace surfaces, trending questions from public community platforms, AI query volume signals, and live follow-up questions we capture from the rendered consumer surface of each engine. Every prompt comes with projected query volume so you can prioritize what your buyers actually ask. You can replace any GPS prompt with your own at any time - typically 40 to 50 percent of your working set ends up customer-supplied. Full methodology: see our Golden Prompt Set methodology page.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Why doesn&#39;t SolCrys just use SEO keywords as prompts?</h3>
+        <p>SEO keywords measure what people type into a search box. AI prompts are longer, more conversational, and increasingly bypass traditional search entirely (asked directly to ChatGPT, Claude, Perplexity, or Rufus). Synthetic-keyword prompt sets miss the multi-clause, problem-stated questions buyers actually ask AI assistants (&#39;I run a 50-person SaaS team and our current CRM doesn&#39;t handle our 6-month sales cycle well - what should I look at?&#39;). Our community-grounded layer specifically closes that gap.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Are SolCrys prompts AI-generated, or sourced from real demand?</h3>
+        <p>Sourced. Every prompt entering the GPS requires evidence from at least one of the four grounding sources, and we prioritize prompts evidenced by two or more sources. We don&#39;t ask an LLM to &#39;generate 100 questions a buyer might ask&#39; and call it research - synthetic-only prompts get the lowest priority weight in your dashboard.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>How often does SolCrys update the prompt set?</h3>
+        <p>Engine follow-up questions refresh weekly; community trending signals refresh monthly; intent-volume baselines and full GPS templates re-ground quarterly. When your category sees a major news event or new entrant, an out-of-cycle refresh runs within 48 hours. You see new prompts as suggestions - your historical trend lines stay continuous unless you accept the update.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Can I bring my own prompts to SolCrys?</h3>
+        <p>Yes. You can replace any GPS prompt with your own at any time. We provide a suggestion panel that flags gaps in your set (for example, &#39;you don&#39;t have any risk/objection prompts&#39;) and recommends additions. Your custom prompts are private to your workspace and never used to update other customers&#39; GPS templates.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How we measure visibility and why you can trust the data</h2>
+      <p>Five questions about measurement methodology, browser-channel vs API capture, engine non-determinism, reproducibility, and model changes.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>How does SolCrys measure visibility, and why should I trust the data?</h3>
+        <p>We measure across two complementary channels because real users interact with AI both ways. For ChatGPT, Google AI Overviews, and Amazon Rufus, we capture from the rendered consumer surface - the same view your buyer sees when they use the product. For agents and deep-research tools, we query the engines&#39; current default consumer-grade models with live grounding enabled, matching how agents call the API in production. Every data point is traceable to a specific prompt, platform, and timestamp. Full methodology: see our Visibility Measurement methodology page.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Why is SolCrys&#39;s consumer-surface capture better than just calling the API?</h3>
+        <p>A consumer engine like chatgpt.com is not a thin shell over the public API. It uses a specific default model, enables tools and post-processing the API does not, and renders UI elements (product cards, follow-up suggestions, retailer placements) the API never returns. Capturing from the rendered consumer surface is the only way to measure what a buyer actually sees on these surfaces - Google AI Overviews has no public API at all.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>AI engines give different answers each time. How does SolCrys handle that?</h3>
+        <p>By repeated capture and rolling-window reporting. A single snapshot is a noisy data point - engines like ChatGPT are non-deterministic by design, sampling probabilistically so the conversation feels natural. We re-run prompts on a recurring cadence and report rolling 7/30/90-day windows; movement within historical variance for that engine is flagged as &#39;within noise&#39; rather than reported as a real change.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Can I reproduce a specific data point SolCrys shows me?</h3>
+        <p>Yes. Every chart drills back to the exact prompt, engine, region, timestamp, and captured response. Copy the prompt text, set your browser to the same region, submit it on the engine yourself within a short time window - the response should match in substance (small text-level variation between snapshots is expected; engines are noisy). If a result ever looks wrong, request the source artifact and we&#39;ll show you the captured page.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What happens when an engine changes its default model?</h3>
+        <p>We monitor provider announcements and model deprecations on an ongoing basis. When a default changes, we update tracking within days and disclose the change in our platform changelog so you can interpret any trend-line discontinuities. Model signal is part of every per-data-point audit trail when the engine discloses it.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Free Audit and onboarding</h2>
+      <p>Three questions about evaluating us before signing and getting started.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>How do I see SolCrys data on my own brand before committing?</h3>
+        <p>Request our Free AI Visibility Audit. We run 10 prompts (5 from your industry&#39;s prompt template plus 5 you supply) across 3 engines - ChatGPT, Gemini, and Google AI Overviews - and deliver a PDF report plus dashboard view within 24 to 48 hours. It includes a sample Deep Analysis with the top three recommended actions for your brand.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>How long does SolCrys onboarding take?</h3>
+        <p>For a standard workspace, the GPS for your category is pre-built and you can review or replace prompts quickly. Our team uses onboarding to tune prompts, configure competitors, validate the engine allowlist, and confirm which buyer surfaces matter most for your category.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>How often does SolCrys re-run prompts?</h3>
+        <p>The Free AI Visibility Audit is a single-snapshot read. Ongoing monitoring uses a recurring cadence agreed during onboarding, with rolling windows that separate real movement from normal engine noise. We do not want buyers to confuse a one-time audit with trend-grade measurement.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Comparing SolCrys to other options</h2>
+      <p>Three questions about how we position ourselves and what to ask any vendor.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>How does SolCrys compare to other AI visibility platforms?</h3>
+        <p>We don&#39;t write public competitor comparisons by name. Instead, here is the honest framework: there are six methodology questions every buyer should ask any vendor in this category - about prompt sources, browser-channel vs. API capture, model-version disclosure, randomness handling, per-data-point reproducibility, and response to engine default changes. Our methodology pages answer all six. Run the same questions with anyone you&#39;re evaluating.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What questions should I ask any AEO vendor before signing?</h3>
+        <p>Send these in writing and score 0 / 1 / 2 (no answer / vague / specific): 1) Where do prompts come from - specific evidence sources, not &#39;AI-generated&#39;? 2) Consumer-surface capture or API only? 3) Which model versions, with public registry? 4) How do you handle engine non-determinism - multi-shot averaging, confidence bands? 5) Can I reproduce a specific data point with full metadata? 6) What happens when an engine changes its default?</p><p>A vendor below 8/12 isn&#39;t yet ready for production work. We try to score well on all six and we expect you to score us against this same standard.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What&#39;s the single biggest red flag when evaluating any AEO vendor?</h3>
+        <p>Any answer that boils down to &#39;the platform decides which model gets used&#39; - that means data is non-reproducible, and you can&#39;t verify a result you cannot replicate. A close second: refusal to walk you from any chart to the underlying captured response. Both correlate with vendors hoping buyers won&#39;t ask harder questions.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Technical and compliance</h2>
+      <p>Three questions about engine coverage, ToS compliance, and data export.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Which AI engines does SolCrys cover?</h3>
+        <p>Coverage depends on the buyer surfaces that matter for your category and on whether each engine is technically reliable to track. We prioritize major AI answer engines and retail assistants where customers have real exposure, and we confirm the current engine allowlist during evaluation. We don&#39;t silently add or remove engines without disclosure.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Is SolCrys&#39;s data capture compliant with engine terms of service?</h3>
+        <p>Yes. We comply with each provider&#39;s terms and use the access methods each provider supports - public-content access patterns on consumer surfaces, official APIs for the API channel, and SERP capture infrastructure for surfaces with no official API (most notably Google AI Overviews and AI Mode). For enterprise customers with strict compliance requirements, we provide written documentation of the access methods used per engine under NDA.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Can I export my SolCrys data?</h3>
+        <p>Yes, where export is part of the customer workflow. Structured response data can include prompt, engine, timestamp, response text, citations, and extracted entities. If export is important to your team, we confirm the current format and access method during evaluation.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Why we publish this FAQ</h2>
+      <p>Most platforms in our category describe their methodology in marketing-speak. We publish this page for three reasons. First, trust requires specifics - &#39;comprehensive AI visibility tracking across all major engines&#39; tells you nothing useful, while the specific answers above can be checked, audited, and replicated. Second, buyers should evaluate before signing, not after - so this page exists for you to read before talking to sales. Third, methodology should be falsifiable - every claim above is something you can audit, replay, and challenge, and we expect you to.</p>
+      
+      
+      
+    </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Something I want to know isn&#39;t on this page. What now?</h3>
+            <p>Contact us. We&#39;d rather answer a hard question directly than have you infer the answer from marketing copy. We also update this page as buyers send us questions we should have anticipated.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Where can I see SolCrys&#39;s full methodology?</h3>
+            <p>We publish three companion methodology pages: Golden Prompt Set methodology (how we choose prompts), Visibility Measurement methodology (how we capture data), and the AEO platform methodology checklist (the questions we&#39;d want any buyer to send to any vendor). Each is linked from the relevant section above.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do these answers reflect what SolCrys does today, or what it plans to do?</h3>
+            <p>They reflect how we work today. If a capability is on our roadmap rather than in production, we say so explicitly instead of burying it in positioning copy.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I share this FAQ with my procurement or compliance team?</h3>
+            <p>Yes - we wrote this page for that purpose. If your team has additional questions (audit logs, SOC 2, vendor risk forms, regional data residency), contact us and we&#39;ll send the relevant documentation.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here&#39;s how we build it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data: dual-channel measurement combining consumer-surface capture from ChatGPT, Google AI Overviews, and Rufus with API capture for agents. Every data point traces back to a prompt, engine, region, and timestamp.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
+            <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-B9BsFjIG.js"></script>
+  </body>
+</html>
