@@ -144,9 +144,12 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <meta name="description" content="${escapeAttr(description)}" />
     <meta name="robots" content="${noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}" />
     <link rel="canonical" href="${escapeAttr(canonical)}" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" href="/solcrys-logo-tab-2.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/solcrys-logo-tab-2.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="author" content="${escapeAttr(site.name)}" />
     <meta name="date" content="${escapeAttr(dateMeta)}" />
     <meta name="theme-color" content="#000000" />
