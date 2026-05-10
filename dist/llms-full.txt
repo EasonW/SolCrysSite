@@ -459,7 +459,7 @@ Five recurring failure modes that lead teams to either over-pay for capability t
 A 5-question diagnostic to gauge maturity and select the right platform type:
 
 
-- Do you have a fixed prompt set and measure it monthly? (Yes/No)
+- Do you have a fixed prompt set with daily monitoring and rolling trend windows? (Yes/No)
 - Can you classify gaps by type (Absence, Citation, Accuracy, Comparison, Action)? (Yes/No)
 - Do you ship 5+ AEO-driven fixes per month? (Yes/No)
 - Do you measure Recovery Score on each fix? (Yes/No)
@@ -602,9 +602,9 @@ The prompt set should mirror real buyer behavior. Include broad category prompts
 
 
 
-### Starter weekly scorecard (illustrative)
+### Starter operating scorecard (illustrative)
 
-A practical weekly scorecard should be small enough to review and specific enough to drive action. The five-row table below is a useful internal-alignment tool, not a representation of how SolCrys actually scores brands - production scoring layers in the signals discussed at the end of this page.
+A practical starter scorecard should be small enough to review and specific enough to drive action. The five-row table below is a useful internal-alignment tool, not a representation of how SolCrys actually scores brands - production scoring layers in the daily and near-real-time signals discussed at the end of this page.
 
 The goal of the starter scorecard is to identify which answer gaps are hurting discovery, trust, or conversion.
 
@@ -642,7 +642,7 @@ The starter scorecard above is built for stakeholder alignment and a first measu
 ### FAQ
 
 Q: How often should AI brand visibility be measured?
-A: Measure high-value prompts weekly at minimum. For launches, crises, or fast-moving categories, daily monitoring gives a better early-warning system.
+A: Measure high-value prompts daily in active programs. For launches, crises, or fast-moving categories, add near-real-time trend checks so competitor moves, news cycles, and answer shifts surface before they become persistent.
 
 Q: Is citation more important than mention?
 A: Both matter. Mentions show brand awareness inside answers; citations show that the AI system is using your own content as evidence.
@@ -992,7 +992,7 @@ Q: Should prompts mention the brand?
 A: Some should, but most should not. Non-branded category, comparison, and use-case prompts reveal whether the brand appears before buyers already know its name.
 
 Q: How often should prompts be tested?
-A: Most teams should start with weekly or monthly testing, depending on content velocity, market volatility, and how often they ship changes.
+A: Most active teams should monitor priority prompts daily, with event-triggered checks when launches, competitor moves, pricing changes, or category news create near-real-time demand shifts. Weekly or monthly manual spot checks are useful for early learning, but they are too slow for production AEO monitoring.
 
 Q: Should prompts be identical across answer engines?
 A: Use a consistent core prompt set across engines so results are comparable. Add engine-specific prompts when a surface has unique behavior, such as retail shopping assistants.
@@ -1329,9 +1329,9 @@ A four-level service ladder lets agencies start narrow and grow into recurring e
 
 The entry offer is a focused audit: define 50 to 100 prompts, test across relevant answer engines, capture mentions, citations, competitors, sentiment, and accuracy, identify the top answer gaps, and present priority actions. This is the easiest way to create urgency.
 
-#### Level 2: Monthly monitoring
+#### Level 2: Daily monitoring
 
-The agency tracks the same prompt set over time: share of voice, Share of Recommendation, citation rate, competitor movement, and answer accuracy. Monitoring keeps the client engaged, but it should not be the whole offer.
+The agency tracks the same prompt set over time with daily priority-prompt monitoring and rolling 7/30/90-day trend windows: share of voice, Share of Recommendation, citation rate, competitor movement, and answer accuracy. Monitoring keeps the client engaged, but it should not be the whole offer.
 
 #### Level 3: AEO execution
 
@@ -1682,7 +1682,7 @@ Q: Can a company remove wrong AI answers?
 A: Usually not directly. The practical response is to update authoritative sources, fix ambiguous pages, correct third-party profiles where possible, and monitor whether answers improve.
 
 Q: How often should hallucination risk be checked?
-A: For important brands and fast-changing products, monthly checks are a reasonable baseline. High-risk launches, pricing changes, and competitor campaigns may require more frequent testing.
+A: For important brands and fast-changing products, daily checks are the practical baseline. High-risk launches, pricing changes, competitor campaigns, and news cycles should trigger additional near-real-time checks so teams catch hallucination risk before it persists.
 
 Q: How does SolCrys reduce hallucination risk?
 A: SolCrys identifies inaccurate answers, classifies the risk, connects the issue to likely content gaps, and helps teams create correction actions grounded in approved Corporate Context.
@@ -1811,7 +1811,7 @@ Five recurring failure modes that distort the priority list:
 - Counting the same source as multiple gaps. A G2 page cited across 11 prompts is one gap, not 11. Roll up by source URL or domain before counting.
 - Ignoring source type when prioritizing. Closing one high-priority Reddit gap is worth more than closing five low-priority footer-link gaps.
 - Treating low-feasibility gaps as priorities. Wikipedia citations are influential but very hard to earn; do not put 12 months of effort there when you could close 6 G2 gaps in 3 months.
-- Auditing once and forgetting. The cited-source landscape shifts; re-audit quarterly.
+- Auditing once and forgetting. The cited-source landscape shifts continuously; monitor priority prompts daily and review source-level trends in rolling 7/30/90-day windows.
 - Confusing citation gap with content gap. A citation gap is about sources that cite competitors but not you. A content gap is about topics competitors cover that you do not. Both matter; do not conflate them.
 
 
@@ -1833,12 +1833,12 @@ For each high-priority editorial gap, the audit surfaces the kind of content the
 
 #### Citation share tracking
 
-Monthly re-audit produces citation share trend lines. Combined with a recovery score, you can prove which source actions actually moved citation share.
+Daily priority-prompt monitoring produces citation share trend lines. Combined with a recovery score and rolling 7/30/90-day windows, you can prove which source actions actually moved citation share.
 
 ### FAQ
 
 Q: How often should I re-run the audit?
-A: Quarterly for most brands. Monthly if your category is fast-moving, where new editorial sources or communities emerge quickly.
+A: For active AEO programs, monitor priority prompts daily and review citation-source movement through rolling 7/30/90-day windows. Fast-moving categories should also use near-real-time trend alerts when new editorial sources, communities, competitors, or news events appear.
 
 Q: What if my prompt set does not have 28 prompts?
 A: Start with 15. The framework works at 15+ but produces noisier signal. Below 10, the audit is not statistically meaningful.
@@ -1974,7 +1974,7 @@ Five recurring failure modes that turn the diagnostic into a wish list instead o
 
 - Running prompts in only one engine. Auditing Rufus and stopping misses 60% of the picture; Sparky and ChatGPT Shopping each have different signals and gaps.
 - Treating every gap as equal. A small Comparison Gap on a $500-per-month SKU is a worse use of time than fixing an Absence Gap on a $50,000-per-month SKU. Always weight by revenue.
-- Auditing once and never re-running. AI engines change, competitors enter, and listings drift. Schedule a re-audit every 90 days for the top 100 SKUs.
+- Auditing once and never re-running. AI engines change, competitors enter, and listings drift. Keep top SKUs on daily monitoring and use rolling refresh coverage for the broader catalog.
 - Confusing gap type with action. 'Sparky does not recommend my SKU' is not a diagnosis; it could be Absence, Accuracy, or Comparison, each with a different fix.
 - Skipping Action Gap analysis. Most teams' biggest blocker is process: nobody owns Q&A, nobody can request a feed refresh. Name owners before starting.
 
@@ -1982,7 +1982,7 @@ Five recurring failure modes that turn the diagnostic into a wish list instead o
 
 ### How to use this guide
 
-Calibrate by SKU count. The diagnostic scales from a same-week run to an automated quarterly cadence.
+Calibrate by SKU count. The diagnostic scales from a same-week baseline to daily monitoring for priority SKUs and rolling refresh coverage for larger catalogs.
 
 
 
@@ -1993,11 +1993,11 @@ Build the prompt set this week, run all engines next week. Expect 4 to 6 hours t
 
 #### 100+ SKUs
 
-Build category-specific prompt sets for your top 5 categories. Audit the top 30 SKUs by revenue in week 1. Audit the next 70 in weeks 2 and 3. Schedule quarterly re-audits.
+Build category-specific prompt sets for your top 5 categories. Audit the top 30 SKUs by revenue in week 1, audit the next 70 in weeks 2 and 3, then keep priority SKUs on daily monitoring with rolling coverage for the rest of the catalog.
 
 #### 500+ SKUs
 
-Manual diagnostic is impractical at this scale. SolCrys is building automated retail AI shelf diagnostics to scale prompt-and-record loops across full catalogs and schedule monthly re-audits. Talk to us if you want early access for your portfolio.
+Manual diagnostic is impractical at this scale. SolCrys is building automated retail AI shelf diagnostics to scale prompt-and-record loops across full catalogs, with daily monitoring for priority SKUs and rolling refresh coverage for the long tail. Talk to us if you want early access for your portfolio.
 
 ### FAQ
 
@@ -2011,7 +2011,7 @@ Q: Can I do this without ever running ChatGPT Shopping prompts manually?
 A: Partially. SolCrys and similar platforms automate the prompt-and-record loop. For the first audit we recommend running prompts manually for the top 25 SKUs to build intuition for what good and bad answers look like in your category.
 
 Q: What is the right cadence for re-running the diagnostic?
-A: Top 30 revenue SKUs: monthly. Full top 100: quarterly. After major fixes, run a focused re-audit at 21 days on the affected SKUs to verify recovery before broader re-audit.
+A: Top revenue SKUs should be monitored daily when they are in an active AEO program. Broader catalog coverage should run on a rolling refresh schedule, with focused re-tests immediately after major fixes and again once marketplace/catalog propagation has had time to settle.
 
 Q: Should I share this diagnostic with my agency?
 A: Yes if your agency is doing retail AI work. The diagnostic gives both sides a shared framework for what 'improving AI visibility' means, and it prevents vague AEO charges by anchoring deliverables in a concrete prompt set and gap inventory.
@@ -2208,7 +2208,7 @@ Q: Can I pay to appear in Sparky recommendations?
 A: Check Walmart's current advertising and marketplace documentation before assuming paid access exists. For now, treat organic readiness - attributes, content, Q&A, reviews, and seller health - as the controllable work.
 
 Q: How often should I re-audit my SKUs against Sparky?
-A: For top 30 revenue SKUs, monthly. For full catalog, quarterly. Sparky's underlying data updates as Walmart's catalog and reviews change, and a SKU that is included today can fall out as competitor listings strengthen.
+A: For top revenue SKUs, use daily monitoring during active AEO work. For the full catalog, use rolling refresh coverage so stale listings, review shifts, and competitor moves are detected before the next quarterly business review. Sparky's underlying data updates as Walmart's catalog and reviews change, and a SKU that is included today can fall out as competitor listings strengthen.
 
 Q: Does optimizing for Sparky help my Walmart organic search rank too?
 A: Often the work overlaps because attribute completeness, review quality, and in-stock reliability matter in multiple Walmart surfaces. But title and bullet changes can affect traditional search differently from Sparky prompt tests. Test both before sweeping changes.
@@ -2314,7 +2314,7 @@ If you use merchant feeds, stale or inconsistent feed data can make product disc
 
 Audit it: Check the current feed systems you use, including Bing Merchant Center where relevant. Look for disapproved items, price mismatches, missing identifiers, stale inventory, and regional feed gaps.
 
-Action: Fix disapproved items, refresh feeds on a reliable cadence, and keep price and availability consistent with the product page.
+Action: Fix disapproved items, automate feed refreshes where supported, and monitor price and availability consistency daily for priority SKUs.
 
 #### Signal 4: Merchant integration settings
 
@@ -2374,7 +2374,7 @@ Use prompts a real buyer would ask. Record whether your products appeared in any
 
 #### Step 5: Diagnose and prioritize (3 minutes)
 
-Most audits find one or two dominant gaps. Fix the dominant gap across all 25 SKUs before adding more changes. Re-test prompts after a consistent waiting window and compare against the same prompt set.
+Most audits find one or two dominant gaps. Fix the dominant gap across all 25 SKUs before adding more changes. Keep priority prompts on daily monitoring, then compare against the same prompt set after the fix has had time to propagate.
 
 ### Common ChatGPT Shopping mistakes (and the recovery action for each)
 
@@ -2397,9 +2397,9 @@ Recovery: Re-allow OAI-SearchBot and ChatGPT-User (the search and on-demand fetc
 
 #### Mistake 3: Stale or partial product feeds
 
-Brands often set up merchant feeds once, then never refresh them. Stale or conflicting feeds create product-data reliability problems.
+Brands often set up merchant feeds once, then never monitor whether the data stayed current. Stale or conflicting feeds create product-data reliability problems.
 
-Recovery: Automate feed refreshes. Monitor disapproved items, price mismatches, missing identifiers, and inventory errors.
+Recovery: Automate feed refreshes where supported. Monitor disapproved items, price mismatches, missing identifiers, inventory errors, and stale availability daily for priority SKUs.
 
 #### Mistake 4: Generic product descriptions
 
@@ -2430,7 +2430,7 @@ Directional results at six weeks: a meaningful share of priority SKUs begin appe
 
 ### How to use this guide
 
-Run the 30-minute audit on your top 25 SKUs this week. Fix the dominant gap (many brands find robots.txt or schema is the first issue). Build a 90-day editorial outreach plan in parallel because third-party coverage is the slowest-moving lever. Re-test prompts on a consistent cadence and compare against the same prompt set.
+Run the 30-minute audit on your top 25 SKUs this week. Fix the dominant gap (many brands find robots.txt or schema is the first issue). Build a 90-day editorial outreach plan in parallel because third-party coverage is the slowest-moving lever. Keep priority prompts on daily monitoring and compare movement against the same prompt set.
 
 If you are managing 50+ SKUs across Shopify, Amazon, and Walmart, talk to us about early access to automated ChatGPT Shopping audits and prioritized highest-revenue gap fixes.
 
@@ -2449,7 +2449,7 @@ Q: Does a merchant integration replace product feeds and schema?
 A: Do not assume one replaces the other. Merchant integrations, product feeds, crawlable pages, and schema each solve a different data-quality problem. Check the current official options for your commerce platform and regions before deciding which paths matter.
 
 Q: How often does ChatGPT Shopping refresh its product knowledge?
-A: Refresh timing varies by crawler, feed, integration, and query type. Use a fixed prompt set and re-test on a consistent cadence rather than assuming a specific re-index window.
+A: Refresh timing varies by crawler, feed, integration, and query type. Use a fixed prompt set, monitor priority SKUs daily, and treat movement through rolling windows rather than assuming a specific re-index window.
 
 Q: Can I track ChatGPT Shopping referrals in GA4?
 A: Partially. ChatGPT user-agent strings can be filtered in GA4, and some click-through traffic is now attributed. But ChatGPT does not pass UTM parameters by default, so attribution depends on referrer URL detection and is incomplete. Combine GA4 signals with prompt-set monitoring to get the fuller picture.
@@ -2910,7 +2910,7 @@ The first 30 SKUs deserve full pattern application. SKUs 31-500 should at minimu
 
 #### Mistake 5: Applying once and forgetting
 
-Marketplace listings drift. Retail AI signals evolve. Re-audit patterns every 90 days for top SKUs; quarterly for the long tail.
+Marketplace listings drift. Retail AI signals evolve. Keep top SKUs on daily monitoring and use rolling refresh coverage for the long tail.
 
 ### How to use this guide
 
@@ -3409,11 +3409,11 @@ Use this guide as a diagnostic checklist for any underperforming page or brand:
 
 - Start with crawler access (Signal 1). If this is broken, no other signal matters.
 - Audit structural density (Signal 2). This is the single highest-leverage owned-content fix.
-- Build a freshness operations cadence (Signal 3). Update top 30 pages quarterly.
+- Build a freshness operations cadence (Signal 3). Monitor priority pages daily for citation movement and refresh top pages when trend data, buyer questions, or category changes justify a material update.
 - Verify schema is honest and complete (Signal 5). Stop the "schema lying" bad practice.
 - Map your category's third-party trusted sources (Signal 6). Build a 90-day outreach plan.
 - Identify the top 3 community sources (Signal 7). Plan accountable participation.
-- Track citation share monthly using a fixed prompt set in each engine.
+- Track citation share daily for priority prompts using a fixed prompt set in each engine, then evaluate movement through rolling 7/30/90-day windows.
 
 
 
@@ -3746,7 +3746,7 @@ A repeatable rebalancing workflow:
 - Map your category maturity and buyer journey focus to the recommended balance
 - Compare current investment to recommended balance
 - Rebalance over 6–12 months — abrupt shifts disrupt content production cadence
-- Re-audit citation share quarterly
+- Monitor citation share daily for priority prompts and review rolling 7/30/90-day movement
 
 
 
@@ -3951,7 +3951,7 @@ Run a structured customer review program:
 
 #### Days 91+: Measure citation lift
 
-Run your prompt set monthly. Track:
+Run priority prompts daily and review rolling trend windows. Track:
 
 - Reddit/community citation share for category prompts
 - G2/review-site citation share for comparison prompts
@@ -4034,7 +4034,7 @@ A repeatable workflow:
 - Pick 2–3 communities to commit to for 6 months — not 10 you'll abandon
 - Identify the team members who will engage as named individuals
 - Run customer review drives in parallel (G2/Capterra/TrustRadius) — these compound faster
-- Track citation share monthly using a fixed prompt set
+- Track citation share daily for priority prompts using a fixed prompt set
 
 
 
@@ -4845,7 +4845,7 @@ Check robots.txt for GPTBot, OAI-SearchBot, and ChatGPT-User. Allow OAI-SearchBo
 
 #### Signal 2: Bing indexability and feed health
 
-Sign in to Bing Webmaster Tools. Submit your sitemap, fix crawl errors, and (for ecommerce) ensure Bing Merchant Center has a healthy product feed refreshed at least weekly.
+Sign in to Bing Webmaster Tools. Submit your sitemap, fix crawl errors, and (for ecommerce) ensure Bing Merchant Center has a healthy product feed refreshed daily for priority SKUs, with near-real-time updates for price, availability, and major listing changes where the platform supports it.
 
 #### Signal 3: structured content density
 
@@ -4853,7 +4853,7 @@ ChatGPT extracts content in chunks. Pages with clear H2/H3 hierarchy, lists, FAQ
 
 #### Signal 4: freshness
 
-ChatGPT weights freshness less than Perplexity but more than expected. For 'in 2026' prompts, ChatGPT routinely prefers recent content. Schedule quarterly content refreshes for top pages and update the visible date only when content actually changed materially.
+ChatGPT weights freshness less than Perplexity but more than expected. For 'in 2026' prompts, ChatGPT routinely prefers recent content. Monitor priority prompts daily, watch near-real-time category shifts, and refresh top pages when trend data or buyer questions justify material changes. Update the visible date only when content actually changed materially.
 
 #### Signal 5: third-party validation
 
@@ -4902,7 +4902,7 @@ Schema importance | Medium | Medium | Very high | Medium | High
 
 ### A 7-step ChatGPT Search audit
 
-Run this audit weekly during initial setup, then monthly thereafter.
+Run this audit daily during initial setup and keep priority prompts on daily monitoring thereafter; use rolling 7/30/90-day windows to avoid overreacting to noisy single snapshots.
 
 
 - Check robots.txt for OAI-SearchBot, GPTBot, and ChatGPT-User and fix any blocks.
@@ -5014,7 +5014,7 @@ Check robots.txt for PerplexityBot. Allow it. Avoid the common mistake of blocki
 
 #### Signal 2: recency
 
-Perplexity weighs recent content heavily for a wide range of query types — much more than ChatGPT does. Aim for top pillar pages to have updates within the last 90 days. For fast-moving topics, aim for updates within 30 days. Brands updating top pages quarterly tend to see noticeably higher Perplexity citation share than brands updating annually, even when content authority is equivalent.
+Perplexity weighs recent content heavily for a wide range of query types — much more than ChatGPT does. Aim for top pillar pages to have updates within the last 90 days. For fast-moving topics, aim for updates within 30 days. Brands that monitor priority prompts daily and refresh pages when trend data shows citation loss tend to see noticeably higher Perplexity citation share than brands that wait for calendar-based refreshes.
 
 #### Signal 3: authority signals
 
@@ -5045,7 +5045,7 @@ Pro Search synthesizes across multiple sources and surfaces original research fi
 
 ### A 6-step Perplexity audit
 
-Run this audit weekly during setup and monthly thereafter.
+Run this audit daily during setup and keep priority prompts on daily monitoring thereafter; use rolling trend windows to separate real citation movement from normal answer variance.
 
 
 - Verify PerplexityBot access in robots.txt.
@@ -5070,7 +5070,7 @@ ChatGPT and Perplexity diverge meaningfully. ChatGPT cites Reddit much more heav
 
 #### Mistake 2: ignoring recency
 
-The single most impactful Perplexity-specific signal. Build a quarterly content refresh program for top 30 to 50 pages.
+The single most impactful Perplexity-specific signal. Monitor priority prompts daily, use near-real-time trend discovery to catch fresh buyer questions, and refresh top pages when the data shows recency is the binding constraint.
 
 #### Mistake 3: stuffing keywords
 
@@ -5090,7 +5090,7 @@ The following is an illustrative scenario, not a real client engagement. Specifi
 
 Hypothetical B2B data observability brand with 18 months of strong owned content. Initial state: Perplexity citation share is significantly below ChatGPT citation share. Audit findings: PerplexityBot allowed, top 30 pages have not been refreshed in over a year, domain authority is solid, pattern density is good. The dominant gap is recency.
 
-Actions: identify top priority pages, update each with current data and last-modified date refresh, establish a quarterly refresh cadence (real updates, not cosmetic), publish original research during the quarter. After 90 days, the brand sees Perplexity citation share rise substantially toward parity with ChatGPT, and ChatGPT citation share also rises marginally because recency helps both. The recency-focused work is the highest-leverage Perplexity move.
+Actions: identify top priority pages, update each with current data and last-modified date refresh, monitor priority prompts daily, and publish original research when trend data shows a source gap. After 90 days, the brand sees Perplexity citation share rise substantially toward parity with ChatGPT, and ChatGPT citation share also rises marginally because recency helps both. The recency-focused work is the highest-leverage Perplexity move.
 
 
 
@@ -5340,7 +5340,7 @@ Because Claude's full source backend is not public, avoid treating any single th
 
 #### Signal 3: recency
 
-Claude weighs recent content heavily, similar to Perplexity. Build a quarterly content refresh program with original analytical content, methodology updates, and updated benchmarks.
+Claude weighs recent content heavily, similar to Perplexity. Monitor priority prompts daily and refresh analytical content when trend data, methodology changes, or updated benchmarks show that older pages are losing citation fitness.
 
 #### Signal 4: analytical content density
 
@@ -5364,7 +5364,7 @@ User skew | Technical, analytical | Mixed consumer/business | Research-driven
 
 ### A 5-step Claude audit
 
-Run this audit weekly during setup, then monthly thereafter.
+Run this audit daily during setup and keep priority prompts on daily monitoring thereafter; review rolling windows before treating movement as durable.
 
 
 - Crawler access: check robots.txt against Anthropic's current crawler guidance.
@@ -5667,7 +5667,7 @@ A baseline strategy that produces meaningful share across all five engines.
 - Allow all major AI crawlers: GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, Googlebot, ClaudeBot, Claude-SearchBot, Claude-User.
 - Schema completeness: Article, FAQPage, Product, Organization, and Person schemas, validated against Google's Rich Results Test.
 - Structured content patterns: direct-answer paragraphs, numbered lists, comparison tables, FAQ blocks.
-- Quarterly content refresh on top 30 priority pages, with material changes.
+- Daily monitoring on priority prompts, with material content refreshes triggered by trend data, buyer-question shifts, and citation loss.
 - Bing Webmaster Tools registration: Bing index drives ChatGPT visibility.
 - Third-party citation strategy: presence in 3 to 5 sources cited for your category prompts (community plus editorial mix).
 - Original research published once or twice per year; drives citations across Perplexity, ChatGPT, and analyst-cited engines.
@@ -5686,7 +5686,7 @@ For most teams, the unified baseline plus balanced engine investment wins. Over-
 Five mistakes show up repeatedly across multi-engine programs.
 
 
-- Treating all engines as one. Run engine-specific audits at least quarterly.
+- Treating all engines as one. Keep engine-specific priority prompts on daily monitoring and review cross-engine divergence in rolling trend windows.
 - Optimizing for ChatGPT and assuming Perplexity follows. Roughly a third of ChatGPT-optimization translates directly to Perplexity.
 - Ignoring Bing Webmaster Tools. Bing's index drives ChatGPT and partially affects Copilot.
 - Counting on a single engine's traffic forever. Build for diversification across the five engines.
@@ -5706,7 +5706,7 @@ Q: How does optimization cost differ across engines?
 A: Cost is roughly equivalent across engines for the unified baseline. Engine-specific tactics vary: ChatGPT's community-source work is labor-intensive, Perplexity's recency cadence is operationally expensive, Google AIO's E-E-A-T can require expert author retainers.
 
 Q: Can I assess my performance across all 5 engines automatically?
-A: Most AEO platforms cover four to six engines; some also cover retail surfaces. Manual auditing across five engines for 30 prompts is feasible monthly but burdensome — automation pays off after the first quarter.
+A: Most AEO platforms cover four to six engines; some also cover retail surfaces. Manual auditing across five engines for 30 prompts is feasible for a one-time baseline but too slow for production daily monitoring - automation pays off as soon as you need trend-grade data.
 
 Q: What about Apple Intelligence, DuckDuckGo, You.com?
 A: Smaller share but growing. Apple Intelligence will likely matter more in 2026 to 2027 as iOS adoption accelerates. DuckDuckGo Assist and You.com remain niche. Track for emerging share but do not over-allocate yet.
@@ -5868,7 +5868,7 @@ Q: My CFO wants per-channel attribution. AEO is fuzzy. How do I respond?
 A: Acknowledge the attribution complexity head-on. Other channels (paid display, brand TV, podcasts) have similar fuzziness and the company funds them anyway based on incrementality testing. Propose AEO be funded with the same incrementality discipline.
 
 Q: What is the lowest-cost way to start measuring AEO ROI?
-A: GA4 referrer filter plus a manual prompt set of about 10 prompts measured monthly, plus a checkbox on signup forms asking 'how did you hear about us?' with an AI tools option. This produces directional data within 30 days at near-zero tooling cost.
+A: GA4 referrer filter plus a small fixed prompt set checked repeatedly during a baseline window, plus a checkbox on signup forms asking 'how did you hear about us?' with an AI tools option. This produces directional data within 30 days at near-zero tooling cost, though production AEO monitoring should move to daily automated capture.
 
 ## AEO Actions to Revenue
 
@@ -5961,7 +5961,7 @@ A practical rollout order keeps the program defensible from week one.
 - Months 1-2: observe baseline AI-attributable revenue with no major AEO changes shipped.
 - Months 3-6: ship AEO program changes (content fixes, schema improvements, third-party outreach, retail listing changes); track each shipped fix with date and gap addressed.
 - Month 6+: re-run all four attribution methods at 90 days post-change and compare to baseline.
-- Quarterly: roll up monthly into business reviews and report directly to CFO/leadership using the unified model.
+- Quarterly: roll up daily monitoring and monthly operating summaries into business reviews, then report directly to CFO/leadership using the unified model.
 
 
 
@@ -6442,7 +6442,7 @@ Possible outcomes at 60 days: Sparky prompt-test inclusion may improve across sl
 
 ### How to use this guide
 
-Audit Q&A coverage on top 30 SKUs this week, apply Method 2 (CS ticket conversion) on the lowest-coverage SKUs first, activate Method 3 (post-purchase email) by week two only after policy review, measure baseline and re-audit at 60 days, and build operational cadence with the customer service team owning Q&A as standing work.
+Audit Q&A coverage on top 30 SKUs this week, apply Method 2 (CS ticket conversion) on the lowest-coverage SKUs first, activate Method 3 (post-purchase email) by week two only after policy review, keep priority prompts on daily monitoring, and build operational cadence with the customer service team owning Q&A as standing work.
 
 If you manage 100+ SKUs and want automated Q&A coverage scoring plus a CS-ticket-to-Q&A workflow, talk to the SolCrys team about early access.
 
@@ -6452,7 +6452,7 @@ If you manage 100+ SKUs and want automated Q&A coverage scoring plus a CS-ticket
 ### FAQ
 
 Q: How quickly do new Q&A propagate to Rufus and Sparky?
-A: Timing varies by platform, category, and refresh cadence. Re-test on a fixed prompt set after a consistent waiting window and avoid treating a single run as proof of propagation.
+A: Timing varies by platform, category, and data propagation path. Monitor a fixed priority prompt set daily after major Q&A changes and avoid treating a single run as proof of propagation.
 
 Q: Should I include Q&A in product description in addition to the buyer Q&A section?
 A: Yes - they are complementary. Listing description FAQ blocks (Method 4) are brand-controlled and always present. Buyer Q&A is platform-managed and grows over time. Both feed retail AI retrieval.
@@ -7047,10 +7047,10 @@ Buyer questions shift, community discussion patterns spike, and engines change w
 
 Update cadence | What changes
 --- | ---
-Weekly | Engine follow-up questions re-captured from the consumer-surface rendering.
-Monthly | Community trending question signals refreshed.
-Quarterly | Intent volume baselines re-grounded; full GPS template review per category.
-On-trigger | Major news event or new entrant in a category triggers an out-of-cycle GPS refresh within 48 hours.
+Daily | Tracked prompt performance and engine follow-up questions refreshed for active workspaces.
+Near real time | Community trending question signals, engine follow-ups, competitor moves, and category/news spikes monitored for prompt and action suggestions.
+Rolling QA review | Intent-volume baselines and full GPS templates reviewed for quality and source provenance without waiting for a fixed quarterly cycle.
+On-trigger | Major news event, new entrant, pricing change, or category spike triggers an immediate GPS suggestion review.
 
 
 ### What we are explicit about not promising
@@ -7061,7 +7061,7 @@ We've written this section because we'd rather you know the limits up front than
 - We don't promise the GPS guarantees revenue lift. A perfect prompt set doesn't fix weak content or thin brand presence; it just measures the right things.
 - We don't claim to replace human judgment. The slot we reserve for your own prompts exists because you know your buyers in ways we don't.
 - We don't generate prompts from a single LLM. We refuse to ask one model to 'write 100 questions a buyer might ask' and call it research. Every prompt in your GPS has external evidence we can show you.
-- We don't refresh templates on demand. Templates update on the cadence above, not on every customer request, because we'd rather move slowly and keep quality high than ship rushed updates.
+- We don't automatically change tracked prompts without approval. New suggestions can appear daily or near real time, but template changes are quality-reviewed before they affect any workspace.
 
 
 
@@ -7094,7 +7094,7 @@ A: Your tracked prompts do not change unless you accept the update. Template cha
 
 ## AI Visibility Measurement Methodology
 
-We measure AI visibility across two complementary channels because real users interact with AI both ways. For ChatGPT, Google AI Overviews, and Amazon Rufus, we capture from the rendered consumer surface - the same view your buyer sees when they actually use the product. For agents and deep research tools that query AI through programmatic interfaces, we query each engine's current default consumer-grade model with live grounding enabled, matching how agents call the API in production. Every data point in your dashboard is traceable to a specific prompt, engine, region, and timestamp. Cadence runs from one-time audits to recurring monitoring, so we can build the sample sizes that turn noisy single-snapshot reads into high-confidence visibility scores and trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.
+We measure AI visibility across two complementary channels because real users interact with AI both ways. For ChatGPT, Google AI Overviews, and Amazon Rufus, we capture from the rendered consumer surface - the same view your buyer sees when they actually use the product. For agents and deep research tools that query AI through programmatic interfaces, we query each engine's current default consumer-grade model with live grounding enabled, matching how agents call the API in production. Every data point in your dashboard is traceable to a specific prompt, engine, region, and timestamp. Ongoing workspaces use daily priority-prompt monitoring plus near-real-time trend discovery, so we can build the sample sizes that turn noisy single-snapshot reads into high-confidence visibility scores and trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.
 
 ### Questions this guide answers
 
@@ -7107,7 +7107,7 @@ We measure AI visibility across two complementary channels because real users in
 
 We measure AI visibility across two complementary channels because real users interact with AI both ways. For ChatGPT, Google AI Overviews, and Amazon Rufus, we capture from the rendered consumer surface - the same view your buyer sees when they use the product. What we record reflects what your customer sees, including product cards, retailer pricing, and follow-up Q&A. For agents and deep research tools that query AI through programmatic interfaces, we query each engine's current default consumer-grade model with live grounding enabled, matching how agents call the API in production.
 
-Every data point in your dashboard is traceable to a specific prompt, platform, region, and timestamp. Snapshot cadence runs from one-time audits to recurring monitoring - we re-run prompts often enough that your trend lines reflect real movement, not yesterday's coin flip.
+Every data point in your dashboard is traceable to a specific prompt, platform, region, and timestamp. Free Audits are one-time snapshots; ongoing workspaces use daily priority-prompt monitoring and near-real-time trend discovery so trend lines reflect real movement, not yesterday's coin flip.
 
 
 
@@ -7188,7 +7188,7 @@ We treat this kind of traceability as the difference between a dashboard you can
 
 A single snapshot of an AI response is a snapshot of a noisy system. AI engines are non-deterministic by design - they sample probabilistically so the conversation feels dynamic. Engines also re-route between models, update defaults, and change citation behavior day-to-day. To produce trustworthy trend lines we need repeated capture; one shot isn't enough.
 
-Free Audit reports include a single snapshot for a directional read on where your brand stands today. Ongoing monitoring re-runs your prompts on an agreed cadence. We report trend lines and recommendation share with rolling 7-day, 30-day, and 90-day windows and confidence bands where the sample size supports them. When a movement falls within the expected variance for an engine, we flag it as 'within noise' rather than reporting it as a trend change.
+Free Audit reports include a single snapshot for a directional read on where your brand stands today. Ongoing workspaces monitor priority prompts daily and use near-real-time trend discovery for new prompt and action suggestions. We report trend lines and recommendation share with rolling 7-day, 30-day, and 90-day windows and confidence bands where the sample size supports them. When a movement falls within the expected variance for an engine, we flag it as 'within noise' rather than reporting it as a trend change.
 
 We can't eliminate engine noise - that's impossible. What we can do, and what we commit to, is give you enough sample size that your trend lines reflect genuine movement, not yesterday's coin flip.
 
@@ -7210,7 +7210,7 @@ Trust requires that we name what we won't claim, not just what we will.
 
 
 - We don't promise that fixing a flagged answer gap will guarantee citation lift. Engine behavior is influenced by hundreds of inputs we can't fully see; we tell you what to fix and we re-measure after.
-- We don't promise daily refresh for every workspace. Cadence is agreed during onboarding and depends on the monitoring problem we are solving.
+- We don't promise identical refresh depth for every workspace. Priority prompts are designed for daily monitoring in active programs; broader coverage depends on the monitoring problem we are solving.
 - We don't promise complete coverage of every AI engine. New engines launch frequently; we track the engines your buyers actually use, not every novelty.
 - We don't promise our consumer-surface capture will never miss a new UI element. Engines redesign their interfaces; when our extraction fails for a new layout, we flag it in your data instead of silently degrading.
 - We don't personalize results based on a fake user identity. Sessions run with default state - no logged-in personalization, no memory, no account history - so your data is comparable across customers.
@@ -7227,10 +7227,10 @@ Q: Why don't you just use the engine's API for everything? It is cheaper.
 A: Cheaper to operate, but the data does not match what consumer users see. For Google AI Overviews specifically, no public API even exists. For ChatGPT and similar consumer chat surfaces, the API and consumer product can return materially different answers to the same prompt. Running both channels costs more but produces data that holds up when a customer reproduces a result manually.
 
 Q: How do you handle the fact that AI engines give different answers each time?
-A: By repeated capture and statistical reporting. Recurring refreshes on the agreed monitoring cadence let us report visibility scores and trend lines that reflect real movement rather than per-snapshot variance. We also report rolling confidence intervals where the sample size supports them, so you can see when a trend is statistically meaningful versus when it might still be noise.
+A: By repeated capture and statistical reporting. Daily priority-prompt refreshes, paired with rolling 7/30/90-day windows, let us report visibility scores and trend lines that reflect real movement rather than per-snapshot variance. We also report rolling confidence intervals where the sample size supports them, so you can see when a trend is statistically meaningful versus when it might still be noise.
 
 Q: What happens when an engine changes its default model?
-A: We monitor provider announcements and model deprecations on an ongoing basis. When an engine changes its default consumer model, we update our tracking configuration to match within days and disclose the change in the platform changelog so customers can interpret any trend-line discontinuities.
+A: We monitor provider announcements and model deprecations on an ongoing basis, with internal alerting for default-model changes. When an engine changes its default consumer model, we update tracking as soon as the change is verified and disclose it in the platform changelog so customers can interpret any trend-line discontinuities.
 
 Q: Can I verify a specific result myself?
 A: Yes. Every data point is traceable to the exact prompt, engine, region, and timestamp. Open any tracked prompt, select a snapshot, and you can see the full response we captured. To verify, copy the prompt text, set your browser to the same region, and submit it on the engine yourself within a short time window. The response should match in substance.
@@ -7301,15 +7301,15 @@ What you should listen for: named models and surfaces, plus a public registry th
 
 Red flags: 'We track ChatGPT' without specifying the variant or surface; 'the platform decides which model gets used' (data is non-reproducible); no public model registry or changelog.
 
-How we answer: we publish a model registry in our platform changelog and customer dashboard, showing the consumer-surface model the engine reports for that surface and the API model we query in the API channel. When a provider changes a default we update tracking within days and post the change to the changelog so you can interpret any trend-line discontinuities. Model signal is part of every per-data-point audit trail when the engine discloses it.
+How we answer: we publish a model registry in our platform changelog and customer dashboard, showing the consumer-surface model the engine reports for that surface and the API model we query in the API channel. When a provider changes a default, we update tracking as soon as the change is verified and post the change to the changelog so you can interpret any trend-line discontinuities. Model signal is part of every per-data-point audit trail when the engine discloses it.
 
 #### Question 4: How do you handle the fact that AI engines give different answers each time?
 
-What you should listen for: explicit acknowledgement of non-determinism, plus a methodology for it. Strong answers describe repeated capture on a recurring cadence with rolling-window aggregates and confidence bands; flag single-snapshot data points as such; and treat movement within historical engine variance as 'within noise' rather than as a real trend change.
+What you should listen for: explicit acknowledgement of non-determinism, plus a methodology for it. Strong answers describe repeated capture, daily priority-prompt monitoring, rolling-window aggregates, and confidence bands; flag single-snapshot data points as such; and treat movement within historical engine variance as 'within noise' rather than as a real trend change.
 
 Red flags: 'Our data is highly accurate' without explaining how non-determinism is handled; one run per refresh cycle treated as one data point; no confidence intervals, rolling windows, or acknowledgement that engines are non-deterministic.
 
-How we answer: we re-run prompts on an agreed recurring cadence and report rolling 7/30/90-day windows with confidence bands where sample size supports them. Movement that falls within historical engine variance is flagged 'within noise' instead of being shown as a real change. Free Audit reports include a single snapshot for a directional read and we say so.
+How we answer: active workspaces refresh priority prompts daily and report rolling 7/30/90-day windows with confidence bands where sample size supports them. Movement that falls within historical engine variance is flagged 'within noise' instead of being shown as a real change. Free Audit reports include a single snapshot for a directional read and we say so.
 
 #### Question 5: Can a specific data point be reproduced?
 
@@ -7325,7 +7325,7 @@ What you should listen for: a documented update process plus disclosure to custo
 
 Red flags: 'We use the latest model' without specifying how 'latest' is defined or who watches for changes; no changelog visible to customers; inability to describe what happened the last time a major engine updated its default.
 
-How we answer: we monitor provider announcements and model deprecations on an ongoing basis, with internal alerting so we don't miss provider updates. When a default changes we update tracking within days and post the change to our public changelog so you can interpret any discontinuities in your trend lines. The model signal is part of every per-data-point audit trail when the engine discloses it.
+How we answer: we monitor provider announcements and model deprecations on an ongoing basis, with internal alerting so we don't miss provider updates. When a default changes, we update tracking as soon as the change is verified and post the change to our public changelog so you can interpret any discontinuities in your trend lines. The model signal is part of every per-data-point audit trail when the engine discloses it.
 
 ### How to run the checklist in a vendor evaluation
 
@@ -7502,7 +7502,7 @@ This page answers the 19 questions prospects ask us most often during evaluation
 
 ### How we build prompt sets
 
-Five questions about prompt grounding, customer prompts, and update cadence.
+Five questions about prompt grounding, customer prompts, and live data refresh.
 
 
 
@@ -7521,7 +7521,7 @@ Sourced. Every prompt entering the GPS requires evidence from at least one of th
 
 #### How often does SolCrys update the prompt set?
 
-Engine follow-up questions refresh weekly; community trending signals refresh monthly; intent-volume baselines and full GPS templates re-ground quarterly. When your category sees a major news event or new entrant, an out-of-cycle refresh runs within 48 hours. You see new prompts as suggestions - your historical trend lines stay continuous unless you accept the update.
+Active workspaces refresh priority prompt data daily, and SolCrys monitors engine follow-ups, community trending signals, competitor moves, and category/news spikes on a near-real-time basis. Intent-volume baselines and GPS templates are quality-reviewed on a rolling basis rather than waiting for a fixed quarterly cycle. New prompts appear as suggestions - your historical trend lines stay continuous unless you accept the update.
 
 #### Can I bring my own prompts to SolCrys?
 
@@ -7544,7 +7544,7 @@ A consumer engine like chatgpt.com is not a thin shell over the public API. It u
 
 #### AI engines give different answers each time. How does SolCrys handle that?
 
-By repeated capture and rolling-window reporting. A single snapshot is a noisy data point - engines like ChatGPT are non-deterministic by design, sampling probabilistically so the conversation feels natural. We re-run prompts on a recurring cadence and report rolling 7/30/90-day windows; movement within historical variance for that engine is flagged as 'within noise' rather than reported as a real change.
+By repeated capture and rolling-window reporting. A single snapshot is a noisy data point - engines like ChatGPT are non-deterministic by design, sampling probabilistically so the conversation feels natural. For active workspaces, we monitor priority prompts daily and report rolling 7/30/90-day windows; movement within historical variance for that engine is flagged as 'within noise' rather than reported as a real change.
 
 #### Can I reproduce a specific data point SolCrys shows me?
 
@@ -7552,7 +7552,7 @@ Yes. Every chart drills back to the exact prompt, engine, region, timestamp, and
 
 #### What happens when an engine changes its default model?
 
-We monitor provider announcements and model deprecations on an ongoing basis. When a default changes, we update tracking within days and disclose the change in our platform changelog so you can interpret any trend-line discontinuities. Model signal is part of every per-data-point audit trail when the engine discloses it.
+We monitor provider announcements and model deprecations on an ongoing basis, with internal alerting for default-model changes. When a default changes, we update tracking as soon as the change is verified and disclose the change in our platform changelog so you can interpret any trend-line discontinuities. Model signal is part of every per-data-point audit trail when the engine discloses it.
 
 ### Free Audit and onboarding
 
@@ -7571,7 +7571,7 @@ For a standard workspace, the GPS for your category is pre-built and you can rev
 
 #### How often does SolCrys re-run prompts?
 
-The Free AI Visibility Audit is a single-snapshot read. Ongoing monitoring uses a recurring cadence agreed during onboarding, with rolling windows that separate real movement from normal engine noise. We do not want buyers to confuse a one-time audit with trend-grade measurement.
+The Free AI Visibility Audit is a single-snapshot read. Ongoing workspaces use daily monitoring for priority prompts, near-real-time trend discovery for new prompt and action suggestions, and rolling windows that separate real movement from normal engine noise. We do not want buyers to confuse a one-time audit with trend-grade measurement.
 
 ### Comparing SolCrys to other options
 
