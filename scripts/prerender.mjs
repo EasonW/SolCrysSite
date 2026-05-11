@@ -439,6 +439,14 @@ function aboutHtml() {
 </div>`;
 }
 
+function categorySlug(s) {
+  return String(s)
+    .toLowerCase()
+    .replace(/&/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function resourcesHtml() {
   const declared = resourceClusters.map((c) => c.key);
   const grouped = new Map();
@@ -468,7 +476,7 @@ function resourcesHtml() {
         if (pages.length === 0) return "";
         const blurb = blurbByKey.get(key) || "";
         return `
-    <section class="seo-container seo-section">
+    <section id="${escapeAttr(categorySlug(key))}" class="seo-container seo-section">
       <h2>${escapeHtml(key)}</h2>
       ${blurb ? `<p>${escapeHtml(blurb)}</p>` : ""}
       <div class="seo-grid">

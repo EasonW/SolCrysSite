@@ -18,9 +18,11 @@ import { trackEvent, type AuditSurface } from "@/lib/analytics";
 export type EarlyAccessMode = "audit" | "founder";
 
 interface EarlyAccessDialogProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   surface: AuditSurface;
   mode?: EarlyAccessMode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const COPY: Record<EarlyAccessMode, {
@@ -62,14 +64,22 @@ const COPY: Record<EarlyAccessMode, {
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xojnjoda";
 
-const EarlyAccessDialog = ({ children, surface, mode = "audit" }: EarlyAccessDialogProps) => {
-  const [open, setOpen] = useState(false);
+const EarlyAccessDialog = ({
+  children,
+  surface,
+  mode = "audit",
+  open: controlledOpen,
+  onOpenChange,
+}: EarlyAccessDialogProps) => {
+  const [internalOpen, setInternalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const copy = COPY[mode];
+  const open = controlledOpen ?? internalOpen;
 
   const handleOpenChange = (next: boolean) => {
     if (next && !open) trackEvent(copy.openEvent, { surface, mode });
-    setOpen(next);
+    if (controlledOpen === undefined) setInternalOpen(next);
+    onOpenChange?.(next);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,7 +102,7 @@ const EarlyAccessDialog = ({ children, surface, mode = "audit" }: EarlyAccessDia
       if (response.ok) {
         trackEvent(copy.submitEvent, { surface, mode });
         toast.success(copy.successToast);
-        setOpen(false);
+        handleOpenChange(false);
       } else {
         toast.error("Something went wrong. Please try again.");
       }
@@ -106,9 +116,7 @@ const EarlyAccessDialog = ({ children, surface, mode = "audit" }: EarlyAccessDia
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      {children ? <DialogTrigger asChild>{children}</DialogTrigger> : null}
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{copy.title}</DialogTitle>

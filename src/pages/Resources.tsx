@@ -2,6 +2,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import siteContent from "@/content/siteContent.json";
 import { ArrowRight } from "lucide-react";
+import { categorySlug } from "@/lib/categorySlug";
 
 type ResourcePageData = (typeof siteContent.resourcePages)[number];
 
@@ -44,7 +45,7 @@ const Resources = () => {
             const pages = grouped.get(key) ?? [];
             if (pages.length === 0) return null;
             return (
-              <div key={key} className="mb-16">
+              <div key={key} id={categorySlug(key)} className="mb-16 scroll-mt-28">
                 <div className="mb-6 max-w-3xl">
                   <h2 className="font-display text-2xl md:text-3xl font-semibold tracking-tight mb-3">
                     {key}
