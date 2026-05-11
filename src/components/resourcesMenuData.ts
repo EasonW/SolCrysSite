@@ -17,7 +17,6 @@ import {
   Wrench,
   Users,
   AlertTriangle,
-  Building2,
   ArrowRight,
   Workflow,
   type LucideIcon,
@@ -42,6 +41,12 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
   {
     label: "Fundamentals & Strategy",
     items: [
+      {
+        title: "How SolCrys Works",
+        desc: "Measure, diagnose, act, and verify",
+        href: categoryHref("How SolCrys Works"),
+        Icon: Workflow,
+      },
       {
         title: "AEO Fundamentals",
         desc: "Start here — what AEO is, why it matters",
@@ -160,23 +165,11 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         href: categoryHref("Risk"),
         Icon: AlertTriangle,
       },
-      {
-        title: "Corporate Context",
-        desc: "The new CMS for AI marketing",
-        href: categoryHref("Corporate Context"),
-        Icon: Building2,
-      },
     ],
   },
 ];
 
 export const RESOURCES_FOOTER_LINKS: ResourcesMenuItem[] = [
-  {
-    title: "How SolCrys Works",
-    desc: "Methodology, prompt sets, measurement",
-    href: categoryHref("How SolCrys Works"),
-    Icon: Workflow,
-  },
   {
     title: "For Agencies",
     desc: "Launch and scale an AEO practice",
