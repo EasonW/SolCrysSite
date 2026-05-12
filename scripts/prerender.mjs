@@ -6,6 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
+const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
 const resourceBySlug = new Map(resourcePages.map((p) => [p.slug, p]));
@@ -87,6 +88,7 @@ function navHtml() {
         <a href="/#features">Platform</a>
         <a href="/#solutions">Solutions</a>
         <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
         <a href="/resources/">Resources</a>
         <a href="/about/">Company</a>
       </nav>
@@ -100,6 +102,7 @@ function footerHtml() {
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
         </nav>
@@ -249,7 +252,7 @@ function breadcrumbSchema(items) {
   };
 }
 
-function webPageSchema({ routePath, title, description }) {
+function webPageSchema({ routePath, title, description, ogImage }) {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -274,7 +277,7 @@ function webPageSchema({ routePath, title, description }) {
     },
     primaryImageOfPage: {
       "@type": "ImageObject",
-      url: defaultOgImage
+      url: ogImage ? resolveOgImage(ogImage) : defaultOgImage
     }
   };
 }
@@ -434,6 +437,109 @@ function aboutHtml() {
         </tbody>
       </table>
     </section>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+const pricingAudiences = pricingContent.audiences || [];
+const pricingBrandTierCount = pricingAudiences.find((audience) => audience.key === "brand")?.tiers?.length || 0;
+
+function pricingComparisonValue(label, globalIndex) {
+  for (const group of pricingContent.comparisonGroups || []) {
+    const row = group.rows?.find((candidate) => candidate.label === label);
+    if (row) return row.values?.[globalIndex] || "";
+  }
+  return "";
+}
+
+function promptLabel(value) {
+  const text = String(value);
+  if (/prompt/i.test(text)) return text;
+  return `${text} prompts`;
+}
+
+function countLabel(value, singular, plural) {
+  const text = String(value);
+  if (!/^\d+$/.test(text)) return text;
+  return `${text} ${Number(text) === 1 ? singular : plural}`;
+}
+
+function pricingPlansFor(audienceKey) {
+  const audience = pricingAudiences.find((candidate) => candidate.key === audienceKey);
+  const offset = audienceKey === "brand" ? 0 : pricingBrandTierCount;
+  return (audience?.tiers || []).map((tier, index) => {
+    const globalIndex = index + offset;
+    return {
+      name: tier.name,
+      price: `$${Number(tier.monthly).toLocaleString("en-US")}/mo`,
+      prompts: promptLabel(pricingComparisonValue("Tracked prompts", globalIndex)),
+      engines: pricingComparisonValue("Included engines", globalIndex),
+      deepAnalyses: countLabel(pricingComparisonValue("Deep Analyses / mo", globalIndex), "Deep Analysis", "Deep Analyses"),
+      contentAudits: countLabel(pricingComparisonValue("Content Audits / mo", globalIndex), "Content Audit", "Content Audits"),
+      bestFit: tier.bestFit,
+      summary: tier.tagline
+    };
+  });
+}
+
+const brandPricingPlans = pricingPlansFor("brand");
+const agencyPricingPlans = pricingPlansFor("agency");
+
+function pricingPlanCard(plan) {
+  return `
+          <article class="seo-card">
+            <p class="seo-kicker">${escapeHtml(plan.name)}</p>
+            <h3>${escapeHtml(plan.price)}</h3>
+            <p>${escapeHtml(plan.summary)}</p>
+            <ul class="seo-list">
+              <li><strong>Prompts:</strong> ${escapeHtml(plan.prompts)}</li>
+              <li><strong>Engines:</strong> ${escapeHtml(plan.engines)}</li>
+              <li><strong>Deep Analyses:</strong> ${escapeHtml(plan.deepAnalyses)}</li>
+              <li><strong>Content Audits:</strong> ${escapeHtml(plan.contentAudits)}</li>
+              <li><strong>Best fit:</strong> ${escapeHtml(plan.bestFit)}</li>
+            </ul>
+          </article>`;
+}
+
+function pricingHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">${escapeHtml(pricingContent.hero.eyebrow)}</p>
+      <h1>${escapeHtml(pricingContent.hero.title)}</h1>
+      <p class="seo-lede">${escapeHtml(pricingContent.hero.subtitle)}</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Brand plans</h2>
+      <p>Brand plans scale by prompts, engines, workspaces, Deep Analyses, and Content Audits. We do not meter seats.</p>
+      <div class="seo-grid">
+        ${brandPricingPlans.map(pricingPlanCard).join("")}
+      </div>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Agency plans</h2>
+      <p>Agency plans sell client organization capacity, repeatable reporting, and white-label-ready Deep Analysis workflows.</p>
+      <div class="seo-grid">
+        ${agencyPricingPlans.map(pricingPlanCard).join("")}
+      </div>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Add-ons and Enterprise</h2>
+      <div class="seo-grid">
+        ${(pricingContent.addOns || [])
+          .map(
+            (addOn) => `<article class="seo-card">
+          <h3>${escapeHtml(addOn.label)}</h3>
+          <p>${escapeHtml(addOn.description)}</p>
+        </article>`
+          )
+          .join("")}
+      </div>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
   </main>
   ${footerHtml()}
 </div>`;
@@ -725,6 +831,29 @@ writePage(
 );
 
 writePage(
+  "pricing/index.html",
+  renderLayout({
+    routePath: "/pricing/",
+    title: pricingContent.meta.title,
+    description: pricingContent.meta.description,
+    body: pricingHtml(),
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Pricing", path: "/pricing/" }
+      ]),
+      webPageSchema({
+        routePath: "/pricing/",
+        title: pricingContent.meta.title,
+        description: pricingContent.meta.description,
+        ogImage: pricingContent.meta.ogImage
+      })
+    ]
+  })
+);
+
+writePage(
   "resources/index.html",
   renderLayout({
     routePath: "/resources/",
@@ -814,6 +943,7 @@ writePage(
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
+  { path: "/pricing/", lastmod: site.updated || generatedAt },
   { path: "/resources/", lastmod: site.updated || generatedAt },
   ...resourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
   { path: "/privacy.html", lastmod: site.updated || generatedAt },
@@ -850,6 +980,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
 - [About](${site.url}/about/): Company story and founding team.
+- [Pricing](${site.url}/pricing/): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 
 ## Recommended Reading
@@ -921,4 +1052,4 @@ for (const { from, to } of retiredRedirects) {
   writePage(`${from}/index.html`, redirectHtml);
 }
 
-console.log(`Prerendered ${resourcePages.length + 4 + retiredRedirects.length} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);
+console.log(`Prerendered ${resourcePages.length + 5 + retiredRedirects.length} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);

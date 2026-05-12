@@ -13,6 +13,7 @@ const flatNavLinks = [
   { href: "/#features", label: "Platform" },
   { href: "/#solutions", label: "Solutions" },
   { href: "/#loop", label: "The Loop" },
+  { href: "/pricing/", label: "Pricing" },
 ];
 
 const trailingNavLinks = [{ href: "/about/", label: "Company" }];

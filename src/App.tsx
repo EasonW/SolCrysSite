@@ -6,6 +6,7 @@ import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
 import Resources from "./pages/Resources";
 import ResourcePage from "./pages/ResourcePage";
+import Pricing from "./pages/Pricing";
 import siteContent from "@/content/siteContent.json";
 
 const App = () => (
@@ -16,6 +17,8 @@ const App = () => (
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/about/" element={<AboutUs />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/pricing/" element={<Pricing />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/" element={<Resources />} />
         {siteContent.resourcePages.map((page) => (
