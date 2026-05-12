@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import siteContent from "@/content/siteContent.json";
-import { ArrowRight, CalendarDays, HelpCircle } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarDays, HelpCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotFound from "./NotFound";
@@ -129,6 +129,11 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
   const aeoTargets =
     "aeoTargets" in page && Array.isArray(page.aeoTargets) ? (page.aeoTargets as string[]) : [];
 
+  const sources =
+    "sources" in page && Array.isArray(page.sources)
+      ? (page.sources as { label: string; url: string }[])
+      : [];
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -177,6 +182,27 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
           ) : null}
 
           {page.sections.map(renderSection)}
+
+          {sources.length > 0 ? (
+            <section className="border-t border-border/30 py-10">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Sources</h2>
+              <ul className="grid gap-3">
+                {sources.map((source) => (
+                  <li key={source.url}>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-start gap-2 rounded-lg border border-border/30 bg-card/40 p-4 text-sm text-muted-foreground transition-colors hover:border-[hsl(195_90%_55%/0.35)] hover:text-foreground"
+                    >
+                      <span className="leading-relaxed">{source.label}</span>
+                      <ArrowUpRight className="h-4 w-4 mt-0.5 shrink-0 text-[hsl(195_90%_55%)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
           <section className="border-t border-border/30 py-10">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">FAQ</h2>

@@ -716,6 +716,22 @@ function aeoTargetsHtml(page) {
       </section>`;
 }
 
+function sourcesHtml(page) {
+  if (!Array.isArray(page.sources) || page.sources.length === 0) return "";
+  return `
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          ${page.sources
+            .map(
+              (source) =>
+                `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`
+            )
+            .join("")}
+        </ul>
+      </section>`;
+}
+
 function resourcePageHtml(page) {
   return `
 <div class="seo-prerender">
@@ -730,6 +746,7 @@ function resourcePageHtml(page) {
       </header>
       ${aeoTargetsHtml(page)}
       ${page.sections.map(sectionHtml).join("")}
+      ${sourcesHtml(page)}
       <section class="seo-section">
         <h2>FAQ</h2>
         ${page.faqs
@@ -1102,6 +1119,7 @@ ${section.subsections ? section.subsections.map((sub) => `\n\n#### ${sub.heading
   )
   .join("\n\n")}
 
+${Array.isArray(page.sources) && page.sources.length > 0 ? `\n### Sources\n\n${page.sources.map((source) => `- [${source.label}](${source.url})`).join("\n")}\n` : ""}
 ### FAQ
 
 ${page.faqs.map((faq) => `Q: ${faq.question}\nA: ${faq.answer}`).join("\n\n")}`
