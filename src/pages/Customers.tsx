@@ -192,7 +192,7 @@ const CustomerStories = () => {
                       Michelle Frees
                     </p>
                     <p className="text-sm text-muted-foreground mt-0.5">
-                      Head of Amazon Growth
+                      Head of Amazon
                     </p>
                     <p className="text-xs text-muted-foreground/80 mt-0.5">
                       Wyze

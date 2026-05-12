@@ -410,7 +410,7 @@ function customersHtml() {
         </blockquote>
       </article>
       <article class="seo-card">
-        <p class="seo-kicker"><a href="https://www.linkedin.com/in/michellewangfrees/" rel="noopener">Michelle Frees</a> — Head of Amazon Growth, Wyze</p>
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/michellewangfrees/" rel="noopener">Michelle Frees</a> — Head of Amazon, Wyze</p>
         <blockquote>
           <p>“SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible. On top of that, they've surfaced rich customer insights that are informing our product decisions.”</p>
         </blockquote>
@@ -908,7 +908,7 @@ writePage(
         "@context": "https://schema.org",
         "@type": "Review",
         itemReviewed: organizationSchema,
-        author: { "@type": "Person", name: "Michelle Frees", jobTitle: "Head of Amazon Growth, Wyze" },
+        author: { "@type": "Person", name: "Michelle Frees", jobTitle: "Head of Amazon, Wyze" },
         reviewBody: "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible. On top of that, they've surfaced rich customer insights that are informing our product decisions."
       }
     ]
