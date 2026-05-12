@@ -5,7 +5,7 @@ const steps = [
     number: "01",
     title: "Measure across engines",
     description:
-      "Run a fixed prompt set across ChatGPT, Perplexity, Google AI, Gemini, Claude, and Amazon Rufus. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.",
+      "Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.",
   },
   {
     number: "02",
@@ -17,7 +17,7 @@ const steps = [
     number: "03",
     title: "Execute with Corporate Context",
     description:
-      "The AEO Agent uses your approved facts, claims, and guardrails to draft page updates, comparison sections, FAQ improvements, and listing rewrites your team can review and ship.",
+      "SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.",
   },
   {
     number: "04",

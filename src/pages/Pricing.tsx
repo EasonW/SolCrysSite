@@ -204,17 +204,9 @@ const Pricing = () => {
 
                   <header className="mb-6">
                     <h2 className="font-display text-2xl font-semibold">{tier.name}</h2>
-                    <p className="mt-2 min-h-[3rem] text-sm leading-relaxed text-muted-foreground">
-                      {tier.tagline}
+                    <p className="mt-2 text-sm font-medium leading-relaxed text-muted-foreground">
+                      {tier.bestFit}
                     </p>
-                    <div className="mt-4 rounded-lg border border-border/30 bg-background/55 p-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Best fit
-                      </p>
-                      <p className="mt-1 text-sm font-medium leading-snug text-foreground/90">
-                        {tier.bestFit}
-                      </p>
-                    </div>
                   </header>
 
                   <div className="mb-6">

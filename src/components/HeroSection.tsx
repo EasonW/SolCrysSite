@@ -62,10 +62,9 @@ const HeroSection = () => {
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">ChatGPT</span>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Gemini</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Amazon Rufus</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Perplexity</span>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Google AI Overview</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Claude</span>
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Google AI Mode</span>
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Perplexity</span>
           </div>
         </div>
       </div>

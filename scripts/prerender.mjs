@@ -297,7 +297,7 @@ function homeHtml() {
       <figure style="margin-top: 2rem;">
         <figcaption><strong>The SolCrys Loop</strong> — operational snapshot of one customer workspace. Numbers reflect actual state, not aggregate marketing claims.</figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Step 01 · Measure.</strong> 20 prompts tracked across ChatGPT, Perplexity, Google AI, Gemini, Claude, and Amazon Rufus.</li>
+          <li><strong>Step 01 · Measure.</strong> 20 prompts tracked across ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans.</li>
           <li><strong>Step 02 · Diagnose.</strong> 3 gaps detected, classified as absence, citation, accuracy, comparison, or action gap.</li>
           <li><strong>Step 03 · Execute.</strong> 1 action queued — brand-safe drafts via Corporate Context, routed for human review.</li>
           <li><strong>Step 04 · Verify.</strong> +5pp citation rate after re-testing the same prompt set. Loop continues.</li>
@@ -312,9 +312,9 @@ function homeHtml() {
       <h2>The SolCrys Loop: measure, diagnose, execute, verify</h2>
       <p>SolCrys closes the loop on AI search visibility. Each shipped action is tied to the same prompt set so teams can see which fixes actually changed the answer.</p>
       <ol class="seo-list">
-        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Perplexity, Google AI, Gemini, Claude, and Amazon Rufus. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.</li>
+        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.</li>
         <li><strong>Diagnose the answer gap.</strong> Classify each weak answer as an absence, citation, accuracy, comparison, or action gap. Map each gap to the page or source most likely to fix it.</li>
-        <li><strong>Execute with Corporate Context.</strong> The AEO Agent uses your approved facts, claims, and guardrails to draft page updates, comparison sections, FAQ improvements, and listing rewrites your team can review and ship.</li>
+        <li><strong>Execute with Corporate Context.</strong> SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.</li>
         <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track citation rate, answer accuracy, and recommendation share to prove which fixes actually moved the answer.</li>
       </ol>
     </section>

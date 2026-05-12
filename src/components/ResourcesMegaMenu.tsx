@@ -57,8 +57,8 @@ const ResourcesMegaMenu = ({ onItemClick, onAuditClick }: ResourcesMegaMenuProps
               Free AI Visibility Audit
             </h3>
             <p className="text-xs text-muted-foreground leading-relaxed mb-4 flex-1">
-              GPS-generated prompts across ChatGPT, Gemini, and Google AI Overviews —
-              results on the page in minutes.
+              GPS-based baseline preview with sample Deep Analyses and recommended
+              actions from the paid workflow.
             </p>
             <Button variant="hero" size="sm" className="w-full" onClick={handleAuditClick}>
               Request your Audit
