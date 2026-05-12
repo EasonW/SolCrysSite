@@ -8,6 +8,7 @@ export type AuditSurface =
   | "hero"
   | "navbar"
   | "cta_section"
+  | "customers"
   | "pricing"
   | "pricing_card"
   | "pricing_cta_strip"

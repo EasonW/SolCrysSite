@@ -391,6 +391,51 @@ function homeHtml() {
 </div>`;
 }
 
+function customersHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">Customer Stories</p>
+      <h1>How consumer brands use SolCrys to show up in AI answers.</h1>
+      <p class="seo-lede">Visibility, accuracy, and trust across the AI engines where buyers now ask, compare, and decide.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Featured customer: Wyze</h2>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/yun-zhang-1441933" rel="noopener">Yun Zhang</a> — CEO, Wyze</p>
+        <blockquote>
+          <p>“AI is changing how people discover products online, and for consumer brands, showing up correctly in AI answers is becoming incredibly important. The opportunity is about helping the right customers find your products and making it easier for them to buy. SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust. We're excited to work with the SolCrys team as they build toward the future of brand discovery and agentic commerce.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/michellewangfrees/" rel="noopener">Michelle Frees</a> — Head of Amazon Growth, Wyze</p>
+        <blockquote>
+          <p>“SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible. On top of that, they've surfaced rich customer insights that are informing our product decisions.”</p>
+        </blockquote>
+      </article>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>About Wyze</h2>
+      <p>Wyze is a Seattle-based smart home company known for cameras, sensors, and connected devices designed to be high quality and affordable. The brand reaches millions of households shopping across retail and direct channels — exactly the kind of discovery surface AI assistants are now reshaping.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Across the industry</h2>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/tiafrate/" rel="noopener">Toni Iafrate</a> — Chief Communications Officer (company name withheld)</p>
+        <blockquote>
+          <p>“What stood out to me about SolCrys is that it goes beyond just showing data. Most tools stop at dashboards and metrics, but SolCrys helps teams understand what the data means and what actions to take next. That's incredibly valuable for communications and marketing leaders who need actionable intelligence, not just reports.”</p>
+        </blockquote>
+        <p><em>Shared with permission. Company name redacted at the customer's request.</em></p>
+      </article>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
 function aboutHtml() {
   return `
 <div class="seo-prerender">
@@ -831,6 +876,46 @@ writePage(
 );
 
 writePage(
+  "customers/index.html",
+  renderLayout({
+    routePath: "/customers/",
+    title: "Customer Stories | SolCrys",
+    description: "How consumer brands like Wyze use SolCrys to show up correctly across AI search engines, with visibility, accuracy, and trust across ChatGPT, Gemini, AI Overviews, AI Mode, and Perplexity.",
+    body: customersHtml(),
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Customers", path: "/customers/" }
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "SolCrys Customer Stories",
+        url: canonicalUrl("/customers/"),
+        description: "Customer stories from consumer brands using SolCrys for AI search visibility, accuracy, and trust.",
+        datePublished: site.published || generatedAt,
+        dateModified: site.updated || generatedAt
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Yun Zhang", jobTitle: "CEO, Wyze" },
+        reviewBody: "AI is changing how people discover products online, and for consumer brands, showing up correctly in AI answers is becoming incredibly important. The opportunity is about helping the right customers find your products and making it easier for them to buy. SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust. We're excited to work with the SolCrys team as they build toward the future of brand discovery and agentic commerce."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Michelle Frees", jobTitle: "Head of Amazon Growth, Wyze" },
+        reviewBody: "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible. On top of that, they've surfaced rich customer insights that are informing our product decisions."
+      }
+    ]
+  })
+);
+
+writePage(
   "pricing/index.html",
   renderLayout({
     routePath: "/pricing/",
@@ -943,6 +1028,7 @@ writePage(
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
+  { path: "/customers/", lastmod: site.updated || generatedAt },
   { path: "/pricing/", lastmod: site.updated || generatedAt },
   { path: "/resources/", lastmod: site.updated || generatedAt },
   ...resourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
@@ -980,6 +1066,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
 - [About](${site.url}/about/): Company story and founding team.
+- [Customers](${site.url}/customers/): Customer stories from consumer brands using SolCrys across AI engines.
 - [Pricing](${site.url}/pricing/): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 
