@@ -515,7 +515,8 @@
         {
           "heading": "Direct answer",
           "body": [
-            "Corporate Context is the governed source of truth that tells AI marketing agents what a company is, what it sells, who it serves, what claims are approved, which facts require evidence, and what the agent must avoid saying. If a CMS manages web pages, Corporate Context manages the brand knowledge and guardrails agents need before they can safely execute AEO work."
+            "Corporate Context is the governed source of truth that tells AI marketing agents what a company is, what it sells, who it serves, what claims are approved, which facts require evidence, and what the agent must avoid saying. If a CMS manages web pages, Corporate Context manages the brand knowledge and guardrails agents need before they can safely execute AEO work.",
+            "It is the difference between generating content that sounds plausible and shipping content that defends the brand. Generic AI writing tools can do the first; Corporate Context is what makes the second possible."
           ]
         },
         {
@@ -524,6 +525,63 @@
             "Most companies already know the risk of generic AI content. It can sound polished while drifting away from the brand, inventing claims, misreading the audience, or summarizing a product in the same language as every competitor.",
             "That is not just a writing problem. It is an infrastructure problem. AI marketing agents cannot safely execute if they do not know the company's approved positioning, current product facts, priority use cases, customer segments, allowed claims, supporting evidence, competitor framing rules, and the words the brand should avoid.",
             "Prompting alone does not solve this. A prompt is a request. Corporate Context is the operating boundary."
+          ]
+        },
+        {
+          "heading": "Generic AI writing output vs brand-grounded output",
+          "body": [
+            "We get asked all the time whether SolCrys is just another AI writing tool. We are not — and the cleanest way to explain why is to lay out what generic AI writing output looks like next to what brand-grounded output looks like. The two columns describe the same task (\"write a paragraph about this product\") executed under very different operating conditions. The first column is what most AI writing tools can produce today; the second is what Corporate Context-grounded output is designed to produce."
+          ],
+          "table": {
+            "headers": [
+              "Dimension",
+              "Generic AI writing output",
+              "Brand-grounded output (Corporate Context)"
+            ],
+            "rows": [
+              [
+                "Source of facts",
+                "Model's training data plus whatever the prompt happens to include",
+                "Approved company facts, product specs, proof, and forbidden claims, structured for retrieval"
+              ],
+              [
+                "Voice and tone",
+                "Generic helpful-assistant tone or a one-off style prompt",
+                "Voice rules, banned phrases, and reading level applied consistently across every action"
+              ],
+              [
+                "Claim safety",
+                "Polished prose that may invent features, mis-state pricing, or drift on positioning",
+                "Claims constrained to approved-and-evidenced statements; the system refuses or flags forbidden claims"
+              ],
+              [
+                "Competitive framing",
+                "Whatever the model happens to know or infer about competitors, often outdated or imbalanced",
+                "Comparison rules, allowed and forbidden naming conventions, and pre-approved competitor framing"
+              ],
+              [
+                "Compliance",
+                "Legal review happens after the draft is written, every time",
+                "Regulated claims, mandatory disclaimers, and review requirements encoded so the agent stays in bounds before review"
+              ],
+              [
+                "Reusability",
+                "Each prompt is a one-off; updates do not propagate",
+                "Source of truth is updated once; every downstream action inherits the change"
+              ],
+              [
+                "Auditability",
+                "No trail from a sentence back to a fact or an approver",
+                "Every claim is traceable to a Corporate Context entry and an approval owner"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "Why this is our strongest differentiator",
+          "body": [
+            "AI writing tools optimize for content production speed. We optimize for the moment after a draft exists, when the brand has to defend what was shipped. The two are not interchangeable, and you can tell because the failure modes are different. A great AI writing tool fails by being slow or off-tone. A Corporate Context-grounded system fails by refusing to ship a draft that violates an approved claim, a regulated boundary, or a competitor framing rule. We would rather fail the second way, and so would every legal, brand, and compliance leader we have ever talked to.",
+            "If you already use an AI writing tool, you are not in the wrong place. The writing tool produces drafts faster; Corporate Context decides whether those drafts can ship without rework. Treat them as complementary — and treat the absence of Corporate Context as the reason most AI-written marketing copy still routes through a slow human-review loop."
           ]
         },
         {
@@ -598,7 +656,7 @@
           "heading": "Why this matters for AEO",
           "body": [
             "AEO work requires precision. If an AI answer says the wrong thing about a product, the fix is not to generate more generic content. The fix is to make the right facts easier to retrieve, verify, cite, and summarize.",
-                "Example: an answer engine says a company only monitors ChatGPT, even though the approved coverage statement includes Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans. A weak AI writer might produce a broad article. A Corporate Context-aware workflow identifies the inaccurate fact, pulls the approved coverage statement, recommends the pages where the fact should be clarified, prepares a reviewable correction, marks the action for review, and re-tests the original prompt after publication.",
+            "Example: an answer engine says a company only monitors ChatGPT, even though the approved coverage statement includes Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans. A generic AI writing tool, given the same prompt, would produce a broad article and leave the inaccurate-fact-versus-approved-claim reconciliation to a human. A Corporate Context-grounded workflow does that reconciliation up front: it identifies the inaccurate fact, pulls the approved coverage statement, recommends the pages where the fact should be clarified, prepares a reviewable correction, marks the action for review, and re-tests the original prompt after publication.",
             "That is the difference between content generation and governed execution."
           ]
         },
@@ -10699,7 +10757,7 @@
         {
           "heading": "How we build prompt sets",
           "body": [
-            "Five questions about prompt grounding, customer prompts, and live data refresh."
+            "Five questions about prompt grounding, customer prompts, and data refresh cadence."
           ],
           "subsections": [
             {
