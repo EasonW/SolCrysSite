@@ -4,7 +4,7 @@ SolCrys helps marketing teams turn AI answer gaps into governed content, citatio
 
 ## Answer Engine Optimization
 
-AEO is not a replacement for SEO. It is an operating layer that makes your brand easier for AI systems to retrieve, verify, cite, and summarize when users ask high-intent questions. The frameworks on this page are foundational - production-grade AEO measurement layers in real prompt-intent data, engine-specific retrieval signals, and calibrated scoring beyond what a primer can show.
+AEO is not a replacement for SEO. It is an operating layer that makes your brand easier for AI systems to retrieve, verify, cite, and summarize when users ask high-intent questions. The frameworks on this page are foundational - production AEO work should connect real prompt-intent data, engine-specific retrieval signals, and reviewable scoring instead of relying on a one-time checklist.
 
 ### Questions this guide answers
 
@@ -503,7 +503,7 @@ A 4-question diagnostic to gauge maturity and select the right platform type:
 
 ### How SolCrys fits
 
-SolCrys is built around the full loop: measure, diagnose, execute, verify. The platform tracks how brands appear across AI answer engines and retail assistants, identifies answer gaps, grounds recommended actions in Corporate Context, and connects shipped fixes to visibility, citation, accuracy, and recommendation changes. That is the difference between knowing the answer is weak and having a system to improve it.
+SolCrys is built around the full loop: measure, diagnose, execute, verify. The platform tracks how brands appear across included AI answer engines, scopes retail-assistant workflows separately where relevant, identifies answer gaps, grounds recommended actions in Corporate Context, and connects shipped fixes to visibility, citation, accuracy, and recommendation changes. That is the difference between knowing the answer is weak and having a system to improve it.
 
 
 
@@ -599,7 +599,7 @@ A: They use queries and retrieval systems, but matching is more semantic. Use th
 
 ## AI Brand Visibility Monitoring
 
-AI brand visibility monitoring measures whether AI systems mention, cite, recommend, compare, or misrepresent your brand when buyers ask relevant questions. For the underlying capture methodology - dual-channel measurement across consumer surfaces and APIs, traceable to a prompt, engine, capture method, model version, and timestamp - see the Visibility Measurement methodology page.
+AI brand visibility monitoring measures whether AI systems mention, cite, recommend, compare, or misrepresent your brand when buyers ask relevant questions. For the underlying capture methodology - dual-channel measurement across consumer surfaces and APIs, traceable to a prompt, engine, capture method, available model or surface signal, and timestamp - see the Visibility Measurement methodology page.
 
 ### Questions this guide answers
 
@@ -636,7 +636,7 @@ The prompt set should mirror real buyer behavior. Include broad category prompts
 
 ### Starter operating scorecard (illustrative)
 
-A practical starter scorecard should be small enough to review and specific enough to drive action. The five-row table below is a useful internal-alignment tool, not a representation of how SolCrys actually scores brands - production scoring layers in the daily monitoring and rolling-window signals discussed at the end of this page.
+A practical starter scorecard should be small enough to review and specific enough to drive action. The five-row table below is a useful internal-alignment tool, not a representation of how SolCrys reports paid workspace performance - paid workspaces layer in the daily monitoring and rolling-window signals discussed at the end of this page.
 
 The goal of the starter scorecard is to identify which answer gaps are hurting discovery, trust, or conversion.
 
@@ -663,10 +663,10 @@ SolCrys connects each weak or inaccurate answer to a likely fix: a clearer produ
 The starter scorecard above is built for stakeholder alignment and a first measurement cycle. It is intentionally simpler than what a production AI visibility monitoring system has to handle. SolCrys's platform extends these primitives with:
 
 
-- Prompt-popularity weighting from observed buyer intent, so high-traffic prompts move the score more than rare ones.
-- Engine-specific retrieval, grounding, and citation signals - mention quality is not the same across ChatGPT, Claude, Perplexity, and Gemini.
-- Calibrated scoring against periodic human-reviewed ground truth, recalibrated as engine versions change.
-- Time-weighted accuracy and recency tracking instead of point-in-time snapshots.
+- Prompt-priority signals from observed buyer intent and approved business context, so high-value prompts are easier to separate from rare edge cases.
+- Engine-specific retrieval, grounding, and citation signals for the engines included in the workspace or scoped engagement.
+- Human review of thin or high-risk reads before they are treated as durable trends.
+- Rolling-window accuracy and recency tracking instead of point-in-time snapshots.
 - Multi-engine consensus and divergence detection so a single bad answer does not trigger noise alerts.
 
 
@@ -719,7 +719,7 @@ Treat each missing or inaccurate answer as a content brief. The fix may be a cle
 
 ### Illustrative starter scorecard
 
-The 0-4 rubric below is intentionally simple so a team can run a first measurement cycle by hand and align internally. It is not how SolCrys actually scores answers in production - production scoring uses richer signals discussed at the end of this page.
+The 0-4 rubric below is intentionally simple so a team can run a first measurement cycle by hand and align internally. It is not how SolCrys reports paid workspace performance - paid workspace reporting uses richer signals discussed at the end of this page.
 
 Each answer should still be scored consistently so the team can compare changes over time instead of reacting to one-off responses.
 
@@ -746,10 +746,10 @@ For each manual run, capture the prompt, engine, date, answer text, source links
 The framework above is a starting point teams use to align stakeholders and run a first cycle by hand. Production-grade monitoring requires deeper signals than a spreadsheet rubric can capture. SolCrys's platform extends these primitives with:
 
 
-- Real prompt-popularity weighting from observed buyer intent across markets, not uniform weights.
+- Prompt-priority signals from observed buyer intent and approved business context, not uniform weights.
 - Engine-specific retrieval, grounding, and citation signals beyond surface text matching.
-- Calibrated scoring against periodic human-reviewed ground truth, not single-pass heuristics.
-- Time-weighted accuracy and recency tracking across engine versions.
+- Human review of thin or high-risk reads before they are treated as durable trends.
+- Rolling-window accuracy and recency tracking as engine behavior changes.
 - Multi-engine consensus and divergence detection so a one-off bad answer does not skew the picture.
 
 
@@ -823,7 +823,7 @@ Answer accuracy | Is the brand described correctly? | Does not show competitive 
 
 ### How to score recommendations
 
-Use a simple, consistent scoring model. The 0-5 scale below is intentionally simple so a team can run a first measurement cycle by hand. SolCrys's production scoring uses richer signals - prompt popularity, engine-specific recommendation cues, position within the answer, and time-weighted recency - calibrated against human-reviewed ground truth.
+Use a simple, consistent scoring model. The 0-5 scale below is intentionally simple so a team can run a first measurement cycle by hand. In paid workspaces, SolCrys adds richer diagnostic context - prompt priority, engine-specific recommendation cues, position within the answer, and rolling-window recency - with human review for thin or high-risk reads.
 
 
 
@@ -994,21 +994,22 @@ The same category can require different prompt sets by ICP. For B2B SaaS, prompt
 
 ### How many prompts should you start with
 
-A practical first audit can start with 50 to 100 prompts. The exact number matters less than consistency. A smaller fixed prompt set measured over time is more useful than a large random set checked once.
+A practical first SolCrys workspace starts with the number of tracked prompts included in your plan. Today, Starter and Growth workspaces track 20 prompts; Pro workspaces expand that to 60 tracked prompts. Agency plans use 30 tracked prompts per client organization. The exact number matters less than consistency. A smaller fixed prompt set measured over time is more useful than a large random set checked once.
 
 
-- 20 category prompts.
-- 20 comparison and alternative prompts.
-- 15 risk and implementation prompts.
-- 15 persona or use-case prompts.
-- 10 brand accuracy prompts.
-- 10 competitor-specific prompts.
+- For a 20-prompt starting set: 5 category prompts.
+- 4 comparison and alternative prompts.
+- 3 risk and implementation prompts.
+- 3 persona or use-case prompts.
+- 3 brand accuracy prompts.
+- 2 competitor-specific prompts.
+- For a 60-prompt Pro set, expand the same structure proportionally.
 
 
 
 ### What to capture for each prompt
 
-For every run, capture the prompt, answer engine, date and location settings when relevant, full answer text, cited sources, whether the brand is absent, mentioned, cited, or recommended, competitors named, sentiment and framing, accuracy notes, and a suggested content action. This turns prompt tracking into an AEO workflow rather than a screenshot exercise.
+For every run, capture the prompt, answer engine, full answer text, cited sources, whether the brand is absent, mentioned, cited, or recommended, competitors named, sentiment and framing, accuracy notes, and a suggested content action. This turns prompt tracking into an AEO workflow rather than a screenshot exercise.
 
 
 
@@ -1278,7 +1279,7 @@ The Shopify data validates tactics we have been running, but it changes the prio
 
 When SolCrys runs a Retail AEO engagement, the data we report on this exact question - which of your SKUs get recommended, on which prompts, by which engine, against which competitors - is structured for audit, not for pretty charts.
 
-Priority prompts are monitored daily in active workspaces, and rolling 7-day and 30-day windows let you compare current performance against the prior period rather than overreacting to a single snapshot. Every data point traces back to a specific prompt, engine, model version, capture method, timestamp, and captured response - you can audit any chart back to the raw answer. Share of Recommendation is reported per engine, per persona, and per prompt category, with engine-by-engine breakdowns surfaced by default rather than hidden inside a blended top-line number.
+Priority prompts are monitored daily in active workspaces, and rolling 7-day and 30-day windows let you compare current performance against the prior period rather than overreacting to a single snapshot. Every data point traces back to a specific prompt, engine, available model or surface signal, capture method, timestamp, and captured response - you can audit any chart back to the raw answer. Share of Recommendation is reported per engine, per persona, and per prompt category, with engine-by-engine breakdowns surfaced by default rather than hidden inside a blended top-line number.
 
 Where we are honest about scope: we currently deliver the measurement, diagnosis, and structured action briefs - deep analyses, ranked fixes, source-and-listing recommendations. Your team or your agency ships the fixes in your CMS and marketplace consoles. Agent-assisted shipping is on our roadmap. Today we deliver the diagnosis and the brief, and we verify by re-running the prompt set after fixes go live.
 
@@ -1494,7 +1495,7 @@ A four-level service ladder lets agencies start narrow and grow into recurring e
 
 #### Level 1: AI visibility audit
 
-The entry offer is a focused audit: define 50 to 100 prompts, test across relevant answer engines, capture mentions, citations, competitors, sentiment, and accuracy, identify the top answer gaps, and present priority actions. This is the easiest way to create urgency.
+The entry offer is a focused audit: define a fixed prompt set that fits the engagement scope, test across relevant answer engines, capture mentions, citations, competitors, sentiment, and accuracy, identify the top answer gaps, and present priority actions. Current Agency packages use 30 tracked prompts per client organization; smaller diagnostics can use 20, and deeper brand workflows can expand when scoped.
 
 #### Level 2: Daily monitoring
 
@@ -1824,10 +1825,10 @@ Reputation monitoring tracks what people say about a brand. Hallucination monito
 Manual triage with a fixed accuracy rubric is fine for a first incident pass. Production hallucination monitoring at scale needs more than that. SolCrys's platform extends the primitives above with:
 
 
-- Automated detection of factual disagreement between AI answers and authoritative owned or third-party sources.
-- Engine-specific propagation tracking - the same incorrect claim may spread through different engines on different timelines.
+- Structured detection and review of factual disagreement between AI answers and authoritative owned or third-party sources.
+- Engine-specific tracking - the same incorrect claim may appear through different engines on different timelines.
 - Severity scoring weighted by prompt popularity and buyer-stage intent, not just the rubric tier.
-- Calibration against human-reviewed ground truth, with severity thresholds re-fit as engine versions change.
+- Human review of severity thresholds for high-risk claims, revisited as engine behavior changes.
 - Repeat-offender pattern detection so recurring hallucinations escalate before they become reputational issues.
 
 
@@ -5906,7 +5907,7 @@ A: Patterns observed: developers and engineers skew Claude plus Perplexity; mark
 
 ## AEO ROI Business Case
 
-Answer Engine Optimization ROI is harder to defend than SEO ROI because most AI search visits are unattributed, AI search shapes decisions before any click, and many buyer journeys skip the brand site entirely. A finance-reviewable AEO business case combines multiple measurement methods - GA4 referrer detection as the floor, survey-based attribution, AI-search-influenced multi-touch attribution, prompt-set Recovery Score, and cohort comparison - and translates each into estimated revenue impact rather than visibility metrics alone. This guide walks through the AEO Revenue Model formula, an illustrative B2B SaaS scenario, the five-slide deck structure, common ROI pitfalls, and a 12-month measurement template. Other vendors including Discovered Labs and MaxAEO publish parallel ROI frameworks; SolCrys's distinctive contribution is a multi-method attribution stack that combines GA4, survey response, prompt-set Recovery Score, and cohort comparison so AEO investment can be reviewed with the same measurement discipline as other hard-to-attribute channels.
+Answer Engine Optimization ROI is harder to defend than SEO ROI because most AI search visits are unattributed, AI search shapes decisions before any click, and many buyer journeys skip the brand site entirely. A finance-reviewable AEO business case combines multiple measurement methods - GA4 referrer detection as the floor, survey-based attribution, AI-search-influenced multi-touch attribution, prompt-set recovery estimate, and cohort comparison - and translates each into estimated revenue impact rather than visibility metrics alone. This guide walks through the AEO Revenue Model formula, an illustrative B2B SaaS scenario, the five-slide deck structure, common ROI pitfalls, and a 12-month measurement template. Other vendors including Discovered Labs and MaxAEO publish parallel ROI frameworks; SolCrys's distinctive contribution is a multi-method attribution stack that combines GA4, survey response, prompt-set recovery estimate, and cohort comparison so AEO investment can be reviewed with the same measurement discipline as other hard-to-attribute channels.
 
 ### Questions this guide answers
 
@@ -5928,7 +5929,7 @@ Do not project a default payback period or multiplier without company-specific e
 
 Other vendors have published parallel ROI frameworks for AEO and GEO investment, including Discovered Labs (https://discoveredlabs.com/blog/roi-calculation-business-case-justifying-aeo-investment-to-your-cfo) and MaxAEO (https://maxaeo.com/business-case-aeo-geo/). The category benefits when multiple practitioners publish their working models.
 
-SolCrys's distinctive contribution is the multi-method attribution stack - GA4 referrer detection plus survey-based attribution plus prompt-set Recovery Score plus cohort comparison - which is designed to estimate the AI-influenced revenue that single-method GA4 attribution can miss.
+SolCrys's distinctive contribution is the multi-method attribution stack - GA4 referrer detection plus survey-based attribution plus prompt-set recovery estimate plus cohort comparison - which is designed to estimate the AI-influenced revenue that single-method GA4 attribution can miss.
 
 
 
@@ -5988,7 +5989,7 @@ Method | What it captures | Strengths | Weaknesses
 --- | --- | --- | ---
 Method 1: Last-click GA4 | Sessions where the user clicked from an AI engine | Defensible, no special infrastructure | Severely undercounts; misses 'asked AI then went direct'
 Method 2: AI-influenced multi-touch | AI sources given partial credit in 30-day lookback | More accurate; integrates with existing MTA | Still misses zero-click decisions
-Method 3: Prompt-set Recovery Score | Visibility lift translated to per-prompt revenue | Captures invisible decisions; defensible methodology | Requires prompt-set platform and per-prompt revenue estimates
+Method 3: Prompt-set recovery estimate | Visibility lift translated to per-prompt revenue | Captures invisible decisions; defensible methodology | Requires prompt-set platform and per-prompt revenue estimates
 
 
 ### The 5-slide CFO deck
@@ -6063,7 +6064,7 @@ A: GA4 referrer filter plus a small fixed prompt set checked repeatedly during a
 
 ## AEO Actions to Revenue
 
-Tying AEO actions to revenue requires a hybrid attribution stack rather than a single source of truth. GA4 referrer detection captures only the visible click-through portion of AI-influenced revenue; survey-based attribution can recover some AI-influenced visits that arrive via direct or branded search; prompt-set Recovery Score maps visibility lift to estimated revenue at risk for prompts the brand cares about; cohort comparison tests whether AI-sourced visits convert differently from control cohorts. Combined carefully, these four methods produce a finance-reviewable attribution model that estimates AI-influenced revenue while making uncertainty visible. This guide walks through how to set up each method, how to combine them without double-counting, the common attribution mistakes that distort program ROI, and an illustrative scenario that shows how the unified stack can change the interpretation of program performance.
+Tying AEO actions to revenue requires a hybrid attribution stack rather than a single source of truth. GA4 referrer detection captures only the visible click-through portion of AI-influenced revenue; survey-based attribution can recover some AI-influenced visits that arrive via direct or branded search; prompt-set recovery estimate maps visibility lift to estimated revenue at risk for prompts the brand cares about; cohort comparison tests whether AI-sourced visits convert differently from control cohorts. Combined carefully, these four methods produce a finance-reviewable attribution model that estimates AI-influenced revenue while making uncertainty visible. This guide walks through how to set up each method, how to combine them without double-counting, the common attribution mistakes that distort program ROI, and an illustrative scenario that shows how the unified stack can change the interpretation of program performance.
 
 ### Questions this guide answers
 
@@ -6073,7 +6074,7 @@ Tying AEO actions to revenue requires a hybrid attribution stack rather than a s
 
 ### Direct answer
 
-Tying AEO actions to revenue requires a hybrid attribution stack: GA4 referrer detection for direct AI traffic, survey-based attribution for AI-influenced visits that arrive via direct or branded search, prompt-set Recovery Score for visibility-to-revenue mapping, and cohort comparison of AI-influenced versus control visitors. No single method gives a complete picture; combined carefully, they produce a finance-reviewable attribution model that estimates AI-influenced revenue while making uncertainty visible.
+Tying AEO actions to revenue requires a hybrid attribution stack: GA4 referrer detection for direct AI traffic, survey-based attribution for AI-influenced visits that arrive via direct or branded search, prompt-set recovery estimate for visibility-to-revenue mapping, and cohort comparison of AI-influenced versus control visitors. No single method gives a complete picture; combined carefully, they produce a finance-reviewable attribution model that estimates AI-influenced revenue while making uncertainty visible.
 
 If finance discounts AEO ROI claims, the gap may be attribution coverage, weak assumptions, or actual program performance. The model should make those possibilities explicit rather than assuming one answer.
 
@@ -6109,7 +6110,7 @@ Method | What it captures | Strengths | Weaknesses
 --- | --- | --- | ---
 GA4 referrer + user-agent | Direct click-through from AI engines | Defensible, easy to set up | Captures only the visible click-through slice
 Survey-based attribution | Self-reported AI influence on signup or purchase | Recovers direct/branded traffic GA4 misses | Self-reported; partial response rate
-Prompt-set Recovery Score | Visibility lift mapped to per-prompt revenue | Captures invisible decisions; useful methodology when assumptions are documented | Requires per-prompt revenue estimates
+Prompt-set recovery estimate | Visibility lift mapped to per-prompt revenue | Captures invisible decisions; useful methodology when assumptions are documented | Requires per-prompt revenue estimates
 Cohort comparison | Conversion lift of AI cohorts vs control | Validates premium attribution weighting | Needs sufficient AI traffic volume
 
 
@@ -6128,7 +6129,7 @@ In GA4, build a custom dimension or filter for known AI referrers, including cha
 
 Add a 'how did you hear about us?' question to high-conversion forms with an 'AI tool' option. Optionally include a follow-up: 'did you research with AI tools during your buying process?' Track your own completion and answer rates instead of assuming a benchmark response rate.
 
-#### Method 3: Prompt-set Recovery Score
+#### Method 3: Prompt-set recovery estimate
 
 Build a fixed prompt set, estimate annual revenue at risk per prompt with sales-team input, measure citation share and recommendation share over time, and translate Recovery Score into estimated revenue lift per shipped fix.
 
@@ -6203,7 +6204,7 @@ Q: How do I handle multi-touch attribution with AI engines?
 A: Standard multi-touch attribution (linear, time-decay, U-shaped) can be adapted. Tag AI-attributed touches in your CRM or MTA pipeline. The model gives partial credit to AI touches in the buyer journey.
 
 Q: What about retail AI engines like Rufus, Sparky, and ChatGPT Shopping?
-A: Retail AI attribution is similar but mediated by marketplaces. Amazon Brand Analytics shows AI-driven traffic. Walmart provides similar data. ChatGPT Shopping referrals can be tagged via custom integration.
+A: Retail AI attribution is similar but mediated by marketplaces. Use marketplace analytics where available, compare SKU-level movement against prompt snapshots, and tag ChatGPT Shopping referrals where referrer data or controlled campaign links make that reliable. Treat retail AI attribution as directional unless the marketplace exposes a confirmed AI-assisted traffic field.
 
 Q: Should I share this attribution methodology with my CFO?
 A: Yes. Transparency about methodology builds CFO trust over time. CFOs prefer clear, defensible methods even with caveats over opaque 'we did some AEO' claims.
@@ -6226,7 +6227,7 @@ AEO Recovery Score is the percentage of an identified answer gap that has been c
 
 AEO Recovery Score is the percentage of an identified answer gap that has been closed within a defined measurement window after a fix action was shipped. The formula: Recovery Score equals (post-fix performance minus pre-fix performance) divided by (target performance minus pre-fix performance), expressed as a percent. A 0% score means the fix produced no measurable change. A 100% score means the gap is fully closed.
 
-Recovery timing and magnitude vary by gap type, engine, category, and competitive movement. Recovery Score replaces the loose 'did our AEO program work?' question with a per-fix, per-prompt, per-engine quantified answer. It is the metric that closes the loop between identifying gaps and feeding a finance-reviewable ROI model.
+Recovery timing and magnitude vary by gap type, engine, category, and competitive movement. Recovery Score reframes the loose 'did our AEO program work?' question as a per-fix, per-prompt, per-engine estimate. Today it is a methodology and review framework, not a standalone productized dashboard metric.
 
 
 
@@ -6332,7 +6333,7 @@ Healthy distributions should include a mix of clear wins, partial wins, weak fix
 
 ### How Recovery Score connects to AEO ROI
 
-Recovery Score is the operational metric. AEO ROI is the financial metric. The bridge: estimated revenue lift from a fix equals prompt revenue value multiplied by Recovery Score (as a percentage) multiplied by the probability that recovered visibility converts to revenue. Stacked across a quarter's worth of fixes, this produces a finance-reviewable estimate when assumptions and confidence ranges are documented.
+Recovery Score is the operational framework. AEO ROI is the financial metric. The bridge: estimated revenue lift from a fix equals prompt revenue value multiplied by Recovery Score (as a percentage) multiplied by the probability that recovered visibility converts to revenue. Stacked across a quarter's worth of fixes, this produces a finance-reviewable estimate when assumptions and confidence ranges are documented.
 
 
 
@@ -6354,7 +6355,7 @@ Five recurring mistakes degrade Recovery Score reliability.
 
 Define your prompt set, measure pre-fix performance for every gap before shipping, set realistic targets (not 100%), define measurement windows up front, calculate Recovery Score for every fix, roll up monthly, and triage low-scoring fixes. Connect Recovery Scores to revenue using the bridge formula.
 
-If you want a working tracker that automates pre-fix baseline, post-fix measurement, and Recovery Score calculation, request early access from the SolCrys team.
+If you want help setting up pre-fix baseline, post-fix measurement, and Recovery Score-style review, contact the SolCrys team.
 
 
 
@@ -7202,7 +7203,7 @@ We capture follow-ups from the rendered consumer-surface output of each engine, 
 
 ### What a Golden Prompt Set looks like in practice
 
-A typical GPS for a B2B SaaS category includes 30 to 150 prompts depending on category scope, grouped into six prompt types. The mix below is a design target for a generic B2B SaaS category, not a survey result. Actual mix is tuned per industry and per customer.
+The GPS candidate library for a category is usually larger than the set a workspace actively tracks. The tracked benchmark should match the customer's plan and scope: current public brand plans track 20 prompts on Starter/Growth and 60 on Pro; Agency plans track 30 prompts per client organization; Enterprise scope is confirmed during evaluation. The mix below is a design target for a generic B2B SaaS category, not a survey result. Actual mix is tuned per industry and per customer.
 
 
 
@@ -7232,23 +7233,23 @@ Examples above use well-known public products purely for illustration. They are 
 
 We treat the GPS as the foundation, not the whole thing. You know your buyers in ways we don't, so every workspace - including the Free AI Visibility Audit - lets you supply your own prompts as an alternative to, or alongside, the GPS. We default to running the GPS directly because it produces a more intent-aligned baseline than prompts drafted from scratch: every GPS prompt is grounded in our four-source evidence model, so customers who don't have time to author prompts still get a rigorous starting set. In ongoing workspaces, you can replace any GPS prompt with your own at any time, and our in-app suggestion panel recommends additions based on gaps in your current set, trending category discussion, and engine follow-ups we found in your own tracked responses.
 
-When you add a prompt, we run a sanity check that flags off-topic prompts, brand-flattering bias ('Is [our brand] the best?' without comparative context), and duplicates. You can override any flag - it's guidance, not gating.
+The prompt sanity-check workflow is [coming soon]. Today, we treat off-topic prompts, brand-flattering prompts without comparative context, and duplicate prompts as review criteria during setup and customer review. When this ships in-product, flags will be guidance rather than gating.
 
 
 
 
-### How often the GPS updates
+### How we keep the GPS stable
 
-Buyer questions shift, community discussion patterns spike, and engines change which follow-ups they suggest. The GPS is not a static template.
+The GPS is designed to be a stable measurement benchmark, not a real-time prompt rewrite engine. Prompt changes are handled as review items with the customer during onboarding, regular measurement reviews, customer-requested replacements, or clear category changes such as a new entrant, pricing shift, or major news event.
 
 
 
-Update cadence | What changes
+Review moment | What changes
 --- | ---
-Daily | Tracked prompt performance and engine follow-up questions refreshed for active workspaces.
-Near real time | Community trending question signals, engine follow-ups, competitor moves, and category/news spikes monitored for prompt and action suggestions.
-Rolling QA review | Intent-volume baselines and full GPS templates reviewed for quality and source provenance without waiting for a fixed quarterly cycle.
-On-trigger | Major news event, new entrant, pricing change, or category spike triggers an immediate GPS suggestion review.
+Onboarding / workspace setup | Prompt fit is reviewed with the customer before the benchmark is established.
+Regular measurement review | We revisit prompt fit, commonly monthly, without changing tracked prompts automatically.
+Customer-requested replacement | Customers can replace prompts; unchanged prompts keep historical trend lines.
+Category change | Major news, new entrant, pricing change, or category spike can trigger a suggestion review.
 
 
 ### What we are explicit about not promising
@@ -7259,7 +7260,7 @@ We've written this section because we'd rather you know the limits up front than
 - We don't promise the GPS guarantees revenue lift. A perfect prompt set doesn't fix weak content or thin brand presence; it just measures the right things.
 - We don't claim to replace human judgment. The slot we reserve for your own prompts exists because you know your buyers in ways we don't.
 - We don't generate prompts from a single LLM. We refuse to ask one model to 'write 100 questions a buyer might ask' and call it research. Every prompt in your GPS has external evidence we can show you.
-- We don't automatically change tracked prompts without approval. New suggestions can appear daily or near real time, but template changes are quality-reviewed before they affect any workspace.
+- We don't automatically change tracked prompts without approval. Prompt revisions are handled as review items with your team; newly added prompts start their own measurement history.
 
 
 
@@ -7277,7 +7278,7 @@ Q: How is the Golden Prompt Set different from just using SEO keywords?
 A: SEO keywords measure what people type into a search box. AI prompts are longer, more conversational, and increasingly bypass conventional search engines entirely. SEO keywords are one input to the GPS; the other three (community questions, AI query volume signals, engine follow-ups) capture the parts of buyer behavior that SEO data does not see.
 
 Q: How many prompts should I be tracking?
-A: It depends on your category and buyer complexity. A solo founder or small SMB usually surfaces the meaningful 80% of buyer journeys with 15 to 30 prompts. Mid-market B2B teams typically run 50 to 100 prompts to cover personas, ICPs, and use cases. Enterprise and agency accounts often track 200+ prompts across product lines, regions, or client brands.
+A: Start with the tracked prompt budget included in your plan, then keep the set stable enough to measure over time. Current public brand plans track 20 prompts on Starter/Growth and 60 on Pro. Agency plans track 30 prompts per client organization, and Enterprise scope is custom. The GPS framework can generate additional candidate prompts, but the prompts you actively track are the benchmark.
 
 Q: Can I track prompts in languages other than English?
 A: Currently the GPS supports English-language prompts across English-dominant markets (US, UK, Canada, Australia). Multi-language GPS support is on the roadmap; please contact sales for current localization availability.
@@ -7286,14 +7287,14 @@ Q: Do you share my custom prompts with anyone?
 A: No. Customer-supplied prompts are private to your workspace and never used to update other customers' GPS templates. Industry-template GPS updates are derived from public sources only.
 
 Q: How do you verify a prompt is actually asked by real buyers and not just an SEO artifact?
-A: We require evidence from at least one of the four grounding sources before a prompt enters the GPS, and we prioritize prompts evidenced by two or more sources. Synthetic SEO-only prompts get the lowest priority weighting in your dashboard, so you can see at a glance which prompts have strong evidence and which are speculative.
+A: We require evidence from at least one of the four grounding sources before a prompt enters the GPS, and we prioritize prompts evidenced by two or more sources. Synthetic SEO-only prompts are de-prioritized during selection and should not enter the tracked GPS unless they are supported by real evidence from the grounding sources above.
 
 Q: What happens to my historical data if the GPS template updates?
-A: Your tracked prompts do not change unless you accept the update. Template changes appear as suggestions in your suggestion panel; you decide which to adopt. Historical trend lines for prompts you keep tracking stay continuous, with no breaks or recalibration needed.
+A: Your tracked prompts don't change unless you approve the change. Prompt revisions are handled as review items with your team; historical trend lines for prompts you keep tracking stay continuous, while newly added prompts start their own measurement history.
 
 ## AI Visibility Measurement Methodology
 
-We measure AI visibility by running tracked prompts against the engines included in your plan and preserving the evidence behind each response: prompt, engine, capture method, model version, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews / AI Mode, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates, so we build sample sizes that turn noisy single-snapshot reads into trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.
+We measure AI visibility by running tracked prompts against the engines included in your plan and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews / AI Mode, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates, so we build sample sizes that turn noisy single-snapshot reads into trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.
 
 ### Questions this guide answers
 
@@ -7304,9 +7305,9 @@ We measure AI visibility by running tracked prompts against the engines included
 
 ### Direct answer
 
-We measure AI visibility by running tracked prompts against supported engines and preserving the evidence behind each response: prompt, engine, capture method, model version, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews / AI Mode, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it.
+We measure AI visibility by running tracked prompts against supported engines and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews / AI Mode, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it.
 
-Every data point in your dashboard is traceable to a specific prompt, engine, model version, and timestamp. Free Audits are one-time snapshots; ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates so trend lines reflect repeated capture, not yesterday's coin flip.
+Every data point in your dashboard is traceable to a specific prompt, engine, available model or surface signal, and timestamp. Free Audits are one-time snapshots; ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates so trend lines reflect repeated capture, not yesterday's coin flip.
 
 
 
@@ -7315,7 +7316,7 @@ Every data point in your dashboard is traceable to a specific prompt, engine, mo
 
 AI engines are noisy. Ask the same engine the same question twice in two minutes and you can get materially different answers - this is a documented property of how the underlying language models sample tokens, not a bug. Different users on the same engine often get different responses depending on regional model routing, account history, and live-web variability. We don't think a platform that hides how it deals with this deserves your trust.
 
-The harder question is whether the data is reproducible and tagged clearly enough to explain what was measured. Public engine documentation and third-party research consistently find that consumer chat UIs, APIs, SERP surfaces, and retail assistants can behave differently. The same prompt can return a different answer through the same brand's two doors. That gap is why we tag engine, capture method, model version, and timestamp instead of blending surfaces silently.
+The harder question is whether the data is reproducible and tagged clearly enough to explain what was measured. Public engine documentation and third-party research consistently find that consumer chat UIs, APIs, SERP surfaces, and retail assistants can behave differently. The same prompt can return a different answer through the same brand's two doors. That gap is why we tag engine, capture method, available model or surface signal, and timestamp instead of blending surfaces silently.
 
 
 
@@ -7347,7 +7348,7 @@ A platform that 'tracks ChatGPT' by hitting a generic API endpoint is measuring 
 
 ### What we capture per data point
 
-Every captured response produces a response record with the fields below. If you ever question a specific data point, our team can trace it back to the exact prompt, engine, model version, and time, plus the response and citations we stored.
+Every captured response produces a response record with the fields below. If you ever question a specific data point, our team can trace it back to the exact prompt, engine, available model or surface signal, and time, plus the response and citations we stored.
 
 
 
@@ -7356,7 +7357,7 @@ Field | What it captures | Why it matters
 prompt_text | Exact prompt submitted, character-for-character. | So you can replay it manually and verify.
 engine | Which consumer surface or API endpoint. | So data is not blended across surfaces.
 capture_method | API, SERP-rendered, or consumer-surface capture path. | Different methods can return different answers to the same prompt.
-model_version | What the engine disclosed about the responding model, where available. | Engines update defaults; we record what was returned.
+model_signal | What the engine disclosed about the responding model, where available. | Engines update defaults; we record what was returned.
 timestamp_utc | When the capture ran. | Engines change behavior over time.
 response_text | Full rendered response. | The thing your buyer reads.
 citations[] | Each cited URL with title and snippet. | What the engine pointed buyers to.
@@ -7365,7 +7366,7 @@ follow_up_questions[] | Engine-suggested next questions. | The buyer journey con
 
 ### Channel 2: How we capture for agents and deep research tools
 
-Some brand mentions and product recommendations happen inside agents, deep research tools, and enterprise AI assistants that query engines through programmatic interfaces. Where an engine has a reliable API or adapter path, we capture the configured response with standardized prompt, engine, model version, and capture-method metadata so snapshots stay comparable.
+Some brand mentions and product recommendations happen inside agents, deep research tools, and enterprise AI assistants that query engines through programmatic interfaces. Where an engine has a reliable API or adapter path, we capture the configured response with standardized prompt, engine, available model or surface signal, and capture-method metadata so snapshots stay comparable.
 
 A programmatic route can return different answers than a consumer chat or SERP surface. That is why SolCrys stores engine and capture-method metadata with the response instead of treating all answer sources as the same measurement channel.
 
@@ -7392,7 +7393,7 @@ We can't eliminate engine noise - that's impossible. What we can do, and what we
 
 
 
-### How we disclose model versions
+### How we disclose available model or surface signals
 
 A common opacity in our category is vendors saying 'we track ChatGPT' without disclosing which model or surface they queried. Our policy is to store the engine, configured adapter, timestamp, and available model signal with the response. When a provider changes behavior or a configured model, we update tracking and disclose material changes so customers can interpret discontinuities in trend lines.
 
@@ -7431,7 +7432,7 @@ Q: What happens when an engine changes its default model?
 A: We monitor provider announcements and model deprecations on an ongoing basis, with internal alerting for default-model changes. When a configured model or surface changes materially, we update tracking as soon as the change is verified and disclose the change so customers can interpret any trend-line discontinuities.
 
 Q: Can I verify a specific result myself?
-A: Yes. Every data point is traceable to the exact prompt, engine, model version, and timestamp. Open any tracked prompt, select a snapshot, and you can see the full response we captured. To verify, copy the prompt text and submit it on the engine yourself within a short time window. The response should match in substance, allowing for the engines' known non-determinism.
+A: Yes. Every data point is traceable to the exact prompt, engine, available model or surface signal, and timestamp. Open any tracked prompt, select a snapshot, and you can see the full response we captured. To verify, copy the prompt text and submit it on the engine yourself within a short time window. The response should match in substance, allowing for the engines' known non-determinism.
 
 Q: Is consumer-surface capture allowed under the engines' Terms of Service?
 A: Our capture follows access patterns each provider supports for the relevant surface and scope. We monitor provider terms and adjust our methods accordingly. For enterprise customers with strict compliance requirements, we can provide documentation of the access methods used per engine under NDA.
@@ -7441,7 +7442,7 @@ A: API-only trackers measure what a developer would get back from a generic API 
 
 ## Evaluate an AEO Platform's Data Methodology
 
-We wrote this checklist as the questions we'd want a buyer to send us in writing before signing - and we expect you to send the same questions to every other vendor you're evaluating. Where do prompts come from? Are responses captured from the consumer surface or the API? Which model versions are queried? How is engine non-determinism handled? Can a single data point be reproduced? What happens when an engine changes its default? We answer all six on this page and link to our methodology pages so you can audit our answers. We expect you to score us against the same standard as anyone else. A vendor (including us) that bristles at any of these is signaling something about how they handle scrutiny.
+We wrote this checklist as the questions we'd want a buyer to send us in writing before signing - and we expect you to send the same questions to every other vendor you're evaluating. Where do prompts come from? Are responses captured from the consumer surface or the API? Which available model or surface signals are queried? How is engine non-determinism handled? Can a single data point be reproduced? What happens when an engine changes its default? We answer all six on this page and link to our methodology pages so you can audit our answers. We expect you to score us against the same standard as anyone else. A vendor (including us) that bristles at any of these is signaling something about how they handle scrutiny.
 
 ### Questions this guide answers
 
@@ -7452,7 +7453,7 @@ We wrote this checklist as the questions we'd want a buyer to send us in writing
 
 ### Direct answer
 
-We've watched buyers in this category get sold beautiful dashboards built on weak foundations. The six questions below are the ones we'd want you to ask us - and we'd want you to ask everyone else you're evaluating with exactly the same words: where do prompts come from, are responses captured from the consumer surface or the API, which model versions are queried, how is engine non-determinism handled, can a single data point be reproduced, and what happens when an engine changes its default?
+We've watched buyers in this category get sold beautiful dashboards built on weak foundations. The six questions below are the ones we'd want you to ask us - and we'd want you to ask everyone else you're evaluating with exactly the same words: where do prompts come from, are responses captured from the consumer surface or the API, which available model or surface signals are queried, how is engine non-determinism handled, can a single data point be reproduced, and what happens when an engine changes its default?
 
 This page is the data-trust companion to our broader AEO Platform Buyer's Guide. The buyer's guide covers full vendor selection - positioning fit, feature breadth, support, integrations, and agency scenarios. This page zooms into the data-and-methodology dimension specifically, because that's the part most buyers under-investigate before signing. We answer each of the six questions for SolCrys at the end of each section, and we link to the underlying methodology page so you can audit us.
 
@@ -7493,7 +7494,7 @@ Red flags: 'We use the API because it's more reliable' (translation: the data do
 
 How we answer: we tag engine and capture method on every data point. Supported workspaces use configured engine adapters for ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity based on plan scope. Retail assistants such as Rufus and Sparky are scoped as add-ons when access and reliability are validated. Full methodology: see our Visibility Measurement methodology page.
 
-#### Question 3: Which specific model versions do you track?
+#### Question 3: Which specific available model or surface signals do you track?
 
 What you should listen for: named models or configured adapters where available, plus a disclosure process when defaults change. Strong answers describe how model signals are stored, how tracking is updated when a provider changes behavior, and where customers can see material changes.
 
@@ -7511,11 +7512,11 @@ How we answer: active workspaces refresh priority prompts daily and aggregate in
 
 #### Question 5: Can a specific data point be reproduced?
 
-What you should listen for: yes, with specifics. The vendor should walk you from any chart to the underlying captured response, including prompt text, engine, model version, capture method, timestamp, response, and citations. For teams that need raw data access, the vendor should explain current export options without hand-waving.
+What you should listen for: yes, with specifics. The vendor should walk you from any chart to the underlying captured response, including prompt text, engine, available model or surface signal, capture method, timestamp, response, and citations. For teams that need raw data access, the vendor should explain current export options without hand-waving.
 
 Red flags: 'Our methodology is proprietary' (translation: you can't audit it); no drill-down from charts to raw responses; case studies that show only AI response screenshots without capture metadata.
 
-How we answer: every chart in your SolCrys dashboard drills back to the prompt text, engine, model version, capture method, timestamp, captured response, and citations where available. If a result ever looks wrong, request the response evidence and we can show what was captured.
+How we answer: every chart in your SolCrys dashboard drills back to the prompt text, engine, available model or surface signal, capture method, timestamp, captured response, and citations where available. If a result ever looks wrong, request the response evidence and we can show what was captured.
 
 #### Question 6: What happens when an engine changes its default model?
 
@@ -7702,7 +7703,7 @@ This page answers the 19 questions prospects ask us most often during evaluation
 
 ### How we build prompt sets
 
-Five questions about prompt grounding, customer prompts, and data refresh cadence.
+Five questions about prompt grounding, customer prompts, and prompt review cadence.
 
 
 
@@ -7717,11 +7718,11 @@ SEO keywords measure what people type into a search box. AI prompts are longer, 
 
 #### Are SolCrys prompts AI-generated, or sourced from real demand?
 
-Sourced. Every prompt entering the GPS requires evidence from at least one of the four grounding sources, and we prioritize prompts evidenced by two or more sources. We don't ask an LLM to 'generate 100 questions a buyer might ask' and call it research - synthetic-only prompts get the lowest priority weight in your dashboard.
+Sourced. Every prompt entering the GPS requires evidence from at least one of the four grounding sources, and we prioritize prompts evidenced by two or more sources. We don't ask an LLM to 'generate 100 questions a buyer might ask' and call it research. Synthetic SEO-only prompts are de-prioritized during selection and should not enter the tracked GPS unless they are supported by real evidence.
 
 #### How often does SolCrys update the prompt set?
 
-Active workspaces refresh priority prompt data daily, and SolCrys captures engine follow-up questions per response and ingests community signals from Reddit on a daily cadence. Intent-volume baselines and GPS templates are quality-reviewed on a rolling basis rather than waiting for a fixed quarterly cycle. New prompts appear as suggestions - your historical trend lines stay continuous unless you accept the update.
+The tracked GPS is designed to stay stable as a measurement benchmark. We do not automatically rewrite prompt sets daily or near real time. Prompt changes are handled as review items with the customer during onboarding, regular measurement reviews, customer-requested replacements, or clear category changes such as a new entrant, pricing shift, or major news event. Your tracked prompts do not change unless you approve the change.
 
 #### Can I bring my own prompts to SolCrys?
 
@@ -7736,7 +7737,7 @@ Five questions about measurement methodology, capture method, engine non-determi
 
 #### How does SolCrys measure visibility, and why should I trust the data?
 
-We measure AI visibility by running tracked prompts against supported engines and preserving the evidence behind each response: prompt, engine, capture method, model version, timestamp, answer text, citations, and follow-up questions. Where an engine has a reliable API, adapter, SERP, or rendered-surface capture path, the capture method is tagged separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Full methodology: see our Visibility Measurement methodology page.
+We measure AI visibility by running tracked prompts against supported engines and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. Where an engine has a reliable API, adapter, SERP, or rendered-surface capture path, the capture method is tagged separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Full methodology: see our Visibility Measurement methodology page.
 
 #### Why is SolCrys's consumer-surface capture better than just calling the API?
 
@@ -7748,7 +7749,7 @@ By repeated capture and rolling-window aggregation. A single snapshot is a noisy
 
 #### Can I reproduce a specific data point SolCrys shows me?
 
-Yes. Every chart drills back to the exact prompt, engine, model version, capture method, timestamp, and captured response. Copy the prompt text, submit it on the engine yourself within a short time window, and compare substance (allowing for known engine non-determinism). If a result ever looks wrong, request the response evidence and we can show what was captured.
+Yes. Every chart drills back to the exact prompt, engine, available model or surface signal, capture method, timestamp, and captured response. Copy the prompt text, submit it on the engine yourself within a short time window, and compare substance (allowing for known engine non-determinism). If a result ever looks wrong, request the response evidence and we can show what was captured.
 
 #### What happens when an engine changes its default model?
 
@@ -7786,7 +7787,7 @@ We don't write public competitor comparisons by name. Instead, here is the hones
 
 #### What questions should I ask any AEO vendor before signing?
 
-Send these in writing and score 0 / 1 / 2 (no answer / vague / specific): 1) Where do prompts come from - specific evidence sources, not 'AI-generated'? 2) API, SERP, or rendered-surface capture, and how is each tagged? 3) Which model versions or configured adapters, with a disclosure process for changes? 4) How do you handle engine non-determinism - multi-shot averaging, confidence bands? 5) Can I reproduce a specific data point with full metadata? 6) What happens when an engine changes its default?
+Send these in writing and score 0 / 1 / 2 (no answer / vague / specific): 1) Where do prompts come from - specific evidence sources, not 'AI-generated'? 2) API, SERP, or rendered-surface capture, and how is each tagged? 3) Which model or surface signals are stored, with a disclosure process for material changes? 4) How do you handle engine non-determinism - repeated capture, rolling windows, and snapshot-vs-trend labeling? 5) Can I reproduce a specific data point with full metadata? 6) What happens when an engine changes its default?
 
 A vendor below 8/12 isn't yet ready for production work. We try to score well on all six and we expect you to score us against this same standard.
 
