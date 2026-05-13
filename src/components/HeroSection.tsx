@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import AnnouncementBanner from "./AnnouncementBanner";
 import EarlyAccessDialog from "./EarlyAccessDialog";
 import LoopDiagram from "./LoopDiagram";
 import siteContent from "@/content/siteContent.json";
@@ -22,10 +23,9 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--foreground)/0.03)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
       <div className="relative z-10 container mx-auto px-6 text-center max-w-5xl">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-[hsl(195_90%_55%/0.3)] bg-[hsl(195_90%_55%/0.08)] px-4 py-1.5 mb-8 opacity-0 animate-fade-up">
-          <div className="h-1.5 w-1.5 rounded-full bg-[hsl(195_90%_55%)] animate-pulse-glow" />
-          <span className="text-xs font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase">BETA · FREE AI VISIBILITY AUDIT</span>
+        {/* Announcement */}
+        <div className="mb-8 opacity-0 animate-fade-up">
+          <AnnouncementBanner />
         </div>
 
         {/* Headline */}

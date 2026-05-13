@@ -7,8 +7,19 @@ const rootDir = path.resolve(__dirname, "..");
 const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
 const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
+const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
+const newsPosts = (newsroomContent.posts || []).slice().sort((a, b) => {
+  if (a.date === b.date) return 0;
+  return a.date < b.date ? 1 : -1;
+});
+const featuredAnnouncement =
+  newsPosts.find((post) => post.kind === "press-release") || newsPosts[0];
+const newsKindLabels = newsroomContent.kindLabels || {};
+const personPhotoMap = {
+  "Raejeanne Skillern": "/news/raejeanne-skillern.png",
+};
 const resourceBySlug = new Map(resourcePages.map((p) => [p.slug, p]));
 const generatedAt = "2026-05-04";
 
@@ -44,6 +55,16 @@ const founders = [
   ["Gwen Chen", "Co-Founder & CEO", "AI search & GTM strategy", "AEO, content authority, and brand visibility", "https://www.linkedin.com/in/gwenchenx/"],
   ["Eason Wang", "Co-Founder & CPO", "Product & AI systems", "Product strategy, agentic AI, and enterprise workflows", "https://www.linkedin.com/in/eason-wang/"],
   ["Jia Chang", "Co-Founder & CTO", "AI architect; ex-Microsoft engineering leader", "15+ years in AI architecture and engineering systems", "https://www.linkedin.com/in/jia-c/"]
+];
+
+const advisors = [
+  [
+    "Raejeanne Skillern",
+    "Strategic Advisor",
+    "Former CMO, AWS; 25+ years at Intel; current board director at Jabil (NYSE: JBL) and Dycom Industries (NYSE: DY)",
+    "Scaled hyperscale data center and cloud businesses; brings 30+ years of go-to-market leadership across cloud, AI, and infrastructure",
+    "https://www.linkedin.com/in/raejeanne-skillern/"
+  ]
 ];
 
 function escapeHtml(value) {
@@ -90,6 +111,7 @@ function navHtml() {
         <a href="/#loop">The Loop</a>
         <a href="/pricing/">Pricing</a>
         <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
         <a href="/about/">Company</a>
       </nav>
     </header>`;
@@ -103,6 +125,7 @@ function footerHtml() {
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
           <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
         </nav>
@@ -283,9 +306,17 @@ function webPageSchema({ routePath, title, description, ogImage }) {
 }
 
 function homeHtml() {
+  const announcementPost = featuredAnnouncement;
+  const announcement = announcementPost
+    ? `
+    <section class="seo-container" style="padding: 1.5rem 0 0;">
+      <p style="margin: 0; font-size: 0.9rem;"><a href="/news/${escapeAttr(announcementPost.slug)}/">New: ${escapeHtml(announcementPost.title)} →</a></p>
+    </section>`
+    : "";
   return `
 <div class="seo-prerender">
   ${navHtml()}
+  ${announcement}
   <main>
     <section class="seo-container seo-hero">
       <p class="seo-kicker">${escapeHtml(home.eyebrow)}</p>
@@ -482,6 +513,149 @@ function aboutHtml() {
         </tbody>
       </table>
     </section>
+    <section class="seo-container seo-section">
+      <h2>Advisors</h2>
+      <p>SolCrys advisors bring board-level perspective and operating experience from the companies and categories shaped by previous platform shifts.</p>
+      <div class="seo-grid">
+        ${advisors
+          .map(
+            ([name, title, background, expertise, linkedin]) => `
+          <article class="seo-card">
+            <h3><a href="${escapeAttr(linkedin)}">${escapeHtml(name)}</a></h3>
+            <p>${escapeHtml(title)}</p>
+            <p>${escapeHtml(background)}. ${escapeHtml(expertise)}.</p>
+          </article>`
+          )
+          .join("")}
+      </div>
+      <p><a href="/news/raejeanne-skillern-strategic-advisor/">Read the announcement of Raejeanne Skillern joining SolCrys as Strategic Advisor →</a></p>
+    </section>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+function newsBlockHtml(block) {
+  switch (block.type) {
+    case "heading":
+      return `<h2>${escapeHtml(block.text)}</h2>`;
+    case "subheading":
+      return `<h3>${escapeHtml(block.text)}</h3>`;
+    case "quote": {
+      const attribution = block.attribution
+        ? `<figcaption><strong>${escapeHtml(block.attribution)}</strong>${
+            block.role ? ` — ${escapeHtml(block.role)}` : ""
+          }</figcaption>`
+        : "";
+      return `<figure class="seo-quote"><blockquote><p>“${escapeHtml(
+        block.text
+      )}”</p></blockquote>${attribution}</figure>`;
+    }
+    case "bullets":
+      return `<ul class="seo-list">${(block.items || [])
+        .map((item) => `<li>${escapeHtml(item)}</li>`)
+        .join("")}</ul>`;
+    case "paragraph":
+    default:
+      return `<p>${escapeHtml(block.text || "")}</p>`;
+  }
+}
+
+function newsIndexHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">Newsroom</p>
+      <h1>Announcements and notes from SolCrys.</h1>
+      <p class="seo-lede">Press releases, founder notes, and updates from the team building the AEO operating system for brands in AI search.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <div class="seo-grid">
+        ${newsPosts
+          .map(
+            (post) => `
+          <article class="seo-card">
+            <p class="seo-kicker">${escapeHtml(newsKindLabels[post.kind] || post.kind)} · <time datetime="${escapeAttr(
+              post.date
+            )}">${escapeHtml(post.date)}</time></p>
+            <h2><a href="/news/${escapeAttr(post.slug)}/">${escapeHtml(post.title)}</a></h2>
+            <p>${escapeHtml(post.dek)}</p>
+          </article>`
+          )
+          .join("")}
+      </div>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+function newsArticleHtml(post) {
+  const heroPhoto =
+    post.heroImage && post.heroImage.type === "person" ? personPhotoMap[post.heroImage.name] : null;
+  const heroFigure = heroPhoto
+    ? `<figure class="seo-figure"><img src="${escapeAttr(heroPhoto)}" alt="${escapeAttr(
+        post.heroImage.alt
+      )}" loading="eager" /><figcaption><strong>${escapeHtml(post.heroImage.name)}</strong>${
+        post.heroImage.role ? ` — ${escapeHtml(post.heroImage.role)}` : ""
+      }</figcaption></figure>`
+    : "";
+  const authorLine = post.author
+    ? `<p>By <strong>${escapeHtml(post.author.name)}</strong>, ${escapeHtml(post.author.role)}${
+        post.author.linkedin
+          ? ` · <a href="${escapeAttr(post.author.linkedin)}" rel="noopener">LinkedIn</a>`
+          : ""
+      }</p>`
+    : "";
+  const releaseFlag = post.kind === "press-release" ? `<p class="seo-kicker">For Immediate Release</p>` : "";
+  const mediaContact = post.mediaContact
+    ? `<section class="seo-card"><h2>Media Contact</h2><p><strong>${escapeHtml(
+        post.mediaContact.name
+      )}</strong> · <a href="mailto:${escapeAttr(post.mediaContact.email)}">${escapeHtml(
+        post.mediaContact.email
+      )}</a></p></section>`
+    : "";
+  const related = (post.relatedSlugs || [])
+    .map((s) => newsPosts.find((p) => p.slug === s))
+    .filter(Boolean);
+  const relatedHtml =
+    related.length === 0
+      ? ""
+      : `<section class="seo-section"><h2>Related</h2><div class="seo-grid">${related
+          .map(
+            (item) => `
+        <article class="seo-card">
+          <p class="seo-kicker">${escapeHtml(newsKindLabels[item.kind] || item.kind)}</p>
+          <h3><a href="/news/${escapeAttr(item.slug)}/">${escapeHtml(item.title)}</a></h3>
+          <p>${escapeHtml(item.dek)}</p>
+        </article>`
+          )
+          .join("")}</div></section>`;
+
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">${escapeHtml(newsKindLabels[post.kind] || post.kind)} · <time datetime="${escapeAttr(
+          post.date
+        )}">${escapeHtml(post.date)}</time></p>
+        ${releaseFlag}
+        <h1>${escapeHtml(post.title)}</h1>
+        <p class="seo-lede">${escapeHtml(post.dek)}</p>
+        ${authorLine}
+      </header>
+      ${heroFigure}
+      ${post.leadParagraph ? `<p><strong>${escapeHtml(post.leadParagraph)}</strong></p>` : ""}
+      ${(post.body || []).map(newsBlockHtml).join("")}
+      ${mediaContact}
+      ${relatedHtml}
+      ${ctaHtml()}
+    </article>
   </main>
   ${footerHtml()}
 </div>`;
@@ -1029,6 +1203,98 @@ for (const page of resourcePages) {
 }
 
 writePage(
+  "news/index.html",
+  renderLayout({
+    routePath: "/news/",
+    title: "Newsroom | SolCrys",
+    description:
+      "Press releases, founder notes, and announcements from SolCrys — the AEO operating system for brands in AI search.",
+    body: newsIndexHtml(),
+    lastModified: newsPosts[0]?.date || site.updated,
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Newsroom", path: "/news/" }
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "SolCrys Newsroom",
+        url: canonicalUrl("/news/"),
+        description:
+          "Press releases, founder notes, and announcements from SolCrys.",
+        hasPart: newsPosts.map((post) => ({
+          "@type": post.kind === "press-release" ? "NewsArticle" : "Article",
+          headline: post.title,
+          datePublished: post.datePublished || post.date,
+          dateModified: post.updated || post.date,
+          url: canonicalUrl(`/news/${post.slug}/`)
+        }))
+      }
+    ]
+  })
+);
+
+for (const post of newsPosts) {
+  const routePath = `/news/${post.slug}/`;
+  const articleType = post.kind === "press-release" ? "NewsArticle" : "BlogPosting";
+  const personImage =
+    post.heroImage && post.heroImage.type === "person"
+      ? personPhotoMap[post.heroImage.name]
+      : null;
+  const authorEntity = post.author
+    ? {
+        "@type": "Person",
+        name: post.author.name,
+        jobTitle: post.author.role,
+        sameAs: post.author.linkedin ? [post.author.linkedin] : undefined
+      }
+    : {
+        "@type": "Organization",
+        name: site.name,
+        url: site.url
+      };
+  writePage(
+    `news/${post.slug}/index.html`,
+    renderLayout({
+      routePath,
+      title: post.metaTitle,
+      description: post.description,
+      body: newsArticleHtml(post),
+      lastModified: post.updated || post.date,
+      schemas: [
+        organizationSchema,
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Newsroom", path: "/news/" },
+          { name: post.title, path: routePath }
+        ]),
+        {
+          "@context": "https://schema.org",
+          "@type": articleType,
+          headline: post.title,
+          description: post.description,
+          datePublished: post.datePublished || post.date,
+          dateModified: post.updated || post.date,
+          mainEntityOfPage: canonicalUrl(routePath),
+          image: personImage ? `${site.url}${personImage}` : undefined,
+          author: authorEntity,
+          publisher: {
+            "@type": "Organization",
+            name: site.name,
+            logo: {
+              "@type": "ImageObject",
+              url: site.logo
+            }
+          }
+        }
+      ]
+    })
+  );
+}
+
+writePage(
   "404.html",
   renderLayout({
     routePath: "/404.html",
@@ -1042,12 +1308,15 @@ writePage(
 
 // Sitemap: per Google guidance, omit <priority> and <changefreq> (they are ignored)
 // and only set <lastmod> from real content updates, never deploy timestamps.
+const newsLatest = newsPosts[0]?.date || site.updated || generatedAt;
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
   { path: "/customers/", lastmod: site.updated || generatedAt },
   { path: "/pricing/", lastmod: site.updated || generatedAt },
   { path: "/resources/", lastmod: site.updated || generatedAt },
+  { path: "/news/", lastmod: newsLatest },
+  ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
   ...resourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
   { path: "/privacy.html", lastmod: site.updated || generatedAt },
   { path: "/terms.html", lastmod: site.updated || generatedAt }
@@ -1082,10 +1351,15 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 ## Core Pages
 
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
-- [About](${site.url}/about/): Company story and founding team.
+- [About](${site.url}/about/): Company story, founding team, and advisors.
 - [Customers](${site.url}/customers/): Customer stories from consumer brands using SolCrys across AI engines.
 - [Pricing](${site.url}/pricing/): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
+- [Newsroom](${site.url}/news/): Press releases and founder notes.${newsPosts
+  .map(
+    (post) => `\n  - [${post.title}](${site.url}/news/${post.slug}/): ${post.dek}`
+  )
+  .join("")}
 
 ## Recommended Reading
 
@@ -1157,4 +1431,4 @@ for (const { from, to } of retiredRedirects) {
   writePage(`${from}/index.html`, redirectHtml);
 }
 
-console.log(`Prerendered ${resourcePages.length + 5 + retiredRedirects.length} static HTML pages, sitemap.xml, llms.txt, and llms-full.txt.`);
+console.log(`Prerendered ${resourcePages.length + 5 + newsPosts.length + 1 + retiredRedirects.length} static HTML pages (incl. ${newsPosts.length} news + index), sitemap.xml, llms.txt, and llms-full.txt.`);

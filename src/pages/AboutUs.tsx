@@ -7,6 +7,19 @@ import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
 import siteContent from "@/content/siteContent.json";
 
+const advisors = [
+  {
+    image: "/news/raejeanne-skillern.png",
+    initials: "RS",
+    name: "Raejeanne Skillern",
+    title: "Strategic Advisor",
+    background: "Former CMO, AWS · 25+ years at Intel · Boards: Jabil (JBL), Dycom (DY)",
+    expertise:
+      "Scaled hyperscale data center and cloud businesses; brings 30+ years of go-to-market leadership across cloud, AI, and infrastructure",
+    linkedin: "https://www.linkedin.com/in/raejeanne-skillern/",
+  },
+];
+
 const founders = [
   {
     image: gwenImg,
@@ -121,6 +134,41 @@ const AboutUs = () => {
             {founders.map((founder) => (
               <FounderCard key={founder.name} {...founder} />
             ))}
+          </div>
+        </section>
+
+        {/* Glow divider */}
+        <div className="glow-line w-full" />
+
+        {/* Advisors */}
+        <section className="max-w-4xl mx-auto px-6 py-24">
+          <div className="text-center mb-12">
+            <p className="fade-in-scroll section-label mb-4">Advisors</p>
+            <h2 className="fade-in-scroll font-heading text-3xl md:text-4xl text-foreground">
+              Operators and leaders guiding how we build
+            </h2>
+            <p className="fade-in-scroll mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
+              SolCrys advisors bring board-level perspective and operating experience from the
+              companies and categories shaped by previous platform shifts.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-6 max-w-3xl mx-auto">
+            {advisors.map((advisor) => (
+              <div key={advisor.name} className="w-full sm:w-72">
+                <FounderCard {...advisor} />
+              </div>
+            ))}
+          </div>
+
+          <div className="fade-in-scroll mt-10 text-center">
+            <a
+              href="/news/raejeanne-skillern-strategic-advisor/"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[hsl(195_90%_55%)] hover:underline"
+            >
+              Read the announcement
+              <span aria-hidden>→</span>
+            </a>
           </div>
         </section>
 

@@ -17,7 +17,10 @@ const flatNavLinks = [
   { href: "/customers/", label: "Customers" },
 ];
 
-const trailingNavLinks = [{ href: "/about/", label: "Company" }];
+const trailingNavLinks = [
+  { href: "/news/", label: "News" },
+  { href: "/about/", label: "Company" },
+];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
