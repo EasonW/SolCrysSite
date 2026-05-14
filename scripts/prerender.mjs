@@ -429,11 +429,36 @@ function customersHtml() {
   <main>
     <section class="seo-container seo-hero">
       <p class="seo-kicker">Customer Stories</p>
-      <h1>How consumer brands use SolCrys to show up in AI answers.</h1>
-      <p class="seo-lede">Visibility, accuracy, and trust across the AI engines where buyers now ask, compare, and decide.</p>
+      <h1>How leading brands use SolCrys to show up in AI answers.</h1>
+      <p class="seo-lede">From HPC and AI infrastructure to consumer smart home — measurable visibility, accuracy, and trust across the AI engines where buyers now ask, compare, and decide.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Featured customer: NextSilicon</h2>
+      <p><strong>Category:</strong> High-Performance Computing &amp; AI infrastructure</p>
+      <p><strong>Result:</strong> Mention rate climbed from 1.9% to 7.4% in 45 days — a near 4× lift in share of voice against entrenched HPC and AI infrastructure incumbents.</p>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <blockquote>
+          <p>“For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <blockquote>
+          <p>“Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for.”</p>
+        </blockquote>
+      </article>
+      <p><a href="/customers/nextsilicon/">Read the full NextSilicon case study →</a></p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>About NextSilicon</h2>
+      <p>NextSilicon is a high-performance computing pioneer competing head-to-head with deeply entrenched incumbents and well-funded challengers across HPC and AI infrastructure — a category where buyers are highly technical and evaluation cycles are long.</p>
+      <h3>Why it worked</h3>
+      <p>NextSilicon's results came from a continuous loop of measurement, diagnosis, execution, and verification — prompt building and benchmarking across answer engines, page-level content and metadata optimization, authority mapping, and deep analysis routed to the SolCrys Actions page where owners, due dates, and progress are tracked through completion.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Featured customer: Wyze</h2>
+      <p><strong>Category:</strong> Consumer smart home</p>
       <article class="seo-card">
         <p class="seo-kicker"><a href="https://www.linkedin.com/in/yun-zhang-1441933" rel="noopener">Yun Zhang</a> — CEO, Wyze</p>
         <blockquote>
@@ -460,6 +485,73 @@ function customersHtml() {
         </blockquote>
         <p><em>Shared with permission. Company name redacted at the customer's request.</em></p>
       </article>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+function nextSiliconCaseStudyHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker"><a href="/customers/">← All customer stories</a></p>
+      <p class="seo-kicker">Case Study · High-Performance Computing &amp; AI</p>
+      <h1>How NextSilicon quadrupled its share of voice in HPC &amp; AI — in 45 days.</h1>
+      <p class="seo-lede">A challenger in one of tech's most crowded categories used SolCrys to close the visibility gap with incumbents.</p>
+      <ul class="seo-grid" aria-label="Headline results">
+        <li class="seo-card"><strong>Mention rate — before:</strong> 1.9%. Trailing entrenched HPC and AI infrastructure incumbents.</li>
+        <li class="seo-card"><strong>In just:</strong> 45 days. From kickoff to a measurable, repeatable engine.</li>
+        <li class="seo-card"><strong>Mention rate — after:</strong> 7.4%. Near 4× lift in share of voice.</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The customer</h2>
+      <p>NextSilicon is a high-performance computing pioneer competing in one of the most technically demanding markets in technology. The company goes head-to-head with deeply entrenched incumbents and well-funded challengers across HPC and AI infrastructure — a category where buyers are highly technical and evaluation cycles are long.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The challenge</h2>
+      <p>In a category dominated by established names, NextSilicon's share of voice was lagging. Their mention rate — the frequency with which the company appeared in AI-generated answers about HPC and AI infrastructure — sat at just 1.9%. For a business whose buyers increasingly rely on AI assistants to research vendors, build shortlists, and validate claims, that was a serious gap.</p>
+      <p>The marketing team needed to understand exactly where they were losing ground, why competitors were being surfaced more often, and which specific moves would shift AI-generated answers in their favor.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The SolCrys approach</h2>
+      <p>NextSilicon onboarded to SolCrys in March 2026. Within days, SolCrys completed a full audit of their content, benchmarked their performance against key competitors, and surfaced critical gaps impacting their visibility. From there, the platform generated a continuously updated optimization roadmap across:</p>
+      <ul class="seo-list">
+        <li><strong>Prompt building.</strong> Developing prompt sets across answer engines to measure prompt-level AI visibility, citation, sentiment, and recommendation share.</li>
+        <li><strong>Content optimization.</strong> Auditing webpages, identifying topic clusters, strengthening factual density, refining comparison framing, and recommending high-impact claims.</li>
+        <li><strong>Metadata intelligence.</strong> Applying and validating schema, structured data, and AI engine-optimized descriptions at scale.</li>
+        <li><strong>Authority mapping.</strong> Pinpointing high-value citation sources and PR opportunities aligned to category relevance.</li>
+        <li><strong>Deep analysis and actionable workflows.</strong> Analyzing visibility gaps, recommending next-best actions ranked by priority level and effort level. From there, insights are automatically routed to the Actions page, where teams can assign owners, set due dates, collaborate cross-functionally, and track progress through completion.</li>
+      </ul>
+      <p>Rather than a one-time engagement, SolCrys operates as a self-improving operating system — continuously analyzing, prioritizing, and optimizing AI performance over time.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The results</h2>
+      <p>Within 45 days, NextSilicon's mention rate climbed from 1.9% to 7.4% — a near 4× increase in a category where incumbents have spent years building authority. The gains compounded as new content shipped and existing content was re-optimized against SolCrys' scoring framework, giving the team a measurable, repeatable engine rather than a one-off lift.</p>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <blockquote>
+          <p>“For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.”</p>
+        </blockquote>
+      </article>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Why it worked</h2>
+      <p>NextSilicon's results came from a system, not a one-off effort — a continuous loop of measurement, diagnosis, execution, and verification. That loop is at the core of the SolCrys platform, transforming AEO from guesswork into a structured, measurable discipline.</p>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <blockquote>
+          <p>“Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for.”</p>
+        </blockquote>
+      </article>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>About SolCrys AI</h2>
+      <p>SolCrys helps brands improve visibility and compete in high-stakes categories. We help marketing organizations measure how often they appear in AI-generated answers, understand why, and systematically close the gap with competitors.</p>
     </section>
     <div class="seo-container">${ctaHtml()}</div>
   </main>
@@ -1071,7 +1163,7 @@ writePage(
   renderLayout({
     routePath: "/customers/",
     title: "Customer Stories | SolCrys",
-    description: "How consumer brands like Wyze use SolCrys to show up correctly across AI search engines, with visibility, accuracy, and trust across ChatGPT, Gemini, AI Overviews, AI Mode, and Perplexity.",
+    description: "How leading brands use SolCrys to show up in AI answers — including NextSilicon (HPC & AI infrastructure), which lifted its mention rate from 1.9% to 7.4% in 45 days, and consumer smart home brand Wyze.",
     body: customersHtml(),
     schemas: [
       organizationSchema,
@@ -1084,9 +1176,23 @@ writePage(
         "@type": "WebPage",
         name: "SolCrys Customer Stories",
         url: canonicalUrl("/customers/"),
-        description: "Customer stories from consumer brands using SolCrys for AI search visibility, accuracy, and trust.",
+        description: "Customer stories from brands using SolCrys for AI search visibility, accuracy, and trust — across HPC and AI infrastructure (NextSilicon) and consumer (Wyze).",
         datePublished: site.published || generatedAt,
         dateModified: site.updated || generatedAt
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        reviewBody: "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        reviewBody: "Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for."
       },
       {
         "@context": "https://schema.org",
@@ -1101,6 +1207,71 @@ writePage(
         itemReviewed: organizationSchema,
         author: { "@type": "Person", name: "Michelle Frees", jobTitle: "Head of Amazon, Wyze" },
         reviewBody: "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible. On top of that, they've surfaced rich customer insights that are informing our product decisions."
+      }
+    ]
+  })
+);
+
+writePage(
+  "customers/nextsilicon/index.html",
+  renderLayout({
+    routePath: "/customers/nextsilicon/",
+    title: "NextSilicon Case Study: 1.9% → 7.4% Mention Rate in 45 Days | SolCrys",
+    description: "How NextSilicon, a high-performance computing pioneer, used SolCrys to quadruple its share of voice in HPC and AI — mention rate climbed from 1.9% to 7.4% in 45 days.",
+    body: nextSiliconCaseStudyHtml(),
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Customers", path: "/customers/" },
+        { name: "NextSilicon", path: "/customers/nextsilicon/" }
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "@id": canonicalUrl("/customers/nextsilicon/") + "#article",
+        headline: "How NextSilicon quadrupled its share of voice in HPC & AI — in 45 days.",
+        description: "A challenger in one of tech's most crowded categories used SolCrys to close the visibility gap with incumbents. Mention rate climbed from 1.9% to 7.4% in 45 days — a near 4× lift.",
+        url: canonicalUrl("/customers/nextsilicon/"),
+        datePublished: site.published || generatedAt,
+        dateModified: site.updated || generatedAt,
+        author: {
+          "@type": "Organization",
+          name: site.maintainer || site.name,
+          url: site.url
+        },
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          logo: { "@type": "ImageObject", url: site.logo }
+        },
+        about: {
+          "@type": "Organization",
+          name: "NextSilicon",
+          url: "https://www.nextsilicon.com/"
+        },
+        keywords: [
+          "AI search visibility case study",
+          "Answer Engine Optimization case study",
+          "AEO mention rate lift",
+          "HPC marketing AI visibility",
+          "AI infrastructure share of voice",
+          "NextSilicon SolCrys"
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        reviewBody: "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        reviewBody: "Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for."
       }
     ]
   })
@@ -1313,6 +1484,7 @@ const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
   { path: "/customers/", lastmod: site.updated || generatedAt },
+  { path: "/customers/nextsilicon/", lastmod: site.updated || generatedAt },
   { path: "/pricing/", lastmod: site.updated || generatedAt },
   { path: "/resources/", lastmod: site.updated || generatedAt },
   { path: "/news/", lastmod: newsLatest },
@@ -1352,7 +1524,8 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
 - [About](${site.url}/about/): Company story, founding team, and advisors.
-- [Customers](${site.url}/customers/): Customer stories from consumer brands using SolCrys across AI engines.
+- [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days) and Wyze (consumer smart home).
+- [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
 - [Pricing](${site.url}/pricing/): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [Newsroom](${site.url}/news/): Press releases and founder notes.${newsPosts
@@ -1431,4 +1604,4 @@ for (const { from, to } of retiredRedirects) {
   writePage(`${from}/index.html`, redirectHtml);
 }
 
-console.log(`Prerendered ${resourcePages.length + 5 + newsPosts.length + 1 + retiredRedirects.length} static HTML pages (incl. ${newsPosts.length} news + index), sitemap.xml, llms.txt, and llms-full.txt.`);
+console.log(`Prerendered ${resourcePages.length + 6 + newsPosts.length + 1 + retiredRedirects.length} static HTML pages (incl. ${newsPosts.length} news + index), sitemap.xml, llms.txt, and llms-full.txt.`);

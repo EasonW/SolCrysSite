@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "sonner";
 import Index from "./pages/Index";
 import AboutUs from "./pages/AboutUs";
 import Customers from "./pages/Customers";
+import NextSiliconCaseStudy from "./pages/NextSiliconCaseStudy";
 import NotFound from "./pages/NotFound";
 import Resources from "./pages/Resources";
 import ResourcePage from "./pages/ResourcePage";
@@ -22,6 +23,8 @@ const App = () => (
         <Route path="/about/" element={<AboutUs />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/customers/" element={<Customers />} />
+        <Route path="/customers/nextsilicon" element={<NextSiliconCaseStudy />} />
+        <Route path="/customers/nextsilicon/" element={<NextSiliconCaseStudy />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/pricing/" element={<Pricing />} />
         <Route path="/resources" element={<Resources />} />

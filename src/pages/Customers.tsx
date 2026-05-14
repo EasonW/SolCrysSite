@@ -3,11 +3,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EarlyAccessDialog from "@/components/EarlyAccessDialog";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Eye, BadgeCheck, ShoppingBag, Lock } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  BadgeCheck,
+  ShoppingBag,
+  Lock,
+  TrendingUp,
+  Target,
+  Workflow,
+} from "lucide-react";
 
 const WYZE_TEAL = "#00D4B4";
+const NEXTSILICON_INDIGO = "#6366F1";
 
 const LINKEDIN = {
+  brandon: "https://www.linkedin.com/in/brandondraeger/",
   yun: "https://www.linkedin.com/in/yun-zhang-1441933",
   michelle: "https://www.linkedin.com/in/michellewangfrees/",
   toni: "https://www.linkedin.com/in/tiafrate/",
@@ -28,6 +39,12 @@ const LinkedInLink = ({ href, name }: { href: string; name: string }) => (
   </a>
 );
 
+const brandonPrimaryQuote =
+  "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.";
+
+const brandonScienceQuote =
+  "Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for.";
+
 const yunQuote =
   "AI is changing how people discover products online, and for consumer brands, showing up correctly in AI answers is becoming incredibly important. The opportunity is about helping the right customers find your products and making it easier for them to buy. SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust. We're excited to work with the SolCrys team as they build toward the future of brand discovery and agentic commerce.";
 
@@ -37,24 +54,45 @@ const michelleQuote =
 const toniQuote =
   "What stood out to me about SolCrys is that it goes beyond just showing data. Most tools stop at dashboards and metrics, but SolCrys helps teams understand what the data means and what actions to take next. That's incredibly valuable for communications and marketing leaders who need actionable intelligence, not just reports.";
 
+const nextSiliconApproach = [
+  {
+    Icon: Target,
+    title: "Prompt building & benchmarking",
+    body:
+      "Prompt sets across answer engines measure prompt-level visibility, citation share, sentiment, and recommendation rate against key competitors.",
+  },
+  {
+    Icon: Workflow,
+    title: "Continuous content & metadata optimization",
+    body:
+      "Page-level audits, topic clusters, factual density, comparison framing, and AI-engine-optimized schema applied and validated at scale.",
+  },
+  {
+    Icon: TrendingUp,
+    title: "Deep analysis routed to action",
+    body:
+      "Visibility gaps and next-best actions ranked by priority and effort, then routed to the Actions page where owners, due dates, and progress are tracked through completion.",
+  },
+];
+
 const whatSolCrysDelivers = [
   {
     Icon: Eye,
     title: "Visibility across AI engines",
     body:
-      "Track how Wyze appears in ChatGPT, Gemini, Google AI Overviews, AI Mode, and Perplexity — by prompt, by competitor, and by source.",
+      "Track how your brand appears in ChatGPT, Gemini, Google AI Overviews, AI Mode, and Perplexity — by prompt, by competitor, and by source.",
   },
   {
     Icon: BadgeCheck,
     title: "Accuracy and trust signals",
     body:
-      "Surface where answers misstate product details or omit Wyze entirely, and pinpoint the citations AI systems lean on to form those answers.",
+      "Surface where answers misstate your offering or omit you entirely, and pinpoint the citations AI systems lean on to form those answers.",
   },
   {
     Icon: ShoppingBag,
-    title: "PDP precision & customer insight",
+    title: "Content precision & decision insight",
     body:
-      "Sharpen product detail page content for AI retrieval and turn answer-engine signals into product decisions, listing fixes, and Q&A coverage.",
+      "Sharpen the pages AI retrieves — product detail, comparison, technical, FAQ — and turn answer-engine signals into product, content, and Q&A decisions.",
   },
 ];
 
@@ -74,20 +112,21 @@ const CustomerStories = () => {
               backgroundSize: "32px 32px",
             }}
           />
-          {/* Subtle teal aurora keyed to the featured brand */}
+          {/* Subtle blended aurora — indigo (NextSilicon) and teal (Wyze) */}
           <div
             className="absolute inset-x-0 top-0 h-96 pointer-events-none"
             style={{
-              background: `radial-gradient(circle at 50% 0%, ${WYZE_TEAL}1F, transparent 60%)`,
+              background: `radial-gradient(circle at 30% 0%, ${NEXTSILICON_INDIGO}1F, transparent 60%), radial-gradient(circle at 70% 0%, ${WYZE_TEAL}1A, transparent 60%)`,
             }}
           />
           <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
             <p className="fade-in-scroll section-label mb-6">Customer Stories</p>
             <h1 className="fade-in-scroll font-heading text-4xl md:text-6xl font-bold leading-tight">
-              How consumer brands use SolCrys to show up in AI answers.
+              How leading brands use SolCrys to show up in AI answers.
             </h1>
             <p className="fade-in-scroll mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Visibility, accuracy, and trust across the AI engines where buyers
+              From HPC and AI infrastructure to consumer smart home — measurable
+              visibility, accuracy, and trust across the AI engines where buyers
               now ask, compare, and decide.
             </p>
           </div>
@@ -95,9 +134,257 @@ const CustomerStories = () => {
 
         <div className="glow-line w-full" />
 
-        {/* Featured customer: Wyze */}
+        {/* Featured customer: NextSilicon */}
         <section className="relative py-20 md:py-28">
           <div className="container mx-auto px-6 max-w-6xl">
+            <div className="fade-in-scroll flex flex-col items-center mb-10">
+              <p className="section-label mb-4">Featured customer</p>
+              <p
+                className="font-heading text-3xl md:text-4xl font-bold tracking-tight"
+                style={{ color: NEXTSILICON_INDIGO }}
+              >
+                NextSilicon
+              </p>
+              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                High-Performance Computing &amp; AI
+              </p>
+            </div>
+
+            {/* Result metric pull-out */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/60 backdrop-blur-sm overflow-hidden mb-8 md:mb-10">
+              <div
+                className="absolute inset-x-0 top-0 h-px"
+                style={{
+                  background: `linear-gradient(to right, transparent, ${NEXTSILICON_INDIGO}, transparent)`,
+                }}
+              />
+              <div
+                className="absolute inset-0 opacity-[0.06] pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle at 80% 50%, ${NEXTSILICON_INDIGO}, transparent 55%)`,
+                }}
+              />
+
+              <div className="relative grid md:grid-cols-3 gap-0">
+                <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-border/40">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+                    Mention rate — before
+                  </p>
+                  <p className="font-heading text-5xl md:text-6xl font-bold text-foreground/80">
+                    1.9%
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Trailing entrenched HPC and AI infrastructure incumbents.
+                  </p>
+                </div>
+
+                <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-border/40 flex flex-col justify-center items-center text-center">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+                    In just
+                  </p>
+                  <p
+                    className="font-heading text-5xl md:text-6xl font-bold"
+                    style={{ color: NEXTSILICON_INDIGO }}
+                  >
+                    45 days
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    From kickoff to a measurable, repeatable engine.
+                  </p>
+                </div>
+
+                <div className="p-8 md:p-10">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+                    Mention rate — after
+                  </p>
+                  <p
+                    className="font-heading text-5xl md:text-6xl font-bold"
+                    style={{ color: NEXTSILICON_INDIGO }}
+                  >
+                    7.4%
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground inline-flex items-center gap-1.5">
+                    <TrendingUp
+                      className="h-4 w-4"
+                      style={{ color: NEXTSILICON_INDIGO }}
+                    />
+                    Near 4× lift in share of voice
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* Primary testimonial — Brandon Draeger */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/60 backdrop-blur-sm overflow-hidden">
+              <div
+                className="absolute inset-x-0 top-0 h-px"
+                style={{
+                  background: `linear-gradient(to right, transparent, ${NEXTSILICON_INDIGO}, transparent)`,
+                }}
+              />
+
+              <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-0">
+                {/* Photo column */}
+                <div className="relative bg-muted/30 overflow-hidden min-h-[360px] md:min-h-[560px]">
+                  <img
+                    src="/customers/brandon-draeger.jpg"
+                    alt="Brandon Draeger, VP of Marketing at NextSilicon"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span
+                      className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-white"
+                      style={{ backgroundColor: NEXTSILICON_INDIGO }}
+                    >
+                      VP, Marketing
+                    </span>
+                  </div>
+                </div>
+
+                {/* Quote column */}
+                <div className="p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+                  <div
+                    aria-hidden
+                    className="font-heading text-7xl md:text-8xl leading-none mb-2 select-none"
+                    style={{ color: NEXTSILICON_INDIGO, opacity: 0.5 }}
+                  >
+                    “
+                  </div>
+
+                  <blockquote className="font-heading text-xl md:text-2xl lg:text-[1.6rem] leading-snug md:leading-[1.35] text-foreground">
+                    {brandonPrimaryQuote}
+                  </blockquote>
+
+                  <figcaption className="mt-8 pt-6 border-t border-border/40 flex items-center gap-4">
+                    <div
+                      className="h-10 w-1 rounded-full"
+                      style={{ backgroundColor: NEXTSILICON_INDIGO }}
+                    />
+                    <div>
+                      <p className="font-heading text-base font-semibold text-foreground">
+                        Brandon Draeger
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        VP of Marketing, NextSilicon
+                      </p>
+                      <div className="mt-2">
+                        <LinkedInLink
+                          href={LINKEDIN.brandon}
+                          name="Brandon Draeger"
+                        />
+                      </div>
+                    </div>
+                  </figcaption>
+                </div>
+              </div>
+            </article>
+
+            {/* Secondary quote — the "science" callout */}
+            <article className="fade-in-scroll relative mt-8 md:mt-10 rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
+              <div className="p-8 md:p-12 lg:p-14">
+                <div
+                  aria-hidden
+                  className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none"
+                  style={{ color: NEXTSILICON_INDIGO, opacity: 0.45 }}
+                >
+                  “
+                </div>
+                <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground max-w-4xl">
+                  {brandonScienceQuote}
+                </blockquote>
+                <figcaption className="mt-6 text-sm text-muted-foreground">
+                  — Brandon Draeger, VP of Marketing, NextSilicon
+                </figcaption>
+              </div>
+            </article>
+
+            {/* Read full case study CTA */}
+            <div className="fade-in-scroll mt-8 md:mt-10 flex justify-center">
+              <Button
+                asChild
+                variant="hero-outline"
+                size="lg"
+                className="text-base px-8 py-6 h-auto"
+              >
+                <a href="/customers/nextsilicon/">
+                  Read the full NextSilicon case study
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        <div className="glow-line w-full" />
+
+        {/* About NextSilicon + Why it worked */}
+        <section className="max-w-6xl mx-auto px-6 py-20 md:py-24">
+          <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-12 md:gap-16">
+            <div>
+              <p className="fade-in-scroll section-label mb-4">About NextSilicon</p>
+              <h2 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground mb-4">
+                A challenger in one of tech's most crowded categories.
+              </h2>
+              <p className="fade-in-scroll text-muted-foreground text-base md:text-lg leading-relaxed">
+                NextSilicon is a high-performance computing pioneer competing
+                head-to-head with deeply entrenched incumbents and well-funded
+                challengers across HPC and AI infrastructure — a category where
+                buyers are highly technical and evaluation cycles are long.
+              </p>
+            </div>
+
+            <div>
+              <p className="fade-in-scroll section-label mb-4">Why it worked</p>
+              <h3 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground mb-4">
+                A system, not a one-off effort.
+              </h3>
+              <p className="fade-in-scroll text-muted-foreground text-base md:text-lg leading-relaxed">
+                NextSilicon's results came from a continuous loop of
+                measurement, diagnosis, execution, and verification — the core
+                of the SolCrys platform — transforming AEO from guesswork into
+                a structured, measurable discipline.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            {nextSiliconApproach.map(({ Icon, title, body }) => (
+              <div
+                key={title}
+                className="fade-in-scroll rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm p-7"
+              >
+                <div
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl mb-5"
+                  style={{
+                    backgroundColor: `${NEXTSILICON_INDIGO}1A`,
+                    color: NEXTSILICON_INDIGO,
+                  }}
+                >
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h4 className="font-heading text-lg font-semibold text-foreground mb-2">
+                  {title}
+                </h4>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                  {body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="glow-line w-full" />
+
+        {/* Featured customer: Wyze */}
+        <section className="relative py-20 md:py-28">
+          <div
+            className="absolute inset-x-0 top-0 h-72 pointer-events-none"
+            style={{
+              background: `radial-gradient(circle at 50% 0%, ${WYZE_TEAL}14, transparent 60%)`,
+            }}
+          />
+          <div className="container mx-auto px-6 max-w-6xl relative">
             <div className="fade-in-scroll flex flex-col items-center mb-10">
               <p className="section-label mb-4">Featured customer</p>
               <img
@@ -106,6 +393,9 @@ const CustomerStories = () => {
                 className="h-9 md:h-10 w-auto"
                 loading="lazy"
               />
+              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Consumer Smart Home
+              </p>
             </div>
 
             {/* Executive testimonial — Yun Zhang */}
@@ -339,8 +629,8 @@ const CustomerStories = () => {
                 <div
                   className="inline-flex h-11 w-11 items-center justify-center rounded-xl mb-5"
                   style={{
-                    backgroundColor: `${WYZE_TEAL}1A`,
-                    color: WYZE_TEAL,
+                    backgroundColor: `${NEXTSILICON_INDIGO}1A`,
+                    color: NEXTSILICON_INDIGO,
                   }}
                 >
                   <Icon className="h-5 w-5" />
