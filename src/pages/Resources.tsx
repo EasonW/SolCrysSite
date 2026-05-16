@@ -3,10 +3,12 @@ import Navbar from "@/components/Navbar";
 import siteContent from "@/content/siteContent.json";
 import { ArrowRight } from "lucide-react";
 import { categorySlug } from "@/lib/categorySlug";
+import { useHashScroll } from "@/hooks/useHashScroll";
 
 type ResourcePageData = (typeof siteContent.resourcePages)[number];
 
 const Resources = () => {
+  useHashScroll();
   const clusterDefs = siteContent.resourceClusters ?? [];
   const clusterOrder = clusterDefs.map((c) => c.key);
   const blurbByKey = new Map(clusterDefs.map((c) => [c.key, c.blurb]));
