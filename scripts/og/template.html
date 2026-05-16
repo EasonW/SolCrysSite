@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>OG card</title>
+<style>
+  /* SolCrys brand palette (manifest.json, LogoKit 2026-04-29) */
+  :root {
+    --bg-deep:   #06102A;  /* Deep Navy — primary background */
+    --bg-edge:   #0B1838;  /* Subtle gradient edge */
+    --aqua:      #26CDB8;  /* Aqua accent */
+    --violet:    #6F50D8;  /* Violet accent (reserved) */
+    --white:     #FFFFFF;
+    --grey-200:  #CBD5E1;
+    --grey-300:  #94A3B8;
+    --grey-400:  #64748B;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; width: 1200px; height: 630px; overflow: hidden; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+    background: radial-gradient(ellipse at 75% 110%, var(--bg-edge) 0%, var(--bg-deep) 60%);
+    color: var(--white);
+    font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Inter",
+                 "Helvetica Neue", system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv11", "kern", "liga";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+  }
+
+  /* Faint geometric ornament — pure CSS, no images. Reads as "data substrate". */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(38,205,184,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(38,205,184,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: -1px -1px;
+    mask-image: radial-gradient(ellipse at 80% 100%, rgba(0,0,0,0.55) 0%, transparent 65%);
+    -webkit-mask-image: radial-gradient(ellipse at 80% 100%, rgba(0,0,0,0.55) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding: 56px 80px 64px 80px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 24px;
+  }
+
+  /* Top bar: SolCrys logo on the left, then eyebrow inline beside it */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .logo {
+    height: 44px;
+    width: auto;
+    opacity: 0.95;
+  }
+  .divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .eyebrow {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--aqua);
+  }
+
+  /* Kicker now holds the title only */
+  .kicker {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+
+  /* Title block */
+  .title {
+    align-self: center;
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    max-width: 1040px;
+  }
+  .title.size-xl  { font-size: 112px; }
+  .title.size-lg  { font-size: 96px; }
+  .title.size-md  { font-size: 80px; }
+  .title.size-sm  { font-size: 64px; }
+
+  /* Two-line dual-weight variant: first half fades, second half lands.
+     Used when the source title contains a sentence break (". "). */
+  .title .setup {
+    display: block;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.52);
+  }
+  .title .punch {
+    display: block;
+    font-weight: 700;
+    color: var(--white);
+    margin-top: 4px;
+  }
+  .title .accent { color: var(--aqua); }
+
+  /* Footer row: byline only */
+  footer {
+    display: flex;
+    align-items: end;
+  }
+  .byline {
+    font-size: 24px;
+    color: var(--grey-300);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .byline .sep { color: var(--grey-400); margin: 0 10px; }
+  .byline .domain { color: var(--white); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img class="logo" src="__LOGO_SRC__" alt="SolCrys" />
+    <span class="divider"></span>
+    <div class="eyebrow">__EYEBROW__</div>
+  </header>
+  <div class="kicker">
+    <div class="title size-__TITLE_SIZE__">__TITLE_HTML__</div>
+  </div>
+  <footer>
+    <div class="byline">__BYLINE__</div>
+  </footer>
+</main>
+</body>
+</html>

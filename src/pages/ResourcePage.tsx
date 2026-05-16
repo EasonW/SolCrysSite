@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import siteContent from "@/content/siteContent.json";
-import { ArrowRight, ArrowUpRight, CalendarDays, HelpCircle } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarDays, HelpCircle, User } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotFound from "./NotFound";
@@ -157,9 +157,33 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
             </p>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">{page.h1}</h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">{page.summary}</p>
-            <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
-              <CalendarDays className="h-4 w-4" />
-              <span>Updated {page.updated}</span>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+              {"author" in page && page.author ? (
+                <>
+                  <span className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    By{" "}
+                    {page.author.linkedin ? (
+                      <a
+                        href={page.author.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground font-medium hover:text-[hsl(195_90%_55%)] transition-colors"
+                      >
+                        {page.author.name}
+                      </a>
+                    ) : (
+                      <span className="text-foreground font-medium">{page.author.name}</span>
+                    )}
+                    {page.author.role ? `, ${page.author.role}` : null}
+                  </span>
+                  <span className="text-border" aria-hidden="true">·</span>
+                </>
+              ) : null}
+              <span className="flex items-center gap-2">
+                <CalendarDays className="h-4 w-4" />
+                Updated {page.updated}
+              </span>
             </div>
           </header>
 
