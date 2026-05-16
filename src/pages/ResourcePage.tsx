@@ -228,17 +228,19 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
             </section>
           ) : null}
 
-          <section className="border-t border-border/30 py-10">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">FAQ</h2>
-            <div className="grid gap-4">
-              {page.faqs.map((faq) => (
-                <article key={faq.question} className="rounded-xl border border-border/30 bg-card/40 p-5">
-                  <h3 className="font-display text-lg font-semibold mb-3">{faq.question}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
-                </article>
-              ))}
-            </div>
-          </section>
+          {"faqs" in page && Array.isArray(page.faqs) && page.faqs.length > 0 ? (
+            <section className="border-t border-border/30 py-10">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">FAQ</h2>
+              <div className="grid gap-4">
+                {page.faqs.map((faq) => (
+                  <article key={faq.question} className="rounded-xl border border-border/30 bg-card/40 p-5">
+                    <h3 className="font-display text-lg font-semibold mb-3">{faq.question}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section className="border-t border-border/30 py-10">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Related guides</h2>
