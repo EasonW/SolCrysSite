@@ -131,19 +131,29 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
   const activeSlug = configuredSlug ?? routeSlug;
   const page = siteContent.resourcePages.find((item) => item.slug === activeSlug);
 
+  const isDraft = page ? (page as { status?: string }).status === "draft" : false;
+
   useEffect(() => {
     if (!page) return;
-    document.title = page.metaTitle;
+    document.title = isDraft ? `[DRAFT] ${page.metaTitle}` : page.metaTitle;
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (description) {
       description.content = page.description;
     }
-  }, [page]);
+    // Drafts: set noindex,nofollow so a client-side navigation also flips robots correctly.
+    const robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (robots) {
+      robots.content = isDraft
+        ? "noindex,nofollow"
+        : "index,follow,max-image-preview:large";
+    }
+  }, [page, isDraft]);
 
   if (!page) {
     return <NotFound />;
   }
 
+  // Drafts are excluded from "Related guides" cross-links.
   const explicitRelated =
     "relatedSlugs" in page && Array.isArray(page.relatedSlugs)
       ? (page.relatedSlugs as string[])
@@ -151,11 +161,15 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
             siteContent.resourcePages.find((item) => item.slug === relatedSlug)
           )
           .filter((item): item is ResourcePageData => Boolean(item))
+          .filter((item) => (item as { status?: string }).status !== "draft")
       : [];
   const related =
     explicitRelated.length > 0
       ? explicitRelated.slice(0, 3)
-      : siteContent.resourcePages.filter((item) => item.slug !== page.slug).slice(0, 3);
+      : siteContent.resourcePages
+          .filter((item) => item.slug !== page.slug)
+          .filter((item) => (item as { status?: string }).status !== "draft")
+          .slice(0, 3);
 
   const aeoTargets =
     "aeoTargets" in page && Array.isArray(page.aeoTargets) ? (page.aeoTargets as string[]) : [];
@@ -170,6 +184,20 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
       <Navbar />
       <main className="pt-28 pb-20">
         <article className="container mx-auto px-6 max-w-4xl">
+          {isDraft ? (
+            <div className="mb-6 rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-amber-200">
+              <p className="text-xs font-semibold uppercase tracking-[0.15em] mb-1">
+                Draft — internal preview
+              </p>
+              <p className="text-sm leading-relaxed">
+                This article is not listed on /resources/, not in the sitemap,
+                and not indexed by search engines or AI crawlers. Share the
+                direct URL with reviewers only. Promote to publication by
+                removing <code className="font-mono text-xs">"status": "draft"</code>{" "}
+                from this page's entry in <code className="font-mono text-xs">siteContent.json</code>.
+              </p>
+            </div>
+          ) : null}
           <nav className="mb-8 text-sm text-muted-foreground">
             <a href="/" className="hover:text-foreground">
               Home

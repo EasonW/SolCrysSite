@@ -14,8 +14,10 @@ const Resources = () => {
   const blurbByKey = new Map(clusterDefs.map((c) => [c.key, c.blurb]));
 
   // Group resources by cluster (`category`), preserving JSON ordering inside each group.
+  // Drafts are filtered out — they are accessible by direct URL but not listed here.
   const grouped = new Map<string, ResourcePageData[]>();
   for (const page of siteContent.resourcePages) {
+    if ((page as { status?: string }).status === "draft") continue;
     const list = grouped.get(page.category) ?? [];
     list.push(page);
     grouped.set(page.category, list);

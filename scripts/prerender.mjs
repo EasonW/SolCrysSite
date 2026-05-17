@@ -10,6 +10,14 @@ const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/conten
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
+
+// Draft mechanism: a resource page with status === "draft" stays accessible at
+// its canonical URL (so co-founders can review the production rendering) but is
+// excluded from all discovery surfaces — listings, sitemap, llms files,
+// related-guides cross-links, JSON-LD CollectionPage hasPart — and gets a
+// noindex,nofollow meta + a visible "DRAFT" banner.
+const isDraft = (page) => page && page.status === "draft";
+const publishedResourcePages = resourcePages.filter((p) => !isDraft(p));
 const newsPosts = (newsroomContent.posts || []).slice().sort((a, b) => {
   if (a.date === b.date) return 0;
   return a.date < b.date ? 1 : -1;
@@ -883,7 +891,8 @@ function categorySlug(s) {
 function resourcesHtml() {
   const declared = resourceClusters.map((c) => c.key);
   const grouped = new Map();
-  for (const page of resourcePages) {
+  // Drafts are excluded from /resources/ listing
+  for (const page of publishedResourcePages) {
     const list = grouped.get(page.category) || [];
     list.push(page);
     grouped.set(page.category, list);
@@ -962,12 +971,13 @@ function sectionHtml(section) {
 }
 
 function relatedGuidesHtml(page) {
+  // Drafts are excluded from "Related guides" cross-links on other articles.
   const explicit = Array.isArray(page.relatedSlugs)
-    ? page.relatedSlugs.map((slug) => resourceBySlug.get(slug)).filter(Boolean)
+    ? page.relatedSlugs.map((slug) => resourceBySlug.get(slug)).filter(Boolean).filter((p) => !isDraft(p))
     : [];
   const related = explicit.length > 0
     ? explicit.slice(0, 3)
-    : resourcePages.filter((p) => p.slug !== page.slug).slice(0, 3);
+    : publishedResourcePages.filter((p) => p.slug !== page.slug).slice(0, 3);
   if (related.length === 0) return "";
   return `
       <section class="seo-section">
@@ -1012,6 +1022,15 @@ function sourcesHtml(page) {
             .join("")}
         </ul>
       </section>`;
+}
+
+function draftBannerHtml() {
+  return `
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>`;
 }
 
 function resourcePageHtml(page) {
@@ -1334,7 +1353,7 @@ writePage(
         "@type": "CollectionPage",
         name: "SolCrys AEO Resource Hub",
         url: canonicalUrl("/resources/"),
-        hasPart: resourcePages.map((page) => ({
+        hasPart: publishedResourcePages.map((page) => ({
           "@type": "WebPage",
           name: page.title,
           url: canonicalUrl(`/${page.slug}/`)
@@ -1346,15 +1365,17 @@ writePage(
 
 for (const page of resourcePages) {
   const routePath = `/${page.slug}/`;
+  const draft = isDraft(page);
   writePage(
     `${page.slug}/index.html`,
     renderLayout({
       routePath,
-      title: page.metaTitle,
+      title: draft ? `[DRAFT] ${page.metaTitle}` : page.metaTitle,
       description: page.description,
-      body: resourcePageHtml(page),
+      body: (draft ? draftBannerHtml() : "") + resourcePageHtml(page),
       ogImage: page.ogImage,
       lastModified: page.updated,
+      noindex: draft,
       schemas: [
         organizationSchema,
         breadcrumbSchema([
@@ -1505,7 +1526,8 @@ const sitemapUrls = [
   { path: "/resources/", lastmod: site.updated || generatedAt },
   { path: "/news/", lastmod: newsLatest },
   ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
-  ...resourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
+  // Drafts are excluded from sitemap (so search engines don't discover them).
+  ...publishedResourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
   { path: "/privacy.html", lastmod: site.updated || generatedAt },
   { path: "/terms.html", lastmod: site.updated || generatedAt }
 ];
@@ -1552,7 +1574,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 
 ## Recommended Reading
 
-${resourcePages.map((page) => `- [${page.title}](${site.url}/${page.slug}/): ${page.description}`).join("\n")}
+${publishedResourcePages.map((page) => `- [${page.title}](${site.url}/${page.slug}/): ${page.description}`).join("\n")}
 
 ## Contact
 
@@ -1565,7 +1587,7 @@ const llmsFullTxt = `# ${site.name} Full AEO Context
 
 ${site.description}
 
-${resourcePages
+${publishedResourcePages
   .map(
     (page) => `## ${page.title}
 
