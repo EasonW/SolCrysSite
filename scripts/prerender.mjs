@@ -80,6 +80,22 @@ function escapeAttr(value) {
   return escapeHtml(value);
 }
 
+const INLINE_LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
+function renderInlineHtml(value) {
+  const text = String(value);
+  if (!text.includes("](")) return escapeHtml(text);
+  let out = "";
+  let lastIndex = 0;
+  for (const match of text.matchAll(INLINE_LINK_REGEX)) {
+    const start = match.index ?? 0;
+    if (start > lastIndex) out += escapeHtml(text.slice(lastIndex, start));
+    out += `<a href="${escapeAttr(match[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(match[1])}</a>`;
+    lastIndex = start + match[0].length;
+  }
+  if (lastIndex < text.length) out += escapeHtml(text.slice(lastIndex));
+  return out;
+}
+
 function xmlEscape(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -920,8 +936,8 @@ function subsectionHtml(subsection) {
   return `
       <div class="seo-subsection">
         <h3>${escapeHtml(subsection.heading)}</h3>
-        ${subsection.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
-        ${subsection.bullets ? `<ul class="seo-list">${subsection.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
+        ${subsection.body.map((paragraph) => `<p>${renderInlineHtml(paragraph)}</p>`).join("")}
+        ${subsection.bullets ? `<ul class="seo-list">${subsection.bullets.map((item) => `<li>${renderInlineHtml(item)}</li>`).join("")}</ul>` : ""}
       </div>`;
 }
 
@@ -929,14 +945,14 @@ function sectionHtml(section) {
   return `
     <section class="seo-section">
       <h2>${escapeHtml(section.heading)}</h2>
-      ${section.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
-      ${section.bullets ? `<ul class="seo-list">${section.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
+      ${section.body.map((paragraph) => `<p>${renderInlineHtml(paragraph)}</p>`).join("")}
+      ${section.bullets ? `<ul class="seo-list">${section.bullets.map((item) => `<li>${renderInlineHtml(item)}</li>`).join("")}</ul>` : ""}
       ${
         section.table
           ? `<table>
               <thead><tr>${section.table.headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr></thead>
               <tbody>${section.table.rows
-                .map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`)
+                .map((row) => `<tr>${row.map((cell) => `<td>${renderInlineHtml(cell)}</td>`).join("")}</tr>`)
                 .join("")}</tbody>
             </table>`
           : ""
@@ -1007,7 +1023,7 @@ function resourcePageHtml(page) {
       <header class="seo-hero">
         <p class="seo-kicker">${escapeHtml(page.category)}</p>
         <h1>${escapeHtml(page.h1)}</h1>
-        <p class="seo-lede">${escapeHtml(page.summary)}</p>
+        <p class="seo-lede">${renderInlineHtml(page.summary)}</p>
         <p>Updated ${escapeHtml(page.updated)}</p>
       </header>
       ${aeoTargetsHtml(page)}
@@ -1020,7 +1036,7 @@ function resourcePageHtml(page) {
             (faq) => `
           <article class="seo-card">
             <h3>${escapeHtml(faq.question)}</h3>
-            <p>${escapeHtml(faq.answer)}</p>
+            <p>${renderInlineHtml(faq.answer)}</p>
           </article>`
           )
           .join("")}

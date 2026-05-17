@@ -2,13 +2,44 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import siteContent from "@/content/siteContent.json";
 import { ArrowRight, ArrowUpRight, CalendarDays, HelpCircle, User } from "lucide-react";
-import { useEffect } from "react";
+import { Fragment, ReactNode, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 
 type ResourcePageData = (typeof siteContent.resourcePages)[number];
 type ResourceSectionData = ResourcePageData["sections"][number];
 type ResourceSubsection = { heading: string; body: string[]; bullets?: string[] };
+
+const INLINE_LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+const renderInline = (text: string): ReactNode => {
+  if (!text.includes("](")) return text;
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let keyIndex = 0;
+  for (const match of text.matchAll(INLINE_LINK_REGEX)) {
+    const start = match.index ?? 0;
+    if (start > lastIndex) {
+      nodes.push(text.slice(lastIndex, start));
+    }
+    nodes.push(
+      <a
+        key={`lnk-${keyIndex++}`}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[hsl(195_90%_55%)] underline-offset-4 hover:underline"
+      >
+        {match[1]}
+      </a>
+    );
+    lastIndex = start + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+  return nodes.map((node, idx) => <Fragment key={`f-${idx}`}>{node}</Fragment>);
+};
 
 interface ResourcePageProps {
   slug?: string;
@@ -19,7 +50,7 @@ const renderSubsection = (subsection: ResourceSubsection) => (
     <h3 className="font-display text-lg font-semibold text-foreground mb-3">{subsection.heading}</h3>
     <div className="space-y-3 text-muted-foreground leading-relaxed">
       {subsection.body.map((paragraph) => (
-        <p key={paragraph}>{paragraph}</p>
+        <p key={paragraph}>{renderInline(paragraph)}</p>
       ))}
     </div>
     {subsection.bullets ? (
@@ -29,7 +60,7 @@ const renderSubsection = (subsection: ResourceSubsection) => (
             key={item}
             className="rounded-lg border border-border/30 bg-card/30 p-3 text-sm text-muted-foreground"
           >
-            {item}
+            {renderInline(item)}
           </li>
         ))}
       </ul>
@@ -47,7 +78,7 @@ const renderSection = (section: ResourceSectionData) => {
       <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-5">{section.heading}</h2>
       <div className="space-y-4 text-muted-foreground leading-relaxed">
         {section.body.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+          <p key={paragraph}>{renderInline(paragraph)}</p>
         ))}
       </div>
       {"bullets" in section && section.bullets ? (
@@ -57,7 +88,7 @@ const renderSection = (section: ResourceSectionData) => {
               key={item}
               className="rounded-lg border border-border/30 bg-card/40 p-4 text-sm text-muted-foreground"
             >
-              {item}
+              {renderInline(item)}
             </li>
           ))}
         </ul>
@@ -79,7 +110,7 @@ const renderSection = (section: ResourceSectionData) => {
                 <tr key={row.join("-")} className="border-t border-border/30">
                   {row.map((cell) => (
                     <td key={cell} className="px-4 py-3 text-muted-foreground align-top">
-                      {cell}
+                      {renderInline(cell)}
                     </td>
                   ))}
                 </tr>
@@ -156,7 +187,7 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
               {page.category}
             </p>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">{page.h1}</h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">{page.summary}</p>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">{renderInline(page.summary)}</p>
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               {"author" in page && page.author ? (
                 <>
@@ -235,7 +266,7 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
                 {page.faqs.map((faq) => (
                   <article key={faq.question} className="rounded-xl border border-border/30 bg-card/40 p-5">
                     <h3 className="font-display text-lg font-semibold mb-3">{faq.question}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                    <p className="text-muted-foreground leading-relaxed">{renderInline(faq.answer)}</p>
                   </article>
                 ))}
               </div>
