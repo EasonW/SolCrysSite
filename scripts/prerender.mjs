@@ -9,7 +9,7 @@ const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteC
 const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 
-const { site, home, resourcePages, resourceClusters = [] } = content;
+const { site, home, resourcePages, resourceClusters = [], resourceTiers = [] } = content;
 const newsPosts = (newsroomContent.posts || []).slice().sort((a, b) => {
   if (a.date === b.date) return 0;
   return a.date < b.date ? 1 : -1;
@@ -893,22 +893,29 @@ function resourcesHtml() {
     ...Array.from(grouped.keys()).filter((k) => !declared.includes(k)),
   ];
   const blurbByKey = new Map(resourceClusters.map((c) => [c.key, c.blurb]));
+  const tierByCluster = new Map(resourceClusters.map((c) => [c.key, c.tier]));
 
-  return `
-<div class="seo-prerender">
-  ${navHtml()}
-  <main>
-    <section class="seo-container seo-hero">
-      <p class="seo-kicker">AEO Resource Hub</p>
-      <h1>Practical guides for AI search visibility.</h1>
-      <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic below.</p>
-    </section>
-    ${orderedKeys
-      .map((key) => {
-        const pages = grouped.get(key) || [];
-        if (pages.length === 0) return "";
-        const blurb = blurbByKey.get(key) || "";
-        return `
+  const clustersByTier = new Map();
+  for (const tier of resourceTiers) clustersByTier.set(tier.key, []);
+  if (!clustersByTier.has("operate")) clustersByTier.set("operate", []);
+  for (const key of orderedKeys) {
+    const tier = tierByCluster.get(key) || "operate";
+    if (!clustersByTier.has(tier)) clustersByTier.set(tier, []);
+    clustersByTier.get(tier).push(key);
+  }
+
+  const totalGuides = resourcePages.length;
+
+  const tierHtml = resourceTiers
+    .map((tier) => {
+      const keysInTier = clustersByTier.get(tier.key) || [];
+      if (keysInTier.length === 0) return "";
+      const clusterBlocks = keysInTier
+        .map((key) => {
+          const pages = grouped.get(key) || [];
+          if (pages.length === 0) return "";
+          const blurb = blurbByKey.get(key) || "";
+          return `
     <section id="${escapeAttr(categorySlug(key))}" class="seo-container seo-section">
       <h2>${escapeHtml(key)}</h2>
       ${blurb ? `<p>${escapeHtml(blurb)}</p>` : ""}
@@ -925,8 +932,34 @@ function resourcesHtml() {
           .join("")}
       </div>
     </section>`;
-      })
-      .join("")}
+        })
+        .join("");
+      return `
+    <section class="seo-container seo-section">
+      <p class="seo-kicker">${escapeHtml(tier.label)}</p>
+      ${tier.blurb ? `<p>${escapeHtml(tier.blurb)}</p>` : ""}
+    </section>
+    ${clusterBlocks}`;
+    })
+    .join("");
+
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">AEO Resource Hub</p>
+      <h1>Practical guides for AI search visibility.</h1>
+      <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic — start with the manifestos and agency playbooks, drop into the operating clusters for day-to-day reference, and compare platforms at the bottom.</p>
+    </section>
+    ${tierHtml}
+    <section class="seo-container seo-section">
+      <a href="/resources/" class="seo-card">
+        <p class="seo-kicker">All resources</p>
+        <h3>Browse all ${totalGuides} guides</h3>
+        <p>Strategy essays, operating playbooks, engine-specific guides, and platform comparisons — every published SolCrys guide in one place.</p>
+      </a>
+    </section>
   </main>
   ${footerHtml()}
 </div>`;

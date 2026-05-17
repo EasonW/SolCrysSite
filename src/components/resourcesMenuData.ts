@@ -173,7 +173,7 @@ export const RESOURCES_FOOTER_LINKS: ResourcesMenuItem[] = [
   {
     title: "For Agencies",
     desc: "Launch and scale an AEO practice",
-    href: categoryHref("Agency Infrastructure"),
+    href: categoryHref("For Agencies"),
     Icon: Users,
   },
   {
