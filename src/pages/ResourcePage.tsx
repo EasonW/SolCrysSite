@@ -191,22 +191,35 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               {"author" in page && page.author ? (
                 <>
-                  <span className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    By{" "}
-                    {page.author.linkedin ? (
-                      <a
-                        href={page.author.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-foreground font-medium hover:text-[hsl(195_90%_55%)] transition-colors"
-                      >
-                        {page.author.name}
-                      </a>
+                  <span className="flex items-center gap-2.5">
+                    {"photoUrl" in page.author && page.author.photoUrl ? (
+                      <img
+                        src={page.author.photoUrl}
+                        alt={page.author.name}
+                        width={32}
+                        height={32}
+                        loading="lazy"
+                        className="h-8 w-8 rounded-full object-cover ring-1 ring-border/40"
+                      />
                     ) : (
-                      <span className="text-foreground font-medium">{page.author.name}</span>
+                      <User className="h-4 w-4" />
                     )}
-                    {page.author.role ? `, ${page.author.role}` : null}
+                    <span className="leading-tight">
+                      By{" "}
+                      {page.author.linkedin ? (
+                        <a
+                          href={page.author.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-foreground font-medium hover:text-[hsl(195_90%_55%)] transition-colors"
+                        >
+                          {page.author.name}
+                        </a>
+                      ) : (
+                        <span className="text-foreground font-medium">{page.author.name}</span>
+                      )}
+                      {page.author.role ? `, ${page.author.role}` : null}
+                    </span>
                   </span>
                   <span className="text-border" aria-hidden="true">·</span>
                 </>
