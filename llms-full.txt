@@ -4267,7 +4267,7 @@ If your content investment is producing weak AI citation share, the cause is alm
 
 ### Why pattern-matched content gets cited
 
-AI engines extract content in chunks during retrieval-augmented generation. The chunk that best matches the prompt's intent and is most extractable becomes the citation. Five chunk types are extractable by definition:
+AI engines that rely on retrieval-augmented generation (RAG) — ChatGPT Search, Perplexity, Claude with web search, Gemini grounding, Google AI Mode in many modes — extract content in passages or chunks when composing answers. The chunk that best matches the prompt's intent and is cleanest to lift becomes the citation. Five chunk types are extractable by definition:
 
 
 - A definition: matches "what is X" prompts
@@ -4281,6 +4281,10 @@ AI engines extract content in chunks during retrieval-augmented generation. The 
 #### Why narrative prose loses
 
 Narrative prose, even excellent narrative prose, is harder to extract. The engine has to find the relevant sentence buried in paragraphs. The chunk-extractable patterns above bypass this problem.
+
+#### What Google says about chunking
+
+Important clarification, since this is a common point of confusion: Google's [May 2026 AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) explicitly states that there is no requirement to break content into tiny pieces for AI to understand it, no ideal page length, and no need to write in any specific way for generative AI features. The patterns described in this essay are best read as good editorial structure — they help a human reader skim AND happen to give retrieval systems clean passages to ground on. Do not refactor an authoritative pillar page into chunks for Google AI Overviews specifically; do let real reader needs (definitional questions, comparisons, numeric evidence) shape your structure, because the same structure also makes non-Google RAG engines more likely to cite you.
 
 ### The 5 content patterns AI engines preferentially cite
 
@@ -5800,6 +5804,17 @@ Google's public guidance emphasizes the same fundamentals that apply to Search: 
 
 
 
+### What Google has now said explicitly (May 2026)
+
+In May 2026, Google published an official [Guide to Optimizing for Generative AI Features on Google Search](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) that confirms the framing this article has used: AIO and AI Mode rely on Google's core Search ranking systems via retrieval-augmented generation (RAG) and query fan-out, and the path to AI feature visibility runs through SEO, not around it.
+
+Google goes further. The guide explicitly tells brands what is NOT required: no llms.txt or special AI files; no special schema.org markup just for AI; no forced content chunking into 'tiny pieces'; no AI-specific rewriting of pages; no inauthentic 'mentions' campaigns; no high-volume page production for every possible query variation (which the guide flags under the scaled-content-abuse spam policy). Google's preferred phrasing is to 'prioritize effective SEO strategies over AEO/GEO hacks.'
+
+What Google does want is non-commodity content with a distinctive point of view, first-hand experience or original evidence, clear organization, high-quality images and video, clean technical accessibility (crawlability, indexability, semantic HTML, valid structured data that matches visible content, good page experience), and merchant/local data where the page is commercial. The rest of this article is consistent with that guidance; below, where we list structural patterns, we treat them as good general SEO practice that also happens to make extraction cleaner — not as AI-specific tricks.
+
+
+
+
 ### Why AIO and AI Mode matter independently
 
 Three reasons these surfaces matter separately.
@@ -5833,32 +5848,40 @@ These five inheritance signals from Google's traditional ranking remain the foun
 
 
 
-### The additional AIO and AI Mode signals
+### Clarity practices that help AIO and AI Mode (and human readers first)
 
-These layer on top of inheritance signals.
-
-
+The patterns below are not 'AI-specific signals.' Google's May 2026 guide is explicit that no AI-specific rewriting is required. Treat each item as good SEO and editorial practice: it makes your page easier for a human to scan, and easier for Google's retrieval and synthesis layer to extract a clean passage when it composes an AIO or AI Mode answer.
 
 
-#### Question-shaped H2 headings
 
-AIO and AI Mode can more easily extract content when section headings match real user questions. 'How does X work?' is usually clearer than 'About X.' Use question-shaped H2s where they match the content naturally; do not force an arbitrary percentage.
+
+#### Question-shaped H2 headings, when they fit the content
+
+Section headings that match the real question a reader is asking ('How does X work?' instead of 'About X') help both readers and extraction. This is editorial clarity, not an AI-specific trick. Use question-shaped H2s where they read naturally; do not force a quota — Google explicitly flags formulaic over-application of question-shaped structure as low-value.
 
 #### Direct-answer paragraphs at section starts
 
-A concise paragraph immediately under each H2 that answers the section's question is easier to extract than a long transition. Lead with answers, then add nuance.
+A concise paragraph immediately under each H2 that answers the section's question helps the reader who skims and the retrieval system that needs a passage to ground an answer. Lead with the answer, then add nuance.
 
 #### Lists and tables
 
 Lists and tables make dense information easier for users and search systems to parse. Use them when they clarify comparisons, steps, definitions, or data.
 
-#### FAQ schema (faithfully deployed)
+#### Structured data that matches visible content
 
-FAQ blocks can help when they reflect real questions and visible answers. Schema must match visible content and follow Google's structured data guidelines; mismatched or manipulative schema may be ignored or treated as a policy issue.
+Structured data is not required for AIO or AI Mode visibility — Google has stated this explicitly. Schema types like Article, FAQPage, Product, and Organization remain valuable as part of your general SEO and rich-results strategy. The non-negotiable rule: the markup must faithfully describe what the page actually shows. FAQ schema on a page with no visible FAQ, or Product schema with mismatched price or availability, is treated as a policy issue and may be ignored or trigger structured-data penalties.
+
+#### Non-commodity content and a distinctive point of view
+
+Google's May 2026 guide calls out unique point of view as a quality signal, contrasting commodity examples ('7 Tips for First-Time Homebuyers') with non-commodity ones ('Why We Waived the Inspection & Saved Money'). First-hand evidence, original frameworks, and a defensible position outperform paraphrased category consensus in citation behavior — AIO already has the consensus view; what it needs from your page is the angle it cannot synthesize on its own.
 
 #### E-E-A-T signal density
 
 Author bylines with credentials, last-updated dates, source citations, and expert quotes reinforce E-E-A-T at the page level. AIO cites pages with strong E-E-A-T patterns disproportionately for YMYL topics.
+
+#### High-quality images and video
+
+Google's AI features can surface images and videos, not only text. Original, relevant media — product shots, diagrams, demo clips, charts of your own data — extends visibility beyond the text link. Follow the existing image and video SEO best practices (descriptive filenames, alt text, structured data where it applies, and a sitemap for video).
 
 ### How AIO, AI Mode, and ChatGPT Search compare
 
@@ -5871,7 +5894,7 @@ Dimension | Google AIO | Google AI Mode | ChatGPT Search
 Index source | Google web index | Google web index plus AI Mode signals | Bing index plus OpenAI crawl
 Source diversity | Often overlaps strong organic sources | More diverse (community, vertical) | Diverse, especially Reddit
 Multi-turn handling | Single answer | Multi-turn conversational | Multi-turn conversational
-Schema importance | Very high | High | Medium
+Schema importance | Not required (per Google); still useful for general SEO and rich results | Not required; useful for general SEO | Medium
 Recency emphasis | Medium-high (QDF) | High | Medium
 Backlink authority weight | Very high | High | Lower
 E-E-A-T weight | Critical for YMYL | Critical for YMYL | Important
@@ -5884,11 +5907,11 @@ This audit covers the most common gaps.
 
 - Verify crawlability: confirm robots.txt does not block Googlebot or restrict critical paths.
 - Confirm indexation of priority pages in Google Search Console.
-- Audit H2 structure: count question-shaped H2s and direct-answer paragraphs.
-- Validate schema using Google's Rich Results Test on top pages.
+- Audit H2 structure on priority pages — do headings name the real questions readers ask, with a direct-answer paragraph immediately below? Apply where natural; do not retrofit for quota.
+- If you use structured data, validate it with Google's Rich Results Test — it is not required for AIO/AI Mode but it must match visible content where present.
 - Run live AIO and AI Mode prompt tests for 10 priority queries.
-- Audit FAQ block presence and matching schema on top pages.
-- Identify the dominant gap (rank-foundation work, structural patterns, E-E-A-T, or FAQ schema).
+- Audit FAQ blocks where they reflect real reader questions; remove FAQ schema from pages that do not visibly answer those questions.
+- Identify the dominant gap (rank-foundation work, content quality and point of view, structural clarity, E-E-A-T, or media coverage).
 
 
 
@@ -5897,8 +5920,10 @@ This audit covers the most common gaps.
 Six mistakes show up repeatedly.
 
 
-- Treating AIO as separate from SEO. Strong organic performance is a useful starting point, but not a guarantee of AI feature citation.
+- Treating AIO as separate from SEO. Google's own May 2026 guide says the path is SEO. Strong organic performance is a useful starting point, but not a guarantee of AI feature citation.
 - Stuffing FAQ schema on pages without visible FAQs. Mismatched structured data violates Google's guidance and may be ignored or treated as a policy issue.
+- Building dedicated 'AI-only' files or markup (llms.txt, AI-specific meta tags). Google has stated explicitly that no such files are needed; effort spent here is effort not spent on the content and crawl-foundation work that actually drives AIO and AI Mode visibility.
+- Producing a separate page for every possible question variation. Google calls this out under the scaled-content-abuse spam policy. Consolidate into authoritative pillar pages instead.
 - Ignoring last-updated signals. AIO and AI Mode favor recently-updated content for many queries.
 - Optimizing only for AIO and ignoring AI Mode source diversity. AI Mode cites community and vertical sources more.
 - Stuffing question-shaped H2s without substantive answers. AIO downweights keyword-stuffed structure.
@@ -5934,7 +5959,7 @@ Q: Can I track AIO citation share without a platform?
 A: Manually for around 10 queries: search each query, screenshot AIO, note cited sources. For 100-plus queries, manual tracking breaks down. Platforms automate this.
 
 Q: How does Google AIO handle my schema markup if I already have lots of it?
-A: Accurate structured data can help Google understand eligible content and power rich-result features, but it does not override Search fundamentals. Use schema because it accurately describes visible content, not because it guarantees AIO citation.
+A: Google has stated in its [May 2026 AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) that structured data is not required for AIO or AI Mode visibility, and there is no special schema.org markup to add specifically for AI features. Accurate schema still helps Google understand eligible content and power rich-result features, so keep it as part of your general SEO strategy — but only where it faithfully describes visible content, and never as a 'fix' for an absent AIO citation.
 
 ## How to Optimize for Claude: The Anthropic Web Search Difference
 
@@ -7801,11 +7826,20 @@ Implementing llms.txt is harmless busywork; treating it as an AEO strategy is a 
 
 
 
+### Google has now said this on the record
+
+In May 2026, Google published an official [Guide to Optimizing for Generative AI Features on Google Search](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) that addresses llms.txt directly. The guide states: 'You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in generative AI search.' It explicitly groups llms.txt with other tactics — special schema for AI, forced content chunking, AI-specific rewrites — that Google says are not required and may pull attention away from the SEO fundamentals that actually drive AI Overviews and AI Mode visibility.
+
+Google's framing is more emphatic than ours has been. Their position is not 'llms.txt is harmless busywork'; it is 'don't do AEO/GEO hacks — do SEO.' For any team weighing whether to ship llms.txt for the Google AI surfaces specifically, that single sentence from Google should close the conversation.
+
+
+
+
 ### Joining the skeptical consensus
 
-The skeptical view of llms.txt is now broadly held across the SEO and AEO community. Recent published expressions of the same skepticism include Search Engine Journal (https://www.searchenginejournal.com/llms-txt-for-ai-seo/556576/), Similarweb's GEO team (https://www.similarweb.com/blog/marketing/geo/llms-txt/), Webflow (https://webflow.com/blog/llms-txt), and Generix Marketing's 2,500-site study (https://www.generixmarketing.com/learn/aeo/llms-txt-study/) which found no measurable correlation between llms.txt presence and AI citation lift.
+The skeptical view of llms.txt is now broadly held across the SEO and AEO community. Recent published expressions of the same skepticism include [Search Engine Journal](https://www.searchenginejournal.com/llms-txt-for-ai-seo/556576/), [Similarweb's GEO team](https://www.similarweb.com/blog/marketing/geo/llms-txt/), [Webflow](https://webflow.com/blog/llms-txt), and [Generix Marketing's 2,500-site study](https://www.generixmarketing.com/learn/aeo/llms-txt-study/) which found no measurable correlation between llms.txt presence and AI citation lift.
 
-This essay joins that consensus rather than claiming originality. SolCrys's specific contribution is the 3-question test below for any 'AEO trick' - a systematic way to filter emerging tactics so teams can deprioritize busywork until fundamentals are solid.
+This essay joins that consensus rather than claiming originality. SolCrys's specific contribution is the 3-question test below for any 'AEO trick' — a systematic way to filter emerging tactics so teams can deprioritize busywork until fundamentals are solid.
 
 
 
@@ -7909,7 +7943,7 @@ If you are deciding what to invest in for AEO, start with the fundamentals - cra
 ### FAQ
 
 Q: Will major AI engines start using llms.txt?
-A: It is possible. It is also possible they will introduce different signals. Standards adoption depends on what the engine providers prioritize for their own retrieval pipelines. Bet on documented signals, not on hopeful proposals.
+A: Google has explicitly said the opposite in its May 2026 [generative AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) — that no special files, markup, or Markdown are needed to appear in AI Overviews or AI Mode. OpenAI, Anthropic, and Perplexity have not committed to reading llms.txt either; when those engines want a new retrieval path, they introduce a named crawler (OAI-SearchBot, ClaudeBot, PerplexityBot) and document it. Bet on documented signals, not on hopeful proposals.
 
 Q: Does it hurt to have llms.txt?
 A: No. It is technically harmless. The risk is opportunity cost - time spent on llms.txt while crawler access or schema is broken.
