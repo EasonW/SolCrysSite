@@ -1,6 +1,7 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RESOURCES_COLUMNS, RESOURCES_FOOTER_LINKS } from "./resourcesMenuData";
+import { RESOURCES_COLUMNS } from "./resourcesMenuData";
+import siteContent from "@/content/siteContent.json";
 
 interface ResourcesMegaMenuProps {
   onItemClick?: () => void;
@@ -68,21 +69,28 @@ const ResourcesMegaMenu = ({ onItemClick, onAuditClick }: ResourcesMegaMenuProps
         </div>
       </div>
 
-      {/* Footer row: methodology + agency + all-resources */}
-      <div className="mt-6 pt-6 border-t border-border/40 grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {RESOURCES_FOOTER_LINKS.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            onClick={onItemClick}
-            className="group flex items-center gap-3 rounded-md p-2 -m-2 hover:bg-muted/50 transition-colors"
-          >
-            <item.Icon className="h-4 w-4 text-muted-foreground group-hover:text-[hsl(195_90%_55%)] transition-colors shrink-0" />
-            <span className="text-sm text-foreground group-hover:text-[hsl(195_90%_55%)] transition-colors">
-              {item.title}
+      {/* Full-width Browse-all CTA bar */}
+      <div className="mt-6 pt-6 border-t border-border/40">
+        <a
+          href="/resources/"
+          onClick={onItemClick}
+          className="group flex items-center justify-between rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.06)] hover:bg-[hsl(195_90%_55%/0.12)] transition-colors px-5 py-4"
+        >
+          <div className="flex items-center gap-3">
+            <span className="flex-none rounded-md bg-[hsl(195_90%_55%/0.18)] p-2">
+              <BookOpen className="h-4 w-4 text-[hsl(195_90%_55%)]" />
             </span>
-          </a>
-        ))}
+            <div className="min-w-0">
+              <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(195_90%_55%)]">
+                All resources
+              </p>
+              <p className="text-sm font-medium text-foreground">
+                Browse all {siteContent.resourcePages.length} guides
+              </p>
+            </div>
+          </div>
+          <ArrowRight className="h-4 w-4 text-[hsl(195_90%_55%)] group-hover:translate-x-1 transition-transform" />
+        </a>
       </div>
     </div>
   );

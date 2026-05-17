@@ -39,7 +39,7 @@ const categoryHref = (category: string): string => `/resources/#${categorySlug(c
 
 export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
   {
-    label: "Fundamentals & Strategy",
+    label: "Start here",
     items: [
       {
         title: "How SolCrys Works",
@@ -48,8 +48,14 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         Icon: Workflow,
       },
       {
+        title: "For Agencies",
+        desc: "Launch and scale an AEO practice",
+        href: categoryHref("For Agencies"),
+        Icon: Users,
+      },
+      {
         title: "AEO Fundamentals",
-        desc: "Start here — what AEO is, why it matters",
+        desc: "What AEO is, why it matters",
         href: categoryHref("AEO Fundamentals"),
         Icon: BookOpen,
       },
@@ -58,18 +64,6 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         desc: "How to frame AEO inside your team",
         href: categoryHref("Strategy & Positioning"),
         Icon: Compass,
-      },
-      {
-        title: "Attribution & ROI",
-        desc: "Tie AEO actions to revenue",
-        href: categoryHref("Attribution & ROI"),
-        Icon: TrendingUp,
-      },
-      {
-        title: "Buyer Guides",
-        desc: "Evaluate AEO platforms before signing",
-        href: categoryHref("Buyer Guides & Platform Decisions"),
-        Icon: ClipboardList,
       },
     ],
   },
@@ -162,24 +156,26 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
       {
         title: "Risk Monitoring",
         desc: "Catch hallucinations before customers do",
-        href: categoryHref("Risk"),
+        href: categoryHref("Risk Monitoring"),
         Icon: AlertTriangle,
+      },
+      {
+        title: "Attribution & ROI",
+        desc: "Tie AEO actions to revenue",
+        href: categoryHref("Attribution & ROI"),
+        Icon: TrendingUp,
+      },
+      {
+        title: "Buyer Guides",
+        desc: "Evaluate AEO platforms before signing",
+        href: categoryHref("Buyer Guides"),
+        Icon: ClipboardList,
       },
     ],
   },
 ];
 
-export const RESOURCES_FOOTER_LINKS: ResourcesMenuItem[] = [
-  {
-    title: "For Agencies",
-    desc: "Launch and scale an AEO practice",
-    href: categoryHref("For Agencies"),
-    Icon: Users,
-  },
-  {
-    title: "All resources",
-    desc: "Browse every guide in one place",
-    href: "/resources/",
-    Icon: ArrowRight,
-  },
-];
+// Footer kept exported for back-compat (consumers can render or omit).
+// New mega-menu now renders an "All resources" full-width CTA bar directly
+// in ResourcesMegaMenu.tsx, so this array can be empty by default.
+export const RESOURCES_FOOTER_LINKS: ResourcesMenuItem[] = [];
