@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>[DRAFT] Your Website Has a Third Audience Now — Agents | A Founder Note from Eason Wang | SolCrys</title>
+    <meta name="description" content="AI agents are a third audience for your website — alongside humans and search crawlers. Eason Wang on what changes for product UX when agents see what humans can&#39;t, and miss what humans take for granted." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/agent-readiness-third-audience/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] Your Website Has a Third Audience Now — Agents | A Founder Note from Eason Wang | SolCrys" />
+    <meta property="og:description" content="AI agents are a third audience for your website — alongside humans and search crawlers. Eason Wang on what changes for product UX when agents see what humans can&#39;t, and miss what humans take for granted." />
+    <meta property="og:url" content="https://solcrys.com/agent-readiness-third-audience/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bz5XNleN.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Your Website Has a Third Audience Now — Agents","item":"https://solcrys.com/agent-readiness-third-audience/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your website has a third audience now — agents","description":"AI agents are a third audience for your website — alongside humans and search crawlers. Eason Wang on what changes for product UX when agents see what humans can't, and miss what humans take for granted.","dateModified":"2026-05-17","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/agent-readiness-third-audience/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/agent-readiness-third-audience/","mainEntity":[{"@type":"Question","name":"Is agent-friendly UX really just accessibility?","acceptedAnswer":{"@type":"Answer","text":"Mostly yes, plus a few things accessibility didn't historically prioritize — layout stability under varied screen sizes, DOM-visible state for components that look fine on screen, explicit affordances for operations that humans do with gestures. If your product is fully accessible at the WCAG 2.2 AA level, agent UX is probably 80% there. The remaining 20% is the layout-shift and gesture-equivalent work above."}},{"@type":"Question","name":"Do agents really act on websites at any meaningful scale yet?","acceptedAnswer":{"@type":"Answer","text":"Yes, and growing. Anthropic, OpenAI, and Google all ship agent capabilities to their consumer products in 2026, and enterprise customers are running production agent workflows through MCP and similar protocols. Volumes are still small compared to human users for most products, but the curve is steep enough that planning for the year-out state matters."}},{"@type":"Question","name":"What about MCP and direct API integrations — do those replace the UI-level work?","acceptedAnswer":{"@type":"Answer","text":"MCP and tool-use APIs are a parallel path: an agent that calls your product through MCP doesn't need to operate your UI. But not every interaction will be tool-use-shaped, and not every product can expose every operation as a tool. The UI-level agent readiness work is the broader-coverage path; MCP is a focused optimization for the highest-frequency workflows."}},{"@type":"Question","name":"Does this conflict with the no-AI-specific-content rules from Google's guide?","acceptedAnswer":{"@type":"Answer","text":"No. Google's guide is about not creating AI-specific content variants, AI-specific schema, or AI-specific files. The agent-readiness work in this essay is about product UI clarity that benefits humans first and agents second — exactly the framing Google's own guidance uses for agent-friendly websites."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Your website has a third audience now — agents</h1>
+        <p class="seo-lede">Most product teams design for two audiences: humans (your users) and search engines (Google, Bing). In 2026 there&#39;s a third: AI agents — browser agents that operate websites on a user&#39;s behalf, voice agents that summarize what they read, MCP-connected tools that act through your application. They see what your real users see, your screen-reader users see, and your search crawlers see — but the failure modes are different in each case. This essay translates Google&#39;s web.dev guidance on agent-friendly websites into product decisions for B2B SaaS, with concrete UI examples, the five rules that move the needle, and the anti-patterns that quietly break agent usability without affecting human users.</p>
+        <p>Updated 2026-05-17</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I make my website agent-friendly?</li><li>What is an agent-friendly UI?</li><li>How do AI agents read websites?</li><li>What does Google say about agent-friendly websites?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Your product UI now serves three audiences. The first is humans — the users you&#39;ve been designing for since you started. The second is search crawlers — the audience SEO has trained product and engineering teams to accommodate for two decades. The third, new in 2026, is agents: AI systems that operate websites on a user&#39;s behalf, summarize what they see, or call into your application through MCP and similar protocols.</p><p>Agent-friendly UX is not a new design discipline. It&#39;s the same accessibility and clarity practices that benefit screen-reader users, with one extra dimension: agents that work by screenshot rather than DOM see what&#39;s visually rendered; agents that work by accessibility tree see structural intent; agents that work by DOM see what&#39;s structurally present. The three views diverge in ways your human users never see, and that divergence is where agent UX breaks.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The three views agents read your UI through</h2>
+      <p>Different agents read your UI different ways. Today&#39;s production agents tend to use one of three approaches, often in combination.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Visual (screenshot-based)</h3>
+        <p>The agent takes a screenshot, identifies UI elements visually, and acts on what it sees. This is closest to how a human uses your product. Failure modes: text rendered inside an image, charts without titles, low-contrast labels, ambiguous icons without text — all of these are invisible or unreliable to the agent in the same ways they would be to a human with low vision.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Structural (DOM-based)</h3>
+        <p>The agent walks the DOM, finds elements by HTML semantics or class names, and acts on the underlying structure. This is closest to how a search crawler reads your page. Failure modes: `&lt;div onclick&gt;` patterns instead of `&lt;button&gt;` elements, custom interactive widgets without ARIA roles, state changes via CSS classes that the DOM doesn&#39;t reflect, content rendered into canvas elements that the DOM can&#39;t introspect.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Semantic (accessibility-tree-based)</h3>
+        <p>The agent reads the browser&#39;s accessibility tree, the same data path screen readers use. This gives the agent intent labels — &quot;this is a primary submit button&quot; — rather than just visual or structural data. Failure modes: missing accessible names on buttons, form inputs without associated labels, decorative images marked as content, modal dialogs without `role=&quot;dialog&quot;` and proper focus management.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The five rules that move the needle</h2>
+      <p>Google&#39;s web.dev guidance on building agent-friendly websites is straightforward: agent UX is accessibility + UX, applied with discipline. The five rules below capture most of the practical value. They are not new rules; they are the rules accessibility teams have been asking for since the W3C ARIA spec was published. Agents are the new constituency that makes the rules procurement-relevant.</p>
+      <ul class="seo-list"><li>**Use real semantic HTML for interactive elements**. Buttons are `&lt;button&gt;`, links are `&lt;a&gt;`, inputs have labels. `&lt;div onclick&gt;` patterns that look right but don&#39;t carry semantic role information will fail across all three agent views.</li><li>**Give every interactive element an accessible name**. The visible label is often enough; when it&#39;s not (icon-only buttons, ambiguous controls), an `aria-label` or `aria-labelledby` carries the intent. &quot;Submit&quot; beats &quot;Click here&quot;; both beat an icon with no text.</li><li>**Make state visible in the DOM, not just in CSS**. If a button is disabled, use `disabled` or `aria-disabled`; if a toggle is on, use `aria-pressed` or the equivalent. State that lives only in CSS class names is invisible to agents that read the DOM or accessibility tree.</li><li>**Keep layout stable after first paint**. Layout shift moves agent targets between the time the agent identifies them and the time it tries to click them, and the agent fails. The Core Web Vitals metric CLS (Cumulative Layout Shift) was designed for humans, but it captures the same failure mode.</li><li>**Surface operations as visible affordances, not as hidden gestures**. If an important action only happens on right-click or on a multi-touch gesture, agents that don&#39;t simulate those won&#39;t find it. Provide an explicit button or menu entry as the primary path; gestures can be a shortcut.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The anti-patterns that quietly break agent UX</h2>
+      <p>Three patterns are common in modern B2B SaaS UIs that look fine to human users and quietly fail to agents.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Drag-and-drop without keyboard equivalents</h3>
+        <p>Agents that operate via DOM or accessibility tree generally can&#39;t simulate mouse drag operations reliably. If your only way to reorder a list is drag-and-drop, an agent acting on a user request to reorder cannot complete the task. Provide a keyboard-equivalent or button-driven alternative.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Content hidden behind hover-only tooltips</h3>
+        <p>If an important data field — a sample, a confidence interval, a definition — is visible only on hover, screenshot-based agents may not capture it and DOM-based agents may not find it without simulating hover. Move important content out of hover-only states or make it focusable via keyboard.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. State implied by visual proximity</h3>
+        <p>&quot;The currently selected row is the one with the slightly darker background&quot; is fine for humans, who notice. Agents reading the DOM see no `aria-selected` and no class name that says &quot;selected&quot;; they have to infer from visual styling, which is brittle. Mark selection state explicitly.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>A one-week audit you can run</h2>
+      <p>Five days, one rule per day, applied to the three highest-traffic flows in your product. End of week, you have an inventory of where agent UX fails and a prioritized list of fixes.</p>
+      <ul class="seo-list"><li>**Day 1**: Walk every clickable element in the priority flows. Inventory each that&#39;s a `&lt;div&gt;` instead of a `&lt;button&gt;` or `&lt;a&gt;`. Replace.</li><li>**Day 2**: For every input field, confirm a visible or aria-associated label. For every button, confirm an accessible name. Fix gaps.</li><li>**Day 3**: For every stateful component (toggle, tab, selected row, disabled button), confirm DOM-visible state. Replace CSS-only state.</li><li>**Day 4**: Run the priority flows in a low-bandwidth Chrome window and watch for layout shift. Pin elements that shift.</li><li>**Day 5**: Audit hover-only and gesture-only interactions. Add visible alternatives for any operation that&#39;s currently gesture-only.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What you don&#39;t have to do</h2>
+      <p>A few things tend to come up in agent-readiness conversations that you can safely skip. Google&#39;s May 2026 guide is explicit: there&#39;s no agent-specific schema, no special markup file, no agent-friendly content variant. The accessibility and clarity work above is what agents need. &quot;Build a separate agent UI&quot; is a category error.</p><p>Similarly, you don&#39;t need to rewrite content for agents. Agents read your product UI; the user&#39;s request flows through them. The content quality bar is the same one your human users hold you to.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why this matters now</h2>
+      <p>Agentic AI is moving from research demos to production in 2026. Anthropic&#39;s Claude operates browsers; OpenAI&#39;s Operator agent is generally available; the Apps SDK shipped; Google&#39;s Gemini agent capability has its own footprint. The number of times your product is operated by an agent on a user&#39;s behalf has gone from approximately zero in 2024 to a measurable share in mid-2026, and is growing.</p><p>If you wait until the share is large to start, you will have a backlog of work to fix and customers who already churned because their agent couldn&#39;t operate your product. The rules above are not expensive to apply early; they are expensive to retrofit later.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Eason Wang is Co-Founder &amp; CPO of SolCrys, the AEO operating system for brands and agencies competing for visibility, citations, and recommendations across the major AI engines. PhD in Machine Learning. Eighteen-plus years building enterprise products; started at Microsoft Research Asia. Current focus: agentic AI workflows in production. Connect on <a href="https://www.linkedin.com/in/eason-wang/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written May 2026 after a product review where SolCrys&#39;s own UI failed agent UX in a way our human users had never noticed. The rules above are the ones we run our product reviews against now.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is agent-friendly UX really just accessibility?</h3>
+            <p>Mostly yes, plus a few things accessibility didn&#39;t historically prioritize — layout stability under varied screen sizes, DOM-visible state for components that look fine on screen, explicit affordances for operations that humans do with gestures. If your product is fully accessible at the WCAG 2.2 AA level, agent UX is probably 80% there. The remaining 20% is the layout-shift and gesture-equivalent work above.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do agents really act on websites at any meaningful scale yet?</h3>
+            <p>Yes, and growing. Anthropic, OpenAI, and Google all ship agent capabilities to their consumer products in 2026, and enterprise customers are running production agent workflows through MCP and similar protocols. Volumes are still small compared to human users for most products, but the curve is steep enough that planning for the year-out state matters.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about MCP and direct API integrations — do those replace the UI-level work?</h3>
+            <p>MCP and tool-use APIs are a parallel path: an agent that calls your product through MCP doesn&#39;t need to operate your UI. But not every interaction will be tool-use-shaped, and not every product can expose every operation as a tool. The UI-level agent readiness work is the broader-coverage path; MCP is a focused optimization for the highest-frequency workflows.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does this conflict with the no-AI-specific-content rules from Google&#39;s guide?</h3>
+            <p>No. Google&#39;s guide is about not creating AI-specific content variants, AI-specific schema, or AI-specific files. The agent-readiness work in this essay is about product UI clarity that benefits humans first and agents second — exactly the framing Google&#39;s own guidance uses for agent-friendly websites.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/production-is-cheap-trust-is-scarce/">Production Is Cheap. Trust Is Scarce.</a></h3>
+            <p>AI made producing brand content nearly free, but made being cited, recommended, and trusted by AI engines radically more scarce and concentrated. A field note from SolCrys Cofounder &amp; CPO Eason Wang on what changes when production stops being the marketing bottleneck — and what the new substrate is.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/agentic-commerce-readiness/">Agentic Commerce Readiness: Are Your Products Ready for AI Shopping Agents?</a></h3>
+            <p>Agentic commerce — AI agents that autonomously research, compare, and purchase on behalf of users — is moving from research demos to production in 2026. This guide breaks down the 8 readiness dimensions and a 90-day roadmap.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-answer-readiness/">AI Crawler and Answer Readiness Checklist</a></h3>
+            <p>A practical checklist for making website content crawlable, indexable, structured, and answer-ready for AI search and answer engines.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CrcdKqsB.js"></script>
+  </body>
+</html>

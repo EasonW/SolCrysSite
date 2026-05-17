@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>[DRAFT] Building an AEO Platform: 6 Architectural Decisions and What They Cost Us | A Founder Note from Jia Chang | SolCrys</title>
+    <meta name="description" content="An AEO platform&#39;s measurement, action, and verification surfaces all rest on a small number of architectural choices that aren&#39;t usually published. Jia Chang on six of ours — what each tradeoff looks like, what we chose, and what we&#39;d revisit." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/building-aeo-platform-architecture/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] Building an AEO Platform: 6 Architectural Decisions and What They Cost Us | A Founder Note from Jia Chang | SolCrys" />
+    <meta property="og:description" content="An AEO platform&#39;s measurement, action, and verification surfaces all rest on a small number of architectural choices that aren&#39;t usually published. Jia Chang on six of ours — what each tradeoff looks like, what we chose, and what we&#39;d revisit." />
+    <meta property="og:url" content="https://solcrys.com/building-aeo-platform-architecture/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bz5XNleN.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Building an AEO Platform: 6 Architectural Decisions","item":"https://solcrys.com/building-aeo-platform-architecture/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Building an AEO platform — 6 architectural decisions and what they cost us","description":"An AEO platform's measurement, action, and verification surfaces all rest on a small number of architectural choices that aren't usually published. Jia Chang on six of ours — what each tradeoff looks like, what we chose, and what we'd revisit.","dateModified":"2026-05-17","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/building-aeo-platform-architecture/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/building-aeo-platform-architecture/","mainEntity":[{"@type":"Question","name":"Doesn't publishing this give competitors a roadmap?","acceptedAnswer":{"@type":"Answer","text":"The six decisions above are at the public-pattern layer — versioned tables vs. event logs is a category-wide tradeoff, not a SolCrys invention. The proprietary work is in the implementation details, the specific tunings, and the customer-facing surfaces we've built on top. Publishing the architectural reasoning costs us a small amount of competitive surface in exchange for credibility with technical buyers who can audit it. The trade is worth it."}},{"@type":"Question","name":"What about scale — does this architecture hold up at 10x current customer volume?","acceptedAnswer":{"@type":"Answer","text":"Most of it does. The places I'd watch are decision 2 (per-engine probe queues at higher concurrency) and decision 3 (the regex reconciliation pass becomes a larger fraction of runtime). We have planned investments in both, and I'd expect to revisit them before crossing the 5x threshold."}},{"@type":"Question","name":"How does this compare to how other AEO platforms are built?","acceptedAnswer":{"@type":"Answer","text":"Honestly, I don't know in detail. Most AEO platforms haven't published their architecture, and the public marketing surface doesn't usually disclose enough to make a comparison. The hope of publishing ours is that it raises the bar — if other platforms publish theirs, the technical-buyer evaluation gets richer for everyone, including for the platforms."}},{"@type":"Question","name":"What about the parts you didn't include?","acceptedAnswer":{"@type":"Answer","text":"Plenty — observability, on-call structure, deployment topology, the agentic-AI workflow infrastructure that runs much of the action layer, the audit-log and compliance surfaces. The six decisions above are the ones most likely to show up in a technical-buyer evaluation. If you're a customer's technical buyer and you want a deeper conversation, we'll do it under NDA."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>Building an AEO platform — 6 architectural decisions and what they cost us</h1>
+        <p class="seo-lede">AEO platforms get marketed at the PM and CMO layer. The engineering decisions underneath usually stay private — partly because they&#39;re competitive surface, partly because few customers ask, partly because writing about them is uncomfortable. This essay publishes six of SolCrys&#39;s architectural decisions: how we store prompt sets, how we probe engines, how we parse citations, how we canonicalize URLs, how we score recovery, and how we ground action recommendations in Corporate Context. Each one has a tradeoff I&#39;d defend against any competing choice, and at least three I&#39;d revisit if we were starting over. The point isn&#39;t to claim we got it right; it&#39;s to put a CTO&#39;s reasoning on the table so customers&#39; technical buyers can audit it.</p>
+        <p>Updated 2026-05-17</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How does an AEO platform work technically?</li><li>What is the architecture of an AEO platform?</li><li>How are AEO platforms built?</li><li>What engineering choices does an AEO platform make?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Why I&#39;m publishing this</h2>
+      <p>Most AEO platform marketing happens at the surface — dashboards, demo flows, customer logos. The architecture underneath stays private. That&#39;s normal in B2B SaaS, but it&#39;s also where customers&#39; technical buyers — CTOs, VP engineering, MarTech-infrastructure leads — get the least information when they&#39;re trying to evaluate platform fit. They&#39;re asked to take it on faith that the engineering is sound.</p><p>We&#39;ve decided to put a CTO&#39;s reasoning on the table instead. Six architectural decisions, each one with the tradeoff space, what we chose, and what I&#39;d revisit if I were starting over. None of this exposes a moat that would be useful to a competitor; the choices are public-pattern decisions, not proprietary algorithms. What it does is let a technical buyer evaluate us the way they&#39;d evaluate an open-source dependency.</p><p>Borrowing a phrase from a colleague who works in observability: &quot;You can&#39;t trust what you can&#39;t audit.&quot; This essay is the audit surface.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Decision 1: Prompt-set storage — versioned tables vs. event log</h2>
+      <p>Tradeoff: versioned tables are simple to query but make audit trails (who changed what when) painful. Event logs are audit-natural but harder to query for current state without a materialized view.</p><p>We chose **event log with materialized current-state views**. Every prompt addition, modification, retirement, and source-tag change is recorded as an event with a timestamp and an actor (which is sometimes a customer-facing role, sometimes an engine-feedback signal). The current Golden Prompt Set for any customer is a materialized view over those events at a given moment.</p><p>Why: when a customer asks &quot;why did this prompt enter our set,&quot; we can show them the event with provenance. When a customer asks &quot;what was our prompt set in Q1,&quot; we can replay the materialized view as of that date. This is a real cost — we run more storage and a more complex view layer than a simpler design would — but it&#39;s the right tradeoff for a measurement platform whose value depends on reproducibility.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Decision 2: Engine probing — synchronous vs. queue-based</h2>
+      <p>Tradeoff: synchronous probes are simpler and lower-latency but cascade failures when an engine&#39;s API misbehaves. Queue-based probes isolate engine failures but add complexity around retries, dead-letter handling, and result-ordering.</p><p>We chose **queue-based with per-engine queues**. Each engine has its own queue with engine-specific retry policy (some engines are sensitive to retry-storms, others are not), dead-letter handling, and rate-limit-aware backoff.</p><p>What it cost us: a non-trivial chunk of engineering time on retry policy tuning, and a class of edge cases around what to do when an engine&#39;s queue is backed up by more than a sample-window. Worth it because the alternative — synchronous probes — would let a single misbehaving engine slow down every other engine&#39;s measurement, which we found unacceptable for customers running multi-engine programs.</p><p>Hindsight: I&#39;d revisit the per-engine isolation strategy at higher concurrency than we currently see. The current architecture works through mid-2026 customer volumes; it might not at 5x. We have a path forward, but we haven&#39;t pulled the trigger.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Decision 3: Citation parsing — regex vs. structured-output LLM</h2>
+      <p>Tradeoff: regex parsing is fast, deterministic, and brittle in the face of engine output format changes. Structured-output LLM parsing is more robust to format change but slower, costlier per call, and non-deterministic in its own way.</p><p>We chose **hybrid: structured-output LLM as primary, regex as a fallback reconciliation pass**. The primary path extracts citations into a structured format via a small LLM call; the fallback regex pass catches any citation the primary path missed and reconciles them against the structured extraction. Disagreements between the two paths get flagged for review.</p><p>Why: engine output formats change often enough that pure regex was producing too many false negatives, and engine output volume is high enough that pure LLM parsing was getting expensive. The hybrid path is a real-world good-enough.</p><p>Hindsight: I&#39;d consolidate to a single LLM-only path if model costs continue to fall the way they did from 2024 to 2026. The regex reconciliation is now a tax that catches a small residual error rate, and the engineering attention on the regex path is disproportionate to its current value.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Decision 4: URL canonicalization — at fetch vs. at query</h2>
+      <p>Tradeoff: canonicalizing URLs at fetch time (when the citation is first parsed) produces clean data with smaller storage but loses information about the original raw URL the engine emitted. Canonicalizing at query time (when reporting) preserves the raw data but bloats storage and slows queries.</p><p>We chose **at query time, with a redirect-resolver cache**. The raw URLs as the engine emits them are stored unchanged. When the report layer runs, a redirect-resolver service maps raw URLs to their canonical forms, with results cached aggressively.</p><p>Why: AEO reporting has to handle cases where an engine cites `https://amzn.to/xxx` and another engine cites `https://www.amazon.com/dp/yyy` — both pointing to the same product. Canonicalizing at fetch time would lock in whichever form the first engine emitted. Canonicalizing at query time lets us evolve the canonical-form rules without rebuilding history.</p><p>Hindsight: the cache hit rate is good enough that I wouldn&#39;t change this. The complexity tax is real but contained.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Decision 5: Recovery scoring — windowed aggregation vs. event-stream</h2>
+      <p>Tradeoff: windowed aggregation (7-day, 30-day rolling) is simple, robust to short-term engine noise, and has clear meaning to a CMO. Event-stream scoring is real-time, captures fine-grained movement, and is more sensitive to noise.</p><p>We chose **windowed aggregation for primary reporting, event-stream for internal diagnostics**. The Recovery Score that customers see on their dashboard is a 7-day window for short-term and 30-day window for trend. The event-stream view is available internally for diagnosing whether a specific shipped action moved the needle in the hours after publication.</p><p>Why: the dashboard is for CMOs who want quarterly-coherent metrics; the diagnostic is for product teams chasing root causes. Different audiences, different time-scales.</p><p>Hindsight: I&#39;d consider exposing the event-stream diagnostic to advanced customers earlier. We held it internal partly to keep the primary dashboard story clean, but customers running mature programs ask for it and we should ship it sooner.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Decision 6: Corporate Context grounding — RAG vs. fine-tune</h2>
+      <p>Tradeoff: RAG (retrieval-augmented generation) is flexible — customer can update their brand facts and the next action draft uses the new facts immediately. Fine-tuning is faster per call but lock-stepped to a slow customer-feedback cycle. RAG has latency cost; fine-tune has staleness cost.</p><p>We chose **RAG with aggressive caching of frequently-cited brand facts**. Customer Corporate Context lives in a per-customer vector store; each action draft retrieves the most relevant facts at draft time and grounds the draft against them. Cache layer fronts the most-cited facts to reduce per-draft latency.</p><p>Why: customer-side brand-fact updates have to take effect immediately — a pricing change, a new partnership, a retracted claim — and fine-tuning can&#39;t deliver that without a multi-day retraining cycle. The latency cost of RAG is manageable; the staleness cost of fine-tune would have been a customer-trust issue.</p><p>Hindsight: this is the decision I&#39;m most confident about of the six. The model landscape will keep moving and we&#39;ll likely revise the retrieval layer, but RAG over fine-tune is the right architecture for this problem class.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What I&#39;d do differently</h2>
+      <p>Three things I&#39;d revisit looking at the system today, even though we&#39;ve been building SolCrys for a fraction of the time most of these tradeoffs are usually discussed across.</p>
+      <ul class="seo-list"><li>**Earlier investment in event-stream diagnostics for customers.** We prioritized the internal diagnostic version first, on the assumption that customer-facing dashboards needed clean trend data. Customers running mature programs ask for the raw event stream sooner than we expected; we should have shipped it externally from the start.</li><li>**Less time on the regex fallback in citation parsing.** When we built the system, LLM extraction was both expensive and inconsistent enough that regex felt like a necessary reconciliation pass. The cost and quality curves moved fast — by the time we shipped, the regex path was already on its way to becoming a maintenance tax. I&#39;d consolidate to LLM-only sooner.</li><li>**More aggressive separation of measurement from action surfaces.** We built them together because they share data sources; in hindsight they have different SLOs (measurement is high-throughput, action is governance-heavy) and clearer separation in the data model would have paid back. SolCrys is young enough that this is still inexpensive to fix.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Jia Chang is Co-Founder &amp; CTO of SolCrys. AI architect with 15+ years building production AI systems, most recently as an engineering leader at Microsoft. Connect on <a href="https://www.linkedin.com/in/jia-c/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written May 2026. This is the engineering counterpart to <a href="/why-two-aeo-platforms-can-disagree/" target="_blank" rel="noopener noreferrer">Eason&#39;s measurement essay</a> and <a href="/cmo-aeo-procurement-playbook/" target="_blank" rel="noopener noreferrer">Gwen&#39;s procurement playbook</a> — together they cover the technical, measurement, and procurement dimensions of how SolCrys works under the hood.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Doesn&#39;t publishing this give competitors a roadmap?</h3>
+            <p>The six decisions above are at the public-pattern layer — versioned tables vs. event logs is a category-wide tradeoff, not a SolCrys invention. The proprietary work is in the implementation details, the specific tunings, and the customer-facing surfaces we&#39;ve built on top. Publishing the architectural reasoning costs us a small amount of competitive surface in exchange for credibility with technical buyers who can audit it. The trade is worth it.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about scale — does this architecture hold up at 10x current customer volume?</h3>
+            <p>Most of it does. The places I&#39;d watch are decision 2 (per-engine probe queues at higher concurrency) and decision 3 (the regex reconciliation pass becomes a larger fraction of runtime). We have planned investments in both, and I&#39;d expect to revisit them before crossing the 5x threshold.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does this compare to how other AEO platforms are built?</h3>
+            <p>Honestly, I don&#39;t know in detail. Most AEO platforms haven&#39;t published their architecture, and the public marketing surface doesn&#39;t usually disclose enough to make a comparison. The hope of publishing ours is that it raises the bar — if other platforms publish theirs, the technical-buyer evaluation gets richer for everyone, including for the platforms.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about the parts you didn&#39;t include?</h3>
+            <p>Plenty — observability, on-call structure, deployment topology, the agentic-AI workflow infrastructure that runs much of the action layer, the audit-log and compliance surfaces. The six decisions above are the ones most likely to show up in a technical-buyer evaluation. If you&#39;re a customer&#39;s technical buyer and you want a deeper conversation, we&#39;ll do it under NDA.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here&#39;s how we build it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/corporate-context-ai-marketing/">Corporate Context Is the New CMS</a></h3>
+            <p>Corporate Context gives AI marketing agents the brand facts, claims, guardrails, and evidence they need to execute safely across AEO workflows.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CrcdKqsB.js"></script>
+  </body>
+</html>

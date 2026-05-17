@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>[DRAFT] Why Two AEO Platforms Can Disagree on the Same Brand — A Measurement Engineering Note | SolCrys</title>
+    <meta name="description" content="AEO measurement is more like survey design than search analytics. Eason Wang on the four sources of disagreement between AEO platforms, the five questions that surface them, and how SolCrys answers each one — with explicit uncertainty." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/why-two-aeo-platforms-can-disagree/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] Why Two AEO Platforms Can Disagree on the Same Brand — A Measurement Engineering Note | SolCrys" />
+    <meta property="og:description" content="AEO measurement is more like survey design than search analytics. Eason Wang on the four sources of disagreement between AEO platforms, the five questions that surface them, and how SolCrys answers each one — with explicit uncertainty." />
+    <meta property="og:url" content="https://solcrys.com/why-two-aeo-platforms-can-disagree/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bz5XNleN.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Why Two AEO Platforms Can Disagree on Citation Share","item":"https://solcrys.com/why-two-aeo-platforms-can-disagree/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why two AEO platforms can disagree on the same brand's citation share — and what to do about it","description":"AEO measurement is more like survey design than search analytics. Eason Wang on the four sources of disagreement between AEO platforms, the five questions that surface them, and how SolCrys answers each one — with explicit uncertainty.","dateModified":"2026-05-17","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/why-two-aeo-platforms-can-disagree/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/why-two-aeo-platforms-can-disagree/","mainEntity":[{"@type":"Question","name":"Doesn't this just mean AEO measurement is unreliable?","acceptedAnswer":{"@type":"Answer","text":"It means AEO measurement is statistical and survey-shaped, not deterministic. That's not the same as unreliable — Nielsen ratings are statistical and they decide billions in ad spend. What matters is that the platform's design choices are disclosed and consistent, so the trends are interpretable. A reliable AEO platform is one whose measurement is reproducible and whose methodology is publishable."}},{"@type":"Question","name":"Why don't more AEO platforms publish their methodology?","acceptedAnswer":{"@type":"Answer","text":"Some treat methodology as proprietary; some haven't formalized it yet; some haven't been asked. The category is young enough that the publication norm hasn't settled. Our view is that publishing methodology is the right default — buyers can audit it, and the platform can't quietly change the rules. Our [editorial standards](/editorial-standards/) and [visibility measurement methodology](/visibility-measurement-methodology/) pages put our cards on the table."}},{"@type":"Question","name":"Should I worry that SolCrys's numbers are wrong?","acceptedAnswer":{"@type":"Answer","text":"You should treat any single number from any AEO platform — including ours — as a survey estimate with uncertainty. The trend across multiple measurements is more informative than any single point. We try to surface the uncertainty in our dashboards rather than hide it; if you spot a number that looks anomalous, ask us about the underlying sample."}},{"@type":"Question","name":"What if two platforms agree on a brand's citation share?","acceptedAnswer":{"@type":"Answer","text":"Agreement between platforms is informative — it suggests both are within the same statistical neighborhood. Disagreement is also informative — it usually surfaces a methodological choice worth understanding. Neither is automatically a quality signal; both are inputs to a richer conversation about what the platforms are actually measuring."}},{"@type":"Question","name":"Does engine non-determinism mean SEO is a more reliable channel?","acceptedAnswer":{"@type":"Answer","text":"Different reliability profile, not strictly better or worse. SEO has its own noise sources — algorithm updates, SERP feature changes, attribution fuzz — but the underlying measurement (URL impressions, clicks) is more deterministic. AEO has more statistical noise but captures a meaningful share of buyer decision-making that SEO doesn't see. Most serious marketing programs in 2026 measure both."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Why two AEO platforms can disagree on the same brand&#39;s citation share — and what to do about it</h1>
+        <p class="seo-lede">If you ask two AEO platforms about the same brand&#39;s citation share, you can get materially different numbers. Sometimes they disagree by a few percentage points; sometimes by enough to change a CMO&#39;s quarterly read. The numbers themselves aren&#39;t necessarily wrong — they&#39;re the output of measurement choices that the platforms typically don&#39;t disclose. This essay walks through the four engineering decisions that drive most of the disagreement (prompt-set composition, sampling cadence, engine non-determinism, citation event definition), gives you five questions to surface those choices in any AEO vendor conversation, and applies the same five questions to SolCrys with explicit uncertainty disclosures. The goal isn&#39;t to convince you which platform&#39;s number is right. It&#39;s to give you the engineering vocabulary to interrogate any number you&#39;re handed, including ours.</p>
+        <p>Updated 2026-05-17</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why do AEO platforms report different citation shares?</li><li>How is AEO citation share measured?</li><li>What questions to ask an AEO platform about measurement?</li><li>Is AEO measurement reliable?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>AEO citation share is measured by running a set of prompts against AI answer engines on some cadence, parsing the engines&#39; outputs for citations, and aggregating the results. Each of those four steps — prompt-set design, cadence, parsing, aggregation — involves choices that materially change the final number. Two AEO platforms making different choices will produce different numbers for the same brand, and neither has to be wrong.</p><p>What this essay is not: a claim that any specific platform&#39;s number is incorrect. What it is: an engineering note on the four sources of disagreement, and the five questions that surface those choices in a vendor conversation. SolCrys answers all five at the end, with explicit uncertainty disclosures.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>AEO measurement is survey design, not crawl analytics</h2>
+      <p>The category&#39;s marketing language often borrows from search analytics — &quot;share of voice,&quot; &quot;visibility,&quot; &quot;impressions.&quot; Those words come from a world where measurement is deterministic: a crawler visits a page, a server log records the request, the numbers are facts about events that happened.</p><p>AEO measurement is not that world. There is no comprehensive log of when an engine cited a brand; the engine doesn&#39;t expose one. What an AEO platform does is sample: it queries a chosen set of prompts at a chosen cadence and counts what comes back. The output is a statistical estimate, not a comprehensive count.</p><p>The right analogy is Nielsen TV ratings or a political poll, not Google Analytics. The survey design — which prompts, how often, parsed how — determines the output. Different surveys, different outputs. Disagreement is structural, not a bug.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Source of disagreement 1: prompt-set composition</h2>
+      <p>The single biggest driver of disagreement is which prompts the two platforms track. If platform A is tracking 200 generic category prompts and platform B is tracking 800 prompts including long-tail intent, their measured citation shares for the same brand will differ — sometimes substantially. Neither is wrong; they&#39;re measuring different populations.</p><p>Within the prompt set, three sub-choices matter: where the prompts come from (search-volume data, community questions, engine follow-ups, brand-supplied, synthetic), how often the prompt set is refreshed, and whether the prompts target the brand&#39;s actual buyers or generic category language. SolCrys&#39;s <a href="/golden-prompt-set-methodology/" target="_blank" rel="noopener noreferrer">Golden Prompt Set methodology</a> is our specific design choice on this; other platforms make other choices.</p><p>**The question that surfaces it**: how many prompts does the platform track for my category, where did they come from, and how often is the set refreshed?</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Source of disagreement 2: sampling cadence</h2>
+      <p>Two platforms running the same prompt set at different cadences will see different citation patterns. If platform A samples each prompt once a week and platform B samples once a day, B captures more of the within-week variance — including engine update effects, time-of-day differences, and short-lived citations that A misses entirely.</p><p>Cadence also affects how the platform handles freshness. A daily-sample platform can show a citation that appeared on Monday and disappeared on Wednesday; a weekly-sample platform may never see it. Neither is more accurate; they&#39;re answering different questions.</p><p>**The question that surfaces it**: how often is each prompt re-queried, and how is engine-side intra-day variance handled in the reported number?</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Source of disagreement 3: engine non-determinism</h2>
+      <p>AI engines are non-deterministic in a way classic search engines aren&#39;t. The same prompt, asked of the same engine, at the same minute, twice in a row, can produce different citation sets. Engines vary their outputs through temperature settings, retrieval re-ranking, and other internal choices that AEO platforms can&#39;t directly control or fully observe.</p><p>How a platform handles this matters. Some platforms run multiple samples per prompt and average; some run a single sample and accept the variance; some run a single sample but flag low-confidence outputs. Each choice changes the reported number.</p><p>Worth being explicit: this isn&#39;t a complaint about engines. Non-determinism is a feature of how generative AI works, and it&#39;s not going away. The question for an AEO platform is what it does with the non-determinism, not whether it can eliminate it.</p><p>**The question that surfaces it**: how does the platform handle the case where the same prompt produces different outputs across re-runs?</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Source of disagreement 4: what counts as a citation</h2>
+      <p>Even when two platforms see the same engine output, they can disagree about whether the brand was cited. Edge cases that matter: a URL is cited but the brand&#39;s name doesn&#39;t appear in the answer text — counts as a citation? A competitor&#39;s site mentions the brand by name and gets cited — counts as a brand citation? A redirect chain ends at the brand&#39;s domain — counts? The brand&#39;s social profile (LinkedIn, Twitter) is cited — counts as a brand citation or a third-party one?</p><p>Platforms make different choices, often without documenting them. Two reasonable engineers can land on different policies, and the resulting numbers diverge.</p><p>**The question that surfaces it**: what specifically counts as a citation event in the platform&#39;s definition?</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The five questions to ask any AEO platform&#39;s measurement layer</h2>
+      <p>Put the four sources of disagreement together with a fifth question about reproducibility, and you get the five questions worth asking any vendor:</p>
+      <ul class="seo-list"><li>**Prompt set**: how many prompts, where did they come from, refresh cadence, and were they tuned for my category?</li><li>**Cadence**: how often is each prompt re-queried, and how is intra-day engine variance handled in the reported number?</li><li>**Non-determinism**: how does the platform handle same-prompt re-run variance — single sample, multiple samples averaged, or something else?</li><li>**Citation definition**: what specifically counts as a citation event, including the edge cases (URL-only cites, third-party mentions, redirects, social profiles)?</li><li>**Reproducibility**: can the platform reproduce a single reported number — same prompt, same time window, same engine, same parser — and show me the underlying data?</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys answers each — with uncertainty disclosed</h2>
+      <p>Here are our honest answers.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Prompt set</h3>
+        <p>Our <a href="/golden-prompt-set-methodology/" target="_blank" rel="noopener noreferrer">Golden Prompt Set methodology</a> grounds every customer&#39;s prompt set on four real-world signals: intent volume across major search and marketplace surfaces, public community questions, AI query volume signals where reliable, and live engine follow-ups. Typical size: 200–800 prompts per category, depending on coverage depth. Refresh: priority prompts daily, full set quarterly, plus event-triggered review when major engine or category news lands.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Cadence</h3>
+        <p>Priority prompts run daily; the full set runs on a rolling 7- and 30-day window. Engine variance within a day is captured in the daily sample but reported on the 7/30-day window — so a single anomalous response on Tuesday doesn&#39;t move the weekly number. This is a deliberate trade-off: we accept a 1–2 day lag on emerging movement in exchange for stable trend reporting.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Non-determinism</h3>
+        <p>We run multiple samples per prompt where the engine API permits, and report the median citation set with a note when the variance across re-runs is high. Where the engine surface is consumer-only (not API-accessible), we accept single-sample variance and flag the data point. This is one of the residual uncertainties in our system — high-variance prompts will read as noisy in dashboards, and we don&#39;t paper over it.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Citation definition</h3>
+        <p>A citation event is recorded when the engine output references the brand&#39;s owned domain (after URL canonicalization, including redirect resolution) OR names the brand entity in the answer text with an unambiguous match. Third-party mentions of the brand are not counted as brand citations but are reported separately in the source-influence views. Social profiles are tracked but reported in their own bucket, not aggregated into the owned-domain count.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Reproducibility</h3>
+        <p>Yes. Every reported number connects back to the underlying prompt-response records via prompt ID, sample timestamp, engine identifier, and parser version. Customer success can walk through any single number on request. We don&#39;t aggregate so deeply that the source data is lost.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What this doesn&#39;t fix</h2>
+      <p>Five answered questions don&#39;t resolve every measurement disagreement. Different platforms making different reasonable choices on the four dimensions will still produce different numbers, and neither has to be wrong. What changes after this conversation is that you know which choices each platform made and can decide which set of choices fits your team&#39;s question.</p><p>Concretely: if your CMO&#39;s quarterly question is &quot;are we trending up across the engines that matter for us,&quot; a 7/30-day rolling sample on a stable curated prompt set (our choice) is probably the right design. If your question is &quot;did we move on this specific prompt today,&quot; a high-cadence per-prompt sample with multiple re-runs (a different design) might fit better. The platforms are answering different questions. That&#39;s a feature.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Eason Wang is Co-Founder &amp; CPO of SolCrys, the AEO operating system for brands and agencies competing for visibility, citations, and recommendations across the major AI engines. He holds a PhD in Machine Learning and has spent 18+ years building enterprise products, starting at Microsoft Research Asia. Current focus: agentic AI workflows and the infrastructure required to run them in production. Connect on <a href="https://www.linkedin.com/in/eason-wang/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written May 2026 as the engineering counterpart to Gwen&#39;s <a href="/aeo-vendor-claims-worth-verifying/" target="_blank" rel="noopener noreferrer">vendor-claims essay</a>. The two essays go together — Gwen&#39;s covers what to verify in a pitch; this one covers why the numbers underneath disagree even when both vendors are honest.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Doesn&#39;t this just mean AEO measurement is unreliable?</h3>
+            <p>It means AEO measurement is statistical and survey-shaped, not deterministic. That&#39;s not the same as unreliable — Nielsen ratings are statistical and they decide billions in ad spend. What matters is that the platform&#39;s design choices are disclosed and consistent, so the trends are interpretable. A reliable AEO platform is one whose measurement is reproducible and whose methodology is publishable.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why don&#39;t more AEO platforms publish their methodology?</h3>
+            <p>Some treat methodology as proprietary; some haven&#39;t formalized it yet; some haven&#39;t been asked. The category is young enough that the publication norm hasn&#39;t settled. Our view is that publishing methodology is the right default — buyers can audit it, and the platform can&#39;t quietly change the rules. Our <a href="/editorial-standards/" target="_blank" rel="noopener noreferrer">editorial standards</a> and <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">visibility measurement methodology</a> pages put our cards on the table.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I worry that SolCrys&#39;s numbers are wrong?</h3>
+            <p>You should treat any single number from any AEO platform — including ours — as a survey estimate with uncertainty. The trend across multiple measurements is more informative than any single point. We try to surface the uncertainty in our dashboards rather than hide it; if you spot a number that looks anomalous, ask us about the underlying sample.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if two platforms agree on a brand&#39;s citation share?</h3>
+            <p>Agreement between platforms is informative — it suggests both are within the same statistical neighborhood. Disagreement is also informative — it usually surfaces a methodological choice worth understanding. Neither is automatically a quality signal; both are inputs to a richer conversation about what the platforms are actually measuring.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does engine non-determinism mean SEO is a more reliable channel?</h3>
+            <p>Different reliability profile, not strictly better or worse. SEO has its own noise sources — algorithm updates, SERP feature changes, attribution fuzz — but the underlying measurement (URL impressions, clicks) is more deterministic. AEO has more statistical noise but captures a meaningful share of buyer decision-making that SEO doesn&#39;t see. Most serious marketing programs in 2026 measure both.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
+            <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CrcdKqsB.js"></script>
+  </body>
+</html>

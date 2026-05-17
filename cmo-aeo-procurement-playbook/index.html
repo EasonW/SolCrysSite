@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>[DRAFT] The CMO&#39;s AEO Procurement Playbook | A Founder Note from Gwen Chen | SolCrys</title>
+    <meta name="description" content="A 30-day playbook for evaluating and procuring an AEO platform — RFP design, POC scope, reference-check script, contract red lines. From Gwen Chen, ex-AWS marketing leader, on what AEO procurement should look like in 2026." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/cmo-aeo-procurement-playbook/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] The CMO&#39;s AEO Procurement Playbook | A Founder Note from Gwen Chen | SolCrys" />
+    <meta property="og:description" content="A 30-day playbook for evaluating and procuring an AEO platform — RFP design, POC scope, reference-check script, contract red lines. From Gwen Chen, ex-AWS marketing leader, on what AEO procurement should look like in 2026." />
+    <meta property="og:url" content="https://solcrys.com/cmo-aeo-procurement-playbook/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bz5XNleN.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"The CMO's AEO Procurement Playbook","item":"https://solcrys.com/cmo-aeo-procurement-playbook/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The CMO's AEO procurement playbook — what to ask, what to verify, what to skip in 2026","description":"A 30-day playbook for evaluating and procuring an AEO platform — RFP design, POC scope, reference-check script, contract red lines. From Gwen Chen, ex-AWS marketing leader, on what AEO procurement should look like in 2026.","dateModified":"2026-05-17","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/cmo-aeo-procurement-playbook/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/cmo-aeo-procurement-playbook/","mainEntity":[{"@type":"Question","name":"Is 30 days enough for AEO procurement?","acceptedAnswer":{"@type":"Answer","text":"For a credible decision, yes — if you front-load the work. Days 1–7 are mostly desk research on the longlist; the substantive work happens in the RFP, POC, and reference-check stages. Teams that try to compress further usually under-invest in the POC, which is the stage that surfaces fit. Teams that take 60 days usually do so because of internal alignment cycles, not because the technical evaluation needs the extra time."}},{"@type":"Question","name":"What if the AEO vendor refuses to run a 14-day POC?","acceptedAnswer":{"@type":"Answer","text":"Reasonable vendors run scoped POCs. A vendor that refuses entirely is usually optimizing against demos that don't survive contact with real customer data, or operating at a service tier where POCs are bundled into an onboarding fee. Either way it's information — make the decision with that information, but don't sign without seeing the platform run against your category."}},{"@type":"Question","name":"Do I really need procurement involved? It's a SaaS subscription.","acceptedAnswer":{"@type":"Answer","text":"For an AEO contract over six figures, yes — the data ownership and methodology change clauses are non-standard and benefit from procurement's red-line eye. For sub-$50K pilot agreements, the simpler MSA review can usually go through marketing legal alone. The cutoff is when the data the vendor builds for you (prompt set, citation history) starts feeling like a research asset rather than a tool subscription."}},{"@type":"Question","name":"How does this playbook interact with the existing AEO Platform Pilot Playbook?","acceptedAnswer":{"@type":"Answer","text":"The [aeo-platform-pilot-playbook](/aeo-platform-pilot-playbook/) is the implementation-side framework — how to actually run a pilot once you've selected a vendor. This procurement playbook is upstream — how to select the vendor in the first place. Use them in sequence: this one for evaluation, the pilot playbook for the work after signing."}},{"@type":"Question","name":"What's the single biggest mistake AEO buyers make?","acceptedAnswer":{"@type":"Answer","text":"Signing without defining renewal criteria. The next-biggest is over-weighting demo aesthetics over POC depth. Both are recoverable, but both cost a quarter of measurable time. The 30 days you spend on this playbook saves the quarter."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>The CMO&#39;s AEO procurement playbook — what to ask, what to verify, what to skip in 2026</h1>
+        <p class="seo-lede">AEO procurement is not SEO tool procurement. The category is young, the measurement is statistical, the data ownership question is unsettled, and the exit terms most marketing teams sign in their SEO contracts don&#39;t transfer cleanly. This playbook walks through 30 days of AEO platform evaluation — building the longlist, running a substantive RFP, designing a 14-day POC that actually reveals fit, scripting reference calls, negotiating the contract red lines, and defining year-one renewal criteria before you sign. It&#39;s vendor-neutral, and the same playbook applies to evaluating SolCrys.</p>
+        <p>Updated 2026-05-17</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I evaluate an AEO platform?</li><li>How do I run an AEO RFP?</li><li>What contract terms matter in AEO procurement?</li><li>How long should an AEO POC take?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Why AEO procurement isn&#39;t just bigger SEO procurement</h2>
+      <p>When a CMO procures an SEO tool, the major decisions are well-understood: which keyword data set, which crawler coverage, which competitive intelligence layer, what reporting cadence. The contract template has been refined across thousands of deals. Switching costs are real but bounded — most data is portable, most integrations are commodity, exit terms are clear.</p><p>AEO procurement is structurally different. The measurement layer is statistical (see our <a href="/why-two-aeo-platforms-can-disagree/" target="_blank" rel="noopener noreferrer">engineering note on why two AEO platforms can disagree</a>). The data sources include both engine APIs and consumer surfaces, and access to them is renegotiated regularly by the engines themselves. The prompt set the vendor builds for you is, in a real sense, a research asset that you should own and be able to take with you. The category is new enough that vendor contracts often don&#39;t disclose the methodology behind the dashboard, which means a year-one renewal can run into the question &quot;is the number even comparable to last quarter&#39;s number?&quot;</p><p>What follows is a 30-day playbook designed for that reality. It&#39;s the procurement cycle I&#39;d want to run if I were the CMO buying SolCrys — or any other AEO platform — in 2026.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Day 1–7: Build the longlist</h2>
+      <p>Five criteria define a credible longlist. A platform that hits four of five is worth a real conversation; one that hits two or fewer can usually wait.</p>
+      <ul class="seo-list"><li>**Multi-engine coverage with stated depth**: not just &quot;we monitor X engines&quot; but a description of which engines have measured customer demand for your category and what the platform actually tracks for each.</li><li>**Published measurement methodology**: prompt-set design, sampling cadence, citation definition, non-determinism handling. If the vendor can&#39;t articulate these on a 30-minute discovery call, they probably haven&#39;t formalized them.</li><li>**Clear data ownership and portability**: your prompt set, your citation history, your Corporate Context — can you export the data in usable form if you leave? If the answer is &quot;yes but it requires a services engagement,&quot; it&#39;s effectively no.</li><li>**Closed-loop execution capability**: does the platform stop at &quot;here is the gap&quot; or does it go through to &quot;here is a draft, here&#39;s a governance step, here&#39;s the verified lift&quot;? Dashboards alone won&#39;t move citation share.</li><li>**Pricing transparency**: is pricing published or is every quote bespoke? Bespoke pricing is fine, but it should anchor to a published list.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Day 8–14: The RFP that screens for substance</h2>
+      <p>A good AEO RFP has 10 weighted questions, not 50 unweighted ones. The 50-question template you can download from any procurement consultant is built for SaaS commodity comparisons. AEO needs depth on a few dimensions, not breadth on many.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>The 10 questions worth asking, weighted</h3>
+        <p>1. How many prompts will you track for our category, where do they come from, and how often is the set refreshed? (Weight 15%)</p><p>2. What is your sampling cadence per engine, and how is engine non-determinism handled in the reported numbers? (Weight 15%)</p><p>3. What specifically counts as a citation event in your definition, including edge cases? (Weight 10%)</p><p>4. What does the closed-loop execution path look like from gap detection to verified lift? (Weight 15%)</p><p>5. What are the data ownership terms — prompt set, citation history, draft content — and what is the exit data export format? (Weight 10%)</p><p>6. Walk me through the governance step before any content the platform drafts ships to our site. (Weight 10%)</p><p>7. What changed in your methodology after Google&#39;s May 2026 generative AI optimization guide? (Weight 5%)</p><p>8. Describe a customer case where the platform underperformed and what you changed in response. (Weight 10%)</p><p>9. What is the year-one customer experience timeline — onboarding, first measurement baseline, first action shipped, first verified lift? (Weight 5%)</p><p>10. Show me a recent customer dashboard (anonymized) — what does it look like in week 12? (Weight 5%)</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Day 15–21: The 14-day POC that reveals fit</h2>
+      <p>A POC framed as &quot;try the dashboard for 14 days&quot; isn&#39;t a POC; it&#39;s a free trial. A real AEO POC has four specific tasks the platform has to complete and you have to evaluate.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Task 1: Build a Golden Prompt Set for your top-priority category</h3>
+        <p>Give the vendor your category and your top 3–5 competitor names. They build the prompt set. You evaluate: does it cover the questions your buyers actually ask, or just the keywords your SEO tool surfaces? Are the sources of each prompt documented? Can they tell you why a specific prompt is in the set and how often it should be refreshed?</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Task 2: Run a baseline citation measurement across the engines that matter</h3>
+        <p>Vendor measures across the 5–8 engines they recommend for your category. You evaluate: did they explain the engine selection? Are the numbers reproducible — can they show you a specific data point and walk through how it was captured? Does the measurement match what you find when you spot-check a few prompts manually?</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Task 3: Identify a real gap and recommend a specific action</h3>
+        <p>Vendor picks one gap from the baseline and proposes an action: a content brief, a content refresh, a Corporate Context update, a community-source seeding plan. You evaluate: is the recommended action specific and actionable, or is it generic content advice? Does it tie back to the prompt that exposed the gap?</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Task 4: Ship the action with the vendor&#39;s governance step in the loop</h3>
+        <p>If the action is content, run it through the vendor&#39;s drafting + review path. If it&#39;s a Corporate Context update, run it through the brand-fact governance layer. You evaluate: does the governance step catch mistakes? Does it slow you down unreasonably? What does the post-action measurement say about whether the gap closed?</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Day 22–25: The reference-check script</h2>
+      <p>Vendors will give you a list of reference customers. Some of those references are fine; some are warm. Either way, the structured 3-question script below will tell you more than any vendor-led reference call.</p><p>Ask each reference these three questions, in this order:</p>
+      <ul class="seo-list"><li>**Where has the platform been wrong?** Specific case where the platform&#39;s recommendation or measurement turned out to be off. How did they catch it, how did the vendor respond, how long to resolve.</li><li>**What does week 12 look like?** Beyond the first-30-days honeymoon, what&#39;s the steady-state customer experience? How often do they log in? What&#39;s the cadence of new actions being shipped? Are they expanding the prompt set or contracting it?</li><li>**Would they renew today?** Honest answer, not the marketing answer. If the renewal is in three months, how are they leaning? What would change their mind?</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Day 26–30: Contract red lines</h2>
+      <p>Seven contract terms worth pushing on. Most AEO vendor MSAs have softer-than-ideal language on at least three of them. Push back; vendors who say no are signaling something.</p>
+      <ul class="seo-list"><li>**Prompt-set ownership and portability**: you own the prompt set built for you, including the source-provenance metadata; on exit, you can export it in a documented format.</li><li>**Citation data export**: raw citation history exportable on demand, not gated behind a services engagement.</li><li>**Methodology change notification**: the vendor will notify you in writing before changing the measurement methodology in a way that affects reported numbers; old numbers remain queryable for at least 12 months after the change.</li><li>**Pricing lock**: published price holds for the contracted term; any list-price changes apply at renewal, not mid-term.</li><li>**SLA on onboarding**: first measurement baseline within X days of contract start; first action shipped within Y days. If missed, partial credit or right to terminate.</li><li>**Brand and customer logo usage**: you control whether the vendor uses your logo in marketing materials, including case study language.</li><li>**Termination for cause**: defined material-breach conditions with a 30-day cure period and a clean data-export path on termination.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Define year-one renewal criteria — before you sign</h2>
+      <p>The single highest-leverage move in AEO procurement is defining what &quot;good&quot; looks like before the contract is signed, so the renewal conversation 12 months later isn&#39;t a Rorschach test.</p><p>Four metric anchors that work well:</p>
+      <ul class="seo-list"><li>**Citation share trend on a frozen subset of priority prompts** — chosen at month 1, locked, measured every quarter through renewal.</li><li>**Actions shipped through the closed loop** — count of brand-governed actions that went from gap detection to verified citation lift.</li><li>**Internal team usage** — how often is the platform queried by the team that owns AEO. Below a threshold, the platform isn&#39;t load-bearing.</li><li>**Vendor responsiveness on the items that matter** — methodology changes, governance failures, custom-prompt requests.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A note on running this on SolCrys</h2>
+      <p>I expect you to run this playbook on us. We&#39;ve built SolCrys to be evaluable under the criteria above — published <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">methodology</a>, published <a href="/editorial-standards/" target="_blank" rel="noopener noreferrer">editorial standards</a>, data-ownership language in our default MSA, a 14-day POC structure that matches the four tasks here. If we fail one of the tests, I&#39;d rather hear about it during procurement than at the renewal.</p><p>The companion essays from Eason on <a href="/why-two-aeo-platforms-can-disagree/" target="_blank" rel="noopener noreferrer">why two AEO platforms can disagree</a> and Gwen on <a href="/aeo-vendor-claims-worth-verifying/" target="_blank" rel="noopener noreferrer">five vendor claims worth verifying</a> cover the technical and pitch-pattern dimensions of this same evaluation work. Together with this playbook, they&#39;re the operating system for AEO procurement in 2026.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Gwen Chen is Co-Founder &amp; CEO of SolCrys. Prior to SolCrys, she spent the last decade in AI search and GTM strategy across enterprise and consumer categories, with significant time inside the cloud and AI infrastructure marketing buildout. She writes on what marketing leadership teams need to know as AEO transitions from category invention to category operation. Connect on <a href="https://www.linkedin.com/in/gwenchenx/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written May 2026 in response to recurring procurement-cycle questions from prospective customers. The playbook is vendor-neutral. If you&#39;re running it on SolCrys, we&#39;ll send you the materials you need to apply it cleanly.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is 30 days enough for AEO procurement?</h3>
+            <p>For a credible decision, yes — if you front-load the work. Days 1–7 are mostly desk research on the longlist; the substantive work happens in the RFP, POC, and reference-check stages. Teams that try to compress further usually under-invest in the POC, which is the stage that surfaces fit. Teams that take 60 days usually do so because of internal alignment cycles, not because the technical evaluation needs the extra time.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if the AEO vendor refuses to run a 14-day POC?</h3>
+            <p>Reasonable vendors run scoped POCs. A vendor that refuses entirely is usually optimizing against demos that don&#39;t survive contact with real customer data, or operating at a service tier where POCs are bundled into an onboarding fee. Either way it&#39;s information — make the decision with that information, but don&#39;t sign without seeing the platform run against your category.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I really need procurement involved? It&#39;s a SaaS subscription.</h3>
+            <p>For an AEO contract over six figures, yes — the data ownership and methodology change clauses are non-standard and benefit from procurement&#39;s red-line eye. For sub-$50K pilot agreements, the simpler MSA review can usually go through marketing legal alone. The cutoff is when the data the vendor builds for you (prompt set, citation history) starts feeling like a research asset rather than a tool subscription.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does this playbook interact with the existing AEO Platform Pilot Playbook?</h3>
+            <p>The <a href="/aeo-platform-pilot-playbook/" target="_blank" rel="noopener noreferrer">aeo-platform-pilot-playbook</a> is the implementation-side framework — how to actually run a pilot once you&#39;ve selected a vendor. This procurement playbook is upstream — how to select the vendor in the first place. Use them in sequence: this one for evaluation, the pilot playbook for the work after signing.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the single biggest mistake AEO buyers make?</h3>
+            <p>Signing without defining renewal criteria. The next-biggest is over-weighting demo aesthetics over POC depth. Both are recoverable, but both cost a quarter of measurable time. The 30 days you spend on this playbook saves the quarter.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
+            <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-platform-pilot-playbook/">How to Run a 30-Day AEO Platform Pilot Without Wasting Budget</a></h3>
+            <p>A structured 30-day pilot framework for AEO platforms — pre-pilot setup, week-by-week timeline, exit criteria, and the common pilot anti-patterns that produce wrong purchase decisions.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CrcdKqsB.js"></script>
+  </body>
+</html>
