@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>Google&#39;s May 2026 AI Optimization Guide: The CMO Read | SolCrys</title>
+    <meta name="description" content="Google&#39;s May 2026 generative AI optimization guide explicitly rejects the AEO/GEO hacks that have dominated vendor pitches for the last 18 months — llms.txt, AI-only schema, forced chunking, FAQ-schema citation &#39;lifts,&#39; page-per-variation production. For a CMO evaluating an AEO program or vendor in 2026, this is the most consequential piece of category-level guidance to land yet. Here&#39;s the practical translation." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/google-endorses-aeo-fundamentals/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-16" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Google&#39;s May 2026 AI Optimization Guide: The CMO Read | SolCrys" />
+    <meta property="og:description" content="Google&#39;s May 2026 generative AI optimization guide explicitly rejects the AEO/GEO hacks that have dominated vendor pitches for the last 18 months — llms.txt, AI-only schema, forced chunking, FAQ-schema citation &#39;lifts,&#39; page-per-variation production. For a CMO evaluating an AEO program or vendor in 2026, this is the most consequential piece of category-level guidance to land yet. Here&#39;s the practical translation." />
+    <meta property="og:url" content="https://solcrys.com/google-endorses-aeo-fundamentals/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-G3pb_9C3.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Google Just Endorsed the Anti-Hack Side of AEO. Here's the CMO Read.","item":"https://solcrys.com/google-endorses-aeo-fundamentals/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Google just endorsed the anti-hack side of AEO. Here's the CMO read.","description":"Google's May 2026 generative AI optimization guide explicitly rejects the AEO/GEO hacks that have dominated vendor pitches for the last 18 months — llms.txt, AI-only schema, forced chunking, FAQ-schema citation 'lifts,' page-per-variation production. For a CMO evaluating an AEO program or vendor in 2026, this is the most consequential piece of category-level guidance to land yet. Here's the practical translation.","dateModified":"2026-05-16","datePublished":"2026-05-16","mainEntityOfPage":"https://solcrys.com/google-endorses-aeo-fundamentals/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/google-endorses-aeo-fundamentals/","mainEntity":[{"@type":"Question","name":"Does Google's guide mean AEO is dead?","acceptedAnswer":{"@type":"Answer","text":"No. Google's guide says AEO/GEO for Google's AI surfaces is SEO with an operational layer on top — measurement of AI-answer presence, governance of brand facts, content shaped for non-commodity criteria, and engine-specific tracking. That operational layer is exactly what an AEO platform should provide. What is dead is the version of AEO that sold AI-specific hacks (llms.txt, AI schema, chunking quotas) as the path to AI Overview citation."}},{"@type":"Question","name":"Why should I trust Google's guide when ChatGPT and Perplexity haven't published equivalent guidance?","acceptedAnswer":{"@type":"Answer","text":"You shouldn't trust Google's guide as a universal answer. It covers Google's surfaces. ChatGPT, Perplexity, Claude, Gemini consumer, and retail RAG engines each have their own retrieval architectures and their own observable preferences (named crawlers, recency weighting, source diversity, structured-data behavior). Multi-engine AEO measurement remains essential precisely because the engines do not behave identically. Google's guide raised the bar on what's defensible for Google specifically — it did not collapse the multi-engine problem."}},{"@type":"Question","name":"Our agency has been recommending llms.txt. What do we say to them?","acceptedAnswer":{"@type":"Answer","text":"Send them Google's published guide and the relevant excerpt: 'You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in generative AI search.' Ask them to substantiate the recommendation with their own measurement methodology and named-engine evidence. They are free to disagree with Google, but the burden of evidence is now on them — not on you to give them the benefit of the doubt."}},{"@type":"Question","name":"How urgent is this? My current AEO program is mid-flight.","acceptedAnswer":{"@type":"Answer","text":"Urgency depends on what your program is doing. If it is doing SEO foundation work plus non-commodity content plus multi-engine measurement, almost nothing needs to change. If it is producing per-fan-out pages, FAQ-schema stuffing campaigns, or llms.txt deployments as Google AI levers, the work should be paused this quarter and the budget redirected. Most mid-flight programs are a mix, and the audit (7 questions above) will reveal which slice to pause."}},{"@type":"Question","name":"Does SolCrys benefit from this argument? Should I discount your reading?","acceptedAnswer":{"@type":"Answer","text":"Yes, SolCrys benefits. We have been writing and selling against AI-specific hacks since well before Google's guide landed — see our [llms.txt-is-not-a-strategy](/llms-txt-not-a-strategy/) essay from earlier this year. Google's published position validates that stance and is good for our positioning. You should weight that bias. You should also weight the underlying argument: Google explicitly named which AEO tactics they do not need. That sentence in the guide is independent of which vendor you decide to buy."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Google just endorsed the anti-hack side of AEO. Here&#39;s the CMO read.</h1>
+        <p class="seo-lede">In May 2026, Google published its official Guide to Optimizing for Generative AI Features on Google Search. The document quietly settled an 18-month vendor argument inside the AEO category: llms.txt is not required, AI-specific schema is not required, forced content chunking is not required, AI-specific rewrites are not required, and page-per-query-variation production is flagged as scaled content abuse. The path to AI Overviews and AI Mode visibility runs through SEO foundations plus non-commodity content — unique point of view, first-hand evidence, clean structure, quality media, technical accessibility. This essay translates Google&#39;s guide into a CMO&#39;s audit list, names the AEO vendor behaviors the new guidance retires, and explains why Google&#39;s framing does NOT mean multi-engine AEO is unnecessary — ChatGPT, Perplexity, Claude, Gemini, and retail RAG assistants still have their own architectures and their own citation behaviors. The most important strategic implication: your 2026 AEO budget should now be auditable against a published Google standard. If a vendor or in-house plan recommends any of the 7 named anti-patterns below as a path to Google AI visibility, you have a defensible reason to redirect that budget.</p>
+        <p>Updated 2026-05-16</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What does Google&#39;s 2026 AI optimization guide actually say?</li><li>Does Google support llms.txt for AI Overviews?</li><li>Is AEO different from SEO according to Google?</li><li>Which AEO tactics did Google just reject?</li><li>How should a CMO respond to Google&#39;s generative AI guide?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>On May 15, 2026, Google published its first dedicated guide on <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">optimizing for generative AI features on Google Search</a>. For 18 months, the AEO and GEO vendor category had been arguing about what counts as &#39;real&#39; AI search optimization — and a significant fraction of that argument turns out, in light of Google&#39;s official position, to have been wrong.</p><p>Google&#39;s framing in one sentence: &#39;optimizing for generative AI search is optimizing for the search experience, and thus still SEO.&#39; AI Overviews and AI Mode rely on Google&#39;s existing Search ranking systems, augmented by retrieval-augmented generation (RAG) and query fan-out. There is no separate AI-specific optimization stack. There is no AI-only file format, no AI-only schema, no chunking requirement, no AI-specific rewriting requirement. The hacks that have populated AEO vendor decks for the last 18 months are, in Google&#39;s words, not how AI Overviews or AI Mode work.</p><p>What Google does ask for — explicitly — is non-commodity content with a distinctive point of view, helpful and people-first writing, clean organization, high-quality images and video, technical accessibility (crawlability, indexability, semantic HTML, valid structured data that matches visible content, good page experience), and named structured data for commercial and local pages (Merchant Center feeds, Google Business Profiles).</p><p>For a CMO evaluating an AEO program or vendor in 2026, this is the most consequential piece of category-level guidance to land yet. It is also a clean audit list. The rest of this essay is the translation.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why this guide matters even if you only read one paragraph of it</h2>
+      <p>The AEO vendor category, when 2025 began, did not have a published rulebook from any of the major AI search providers. That absence created room for tactics-first marketing: a vendor could claim that adding `llms.txt`, or stuffing FAQ schema, or generating 50 pages per fan-out cluster, was the way to win AI Overview citations. Without an official Google position, buyers had no clean way to falsify the claim — and many of those tactics were sold into enterprise AEO programs at meaningful budgets.</p><p>Google&#39;s May 2026 guide closes that ambiguity. It names — with surprising specificity — the patterns Google does not require and, in some cases, treats as policy violations. For a buyer, the practical effect is that any AEO program plan can now be checked against a published standard. For a vendor, the practical effect is that recommending one of the named patterns is no longer a credibility-neutral choice.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 5 things Google explicitly DOES want</h2>
+      <p>Lifted directly from the guide, with our annotation for a marketing leader.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Non-commodity content with a distinctive point of view</h3>
+        <p>Google&#39;s exact framing — and this is the part most CMOs we talk to have not yet internalized — contrasts a commodity post like &#39;7 Tips for First-Time Homebuyers&#39; against a non-commodity one like &#39;Why We Waived the Inspection &amp; Saved Money.&#39; The non-commodity piece is grounded in first-hand experience, takes a defensible position, and gives the reader something they cannot synthesize from the existing internet. That is the citation-worthy unit. The commodity piece, no matter how cleanly structured, is by Google&#39;s definition not what AI Overviews are looking to feature.</p><p>Practical implication: brief writers on point of view first, structure second. If a draft can be reproduced by paraphrasing the top three SERP results, it does not meet the bar.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Clear organization for human readers</h3>
+        <p>Paragraphs, sections, and headings that give a real reader &#39;a clear structure to navigate content&#39; — Google&#39;s wording. This is editorial clarity, not an AI optimization trick. The same structure happens to make RAG-based engines (more on this below) more likely to lift clean passages, but Google is explicit that this is a human-first practice.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. High-quality images and video</h3>
+        <p>Google&#39;s AI features can surface images and videos directly in answers. Original media — product shots, diagrams, customer footage, charts of your own data — extends AI visibility beyond text links. This is the single most under-rated DO in the guide and the easiest one for most brands to act on this quarter.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Technical accessibility</h3>
+        <p>Indexable, crawlable, snippet-eligible pages with semantic HTML, structured data that matches visible content, sensible JavaScript rendering, canonical clarity, no inappropriate noindex, good page experience. None of this is new SEO. All of it is the floor.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>5. Structured commercial and local data</h3>
+        <p>Merchant Center feeds for product visibility. Google Business Profiles for local business surfacing. AI answers cite product listings, product information, and local business details directly; these are the structured-data sources Google AI features actually use, not freeform AI-specific schema.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The 7 things Google explicitly does NOT need</h2>
+      <p>This is the part of the guide that retired several common AEO/GEO vendor pitches. Each line below is paraphrased from Google&#39;s published language; the source is linked in the closing section.</p>
+      <ul class="seo-list"><li>**`llms.txt`, AI text files, or special markup.** Google: &#39;You don&#39;t need to create new machine readable files, AI text files, markup, or Markdown to appear in generative AI search.&#39;</li><li>**AI-specific `schema.org` markup.** Google: &#39;There&#39;s no special schema.org markup you need to add&#39; for generative AI search. Continue using structured data as part of general SEO, but stop treating it as an AI citation lever.</li><li>**Forced content chunking for AI extraction.** Google: &#39;There&#39;s no requirement to break your content into tiny pieces for AI to better understand it&#39; and &#39;there&#39;s no ideal page length.&#39; Write for the reader.</li><li>**AI-specific rewriting.** Google: &#39;You don&#39;t need to write in a specific way just for generative AI search. AI systems can understand synonyms and general meanings.&#39;</li><li>**Long-tail keyword variation pages.** Google: &#39;You don&#39;t have to worry that you don&#39;t have enough long-tail keywords.&#39; Page production for every variation triggers their scaled content abuse spam policy.</li><li>**Inauthentic mentions across the web.** Google: &#39;Seeking inauthentic mentions across the web isn&#39;t as helpful as it might seem.&#39; Paid placements without disclosure, review-farm posts, AI-generated low-effort comments — all hurt rather than help.</li><li>**Volume over quality.** Google: &#39;A high quantity of pages doesn&#39;t make a website higher quality or more relevant to users.&#39; This is the spine of the whole guide.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What this changes for the AEO category</h2>
+      <p>Three concrete shifts a CMO should make in the next quarter.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Shift 1: Re-audit your AEO vendor against Google&#39;s published rejections</h3>
+        <p>Pull the most recent deliverable from your current AEO platform or agency. Does it recommend `llms.txt` as a Google AI lever? Does it claim FAQ schema lifts AI Overview citation rates by a specific percentage without a methodology section? Does it suggest spinning up dedicated pages for every PAA or fan-out variant? Each one of those is now contradicted by Google&#39;s official guidance. The vendor is allowed to disagree with Google — but they should be required to defend the disagreement on the record, with their own evidence, not as a generally accepted AEO tactic.</p><p>If the vendor&#39;s pitch leans on tactics Google has named as not required, the productive next conversation is: &#39;show me your alternative evidence, with measurement methodology, or redirect this part of the budget.&#39;</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Shift 2: Re-allocate budget from AI-specific hacks toward non-commodity content</h3>
+        <p>The single highest-leverage move named in Google&#39;s guide is the shift from commodity to non-commodity content. Most marketing organizations have built content production systems optimized for volume and keyword coverage. Those systems do not naturally generate first-hand evidence, original frameworks, distinctive points of view, or proprietary data. They generate paraphrases of the existing internet — which Google has now explicitly told us is the content AI features filter out, not in.</p><p>Practical move: in your next quarterly content plan, set a floor for non-commodity pieces (60% is what we are seeing work in customer programs) and an explicit cap on commodity / category-overview content. Tie author bonuses to whether each piece can pass a one-sentence non-commodity test (a unique POV, a first-hand observation, an original framework, or a verifiable data point).</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Shift 3: Treat the Google guide as the floor, not the ceiling</h3>
+        <p>Google&#39;s guide covers Google&#39;s AI surfaces — AI Overviews and AI Mode. It does not cover ChatGPT Search (which depends on Bing&#39;s index and OpenAI crawlers), Perplexity (real-time RAG with strong recency weighting), Claude (Anthropic&#39;s web search with its own crawler), Gemini&#39;s grounding (different surface inside Google&#39;s product suite), or retail RAG assistants (Rufus, Sparky, ChatGPT Shopping — each with its own retrieval architecture). These engines DO still respond to chunk-friendly content structure, fresh content, third-party citations, and named-crawler access — those are not Google-specific tactics, they are engine-specific tactics for the non-Google generative engines.</p><p>The takeaway: AEO is still multi-engine work. Google&#39;s guide makes Google-facing AEO simpler (it&#39;s SEO + non-commodity content), but it does not eliminate the other engines. Multi-engine measurement, named crawler access auditing, and engine-attributed citation tracking remain the core operational stack.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The 7-question CMO audit</h2>
+      <p>Borrowed from our <a href="/production-is-cheap-trust-is-scarce/" target="_blank" rel="noopener noreferrer">production-is-cheap-trust-is-scarce</a> framing and updated against Google&#39;s May 2026 guide. Run this on your current AEO plan or vendor in the next 30 days.</p>
+      <ul class="seo-list"><li>Does our current AEO plan recommend any of the 7 named anti-patterns above? If yes, what is the named evidence supporting the recommendation, and is it engine-specific or generic?</li><li>What percentage of our content production in the last two quarters meets Google&#39;s non-commodity test (unique POV, first-hand evidence, original framework, or verifiable data)?</li><li>Is our visual evidence (images, videos, charts of our own data) coming from original sources, or from stock and category-generic creative? Where can we replace stock with original this quarter?</li><li>Do our priority pages have clean technical accessibility (Search Console verified, no inappropriate noindex, semantic HTML, structured data matching visible content)?</li><li>Are we measuring AEO outcomes across multiple named engines, or attributing &#39;AI search&#39; to a single platform? If single-engine, which engine, and why?</li><li>Do our AEO vendor or in-house team recommendations name specific engines, dates, and methodologies when they make claims — or do they default to generic &#39;AI engines do X&#39; language?</li><li>If a journalist asked us to defend our top 3 AEO claims with sources, could we?</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What SolCrys does with this</h2>
+      <p>We have written and updated our internal methodology in the days since Google&#39;s guide landed. Our public-facing <a href="/editorial-standards/" target="_blank" rel="noopener noreferrer">editorial standards</a> page now publishes the 5 mandatory DO&#39;s, the 7 anti-patterns we refuse to recommend, and the pre-publication checklist every SolCrys content asset passes through before it ships. Our <a href="/optimize-for-google-ai-overviews-ai-mode/" target="_blank" rel="noopener noreferrer">optimize-for-Google-AI-Overviews-and-AI-Mode</a> guide has been updated to cite Google&#39;s published positions and reframe what we used to call &#39;AI-specific signals&#39; as good general editorial practice. Our <a href="/llms-txt-not-a-strategy/" target="_blank" rel="noopener noreferrer">llms.txt-is-not-a-strategy</a> essay now cites Google&#39;s own statement on the matter.</p><p>The broader product positioning hasn&#39;t changed — multi-engine measurement, Golden Prompt Set design, Corporate Context grounding, Answer Gap diagnosis, Recovery Score, closed-loop execution — because the product was built on the SEO-foundation-plus-non-commodity-content frame from the start. What changed is that Google now publicly endorses that frame, which means buyers can audit AEO vendors against a published standard. We want them to.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Eason Wang is Cofounder &amp; CPO of SolCrys, the AEO operating system for brands and agencies competing for visibility, citations, and recommendations across the major AI engines. Connect on <a href="https://www.linkedin.com/in/eason-wang/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written May 2026, the same week Google&#39;s <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">official AI optimization guide</a> was published. If your team&#39;s read differs from this one, or if you spot a position we should retract, write to us — our <a href="/editorial-standards/" target="_blank" rel="noopener noreferrer">editorial standards</a> commit to updating in public.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does Google&#39;s guide mean AEO is dead?</h3>
+            <p>No. Google&#39;s guide says AEO/GEO for Google&#39;s AI surfaces is SEO with an operational layer on top — measurement of AI-answer presence, governance of brand facts, content shaped for non-commodity criteria, and engine-specific tracking. That operational layer is exactly what an AEO platform should provide. What is dead is the version of AEO that sold AI-specific hacks (llms.txt, AI schema, chunking quotas) as the path to AI Overview citation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why should I trust Google&#39;s guide when ChatGPT and Perplexity haven&#39;t published equivalent guidance?</h3>
+            <p>You shouldn&#39;t trust Google&#39;s guide as a universal answer. It covers Google&#39;s surfaces. ChatGPT, Perplexity, Claude, Gemini consumer, and retail RAG engines each have their own retrieval architectures and their own observable preferences (named crawlers, recency weighting, source diversity, structured-data behavior). Multi-engine AEO measurement remains essential precisely because the engines do not behave identically. Google&#39;s guide raised the bar on what&#39;s defensible for Google specifically — it did not collapse the multi-engine problem.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Our agency has been recommending llms.txt. What do we say to them?</h3>
+            <p>Send them Google&#39;s published guide and the relevant excerpt: &#39;You don&#39;t need to create new machine readable files, AI text files, markup, or Markdown to appear in generative AI search.&#39; Ask them to substantiate the recommendation with their own measurement methodology and named-engine evidence. They are free to disagree with Google, but the burden of evidence is now on them — not on you to give them the benefit of the doubt.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How urgent is this? My current AEO program is mid-flight.</h3>
+            <p>Urgency depends on what your program is doing. If it is doing SEO foundation work plus non-commodity content plus multi-engine measurement, almost nothing needs to change. If it is producing per-fan-out pages, FAQ-schema stuffing campaigns, or llms.txt deployments as Google AI levers, the work should be paused this quarter and the budget redirected. Most mid-flight programs are a mix, and the audit (7 questions above) will reveal which slice to pause.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does SolCrys benefit from this argument? Should I discount your reading?</h3>
+            <p>Yes, SolCrys benefits. We have been writing and selling against AI-specific hacks since well before Google&#39;s guide landed — see our <a href="/llms-txt-not-a-strategy/" target="_blank" rel="noopener noreferrer">llms.txt-is-not-a-strategy</a> essay from earlier this year. Google&#39;s published position validates that stance and is good for our positioning. You should weight that bias. You should also weight the underlying argument: Google explicitly named which AEO tactics they do not need. That sentence in the guide is independent of which vendor you decide to buy.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/llms-txt-not-a-strategy/">Why llms.txt Is Not a Strategy</a></h3>
+            <p>llms.txt is a proposed standard for AI-friendly content delivery, but it is neither widely adopted by major AI engines nor a substitute for AEO fundamentals. This essay explains what llms.txt does, what it does not, and why brands should focus on the unsexy basics.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/optimize-for-google-ai-overviews-ai-mode/">How to Optimize for Google AI Overviews &amp; AI Mode</a></h3>
+            <p>Google AI Overviews and AI Mode use Google&#39;s index plus generative synthesis. This guide breaks down the inheritance signals, the difference between AIO and AI Mode, and the optimization playbook that does not require abandoning SEO.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/production-is-cheap-trust-is-scarce/">Production Is Cheap. Trust Is Scarce.</a></h3>
+            <p>AI made producing brand content nearly free, but made being cited, recommended, and trusted by AI engines radically more scarce and concentrated. A field note from SolCrys Cofounder &amp; CPO Eason Wang on what changes when production stops being the marketing bottleneck — and what the new substrate is.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-EOeymFmy.js"></script>
+  </body>
+</html>
