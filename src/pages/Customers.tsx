@@ -12,6 +12,7 @@ import {
   TrendingUp,
   Target,
   Workflow,
+  User,
 } from "lucide-react";
 
 const WYZE_TEAL = "#00D4B4";
@@ -22,7 +23,11 @@ const LINKEDIN = {
   yun: "https://www.linkedin.com/in/yun-zhang-1441933",
   michelle: "https://www.linkedin.com/in/michellewangfrees/",
   toni: "https://www.linkedin.com/in/tiafrate/",
+  garrett: "https://www.linkedin.com/in/ACoAAAzCAM8B_4zaQelFta2ZX-vhiQRMG2QBCYg",
 } as const;
+
+const BOBOYM_AMAZON_STORE =
+  "https://www.amazon.com/BOBOYM-20-Inch-Expandable-Suitcase-360%C2%B0Rolling/dp/B0FXWHWTXN/";
 
 const LinkedInLink = ({ href, name }: { href: string; name: string }) => (
   <a
@@ -39,6 +44,31 @@ const LinkedInLink = ({ href, name }: { href: string; name: string }) => (
   </a>
 );
 
+const AmazonStoreLink = ({ href, name }: { href: string; name: string }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+    aria-label={`${name} store on Amazon`}
+  >
+    <ShoppingBag className="h-4 w-4" aria-hidden />
+    Amazon store
+  </a>
+);
+
+const PhotoPlaceholder = ({ size = "md" }: { size?: "md" | "lg" }) => {
+  const dim = size === "lg" ? "h-24 w-24 md:h-28 md:w-28" : "h-20 w-20 md:h-24 md:w-24";
+  return (
+    <div
+      className={`${dim} rounded-full overflow-hidden border border-border/40 shrink-0 bg-muted/40 flex items-center justify-center`}
+      aria-label="Photo coming soon"
+    >
+      <User className="h-1/2 w-1/2 text-muted-foreground/60" aria-hidden />
+    </div>
+  );
+};
+
 const brandonPrimaryQuote =
   "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.";
 
@@ -53,6 +83,12 @@ const michelleQuote =
 
 const toniQuote =
   "What stood out to me about SolCrys is that it goes beyond just showing data. Most tools stop at dashboards and metrics, but SolCrys helps teams understand what the data means and what actions to take next. That's incredibly valuable for communications and marketing leaders who need actionable intelligence, not just reports.";
+
+const garrettQuote =
+  "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, integrate with GitHub, and draft content for our website is exactly what we need.";
+
+const jedQuote =
+  "SolCrys has helped us tremendously. Their platform gave us a much clearer view of the potential for our store across emerging AI shopping channels such as Amazon Rufus, Alexa for Shopping, and other AI engines. For the first time, we can see where our products show up, where we are missing, and what needs to improve to become more discoverable in these new shopping experiences. It opened our eyes to how much opportunity there is for BOBOYM as AI becomes a bigger part of how people discover and buy products.";
 
 const nextSiliconApproach = [
   {
@@ -542,6 +578,90 @@ const CustomerStories = () => {
               </p>
             </div>
           </div>
+        </section>
+
+        <div className="glow-line w-full" />
+
+        {/* More customer voices — Garrett Astler (ClearlyKept), Jed Li (BOBOYM) */}
+        <section className="max-w-6xl mx-auto px-6 py-20 md:py-24">
+          <div className="text-center mb-12">
+            <p className="fade-in-scroll section-label mb-4">
+              More customer voices
+            </p>
+            <h2 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground">
+              Founders and operators using SolCrys to compete in AI discovery.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            {/* Garrett Astler — ClearlyKept */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
+              <div className="flex flex-col items-center text-center gap-4 p-8 md:p-10 border-b border-border/40 bg-muted/20">
+                <PhotoPlaceholder />
+                <div>
+                  <p className="font-heading text-base font-semibold text-foreground">
+                    Garrett Astler
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Co-founder
+                  </p>
+                  <p className="text-xs text-muted-foreground/80 mt-0.5">
+                    ClearlyKept
+                  </p>
+                  <div className="mt-3">
+                    <LinkedInLink href={LINKEDIN.garrett} name="Garrett Astler" />
+                  </div>
+                </div>
+              </div>
+              <div className="p-8 md:p-10 flex flex-col">
+                <div
+                  aria-hidden
+                  className="font-heading text-5xl leading-none mb-1 select-none text-muted-foreground/60"
+                >
+                  “
+                </div>
+                <blockquote className="font-heading text-base md:text-lg leading-relaxed text-foreground">
+                  {garrettQuote}
+                </blockquote>
+              </div>
+            </article>
+
+            {/* Jed Li — BOBOYM */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
+              <div className="flex flex-col items-center text-center gap-4 p-8 md:p-10 border-b border-border/40 bg-muted/20">
+                <PhotoPlaceholder />
+                <div>
+                  <p className="font-heading text-base font-semibold text-foreground">
+                    Jed Li
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    CEO
+                  </p>
+                  <p className="text-xs text-muted-foreground/80 mt-0.5">
+                    BOBOYM
+                  </p>
+                  <div className="mt-3">
+                    <AmazonStoreLink href={BOBOYM_AMAZON_STORE} name="BOBOYM" />
+                  </div>
+                </div>
+              </div>
+              <div className="p-8 md:p-10 flex flex-col">
+                <div
+                  aria-hidden
+                  className="font-heading text-5xl leading-none mb-1 select-none text-muted-foreground/60"
+                >
+                  “
+                </div>
+                <blockquote className="font-heading text-base md:text-lg leading-relaxed text-foreground">
+                  {jedQuote}
+                </blockquote>
+              </div>
+            </article>
+          </div>
+
+          <p className="fade-in-scroll mt-6 text-center text-xs text-muted-foreground/70">
+            Photos coming soon. Shared with permission.
+          </p>
         </section>
 
         <div className="glow-line w-full" />
