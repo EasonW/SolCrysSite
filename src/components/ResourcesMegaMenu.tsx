@@ -85,7 +85,7 @@ const ResourcesMegaMenu = ({ onItemClick, onAuditClick }: ResourcesMegaMenuProps
                 All resources
               </p>
               <p className="text-sm font-medium text-foreground">
-                Browse all {siteContent.resourcePages.length} guides
+                Browse all {siteContent.resourcePages.filter((p) => (p as { status?: string }).status !== "draft").length} guides
               </p>
             </div>
           </div>
