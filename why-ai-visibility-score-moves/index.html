@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>Why Your AI Visibility Score Moves — Normal Variance vs Real Movement | SolCrys</title>
+    <meta name="description" content="AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/why-ai-visibility-score-moves/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Why Your AI Visibility Score Moves — Normal Variance vs Real Movement | SolCrys" />
+    <meta property="og:description" content="AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch." />
+    <meta property="og:url" content="https://solcrys.com/why-ai-visibility-score-moves/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bz5XNleN.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Why Your AI Visibility Score Moves","item":"https://solcrys.com/why-ai-visibility-score-moves/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why your AI visibility score moves — and how to tell normal variance from real movement","description":"AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch.","dateModified":"2026-05-17","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/why-ai-visibility-score-moves/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/why-ai-visibility-score-moves/","mainEntity":[{"@type":"Question","name":"Is a 15% week-over-week move on my overall score normal?","acceptedAnswer":{"@type":"Answer","text":"On overall citation share, 15% is at the upper end of normal but not abnormal — particularly in categories with active competitive publishing or in periods near major engine model rollouts. If 15% becomes the new sustained level (you don't bounce back within 2–3 weeks), that's the signal to investigate."}},{"@type":"Question","name":"Should I worry about a single one-day spike or dip?","acceptedAnswer":{"@type":"Answer","text":"Generally no. Single-day moves are dominated by engine non-determinism and sampling variance. The 7-day rolling average is the more meaningful read for short-term direction. The day-level view is useful for diagnostic drilldowns when you already have reason to investigate, not for triggering investigation."}},{"@type":"Question","name":"How long should I wait before concluding a drop is real?","acceptedAnswer":{"@type":"Answer","text":"Two to three weeks of sustained movement in the same direction, on the 7-day rolling number. If your score is lower at week 3 than it was at week 0 and the trend line is monotonic, you're past noise. If week 2 bounces back to baseline, week 1 was probably an anomaly."}},{"@type":"Question","name":"Why does my competitor's score move opposite to mine?","acceptedAnswer":{"@type":"Answer","text":"Citation share is relative — if a fixed prompt gets cited by exactly one source, the share between you and the competitor sums to 100%. So when their score goes up, yours mathematically goes down on that prompt, even if you didn't change anything. On the aggregate, this matters less because share is distributed across many sources, but on individual prompts you'll see it clearly. The diagnostic question isn't \"did my score drop?\" — it's \"did my underlying citation count drop, or did someone else's grow?\""}},{"@type":"Question","name":"Does the score move more in some categories than others?","acceptedAnswer":{"@type":"Answer","text":"Yes. High-velocity categories — consumer DTC, B2C ecommerce, news-adjacent B2B, AI/tooling — see more day-to-day movement because publications and engines update more often. Slow-moving B2B enterprise categories see less. SolCrys reports the typical observed variance for your category in your dashboard's baseline view so you can calibrate."}},{"@type":"Question","name":"How often should I check the dashboard?","acceptedAnswer":{"@type":"Answer","text":"Weekly is usually right for most customers. Daily checking optimizes for noise and creates anxiety without producing better decisions. Monthly is too slow to catch real-shift patterns within a window that lets you act. Set up the weekly digest if you have one; the worst pattern is dashboard-doom-scrolling, which produces decisions worse than ignoring the data for a week."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>Why your AI visibility score moves — and how to tell normal variance from real movement</h1>
+        <p class="seo-lede">One of the most common questions we get from customers: &quot;My AI visibility score moved 12% this week — what happened?&quot; Often the answer is: nothing you control changed, but the world the engines query did. AEO measurement is a statistical estimate, not a deterministic count, and AI engines are non-deterministic by design — so some movement in your score is normal even when your content, crawler access, and Corporate Context are all unchanged. This guide walks through the 6 sources of normal variance (engine non-determinism, model updates, competitor moves, third-party citations, content freshness windows, sampling cadence), the typical ranges to expect at daily / weekly / monthly cadence, and the specific patterns that signal real movement worth acting on. With one rule of thumb: trust the trajectory, not any single number.</p>
+        <p>Updated 2026-05-17</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why does my AI visibility score change week to week?</li><li>Is it normal for AI visibility metrics to fluctuate?</li><li>How much variance is normal in AEO measurement?</li><li>When should I worry about a visibility score drop?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Your AI visibility score moves for three reasons that have nothing to do with whether your content, crawler access, or Corporate Context changed:</p><p>First, AI engines are non-deterministic. The same prompt, asked of the same engine, twice in a row, can produce different citation sets. This is a feature of how generative models work, not a measurement bug.</p><p>Second, the world the engines query is constantly changing. Competitors publish new content. Third-party media cites different sources this week than last. Engines roll new model versions. Source freshness windows decay. None of these are under your control.</p><p>Third, AEO measurement is a statistical estimate, not a deterministic count. We sample a prompt set at a cadence and aggregate over a window. The estimate has inherent uncertainty — different sampling choices produce slightly different numbers even on the same underlying reality.</p><p>Some movement is normal even when nothing you control has changed. The question is how to tell normal noise from real signal. That&#39;s what this guide is for.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 6 sources of normal variance</h2>
+      <p>Six factors drive day-to-day and week-to-week movement in your visibility score, even when your inputs are unchanged.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Engine non-determinism</h3>
+        <p>Generative AI engines sample probabilistically. The same prompt produces slightly different outputs across re-runs — different citation sets, different source rankings, different brand mentions. This is by design: a fully deterministic answer engine would feel mechanical. SolCrys runs multiple samples per prompt where the engine API permits and reports the median, which smooths most of this — but on prompts captured from consumer surfaces (no API access), single-sample variance flows through to your score.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Engine model and behavior updates</h3>
+        <p>OpenAI, Anthropic, Google, and Perplexity roll new model versions on their own schedules. A new model release typically changes retrieval behavior — sometimes subtly, sometimes substantially. When that happens, citation patterns for a topic can shift overnight without anyone publishing anything new. We monitor model announcements and flag known update windows in your dashboard, but the first signal is often the score itself moving.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Competitor movements</h3>
+        <p>Your citation share is relative. If a competitor ships a substantive new piece on a prompt you&#39;re tracking, your relative share drops even if your citation count is unchanged. The same applies in reverse — a competitor retiring or de-emphasizing content can lift your share without any action on your side.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Third-party media and source coverage</h3>
+        <p>AI engines cite editorial and community sources alongside owned domains. When a major industry publication writes about your category — citing a competitor, naming a different brand, or surveying the space differently — engines that ground answers in that source incorporate the new framing. Your score moves with the source landscape, not just with what you publish.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>5. Content freshness and recency windows</h3>
+        <p>Several engines, especially Perplexity and Google AI Mode, weight content recency in their retrieval logic. A page that ranked well for a prompt three months ago can lose share to a fresher source even if neither page changed. This is most visible on news-adjacent or technology-trend prompts where recency is part of what readers want.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>6. Sampling cadence and window interaction</h3>
+        <p>The measurement layer itself contributes some variance. A 7-day rolling window with daily samples is more responsive but more noisy than a 30-day window with daily samples. The same data shown on different windows gives different impressions of stability. SolCrys defaults to 7-day for short-term and 30-day for trend; the longer window is more reliable as a quarterly conversation, the shorter is more useful for week-by-week diagnosis.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Typical variance ranges to expect</h2>
+      <p>These ranges are observed across the SolCrys customer base. Your category may run higher (news-adjacent, high-velocity B2C) or lower (slow-moving B2B enterprise) — but these are useful default expectations.</p>
+      
+      <table>
+              <thead><tr><th>Timescale</th><th>Typical variance on individual prompts</th><th>Typical variance on aggregate citation share</th></tr></thead>
+              <tbody><tr><td>Day-to-day</td><td>±5–15%</td><td>±3–8%</td></tr><tr><td>Week-over-week</td><td>±10–20%</td><td>±5–10%</td></tr><tr><td>Month-over-month</td><td>±15–25%</td><td>±8–15%</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>When volatility is normal</h2>
+      <p>Treat movement as normal noise — not a problem to solve — when:</p>
+      <ul class="seo-list"><li>Single-day spike or dip, no follow-through the next day</li><li>Movement is within the typical variance range for your cadence (see table above)</li><li>No coincident engine model announcement, competitor publication, or third-party media event</li><li>Movement is spread across many prompts roughly evenly, not concentrated in any one cluster</li><li>Movement is similar across engines (suggests measurement noise, not engine-specific behavior change)</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>When volatility signals real movement</h2>
+      <p>These patterns suggest something has actually changed and is worth acting on:</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Sustained drop over 3+ weeks</h3>
+        <p>If the score is lower this week than last week AND last week than the week before AND that pattern continues, you&#39;re past noise. Look at the breakdown by engine, by prompt cluster, and by source type to find the cause.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Drop concentrated in one engine</h3>
+        <p>If your overall score moved but the drop is almost entirely from one engine, it&#39;s usually one of three causes: that engine ran a model update; your content&#39;s relationship to that engine&#39;s retrieval logic changed (e.g., it stopped indexing a source); or a competitor specifically optimized for that engine. Diagnostic: check the cited sources for that engine before and after.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Drop concentrated in one prompt cluster</h3>
+        <p>If the drop is mostly in a topical area (say, comparison prompts vs how-to prompts), the topical landscape shifted. Usually means a competitor published in that area, or the cited third-party sources for that topic moved away from you. Pull the citation source list for the affected cluster and look for new domains appearing.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Coincides with a competitor publication push</h3>
+        <p>If you have competitive monitoring set up, you&#39;ll see the timing line up. A competitor&#39;s strong publication week often shows up as a 5–15% relative share drop on your side for the affected prompts. Action: respond with substance, not panic — your sustained citation share recovers as their freshness window decays.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Coincides with technical or content issues on your side</h3>
+        <p>Drops can be caused by your own changes: a page returning 4xx, a canonical issue redirecting cited URLs incorrectly, a CMS migration changing URL structures, robots.txt blocking previously-allowed crawlers. SolCrys&#39;s technical readiness diagnostic will flag these. If your score dropped coincident with a deploy or content migration, start here.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Persists across rerun samples</h3>
+        <p>When SolCrys reruns a prompt multiple times in a sampling window and the lower number consistently appears across samples, that&#39;s evidence the lower number is the actual state, not just engine non-determinism. The drilldown view in your dashboard shows per-sample evidence.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What SolCrys does to reduce noise</h2>
+      <p>Four measurement choices that keep most engine-side variance from making your dashboard read noisy. Full detail in our <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">visibility measurement methodology</a>.</p>
+      <ul class="seo-list"><li>Rolling 7-day and 30-day windowed aggregation, so a single anomalous sample doesn&#39;t move the reported number on its own.</li><li>Multiple samples per prompt where the engine API permits, with the median used as the reported value.</li><li>Stable prompt set: the 200–800 prompts in your Golden Prompt Set are frozen between scheduled refreshes, so trend lines are comparable across windows.</li><li>Engine-attributed reporting so you can isolate which engine moved (vs an across-the-board shift).</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do as a customer</h2>
+      <p>Three operating principles for reading your dashboard.</p>
+      <ul class="seo-list"><li>**Don&#39;t act on a single day&#39;s number.** Watch the 7-day moving average. Day-to-day moves are dominated by noise.</li><li>**When a sustained shift appears, look at the breakdown before reacting.** By engine, by prompt cluster, by source type. The breakdown tells you whether the cause is technical, competitive, editorial, or noise.</li><li>**Trust the trajectory, not the point.** The question &quot;is my share trending up or down over 30 days&quot; is more informative than &quot;is my share higher or lower than yesterday.&quot;</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>When to ask SolCrys for help</h2>
+      <p>If your score moves in a way the patterns above don&#39;t explain — a sustained drop you can&#39;t trace, a single-engine collapse, a competitor surge you can&#39;t account for — ask us. We can pull the per-sample evidence, walk through which prompts moved and which sources changed, and tell you whether the cause is in your control or in the engine&#39;s. The drilldown view exists for exactly this conversation.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is a 15% week-over-week move on my overall score normal?</h3>
+            <p>On overall citation share, 15% is at the upper end of normal but not abnormal — particularly in categories with active competitive publishing or in periods near major engine model rollouts. If 15% becomes the new sustained level (you don&#39;t bounce back within 2–3 weeks), that&#39;s the signal to investigate.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I worry about a single one-day spike or dip?</h3>
+            <p>Generally no. Single-day moves are dominated by engine non-determinism and sampling variance. The 7-day rolling average is the more meaningful read for short-term direction. The day-level view is useful for diagnostic drilldowns when you already have reason to investigate, not for triggering investigation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long should I wait before concluding a drop is real?</h3>
+            <p>Two to three weeks of sustained movement in the same direction, on the 7-day rolling number. If your score is lower at week 3 than it was at week 0 and the trend line is monotonic, you&#39;re past noise. If week 2 bounces back to baseline, week 1 was probably an anomaly.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does my competitor&#39;s score move opposite to mine?</h3>
+            <p>Citation share is relative — if a fixed prompt gets cited by exactly one source, the share between you and the competitor sums to 100%. So when their score goes up, yours mathematically goes down on that prompt, even if you didn&#39;t change anything. On the aggregate, this matters less because share is distributed across many sources, but on individual prompts you&#39;ll see it clearly. The diagnostic question isn&#39;t &quot;did my score drop?&quot; — it&#39;s &quot;did my underlying citation count drop, or did someone else&#39;s grow?&quot;</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does the score move more in some categories than others?</h3>
+            <p>Yes. High-velocity categories — consumer DTC, B2C ecommerce, news-adjacent B2B, AI/tooling — see more day-to-day movement because publications and engines update more often. Slow-moving B2B enterprise categories see less. SolCrys reports the typical observed variance for your category in your dashboard&#39;s baseline view so you can calibrate.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often should I check the dashboard?</h3>
+            <p>Weekly is usually right for most customers. Daily checking optimizes for noise and creates anxiety without producing better decisions. Monthly is too slow to catch real-shift patterns within a window that lets you act. Set up the weekly digest if you have one; the worst pattern is dashboard-doom-scrolling, which produces decisions worse than ignoring the data for a week.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-recovery-score/">AEO Recovery Score</a></h3>
+            <p>AEO Recovery Score is a quantified framework for estimating how much of an answer gap your fix actions closed. This guide defines the formula, measurement windows, and how to set expectations without overclaiming recovery.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-ByB7AG6U.js"></script>
+  </body>
+</html>
