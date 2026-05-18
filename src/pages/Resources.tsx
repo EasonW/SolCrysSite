@@ -13,14 +13,24 @@ const Resources = () => {
   const clusterOrder = clusterDefs.map((c) => c.key);
   const blurbByKey = new Map(clusterDefs.map((c) => [c.key, c.blurb]));
 
-  // Group resources by cluster (`category`), preserving JSON ordering inside each group.
+  // Group resources by cluster, preserving JSON ordering inside each group.
+  // A page lives primarily in `category` and may additionally surface in clusters
+  // declared via `alsoListIn` (dual-listing for cross-cluster articles like
+  // Golden Prompt Set Methodology — primarily SolCrys methodology, also relevant
+  // to Prompt Intelligence readers).
   // Drafts are filtered out — they are accessible by direct URL but not listed here.
   const grouped = new Map<string, ResourcePageData[]>();
   for (const page of siteContent.resourcePages) {
     if ((page as { status?: string }).status === "draft") continue;
-    const list = grouped.get(page.category) ?? [];
-    list.push(page);
-    grouped.set(page.category, list);
+    const primaryList = grouped.get(page.category) ?? [];
+    primaryList.push(page);
+    grouped.set(page.category, primaryList);
+    const alsoListIn = (page as { alsoListIn?: string[] }).alsoListIn ?? [];
+    for (const secondaryCluster of alsoListIn) {
+      const secondaryList = grouped.get(secondaryCluster) ?? [];
+      secondaryList.push(page);
+      grouped.set(secondaryCluster, secondaryList);
+    }
   }
 
   // Order: declared clusters first (in declared order), then any extras observed in data.

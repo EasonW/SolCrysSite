@@ -891,11 +891,19 @@ function categorySlug(s) {
 function resourcesHtml() {
   const declared = resourceClusters.map((c) => c.key);
   const grouped = new Map();
-  // Drafts are excluded from /resources/ listing
+  // Drafts are excluded from /resources/ listing.
+  // A page lives primarily in `category` and additionally surfaces in any
+  // clusters declared via `alsoListIn` (dual-listing for cross-cluster pieces).
   for (const page of publishedResourcePages) {
-    const list = grouped.get(page.category) || [];
-    list.push(page);
-    grouped.set(page.category, list);
+    const primaryList = grouped.get(page.category) || [];
+    primaryList.push(page);
+    grouped.set(page.category, primaryList);
+    const alsoListIn = Array.isArray(page.alsoListIn) ? page.alsoListIn : [];
+    for (const secondaryCluster of alsoListIn) {
+      const secondaryList = grouped.get(secondaryCluster) || [];
+      secondaryList.push(page);
+      grouped.set(secondaryCluster, secondaryList);
+    }
   }
   const orderedKeys = [
     ...declared.filter((k) => grouped.has(k)),
