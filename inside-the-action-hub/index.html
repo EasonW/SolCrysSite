@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>Inside the SolCrys Action Hub — From Gap Detection to Verified Citation Lift | SolCrys</title>
+    <meta name="description" content="What SolCrys actually does after the dashboard surfaces a gap. The closed-loop workflow from detection to draft to brand review to ship to re-measurement — including the failure modes." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/inside-the-action-hub/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Inside the SolCrys Action Hub — From Gap Detection to Verified Citation Lift | SolCrys" />
+    <meta property="og:description" content="What SolCrys actually does after the dashboard surfaces a gap. The closed-loop workflow from detection to draft to brand review to ship to re-measurement — including the failure modes." />
+    <meta property="og:url" content="https://solcrys.com/inside-the-action-hub/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bz5XNleN.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Inside the Action Hub: From Gap to Verified Lift","item":"https://solcrys.com/inside-the-action-hub/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Inside the Action Hub — from gap detection to verified citation lift","description":"What SolCrys actually does after the dashboard surfaces a gap. The closed-loop workflow from detection to draft to brand review to ship to re-measurement — including the failure modes.","dateModified":"2026-05-17","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/inside-the-action-hub/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/inside-the-action-hub/","mainEntity":[{"@type":"Question","name":"Does the Action Hub auto-publish content to my site?","acceptedAnswer":{"@type":"Answer","text":"No, not by default. Every draft routes through a brand review gate, and content only ships after explicit approval. Auto-publish is available as a configurable option for tightly-scoped action types — typically Corporate Context fact updates and FAQ entries — never for new article publishing. The default posture is human-approved publish."}},{"@type":"Question","name":"How does the Action Hub know what's a high-priority action vs a low-priority one?","acceptedAnswer":{"@type":"Answer","text":"Three inputs combine into the priority score: estimated revenue-at-risk for the affected prompts (if you've configured the revenue mapping, which most B2B customers do for their top 20 prompts), gap severity (an absence is heavier than a citation-share drop), and our internal confidence in the gap detection. The combined ranking is suggested; you can override it for any card."}},{"@type":"Question","name":"What if I want SolCrys to detect gaps but I don't want it drafting anything?","acceptedAnswer":{"@type":"Answer","text":"Supported. The drafting step is optional per action card. If you turn it off across the workspace, the Action Hub surfaces detected gaps with recommended action types and lets your team execute. You still get the priority ranking, the evidence trail, and the Recovery Score after you ship — just without the drafting layer."}},{"@type":"Question","name":"What integrations are supported for shipping content?","acceptedAnswer":{"@type":"Answer","text":"We have direct integrations to the most common CMS and content surfaces our customers use; for everything else, exports work cleanly into the team's existing editorial workflow. Specifics of which integrations and where the gaps are is best handled in onboarding."}},{"@type":"Question","name":"How does the Action Hub handle agentic commerce / retail-specific actions?","acceptedAnswer":{"@type":"Answer","text":"Retail action types — listing optimization, A+ content updates, Q&A coverage on Amazon, Walmart product page updates — flow through the same loop but route to different ship surfaces. The drafting step uses retail-specific Corporate Context (product catalog facts, attribute completeness, compliance language) rather than general brand facts."}},{"@type":"Question","name":"Can I see Action Hub before I sign?","acceptedAnswer":{"@type":"Answer","text":"Yes. The Free Audit produces a starter Action Hub queue from the baseline measurement — typically 5–10 priority actions you can review with the audit team. It's the most direct way to see whether the workflow fits how your team operates."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>Inside the Action Hub — from gap detection to verified citation lift</h1>
+        <p class="seo-lede">Most AI visibility platforms stop where the dashboard ends. They tell you which prompts you&#39;re losing on, which competitors are winning, which sources are cited — and then leave the actual fixing of those gaps as homework. SolCrys&#39;s Action Hub is the part that takes over from that point: a queue of recommended actions, each tied to a specific gap, each routed through an optional drafting step grounded in your Corporate Context, each gated by a brand review you control, each measured against a 7-to-30-day Recovery Score after shipping. This guide walks through the closed loop in detail — including the failure modes the agent has, the governance step that catches mistakes, and the scope limits worth knowing before you build a workflow around it.</p>
+        <p>Updated 2026-05-17</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How does SolCrys turn AEO gaps into actions?</li><li>What is the SolCrys Action Hub?</li><li>How does an AEO action loop work?</li><li>What&#39;s the difference between an AEO dashboard and an action engine?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>The Action Hub is the part of SolCrys that lives between gap detection and verified citation lift. When the dashboard surfaces an answer gap — a prompt where competitors are cited but you aren&#39;t, a citation that decayed, a source that started favoring someone else — the Action Hub turns that gap into a specific recommended action, routes it through a drafting step where appropriate, gates it through brand-controlled review, and measures whether the shipped action actually moved the underlying metric.</p><p>It is not a dashboard with a task list. It is the half of the platform that handles the work after the dashboard would otherwise stop. If your current AEO platform&#39;s answer to &quot;what do I do now?&quot; is &quot;go write something,&quot; you&#39;re paying for half a product.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why this is the half most AEO platforms skip</h2>
+      <p>Building a dashboard for AI visibility is a tractable engineering problem. Probe a set of prompts, capture the responses, parse citations, aggregate, render. Most vendors in the category build a credible version of that.</p><p>Building the half that comes after is harder. It involves prioritizing actions across thousands of possible gaps, grounding draft content in a brand&#39;s actual approved facts (not the model&#39;s training data), routing through a customer-side approval step that respects how marketing teams actually work, and re-measuring after a delay long enough for engines to incorporate the new content. None of those four steps is glamorous; each one is where the work either gets done or doesn&#39;t.</p><p>The trade we made early was to invest in the closed loop before the dashboard was perfect. This article walks through how it actually works — and where it doesn&#39;t.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 6-step loop</h2>
+      <p>Every action that flows through the Action Hub follows the same six steps. Some are visible to you (review, ship); some are visible only when you want to look (gap detection, draft generation, re-measurement); one is invisible but consequential (Corporate Context grounding).</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Step 1: Gap detection from prompt-set monitoring</h3>
+        <p>Every day, SolCrys runs your Golden Prompt Set against the engines you track. The Action Hub watches for five gap patterns: absence (you&#39;re not cited at all on a prompt where you should be), citation decay (you used to be cited, now you&#39;re not), citation share drop (your relative position fell), accuracy gaps (you&#39;re cited but the engine is misrepresenting your product), and source-shift gaps (a third-party source that used to cite you now cites someone else).</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 2: Action surfaces in queue, priority-ranked</h3>
+        <p>Each detected gap becomes an action card in your Action Hub queue. Cards carry: the underlying gap type, the affected prompts, the engines involved, an estimated revenue-at-risk based on prompt-level value mapping (if you&#39;ve configured it), and a recommended action type — typically one of: publish new content, refresh an existing canonical page, update Corporate Context, or seed a third-party source. Priority is computed from the revenue mapping plus gap severity plus our internal confidence; you can override the ranking for any card.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 3: Optional agent drafting grounded in Corporate Context</h3>
+        <p>For actions where drafting helps (publish new content, refresh page, FAQ entry, comparison piece), the Action Hub can produce a draft. The draft is grounded in your <a href="/corporate-context-ai-marketing/" target="_blank" rel="noopener noreferrer">Corporate Context</a> — your approved brand facts, capability claims, named partnerships, pricing language, and proof points — so it doesn&#39;t hallucinate facts the model wouldn&#39;t otherwise know. The draft is a draft: it has placeholders where Corporate Context doesn&#39;t cover something, and the placeholders are explicit, not hidden behind plausible-sounding prose.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 4: Brand review gate</h3>
+        <p>No content drafted by the Action Hub ships to your site without explicit human approval. Reviewers see the draft, the gap it addresses, the evidence trail back to the original prompt and engine output, and the Corporate Context items it grounded on. Reviewers can edit inline, send back for redraft, reject, or approve. The audit log on every action records who reviewed and what they changed. Auto-publish exists as a configurable option only for tightly-scoped action types (typically Corporate Context fact updates, never new article publishing).</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 5: Ship</h3>
+        <p>Approved actions flow out of SolCrys via integration (where one exists for your CMS or third-party platform), via export to a document that goes to your editorial team, or — for Corporate Context updates — by direct write to your governed fact store. Every shipped action is timestamped and carries the action card it came from.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 6: Re-measurement and Recovery Score</h3>
+        <p>Seven days after the action ships, SolCrys re-runs the prompts the action targeted and computes the <a href="/aeo-recovery-score/" target="_blank" rel="noopener noreferrer">Recovery Score</a> — the percentage of the original gap that closed. The 7-day window is short enough to give you a fast feedback loop and long enough to let engines incorporate the new content; we also produce a 30-day re-measurement for slower-moving categories. Recovery Score below 50% triggers a flag on the original action card so you can decide whether to iterate or retire the approach.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Failure modes (the part the demo doesn&#39;t show)</h2>
+      <p>Three categories of failure exist in production. We document them rather than pretend they don&#39;t, because the platform&#39;s posture on failure is the actual diagnostic for whether it&#39;s safe to build a workflow around.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Agent failure modes</h3>
+        <p>Three we document. (a) Engine API rate-limit cascades during high-volume probe windows — the queue backs off, but some prompt re-rolls miss their target window and the next-day baseline can look anomalous. (b) Corporate Context misses — when the draft needs a fact that isn&#39;t in your approved fact store, the agent pauses with an explicit `[FACT TO CONFIRM]` placeholder rather than guessing; this is a feature in production but feels like friction in demos. (c) Citation-parse edge cases — when an engine output uses unusual citation markup, our extractor can misattribute. We run a regex reconciliation pass to catch most of these; the residual error rate is non-zero and visible in the per-sample drilldown view.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Brand review failure modes</h3>
+        <p>Two we see in customer programs. (a) Slow reviewer — if approval queues sit for weeks, the gap the action was addressing has often shifted by the time the content ships, and the Recovery Score reflects the staleness, not the action&#39;s quality. SLA on reviewer turnaround is the most common operational hand-wringing in mature customers. (b) Fact disagreement — when the draft conflicts with what marketing wants to say, the disagreement is usually about Corporate Context completeness, not the draft. We surface the conflict to the reviewer so it&#39;s resolved at the right altitude.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Engine-side regression</h3>
+        <p>An action that shipped cleanly and showed Recovery Score 70% at day 7 can regress at day 30 if an engine rolls a model update that re-ranks sources. The Action Hub flags engine-side regressions as a separate event class so you can tell the difference between &quot;the action didn&#39;t work&quot; and &quot;the action worked, then the world changed.&quot; Both happen; the distinction matters for how you allocate next-action effort.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What&#39;s not in the Action Hub</h2>
+      <p>Three things we explicitly don&#39;t try to be:</p>
+      <ul class="seo-list"><li>**A CMS replacement.** Drafts ship into your CMS or to your editorial team&#39;s hands, not in lieu of it. Brand-governed content is your asset, stored where you store everything else.</li><li>**An SEO action queue.** AEO and SEO overlap in many places but not perfectly. SolCrys actions are scoped to moving citation share, recommendation share, and answer accuracy on AI engines. Pure SEO actions (link building, traditional schema markup that doesn&#39;t affect AI surfaces) are out of scope.</li><li>**A creative agency.** The drafting step is for accelerating governed content production, not for producing the kind of conceptually distinctive content that defines a brand voice. Manifesto essays, original research, founder bylines — those still come from humans. The Action Hub draft is for the substantive operational content you&#39;d otherwise ask a content marketer to write from a brief.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How it differs from a dashboard with a task list</h2>
+      <p>Some AI visibility platforms have added &quot;task&quot; or &quot;recommendation&quot; tabs to their dashboards. The difference is whether the task is closed-loop or open-ended.</p><p>Open-ended: the platform tells you a prompt is losing share, suggests &quot;create content addressing this prompt,&quot; and your team takes it from there. The platform never sees the work again. There is no re-measurement, no Recovery Score, no learning across actions.</p><p>Closed-loop: the platform handles drafting, governance, shipping, and re-measurement as part of the same workflow. Each action has a measured outcome. Patterns that work get reinforced; patterns that don&#39;t get retired. The platform learns about your category over time, because it&#39;s seeing the full action-to-outcome chain.</p><p>Both designs are legitimate. Open-ended platforms are cheaper to build and lighter to operate; closed-loop platforms are harder to build and heavier to onboard, but produce a feedback loop that compounds over time. SolCrys is the second.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where to look in the product</h2>
+      <p>The Action Hub is one of the four main surfaces in the SolCrys product, alongside the Visibility dashboard, the Prompt Intelligence view, and the Citation explorer. If you&#39;re in a trial workspace and want to see it: open Action Hub from the main navigation, look at the priority-ranked queue, pick a card to see the underlying gap evidence, the recommended action, and (where drafting applies) the option to generate. Every card has a drilldown to the prompt-engine-response data that triggered it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How this connects to the rest of the product</h2>
+      <p>Three crosswalks worth noting:</p><p>Action Hub is the destination for everything the <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">Visibility Measurement Methodology</a> surfaces — the dashboard signals become action-card inputs. <a href="/aeo-recovery-score/" target="_blank" rel="noopener noreferrer">Recovery Score</a> is the metric the loop closes on. <a href="/corporate-context-ai-marketing/" target="_blank" rel="noopener noreferrer">Corporate Context</a> is what grounds drafted content so the loop produces brand-safe output. The connection between these four pieces is the operating system. Each one alone is incomplete.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does the Action Hub auto-publish content to my site?</h3>
+            <p>No, not by default. Every draft routes through a brand review gate, and content only ships after explicit approval. Auto-publish is available as a configurable option for tightly-scoped action types — typically Corporate Context fact updates and FAQ entries — never for new article publishing. The default posture is human-approved publish.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does the Action Hub know what&#39;s a high-priority action vs a low-priority one?</h3>
+            <p>Three inputs combine into the priority score: estimated revenue-at-risk for the affected prompts (if you&#39;ve configured the revenue mapping, which most B2B customers do for their top 20 prompts), gap severity (an absence is heavier than a citation-share drop), and our internal confidence in the gap detection. The combined ranking is suggested; you can override it for any card.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if I want SolCrys to detect gaps but I don&#39;t want it drafting anything?</h3>
+            <p>Supported. The drafting step is optional per action card. If you turn it off across the workspace, the Action Hub surfaces detected gaps with recommended action types and lets your team execute. You still get the priority ranking, the evidence trail, and the Recovery Score after you ship — just without the drafting layer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What integrations are supported for shipping content?</h3>
+            <p>We have direct integrations to the most common CMS and content surfaces our customers use; for everything else, exports work cleanly into the team&#39;s existing editorial workflow. Specifics of which integrations and where the gaps are is best handled in onboarding.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does the Action Hub handle agentic commerce / retail-specific actions?</h3>
+            <p>Retail action types — listing optimization, A+ content updates, Q&amp;A coverage on Amazon, Walmart product page updates — flow through the same loop but route to different ship surfaces. The drafting step uses retail-specific Corporate Context (product catalog facts, attribute completeness, compliance language) rather than general brand facts.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I see Action Hub before I sign?</h3>
+            <p>Yes. The Free Audit produces a starter Action Hub queue from the baseline measurement — typically 5–10 priority actions you can review with the audit team. It&#39;s the most direct way to see whether the workflow fits how your team operates.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-actions-to-revenue/">AEO Actions to Revenue</a></h3>
+            <p>Visibility metrics are not revenue. This guide is the operational playbook for tracking AEO actions through to conversion events - GA4 limits, survey-based attribution, first-party Recovery scoring, and the multi-touch attribution flow.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-recovery-score/">AEO Recovery Score</a></h3>
+            <p>AEO Recovery Score is a quantified framework for estimating how much of an answer gap your fix actions closed. This guide defines the formula, measurement windows, and how to set expectations without overclaiming recovery.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-lfakmAqs.js"></script>
+  </body>
+</html>

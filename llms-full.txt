@@ -10229,3 +10229,273 @@ A: Yes. High-velocity categories — consumer DTC, B2C ecommerce, news-adjacent 
 
 Q: How often should I check the dashboard?
 A: Weekly is usually right for most customers. Daily checking optimizes for noise and creates anxiety without producing better decisions. Monthly is too slow to catch real-shift patterns within a window that lets you act. Set up the weekly digest if you have one; the worst pattern is dashboard-doom-scrolling, which produces decisions worse than ignoring the data for a week.
+
+## Inside the Action Hub: From Gap to Verified Lift
+
+Most AI visibility platforms stop where the dashboard ends. They tell you which prompts you're losing on, which competitors are winning, which sources are cited — and then leave the actual fixing of those gaps as homework. SolCrys's Action Hub is the part that takes over from that point: a queue of recommended actions, each tied to a specific gap, each routed through an optional drafting step grounded in your Corporate Context, each gated by a brand review you control, each measured against a 7-to-30-day Recovery Score after shipping. This guide walks through the closed loop in detail — including the failure modes the agent has, the governance step that catches mistakes, and the scope limits worth knowing before you build a workflow around it.
+
+### Questions this guide answers
+
+- How does SolCrys turn AEO gaps into actions?
+- What is the SolCrys Action Hub?
+- How does an AEO action loop work?
+- What's the difference between an AEO dashboard and an action engine?
+
+### Direct answer
+
+The Action Hub is the part of SolCrys that lives between gap detection and verified citation lift. When the dashboard surfaces an answer gap — a prompt where competitors are cited but you aren't, a citation that decayed, a source that started favoring someone else — the Action Hub turns that gap into a specific recommended action, routes it through a drafting step where appropriate, gates it through brand-controlled review, and measures whether the shipped action actually moved the underlying metric.
+
+It is not a dashboard with a task list. It is the half of the platform that handles the work after the dashboard would otherwise stop. If your current AEO platform's answer to "what do I do now?" is "go write something," you're paying for half a product.
+
+
+
+
+### Why this is the half most AEO platforms skip
+
+Building a dashboard for AI visibility is a tractable engineering problem. Probe a set of prompts, capture the responses, parse citations, aggregate, render. Most vendors in the category build a credible version of that.
+
+Building the half that comes after is harder. It involves prioritizing actions across thousands of possible gaps, grounding draft content in a brand's actual approved facts (not the model's training data), routing through a customer-side approval step that respects how marketing teams actually work, and re-measuring after a delay long enough for engines to incorporate the new content. None of those four steps is glamorous; each one is where the work either gets done or doesn't.
+
+The trade we made early was to invest in the closed loop before the dashboard was perfect. This article walks through how it actually works — and where it doesn't.
+
+
+
+
+### The 6-step loop
+
+Every action that flows through the Action Hub follows the same six steps. Some are visible to you (review, ship); some are visible only when you want to look (gap detection, draft generation, re-measurement); one is invisible but consequential (Corporate Context grounding).
+
+
+
+
+#### Step 1: Gap detection from prompt-set monitoring
+
+Every day, SolCrys runs your Golden Prompt Set against the engines you track. The Action Hub watches for five gap patterns: absence (you're not cited at all on a prompt where you should be), citation decay (you used to be cited, now you're not), citation share drop (your relative position fell), accuracy gaps (you're cited but the engine is misrepresenting your product), and source-shift gaps (a third-party source that used to cite you now cites someone else).
+
+#### Step 2: Action surfaces in queue, priority-ranked
+
+Each detected gap becomes an action card in your Action Hub queue. Cards carry: the underlying gap type, the affected prompts, the engines involved, an estimated revenue-at-risk based on prompt-level value mapping (if you've configured it), and a recommended action type — typically one of: publish new content, refresh an existing canonical page, update Corporate Context, or seed a third-party source. Priority is computed from the revenue mapping plus gap severity plus our internal confidence; you can override the ranking for any card.
+
+#### Step 3: Optional agent drafting grounded in Corporate Context
+
+For actions where drafting helps (publish new content, refresh page, FAQ entry, comparison piece), the Action Hub can produce a draft. The draft is grounded in your [Corporate Context](/corporate-context-ai-marketing/) — your approved brand facts, capability claims, named partnerships, pricing language, and proof points — so it doesn't hallucinate facts the model wouldn't otherwise know. The draft is a draft: it has placeholders where Corporate Context doesn't cover something, and the placeholders are explicit, not hidden behind plausible-sounding prose.
+
+#### Step 4: Brand review gate
+
+No content drafted by the Action Hub ships to your site without explicit human approval. Reviewers see the draft, the gap it addresses, the evidence trail back to the original prompt and engine output, and the Corporate Context items it grounded on. Reviewers can edit inline, send back for redraft, reject, or approve. The audit log on every action records who reviewed and what they changed. Auto-publish exists as a configurable option only for tightly-scoped action types (typically Corporate Context fact updates, never new article publishing).
+
+#### Step 5: Ship
+
+Approved actions flow out of SolCrys via integration (where one exists for your CMS or third-party platform), via export to a document that goes to your editorial team, or — for Corporate Context updates — by direct write to your governed fact store. Every shipped action is timestamped and carries the action card it came from.
+
+#### Step 6: Re-measurement and Recovery Score
+
+Seven days after the action ships, SolCrys re-runs the prompts the action targeted and computes the [Recovery Score](/aeo-recovery-score/) — the percentage of the original gap that closed. The 7-day window is short enough to give you a fast feedback loop and long enough to let engines incorporate the new content; we also produce a 30-day re-measurement for slower-moving categories. Recovery Score below 50% triggers a flag on the original action card so you can decide whether to iterate or retire the approach.
+
+### Failure modes (the part the demo doesn't show)
+
+Three categories of failure exist in production. We document them rather than pretend they don't, because the platform's posture on failure is the actual diagnostic for whether it's safe to build a workflow around.
+
+
+
+
+#### Agent failure modes
+
+Three we document. (a) Engine API rate-limit cascades during high-volume probe windows — the queue backs off, but some prompt re-rolls miss their target window and the next-day baseline can look anomalous. (b) Corporate Context misses — when the draft needs a fact that isn't in your approved fact store, the agent pauses with an explicit `[FACT TO CONFIRM]` placeholder rather than guessing; this is a feature in production but feels like friction in demos. (c) Citation-parse edge cases — when an engine output uses unusual citation markup, our extractor can misattribute. We run a regex reconciliation pass to catch most of these; the residual error rate is non-zero and visible in the per-sample drilldown view.
+
+#### Brand review failure modes
+
+Two we see in customer programs. (a) Slow reviewer — if approval queues sit for weeks, the gap the action was addressing has often shifted by the time the content ships, and the Recovery Score reflects the staleness, not the action's quality. SLA on reviewer turnaround is the most common operational hand-wringing in mature customers. (b) Fact disagreement — when the draft conflicts with what marketing wants to say, the disagreement is usually about Corporate Context completeness, not the draft. We surface the conflict to the reviewer so it's resolved at the right altitude.
+
+#### Engine-side regression
+
+An action that shipped cleanly and showed Recovery Score 70% at day 7 can regress at day 30 if an engine rolls a model update that re-ranks sources. The Action Hub flags engine-side regressions as a separate event class so you can tell the difference between "the action didn't work" and "the action worked, then the world changed." Both happen; the distinction matters for how you allocate next-action effort.
+
+### What's not in the Action Hub
+
+Three things we explicitly don't try to be:
+
+
+- **A CMS replacement.** Drafts ship into your CMS or to your editorial team's hands, not in lieu of it. Brand-governed content is your asset, stored where you store everything else.
+- **An SEO action queue.** AEO and SEO overlap in many places but not perfectly. SolCrys actions are scoped to moving citation share, recommendation share, and answer accuracy on AI engines. Pure SEO actions (link building, traditional schema markup that doesn't affect AI surfaces) are out of scope.
+- **A creative agency.** The drafting step is for accelerating governed content production, not for producing the kind of conceptually distinctive content that defines a brand voice. Manifesto essays, original research, founder bylines — those still come from humans. The Action Hub draft is for the substantive operational content you'd otherwise ask a content marketer to write from a brief.
+
+
+
+### How it differs from a dashboard with a task list
+
+Some AI visibility platforms have added "task" or "recommendation" tabs to their dashboards. The difference is whether the task is closed-loop or open-ended.
+
+Open-ended: the platform tells you a prompt is losing share, suggests "create content addressing this prompt," and your team takes it from there. The platform never sees the work again. There is no re-measurement, no Recovery Score, no learning across actions.
+
+Closed-loop: the platform handles drafting, governance, shipping, and re-measurement as part of the same workflow. Each action has a measured outcome. Patterns that work get reinforced; patterns that don't get retired. The platform learns about your category over time, because it's seeing the full action-to-outcome chain.
+
+Both designs are legitimate. Open-ended platforms are cheaper to build and lighter to operate; closed-loop platforms are harder to build and heavier to onboard, but produce a feedback loop that compounds over time. SolCrys is the second.
+
+
+
+
+### Where to look in the product
+
+The Action Hub is one of the four main surfaces in the SolCrys product, alongside the Visibility dashboard, the Prompt Intelligence view, and the Citation explorer. If you're in a trial workspace and want to see it: open Action Hub from the main navigation, look at the priority-ranked queue, pick a card to see the underlying gap evidence, the recommended action, and (where drafting applies) the option to generate. Every card has a drilldown to the prompt-engine-response data that triggered it.
+
+
+
+
+### How this connects to the rest of the product
+
+Three crosswalks worth noting:
+
+Action Hub is the destination for everything the [Visibility Measurement Methodology](/visibility-measurement-methodology/) surfaces — the dashboard signals become action-card inputs. [Recovery Score](/aeo-recovery-score/) is the metric the loop closes on. [Corporate Context](/corporate-context-ai-marketing/) is what grounds drafted content so the loop produces brand-safe output. The connection between these four pieces is the operating system. Each one alone is incomplete.
+
+
+
+
+
+### FAQ
+
+Q: Does the Action Hub auto-publish content to my site?
+A: No, not by default. Every draft routes through a brand review gate, and content only ships after explicit approval. Auto-publish is available as a configurable option for tightly-scoped action types — typically Corporate Context fact updates and FAQ entries — never for new article publishing. The default posture is human-approved publish.
+
+Q: How does the Action Hub know what's a high-priority action vs a low-priority one?
+A: Three inputs combine into the priority score: estimated revenue-at-risk for the affected prompts (if you've configured the revenue mapping, which most B2B customers do for their top 20 prompts), gap severity (an absence is heavier than a citation-share drop), and our internal confidence in the gap detection. The combined ranking is suggested; you can override it for any card.
+
+Q: What if I want SolCrys to detect gaps but I don't want it drafting anything?
+A: Supported. The drafting step is optional per action card. If you turn it off across the workspace, the Action Hub surfaces detected gaps with recommended action types and lets your team execute. You still get the priority ranking, the evidence trail, and the Recovery Score after you ship — just without the drafting layer.
+
+Q: What integrations are supported for shipping content?
+A: We have direct integrations to the most common CMS and content surfaces our customers use; for everything else, exports work cleanly into the team's existing editorial workflow. Specifics of which integrations and where the gaps are is best handled in onboarding.
+
+Q: How does the Action Hub handle agentic commerce / retail-specific actions?
+A: Retail action types — listing optimization, A+ content updates, Q&A coverage on Amazon, Walmart product page updates — flow through the same loop but route to different ship surfaces. The drafting step uses retail-specific Corporate Context (product catalog facts, attribute completeness, compliance language) rather than general brand facts.
+
+Q: Can I see Action Hub before I sign?
+A: Yes. The Free Audit produces a starter Action Hub queue from the baseline measurement — typically 5–10 priority actions you can review with the audit team. It's the most direct way to see whether the workflow fits how your team operates.
+
+## What a SolCrys Content Audit Looks Like
+
+A SolCrys content audit is a written deliverable: scoped prompt set, baseline visibility metrics across the engines that matter for your category, citation source breakdown, the top 5 to 10 priority gaps with diagnostic explanations, recommended actions with effort estimates, and explicit confidence/uncertainty disclosure. This guide walks through the actual structure of an audit report — what's in each section, how to read it, and where the typical buyer misreads what they're looking at. It also lists what's explicitly not in scope: not an SEO audit, not a revenue attribution model, not finished content for you. The intent is to set realistic expectations before you request the audit so the conversation after it is about the right things.
+
+### Questions this guide answers
+
+- What's in a SolCrys AEO content audit?
+- How do I read an AEO content audit report?
+- What does an AI visibility audit include?
+- What's NOT in an AEO audit?
+
+### Direct answer
+
+A SolCrys content audit is a written deliverable that scopes your brand's current AI visibility position across the engines that matter for your category, identifies the top gaps where competitors are winning, and translates those gaps into specific recommended actions. It runs against a fixed prompt set, references the actual engine outputs we captured, and discloses where the data is confident vs uncertain.
+
+It is a starting point, not an end state. The audit shows you where things stand on a specific date; what closes the gaps is the work after it. If you're evaluating whether to do a Free Audit or a paid POC, this is what you'll get.
+
+
+
+
+### The 6 sections of a SolCrys audit
+
+Every audit report follows the same structure. Two are about scope and baseline; one is the diagnostic core; two are about action; one is about honesty.
+
+
+
+
+#### Section 1: Prompt set and measurement window
+
+What we tracked and when. The exact prompts in your scoped set (typically 20 to 60 depending on plan, expandable for deeper coverage). The engines we probed. The measurement window (typically the last 7 days for short-term, plus a 30-day rolling for trend). The sources we used to ground each prompt — intent volume signals, community questions, AI query data, live engine follow-ups.
+
+This section exists so you can audit the audit. If a prompt feels missing or off-target for your category, it's a discussion to have now, not after acting on the rest.
+
+#### Section 2: Baseline visibility metrics
+
+Where your brand stands across the engines we tracked. Citation share, recommendation share, mention rate, and answer-position metrics, broken out by engine. A comparison line for the top 3 competitors in your category. The trend direction over the measurement window where signal is reliable.
+
+Read this section for direction and order of magnitude, not for the exact number. AEO measurement is statistical — see our note on [why your AI visibility score moves](/why-ai-visibility-score-moves/) for the variance framing.
+
+#### Section 3: Citation source breakdown
+
+What's actually getting cited for your prompts. The domains AI engines are pulling from — your own, your competitors', third-party publications, community forums, review sites — and the relative weight of each source layer. New domains appearing in your category. Sources that dropped from the citation set during the measurement window.
+
+This is the diagnostic section that usually surprises customers most. The mental model of 'what AI engines should cite us for' often differs from the actual source map by a wide margin.
+
+#### Section 4: Top 5 to 10 priority gaps
+
+The diagnostic core. Each gap card includes: which prompts it affects, the gap type (absence, citation decay, accuracy issue, source shift, competitive displacement), the engines where it shows up, an estimated revenue-at-risk where the customer has provided prompt-level value mapping, and the evidence trail back to the specific engine outputs.
+
+Gaps are ranked by combined revenue impact and severity. The number is 5 to 10 because that's roughly the amount most marketing teams can act on in a quarter; surfacing 50 would make the audit unreadable.
+
+#### Section 5: Recommended actions
+
+For each priority gap, the recommended action type — publish new content, refresh an existing canonical page, update Corporate Context, seed a third-party source — and an effort estimate. Where the gap is content-shaped, a brief sketch of what the content should cover (not the full draft; the draft happens after, inside [Action Hub](/inside-the-action-hub/) if you proceed).
+
+Recommendations come with confidence flags. Some are mechanically obvious (an absence gap with a specific competitor URL winning the citation slot). Some are interpretive (a citation source shift that could plausibly resolve on its own as engine source preferences move).
+
+#### Section 6: Confidence and uncertainty disclosure
+
+What we know less well than the rest of the report makes it sound. Engines with thin sample sizes during the window. Prompts where engine non-determinism produced high variance across re-runs. Gaps where the cause is ambiguous between competitive movement and engine-side ranking change.
+
+This section exists because the audit is more useful when its limits are explicit. A vendor that doesn't have an uncertainty section is selling a story, not data.
+
+### What's NOT in the audit
+
+Five things customers sometimes expect that the audit doesn't deliver. Knowing this upfront reduces friction in the conversation that follows.
+
+
+- **Not an SEO audit.** We don't analyze your traditional Google SERP ranking, link profile, or Core Web Vitals. Those are SEO tool territory. The audit is scoped to AI engines and answer-engine surfaces.
+- **Not a revenue attribution model.** We can estimate revenue-at-risk per prompt if you provide the value mapping, but we don't produce a multi-touch attribution model or a full marketing-mix model. Those require integration work and live downstream from the audit.
+- **Not finished content.** The audit recommends actions and sketches what content needs to exist. Drafting and publishing live in the Action Hub workflow after you sign, not in the audit deliverable.
+- **Not a competitor smear.** We name competitors where they're winning specific citation slots — because not naming them would make the diagnostic unreadable — but we don't characterize their content or speculate about their strategy. The audit talks about the citation evidence, not their corporate intent.
+- **Not a finished playbook.** The audit is a snapshot, not a 12-month plan. A 12-month plan is built from the audit findings during onboarding, after enough conversation to understand your team's capacity and constraints.
+
+
+
+### How long the audit takes
+
+A Free Audit typically runs 3 to 5 business days end to end. That includes 1 day to scope the prompt set with your input (more if the category is unfamiliar), 1 to 2 days for the measurement and capture run (engines have their own pace), and 1 to 2 days for the written diagnostic and recommendations.
+
+Paid POC audits run longer (typically 14 to 21 days) because the prompt set is larger, the measurement window is longer for trend, and the recommended-actions section gets deeper diagnostic work per gap.
+
+
+
+
+### What comes after the audit
+
+The audit ends with three options the customer can take.
+
+**Take the recommendations and execute internally.** Some customers want only the diagnostic — they have the content capacity to act on the recommended actions in-house. That's a legitimate path; the audit is useful even without the platform behind it.
+
+**Pilot the platform to close the top 3 to 5 gaps.** A 30-day pilot uses the audit findings as the starting Action Hub queue, drafts content, routes through brand review, ships, and measures Recovery Score on what was shipped. We describe the pilot structure in detail in our [aeo-platform-pilot-playbook](/aeo-platform-pilot-playbook/).
+
+**Pass.** If the audit shows the gaps aren't material to the business, or if the recommended actions don't fit how the team operates, pass. We'd rather you tell us no after the audit than discover the fit was wrong after onboarding.
+
+
+
+
+### How to request one
+
+Free Audits are scoped during a 30-minute discovery call where we agree on the prompt set, the engines, and the comparison competitors. You receive the written audit in 3 to 5 business days after the call. Request via the [Free AI Visibility Audit](/) link in the top navigation, or write to the team directly.
+
+Paid POC audits run on a contract-scoped basis and are typically positioned mid-evaluation — after the Free Audit has shown enough alignment to warrant the deeper work, before signing an annual contract.
+
+
+
+
+
+### FAQ
+
+Q: How many prompts does the Free Audit include?
+A: Typically 20 to 30 prompts, scoped during the discovery call to your top category questions. We can expand for paid POC audits where deeper coverage matters. The principle: a focused set measured well beats a sprawling set checked once.
+
+Q: Will the audit name specific competitors?
+A: Yes — where competitors are winning specific citation slots on prompts in your set, we name them and show the cited URLs. Not naming them would make the diagnostic unreadable. We describe the evidence (who's cited where), not their strategy or intent — we don't have visibility into the latter.
+
+Q: Do I have to use the SolCrys platform after the audit?
+A: No. The audit is a diagnostic deliverable. Some customers take the findings and execute in-house. We'd rather you decide after seeing the audit whether the workflow fits your team than commit before. The Free Audit exists partly to make that decision better-informed.
+
+Q: How does the audit handle engine non-determinism?
+A: We disclose it in the confidence section. Where engines produced high variance across re-runs in the measurement window, we flag the affected prompts and avoid presenting them as if the numbers are deterministic. The [visibility measurement methodology](/visibility-measurement-methodology/) page describes how we sample across re-runs.
+
+Q: Can I share the audit with my agency or partners?
+A: Yes. The audit is your deliverable. Many customers share it with their content agency, PR firm, or category consultants to align everyone on the gaps. Standard practice.
+
+Q: What if my category is unusual or my buyers ask very specific prompts?
+A: That's exactly when the discovery call is most useful. The audit is scoped to your specific buyers and category. If your prompts are unusual, we adjust the prompt set construction — drawing from your internal sales-team knowledge, community-question signals from sources that cover your niche, and the prompts your competitors appear to be optimizing for. Tell us during scoping; we'd rather build the right set than apply a category template.
