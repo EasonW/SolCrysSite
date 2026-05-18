@@ -12494,7 +12494,7 @@
             {
               "heading": "My visibility score moved 12% this week — is that normal?",
               "body": [
-                "Often yes. AEO scores move week to week even when nothing you control has changed, because (a) AI engines are non-deterministic, (b) the source landscape engines query is constantly changing — competitors publish, third-party media cites different sources, model versions roll, content-freshness windows decay — and (c) the measurement layer is a statistical estimate, not a deterministic count. Single-prompt week-over-week moves of 10–20% are within normal variance; aggregate citation share moves of 5–10% are normal. We walk through the 6 sources of variance, the typical ranges, and the patterns that signal real movement vs noise in our guide: [Why your AI visibility score moves](/why-ai-visibility-score-moves/). Two operating rules of thumb: watch the 7-day rolling average rather than the single-day number, and don't conclude a drop is real until it's sustained across 2–3 weeks."
+                "Often yes — and the right question to ask isn't \"is this within an expected range?\" but \"what new content was published, and what citations changed?\" AEO scores move week to week even when nothing you control has changed, because (a) AI engines are non-deterministic, (b) the source landscape engines query is constantly changing — competitors publish, third-party media cites different sources, model versions roll, content-freshness windows decay — and (c) the measurement layer is a statistical estimate, not a deterministic count. The score is the symptom; the real signals are new content and citation changes. We walk through the 6 sources of variance and the diagnostic path in our guide: [Why your AI visibility score moves](/why-ai-visibility-score-moves/). Two operating rules of thumb: watch the 7-day rolling average rather than the single-day number, and pull the underlying citation source list before deciding whether to act."
               ]
             },
             {
@@ -14565,7 +14565,7 @@
             {
               "heading": "Prompt set",
               "body": [
-                "Our [Golden Prompt Set methodology](/golden-prompt-set-methodology/) grounds every customer's prompt set on four real-world signals: intent volume across major search and marketplace surfaces, public community questions, AI query volume signals where reliable, and live engine follow-ups. Typical size: 200–800 prompts per category, depending on coverage depth. Refresh: priority prompts daily, full set quarterly, plus event-triggered review when major engine or category news lands."
+                "Our [Golden Prompt Set methodology](/golden-prompt-set-methodology/) grounds every customer's prompt set on four real-world signals: intent volume across major search and marketplace surfaces, public community questions, AI query volume signals where reliable, and live engine follow-ups. Typical workspace size: tens of prompts (around 20 on Starter and Growth plans, 60 on Pro, 30 per client organization on Agency), expandable when a category needs deeper coverage. A focused set measured well beats a sprawling set checked once. Refresh: priority prompts daily, full set quarterly, plus event-triggered review when major engine or category news lands."
               ]
             },
             {
@@ -15238,7 +15238,7 @@
       "metaTitle": "Why Your AI Visibility Score Moves — Normal Variance vs Real Movement | SolCrys",
       "description": "AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch.",
       "h1": "Why your AI visibility score moves — and how to tell normal variance from real movement",
-      "summary": "One of the most common questions we get from customers: \"My AI visibility score moved 12% this week — what happened?\" Often the answer is: nothing you control changed, but the world the engines query did. AEO measurement is a statistical estimate, not a deterministic count, and AI engines are non-deterministic by design — so some movement in your score is normal even when your content, crawler access, and Corporate Context are all unchanged. This guide walks through the 6 sources of normal variance (engine non-determinism, model updates, competitor moves, third-party citations, content freshness windows, sampling cadence), the typical ranges to expect at daily / weekly / monthly cadence, and the specific patterns that signal real movement worth acting on. With one rule of thumb: trust the trajectory, not any single number.",
+      "summary": "One of the most common questions we get from customers: \"My AI visibility score moved this week — what happened?\" Often the answer is: nothing you control changed, but the world the engines query did. AEO measurement is a statistical estimate, not a deterministic count, and AI engines are non-deterministic by design — so some movement is normal noise even when your content, crawler access, and Corporate Context are all unchanged. This guide walks through the 6 sources of normal variance (engine non-determinism, model updates, competitor moves, third-party citations, content freshness windows, sampling cadence), and the framing that matters most: the score is the symptom, but the real signals — the ones that tell you whether something actually changed — are new content publications (yours and competitors') and citation changes (new domains appearing in your prompt sources, old ones dropping out). When the score moves, the diagnostic question isn't \"is this within my expected variance range?\" It's \"what new content was published, and what citations changed?\" The score is a watch indicator; the content and citation landscape is the cause.",
       "category": "Measurement",
       "ogImage": "/og/why-ai-visibility-score-moves.png",
       "updated": "2026-05-17",
@@ -15312,88 +15312,60 @@
           ]
         },
         {
-          "heading": "Typical variance ranges to expect",
+          "heading": "The score is the symptom — new content and citations are the real signals",
           "body": [
-            "These ranges are observed across the SolCrys customer base. Your category may run higher (news-adjacent, high-velocity B2C) or lower (slow-moving B2B enterprise) — but these are useful default expectations."
-          ],
-          "table": {
-            "headers": [
-              "Timescale",
-              "Typical variance on individual prompts",
-              "Typical variance on aggregate citation share"
-            ],
-            "rows": [
-              [
-                "Day-to-day",
-                "±5–15%",
-                "±3–8%"
-              ],
-              [
-                "Week-over-week",
-                "±10–20%",
-                "±5–10%"
-              ],
-              [
-                "Month-over-month",
-                "±15–25%",
-                "±8–15%"
-              ]
-            ]
-          }
-        },
-        {
-          "heading": "When volatility is normal",
-          "body": [
-            "Treat movement as normal noise — not a problem to solve — when:"
+            "This is the single most important reframe in the article. The visibility score moving is the symptom, not the cause. Some movement is normal noise; the score will drift up and down within a comfortable range even when everything is steady. Trying to predict the exact noise range is the wrong job.",
+            "The job is to look at the **causal signals** underneath: what content was newly published, and what citations changed. These are the only signals where you can actually tell whether something material happened.",
+            "When the score moves and you want to know whether to act, ask three concrete questions:"
           ],
           "bullets": [
-            "Single-day spike or dip, no follow-through the next day",
-            "Movement is within the typical variance range for your cadence (see table above)",
-            "No coincident engine model announcement, competitor publication, or third-party media event",
-            "Movement is spread across many prompts roughly evenly, not concentrated in any one cluster",
-            "Movement is similar across engines (suggests measurement noise, not engine-specific behavior change)"
+            "**Did we ship new content recently?** Pull the list of pages we published or refreshed in the last 30 days. Are any of them in the cited source list for the affected prompts? If yes, the new content is doing (or not doing) work — diagnose accordingly.",
+            "**Did a competitor publish something on the affected topic?** Check the new domains appearing in the citation list for that prompt cluster. New competitor URLs surfacing is a real signal — usually drives a relative share drop on our side that recovers as their freshness window decays, but only if we respond with substance, not just by waiting.",
+            "**Did the third-party source landscape shift?** Editorial outlets, community forums, review sites — when these change which brands they cite, AI engines that ground answers in them follow. Look at whether new third-party domains appeared or familiar ones dropped out. This is the slower-moving but harder-to-reverse signal."
           ]
         },
         {
-          "heading": "When volatility signals real movement",
+          "heading": "What 'normal noise' looks like",
           "body": [
-            "These patterns suggest something has actually changed and is worth acting on:"
+            "Some level of week-to-week movement is expected and not worth investigating. The shape that tells you it's noise rather than signal:",
+            "Single-day spikes or dips that don't repeat the next day. Movement spread roughly evenly across prompts rather than concentrated in any one cluster. Movement that's similar across engines (suggests engine-side sampling variance, not anything you control). No coincident engine model rollout, competitor publication, or third-party media event explains it.",
+            "If you see noise-shaped movement, watch the 7-day rolling number and let it ride. Acting on noise is worse than ignoring it — it creates churn in content priorities that aren't actually broken."
+          ]
+        },
+        {
+          "heading": "When movement is worth investigating",
+          "body": [
+            "Five patterns suggest something has actually changed underneath. In all five, the diagnostic path goes back to the same place: look at the content and citation changes that explain the score, don't argue with the score itself."
           ],
           "subsections": [
             {
               "heading": "Sustained drop over 3+ weeks",
               "body": [
-                "If the score is lower this week than last week AND last week than the week before AND that pattern continues, you're past noise. Look at the breakdown by engine, by prompt cluster, and by source type to find the cause."
+                "If the score is lower this week than last week AND last week than the week before AND that pattern continues, you're past noise. Pull the citation source list for the affected prompts and compare to three weeks ago. The new domains and the missing-now-present domains tell you what happened."
               ]
             },
             {
               "heading": "Drop concentrated in one engine",
               "body": [
-                "If your overall score moved but the drop is almost entirely from one engine, it's usually one of three causes: that engine ran a model update; your content's relationship to that engine's retrieval logic changed (e.g., it stopped indexing a source); or a competitor specifically optimized for that engine. Diagnostic: check the cited sources for that engine before and after."
+                "If your overall score moved but the drop is almost entirely from one engine, that engine's source set changed for your prompts. Pull the cited sources for that engine before and after the drop — usually you'll see either a new source the engine prefers or a competitor's content the engine has started favoring."
               ]
             },
             {
               "heading": "Drop concentrated in one prompt cluster",
               "body": [
-                "If the drop is mostly in a topical area (say, comparison prompts vs how-to prompts), the topical landscape shifted. Usually means a competitor published in that area, or the cited third-party sources for that topic moved away from you. Pull the citation source list for the affected cluster and look for new domains appearing."
+                "If the drop is mostly in a topical area (comparison prompts vs how-to prompts, say), the topical landscape shifted. Pull the citation source list for the affected cluster. You'll see one of two things: a competitor's new content appearing, or a third-party source repositioning away from you."
               ]
             },
             {
               "heading": "Coincides with a competitor publication push",
               "body": [
-                "If you have competitive monitoring set up, you'll see the timing line up. A competitor's strong publication week often shows up as a 5–15% relative share drop on your side for the affected prompts. Action: respond with substance, not panic — your sustained citation share recovers as their freshness window decays."
+                "If you have competitive monitoring set up, you'll see the timing line up: a competitor's strong publication week shows up as a relative share drop on your side for the affected prompts. The recovery comes when you respond with substance — better content, denser facts, more specific evidence on the same prompts — not by waiting for their freshness window to decay alone."
               ]
             },
             {
               "heading": "Coincides with technical or content issues on your side",
               "body": [
-                "Drops can be caused by your own changes: a page returning 4xx, a canonical issue redirecting cited URLs incorrectly, a CMS migration changing URL structures, robots.txt blocking previously-allowed crawlers. SolCrys's technical readiness diagnostic will flag these. If your score dropped coincident with a deploy or content migration, start here."
-              ]
-            },
-            {
-              "heading": "Persists across rerun samples",
-              "body": [
-                "When SolCrys reruns a prompt multiple times in a sampling window and the lower number consistently appears across samples, that's evidence the lower number is the actual state, not just engine non-determinism. The drilldown view in your dashboard shows per-sample evidence."
+                "Drops can be caused by your own changes: a page returning 4xx, a canonical issue redirecting cited URLs incorrectly, a CMS migration changing URL structures, robots.txt blocking previously-allowed crawlers. SolCrys's technical readiness diagnostic will flag these. If your score dropped coincident with a deploy or content migration, start here before assuming anything else."
               ]
             }
           ]
@@ -15406,7 +15378,7 @@
           "bullets": [
             "Rolling 7-day and 30-day windowed aggregation, so a single anomalous sample doesn't move the reported number on its own.",
             "Multiple samples per prompt where the engine API permits, with the median used as the reported value.",
-            "Stable prompt set: the 200–800 prompts in your Golden Prompt Set are frozen between scheduled refreshes, so trend lines are comparable across windows.",
+            "Stable prompt set: your Golden Prompt Set — typically tens of prompts per workspace (around 20 on Starter and Growth plans, 60 on Pro, 30 per client organization on Agency, with deeper coverage scoped where a category needs it) — stays frozen between scheduled refreshes, so trend lines are comparable across windows.",
             "Engine-attributed reporting so you can isolate which engine moved (vs an across-the-board shift)."
           ]
         },
@@ -15430,8 +15402,8 @@
       ],
       "faqs": [
         {
-          "question": "Is a 15% week-over-week move on my overall score normal?",
-          "answer": "On overall citation share, 15% is at the upper end of normal but not abnormal — particularly in categories with active competitive publishing or in periods near major engine model rollouts. If 15% becomes the new sustained level (you don't bounce back within 2–3 weeks), that's the signal to investigate."
+          "question": "My score moved this week — should I act on it?",
+          "answer": "Probably not yet. Look at the underlying citation source list for the affected prompts before deciding. The score itself is the symptom; the diagnostic signals are (a) did we ship new content recently, (b) did a competitor publish on the affected topic, (c) did the third-party source landscape shift. If none of those show anything new, the movement is most likely engine-side sampling variance and not worth acting on. If one of them shows real change, you have a concrete action surface — not just a number to react to."
         },
         {
           "question": "Should I worry about a single one-day spike or dip?",
