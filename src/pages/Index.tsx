@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
 import ApproachSection from "@/components/ApproachSection";
 import PlatformLayersSection from "@/components/PlatformLayersSection";
+import MCPSkillsSection from "@/components/MCPSkillsSection";
 import SolutionsSection from "@/components/SolutionsSection";
 import AnswerEngineSection from "@/components/AnswerEngineSection";
 import ResourcesSection from "@/components/ResourcesSection";
@@ -25,6 +26,7 @@ const Index = () => {
       <ProblemSection />
       <ApproachSection />
       <PlatformLayersSection />
+      <MCPSkillsSection />
       <SolutionsSection />
       <ResourcesSection />
       <SourceNotesSection />
