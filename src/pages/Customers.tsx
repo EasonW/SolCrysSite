@@ -569,159 +569,148 @@ const CustomerStories = () => {
 
         <div className="glow-line w-full" />
 
-        {/* More customer voices — Garrett Astler (ClearlyKept), Jed Li (BOBOYM) */}
-        <section className="max-w-6xl mx-auto px-6 py-20 md:py-24">
+        {/* More customer voices — Garrett (ClearlyKept), Jed (BOBOYM), Toni (anonymized) */}
+        <section className="max-w-5xl mx-auto px-6 py-20 md:py-24">
           <div className="text-center mb-12">
             <p className="fade-in-scroll section-label mb-4">
               More customer voices
             </p>
             <h2 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground">
-              Founders and operators using SolCrys to compete in AI discovery.
+              Founders, operators, and comms leaders using SolCrys to compete in AI discovery.
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+          <div className="space-y-6 md:space-y-8">
             {/* Garrett Astler — ClearlyKept */}
             <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
-              <div className="flex flex-col items-center text-center gap-4 p-8 md:p-10 border-b border-border/40 bg-muted/20">
-                <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border-2 border-border/40 shrink-0">
-                  <img
-                    src="/customers/garrett-astler.jpg"
-                    alt="Garrett Astler"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div>
-                  <p className="font-heading text-base font-semibold text-foreground">
-                    Garrett Astler
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-0.5">
-                    Co-founder
-                  </p>
-                  <p className="text-xs text-muted-foreground/80 mt-0.5">
-                    ClearlyKept
-                  </p>
-                  <div className="mt-3">
-                    <LinkedInLink href={LINKEDIN.garrett} name="Garrett Astler" />
+              <div className="grid md:grid-cols-[auto_1fr] gap-0">
+                <div className="flex md:flex-col items-center md:justify-center gap-4 p-8 md:p-10 md:w-[280px] border-b md:border-b-0 md:border-r border-border/40 bg-muted/20">
+                  <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border border-border/40 shrink-0">
+                    <img
+                      src="/customers/garrett-astler.jpg"
+                      alt="Garrett Astler"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="md:mt-5 md:text-center md:flex md:flex-col md:items-center">
+                    <p className="font-heading text-base font-semibold text-foreground">
+                      Garrett Astler
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      Co-founder
+                    </p>
+                    <p className="text-xs text-muted-foreground/80 mt-0.5">
+                      ClearlyKept
+                    </p>
+                    <div className="mt-3">
+                      <LinkedInLink href={LINKEDIN.garrett} name="Garrett Astler" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="p-8 md:p-10 flex flex-col">
-                <div
-                  aria-hidden
-                  className="font-heading text-5xl leading-none mb-1 select-none text-muted-foreground/60"
-                >
-                  “
+
+                <div className="p-8 md:p-12 flex flex-col justify-center">
+                  <div
+                    aria-hidden
+                    className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none text-muted-foreground/60"
+                  >
+                    “
+                  </div>
+                  <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground">
+                    {garrettQuote}
+                  </blockquote>
                 </div>
-                <blockquote className="font-heading text-base md:text-lg leading-relaxed text-foreground">
-                  {garrettQuote}
-                </blockquote>
               </div>
             </article>
 
             {/* Jed Li — BOBOYM */}
             <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
-              <div className="flex flex-col items-center text-center gap-4 p-8 md:p-10 border-b border-border/40 bg-muted/20">
-                <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border-2 border-border/40 shrink-0">
-                  <img
-                    src="/customers/jed-li.jpg"
-                    alt="Jed Li"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div>
-                  <p className="font-heading text-base font-semibold text-foreground">
-                    Jed Li
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-0.5">
-                    CEO
-                  </p>
-                  <p className="text-xs text-muted-foreground/80 mt-0.5">
-                    BOBOYM
-                  </p>
-                  <div className="mt-3">
-                    <AmazonStoreLink href={BOBOYM_AMAZON_STORE} name="BOBOYM" />
+              <div className="grid md:grid-cols-[auto_1fr] gap-0">
+                <div className="flex md:flex-col items-center md:justify-center gap-4 p-8 md:p-10 md:w-[280px] border-b md:border-b-0 md:border-r border-border/40 bg-muted/20">
+                  <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border border-border/40 shrink-0">
+                    <img
+                      src="/customers/jed-li.jpg"
+                      alt="Jed Li"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="md:mt-5 md:text-center md:flex md:flex-col md:items-center">
+                    <p className="font-heading text-base font-semibold text-foreground">
+                      Jed Li
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      CEO
+                    </p>
+                    <p className="text-xs text-muted-foreground/80 mt-0.5">
+                      BOBOYM
+                    </p>
+                    <div className="mt-3">
+                      <AmazonStoreLink href={BOBOYM_AMAZON_STORE} name="BOBOYM" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="p-8 md:p-10 flex flex-col">
-                <div
-                  aria-hidden
-                  className="font-heading text-5xl leading-none mb-1 select-none text-muted-foreground/60"
-                >
-                  “
+
+                <div className="p-8 md:p-12 flex flex-col justify-center">
+                  <div
+                    aria-hidden
+                    className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none text-muted-foreground/60"
+                  >
+                    “
+                  </div>
+                  <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground">
+                    {jedQuote}
+                  </blockquote>
                 </div>
-                <blockquote className="font-heading text-base md:text-lg leading-relaxed text-foreground">
-                  {jedQuote}
-                </blockquote>
+              </div>
+            </article>
+
+            {/* Toni Iafrate — anonymized */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
+              <div className="grid md:grid-cols-[auto_1fr] gap-0">
+                <div className="flex md:flex-col items-center md:justify-center gap-4 p-8 md:p-10 md:w-[280px] border-b md:border-b-0 md:border-r border-border/40 bg-muted/20">
+                  <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border border-border/40 shrink-0">
+                    <img
+                      src="/customers/toni-iafrate.jpg"
+                      alt="Toni Iafrate"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="md:mt-5 md:text-center md:flex md:flex-col md:items-center">
+                    <p className="font-heading text-base font-semibold text-foreground">
+                      Toni Iafrate
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      Chief Communications Officer
+                    </p>
+                    <p className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/80">
+                      <Lock className="h-3 w-3" />
+                      Company name withheld
+                    </p>
+                    <div className="mt-3">
+                      <LinkedInLink href={LINKEDIN.toni} name="Toni Iafrate" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-8 md:p-12 flex flex-col justify-center">
+                  <div
+                    aria-hidden
+                    className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none text-muted-foreground/60"
+                  >
+                    “
+                  </div>
+                  <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground">
+                    {toniQuote}
+                  </blockquote>
+                </div>
               </div>
             </article>
           </div>
 
-        </section>
-
-        <div className="glow-line w-full" />
-
-        {/* Across the industry — anonymized testimonial */}
-        <section className="max-w-5xl mx-auto px-6 py-20 md:py-24">
-          <div className="text-center mb-12">
-            <p className="fade-in-scroll section-label mb-4">
-              Across the industry
-            </p>
-            <h2 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground">
-              Comms and marketing leaders are turning AI signal into action.
-            </h2>
-          </div>
-
-          <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
-            <div className="grid md:grid-cols-[auto_1fr] gap-0">
-              {/* Speaker column with photo + anonymized company */}
-              <div className="flex md:flex-col items-center md:justify-center gap-4 p-8 md:p-10 md:w-[280px] border-b md:border-b-0 md:border-r border-border/40 bg-muted/20">
-                <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border border-border/40 shrink-0">
-                  <img
-                    src="/customers/toni-iafrate.jpg"
-                    alt="Toni Iafrate"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="md:mt-5 md:text-center md:flex md:flex-col md:items-center">
-                  <p className="font-heading text-base font-semibold text-foreground">
-                    Toni Iafrate
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-0.5">
-                    Chief Communications Officer
-                  </p>
-                  <p className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/80">
-                    <Lock className="h-3 w-3" />
-                    Company name withheld
-                  </p>
-                  <div className="mt-3">
-                    <LinkedInLink href={LINKEDIN.toni} name="Toni Iafrate" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Quote */}
-              <div className="p-8 md:p-12 flex flex-col justify-center">
-                <div
-                  aria-hidden
-                  className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none text-muted-foreground/60"
-                >
-                  “
-                </div>
-                <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground">
-                  {toniQuote}
-                </blockquote>
-              </div>
-            </div>
-          </article>
-
           <p className="fade-in-scroll mt-6 text-center text-xs text-muted-foreground/70">
-            Shared with permission. Company name redacted at the customer's
-            request.
+            Shared with permission. Company names redacted at customer request where noted.
           </p>
         </section>
 
