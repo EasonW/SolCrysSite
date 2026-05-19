@@ -10546,18 +10546,18 @@ The agent takes a screenshot, identifies UI elements visually, and acts on what 
 
 #### Structural (DOM-based)
 
-The agent walks the DOM, finds elements by HTML semantics or class names, and acts on the underlying structure. This is closest to how a search crawler reads your page. Failure modes: `<div onclick>` patterns instead of `<button>` elements, custom interactive widgets without ARIA roles, state changes via CSS classes that the DOM doesn't reflect, content rendered into canvas elements that the DOM can't introspect.
+The agent walks the DOM, finds elements by HTML semantics or class names, and acts on the underlying structure. This is closest to how a search crawler reads your page. Failure modes: clickable `<div>` elements with `onclick` handlers instead of proper `<button>` elements; custom interactive widgets without ARIA roles; state changes signaled only by CSS classes the DOM doesn't reflect; content rendered into `<canvas>` elements the DOM can't introspect.
 
 #### Semantic (accessibility-tree-based)
 
-The agent reads the browser's accessibility tree, the same data path screen readers use. This gives the agent intent labels — "this is a primary submit button" — rather than just visual or structural data. Failure modes: missing accessible names on buttons, form inputs without associated labels, decorative images marked as content, modal dialogs without `role="dialog"` and proper focus management.
+The agent reads the browser's accessibility tree, the same data path screen readers use. This gives the agent intent labels — "this is a primary submit button" — rather than just visual or structural data. Failure modes: missing accessible names on buttons, form inputs without associated labels, decorative images marked as content, modal dialogs without a `role="dialog"` attribute or proper focus management.
 
 ### The five rules that move the needle
 
 Google's web.dev guidance on building agent-friendly websites is straightforward: agent UX is accessibility and UX, applied with discipline. The five rules below capture most of the practical value. They are not new rules; they are the rules accessibility teams have been asking for since the W3C ARIA spec was published. Agents are the new constituency that makes the rules procurement-relevant.
 
 
-- **Use real semantic HTML for interactive elements**. Buttons are `<button>`, links are `<a>`, inputs have labels. `<div onclick>` patterns that look right but don't carry semantic role information will fail across all three agent views.
+- **Use real semantic HTML for interactive elements**. Buttons should be `<button>` tags, links should be `<a>` tags, and inputs should have associated labels. A clickable `<div>` with an `onclick` handler may look right visually but carries no semantic role information — and will fail across all three agent views.
 - **Give every interactive element an accessible name**. The visible label is often enough; when it's not (icon-only buttons, ambiguous controls), an `aria-label` or `aria-labelledby` carries the intent. "Submit" beats "Click here"; both beat an icon with no text.
 - **Make state visible in the DOM, not just in CSS**. If a button is disabled, use `disabled` or `aria-disabled`; if a toggle is on, use `aria-pressed` or the equivalent. State that lives only in CSS class names is invisible to agents that read the DOM or accessibility tree.
 - **Keep layout stable after first paint**. Layout shift moves agent targets between the time the agent identifies them and the time it tries to click them, and the agent fails. The Core Web Vitals metric CLS (Cumulative Layout Shift) was designed for humans, but it captures the same failure mode.
@@ -10589,7 +10589,7 @@ If an important data field — a sample, a confidence interval, a definition —
 Five days, one rule per day, applied to the three highest-traffic flows in your product. End of week, you have an inventory of where agent UX fails and a prioritized list of fixes.
 
 
-- **Day 1**: Walk every clickable element in the priority flows. Inventory each that's a `<div>` instead of a `<button>` or `<a>`. Replace.
+- **Day 1**: Walk every clickable element in the priority flows. Inventory any rendered as a `<div>` instead of a `<button>` or an `<a>`. Replace.
 - **Day 2**: For every input field, confirm a visible or aria-associated label. For every button, confirm an accessible name. Fix gaps.
 - **Day 3**: For every stateful component (toggle, tab, selected row, disabled button), confirm DOM-visible state. Replace CSS-only state.
 - **Day 4**: Run the priority flows in a low-bandwidth Chrome window and watch for layout shift. Pin elements that shift.
