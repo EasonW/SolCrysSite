@@ -123,7 +123,7 @@ const CustomerQuoteCarousel = ({
       onBlur={() => setPaused(false)}
     >
       <div
-        className="relative overflow-hidden rounded-2xl border border-border/40 bg-card/50 backdrop-blur-sm"
+        className="relative overflow-hidden rounded-2xl border border-border/40 bg-card/50 backdrop-blur-sm grid"
         style={{ minHeight }}
       >
         {quotes.map((q, i) => {
@@ -132,7 +132,8 @@ const CustomerQuoteCarousel = ({
             <article
               key={q.name}
               aria-hidden={!isActive}
-              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+              style={{ gridArea: "1 / 1" }}
+              className={`transition-opacity duration-700 ease-in-out ${
                 isActive ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
               }`}
             >
