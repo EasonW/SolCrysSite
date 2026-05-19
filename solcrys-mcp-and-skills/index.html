@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>SolCrys MCP Server + Skills: Tools, Install, and Workflows | SolCrys</title>
+    <meta name="description" content="A practical reference for the SolCrys MCP server and the four open-source AEO Skills. Nine tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/solcrys-mcp-and-skills/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-18" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="SolCrys MCP Server + Skills: Tools, Install, and Workflows | SolCrys" />
+    <meta property="og:description" content="A practical reference for the SolCrys MCP server and the four open-source AEO Skills. Nine tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients." />
+    <meta property="og:url" content="https://solcrys.com/solcrys-mcp-and-skills/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-B8ttqOBA.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"SolCrys MCP and Skills: tools, install, and the workflows that chain them","item":"https://solcrys.com/solcrys-mcp-and-skills/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The SolCrys MCP server and open-source Skills: a complete reference","description":"A practical reference for the SolCrys MCP server and the four open-source AEO Skills. Nine tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.","dateModified":"2026-05-18","datePublished":"2026-05-18","mainEntityOfPage":"https://solcrys.com/solcrys-mcp-and-skills/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/solcrys-mcp-and-skills/","mainEntity":[{"@type":"Question","name":"Is the MCP server free, or does it require a paid SolCrys plan?","acceptedAnswer":{"@type":"Answer","text":"The MCP server is included on every paid SolCrys plan at no additional cost. Free-tier users can access read-only sample data through the open-source Skills repo with a sample workspace; full workspace data requires a paid plan."}},{"@type":"Question","name":"Can I self-host the MCP server?","acceptedAnswer":{"@type":"Answer","text":"The MCP server is hosted-only. The underlying tools are documented in the public Skills repo so you understand what's available, but the server itself is multi-tenant and managed at mcp.solcrys.com. The Skills layer on top is fully open-source — fork it, edit it, embed it in your own agent stack."}},{"@type":"Question","name":"How does the MCP server handle workspace permissions?","acceptedAnswer":{"@type":"Answer","text":"Both OAuth and PAT auth methods inherit workspace permissions from the SolCrys dashboard. If a user can read a workspace's data in the dashboard, an agent calling via that user's identity can read the same data via MCP. There is no superuser token, no instance-wide token, and no write capability."}},{"@type":"Question","name":"What's the difference between a Claude Skill and a custom prompt?","acceptedAnswer":{"@type":"Answer","text":"A Skill is a packaged workflow that Claude can auto-activate when relevant — it includes the prompt, the tools it expects to chain, and metadata that helps the model decide when to invoke it. A custom prompt is content the user pastes manually each time. The SolCrys Skills are designed as Skills first; for clients that don't support the Skills format, the same content works as a prompt template, but requires manual invocation."}},{"@type":"Question","name":"Can I add my own Skills?","acceptedAnswer":{"@type":"Answer","text":"Yes. The repo is MIT-licensed and structured so adding a Skill is a matter of dropping a new directory under `skills/` with the standard Anthropic Skill format. Skills you add can reference the same MCP tools the bundled four use. We accept community-contributed Skills via pull request."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">MCP &amp; Skills</p>
+        <h1>The SolCrys MCP server and open-source Skills: a complete reference</h1>
+        <p class="seo-lede">The SolCrys MCP server exposes a SolCrys workspace as nine typed, read-only tools that any MCP-compatible AI client can call. On top of it, four open-source Skills (MIT-licensed, in the SolCrys-AEO-Skills GitHub repo) chain those tools into useful deliverables — a weekly CMO brief, a citation-domain influence report, a brand footprint gap analysis, and an action-driven content draft. This page is the reference: what every tool does, how to install the MCP server and the Skills in your AI client, the typical seven-step workflow agents follow, and how OAuth vs Personal Access Tokens compare for different use cases.</p>
+        <p>Updated 2026-05-18</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I connect Claude or ChatGPT to my SolCrys workspace?</li><li>What tools does the SolCrys MCP server expose?</li><li>How do the four SolCrys Skills work?</li><li>How do I install the SolCrys MCP server in Claude Code?</li><li>What is the typical workflow when an AI agent uses SolCrys data?</li><li>How does OAuth compare to a Personal Access Token for the SolCrys MCP server?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>The SolCrys MCP server is a hosted endpoint at `https://mcp.solcrys.com/mcp` that exposes a SolCrys workspace as nine read-only tools any MCP-compatible AI client can call — Claude Code, Cursor, JetBrains AI Assistant, Continue, Zed, and the OpenAI developer platform among them. The four Skills, MIT-licensed in the <a href="https://github.com/SolCrysAI/SolCrys-AEO-Skills" target="_blank" rel="noopener noreferrer">SolCrys-AEO-Skills GitHub repo</a>, are workflow packages that chain those tools into deliverables. Connection is one CLI command and an OAuth click; the rest is the model deciding which tools to call based on what you ask.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Install the MCP server in 30 seconds</h2>
+      <p>Claude Code is the canonical client for this workflow. The install command:</p><p>claude mcp add --transport http solcrys https://mcp.solcrys.com/mcp</p><p>On the first tool call after install, Claude Code opens an OAuth flow in your default browser. Sign in with the same email your SolCrys workspace is provisioned under, approve the requested scopes, and the connection is persistent. The OAuth token auto-refreshes; revoke from the SolCrys dashboard whenever you want.</p><p>For programmatic access (CI jobs, scheduled report generation, agency automation), generate a Personal Access Token from your SolCrys dashboard and pass it as a header:</p><p>claude mcp add --transport http solcrys https://mcp.solcrys.com/mcp  --header &quot;Authorization: Bearer &lt;YOUR_PAT&gt;&quot;</p><p>Other MCP-compatible clients follow the same shape — point them at the URL, hand them an auth method, done. The transport is plain HTTP with Server-Sent Events for streaming, so any client that speaks MCP over HTTP works.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The nine tools, cataloged</h2>
+      <p>Every tool is read-only, scoped to a workspace the calling identity is authorized for, and returns typed JSON the model can compose on without bespoke parsing.</p><p>There is no write tool. That is intentional. The MCP server is the read surface; actions belong in the systems that publish them (GitHub, CMS, Slack approval threads). The <a href="/action-externalization/" target="_blank" rel="noopener noreferrer">action externalization</a> essay covers the reasoning.</p>
+      <ul class="seo-list"><li>**`solcrys_list_workspaces`** — workspace discovery. Returns every workspace the calling identity can access. This is almost always the first tool an agent calls when it doesn&#39;t yet know which tenant context to operate in.</li><li>**`solcrys_get_prompts`** — the curated prompt set for a workspace. Returns the buyer-shaped prompts SolCrys runs against each AI engine on the workspace&#39;s monitoring cadence.</li><li>**`solcrys_get_visibility_insights`** — the hero metrics view. Mention rate, share-of-voice ranking, owned-media percentage, per-engine breakdown, week-over-week trend, and highlight/gap callouts. This is what populates the dashboard&#39;s main page; an agent uses it for top-level summary.</li><li>**`solcrys_get_prompts_insights`** — per-prompt performance. Presence %, citation %, sentiment, gainers, decliners, lowest-presence alerts. An agent uses this to find the worst-performing prompts to investigate.</li><li>**`solcrys_get_citations_insights`** — top-cited domains with source-type breakdown (Owned, Competitor, Editorial, UGC, Other). An agent uses this to map the citation landscape — who&#39;s winning AI mindshare in the category.</li><li>**`solcrys_get_citations`** — raw citation rows with filters (engine, source type, domain substring, URL substring, mentions-you-only flag). An agent uses this to drill into specific citations behind an insights summary.</li><li>**`solcrys_get_deep_analysis`** — per-response structured reasoning. Recommendations, action items, brand-position analysis, cache-versioned by the active playbook. This is the layer where Skills get their fact base for content drafting.</li><li>**`solcrys_get_content_audit_reports`** — page-level AEO audit scores. Overall + sub-scores for citation readiness, structure, credibility, and quality. An agent uses this to assess whether a specific URL is causing the visibility gap.</li><li>**`solcrys_get_tasks`** — the action queue. Title, status, priority, source. An agent uses this to find the next action to work on, or to draft against (the action-driven-content Skill consumes this directly).</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The four Skills</h2>
+      <p>Skills are Anthropic&#39;s format for packaging reusable workflows that auto-activate when relevant. The SolCrys Skills repo ships four production Skills, all MIT-licensed, all referencing a shared `soul.md` governance file (the data-grounded / goal-aligned / fact-grounded rules described in <a href="/why-we-bet-on-mcp/" target="_blank" rel="noopener noreferrer">Why we bet on MCP early</a>).</p><p>Installation is straightforward — clone the repo and copy the relevant Skills into `~/.claude/skills/` for user-wide availability or `.claude/skills/` for project-scoped availability:</p><p>git clone https://github.com/SolCrysAI/SolCrys-AEO-Skills.git
+cp -r SolCrys-AEO-Skills/skills/* ~/.claude/skills/</p><p>For AI clients that don&#39;t yet support Skills as a packaged format (Cursor, Codex, etc.), the same Skill content works as a prompt template — paste it into the client&#39;s custom instructions or system prompt and reference it by name.</p>
+      <ul class="seo-list"><li>**`solcrys-weekly-cmo-brief`** — one-page exec brief. Headline KPIs, what&#39;s trending, where the brand is losing visibility, recommended actions, and a forward-looking note. Activates when someone asks for a weekly recap. Chains `get_visibility_insights` → `get_prompts_insights` → `get_citations_insights` → `get_tasks` and shapes the output for a CMO audience.</li><li>**`solcrys-domain-influence-report`** — citation landscape by source type, with strategy implications. Shows the Owned / Competitor / Editorial / UGC / Other distribution and what to do about each tier. Chains `get_citations_insights` and `get_citations` with source-type filters.</li><li>**`solcrys-brand-footprint-gap-analysis`** — dual report: URLs currently surfacing in AI answers (footprint) + high-volume prompts where the brand is missing (gaps). Chains `get_citations` (mentions-you-only) and `get_prompts_insights` (lowest presence). Output drives where to publish next.</li><li>**`solcrys-action-driven-content`** — publication-ready first draft (blog post, landing page, FAQ) starting from the action queue. Chains `get_tasks` → `get_deep_analysis` (for fact base) → `get_content_audit_reports` (for structural targets) → produces a draft grounded in the playbook and the surfaced action.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The typical seven-step workflow</h2>
+      <p>When you ask Claude something like *&#39;Give me a quick read on the brand&#39;s AI visibility this week and tell me the one URL most worth fixing&#39;*, the model chains tools autonomously. A representative sequence:</p><p>We did not write that sequence as a script. The model composed it from the tool descriptions. The same seven-step pattern repeats across the four Skills with different leaf nodes — the weekly brief stops at step (4) and shapes for executive output; the gap analysis goes (1)→(3)→(5) with a mentions-you-only filter; the action-driven content Skill picks up at (7) and produces a draft.</p><p>Telemetry from early-access customers: median 12 seconds for a single Skill end-to-end on Claude Sonnet, ~40 seconds for a brief that pulls citations across all engines. The MCP tools themselves return in under 300ms p95 — the rest is model think time.</p>
+      <ul class="seo-list"><li>**`solcrys_list_workspaces`** — find the workspace context. If the user has only one, the model picks it; if multiple, it asks which.</li><li>**`solcrys_get_visibility_insights`** — pull the hero numbers and identify the top per-engine deltas.</li><li>**`solcrys_get_prompts_insights`** — find the lowest-presence and largest-decline prompts.</li><li>**`solcrys_get_citations_insights`** — get the citation landscape; identify whether owned media is losing ground or whether a specific competitor is gaining.</li><li>**`solcrys_get_citations`** filtered to the specific engine + source type that&#39;s driving the loss — pull the actual rows.</li><li>**`solcrys_get_content_audit_reports`** for one of the URLs identified in (5) — score its AEO readiness; identify the specific structural or credibility issue.</li><li>**`solcrys_get_tasks`** to surface whether the action queue already has work scheduled for this URL or whether it&#39;s net-new.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>OAuth vs Personal Access Token</h2>
+      <p>Both auth methods are first-class. Pick by use case.</p><p>Both are read-only. Both can be revoked instantly from the dashboard. Both are scoped to workspaces — there is no instance-wide superuser token. PATs do not auto-refresh; if you want a token that survives a year of automated runs, rotate the PAT yourself on whatever cadence your security posture demands.</p>
+      <ul class="seo-list"><li>**OAuth (recommended for human-driven sessions).** Click-through browser flow on first tool call. Token auto-refreshes. Tied to the user&#39;s identity, so workspace permissions inherit from the dashboard. Easy to revoke per-device. Best for: a CMO using Claude on their laptop, an analyst pairing it with Cursor for ad-hoc analysis, an agency consultant who wants the model&#39;s session to expire with theirs.</li><li>**Personal Access Token (recommended for programmatic).** Long-lived bearer token, generated from the dashboard, scoped to the workspaces the issuing user has access to. No browser dependency. Best for: scheduled CMO-brief generation in CI, agency content-ops that run nightly, internal automation that produces gap analyses on a cron, server-to-server jobs of any kind.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Five clients tested, all working</h2>
+      <p>We have validated end-to-end Skill execution in five MCP-capable AI clients:</p><p>Other MCP clients should work if they implement the standard tool/list and tool/call methods over HTTP. Report client-specific issues at the GitHub Skills repo and we&#39;ll add a compatibility table.</p>
+      <ul class="seo-list"><li>**Claude Code** — primary development target. All four Skills auto-activate from natural language.</li><li>**Claude Desktop** — same Skills surface, GUI-driven prompt.</li><li>**Cursor** — MCP support in the agent panel; Skill content works as a custom instruction.</li><li>**Continue** — open-source IDE plugin; treats MCP as a tool provider, Skills paste in as prompts.</li><li>**JetBrains AI Assistant** — MCP support in the chat panel; Skill content adapts to JetBrains&#39; chat-style invocation.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>When to use this versus the dashboard</h2>
+      <p>The dashboard remains the right surface for visual exploration, configuration, and human-in-the-loop review. The MCP server is the right surface when you want the data inside another tool — when a CMO is in Claude writing a board update and wants this week&#39;s numbers without context-switching, when an analyst is in Cursor exploring a citation gap, when an agency operator is building an automated client report, when an agent stack needs to reason over visibility data alongside other signals.</p><p>Both surfaces stay in sync because they read from the same data layer. Anything you would do in the dashboard is available via the MCP — the API surface is comprehensive by design.</p><p>For the strategic rationale behind why we built MCP into the platform before customers asked for it, see Jia Chang&#39;s founder note on <a href="/why-we-bet-on-mcp/" target="_blank" rel="noopener noreferrer">why we bet on MCP early</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is the MCP server free, or does it require a paid SolCrys plan?</h3>
+            <p>The MCP server is included on every paid SolCrys plan at no additional cost. Free-tier users can access read-only sample data through the open-source Skills repo with a sample workspace; full workspace data requires a paid plan.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I self-host the MCP server?</h3>
+            <p>The MCP server is hosted-only. The underlying tools are documented in the public Skills repo so you understand what&#39;s available, but the server itself is multi-tenant and managed at mcp.solcrys.com. The Skills layer on top is fully open-source — fork it, edit it, embed it in your own agent stack.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does the MCP server handle workspace permissions?</h3>
+            <p>Both OAuth and PAT auth methods inherit workspace permissions from the SolCrys dashboard. If a user can read a workspace&#39;s data in the dashboard, an agent calling via that user&#39;s identity can read the same data via MCP. There is no superuser token, no instance-wide token, and no write capability.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between a Claude Skill and a custom prompt?</h3>
+            <p>A Skill is a packaged workflow that Claude can auto-activate when relevant — it includes the prompt, the tools it expects to chain, and metadata that helps the model decide when to invoke it. A custom prompt is content the user pastes manually each time. The SolCrys Skills are designed as Skills first; for clients that don&#39;t support the Skills format, the same content works as a prompt template, but requires manual invocation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I add my own Skills?</h3>
+            <p>Yes. The repo is MIT-licensed and structured so adding a Skill is a matter of dropping a new directory under `skills/` with the standard Anthropic Skill format. Skills you add can reference the same MCP tools the bundled four use. We accept community-contributed Skills via pull request.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">MCP &amp; Skills</p>
+            <h3><a href="/why-we-bet-on-mcp/">Why we bet on MCP early: agent-readiness as the new AEO surface</a></h3>
+            <p>Jia Chang, SolCrys CTO, on why we built our MCP server before customers asked for it, why we open-sourced the Skills layer on top of it, and what it signals about the next surface marketing teams need to optimize for.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/agent-readiness-third-audience/">Your Website Has a Third Audience Now — Agents</a></h3>
+            <p>AI agents are a third audience for your website — alongside humans and search crawlers. Eason Wang on what changes for product UX when agents see what humans can&#39;t, and miss what humans take for granted.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/action-externalization/">Action Externalization</a></h3>
+            <p>Literacy externalized thought. AI is externalizing action. Jia Chang, CTO of SolCrys, on the second great externalization in human civilization, why execution is becoming abundant, and what becomes scarce when &#39;doing&#39; is free.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Cacu9P9f.js"></script>
+  </body>
+</html>

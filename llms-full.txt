@@ -11334,3 +11334,297 @@ A: Yes. The audit is your deliverable. Many customers share it with their conten
 
 Q: What if my category is unusual or my buyers ask very specific prompts?
 A: That's exactly when the discovery call is most useful. The audit is scoped to your specific buyers and category. If your prompts are unusual, we adjust the prompt set construction — drawing from your internal sales-team knowledge, community-question signals from sources that cover your niche, and the prompts your competitors appear to be optimizing for. Tell us during scoping; we'd rather build the right set than apply a category template.
+
+## Why we bet on MCP early: agent-readiness as the new AEO surface
+
+When Anthropic published the Model Context Protocol spec in late 2024, most companies treated it as a curiosity. Twelve months later, OpenAI, Cursor, JetBrains, and Claude Code all speak it. SolCrys built a production MCP server into the platform before our customers asked for it, and open-sourced the Skills layer on top of it under MIT license. This is a founder note on why — and what it implies about what AEO platforms have to become.
+
+### Questions this guide answers
+
+- What is the Model Context Protocol (MCP) and why does it matter for AEO?
+- Why should an AEO platform expose its data via MCP?
+- How is MCP different from a REST API for marketing tools?
+- Why is SolCrys open-sourcing its Skills extension?
+- How does MCP relate to agent-readiness for brands?
+
+### Direct answer
+
+We bet on MCP because the same shift that produced AEO — buyers and decision-makers asking AI systems instead of search engines — is now producing a second shift: AI agents acting on behalf of those buyers, and on behalf of marketing teams themselves. Those agents need a typed, discoverable, governed way to read a brand's visibility data and write back into the work queue. REST APIs were built for developers; MCP was built for agents. That distinction is small in the abstract and large in practice — large enough that we decided to build the MCP server first, with the dashboard catching up to it, rather than the other way around.
+
+We also open-sourced the Skills layer (the four workflows that sit on top of the MCP server) under MIT license. That decision is not philosophical. It is an engineering bet that the productive part of an AEO platform — the part that turns visibility numbers into action — has to be inspectable, forkable, and auditable by the customer if AI is going to be trusted to draft the next quarter's content.
+
+
+
+
+### The trend, in one paragraph
+
+Anthropic published the Model Context Protocol spec in November 2024 as an open standard for how AI applications connect to external tools and data. In the twelve months since, it has been adopted by every major AI coding interface (Claude Code, Cursor, Continue, Zed, JetBrains AI Assistant), by OpenAI's developer platform, and by the agent stacks of the major application vendors. That is a faster adoption curve than HTTP/2, GraphQL, or LangChain's tool calling. The reason is straightforward: every team building agentic workflows hit the same problem at the same time — how does a model running in client X find, understand, and call tools sitting in service Y without bespoke glue per pairing? MCP answers that question in a way that is small, typed, and self-describing.
+
+What surprised us was not that MCP would win — that seemed likely once OpenAI added support. What surprised us was how quickly the agent-readable surface area started to matter for non-developer use cases. Marketing teams, comms teams, support teams — anyone whose data the LLM should be able to read and reason over — became consumers of MCP through the AI clients they were already using. That changed our roadmap.
+
+
+
+
+### Why an AEO platform must be agent-readable, not just dashboard-readable
+
+Eason's [Third Audience essay](/agent-readiness-third-audience/) lays out the broader argument: your website now has a third audience after humans and search crawlers — AI agents — and that audience reads differently. The corollary for an AEO platform is symmetric. Your AEO data has a third audience too. Marketing leaders read it on a dashboard. Analysts pull it into spreadsheets. And increasingly, an AI agent — Claude inside a CMO's editor, an internal workflow scripted on top of OpenAI's API, an agency's content-ops automation — needs to read the same data, reason about it, and propose action.
+
+If the only access path is a dashboard with a screen-reader-hostile chart library, none of that is possible. If the only access path is a REST API documented in PDF, none of that is fast. The agent needs to be able to discover what tools exist (`solcrys_list_workspaces` → `solcrys_get_prompts` → `solcrys_get_visibility_insights`), understand what each one returns (typed schemas in the protocol), chain calls based on the user's intent (no glue per pairing), and surface uncertainty when the data is thin (response fields explicitly model confidence). That is what MCP is designed to do, and what a REST API is not.
+
+We are aware that this argument is partially self-serving — we sell an AEO platform with an MCP server in it. But the underlying observation predates our product decision. Every analytics platform whose primary consumer becomes an agent will face the same redesign pressure. We chose to do that work up front rather than retrofit it later.
+
+
+
+
+### Why MCP, not REST
+
+Several SolCrys customers have asked, reasonably, why we don't just expose a REST API. The honest answer is that we do — internally — but exposing it to AI agents externally would be wrong fit for three reasons.
+
+REST is right for many things. Programmatic access from a finance system, scheduled exports, server-to-server pipelines — these are all fine REST patterns and we will support them. But for agents reasoning over marketing data interactively, MCP is the right primitive.
+
+
+- **Discoverability.** A REST API has documentation that lives outside the API. An MCP server declares its tools, parameters, and return types as part of the protocol. An agent connects, calls `tools/list`, and immediately knows what is available. That removes a class of integration error (agent calls a method that doesn't exist or passes the wrong shape) that consumes a meaningful share of every API integration's debugging time.
+- **Auth and scope.** MCP servers can negotiate OAuth scopes per session, and the SolCrys MCP server is read-only by design. That maps cleanly onto how marketing teams want to share workspace access with agents: scoped to a workspace, time-limited, revokable, and auditable. Building the equivalent on top of a REST API would mean inventing our own scope/token system, which is exactly the work that an open standard is supposed to remove.
+- **Letting the LLM compose.** The most useful thing an LLM does inside an analytics workflow is decide which questions to ask next. Give it tool descriptions and it will chain — pull workspace prompts, then pull visibility, then dig into citations for the worst-performing engine, then audit the page that's missing. Our typical narrative flow is seven tool calls deep; we never wrote glue code for that sequence. The model figured it out from the tool descriptions. A REST API would have required us to ship a SDK that pre-shapes those flows, which is brittle and which we'd be maintaining forever.
+
+
+
+### What the SolCrys MCP server actually exposes
+
+Nine tools, all read-only, all scoped to a workspace the calling identity is authorized for:
+
+There is no write tool. We deliberately did not ship the ability for an agent to push a content update back into the workspace, even though it would be a one-day feature. The reason is the [action externalization](/action-externalization/) argument: actions belong outside the platform, in the systems that actually publish — GitHub, CMS, Slack approval threads. The MCP server is the read surface; writes happen wherever the customer wants the side effect to live, with a human in the approval loop.
+
+
+- `solcrys_list_workspaces` — workspace discovery, the entry point for any agent that doesn't yet know which tenant to scope to
+- `solcrys_get_prompts` — the tracked prompt set for a workspace
+- `solcrys_get_visibility_insights` — hero metrics (mention rate, SOV ranking, owned-media %, per-engine breakdown, trends)
+- `solcrys_get_prompts_insights` — per-prompt presence %, citation %, sentiment, gainers, decliners
+- `solcrys_get_citations_insights` — top-cited domains with source-type breakdown (Owned / Competitor / Editorial / UGC / Other)
+- `solcrys_get_citations` — raw citation rows with rich filters
+- `solcrys_get_deep_analysis` — per-response structured reasoning, recommendations, action items, brand-position analysis
+- `solcrys_get_content_audit_reports` — page-level AEO audit scores (citation readiness, structure, credibility, quality)
+- `solcrys_get_tasks` — the action queue: title, status, priority, source
+
+
+
+### Why we open-sourced the Skills, but not the server
+
+On top of the MCP server we ship four Skills — Claude Skills, the format Anthropic shipped for packaging reusable workflows that auto-activate when relevant. They sit in the [SolCrys-AEO-Skills repo on GitHub](https://github.com/SolCrysAI/SolCrys-AEO-Skills), MIT licensed.
+
+Two design choices in those Skills matter more than which deliverables they produce. The first is that every Skill references a shared file called `soul.md` — three rules enforced across every Skill: claims must be data-grounded, recommendations must align with the workspace's declared AEO goal, and any writing must be fact-grounded with web search and customer-supplied source documents. That file is in the public repo. If a Skill drifts toward fabrication, the place to look is `soul.md`, and the place to file a PR is the repo. The Skills are inspectable governance, not opaque magic.
+
+The second choice is that we open-sourced the Skills under MIT and kept the MCP server hosted. That asymmetry is intentional. The Skills are workflow templates — the most useful version of them is the one our customer forked, edited, and embedded in their own agent stack. Open-sourcing them removes the gatekeeping; the customer owns the workflow. The MCP server is a multi-tenant data layer — it has to evolve its tool schema, enforce auth, scale, and never leak across tenants. Hosting it lets us iterate without breaking customer agents, and lets the customer rely on a managed surface rather than self-hosting an evolving spec.
+
+
+- **solcrys-weekly-cmo-brief** — one-page exec brief: headline KPIs, what's trending, where losing, recommended actions, forward note
+- **solcrys-domain-influence-report** — citation landscape by source type, with strategy implications
+- **solcrys-brand-footprint-gap-analysis** — URLs currently surfacing in AI answers + prompts where the brand is missing
+- **solcrys-action-driven-content** — publication-ready first draft (blog post, landing page, FAQ) from the action queue
+
+
+
+### Soul.md as governance, not branding
+
+The `soul.md` file in our Skills repo is the part we are proudest of, and the part most likely to be misread as a branding choice. It is not. It is a prompt-level governance mechanism. Every Skill in the repo references the same three rules:
+
+These rules are short on purpose. They are inspectable on purpose. And they are the most reliable mechanism we know for preventing the failure mode that LLM-generated marketing content most consistently produces — hallucinated statistics, generic recommendations, and copy that reads confident about claims the model cannot verify.
+
+
+- **Data-grounded claims only.** A Skill must not invent a metric, a percentage, or a competitor comparison. If the MCP data doesn't support it, the Skill must say so or omit it.
+- **AEO-goal-aligned recommendations.** Recommendations must trace back to the workspace's stated AEO objective (e.g. 'win citation share on procurement prompts'), not to whatever the model's training distribution prefers.
+- **Fact-grounded writing.** Any draft content the Skill produces must be backed by web search results, customer-supplied source documents, or the MCP data — not by the model's prior knowledge.
+
+
+
+### What this signals about the next eighteen months
+
+We expect agent-readiness to move from a nice-to-have to a buyer evaluation criterion for AEO platforms by Q2 2027, on the same curve that mobile-readiness moved through 2010-2012 and API-first-readiness moved through 2014-2016. The buyer question will not be 'does your platform have an MCP server' — the buyer question will be 'when my team's AI agents call your platform, what do they get back, and how are you preventing them from hallucinating on top of it?' That question is governance-shaped, not feature-shaped, which is why we put as much engineering into `soul.md` as into the tool schemas.
+
+The corollary for brands is harder. The same shift that produced AEO — your buyers asking AI engines first — will produce a buyer-side mirror: your buyers' AI agents asking your website first. We talked about the website side of that in [Your Website Has a Third Audience Now](/agent-readiness-third-audience/). The marketing-tooling side of it is what this essay is about. Both have to be true at once for an AEO program to land — your content has to be readable by agents on the buyer side, and your measurement and action layer has to be operable by agents on the seller side. We built MCP into SolCrys because we want the second half of that to be easy.
+
+
+
+
+### How to try it
+
+If you have a SolCrys workspace, the MCP server is already live at `https://mcp.solcrys.com/mcp`. Adding it to Claude Code is one command:
+
+claude mcp add --transport http solcrys https://mcp.solcrys.com/mcp
+
+OAuth handles the connect step the first time you call a tool. For CI or scripted use, a Personal Access Token from the dashboard plugs in via the standard `--header "Authorization: Bearer <TOKEN>"` flag.
+
+The four Skills live at [github.com/SolCrysAI/SolCrys-AEO-Skills](https://github.com/SolCrysAI/SolCrys-AEO-Skills). The repo README walks through installation into `~/.claude/skills/` and adaptation for other AI clients.
+
+A longer how-to — every tool documented, the typical seven-step workflow, install patterns for different clients — lives in [SolCrys MCP and Skills: tools, install, and the workflows that chain them](/solcrys-mcp-and-skills/).
+
+
+
+
+
+### FAQ
+
+Q: What is the Model Context Protocol (MCP)?
+A: MCP is an open standard published by Anthropic in November 2024 for how AI applications (Claude, ChatGPT, Cursor, JetBrains AI Assistant, etc.) connect to external tools and data. It defines a typed, discoverable, and governed surface that an AI agent can call without bespoke integration code per tool/client pair. Since launch it has been adopted across the major AI coding interfaces and the OpenAI developer platform.
+
+Q: Why does SolCrys expose its data via MCP instead of a REST API?
+A: We do both internally, but MCP is the right surface for AI agents reasoning over marketing data interactively. MCP gives agents three things a REST API does not: native tool discovery (so the agent learns the available actions on connect), typed return shapes the model can compose on (so the agent can chain calls without glue code), and OAuth-scoped auth that maps onto how marketing teams want to share workspace access. REST is still the right primitive for finance systems, scheduled exports, and server-to-server pipelines.
+
+Q: Why open-source the Skills but not the MCP server?
+A: The Skills are workflow templates — the most useful version is the one a customer forked, edited, and embedded in their own agent stack. Open-sourcing them under MIT removes the gatekeeping. The MCP server is a multi-tenant data layer that has to evolve its schema, enforce auth, scale, and never leak across tenants. Hosting it lets us iterate without breaking customer agents and gives the customer a managed surface rather than a self-hosting burden.
+
+Q: What is soul.md and why does it matter?
+A: soul.md is a single file in the public Skills repo that every Skill references. It encodes three governance rules: claims must be data-grounded (no invented metrics), recommendations must align with the workspace's stated AEO goal, and any writing must be fact-grounded with web search or customer-supplied documents. It is a prompt-level mechanism for preventing LLM hallucination in marketing content, and it is inspectable — the customer can read it, fork it, or PR it.
+
+Q: Is agent-readiness only relevant for technical teams?
+A: No. Agent-readiness changes how every team accesses the platform. The CMO consumes the weekly-cmo-brief Skill output in Claude or ChatGPT without ever opening a dashboard. The content team chains gap-analysis into action-driven-content drafting inside their editor. Agency teams hand a client workspace to an agent and ask it to produce a quarterly review. None of these workflows are technical to use; they are technical to expose. The MCP server is the exposure layer; the Skills are the consumption layer.
+
+## SolCrys MCP and Skills: tools, install, and the workflows that chain them
+
+The SolCrys MCP server exposes a SolCrys workspace as nine typed, read-only tools that any MCP-compatible AI client can call. On top of it, four open-source Skills (MIT-licensed, in the SolCrys-AEO-Skills GitHub repo) chain those tools into useful deliverables — a weekly CMO brief, a citation-domain influence report, a brand footprint gap analysis, and an action-driven content draft. This page is the reference: what every tool does, how to install the MCP server and the Skills in your AI client, the typical seven-step workflow agents follow, and how OAuth vs Personal Access Tokens compare for different use cases.
+
+### Questions this guide answers
+
+- How do I connect Claude or ChatGPT to my SolCrys workspace?
+- What tools does the SolCrys MCP server expose?
+- How do the four SolCrys Skills work?
+- How do I install the SolCrys MCP server in Claude Code?
+- What is the typical workflow when an AI agent uses SolCrys data?
+- How does OAuth compare to a Personal Access Token for the SolCrys MCP server?
+
+### Direct answer
+
+The SolCrys MCP server is a hosted endpoint at `https://mcp.solcrys.com/mcp` that exposes a SolCrys workspace as nine read-only tools any MCP-compatible AI client can call — Claude Code, Cursor, JetBrains AI Assistant, Continue, Zed, and the OpenAI developer platform among them. The four Skills, MIT-licensed in the [SolCrys-AEO-Skills GitHub repo](https://github.com/SolCrysAI/SolCrys-AEO-Skills), are workflow packages that chain those tools into deliverables. Connection is one CLI command and an OAuth click; the rest is the model deciding which tools to call based on what you ask.
+
+
+
+
+### Install the MCP server in 30 seconds
+
+Claude Code is the canonical client for this workflow. The install command:
+
+claude mcp add --transport http solcrys https://mcp.solcrys.com/mcp
+
+On the first tool call after install, Claude Code opens an OAuth flow in your default browser. Sign in with the same email your SolCrys workspace is provisioned under, approve the requested scopes, and the connection is persistent. The OAuth token auto-refreshes; revoke from the SolCrys dashboard whenever you want.
+
+For programmatic access (CI jobs, scheduled report generation, agency automation), generate a Personal Access Token from your SolCrys dashboard and pass it as a header:
+
+claude mcp add --transport http solcrys https://mcp.solcrys.com/mcp  --header "Authorization: Bearer <YOUR_PAT>"
+
+Other MCP-compatible clients follow the same shape — point them at the URL, hand them an auth method, done. The transport is plain HTTP with Server-Sent Events for streaming, so any client that speaks MCP over HTTP works.
+
+
+
+
+### The nine tools, cataloged
+
+Every tool is read-only, scoped to a workspace the calling identity is authorized for, and returns typed JSON the model can compose on without bespoke parsing.
+
+There is no write tool. That is intentional. The MCP server is the read surface; actions belong in the systems that publish them (GitHub, CMS, Slack approval threads). The [action externalization](/action-externalization/) essay covers the reasoning.
+
+
+- **`solcrys_list_workspaces`** — workspace discovery. Returns every workspace the calling identity can access. This is almost always the first tool an agent calls when it doesn't yet know which tenant context to operate in.
+- **`solcrys_get_prompts`** — the curated prompt set for a workspace. Returns the buyer-shaped prompts SolCrys runs against each AI engine on the workspace's monitoring cadence.
+- **`solcrys_get_visibility_insights`** — the hero metrics view. Mention rate, share-of-voice ranking, owned-media percentage, per-engine breakdown, week-over-week trend, and highlight/gap callouts. This is what populates the dashboard's main page; an agent uses it for top-level summary.
+- **`solcrys_get_prompts_insights`** — per-prompt performance. Presence %, citation %, sentiment, gainers, decliners, lowest-presence alerts. An agent uses this to find the worst-performing prompts to investigate.
+- **`solcrys_get_citations_insights`** — top-cited domains with source-type breakdown (Owned, Competitor, Editorial, UGC, Other). An agent uses this to map the citation landscape — who's winning AI mindshare in the category.
+- **`solcrys_get_citations`** — raw citation rows with filters (engine, source type, domain substring, URL substring, mentions-you-only flag). An agent uses this to drill into specific citations behind an insights summary.
+- **`solcrys_get_deep_analysis`** — per-response structured reasoning. Recommendations, action items, brand-position analysis, cache-versioned by the active playbook. This is the layer where Skills get their fact base for content drafting.
+- **`solcrys_get_content_audit_reports`** — page-level AEO audit scores. Overall + sub-scores for citation readiness, structure, credibility, and quality. An agent uses this to assess whether a specific URL is causing the visibility gap.
+- **`solcrys_get_tasks`** — the action queue. Title, status, priority, source. An agent uses this to find the next action to work on, or to draft against (the action-driven-content Skill consumes this directly).
+
+
+
+### The four Skills
+
+Skills are Anthropic's format for packaging reusable workflows that auto-activate when relevant. The SolCrys Skills repo ships four production Skills, all MIT-licensed, all referencing a shared `soul.md` governance file (the data-grounded / goal-aligned / fact-grounded rules described in [Why we bet on MCP early](/why-we-bet-on-mcp/)).
+
+Installation is straightforward — clone the repo and copy the relevant Skills into `~/.claude/skills/` for user-wide availability or `.claude/skills/` for project-scoped availability:
+
+git clone https://github.com/SolCrysAI/SolCrys-AEO-Skills.git
+cp -r SolCrys-AEO-Skills/skills/* ~/.claude/skills/
+
+For AI clients that don't yet support Skills as a packaged format (Cursor, Codex, etc.), the same Skill content works as a prompt template — paste it into the client's custom instructions or system prompt and reference it by name.
+
+
+- **`solcrys-weekly-cmo-brief`** — one-page exec brief. Headline KPIs, what's trending, where the brand is losing visibility, recommended actions, and a forward-looking note. Activates when someone asks for a weekly recap. Chains `get_visibility_insights` → `get_prompts_insights` → `get_citations_insights` → `get_tasks` and shapes the output for a CMO audience.
+- **`solcrys-domain-influence-report`** — citation landscape by source type, with strategy implications. Shows the Owned / Competitor / Editorial / UGC / Other distribution and what to do about each tier. Chains `get_citations_insights` and `get_citations` with source-type filters.
+- **`solcrys-brand-footprint-gap-analysis`** — dual report: URLs currently surfacing in AI answers (footprint) + high-volume prompts where the brand is missing (gaps). Chains `get_citations` (mentions-you-only) and `get_prompts_insights` (lowest presence). Output drives where to publish next.
+- **`solcrys-action-driven-content`** — publication-ready first draft (blog post, landing page, FAQ) starting from the action queue. Chains `get_tasks` → `get_deep_analysis` (for fact base) → `get_content_audit_reports` (for structural targets) → produces a draft grounded in the playbook and the surfaced action.
+
+
+
+### The typical seven-step workflow
+
+When you ask Claude something like *'Give me a quick read on the brand's AI visibility this week and tell me the one URL most worth fixing'*, the model chains tools autonomously. A representative sequence:
+
+We did not write that sequence as a script. The model composed it from the tool descriptions. The same seven-step pattern repeats across the four Skills with different leaf nodes — the weekly brief stops at step (4) and shapes for executive output; the gap analysis goes (1)→(3)→(5) with a mentions-you-only filter; the action-driven content Skill picks up at (7) and produces a draft.
+
+Telemetry from early-access customers: median 12 seconds for a single Skill end-to-end on Claude Sonnet, ~40 seconds for a brief that pulls citations across all engines. The MCP tools themselves return in under 300ms p95 — the rest is model think time.
+
+
+- **`solcrys_list_workspaces`** — find the workspace context. If the user has only one, the model picks it; if multiple, it asks which.
+- **`solcrys_get_visibility_insights`** — pull the hero numbers and identify the top per-engine deltas.
+- **`solcrys_get_prompts_insights`** — find the lowest-presence and largest-decline prompts.
+- **`solcrys_get_citations_insights`** — get the citation landscape; identify whether owned media is losing ground or whether a specific competitor is gaining.
+- **`solcrys_get_citations`** filtered to the specific engine + source type that's driving the loss — pull the actual rows.
+- **`solcrys_get_content_audit_reports`** for one of the URLs identified in (5) — score its AEO readiness; identify the specific structural or credibility issue.
+- **`solcrys_get_tasks`** to surface whether the action queue already has work scheduled for this URL or whether it's net-new.
+
+
+
+### OAuth vs Personal Access Token
+
+Both auth methods are first-class. Pick by use case.
+
+Both are read-only. Both can be revoked instantly from the dashboard. Both are scoped to workspaces — there is no instance-wide superuser token. PATs do not auto-refresh; if you want a token that survives a year of automated runs, rotate the PAT yourself on whatever cadence your security posture demands.
+
+
+- **OAuth (recommended for human-driven sessions).** Click-through browser flow on first tool call. Token auto-refreshes. Tied to the user's identity, so workspace permissions inherit from the dashboard. Easy to revoke per-device. Best for: a CMO using Claude on their laptop, an analyst pairing it with Cursor for ad-hoc analysis, an agency consultant who wants the model's session to expire with theirs.
+- **Personal Access Token (recommended for programmatic).** Long-lived bearer token, generated from the dashboard, scoped to the workspaces the issuing user has access to. No browser dependency. Best for: scheduled CMO-brief generation in CI, agency content-ops that run nightly, internal automation that produces gap analyses on a cron, server-to-server jobs of any kind.
+
+
+
+### Five clients tested, all working
+
+We have validated end-to-end Skill execution in five MCP-capable AI clients:
+
+Other MCP clients should work if they implement the standard tool/list and tool/call methods over HTTP. Report client-specific issues at the GitHub Skills repo and we'll add a compatibility table.
+
+
+- **Claude Code** — primary development target. All four Skills auto-activate from natural language.
+- **Claude Desktop** — same Skills surface, GUI-driven prompt.
+- **Cursor** — MCP support in the agent panel; Skill content works as a custom instruction.
+- **Continue** — open-source IDE plugin; treats MCP as a tool provider, Skills paste in as prompts.
+- **JetBrains AI Assistant** — MCP support in the chat panel; Skill content adapts to JetBrains' chat-style invocation.
+
+
+
+### When to use this versus the dashboard
+
+The dashboard remains the right surface for visual exploration, configuration, and human-in-the-loop review. The MCP server is the right surface when you want the data inside another tool — when a CMO is in Claude writing a board update and wants this week's numbers without context-switching, when an analyst is in Cursor exploring a citation gap, when an agency operator is building an automated client report, when an agent stack needs to reason over visibility data alongside other signals.
+
+Both surfaces stay in sync because they read from the same data layer. Anything you would do in the dashboard is available via the MCP — the API surface is comprehensive by design.
+
+For the strategic rationale behind why we built MCP into the platform before customers asked for it, see Jia Chang's founder note on [why we bet on MCP early](/why-we-bet-on-mcp/).
+
+
+
+
+
+### FAQ
+
+Q: Is the MCP server free, or does it require a paid SolCrys plan?
+A: The MCP server is included on every paid SolCrys plan at no additional cost. Free-tier users can access read-only sample data through the open-source Skills repo with a sample workspace; full workspace data requires a paid plan.
+
+Q: Can I self-host the MCP server?
+A: The MCP server is hosted-only. The underlying tools are documented in the public Skills repo so you understand what's available, but the server itself is multi-tenant and managed at mcp.solcrys.com. The Skills layer on top is fully open-source — fork it, edit it, embed it in your own agent stack.
+
+Q: How does the MCP server handle workspace permissions?
+A: Both OAuth and PAT auth methods inherit workspace permissions from the SolCrys dashboard. If a user can read a workspace's data in the dashboard, an agent calling via that user's identity can read the same data via MCP. There is no superuser token, no instance-wide token, and no write capability.
+
+Q: What's the difference between a Claude Skill and a custom prompt?
+A: A Skill is a packaged workflow that Claude can auto-activate when relevant — it includes the prompt, the tools it expects to chain, and metadata that helps the model decide when to invoke it. A custom prompt is content the user pastes manually each time. The SolCrys Skills are designed as Skills first; for clients that don't support the Skills format, the same content works as a prompt template, but requires manual invocation.
+
+Q: Can I add my own Skills?
+A: Yes. The repo is MIT-licensed and structured so adding a Skill is a matter of dropping a new directory under `skills/` with the standard Anthropic Skill format. Skills you add can reference the same MCP tools the bundled four use. We accept community-contributed Skills via pull request.
