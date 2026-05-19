@@ -2,12 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import EarlyAccessDialog from "./EarlyAccessDialog";
 import ThemeToggle from "./ThemeToggle";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown, Menu, X } from "lucide-react";
 import ResourcesMegaMenu from "./ResourcesMegaMenu";
 import {
   RESOURCES_COLUMNS,
   RESOURCES_FOOTER_LINKS,
 } from "./resourcesMenuData";
+import siteContent from "@/content/siteContent.json";
+
+const publishedResourceCount = siteContent.resourcePages.filter(
+  (p) => (p as { status?: string }).status !== "draft"
+).length;
 
 const flatNavLinks = [
   { href: "/#features", label: "Platform" },
@@ -211,19 +216,41 @@ const Navbar = () => {
                     </ul>
                   </div>
                 ))}
-                <div className="pt-3 border-t border-border/20 space-y-1">
-                  {RESOURCES_FOOTER_LINKS.map((item) => (
-                    <a
-                      key={item.href}
-                      href={item.href}
-                      onClick={closeAll}
-                      className="flex items-center gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(195_90%_55%)] transition-colors"
-                    >
-                      <item.Icon className="h-4 w-4 text-muted-foreground shrink-0" />
-                      <span>{item.title}</span>
-                    </a>
-                  ))}
-                </div>
+                <a
+                  href="/resources/"
+                  onClick={closeAll}
+                  className="mt-3 group flex items-center justify-between rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.06)] hover:bg-[hsl(195_90%_55%/0.12)] transition-colors px-4 py-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="flex-none rounded-md bg-[hsl(195_90%_55%/0.18)] p-2">
+                      <BookOpen className="h-4 w-4 text-[hsl(195_90%_55%)]" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[10px] uppercase tracking-wider font-semibold text-[hsl(195_90%_55%)]">
+                        All resources
+                      </p>
+                      <p className="text-sm font-medium text-foreground">
+                        Browse all {publishedResourceCount} guides
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-[hsl(195_90%_55%)] group-hover:translate-x-1 transition-transform" />
+                </a>
+                {RESOURCES_FOOTER_LINKS.length > 0 ? (
+                  <div className="pt-3 border-t border-border/20 space-y-1">
+                    {RESOURCES_FOOTER_LINKS.map((item) => (
+                      <a
+                        key={item.href}
+                        href={item.href}
+                        onClick={closeAll}
+                        className="flex items-center gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(195_90%_55%)] transition-colors"
+                      >
+                        <item.Icon className="h-4 w-4 text-muted-foreground shrink-0" />
+                        <span>{item.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             ) : null}
 
