@@ -19,6 +19,7 @@ import {
   AlertTriangle,
   ArrowRight,
   Workflow,
+  Boxes,
   type LucideIcon,
 } from "lucide-react";
 import { categorySlug } from "@/lib/categorySlug";
@@ -146,6 +147,12 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         desc: "Crawler, schema, answer-readiness checklist",
         href: categoryHref("Technical Readiness"),
         Icon: Wrench,
+      },
+      {
+        title: "MCP & Skills",
+        desc: "Connect AI agents to your SolCrys workspace",
+        href: categoryHref("MCP & Skills"),
+        Icon: Boxes,
       },
       {
         title: "Community & UGC",
