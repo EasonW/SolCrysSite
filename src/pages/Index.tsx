@@ -21,6 +21,7 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <AnswerEngineSection />
+      <CustomerTestimonialSection />
       <ProblemSection />
       <ApproachSection />
       <PlatformLayersSection />
@@ -28,7 +29,6 @@ const Index = () => {
       <ResourcesSection />
       <SourceNotesSection />
       <FAQSection />
-      <CustomerTestimonialSection />
       <RecognitionSection />
       <CTASection />
       <Footer />
