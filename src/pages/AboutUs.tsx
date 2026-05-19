@@ -6,6 +6,14 @@ import gwenImg from "@/assets/gwen-chen.jpg";
 import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
 import siteContent from "@/content/siteContent.json";
+import { ArrowRight, CalendarDays } from "lucide-react";
+
+const FOUNDER_NAMES = new Set(["Gwen Chen", "Eason Wang", "Jia Chang"]);
+
+const founderNotes = siteContent.resourcePages
+  .filter((p: any) => p.status !== "draft")
+  .filter((p: any) => p.author && FOUNDER_NAMES.has(p.author.name))
+  .sort((a: any, b: any) => (b.updated || "").localeCompare(a.updated || ""));
 
 const advisors = [
   {
@@ -136,6 +144,73 @@ const AboutUs = () => {
             ))}
           </div>
         </section>
+
+        {/* Glow divider */}
+        <div className="glow-line w-full" />
+
+        {/* Founders' Notes */}
+        {founderNotes.length > 0 ? (
+          <section className="max-w-5xl mx-auto px-6 py-24">
+            <div className="text-center mb-12">
+              <p className="fade-in-scroll section-label mb-4">Founders' Notes</p>
+              <h2 className="fade-in-scroll font-heading text-3xl md:text-4xl text-foreground">
+                What the founding team is thinking about, in their own words.
+              </h2>
+              <p className="fade-in-scroll mt-4 text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
+                Long-form essays from Gwen, Eason, and Jia on AEO strategy, measurement,
+                and the engineering behind the platform.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+              {founderNotes.map((note: any) => (
+                <a
+                  key={note.slug}
+                  href={`/${note.slug}/`}
+                  className="fade-in-scroll group block rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-6 md:p-7 hover:border-border/70 hover:bg-card/60 transition-colors"
+                >
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      {note.author?.photoUrl ? (
+                        <img
+                          src={note.author.photoUrl}
+                          alt={note.author.name}
+                          width={36}
+                          height={36}
+                          loading="lazy"
+                          className="h-9 w-9 rounded-full object-cover ring-1 ring-border/40 shrink-0"
+                        />
+                      ) : null}
+                      <div className="leading-tight min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{note.author.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{note.author.role}</p>
+                      </div>
+                    </div>
+                    {note.updated ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground/80 whitespace-nowrap shrink-0">
+                        <CalendarDays className="h-3 w-3" />
+                        {note.updated}
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="text-[11px] font-medium tracking-wider uppercase text-[hsl(195_90%_55%)] mb-2">
+                    {note.category}
+                  </p>
+                  <h3 className="font-heading text-lg md:text-xl text-foreground leading-snug group-hover:text-[hsl(195_90%_55%)] transition-colors mb-3">
+                    {note.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                    {note.summary}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">
+                    Read note
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         {/* Glow divider */}
         <div className="glow-line w-full" />
