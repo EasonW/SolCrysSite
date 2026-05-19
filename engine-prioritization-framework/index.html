@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>Which AI Engine Should You Focus On? A Four-Signal AEO Prioritization Framework | A Founder Note from Gwen Chen | SolCrys</title>
+    <meta name="description" content="Most AEO programs over-index on engine market share and under-index on signal quality. Gwen Chen, SolCrys CEO, on the four-signal framework — audience fit, prompt gap, buyer value, fixability — that decides where AEO investment actually pays off, plus a 5-factor scoring rubric and the 2026 read on every major engine." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/engine-prioritization-framework/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-19" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Which AI Engine Should You Focus On? A Four-Signal AEO Prioritization Framework | A Founder Note from Gwen Chen | SolCrys" />
+    <meta property="og:description" content="Most AEO programs over-index on engine market share and under-index on signal quality. Gwen Chen, SolCrys CEO, on the four-signal framework — audience fit, prompt gap, buyer value, fixability — that decides where AEO investment actually pays off, plus a 5-factor scoring rubric and the 2026 read on every major engine." />
+    <meta property="og:url" content="https://solcrys.com/engine-prioritization-framework/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-B8ttqOBA.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Which AI engine should you focus on? A four-signal framework for AEO prioritization","item":"https://solcrys.com/engine-prioritization-framework/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Don't pick AI engines by market share. Pick by where your buyers ask, where you lose, and what's fixable.","description":"Most AEO programs over-index on engine market share and under-index on signal quality. Gwen Chen, SolCrys CEO, on the four-signal framework — audience fit, prompt gap, buyer value, fixability — that decides where AEO investment actually pays off, plus a 5-factor scoring rubric and the 2026 read on every major engine.","dateModified":"2026-05-19","datePublished":"2026-05-19","mainEntityOfPage":"https://solcrys.com/engine-prioritization-framework/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/engine-prioritization-framework/","mainEntity":[{"@type":"Question","name":"Should I just optimize for ChatGPT since it's the largest engine?","acceptedAnswer":{"@type":"Answer","text":"Most B2B teams should include ChatGPT in their primary tier — it has the broadest reach and the strongest category-discovery surface. But largest does not mean only. If your buyers are technical and verify claims, Perplexity or Claude may have higher leverage at a fraction of the share. The rubric in this essay separates volume from leverage; we recommend running it before committing budget."}},{"@type":"Question","name":"How often should I re-prioritize?","acceptedAnswer":{"@type":"Answer","text":"Quarterly. The AI engine market is reordering every quarter — Gemini went from 6% to 25% in twelve months — and engine-specific gaps close once you start shipping content against them. A quarterly re-score keeps your investment aligned with the current state of both the market and your own measurement data. Anything faster is noise; anything slower means missing inflection points."}},{"@type":"Question","name":"What about non-English or regional engines (Baidu Wenxin, Doubao, Naver, Yandex)?","acceptedAnswer":{"@type":"Answer","text":"If your buyer base materially overlaps with those markets, add them to the rubric and score them on the same five factors. The framework is engine-agnostic. For most globally-targeting B2B brands, English-language engines dominate the priority list; for brands with significant APAC presence, regional engines belong in the picture explicitly."}},{"@type":"Question","name":"Does this framework apply to retail and consumer brands too?","acceptedAnswer":{"@type":"Answer","text":"Yes, with one addition: Amazon Rufus, Walmart Sparky, and ChatGPT Shopping enter the engine set for consumer brands and frequently outrank the general-purpose engines on Buyer Value because they sit directly on top of the buying transaction. Score them the same way; expect Audience Fit and Buyer Value to dominate the ranking for retail."}},{"@type":"Question","name":"How do I score Buyer Value if I don't have UTM tracking yet?","acceptedAnswer":{"@type":"Answer","text":"Start with proxies: ask sales-call notes for engine mentions, add a 'how did you hear about us' free-text field to inbound forms, and weight engines where competitor citations are concentrated (high citation density is a leading indicator of buyer concentration). Then implement UTM tagging on AI engine referrers as a Week 1 priority. Even partial Buyer Value data is more useful than treating all engines as equally valuable."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>Don&#39;t pick AI engines by market share. Pick by where your buyers ask, where you lose, and what&#39;s fixable.</h1>
+        <p class="seo-lede">Market share is necessary input — it is not sufficient signal. The engine with the most users is rarely the engine where your AEO budget gets the best return. A four-signal framework — Audience Fit, Prompt Gap, Buyer Value, Fixability — gives you a defensible read on where to invest first. This is the answer we gave a customer&#39;s CMO this week when they asked the same question, and the rubric our team uses internally when we recommend engine priorities to any brand.</p>
+        <p>Updated 2026-05-19</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Which AI engine should I focus on for AEO?</li><li>How do I choose between ChatGPT, Gemini, Perplexity, and Claude?</li><li>Is market share the right way to prioritize AI engines?</li><li>How do B2B and B2C engine priorities differ?</li><li>How often should I re-evaluate which AI engines to focus on?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Start with engine market share as the prior, but do not optimize by market share alone. The engine with the most users is rarely the engine where your AEO budget gets the best return. We prioritize engines using four signals — <strong>Audience Fit</strong> (where your buyers actually ask questions), <strong>Prompt Gap</strong> (where you are currently underperforming), <strong>Buyer Value</strong> (where citations turn into pipeline), and <strong>Fixability</strong> (where the gap is closable inside a quarter). Layered together those signals tell you what to invest in first, what to keep monitoring, and what to deprioritize without guilt.</p><p>This essay walks the framework, the 2026 read on every major engine, and the five-factor scoring rubric our team runs every quarter for SolCrys customers. We also share the worked example we ran for a B2B HPC infrastructure brand last week — when their CMO asked us, exactly, this question.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why market-share-alone is the wrong starting point</h2>
+      <p>AI search market share is the most quoted number in vendor decks and the least useful one for prioritization. In the twelve months between Q1 2025 and Q1 2026, ChatGPT&#39;s share of generative-AI web traffic fell from roughly 87% to under 57%. Gemini rose from about 6% to over 25% in the same window. Claude is growing fastest quarter-over-quarter (+14% QoQ) and winning roughly 70% of new enterprise deals against OpenAI. Perplexity&#39;s user base grew an order of magnitude. The leaderboard is reordering every quarter.</p><p>If you set engine priorities by today&#39;s share, you are optimizing for yesterday&#39;s winner. Worse, share treats engines as interchangeable surfaces — they are not. ChatGPT, Gemini, Perplexity, Claude, and Copilot have different retrieval architectures, different citation behaviors, and different audiences. A 5% share engine your buyers use heavily is worth more than a 50% share engine your buyers ignore.</p><p>Market share is necessary input — what&#39;s possible in absolute volume terms. It is not sufficient signal — what&#39;s leveraged for your specific business. The framework below treats share as one of five factors, not the answer.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Signal 1 — Audience Fit: where do your buyers actually ask?</h2>
+      <p>The single most important signal, and the one most marketing teams skip because the data is hard to pull. There are three sources that, combined, give you a read inside one week:</p><p><strong>Your CRM.</strong> Filter inbound leads by UTM source over the last 90 days. Count `chat.openai.com`, `perplexity.ai`, `gemini.google.com`, `claude.ai`, and `copilot.microsoft.com`. Imperfect (many AI clients strip referrers), but the relative ordering is real.</p><p><strong>Sales-call language.</strong> Ask your AE team which engines prospects mention by name on discovery calls. &quot;I asked ChatGPT and it said…&quot; or &quot;I was using Perplexity to compare vendors and your name came up&quot; is the strongest qualitative signal you can get.</p><p><strong>SolCrys per-engine mention rate.</strong> Where you already appear (and how often) per engine is the read on where the audience is already finding you. Use it to confirm the CRM + sales picture.</p><p>Audience Fit cuts the priority list cleanly. An engine where zero of your buyers ask anything is a deprioritize. An engine where your buyers are clearly active but your name isn&#39;t surfacing is the highest-leverage target you have.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Signal 2 — Prompt Gap: where are you underperforming?</h2>
+      <p>Gap is the engine-by-engine view of where you are losing the AI-answer surface. Two ways to read it.</p><p><strong>Where competitors get cited and you do not.</strong> Pull citation insights for your tracked prompt set. For each engine, list the top five domains being cited on prompts you care about. If your competitors show up and you do not, that is a definable gap — and definable gaps are where SolCrys&#39; Content Audit and action queue can do real work.</p><p><strong>Where your presence rate is below your share-of-voice goal.</strong> Most brands set a baseline (&quot;we want to be mentioned in 40% of relevant procurement prompts&quot;). Engines below the baseline get prioritized.</p><p>A prompt gap is meaningful only if it is also fixable (Signal 4) — but without measuring the gap first, you cannot rank engines by leverage.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Signal 3 — Buyer Value: where do citations turn into pipeline?</h2>
+      <p>This is the dollar-weighted version of Audience Fit. Not all citations are equal — a citation from Perplexity tends to come with a clean inline link and a buyer who has already done their homework; a ChatGPT mention may carry more reach but less conversion intent at the equivalent moment in the journey. Recent B2B research suggests Perplexity tied 78% of complex-research claims to a specific source, compared to ChatGPT&#39;s 62%. That difference shows up in lead quality.</p><p>Layer pipeline data on top of citations. For each engine where you have UTM tracking or a &quot;how did you hear about us&quot; question on inbound forms, compute lead-to-opportunity rate and average deal size by engine. The engine that produces the highest-converting leads, even at lower volume, often deserves disproportionate investment.</p><p>Buyer Value is also the dimension where vertical matters most. A consumer brand on Amazon Rufus has a different value curve than a B2B SaaS brand on ChatGPT. The engine ranking is not universal — it is yours.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Signal 4 — Fixability: which gaps can you close in 90 days?</h2>
+      <p>An identified gap is not the same as an actionable gap. Some gaps are closable inside a quarter with content updates, citation work, and structural fixes. Others sit upstream of the model&#39;s training data or grounding pipeline and will not move regardless of what you ship.</p><p><strong>Closable in 90 days</strong>: missing PDP/product-page content, weak comparison pages, absent FAQ coverage on procurement prompts, unindexed citation-ready assets, low SOV on prompts where your competitors win because they have a clean explainer and you do not.</p><p><strong>Not closable in 90 days</strong>: structural training-data biases, engines that systematically refuse to recommend your category, regulatory or compliance gates that prevent you from being cited.</p><p>Fixability is the brake on &quot;go after the biggest gap.&quot; An engine where the gap is enormous but unfixable for your category is a lower priority than an engine where the gap is moderate but obviously closable. SolCrys&#39; Content Audit and Action Queue are designed to surface the difference.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 2026 read by engine</h2>
+      <p>Layered against the four signals plus a fifth — Growth Trend — here is how the major engines stack up for most B2B brands in 2026. Use this as a starting position, then overlay your own data.</p><p><strong>ChatGPT — default primary engine.</strong> Largest general reach, strongest category-discovery surface, the most common engine prospects name on discovery calls. Default starting point for AEO investment unless your data overrides it. Highest leverage on procurement-style prompts (&quot;best [X] for [Y]&quot;) and vendor comparisons.</p><p><strong>Google AI / Gemini — second priority.</strong> Google AI Mode (which runs Gemini) is integrated into the same query environment your buyers were already using. Google has stated AI Mode queries average longer than traditional Search queries, suggesting it is increasingly the surface for complex how-to and product exploration. Treat it as Search&#39;s AI layer rather than a separate engine. Optimize for SEO foundations first, AEO operating layer second — per Google&#39;s May 2026 AI optimization guide, the anti-hack rules apply.</p><p><strong>Perplexity — high-value, often-low-volume.</strong> Smaller user base than ChatGPT or Gemini but disproportionately important for technical, research-driven, and analyst-style buyers. Citation transparency is its core feature — technical evaluators verify claims before advancing a vendor, and Perplexity makes that easy. If your ICP includes engineers, infra architects, or research roles, Perplexity is probably under-weighted in your current AEO plan.</p><p><strong>Claude — scoped validation.</strong> The fastest-growing engine among technical and analytical personas, with the highest engagement per session of any platform. Wins 70% of new enterprise deals against OpenAI — meaningful for B2B SaaS, enterprise infrastructure, and developer tools. Add it as a primary engine if your buyers are coders or technical decision-makers; treat it as a validation surface otherwise.</p><p><strong>Copilot — narrow but durable.</strong> Microsoft enterprise distribution gives Copilot reach in IT and procurement contexts. Prioritize it only when your ICP is Microsoft-heavy enterprise (Office 365 + Azure + Microsoft Security shops). Do not sell it to a marketing team as full coverage.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The five-factor scoring rubric you can run this week</h2>
+      <p>Convert the four signals plus Growth Trend into a simple per-engine score from 0–15. Pick the top two as priority engines for the quarter; treat the next two as monitor-and-test; deprioritize the rest.</p><p><strong>Engine Priority Score = Audience Fit + Prompt Gap + Buyer Value + Fixability + Growth Trend</strong> (each 0–3).</p><p>Scoring guide for each factor:</p>
+      <ul class="seo-list"><li><strong>Audience Fit (0–3)</strong>: 0 = no buyer signal; 1 = a few mentions in CRM/sales; 2 = consistent buyer behavior on this engine; 3 = primary engine our buyers cite by name.</li><li><strong>Prompt Gap (0–3)</strong>: 0 = we already win here; 1 = small gap, mostly fine; 2 = meaningful gap, competitors winning citations we should win; 3 = large gap, we are invisible on prompts that matter.</li><li><strong>Buyer Value (0–3)</strong>: 0 = leads from this engine don&#39;t convert; 1 = average conversion; 2 = above-average lead quality / deal size; 3 = highest-converting source.</li><li><strong>Fixability (0–3)</strong>: 0 = gap is structural / unfixable in 90 days; 1 = partial fix possible; 2 = clear content + citation work closes the gap; 3 = quick wins available in 30 days.</li><li><strong>Growth Trend (0–3)</strong>: 0 = engine is shrinking; 1 = flat; 2 = growing in line with the market; 3 = fastest-growing in our buyer segment.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Last week we ran the rubric with the CMO of a B2B HPC infrastructure brand we work with. Their buyers are technical (HPC architects, AI infrastructure engineers, ML researchers), enterprise, and verify everything they read.</p><p>Their scores, after we pulled CRM data, SolCrys per-engine breakdowns, and sales-call notes:</p>
+      <ul class="seo-list"><li><strong>Perplexity</strong> — Audience 3, Gap 3, Buyer Value 3, Fixability 3, Trend 3 = <strong>15</strong>. Their buyers verify claims, and Perplexity&#39;s source-first behavior matches that verification step exactly. Largest competitive gap was here, and the gap was content-shaped (fixable in 90 days).</li><li><strong>ChatGPT</strong> — Audience 3, Gap 2, Buyer Value 2, Fixability 2, Trend 2 = <strong>11</strong>. Default coverage, broad enough to be a co-primary alongside Perplexity. Gap is moderate but the surface is too large to ignore.</li><li><strong>Google AI / Gemini</strong> — Audience 2, Gap 2, Buyer Value 2, Fixability 2, Trend 3 = <strong>11</strong>. Same volume tier as ChatGPT, Gemini gains are real, and the SEO foundation work pays double here.</li><li><strong>Claude</strong> — Audience 2, Gap 3, Buyer Value 3, Fixability 2, Trend 3 = <strong>13</strong>. Strong fit for the technical persona. Underinvested by the team historically; moved up to primary after the scoring.</li><li><strong>Copilot</strong> — Audience 1, Gap 1, Buyer Value 1, Fixability 1, Trend 1 = <strong>5</strong>. Monitor only — IT-procurement-adjacent but not the buying committee.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What we did with that ranking</h2>
+      <p>Priority engines for the quarter became Perplexity, Claude, and ChatGPT (tied with Gemini). The content team&#39;s action queue shifted: comparison content optimized for source-first retrieval (Perplexity&#39;s strong suit) moved up; broad category-discovery content kept investment (ChatGPT, Gemini); Microsoft-channel content paused (Copilot).</p><p>Three months from now we&#39;ll re-score. Engines move; their content footprint moves; competitors move. The rubric is the operating loop, not a one-time read.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What SolCrys does to make this easier</h2>
+      <p>Per-engine mention rate, share-of-voice ranking, citation source-type breakdown, and prompt-gap analysis all ship in the dashboard out of the box — and via the <a href="/solcrys-mcp-and-skills/" target="_blank" rel="noopener noreferrer">MCP server</a> for teams that want to pipe this into Claude or Cursor for ad-hoc analysis. The Content Audit then maps each gap to fixability — is this a missing comparison page, an under-cited PDP, a weak FAQ — and the Action Queue surfaces the work in priority order.</p><p>We do not score Buyer Value automatically — that requires your CRM data. We&#39;re working on a UTM-tagging companion guide for customers who want the full closed loop; until then it is the one human-stitched part of the framework.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do this week</h2>
+      <p>Three things, in order, take less than a working day:</p>
+      <ul class="seo-list"><li><strong>Pull the per-engine breakdown from SolCrys.</strong> Mention rate, SOV, citation share by engine. Save the CSV.</li><li><strong>Overlay your CRM lead source.</strong> Filter the last 90 days of inbound leads by UTM source, count by engine. Even partial data is enough to rank.</li><li><strong>Score the five factors per engine.</strong> Use the rubric above. Pick the top two engines as quarterly priorities. Schedule a 90-day re-score.</li></ul>
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Should I just optimize for ChatGPT since it&#39;s the largest engine?</h3>
+            <p>Most B2B teams should include ChatGPT in their primary tier — it has the broadest reach and the strongest category-discovery surface. But largest does not mean only. If your buyers are technical and verify claims, Perplexity or Claude may have higher leverage at a fraction of the share. The rubric in this essay separates volume from leverage; we recommend running it before committing budget.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often should I re-prioritize?</h3>
+            <p>Quarterly. The AI engine market is reordering every quarter — Gemini went from 6% to 25% in twelve months — and engine-specific gaps close once you start shipping content against them. A quarterly re-score keeps your investment aligned with the current state of both the market and your own measurement data. Anything faster is noise; anything slower means missing inflection points.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about non-English or regional engines (Baidu Wenxin, Doubao, Naver, Yandex)?</h3>
+            <p>If your buyer base materially overlaps with those markets, add them to the rubric and score them on the same five factors. The framework is engine-agnostic. For most globally-targeting B2B brands, English-language engines dominate the priority list; for brands with significant APAC presence, regional engines belong in the picture explicitly.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does this framework apply to retail and consumer brands too?</h3>
+            <p>Yes, with one addition: Amazon Rufus, Walmart Sparky, and ChatGPT Shopping enter the engine set for consumer brands and frequently outrank the general-purpose engines on Buyer Value because they sit directly on top of the buying transaction. Score them the same way; expect Audience Fit and Buyer Value to dominate the ranking for retail.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I score Buyer Value if I don&#39;t have UTM tracking yet?</h3>
+            <p>Start with proxies: ask sales-call notes for engine mentions, add a &#39;how did you hear about us&#39; free-text field to inbound forms, and weight engines where competitor citations are concentrated (high citation density is a leading indicator of buyer concentration). Then implement UTM tagging on AI engine referrers as a Week 1 priority. Even partial Buyer Value data is more useful than treating all engines as equally valuable.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/cmo-aeo-procurement-playbook/">The CMO&#39;s AEO Procurement Playbook</a></h3>
+            <p>A 30-day playbook for evaluating and procuring an AEO platform — RFP design, POC scope, reference-check script, contract red lines. From Gwen Chen, ex-AWS marketing leader, on what AEO procurement should look like in 2026.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/why-two-aeo-platforms-can-disagree/">Why Two AEO Platforms Can Disagree on Citation Share</a></h3>
+            <p>AEO measurement is more like survey design than search analytics. The four sources of disagreement between AEO platforms, the five questions that surface them, and how SolCrys answers each one — with explicit uncertainty.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/aeo-vendor-claims-worth-verifying/">5 AEO Vendor Claims Worth Verifying</a></h3>
+            <p>Five pitch patterns that recur across AEO vendor conversations, paired with the specific questions that test each one. What&#39;s worth verifying before signing — and how SolCrys answers the same five tests.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-WuJstA2W.js"></script>
+  </body>
+</html>

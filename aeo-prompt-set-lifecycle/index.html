@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <title>AEO Prompt Set Lifecycle: When to Keep, Rewrite, Archive, or Add a Prompt | A Founder Note from Eason Wang | SolCrys</title>
+    <meta name="description" content="Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that&#39;s the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-prompt-set-lifecycle/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-19" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO Prompt Set Lifecycle: When to Keep, Rewrite, Archive, or Add a Prompt | A Founder Note from Eason Wang | SolCrys" />
+    <meta property="og:description" content="Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that&#39;s the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it." />
+    <meta property="og:url" content="https://solcrys.com/aeo-prompt-set-lifecycle/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-B8ttqOBA.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Don't delete 0-visibility prompts: a four-state lifecycle for AEO prompt sets","item":"https://solcrys.com/aeo-prompt-set-lifecycle/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"When (and when not) to delete a prompt — a four-state lifecycle for an AEO prompt set","description":"Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that's the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it.","dateModified":"2026-05-19","datePublished":"2026-05-19","mainEntityOfPage":"https://solcrys.com/aeo-prompt-set-lifecycle/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-prompt-set-lifecycle/","mainEntity":[{"@type":"Question","name":"What happens to historical response and citation data when I archive a prompt?","acceptedAnswer":{"@type":"Answer","text":"Everything stays. SolCrys uses a soft-delete pattern: the prompt row is marked inactive and timestamped, but never physically removed. Historical responses tied to the prompt remain joined to it, so citation rate, sentiment, and trend reports continue to resolve. New runs stop generating responses for the archived prompt, which frees a slot in your plan, but the past data is fully queryable."}},{"@type":"Question","name":"If I rewrite a prompt, do I lose the measurement history of the original?","acceptedAnswer":{"@type":"Answer","text":"No. The rewrite enters the set as a new prompt with its own measurement history; the original is archived and retains its history. You can compare both versions side by side over time to see whether the rewrite genuinely outperforms before committing. Once you have enough data, ship the better-performing version permanently and archive the other."}},{"@type":"Question","name":"How many prompts should I have in an active set?","acceptedAnswer":{"@type":"Answer","text":"Most SolCrys plans set the active prompt-set size deliberately — 20 prompts on Starter, 60 on Pro, 30 per client on Agency. The constraint is a feature, not a bug: it forces discipline about which prompts truly matter. The right operating cadence is to review the set quarterly, prune prompts that fall into Archive criteria, and add new prompts only against the four legitimate triggers in this essay."}},{"@type":"Question","name":"How often should I run this lifecycle review?","acceptedAnswer":{"@type":"Answer","text":"Quarterly. AI engine behavior shifts quarter to quarter (engines reorder, new competitors enter citation surfaces, your own content moves), but reviewing more often than that produces decisions on noise rather than signal. Make the review a recurring calendar item at the start of each quarter; document each prompt's classification and reason for future continuity."}},{"@type":"Question","name":"Can I see archived prompts and their data later?","acceptedAnswer":{"@type":"Answer","text":"Via the API, yes — archived prompts and their historical responses are fully queryable. Via the dashboard today, archived prompts are filtered out of the default prompts view by design (so the active set is clean). If a 'show archived' toggle would help your workflow, send us a note — the data is already there; it is a UI add."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>When (and when not) to delete a prompt — a four-state lifecycle for an AEO prompt set</h1>
+        <p class="seo-lede">A common piece of advice in AEO is to delete prompts that show zero visibility across all runs. We disagree. A 0-visibility prompt with real buyer intent is the most valuable kind of gap your prompt set can surface — a citation opportunity competitors haven&#39;t blocked yet. The right operating model is a four-state lifecycle (Keep + Act, Rewrite, Archive, Add) with archival rather than hard-delete for historical data continuity. This essay walks the decision criteria, the technical implementation that preserves your measurement history, and a worked example.</p>
+        <p>Updated 2026-05-19</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Should I delete prompts with zero visibility?</li><li>How do I manage an AEO prompt set over time?</li><li>What is the right lifecycle for AEO prompts?</li><li>Where does the historical data go when I remove a prompt?</li><li>How do I add new prompts without losing measurement continuity?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Do not remove prompts just because visibility is zero. If the prompt has real buyer intent — your buyers actually ask this, your competitors get cited on it, the topic ties to a fixable content gap — then zero visibility is a <strong>gap to close</strong>, not a prompt to delete. Teams that auto-delete every 0-visibility prompt are systematically erasing their highest-leverage opportunities.</p><p>The right operating model is a four-state lifecycle — <strong>Keep + Act, Rewrite, Archive, Add</strong> — applied prompt-by-prompt on a quarterly cadence. Historical data must be preserved via archival (soft-delete or version snapshots), never hard-deleted, so that measurement continuity survives every prompt-set change.</p><p>This essay walks the framework we use on the product side of SolCrys to ensure that every prompt-set change preserves what the platform was already teaching customers. The defaults you see in the dashboard — soft-delete, version snapshots, archived-prompt history — are this essay made concrete.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why 0-visibility-equals-delete is the wrong heuristic</h2>
+      <p>Zero visibility means one of four very different things, and the right response to each is different.</p><p><strong>1. Real gap.</strong> The prompt represents a question your buyers actually ask, you don&#39;t appear, and competitors do. This is the most valuable signal a prompt set can produce — it isolates an addressable citation opportunity. Deleting it erases the signal and lets the gap compound.</p><p><strong>2. Phrasing mismatch.</strong> The prompt expresses the right intent but uses wording that doesn&#39;t match how your buyers ask. Citation engines route based on phrasing; a small rewrite can take the same intent from 0 to meaningful presence inside a few weeks.</p><p><strong>3. Bad prompt.</strong> The prompt is too generic, too brand-self-flattering, or expresses an intent no real buyer holds. Visibility is correctly zero because the prompt should not exist.</p><p><strong>4. Stale prompt.</strong> The prompt was relevant six months ago but the buyer landscape moved on — a product line you sunset, a competitor that exited, a category that shrank.</p><p>Cases 1 and 2 are the majority of 0-visibility prompts we see in customer audits, and both are content opportunities. Cases 3 and 4 are the minority — those are the prompts that genuinely need to leave the set. The triage step matters more than the deletion step.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The four-state lifecycle</h2>
+      <p>Apply the matrix prompt-by-prompt on a quarterly review cadence.</p>
+      <ul class="seo-list"><li><strong>Keep + Act</strong>: high-intent prompt, 0 (or low) visibility, competitors appear. This is the opportunity, not the failure. Push the prompt into the Action Queue — write the comparison, build the FAQ, refresh the PDP — and re-measure on the next run. Most of your AEO investment compounds here.</li><li><strong>Rewrite</strong>: prompt expresses real intent but phrasing is wrong (too vague, too branded, not how a buyer would say it). Rewrite to match the language buyers actually use, then treat the new version as a fresh prompt with its own measurement history. Keep the old prompt archived for continuity, do not delete it.</li><li><strong>Archive</strong>: prompt is duplicate, stale, low-volume, off-persona, or no longer tied to current positioning. Move to archived state — the prompt stops accruing new measurement but the historical responses, citations, and trends remain queryable. Frees a slot in your active set without losing what the prompt taught you.</li><li><strong>Add</strong>: new prompts enter the set when a new competitor appears, a new buyer persona emerges, a new product line ships, or a recurring engine follow-up question shows up in your customer-success conversations. Add deliberately — every new prompt costs a slot and adds noise to your aggregate metrics.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The triage rubric — how to classify a 0-visibility prompt in 30 seconds</h2>
+      <p>Three questions in order. The first &quot;no&quot; decides.</p>
+      <ul class="seo-list"><li><strong>Does this prompt represent a real buyer question?</strong> (Check: have we heard it in sales calls, support tickets, RFP responses, or analyst inquiries?) If no → likely Rewrite or Archive.</li><li><strong>Do competitors get cited on it?</strong> (Check: SolCrys Citation Insights filtered to this prompt.) If yes → strong Keep + Act candidate; the topic is alive in the market, you are the only one missing.</li><li><strong>Is the gap fixable in 90 days?</strong> (Check: would a comparison page, FAQ refresh, or PDP update plausibly move this?) If yes → Keep + Act. If no → consider Archive, but flag for a content-team conversation first.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why historical data must be archived, not deleted</h2>
+      <p>Measurement continuity is the single most important property of a useful AEO program. If you cannot answer &quot;how did our citation rate change after we shipped the new comparison page&quot; — across the same prompt set — your platform is producing reports, not measurement.</p><p>Hard-deleting prompts breaks continuity in three ways. Past responses orphan because the prompt row vanishes. Trend lines develop unexplained gaps. Future audits cannot answer &quot;what was the baseline before we acted&quot; because the baseline disappeared with the prompt.</p><p>Archival preserves all three. SolCrys&#39; prompt-management model uses a soft-delete pattern: the prompt row is marked inactive (`is_active = false`) and timestamped (`deleted_at = NOW()`) but never physically removed. Historical responses tied to that prompt remain joined and queryable; citations, sentiment, and trend reports survive. New runs stop generating responses for the archived prompt, freeing the slot, while every report-of-record still resolves.</p><p>Version snapshots add a second layer. When you swap a rewritten prompt in for the original, both versions persist — the original keeps its measurement history, the rewrite starts its own. Compare them side by side over time; ship the better-performing version permanently after enough data accumulates.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What goes wrong when teams delete instead of archive</h2>
+      <p>Two patterns recur in customer audits when previous workflows were delete-first.</p><p><strong>Orphaned citation history.</strong> A team deletes a prompt that had been driving citation pickup. Six months later, leadership asks &quot;why did our citation rate dip in Q2?&quot; — and the prompt that explains it is gone. The team rebuilds a narrative from incomplete data.</p><p><strong>Loss of competitive baseline.</strong> A team deletes a prompt because their own brand was at 0 visibility. They later realize competitors had been at 60% on that same prompt — the gap was an opportunity, not a failure. By the time they reintroduce the prompt, competitors have had another quarter to entrench.</p><p>Both patterns are recoverable from raw response data if your platform stored it — but only if. The soft-delete pattern means it always did.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Adding new prompts — the discipline that matters</h2>
+      <p>Prompt-set stability is a virtue. Every new prompt is a slot consumed, a baseline reset for that intent, and a small noise increase in your aggregate metrics. Don&#39;t add prompts because they sound interesting — add them when the signal demands it.</p><p>Four legitimate add triggers, in priority order:</p>
+      <ul class="seo-list"><li><strong>New competitor enters the citation surface.</strong> Citation Insights start showing a name your prompt set doesn&#39;t cover. Add a brand-vs-brand prompt to track the new entrant.</li><li><strong>New buyer persona emerges.</strong> GTM expands into a new persona (e.g. enterprise IT alongside marketing); their question phrasing differs enough that existing prompts under-cover their intent. Add persona-specific prompts.</li><li><strong>New product or category line ships.</strong> A new SKU or category needs its own citation tracking — not piggybacking on a sibling product&#39;s prompts.</li><li><strong>Recurring engine follow-up appears.</strong> AI engines route to follow-up questions on their own. If the same follow-up shows up across multiple runs of the same root prompt, add the follow-up as a tracked prompt explicitly.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>A customer comes to us with 50 prompts in their set, six months of history, and an instinct to clean up. Auditing the set we found:</p>
+      <ul class="seo-list"><li><strong>12 prompts at 0 visibility with real buyer intent + competitor citations.</strong> Classified as Keep + Act. Queued into the Action Queue as content gaps. Within 90 days, 8 of the 12 moved above 20% presence.</li><li><strong>6 prompts at 0 visibility with phrasing issues.</strong> Rewrote them to match real buyer language. Both original and rewrite kept in the set, old as archived, new as active. 4 of the 6 rewrites surfaced above the original within 60 days.</li><li><strong>5 prompts that were duplicate, stale, or off-positioning.</strong> Archived. Slots freed. Historical data preserved for trend continuity.</li><li><strong>3 new prompts added</strong> — two for a new competitor that entered the category, one for a product line that shipped during the previous quarter.</li><li>Net: prompt set size stayed at 48 (50 - 5 + 3), every change had a documented reason, and six months of measurement history remained fully queryable.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What SolCrys does to support this lifecycle</h2>
+      <p>Soft-delete with `is_active` + `deleted_at` markers on every prompt row. Historical responses, citations, and sentiment data are never physically removed, so trend reports survive every prompt-set change. Prompt sets are versioned — when prompts are added, removed, or rewritten, the active version&#39;s `prompt_count` updates while previous versions remain on disk and queryable. CSV imports that swap in a new prompt set archive the old prompts instead of destroying them. Together these mean the operating model in this essay is enforceable end-to-end, not just policy.</p><p>The Action Queue surfaces the Keep + Act candidates automatically — high-intent prompts where competitors appear and you do not get top placement in your weekly review. The Content Audit flags the 90-day fixability question by mapping each gap to a specific page that can close it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do this quarter</h2>
+      <p>Three steps, on the calendar at the start of each quarter:</p>
+      <ul class="seo-list"><li><strong>Run the triage rubric on every 0-visibility prompt in your set.</strong> Classify each as Keep + Act, Rewrite, Archive, or genuine delete. Document the reason — future you will want to know.</li><li><strong>Move the Keep + Act prompts into the Action Queue.</strong> They are not failures; they are your content roadmap. Treat them as such.</li><li><strong>Add prompts only against the four triggers</strong> (new competitor, new persona, new product, recurring follow-up). Resist the temptation to add for completeness — every prompt costs a slot.</li></ul>
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What happens to historical response and citation data when I archive a prompt?</h3>
+            <p>Everything stays. SolCrys uses a soft-delete pattern: the prompt row is marked inactive and timestamped, but never physically removed. Historical responses tied to the prompt remain joined to it, so citation rate, sentiment, and trend reports continue to resolve. New runs stop generating responses for the archived prompt, which frees a slot in your plan, but the past data is fully queryable.</p>
+          </article>
+          <article class="seo-card">
+            <h3>If I rewrite a prompt, do I lose the measurement history of the original?</h3>
+            <p>No. The rewrite enters the set as a new prompt with its own measurement history; the original is archived and retains its history. You can compare both versions side by side over time to see whether the rewrite genuinely outperforms before committing. Once you have enough data, ship the better-performing version permanently and archive the other.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many prompts should I have in an active set?</h3>
+            <p>Most SolCrys plans set the active prompt-set size deliberately — 20 prompts on Starter, 60 on Pro, 30 per client on Agency. The constraint is a feature, not a bug: it forces discipline about which prompts truly matter. The right operating cadence is to review the set quarterly, prune prompts that fall into Archive criteria, and add new prompts only against the four legitimate triggers in this essay.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often should I run this lifecycle review?</h3>
+            <p>Quarterly. AI engine behavior shifts quarter to quarter (engines reorder, new competitors enter citation surfaces, your own content moves), but reviewing more often than that produces decisions on noise rather than signal. Make the review a recurring calendar item at the start of each quarter; document each prompt&#39;s classification and reason for future continuity.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I see archived prompts and their data later?</h3>
+            <p>Via the API, yes — archived prompts and their historical responses are fully queryable. Via the dashboard today, archived prompts are filtered out of the default prompts view by design (so the active set is clean). If a &#39;show archived&#39; toggle would help your workflow, send us a note — the data is already there; it is a UI add.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/engine-prioritization-framework/">Which AI engine should you focus on? A four-signal framework for AEO prioritization</a></h3>
+            <p>Most AEO programs over-index on engine market share and under-index on signal quality. Gwen Chen, SolCrys CEO, on the four-signal framework — audience fit, prompt gap, buyer value, fixability — that decides where AEO investment actually pays off, plus a 5-factor scoring rubric and the 2026 read on every major engine.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here&#39;s how we build it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/why-two-aeo-platforms-can-disagree/">Why Two AEO Platforms Can Disagree on Citation Share</a></h3>
+            <p>AEO measurement is more like survey design than search analytics. The four sources of disagreement between AEO platforms, the five questions that surface them, and how SolCrys answers each one — with explicit uncertainty.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-WuJstA2W.js"></script>
+  </body>
+</html>
