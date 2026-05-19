@@ -88,16 +88,23 @@ function escapeAttr(value) {
   return escapeHtml(value);
 }
 
-const INLINE_LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
+// Matches either a markdown link [text](url) or **bold** segment.
+const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*/g;
 function renderInlineHtml(value) {
   const text = String(value);
-  if (!text.includes("](")) return escapeHtml(text);
+  if (!text.includes("](") && !text.includes("**")) return escapeHtml(text);
   let out = "";
   let lastIndex = 0;
-  for (const match of text.matchAll(INLINE_LINK_REGEX)) {
+  for (const match of text.matchAll(INLINE_TOKEN_REGEX)) {
     const start = match.index ?? 0;
     if (start > lastIndex) out += escapeHtml(text.slice(lastIndex, start));
-    out += `<a href="${escapeAttr(match[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(match[1])}</a>`;
+    if (match[1] !== undefined && match[2] !== undefined) {
+      // Link
+      out += `<a href="${escapeAttr(match[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(match[1])}</a>`;
+    } else if (match[3] !== undefined) {
+      // Bold
+      out += `<strong>${escapeHtml(match[3])}</strong>`;
+    }
     lastIndex = start + match[0].length;
   }
   if (lastIndex < text.length) out += escapeHtml(text.slice(lastIndex));

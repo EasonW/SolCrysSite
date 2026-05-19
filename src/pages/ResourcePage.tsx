@@ -10,29 +10,41 @@ type ResourcePageData = (typeof siteContent.resourcePages)[number];
 type ResourceSectionData = ResourcePageData["sections"][number];
 type ResourceSubsection = { heading: string; body: string[]; bullets?: string[] };
 
-const INLINE_LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
+// Matches either a markdown link [text](url) or **bold** segment.
+// Bold uses a non-greedy capture so adjacent bold spans don't merge.
+const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*/g;
 
 const renderInline = (text: string): ReactNode => {
-  if (!text.includes("](")) return text;
+  if (!text.includes("](") && !text.includes("**")) return text;
   const nodes: ReactNode[] = [];
   let lastIndex = 0;
   let keyIndex = 0;
-  for (const match of text.matchAll(INLINE_LINK_REGEX)) {
+  for (const match of text.matchAll(INLINE_TOKEN_REGEX)) {
     const start = match.index ?? 0;
     if (start > lastIndex) {
       nodes.push(text.slice(lastIndex, start));
     }
-    nodes.push(
-      <a
-        key={`lnk-${keyIndex++}`}
-        href={match[2]}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[hsl(195_90%_55%)] underline-offset-4 hover:underline"
-      >
-        {match[1]}
-      </a>
-    );
+    if (match[1] !== undefined && match[2] !== undefined) {
+      // Link: [text](url)
+      nodes.push(
+        <a
+          key={`lnk-${keyIndex++}`}
+          href={match[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[hsl(195_90%_55%)] underline-offset-4 hover:underline"
+        >
+          {match[1]}
+        </a>
+      );
+    } else if (match[3] !== undefined) {
+      // Bold: **text**
+      nodes.push(
+        <strong key={`b-${keyIndex++}`} className="font-semibold text-foreground">
+          {match[3]}
+        </strong>
+      );
+    }
     lastIndex = start + match[0].length;
   }
   if (lastIndex < text.length) {
