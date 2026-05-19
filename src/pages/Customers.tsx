@@ -12,7 +12,6 @@ import {
   TrendingUp,
   Target,
   Workflow,
-  User,
 } from "lucide-react";
 
 const WYZE_TEAL = "#00D4B4";
@@ -56,18 +55,6 @@ const AmazonStoreLink = ({ href, name }: { href: string; name: string }) => (
     Amazon store
   </a>
 );
-
-const PhotoPlaceholder = ({ size = "md" }: { size?: "md" | "lg" }) => {
-  const dim = size === "lg" ? "h-24 w-24 md:h-28 md:w-28" : "h-20 w-20 md:h-24 md:w-24";
-  return (
-    <div
-      className={`${dim} rounded-full overflow-hidden border border-border/40 shrink-0 bg-muted/40 flex items-center justify-center`}
-      aria-label="Photo coming soon"
-    >
-      <User className="h-1/2 w-1/2 text-muted-foreground/60" aria-hidden />
-    </div>
-  );
-};
 
 const brandonPrimaryQuote =
   "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.";
@@ -597,7 +584,14 @@ const CustomerStories = () => {
             {/* Garrett Astler — ClearlyKept */}
             <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
               <div className="flex flex-col items-center text-center gap-4 p-8 md:p-10 border-b border-border/40 bg-muted/20">
-                <PhotoPlaceholder />
+                <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border-2 border-border/40 shrink-0">
+                  <img
+                    src="/customers/garrett-astler.jpg"
+                    alt="Garrett Astler"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
                 <div>
                   <p className="font-heading text-base font-semibold text-foreground">
                     Garrett Astler
@@ -629,7 +623,14 @@ const CustomerStories = () => {
             {/* Jed Li — BOBOYM */}
             <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
               <div className="flex flex-col items-center text-center gap-4 p-8 md:p-10 border-b border-border/40 bg-muted/20">
-                <PhotoPlaceholder />
+                <div className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border-2 border-border/40 shrink-0">
+                  <img
+                    src="/customers/jed-li.jpg"
+                    alt="Jed Li"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
                 <div>
                   <p className="font-heading text-base font-semibold text-foreground">
                     Jed Li
@@ -659,9 +660,6 @@ const CustomerStories = () => {
             </article>
           </div>
 
-          <p className="fade-in-scroll mt-6 text-center text-xs text-muted-foreground/70">
-            Photos coming soon. Shared with permission.
-          </p>
         </section>
 
         <div className="glow-line w-full" />

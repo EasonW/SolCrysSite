@@ -44,7 +44,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     name: "Garrett Astler",
     role: "Co-founder",
     company: "ClearlyKept",
-    photoUrl: null,
+    photoUrl: "/customers/garrett-astler.jpg",
     accent: CLEARLYKEPT_AMBER,
     quote:
       "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, and draft content for our website is exactly what we need.",
@@ -57,7 +57,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     name: "Jed Li",
     role: "Founder",
     company: "BOBOYM",
-    photoUrl: null,
+    photoUrl: "/customers/jed-li.jpg",
     accent: BOBOYM_ORANGE,
     quote:
       "SolCrys gave us a much clearer view of the potential for our store across emerging AI shopping channels — Amazon Rufus, Alexa for Shopping, and other AI engines. For the first time, we can see where our products show up, where we are missing, and what needs to improve.",
