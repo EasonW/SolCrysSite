@@ -14,6 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { trackEvent, type AuditSurface } from "@/lib/analytics";
+import { submitLeadIntake, type LeadFormType } from "@/lib/lead-intake";
 
 export type EarlyAccessMode = "audit" | "founder";
 
@@ -30,7 +31,7 @@ const COPY: Record<EarlyAccessMode, {
   description: string;
   submitLabel: string;
   submitLoading: string;
-  formType: string;
+  formType: LeadFormType;
   openEvent: string;
   submitEvent: string;
   successToast: string;
@@ -62,8 +63,6 @@ const COPY: Record<EarlyAccessMode, {
   },
 };
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xojnjoda";
-
 const EarlyAccessDialog = ({
   children,
   surface,
@@ -87,23 +86,28 @@ const EarlyAccessDialog = ({
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+    const get = (key: string): string =>
+      (formData.get(key) as string | null)?.trim() ?? "";
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
+      const result = await submitLeadIntake({
+        form_type: copy.formType,
+        source: `marketing:${copy.formType}@${surface}`,
+        full_name: get("name"),
+        work_email: get("email"),
+        company_name: get("company"),
+        phone: get("phone") || undefined,
+        website: get("website") || undefined,
+        message: get("message") || undefined,
+        honeypot: get("company_website_url"),
       });
 
-      if (response.ok) {
+      if (result.ok) {
         trackEvent(copy.submitEvent, { surface, mode });
         toast.success(copy.successToast);
         handleOpenChange(false);
       } else {
+        console.error("Submission error:", result.error);
         toast.error("Something went wrong. Please try again.");
       }
     } catch (error) {
@@ -123,8 +127,31 @@ const EarlyAccessDialog = ({
           <DialogDescription>{copy.description}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-          <input type="hidden" name="form_type" value={copy.formType} />
-          <input type="hidden" name="surface" value={surface} />
+          {/* Honeypot — bots fill, humans don't. The label sounds plausible
+              so naive scrapers populate it; the wrapper hides it visually
+              and from assistive tech. */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-10000px",
+              top: "auto",
+              width: "1px",
+              height: "1px",
+              overflow: "hidden",
+            }}
+          >
+            <Label htmlFor={`company_website_url-${mode}`}>
+              Company website URL
+            </Label>
+            <Input
+              id={`company_website_url-${mode}`}
+              name="company_website_url"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
 
           <div className="grid gap-2">
             <Label htmlFor="name">Name <span className="text-destructive">*</span></Label>

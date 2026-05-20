@@ -19,6 +19,7 @@ import {
   type PricingAudience,
   type PricingPlanKey,
 } from "@/lib/analytics";
+import { submitLeadIntake } from "@/lib/lead-intake";
 
 interface TrialSignupDialogProps {
   children: React.ReactNode;
@@ -27,8 +28,6 @@ interface TrialSignupDialogProps {
   planLabel: string;
   audience: PricingAudience;
 }
-
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xojnjoda";
 
 const TrialSignupDialog = ({
   children,
@@ -52,23 +51,40 @@ const TrialSignupDialog = ({
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData);
+    const get = (key: string): string =>
+      (formData.get(key) as string | null)?.trim() ?? "";
+
+    // Audience-conditional structured field. Server stores everything we
+    // pass in form_payload so we keep both keys explicit here.
+    const clientCount = get("client_count");
+    const brandCount = get("brand_count");
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+      const result = await submitLeadIntake({
+        form_type: "pricing_trial_request",
+        source: `marketing:pricing_trial_request@pricing:${planKey}`,
+        full_name: get("name"),
+        work_email: get("email"),
+        company_name: get("company"),
+        website: get("website") || undefined,
+        message: get("notes") || undefined,
+        honeypot: get("company_website_url"),
+        form_payload: {
+          plan: planKey,
+          plan_label: planLabel,
+          audience,
+          surface,
+          ...(clientCount ? { client_count: Number(clientCount) } : {}),
+          ...(brandCount ? { brand_count: Number(brandCount) } : {}),
         },
       });
 
-      if (response.ok) {
+      if (result.ok) {
         trackEvent("pricing_trial_submit", { surface, plan: planKey, audience });
         toast.success("Thanks. We'll follow up about this plan.");
         setOpen(false);
       } else {
+        console.error("Submission error:", result.error);
         toast.error("Something went wrong. Please try again.");
       }
     } catch (error) {
@@ -90,11 +106,29 @@ const TrialSignupDialog = ({
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-          <input type="hidden" name="form_type" value="pricing_trial_request" />
-          <input type="hidden" name="plan" value={planKey} />
-          <input type="hidden" name="plan_label" value={planLabel} />
-          <input type="hidden" name="audience" value={audience} />
-          <input type="hidden" name="surface" value={surface} />
+          {/* Honeypot — see EarlyAccessDialog for full pattern explanation. */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-10000px",
+              top: "auto",
+              width: "1px",
+              height: "1px",
+              overflow: "hidden",
+            }}
+          >
+            <Label htmlFor={`${planKey}-company_website_url`}>
+              Company website URL
+            </Label>
+            <Input
+              id={`${planKey}-company_website_url`}
+              name="company_website_url"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
 
           <div className="grid gap-2">
             <Label htmlFor={`${planKey}-name`}>
