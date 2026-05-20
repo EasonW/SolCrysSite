@@ -45,6 +45,15 @@ const ResourcesMegaMenu = ({ onItemClick, onAuditClick }: ResourcesMegaMenuProps
                 </li>
               ))}
             </ul>
+            {col.seeAll ? (
+              <a
+                href={col.seeAll.href}
+                onClick={onItemClick}
+                className="mt-3 inline-flex items-center text-xs font-medium text-[hsl(195_90%_55%)] hover:text-[hsl(195_90%_45%)] transition-colors"
+              >
+                {col.seeAll.label}
+              </a>
+            ) : null}
           </div>
         ))}
 

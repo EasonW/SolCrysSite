@@ -4,60 +4,76 @@ import EarlyAccessDialog from "./EarlyAccessDialog";
 import ThemeToggle from "./ThemeToggle";
 import { ArrowRight, BookOpen, ChevronDown, Menu, X } from "lucide-react";
 import ResourcesMegaMenu from "./ResourcesMegaMenu";
+import SolutionsMegaMenu from "./SolutionsMegaMenu";
 import {
   RESOURCES_COLUMNS,
   RESOURCES_FOOTER_LINKS,
 } from "./resourcesMenuData";
+import { SOLUTIONS_MENU_ITEMS } from "./solutionsMenuData";
 import siteContent from "@/content/siteContent.json";
 
 const publishedResourceCount = siteContent.resourcePages.filter(
   (p) => (p as { status?: string }).status !== "draft"
 ).length;
 
+// Single source of truth for the top-row order. Flat anchors/routes
+// only — dropdowns (Solutions / Resources / Company) are rendered
+// separately so they can carry their own open-state + mega-menu body.
+// Order convention: product-side first (Platform → Pricing → Customers),
+// discovery-side second (handled via dropdown insertion below).
+//
+// 2026-05 nav cleanup removed two items vs the prior structure:
+//   - "The Loop" (#loop): a same-page anchor with no destination —
+//     the homepage section still exists, just unlinked from the nav.
+//   - "News": moved to the footer's Company column. The /news/ feed
+//     ships infrequently enough that footer is sufficient; this also
+//     lets the Company entry stay a flat link rather than a 1-item
+//     dropdown.
 const flatNavLinks = [
   { href: "/#features", label: "Platform" },
-  { href: "/#solutions", label: "Solutions" },
-  { href: "/#loop", label: "The Loop" },
   { href: "/pricing/", label: "Pricing" },
   { href: "/customers/", label: "Customers" },
-];
-
-const trailingNavLinks = [
-  { href: "/news/", label: "News" },
   { href: "/about/", label: "Company" },
 ];
 
+type OpenMenu = "resources" | "solutions" | null;
+
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
-  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
+  // Single open-menu enum so opening one dropdown auto-closes the
+  // others. Replaces the prior boolean-per-menu pattern that would
+  // otherwise allow two mega menus to overlap.
+  const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
+  // Mobile accordion state mirrors OpenMenu but stays independent —
+  // mobile users can have a section expanded while desktop has none.
+  const [mobileSection, setMobileSection] = useState<OpenMenu>(null);
   const [auditOpen, setAuditOpen] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const openResources = () => {
+  const openDropdown = (menu: Exclude<OpenMenu, null>) => {
     if (closeTimer.current) {
       window.clearTimeout(closeTimer.current);
       closeTimer.current = null;
     }
-    setResourcesOpen(true);
+    setOpenMenu(menu);
   };
 
   const scheduleClose = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
-    closeTimer.current = window.setTimeout(() => setResourcesOpen(false), 150);
+    closeTimer.current = window.setTimeout(() => setOpenMenu(null), 150);
   };
 
-  // Outside-click + Escape: close desktop dropdown.
+  // Outside-click + Escape: close whichever dropdown is open.
   useEffect(() => {
-    if (!resourcesOpen) return;
+    if (!openMenu) return;
     const onDown = (e: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-        setResourcesOpen(false);
+        setOpenMenu(null);
       }
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setResourcesOpen(false);
+      if (e.key === "Escape") setOpenMenu(null);
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -65,12 +81,71 @@ const Navbar = () => {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [resourcesOpen]);
+  }, [openMenu]);
 
   const closeAll = () => {
     setMobileOpen(false);
-    setMobileResourcesOpen(false);
-    setResourcesOpen(false);
+    setMobileSection(null);
+    setOpenMenu(null);
+  };
+
+  // Helper renderers so the desktop bar stays readable.
+
+  const renderFlatLink = (link: { href: string; label: string }) => (
+    <a
+      key={link.href}
+      href={link.href}
+      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+    >
+      {link.label}
+    </a>
+  );
+
+  const renderDropdownTrigger = (
+    menu: Exclude<OpenMenu, null>,
+    label: string,
+    body: React.ReactNode,
+    /** Visual width of the dropdown panel. Solutions + Resources need
+     *  the full ~1180px; Company is a small column. */
+    panelWidth: "wide" | "narrow",
+  ) => {
+    const isOpen = openMenu === menu;
+    const panelClasses =
+      panelWidth === "wide"
+        ? "w-[min(calc(100vw-2rem),1180px)] -translate-x-1/2 left-1/2 fixed top-[4.5rem]"
+        : "absolute left-0 top-full mt-3 w-[18rem]";
+    return (
+      <div
+        className="relative"
+        onMouseEnter={() => openDropdown(menu)}
+        onMouseLeave={scheduleClose}
+      >
+        <button
+          type="button"
+          aria-haspopup="true"
+          aria-expanded={isOpen}
+          onClick={() => setOpenMenu(isOpen ? null : menu)}
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {label}
+          <ChevronDown
+            className={`h-3.5 w-3.5 transition-transform ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        {isOpen ? (
+          <div
+            className={`z-50 ${panelClasses}`}
+            onMouseEnter={() => openDropdown(menu)}
+            onMouseLeave={scheduleClose}
+          >
+            {body}
+          </div>
+        ) : null}
+      </div>
+    );
   };
 
   return (
@@ -83,62 +158,32 @@ const Navbar = () => {
           </a>
         </div>
 
-        {/* Desktop nav */}
+        {/* Desktop nav — order:
+            Platform · Solutions ▾ · Pricing · Customers · Resources ▾ · Company  */}
         <div ref={wrapperRef} className="hidden lg:flex items-center gap-8">
-          {flatNavLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+          {renderFlatLink(flatNavLinks[0])}
 
-          {/* Resources dropdown trigger */}
-          <div
-            className="relative"
-            onMouseEnter={openResources}
-            onMouseLeave={scheduleClose}
-          >
-            <button
-              type="button"
-              aria-haspopup="true"
-              aria-expanded={resourcesOpen}
-              onClick={() => setResourcesOpen((v) => !v)}
-              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Resources
-              <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform ${
-                  resourcesOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
+          {renderDropdownTrigger(
+            "solutions",
+            "Solutions",
+            <SolutionsMegaMenu onItemClick={() => setOpenMenu(null)} />,
+            "wide",
+          )}
 
-            {resourcesOpen ? (
-              <div
-                className="fixed left-1/2 top-[4.5rem] z-50 w-[min(calc(100vw-2rem),1180px)] -translate-x-1/2"
-                onMouseEnter={openResources}
-                onMouseLeave={scheduleClose}
-              >
-                <ResourcesMegaMenu
-                  onItemClick={() => setResourcesOpen(false)}
-                  onAuditClick={() => setAuditOpen(true)}
-                />
-              </div>
-            ) : null}
-          </div>
+          {renderFlatLink(flatNavLinks[1])}
+          {renderFlatLink(flatNavLinks[2])}
 
-          {trailingNavLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+          {renderDropdownTrigger(
+            "resources",
+            "Resources",
+            <ResourcesMegaMenu
+              onItemClick={() => setOpenMenu(null)}
+              onAuditClick={() => setAuditOpen(true)}
+            />,
+            "wide",
+          )}
+
+          {renderFlatLink(flatNavLinks[3])}
         </div>
 
         {/* Right cluster: theme toggle + mobile hamburger + Free Audit CTA */}
@@ -178,34 +223,79 @@ const Navbar = () => {
           className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto"
         >
           <div className="container mx-auto px-6 py-3 flex flex-col">
-            {flatNavLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={closeAll}
-                className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
-              >
-                {link.label}
-              </a>
-            ))}
+            {/* Platform */}
+            <a
+              href={flatNavLinks[0].href}
+              onClick={closeAll}
+              className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            >
+              {flatNavLinks[0].label}
+            </a>
+
+            {/* Mobile Solutions accordion */}
+            <MobileAccordion
+              label="Solutions"
+              isOpen={mobileSection === "solutions"}
+              onToggle={() =>
+                setMobileSection((m) => (m === "solutions" ? null : "solutions"))
+              }
+            >
+              <ul className="space-y-1">
+                {SOLUTIONS_MENU_ITEMS.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      onClick={closeAll}
+                      className="flex items-start gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(195_90%_55%)] transition-colors"
+                    >
+                      <item.Icon className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                      <span className="min-w-0">
+                        <span className="block font-medium">{item.title}</span>
+                        <span className="block text-[11px] text-muted-foreground leading-snug">
+                          {item.audience}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a
+                    href="/#solutions"
+                    onClick={closeAll}
+                    className="flex items-center gap-2 py-2 text-sm font-medium text-[hsl(195_90%_55%)]"
+                  >
+                    All solutions
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
+                </li>
+              </ul>
+            </MobileAccordion>
+
+            {/* Pricing + Customers */}
+            <a
+              href={flatNavLinks[1].href}
+              onClick={closeAll}
+              className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            >
+              {flatNavLinks[1].label}
+            </a>
+            <a
+              href={flatNavLinks[2].href}
+              onClick={closeAll}
+              className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            >
+              {flatNavLinks[2].label}
+            </a>
 
             {/* Mobile Resources accordion */}
-            <button
-              type="button"
-              onClick={() => setMobileResourcesOpen((v) => !v)}
-              aria-expanded={mobileResourcesOpen}
-              className="flex items-center justify-between py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            <MobileAccordion
+              label="Resources"
+              isOpen={mobileSection === "resources"}
+              onToggle={() =>
+                setMobileSection((m) => (m === "resources" ? null : "resources"))
+              }
             >
-              <span>Resources</span>
-              <ChevronDown
-                className={`h-4 w-4 transition-transform ${
-                  mobileResourcesOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            {mobileResourcesOpen ? (
-              <div className="pl-2 py-2 border-b border-border/20 space-y-4">
+              <div className="space-y-4">
                 {RESOURCES_COLUMNS.map((col) => (
                   <div key={col.label}>
                     <p className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground mt-2 mb-2">
@@ -224,13 +314,24 @@ const Navbar = () => {
                           </a>
                         </li>
                       ))}
+                      {col.seeAll ? (
+                        <li>
+                          <a
+                            href={col.seeAll.href}
+                            onClick={closeAll}
+                            className="block py-2 text-xs font-medium text-[hsl(195_90%_55%)]"
+                          >
+                            {col.seeAll.label}
+                          </a>
+                        </li>
+                      ) : null}
                     </ul>
                   </div>
                 ))}
                 <a
                   href="/resources/"
                   onClick={closeAll}
-                  className="mt-3 group flex items-center justify-between rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.06)] hover:bg-[hsl(195_90%_55%/0.12)] transition-colors px-4 py-3"
+                  className="mt-2 group flex items-center justify-between rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.06)] hover:bg-[hsl(195_90%_55%/0.12)] transition-colors px-4 py-3"
                 >
                   <div className="flex items-center gap-3">
                     <span className="flex-none rounded-md bg-[hsl(195_90%_55%/0.18)] p-2">
@@ -263,18 +364,16 @@ const Navbar = () => {
                   </div>
                 ) : null}
               </div>
-            ) : null}
+            </MobileAccordion>
 
-            {trailingNavLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={closeAll}
-                className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20 last:border-0"
-              >
-                {link.label}
-              </a>
-            ))}
+            {/* Company — flat link, no dropdown (News moved to footer). */}
+            <a
+              href={flatNavLinks[3].href}
+              onClick={closeAll}
+              className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            >
+              {flatNavLinks[3].label}
+            </a>
 
             {/* Mobile Login — visually separated below the nav block since
                 it's an action, not a section link. */}
@@ -290,5 +389,41 @@ const Navbar = () => {
     </nav>
   );
 };
+
+/**
+ * Mobile-only accordion wrapper. Three siblings (Solutions, Resources,
+ * Company) all need the same header + collapsible body pattern; pulling
+ * it into a small component keeps the mobile panel readable.
+ */
+function MobileAccordion({
+  label,
+  isOpen,
+  onToggle,
+  children,
+}: {
+  label: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        className="flex items-center justify-between py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+      >
+        <span>{label}</span>
+        <ChevronDown
+          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      {isOpen ? (
+        <div className="pl-2 py-2 border-b border-border/20">{children}</div>
+      ) : null}
+    </>
+  );
+}
 
 export default Navbar;

@@ -1,25 +1,16 @@
 import {
   BookOpen,
   Compass,
-  TrendingUp,
   ClipboardList,
   MessageSquare,
   Sparkles,
-  MessageCircle,
   Search,
   Globe,
-  ShoppingCart,
-  Tag,
-  ShoppingBasket,
   Gauge,
-  Brain,
   Link2,
-  Wrench,
   Users,
   AlertTriangle,
-  ArrowRight,
   Workflow,
-  Boxes,
   type LucideIcon,
 } from "lucide-react";
 import { categorySlug } from "@/lib/categorySlug";
@@ -34,25 +25,26 @@ export type ResourcesMenuItem = {
 export type ResourcesMenuColumn = {
   label: string;
   items: ResourcesMenuItem[];
+  /** Optional "see all" link rendered at the bottom of the column. */
+  seeAll?: { label: string; href: string };
 };
 
 const categoryHref = (category: string): string => `/resources/#${categorySlug(category)}`;
 
+// Slimmed 2026-05 nav cleanup: 21 → 12 items.
+// Heuristic: keep ≤4 items per column to stay scannable. Items hidden
+// from the menu are still reachable via the "Browse all guides" CTA at
+// the bottom of the menu (full /resources/ index) or via the per-column
+// "see all" links below — no content is orphaned, only de-emphasized.
 export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
   {
-    label: "Start here",
+    label: "Foundations",
     items: [
       {
         title: "How SolCrys Works",
         desc: "Measure, diagnose, act, and verify",
         href: categoryHref("How SolCrys Works"),
         Icon: Workflow,
-      },
-      {
-        title: "For Agencies",
-        desc: "Launch and scale an AEO practice",
-        href: categoryHref("For Agencies"),
-        Icon: Users,
       },
       {
         title: "AEO Fundamentals",
@@ -66,63 +58,52 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         href: categoryHref("Strategy & Positioning"),
         Icon: Compass,
       },
+      {
+        title: "For Agencies",
+        desc: "Launch and scale an AEO practice",
+        href: categoryHref("For Agencies"),
+        Icon: Users,
+      },
     ],
   },
   {
     label: "By AI Engine",
     items: [
       {
-        title: "Optimize for ChatGPT",
+        title: "ChatGPT",
         desc: "Citation-first guide for ChatGPT Search",
         href: "/optimize-for-chatgpt-search/",
         Icon: MessageSquare,
       },
       {
-        title: "Optimize for Gemini",
+        title: "Gemini",
         desc: "Google's other AI search engine",
         href: "/optimize-for-gemini/",
         Icon: Sparkles,
       },
       {
-        title: "Optimize for Claude",
-        desc: "Anthropic web-search guide",
-        href: "/optimize-for-claude/",
-        Icon: MessageCircle,
-      },
-      {
-        title: "Optimize for Perplexity",
+        title: "Perplexity",
         desc: "Citation-driven retrieval",
         href: "/optimize-for-perplexity/",
         Icon: Search,
       },
       {
-        title: "Google AI Overviews / AI Mode",
+        title: "Google AI Overviews",
         desc: "Survive AI-driven SERPs",
         href: "/optimize-for-google-ai-overviews-ai-mode/",
         Icon: Globe,
       },
-      {
-        title: "Amazon Rufus",
-        desc: "Marketplace AEO for Amazon SKUs",
-        href: "/amazon-rufus-optimization/",
-        Icon: ShoppingCart,
-      },
-      {
-        title: "Walmart Sparky",
-        desc: "Walmart marketplace AEO",
-        href: "/walmart-sparky-optimization/",
-        Icon: Tag,
-      },
-      {
-        title: "ChatGPT Shopping",
-        desc: "DTC + marketplace product visibility",
-        href: "/chatgpt-shopping-optimization/",
-        Icon: ShoppingBasket,
-      },
     ],
+    // Claude, Amazon Rufus, Walmart Sparky, ChatGPT Shopping live under
+    // their own routes; the "see all engines" anchor on /resources/
+    // surfaces them with the rest.
+    seeAll: {
+      label: "All AI engines →",
+      href: categoryHref("AI Engine Optimization"),
+    },
   },
   {
-    label: "Operate & Execute",
+    label: "Operate",
     items: [
       {
         title: "Measurement",
@@ -131,10 +112,10 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         Icon: Gauge,
       },
       {
-        title: "Prompt Intelligence",
-        desc: "Build the prompt set that matters",
-        href: categoryHref("Prompt Intelligence"),
-        Icon: Brain,
+        title: "Buyer Guides",
+        desc: "Evaluate AEO platforms before signing",
+        href: categoryHref("Buyer Guides"),
+        Icon: ClipboardList,
       },
       {
         title: "Citation & Source Influence",
@@ -143,42 +124,15 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         Icon: Link2,
       },
       {
-        title: "Technical Readiness",
-        desc: "Crawler, schema, answer-readiness checklist",
-        href: categoryHref("Technical Readiness"),
-        Icon: Wrench,
-      },
-      {
-        title: "MCP & Skills",
-        desc: "Connect AI agents to your SolCrys workspace",
-        href: categoryHref("MCP & Skills"),
-        Icon: Boxes,
-      },
-      {
-        title: "Community & UGC",
-        desc: "Reddit, Q&A, comments as citations",
-        href: categoryHref("Community & UGC"),
-        Icon: Users,
-      },
-      {
         title: "Risk Monitoring",
         desc: "Catch hallucinations before customers do",
         href: categoryHref("Risk Monitoring"),
         Icon: AlertTriangle,
       },
-      {
-        title: "Attribution & ROI",
-        desc: "Tie AEO actions to revenue",
-        href: categoryHref("Attribution & ROI"),
-        Icon: TrendingUp,
-      },
-      {
-        title: "Buyer Guides",
-        desc: "Evaluate AEO platforms before signing",
-        href: categoryHref("Buyer Guides"),
-        Icon: ClipboardList,
-      },
     ],
+    // Prompt Intelligence, Technical Readiness, MCP & Skills,
+    // Community & UGC, Attribution & ROI now live under the
+    // "Browse all guides" CTA at the bottom of the menu.
   },
 ];
 
