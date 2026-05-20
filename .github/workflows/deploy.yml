@@ -25,6 +25,22 @@ jobs:
         run: npm ci # 比 npm install 更稳定，基于 package-lock.json 安装
         
       - name: Build project
+        # Lead-intake routing — see src/lib/lead-intake.ts.
+        # When VITE_LEAD_INTAKE_URL is unset (current default), forms keep
+        # using Formspree. Uncomment the env block below AFTER:
+        #   1. PR #824 (geo-platform) is deployed to app.solcrys.com
+        #   2. Migration 132 applied in production DB
+        #   3. CORS smoke test passes:
+        #        curl -i -X OPTIONS https://app.solcrys.com/api/lead-intake \
+        #          -H "Origin: https://solcrys.com" \
+        #          -H "Access-Control-Request-Method: POST"
+        #      Expect HTTP 204 + Access-Control-Allow-Origin: https://solcrys.com
+        # Then push to trigger a rebuild. DUAL_WRITE=1 runs Stage 1 (~1 week
+        # mirroring to Formspree for audit) — drop it to "0" for cutover.
+        #
+        # env:
+        #   VITE_LEAD_INTAKE_URL: https://app.solcrys.com/api/lead-intake
+        #   VITE_LEAD_INTAKE_DUAL_WRITE: "1"
         run: npm run build # 这会运行我们刚刚配置的带有 404.html 的编译脚本
         
       - name: Deploy to GitHub Pages

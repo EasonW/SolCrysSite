@@ -154,6 +154,17 @@ const Navbar = () => {
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
+          {/* Login routes to the app on the subdomain. External nav, not an
+              internal route — keep as a plain anchor so it survives the
+              cross-domain navigation cleanly. Desktop-only to keep the
+              mobile header from crowding; mobile users get the same link
+              inside the dropdown panel below. */}
+          <a
+            href="https://app.solcrys.com/login"
+            className="hidden lg:inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/40 transition-colors"
+          >
+            Login
+          </a>
           <EarlyAccessDialog surface="navbar" open={auditOpen} onOpenChange={setAuditOpen}>
             <Button variant="hero" size="sm">Free Audit</Button>
           </EarlyAccessDialog>
@@ -264,6 +275,15 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
+
+            {/* Mobile Login — visually separated below the nav block since
+                it's an action, not a section link. */}
+            <a
+              href="https://app.solcrys.com/login"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-md border border-border/60 px-4 py-3 text-base font-medium text-foreground hover:bg-accent/40 transition-colors"
+            >
+              Login
+            </a>
           </div>
         </div>
       ) : null}
