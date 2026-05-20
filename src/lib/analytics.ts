@@ -9,11 +9,13 @@ export type AuditSurface =
   | "navbar"
   | "cta_section"
   | "customers"
+  | "customers-nextsilicon"
   | "pricing"
   | "pricing_card"
   | "pricing_cta_strip"
   | "pricing_enterprise"
-  | "pricing_sticky_mobile";
+  | "pricing_sticky_mobile"
+  | "resources_mega";
 
 export type PricingAudience = "brand" | "agency";
 

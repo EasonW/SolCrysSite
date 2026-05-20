@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import AnnouncementBanner from "./AnnouncementBanner";
-import EarlyAccessDialog from "./EarlyAccessDialog";
 import LoopDiagram from "./LoopDiagram";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import siteContent from "@/content/siteContent.json";
 
 const HeroSection = () => {
@@ -40,12 +40,12 @@ const HeroSection = () => {
         </p>
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up-delay-3 mb-16">
-          <EarlyAccessDialog surface="hero">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6 h-auto">
+          <Button asChild variant="hero" size="lg" className="text-base px-8 py-6 h-auto">
+            <a href={AUDIT_URL} onClick={() => trackAuditClick("hero")}>
               Get a Free AI Visibility Audit
               <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </EarlyAccessDialog>
+            </a>
+          </Button>
           <Button asChild variant="hero-outline" size="lg" className="text-base px-8 py-6 h-auto">
             <a href="#loop">See the SolCrys Loop</a>
           </Button>

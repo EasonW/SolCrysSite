@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import EarlyAccessDialog from "./EarlyAccessDialog";
 import ThemeToggle from "./ThemeToggle";
 import { ArrowRight, BookOpen, ChevronDown, Menu, X } from "lucide-react";
 import ResourcesMegaMenu from "./ResourcesMegaMenu";
@@ -10,6 +9,7 @@ import {
   RESOURCES_FOOTER_LINKS,
 } from "./resourcesMenuData";
 import { SOLUTIONS_MENU_ITEMS } from "./solutionsMenuData";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import siteContent from "@/content/siteContent.json";
 
 const publishedResourceCount = siteContent.resourcePages.filter(
@@ -47,7 +47,6 @@ const Navbar = () => {
   // Mobile accordion state mirrors OpenMenu but stays independent —
   // mobile users can have a section expanded while desktop has none.
   const [mobileSection, setMobileSection] = useState<OpenMenu>(null);
-  const [auditOpen, setAuditOpen] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
@@ -176,10 +175,7 @@ const Navbar = () => {
           {renderDropdownTrigger(
             "resources",
             "Resources",
-            <ResourcesMegaMenu
-              onItemClick={() => setOpenMenu(null)}
-              onAuditClick={() => setAuditOpen(true)}
-            />,
+            <ResourcesMegaMenu onItemClick={() => setOpenMenu(null)} />,
             "wide",
           )}
 
@@ -210,9 +206,18 @@ const Navbar = () => {
           >
             Login
           </a>
-          <EarlyAccessDialog surface="navbar" open={auditOpen} onOpenChange={setAuditOpen}>
-            <Button variant="hero" size="sm">Free Audit</Button>
-          </EarlyAccessDialog>
+          {/* Free Audit now routes directly to the in-app audit funnel
+              at app.solcrys.com/audit (self-serve as of 2026-05-20).
+              Previous EarlyAccessDialog modal is retained for the
+              "founder chat" sales path only (see Pricing.tsx). */}
+          <Button asChild variant="hero" size="sm">
+            <a
+              href={AUDIT_URL}
+              onClick={() => trackAuditClick("navbar")}
+            >
+              Free Audit
+            </a>
+          </Button>
         </div>
       </div>
 

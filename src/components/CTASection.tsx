@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import EarlyAccessDialog from "./EarlyAccessDialog";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 
 const CTASection = () => {
   return (
@@ -19,14 +19,17 @@ const CTASection = () => {
               See where AI answers are helping or hurting your brand.
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Get a free AI visibility audit across priority prompts, cited sources, competitors, and answer accuracy.
+              Run a free AI visibility audit across priority prompts, cited sources, competitors, and answer accuracy.
             </p>
-            <EarlyAccessDialog surface="cta_section">
-              <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                Get a Free Audit
+            <Button asChild variant="hero" size="lg" className="text-base px-8 py-6">
+              <a
+                href={AUDIT_URL}
+                onClick={() => trackAuditClick("cta_section")}
+              >
+                Start your Free Audit
                 <ArrowRight className="ml-1" />
-              </Button>
-            </EarlyAccessDialog>
+              </a>
+            </Button>
           </div>
         </div>
       </div>

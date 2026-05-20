@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import EarlyAccessDialog from "@/components/EarlyAccessDialog";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import TrialSignupDialog from "@/components/TrialSignupDialog";
 import { Button } from "@/components/ui/button";
 import { Check, Layers3, Sparkles } from "lucide-react";
@@ -354,11 +355,14 @@ const Pricing = () => {
                   {pricing.ctaStrip.ctaLabel}
                 </Button>
               </EarlyAccessDialog>
-              <EarlyAccessDialog surface="pricing_cta_strip" mode="audit">
-                <Button variant="hero-outline" size="lg">
-                  Get a free audit first
-                </Button>
-              </EarlyAccessDialog>
+              <Button asChild variant="hero-outline" size="lg">
+                <a
+                  href={AUDIT_URL}
+                  onClick={() => trackAuditClick("pricing_cta_strip")}
+                >
+                  Start a free audit first
+                </a>
+              </Button>
             </div>
           </div>
         </section>
