@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import newsroom from "@/content/newsroom.json";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { ArrowLeft, ArrowRight, CalendarDays, Linkedin } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -71,6 +72,61 @@ const renderBlock = (block: BodyBlock, index: number) => {
             </li>
           ))}
         </ul>
+      );
+    case "cta":
+      // Prominent inline CTA. `href` may be absolute (e.g. app subdomain
+      // for the audit funnel) or a same-site relative path; both work.
+      // When the href matches AUDIT_URL we forward the click to the
+      // existing GA tracker so launch-note conversions show up under
+      // the same `request_audit_open` event as homepage CTAs.
+      if (!("text" in block) || !("href" in block)) return null;
+      return (
+        <div key={index} className="my-8 flex justify-start">
+          <a
+            href={block.href}
+            onClick={
+              block.href === AUDIT_URL
+                ? () => trackAuditClick("news_article")
+                : undefined
+            }
+            className="group inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            {block.text}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
+        </div>
+      );
+    case "signatures":
+      // Multi-author byline rendered at the END of a body. Used for
+      // collective launch notes / founder updates signed by 2+ people.
+      // (Distinct from the single `author` field rendered above the
+      // dek for traditional founder notes.)
+      if (!("authors" in block) || !Array.isArray(block.authors)) return null;
+      return (
+        <div
+          key={index}
+          className="mt-12 pt-8 border-t border-border/40 grid gap-4 sm:grid-cols-3"
+        >
+          {block.authors.map((author) => (
+            <div key={author.name} className="text-sm">
+              <p className="font-medium text-foreground">{author.name}</p>
+              <p className="text-muted-foreground leading-snug mt-0.5">
+                {author.role}
+              </p>
+              {author.linkedin ? (
+                <a
+                  href={author.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${author.name} on LinkedIn`}
+                  className="mt-2 inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </a>
+              ) : null}
+            </div>
+          ))}
+        </div>
       );
     case "paragraph":
     default:

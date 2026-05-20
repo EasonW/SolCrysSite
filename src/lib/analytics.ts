@@ -15,7 +15,8 @@ export type AuditSurface =
   | "pricing_cta_strip"
   | "pricing_enterprise"
   | "pricing_sticky_mobile"
-  | "resources_mega";
+  | "resources_mega"
+  | "news_article";
 
 export type PricingAudience = "brand" | "agency";
 
