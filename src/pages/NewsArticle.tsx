@@ -2,6 +2,9 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import newsroom from "@/content/newsroom.json";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import gwenImg from "@/assets/gwen-chen.jpg";
+import easonImg from "@/assets/eason-wang.jpg";
+import jiaImg from "@/assets/jia-chang.jpg";
 import { ArrowLeft, ArrowRight, CalendarDays, Linkedin } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -10,8 +13,14 @@ import NotFound from "./NotFound";
 type NewsPost = (typeof newsroom.posts)[number];
 type BodyBlock = NewsPost["body"][number];
 
+// Maps a person's display name → image asset path. Existing hero
+// images live under public/news/ (RJ); founder photos are Vite imports
+// so the bundler hashes them like everywhere else they're used (AboutUs).
 const personPhoto: Record<string, string> = {
   "Raejeanne Skillern": "/news/raejeanne-skillern.png",
+  "Gwen Chen": gwenImg,
+  "Eason Wang": easonImg,
+  "Jia Chang": jiaImg,
 };
 
 const formatDate = (iso: string) =>
@@ -105,27 +114,40 @@ const renderBlock = (block: BodyBlock, index: number) => {
       return (
         <div
           key={index}
-          className="mt-12 pt-8 border-t border-border/40 grid gap-4 sm:grid-cols-3"
+          className="mt-12 pt-8 border-t border-border/40 grid gap-6 sm:grid-cols-3"
         >
-          {block.authors.map((author) => (
-            <div key={author.name} className="text-sm">
-              <p className="font-medium text-foreground">{author.name}</p>
-              <p className="text-muted-foreground leading-snug mt-0.5">
-                {author.role}
-              </p>
-              {author.linkedin ? (
-                <a
-                  href={author.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${author.name} on LinkedIn`}
-                  className="mt-2 inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <Linkedin className="h-4 w-4" />
-                </a>
-              ) : null}
-            </div>
-          ))}
+          {block.authors.map((author) => {
+            const photo = personPhoto[author.name];
+            return (
+              <div key={author.name} className="flex items-start gap-3 text-sm">
+                {photo ? (
+                  <img
+                    src={photo}
+                    alt={author.name}
+                    className="h-12 w-12 flex-none rounded-full object-cover border border-border/40"
+                    loading="lazy"
+                  />
+                ) : null}
+                <div className="min-w-0">
+                  <p className="font-medium text-foreground">{author.name}</p>
+                  <p className="text-muted-foreground leading-snug mt-0.5">
+                    {author.role}
+                  </p>
+                  {author.linkedin ? (
+                    <a
+                      href={author.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${author.name} on LinkedIn`}
+                      className="mt-2 inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <Linkedin className="h-4 w-4" />
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            );
+          })}
         </div>
       );
     case "paragraph":
