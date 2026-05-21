@@ -2,6 +2,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { APP_PRICING_URL } from "@/lib/pricing-url";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -777,7 +778,7 @@ const CustomerStories = () => {
               </a>
             </Button>
             <Button asChild variant="hero-outline" size="lg" className="text-base px-8 py-6 h-auto">
-              <a href="/pricing/">See pricing</a>
+              <a href={APP_PRICING_URL}>See pricing</a>
             </Button>
           </div>
         </section>

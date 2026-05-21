@@ -8,7 +8,11 @@ import NextSiliconCaseStudy from "./pages/NextSiliconCaseStudy";
 import NotFound from "./pages/NotFound";
 import Resources from "./pages/Resources";
 import ResourcePage from "./pages/ResourcePage";
-import Pricing from "./pages/Pricing";
+// Phase E: /pricing is canonical-hosted at app.solcrys.com/pricing.
+// The SPA route now renders a redirect bridge that handles warm-cache
+// client-side navigations (the static prerendered HTML handles cold
+// loads via meta-refresh).
+import PricingRedirect from "./components/PricingRedirect";
 import News from "./pages/News";
 import NewsArticle from "./pages/NewsArticle";
 import siteContent from "@/content/siteContent.json";
@@ -25,8 +29,8 @@ const App = () => (
         <Route path="/customers/" element={<Customers />} />
         <Route path="/customers/nextsilicon" element={<NextSiliconCaseStudy />} />
         <Route path="/customers/nextsilicon/" element={<NextSiliconCaseStudy />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/pricing/" element={<Pricing />} />
+        <Route path="/pricing" element={<PricingRedirect />} />
+        <Route path="/pricing/" element={<PricingRedirect />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/" element={<Resources />} />
         <Route path="/news" element={<News />} />

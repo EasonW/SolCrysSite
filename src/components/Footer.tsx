@@ -9,9 +9,13 @@
 // from the mega-menu data (e.g., footer surfaces all 8 AI engines,
 // whereas the nav mega only shows 4 + a "see all" link).
 
+import { APP_PRICING_URL } from "@/lib/pricing-url";
+
 const productLinks = [
   { href: "/#features", label: "Platform" },
-  { href: "/pricing/", label: "Pricing" },
+  // Phase E: pricing moved to app.solcrys.com/pricing. See Navbar.tsx for
+  // the full rationale; bridge page at /pricing/ still handles bookmarks.
+  { href: APP_PRICING_URL, label: "Pricing" },
   { href: "/customers/", label: "Customers" },
   { href: "/#solutions", label: "Solutions" },
 ];

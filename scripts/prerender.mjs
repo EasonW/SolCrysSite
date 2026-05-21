@@ -1,9 +1,27 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadEnv } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
+
+// Pull Vite's `VITE_*` env vars (from .env, .env.local, .env.production
+// etc., loaded via Vite's own precedence rules) into `process.env` so
+// this Node-side build script can read them. `npm run build` invokes
+// `vite build && node scripts/prerender.mjs`; Vite's build pass sees
+// the env vars natively via `import.meta.env`, but this prerender pass
+// is a separate Node process with no .env loader of its own.
+const viteEnv = loadEnv(
+  process.env.NODE_ENV || "production",
+  rootDir,
+  "VITE_",
+);
+for (const [key, value] of Object.entries(viteEnv)) {
+  if (process.env[key] === undefined) {
+    process.env[key] = value;
+  }
+}
 const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
 const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
@@ -140,7 +158,7 @@ function navHtml() {
         <a href="/#features">Platform</a>
         <a href="/#solutions">Solutions</a>
         <a href="/#loop">The Loop</a>
-        <a href="/pricing/">Pricing</a>
+        <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
         <a href="/resources/">Resources</a>
         <a href="/news/">News</a>
         <a href="/about/">Company</a>
@@ -155,7 +173,7 @@ function footerHtml() {
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
-          <a href="/pricing/">Pricing</a>
+          <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
           <a href="/news/">News</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
@@ -195,6 +213,75 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
           if (isDark) document.documentElement.classList.add('dark');
           document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
         } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = ${JSON.stringify(new URL(APP_PRICING_URL).host)};
+        var APP_PATH_PREFIX = ${JSON.stringify(
+          new URL(APP_PRICING_URL).pathname,
+        )};
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
       })();
     </script>
     <title>${escapeHtml(title)}</title>
@@ -237,6 +324,99 @@ function writePage(relativePath, html) {
   const filePath = path.join(distDir, relativePath);
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, html);
+}
+
+/**
+ * Phase E redirect bridge for /pricing/.
+ *
+ * solcrys.com is hosted on GitHub Pages, which can't issue real 301
+ * redirects server-side. This emits the closest static equivalent:
+ *
+ *   - `<meta http-equiv="refresh" content="0; url=...">` — the
+ *     industry-standard SEO 301 stand-in. Search engines (Google,
+ *     Bing, DuckDuckGo) treat zero-second meta-refresh as equivalent
+ *     to a 301 for canonical consolidation.
+ *   - `<link rel="canonical" href="https://app.solcrys.com/pricing">`
+ *     — explicit signal to crawlers that the canonical URL is on the
+ *     app subdomain.
+ *   - `<meta name="robots" content="noindex,follow">` — the bridge
+ *     page itself shouldn't be indexed, but its outbound canonical
+ *     link should still be followed.
+ *   - Inline JS that preserves theme handoff (`solcrys-theme`
+ *     localStorage → `?theme=<light|dark>` URL param) plus any
+ *     inbound UTM params, then `window.location.replace()` for a
+ *     faster cache-warm redirect. Falls back to the meta-refresh if
+ *     JS is disabled.
+ *
+ * The marketing site's `<Pricing />` SPA route is wired to
+ * [[PricingRedirect]] which does the same handoff for warm-cache
+ * client-side navigations. Together they cover every entry path:
+ * static (meta-refresh) for cold loads, SPA (PricingRedirect) for
+ * hydrated navigations.
+ */
+// Phase E: app-side pricing URL. Mirrors `src/lib/pricing-url.ts` (the
+// Vite-side reader) — we keep the two in sync because Vite's
+// `import.meta.env.VITE_*` resolution doesn't reach Node-side build
+// scripts. Setting VITE_APP_PRICING_URL in `.env.local` routes both
+// the prerendered nav/bridge and the SPA components at the same dev
+// app instance for local end-to-end Phase E testing.
+const APP_PRICING_URL =
+  (process.env.VITE_APP_PRICING_URL || "").trim() ||
+  "https://app.solcrys.com/pricing";
+
+function pricingRedirectBridgeHtml() {
+  const dest = APP_PRICING_URL;
+  const title = "Pricing — SolCrys";
+  const description =
+    "SolCrys pricing has moved to app.solcrys.com/pricing.";
+  // The inline script is a small enough payload to ship without a
+  // bundler; embeds the destination URL once so the meta-refresh and
+  // the JS path can't drift.
+  const handoffScript = `
+      (function () {
+        var dest = ${JSON.stringify(dest)};
+        function resolvedTheme() {
+          try {
+            var stored = window.localStorage && window.localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) { return 'light'; }
+        }
+        try {
+          // Preserve any inbound UTM / referrer params, then layer on
+          // theme. We always pass theme (even 'light' system default)
+          // so the app honors what the visitor sees here regardless of
+          // any stale app-side localStorage preference.
+          var params = new URLSearchParams(window.location.search);
+          if (!params.has('theme')) params.set('theme', resolvedTheme());
+          var qs = params.toString();
+          if (qs) dest += '?' + qs;
+        } catch (e) { /* localStorage / URL access blocked — fall through */ }
+        window.location.replace(dest);
+      })();`;
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=${escapeAttr(dest)}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="${escapeAttr(dest)}" />
+    <title>${escapeHtml(title)}</title>
+    <meta name="description" content="${escapeAttr(description)}" />
+    <script>${handoffScript}</script>
+  </head>
+  <body>
+    <p style="font-family: system-ui; padding: 2rem;">
+      Redirecting to <a href="${escapeAttr(dest)}">app.solcrys.com/pricing</a>…
+    </p>
+  </body>
+</html>
+`;
 }
 
 const organizationSameAs = Array.from(
@@ -1327,28 +1507,13 @@ writePage(
   })
 );
 
-writePage(
-  "pricing/index.html",
-  renderLayout({
-    routePath: "/pricing/",
-    title: pricingContent.meta.title,
-    description: pricingContent.meta.description,
-    body: pricingHtml(),
-    schemas: [
-      organizationSchema,
-      breadcrumbSchema([
-        { name: "Home", path: "/" },
-        { name: "Pricing", path: "/pricing/" }
-      ]),
-      webPageSchema({
-        routePath: "/pricing/",
-        title: pricingContent.meta.title,
-        description: pricingContent.meta.description,
-        ogImage: pricingContent.meta.ogImage
-      })
-    ]
-  })
-);
+// Phase E: /pricing/ is canonical-hosted at app.solcrys.com/pricing.
+// We emit a minimal redirect bridge here (meta-refresh + canonical +
+// theme handoff). No structured data, no nav chrome, noindex — the
+// destination page has the full schema graph (see geo-platform's
+// `lib/marketing/pricing-jsonld.ts`). The bridge exists purely to
+// route bookmarks, AI citations, and inbound links to the new URL.
+writePage("pricing/index.html", pricingRedirectBridgeHtml());
 
 writePage(
   "resources/index.html",
@@ -1537,7 +1702,9 @@ const sitemapUrls = [
   { path: "/about/", lastmod: site.updated || generatedAt },
   { path: "/customers/", lastmod: site.updated || generatedAt },
   { path: "/customers/nextsilicon/", lastmod: site.updated || generatedAt },
-  { path: "/pricing/", lastmod: site.updated || generatedAt },
+  // /pricing/ removed Phase E — page is now a noindex meta-refresh bridge
+  // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
+  // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
   { path: "/news/", lastmod: newsLatest },
   ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
@@ -1579,7 +1746,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [About](${site.url}/about/): Company story, founding team, and advisors.
 - [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days) and Wyze (consumer smart home).
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
-- [Pricing](${site.url}/pricing/): Brand and agency pricing for AI visibility tracking and diagnosis.
+- [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [Newsroom](${site.url}/news/): Press releases and founder notes.${newsPosts
   .map(

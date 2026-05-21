@@ -10,6 +10,7 @@ import {
 } from "./resourcesMenuData";
 import { SOLUTIONS_MENU_ITEMS } from "./solutionsMenuData";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { APP_PRICING_URL } from "@/lib/pricing-url";
 import siteContent from "@/content/siteContent.json";
 
 const publishedResourceCount = siteContent.resourcePages.filter(
@@ -31,7 +32,12 @@ const publishedResourceCount = siteContent.resourcePages.filter(
 //     dropdown.
 const flatNavLinks = [
   { href: "/#features", label: "Platform" },
-  { href: "/pricing/", label: "Pricing" },
+  // Phase E: /pricing is now hosted on app.solcrys.com. Internal link is
+  // absolute so the SPA does a full cross-subdomain navigation rather than
+  // routing client-side to the legacy <Pricing /> component. The bridge
+  // page at solcrys.com/pricing/ still exists for bookmarks / AI citations
+  // / inbound links from elsewhere (meta-refresh + canonical to the app).
+  { href: APP_PRICING_URL, label: "Pricing" },
   { href: "/customers/", label: "Customers" },
   { href: "/about/", label: "Company" },
 ];
