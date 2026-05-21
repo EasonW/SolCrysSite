@@ -15,6 +15,73 @@
         } catch (e) {}
       })();
     </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
     <title>Generic AEO vs Retail AEO: Why You Probably Need Both | SolCrys</title>
     <meta name="description" content="Generic AEO platforms and Retail AEO platforms are different categories with different engines, signals, actions, and tools. This guide breaks down when you need each and when you need both." />
     <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -39,7 +106,7 @@
     <meta property="og:image" content="https://solcrys.com/og/generic-aeo-vs-retail-aeo.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/generic-aeo-vs-retail-aeo.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-DdWtF0PK.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
     <!-- analytics:start -->
     <script>
       (function () {
@@ -84,7 +151,7 @@
         <a href="/#features">Platform</a>
         <a href="/#solutions">Solutions</a>
         <a href="/#loop">The Loop</a>
-        <a href="/pricing/">Pricing</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
         <a href="/resources/">Resources</a>
         <a href="/news/">News</a>
         <a href="/about/">Company</a>
@@ -279,7 +346,7 @@
         <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
-          <a href="/pricing/">Pricing</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
           <a href="/news/">News</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
@@ -287,6 +354,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-BXCZvSpx.js"></script>
+    <script type="module" crossorigin src="/assets/index-B7mrbFJv.js"></script>
   </body>
 </html>
