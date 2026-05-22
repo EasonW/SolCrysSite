@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Wikipedia, TechRadar, and Reddit Dominate AI Citations: A 17,551-Citation Study of the AEO Category | SolCrys</title>
+    <meta name="description" content="We analyzed 17,551 citations across 22 buyer prompts, 4 AI engines, and 30 days. Wikipedia, TechRadar, and Reddit lead — owned-media is under 1% of category citations." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Wikipedia, TechRadar, and Reddit Dominate AI Citations: A 17,551-Citation Study of the AEO Category | SolCrys" />
+    <meta property="og:description" content="We analyzed 17,551 citations across 22 buyer prompts, 4 AI engines, and 30 days. Wikipedia, TechRadar, and Reddit lead — owned-media is under 1% of category citations." />
+    <meta property="og:url" content="https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Wikipedia, TechRadar, and Reddit Dominate AI Citations: A 17,551-Citation Study of the AEO Category","item":"https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Wikipedia, TechRadar, and Reddit Dominate AI Citations: A 17,551-Citation Study of the AEO Category","description":"We analyzed 17,551 citations across 22 buyer prompts, 4 AI engines, and 30 days. Wikipedia, TechRadar, and Reddit lead — owned-media is under 1% of category citations.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations/","mainEntity":[{"@type":"Question","name":"Can I replicate this study?","acceptedAnswer":{"@type":"Answer","text":"Yes. The methodology section above is intentionally specific enough to allow replication. You will need access to (1) the four AI engines (most are accessible through paid API tiers or web interfaces), (2) a way to programmatically capture full responses including cited URLs, (3) a tagging taxonomy for source types, and (4) the patience to run 22 prompts × 4 engines daily for 30 days. The all-in compute cost is modest; the engineering work is non-trivial. SolCrys's platform automates the data capture; we wrote it precisely because doing this manually doesn't scale. We will share our prompt set, taxonomy, and aggregated raw data on request."}},{"@type":"Question","name":"What was your full prompt set?","acceptedAnswer":{"@type":"Answer","text":"22 buyer-comparison prompts focused on the AEO category — variations on \"best AEO platform for X\" with X being team type, industry, use case, or budget. We've deliberately paraphrased four examples in this article rather than publishing the literal list, because publishing the exact prompts would alter the natural distribution once AI engines begin indexing this article itself. The full list is available with the dataset request."}},{"@type":"Question","name":"What about other categories?","acceptedAnswer":{"@type":"Answer","text":"The distribution shape (long-tail dominance, low owned share, editorial + UGC leading the top 10) holds in early parallel studies we've run for adjacent B2B categories. The specific top-10 domains vary considerably — TechRadar is dominant in tech-adjacent categories but not in legal tech; trade publications shift by industry; Reddit's importance varies by buyer demographic. We will publish category-by-category breakdowns in subsequent reports. Until then, do not assume the exact rankings here transfer to a category we have not measured."}},{"@type":"Question","name":"How often will you refresh this study?","acceptedAnswer":{"@type":"Answer","text":"Monthly internally; quarterly published refreshes. We'll annotate quarter-over-quarter changes so the reader can see whether the top 10 is stable, whether owned share is shifting, and whether new domains are entering the long tail. The first refresh will appear in August 2026."}},{"@type":"Question","name":"What tools did you use for citation extraction?","acceptedAnswer":{"@type":"Answer","text":"The SolCrys AEO platform's citation-extraction module. It instruments the four engines, captures full responses, extracts cited URLs (handling Perplexity's structured citations, ChatGPT's link annotations, Google AI Overviews' source carousel, and Gemini's source attribution), normalizes URLs to domains, and applies the source-type taxonomy. The same module is available to platform customers and is the data source for SolCrys's customer-facing dashboards. We did not use a separate research tool to generate this study; the production platform produced the data, which we then aggregated."}},{"@type":"Question","name":"Why does Wikipedia rank #1 even though most companies cannot get a Wikipedia entry?","acceptedAnswer":{"@type":"Answer","text":"This is the right question, and it's why we wrote a separate caveat above. Wikipedia's #1 ranking reflects how AI engines retrieve — they lean on encyclopedic neutrality for definitions and category-context queries. It does not imply that every vendor should attempt a Wikipedia page; Wikipedia's notability and conflict-of-interest rules make most vendor-driven entries inappropriate or unsustainable. The practical takeaway for a B2B vendor is not \"create a Wikipedia page\" but \"earn enough independent third-party press that the underlying notability case is defensible — and let a Wikipedia entry follow if and when it earns itself.\""}},{"@type":"Question","name":"Are you publishing this because you're a vendor and want to look smart?","acceptedAnswer":{"@type":"Answer","text":"Partially yes; that disclosure is in the methodology. We're also publishing it because the AEO category needs more publicly disclosed citation data, and because a study that ranks SolCrys 7 of 7 on category mention rate is harder to dismiss as marketing puffery than a study where the publisher comes out on top. Use it accordingly. ---"}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>Wikipedia, TechRadar, and Reddit Dominate AI Citations: A 17,551-Citation Study of the AEO Category</h1>
+        <p class="seo-lede">Across <strong>17,551 citations</strong> drawn from <strong>22 buyer-comparison prompts</strong>, <strong>4 AI engines</strong> (ChatGPT, Perplexity, Google AI Overviews, Gemini), and <strong>30 days</strong> of continuous measurement in the Answer Engine Optimization (AEO) category, **Wikipedia (978 citations), TechRadar (908), a</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What sources do AI search engines cite most?</li><li>Why does ChatGPT cite Wikipedia?</li><li>How important is Reddit for AI search?</li><li>What domains do AI engines pull from?</li><li>How can I get cited by AI search?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Across <strong>17,551 citations</strong> drawn from <strong>22 buyer-comparison prompts</strong>, <strong>4 AI engines</strong> (ChatGPT, Perplexity, Google AI Overviews, Gemini), and <strong>30 days</strong> of continuous measurement in the Answer Engine Optimization (AEO) category, <strong>Wikipedia (978 citations), TechRadar (908), and Reddit (785) are the three most-cited domains</strong> — together accounting for 15.3% of all citations. Vendor-owned content — the .com sites of every brand competing in this category combined — accounts for only <strong>0.85% of citations</strong>. This includes SolCrys, the publisher of this study, which is a vendor in the AEO category and ranks 7 of 7 on category mention rate at 4.82%. The top-cited vendor in the dataset is Profound at 2.1% of category citations. The pattern is clear: in this category, AI engines preferentially cite third-party editorial, community, and long-tail sources, not the vendors&#39; own websites.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Methodology</h2>
+      <p>This is a self-published study by SolCrys, an AEO platform vendor. We&#39;re disclosing methodology in full so any researcher — or competitor — can replicate or contest the findings.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>Vendor</th><th>Surface tested</th></tr></thead>
+              <tbody><tr><td>ChatGPT</td><td>OpenAI</td><td>Web-search-enabled GPT response</td></tr><tr><td>Perplexity</td><td>Perplexity AI</td><td>Default search response</td></tr><tr><td>Google AI Overviews / AI Mode</td><td>Google</td><td>AI-generated answer panel</td></tr><tr><td>Gemini</td><td>Google</td><td>Standalone Gemini response with web grounding</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Workspace and time window</h3>
+        
+        <ul class="seo-list"><li><strong>Workspace:</strong> `solcysai-aeo` (a continuous monitoring workspace SolCrys runs on its own category)</li><li><strong>Window:</strong> 2026-04-22 to 2026-05-22 (30 consecutive days)</li><li><strong>Tool:</strong> SolCrys AEO platform, citation-extraction module</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Prompt set</h3>
+        <p>We used a fixed set of <strong>22 buyer-comparison prompts</strong> designed to reflect the queries a B2B marketer, agency lead, or VP-Marketing would type into an AI engine while shortlisting AEO tools. The full prompt set is available on request; representative examples:</p>
+        <ul class="seo-list"><li>&quot;What are the best AEO tools for B2B marketing teams in 2026?&quot;</li><li>&quot;Best AEO platforms for agencies managing multiple clients&quot;</li><li>&quot;Best tools to track brand visibility in ChatGPT&quot;</li><li>&quot;Top generative engine optimization platforms compared&quot;</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Engines</h3>
+        <p>These are paraphrases. The actual prompts vary in punctuation and qualifier wording — a deliberate choice, since AI engines respond differently to small wording shifts and a single-phrasing study would over-fit.</p><p>Four engines, queried daily:</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Citation extraction</h3>
+        <p>22 prompts × 4 engines × 22 daily runs over 30 days = <strong>1,936 total responses</strong> analyzed.</p><p>For every one of the 1,936 responses, we extracted every URL the engine cited or linked as a source. Each URL was reduced to its registrable domain (e.g., `https://blog.hubspot.com/foo` → `hubspot.com`) and counted. Domains were classified into five source types:</p>
+        <ul class="seo-list"><li><strong>Owned:</strong> the .com (or product subdomain) of any brand competing in the AEO category — these are vendors citing themselves.</li><li><strong>Competitor:</strong> the .com of a vendor in an adjacent or overlapping category (e.g., HubSpot, Semrush, Ahrefs).</li><li><strong>Editorial:</strong> trade press, news, analyst sites (TechRadar, Search Engine Land, Marketing Brew, vendor-run editorial blogs treated as competitor only when the vendor is in-category).</li><li><strong>UGC:</strong> Reddit, YouTube, Quora, forums, community wikis.</li><li><strong>Other:</strong> everything else — long-tail blogs, personal websites, academic pages, GitHub, niche industry sites, etc.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>What this study can and cannot claim</h3>
+        <p>Totals: <strong>17,551 citations</strong>, <strong>5,498 unique URLs</strong>, <strong>2,219 unique cited domains</strong>.</p><p>SolCrys (publisher of this study) is a vendor in the AEO category. In this dataset, SolCrys ranks <strong>7 of 7</strong> on cross-engine mention rate at <strong>4.82%</strong>. The top-cited vendor in the dataset is <strong>Profound at 2.1% of category citations</strong> (361 citations). We have no commercial incentive to inflate Profound&#39;s number or deflate Wikipedia&#39;s; the methodology counts every cited URL regardless of source. If we wanted to bias this study to flatter SolCrys, we would not have published it — we are tied for last in our own category measurement.</p><p>This study describes citation patterns <strong>for the AEO category specifically</strong>, during a <strong>30-day window</strong>, using a <strong>22-prompt sample</strong>. It is sufficient to characterize the source-layer distribution AI engines pull from when answering buyer questions about AEO platforms. It is <strong>not</strong> sufficient to claim that the same distribution holds for unrelated categories (cybersecurity, legal tech, consumer electronics may look very different — we have parallel studies in progress), nor that it is stable across longer horizons. Caveats are spelled out in detail later in this report.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The top 10 cited domains</h2>
+      <p>Three observations from this table:</p><p><strong>Editorial and UGC dominate the top three.</strong> Wikipedia and TechRadar combined account for 1,886 citations — more than the next seven vendor-owned sites combined. Reddit adds another 785. The implication is that for buyer-comparison queries in this category, AI engines lean on neutral encyclopedic content (Wikipedia), curated trade-press roundups (TechRadar), and authentic community discussion (Reddit) before they reach for any single vendor&#39;s marketing site.</p><p><strong>Competitor-vendor content is the long tail of the top 10.</strong> Positions 4 through 10 are mostly vendor blogs — HubSpot, Profound, Semrush, Conductor, SE Ranking, AirOps. Each one earns between 1% and 2.2% of citations individually. No single vendor has built a dominant owned-media presence in AI answers; the leader, HubSpot, captures 2.2% — and HubSpot isn&#39;t even a pure-play AEO vendor (its citations come largely from adjacent marketing and SEO content).</p><p><strong>YouTube is in the top 10 — and it is climbing.</strong> Otterly&#39;s 2026 YouTube Citation Study identifies YouTube as the #2 social platform for AI citations behind Reddit; Ahrefs&#39; December 2025 75,000-brand study reports YouTube mentions show ~0.737 correlation with AI visibility across ChatGPT, AI Mode, and AI Overviews. Our #9 ranking for YouTube is consistent with both.</p>
+      
+      <table>
+              <thead><tr><th>Rank</th><th>Domain</th><th>Citations</th><th>Type</th><th>% of total</th></tr></thead>
+              <tbody><tr><td>1</td><td>wikipedia.org</td><td>978</td><td>Editorial</td><td>5.6%</td></tr><tr><td>2</td><td>techradar.com</td><td>908</td><td>Editorial</td><td>5.2%</td></tr><tr><td>3</td><td>reddit.com</td><td>785</td><td>UGC</td><td>4.5%</td></tr><tr><td>4</td><td>hubspot.com</td><td>380</td><td>Competitor</td><td>2.2%</td></tr><tr><td>5</td><td>tryprofound.com</td><td>361</td><td>Competitor</td><td>2.1%</td></tr><tr><td>6</td><td>semrush.com</td><td>338</td><td>Competitor</td><td>1.9%</td></tr><tr><td>7</td><td>conductor.com</td><td>277</td><td>Competitor</td><td>1.6%</td></tr><tr><td>8</td><td>seranking.com</td><td>256</td><td>Competitor</td><td>1.5%</td></tr><tr><td>9</td><td>youtube.com</td><td>246</td><td>UGC</td><td>1.4%</td></tr><tr><td>10</td><td>airops.com</td><td>187</td><td>Competitor</td><td>1.1%</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Distribution by source type</h2>
+      <p>This is the chart that should change how a B2B marketer thinks about content strategy.</p><p><strong>The long tail is the largest single bucket.</strong> More than half of all citations — 54.5% — point to domains that did not crack the top 10, top 50, or in most cases the top 100. These are blogs, personal sites, niche industry pages, academic content, GitHub repositories, agency case-study pages, and thousands of other small destinations each contributing a handful of citations. Spread across roughly 2,000 distinct domains, this bucket averages about 4–5 citations per domain. No single one of them matters; collectively, they&#39;re the majority of AI answer source material.</p><p><strong>Competitor vendor blogs collectively beat editorial.</strong> The 17.6% competitor share is notable because each individual vendor in this bucket only owns 1–2% — but added together, vendor blogs are the second-largest source type. AI engines do read marketing content; they just don&#39;t weight any single piece of it heavily.</p><p><strong>Owned media is functionally negligible.</strong> Across every brand in the category, including their own websites, just <strong>0.85% of citations</strong> are owned. This is the most important data point in the study for senior marketing leaders, because it directly contradicts the still-dominant assumption that publishing more to your own blog is how you &quot;win AI search.&quot; It isn&#39;t. Not in this category. Not at this volume.</p><p>This finding aligns directionally with two independent studies. OtterlyAI&#39;s &quot;AI Citation Economy&quot; report (1M+ data points across ChatGPT, Perplexity, and Google AI Overviews) finds AI engines depend ~95% on third-party sources, with brands receiving frequent mentions but weak link citations. Separate PR-trade reporting cites 94% of AI citations coming from earned media — both converge on the same structural pattern as our 99.15% non-owned share.</p>
+      
+      <table>
+              <thead><tr><th>Source type</th><th>Citations</th><th>% of total</th></tr></thead>
+              <tbody><tr><td>Other (long-tail)</td><td>9,560</td><td>54.5%</td></tr><tr><td>Competitor (vendor blogs)</td><td>3,085</td><td>17.6%</td></tr><tr><td>Editorial (trade press, news)</td><td>2,052</td><td>11.7%</td></tr><tr><td>UGC (Reddit, YouTube, forums)</td><td>1,301</td><td>7.4%</td></tr><tr><td>Owned (the brand&#39;s own .com)</td><td>150</td><td>0.85%</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Three findings that matter for B2B marketers</h2>
+      
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Finding 3: Even the most-cited AEO vendor only captures 2.1% of category citations</h3>
+        <p>Wikipedia (978 citations) and TechRadar (908) each individually pull more citations than HubSpot (380) — and HubSpot is the most-cited vendor blog in the category. The Wikipedia-to-top-vendor ratio is roughly 5:1; the TechRadar-to-top-vendor ratio is roughly 4.7:1. Against pure-play AEO vendors (Profound, Semrush AEO, Conductor&#39;s AEO module), the ratio widens to 7:1 to 10:1.</p><p><strong>Implication:</strong> owned media is necessary but structurally insufficient. The highest-leverage incremental dollar in an AEO content budget is <strong>earned media</strong> — getting your brand named, quoted, or linked in editorial coverage that already wins AI mindshare. That&#39;s a PR and analyst-relations problem, not a content-marketing problem. Most B2B marketing teams are organized to ship blog posts; few are organized to land a TechRadar inclusion. The org chart will need to bend before the citation share does.</p><p>A caveat on Wikipedia: this is not an instruction to create a Wikipedia page. Wikipedia&#39;s notability guidelines for organizations require multiple independent, non-routine secondary sources by unaffiliated parties; self-promotion and paid placements explicitly do not count. Conflict-of-interest rules discourage editing pages where you have a financial relationship, and recent reporting (a January 2026 Bureau of Investigative Journalism story on consultancies using subcontractors to edit client pages) has tightened scrutiny further. The implication isn&#39;t &quot;make a Wikipedia page&quot; — it&#39;s &quot;earn enough independent press that a Wikipedia entry becomes defensible on its own merit.&quot; Most vendors in this dataset are not at that bar.</p><p>This is the finding that will be uncomfortable for B2B brands accustomed to thinking of Reddit as a community for consumer products. In this dataset, Reddit alone accounts for 4.5% of all citations — more than HubSpot, more than every single AEO vendor&#39;s owned content, and approaching the combined total of the #4 and #5 ranked domains.</p><p>The reason is structural. When a B2B buyer types &quot;best AEO tool for an in-house team of 5&quot; into ChatGPT or Perplexity, the engine looks for <strong>lived buyer experience</strong> to anchor its answer. Reddit threads in r/SEO, r/marketing, r/SaaS, r/MarTech, and r/bigseo are routinely the most concentrated source of that experience on the open web. The Otterly study identifies the same pattern: ChatGPT in particular favors Reddit, Wikipedia, and news sites — community sources outweigh brand sources at the citation layer even when brands have higher mention rates in answer text.</p><p><strong>Implication:</strong> Reddit visibility is now strategic, not optional, for B2B vendors whose buyers compare options before purchase. But authentic Reddit engagement is structurally different from content marketing. The subreddits AI engines preferentially cite have strong anti-self-promotion norms, mod-enforced rules, and community memory that punishes thin participation. A brand that drops product links will get burned, deleted, or banned. A brand that contributes substantively over months and earns unprompted mentions from other community members will accumulate citation share. The latter takes 6–12 months to show measurable lift and cannot be templated — and it is the most defensible source of earned media in current AI search.</p><p>We unpack the tactical playbook for community-layer source work in <a href="/reddit-g2-community-sources-aeo/" target="_blank" rel="noopener noreferrer">Reddit and G2 community sources for AEO</a>.</p><p>Profound, the top-ranked vendor on category mention rate (48.85%) in this dataset, accounts for <strong>just 2.1% of all citations</strong> in the category. The top owned-media domain across the entire study — HubSpot, an adjacent marketing-tech major — captures 2.2%. No vendor in this category, including very well-resourced ones, has built dominant AI mindshare on the back of their own .com.</p><p><strong>Implication:</strong> nobody owns AI mindshare for their own category yet. The category-leader position in AI citation share is, today, empty. For a B2B founder or CMO allocating 2026 budget, this is a strategic opening — and a narrow one. The vendor that combines (1) deep owned-media coverage of long-tail buyer queries, (2) consistent trade-publication earned media, and (3) authentic community-layer participation in the subreddits and YouTube channels their buyers consume will earn outsize share. None of the 10 vendors in our adjacent buyer-guide comparison are doing all three in 2026. Source-layer matching framework: <a href="/earn-llm-citations-content-source-match/" target="_blank" rel="noopener noreferrer">How to earn LLM citations</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Why the long tail matters</h2>
+      <p>The 54.5% &quot;Other&quot; bucket — 9,560 citations spread across roughly 2,000 unique domains — is the single largest source category in this study. It deserves more attention than most AEO conversations give it.</p><p>A few characteristics:</p><p>This shape is consistent with published academic research on Retrieval-Augmented Generation. The 2025–2026 generation of RAG architectures (Self-RAG, Corrective RAG / CRAG, and selective-retrieval frameworks documented in current arXiv preprints) use hybrid retrieval and self-critique loops to pull from a diverse set of sources rather than fixate on a small number of high-authority domains. Long-tail dominance is the operational output of that design choice.</p><p><strong>The strategic implication is uncomfortable for vendors thinking in terms of a few &quot;pillar pieces&quot; on their own site.</strong> The closer your source-layer presence resembles the underlying citation distribution — long, broad, distributed — the higher your structural fit with how AI engines retrieve.</p>
+      <ul class="seo-list"><li><strong>Per-domain volume is low.</strong> The average domain in this bucket appears 4–5 times across 1,936 responses; many appear once.</li><li><strong>The composition is broad.</strong> Niche industry blogs, personal practitioner sites, agency case studies, podcast show-notes, Substack posts, GitHub READMEs, academic papers, archived articles, regional trade publications, free-tier review platforms, and many one-off pages.</li><li><strong>Each individual source has near-zero leverage in isolation.</strong> A brand cannot &quot;win&quot; by getting cited on any single long-tail domain.</li><li><strong>In aggregate, the long tail dominates.</strong> A brand cited on 50–100 long-tail domains will outperform one concentrated on its own .com plus three vendor-blog placements.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What this means for source-layer strategy</h2>
+      <p>A practical three-layer model emerges directly from the data. We&#39;ve discussed the conceptual version in <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, community sources for AI</a>; here is the version anchored to the citation distribution above.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Earned layer: the highest-leverage single action</h3>
+        <p>Owned is 0.85% of category citations — not zero. For deep-funnel comparison queries where the engine looks for first-party product information, owned content is the only correct source. Brands should keep investing — but with a clear-eyed view that the upper bound on owned share is roughly 1–3% even for category leaders. The job of the owned layer is to <strong>be retrievable and correct</strong>, not to dominate. Quality, not volume: a 50-page documentation site that matches the buyer query taxonomy will outperform a 500-post blog of generic marketing content.</p><p>If a B2B vendor has one marginal marketing dollar, the highest-leverage spend is <strong>editorial PR aimed at the domains that already win AI mindshare</strong>:</p>
+        <ul class="seo-list"><li><strong>TechRadar</strong> (908 citations) — by a wide margin, the most-cited trade publication in our top 10.</li><li><strong>Tier 2 trade press</strong> — Search Engine Land, Search Engine Journal, Marketing Brew, MarTech.org.</li><li><strong>Analyst coverage</strong> — Gartner, Forrester, or G2-published analyst notes (when indexable).</li><li><strong>Existing inclusions</strong> — guest essays or interviews on adjacent industry sites already in the long-tail bucket.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Community layer: Reddit alone is 4.5% of citations</h3>
+        <p>&quot;Editorial PR&quot; in 2026 includes contributed essays and interviews, not just press releases. Press releases largely go uncited; substantive, named-author trade-publication essays do get cited.</p><p>The community-layer playbook is harder to staff and harder to fake than owned or earned. It requires (1) people who can credibly participate in technical subreddits over months without sounding like marketing, (2) willingness to be helpful in threads that don&#39;t mention your product, and (3) patience for a 6–12 month horizon to measurable citation lift. Most B2B marketing orgs are not set up for this; the rare ones that are accumulate a citation moat competitors cannot match through paid spend.</p><p>Extend community presence to G2 / Capterra / Software Advice and to YouTube (the climbing #9 in our top 10, validated by Ahrefs&#39;s December 2025 study). Operational playbook: <a href="/reddit-g2-community-sources-aeo/" target="_blank" rel="noopener noreferrer">Reddit and G2 community sources for AEO</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Caveats and what we didn&#39;t measure</h2>
+      <p>We owe the reader honesty about the limits of this study.</p><p><strong>The dataset is for the AEO category specifically.</strong> Other B2B categories — cybersecurity, legal tech, healthcare IT, fintech infrastructure — will have different distributions. We have parallel measurements in progress for five vertical categories; the structural shape (long-tail dominance, low owned share, editorial + UGC leading) is consistent, but specific top-10 domains vary materially by category. Do not generalize the top-10 table to a category we did not measure.</p><p><strong>Thirty days is short for stability claims.</strong> Citation distributions shift week-to-week as engines update retrieval, content gets indexed, and community discussions trend. A 30-day window characterizes a current distribution; it does not claim multi-quarter stability. We re-run monthly.</p><p><strong>We did not measure whether citations drive traffic.</strong> A citation is not a click. Some are impression-only; others drive meaningful referral. The conversion from citation to click is a separate research question we have not quantified, and we caution against any vendor (including SolCrys) claiming a fixed citation-to-traffic ratio in 2026.</p><p><strong>The &quot;Other&quot; bucket needs categorization.</strong> 54.5% in a single &quot;long tail&quot; label is the largest analytical loose end here. The next iteration will subdivide it (independent blogs vs. agency case studies vs. academic vs. GitHub vs. archives).</p><p><strong>We did not measure answer-shape, only source.</strong> This study counts cited URLs. It does not analyze how the engine uses sources in the answer — whether for or against the brand, with positive or negative sentiment, or whether the engine&#39;s claim is accurate to the source. Citation share is necessary but not sufficient. Sentiment and answer-shape work is on the roadmap.</p><p><strong>Single-vendor publication.</strong> Independent replication by a non-vendor party would meaningfully strengthen the findings. We will share methodology and aggregated raw data with any academic, journalist, or analyst who wants to attempt replication.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Get the full dataset</h2>
+      <p>We are making the underlying aggregated dataset available to researchers, journalists, and senior practitioners. What you can request:</p><p>Email-gated so we can notify recipients when refreshed versions publish. We do not sell or share the list. Press, analysts, and researchers get hand-delivery and follow-up support.</p><p><a href="/ai-answer-citations/" target="_blank" rel="noopener noreferrer">Request the full dataset</a> or <a href="/free-audit/" target="_blank" rel="noopener noreferrer">book a SolCrys audit</a> to see the same data shape for your own brand.</p>
+      <ul class="seo-list"><li><strong>CSV of all 2,219 cited domains</strong> with citation counts and source-type classifications.</li><li>The <strong>full 22-prompt set</strong> with exact wording.</li><li><strong>Methodology notes</strong> — normalization rules, edge-case handling, source-type taxonomy.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About SolCrys + how to cite this study</h2>
+      <p>SolCrys is an Answer Engine Optimization platform. Our product measures how AI search engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, and others) cite and describe brands, diagnoses why specific queries produce specific answers, recommends source-layer fixes, and tracks the recovery once fixes are shipped. We sell to B2B mid-market and enterprise marketing teams and to agencies operating multi-client AEO portfolios. Founded in 2024, based in California.</p><p><strong>To cite this study:</strong> SolCrys (2026). *Wikipedia, TechRadar, and Reddit Dominate AI Citations: A 17,551-Citation Study of the AEO Category.* 30-day measurement window 2026-04-22 to 2026-05-22. Available at https://solcrys.ai/resources/wikipedia-techradar-reddit-dominate-ai-citations/.</p><p>For press inquiries, dataset access, or methodology questions, contact press@solcrys.ai.</p><p>*Published 2026-05-22. Data drawn from a continuous 30-day cross-engine measurement of the AEO category prompt set (22 prompts × 4 engines × 22 daily runs = 1,936 responses, 17,551 citations across 2,219 unique domains, workspace solcysai-aeo). Next refresh: August 2026.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Can I replicate this study?</h3>
+            <p>Yes. The methodology section above is intentionally specific enough to allow replication. You will need access to (1) the four AI engines (most are accessible through paid API tiers or web interfaces), (2) a way to programmatically capture full responses including cited URLs, (3) a tagging taxonomy for source types, and (4) the patience to run 22 prompts × 4 engines daily for 30 days. The all-in compute cost is modest; the engineering work is non-trivial. SolCrys&#39;s platform automates the data capture; we wrote it precisely because doing this manually doesn&#39;t scale. We will share our prompt set, taxonomy, and aggregated raw data on request.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What was your full prompt set?</h3>
+            <p>22 buyer-comparison prompts focused on the AEO category — variations on &quot;best AEO platform for X&quot; with X being team type, industry, use case, or budget. We&#39;ve deliberately paraphrased four examples in this article rather than publishing the literal list, because publishing the exact prompts would alter the natural distribution once AI engines begin indexing this article itself. The full list is available with the dataset request.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about other categories?</h3>
+            <p>The distribution shape (long-tail dominance, low owned share, editorial + UGC leading the top 10) holds in early parallel studies we&#39;ve run for adjacent B2B categories. The specific top-10 domains vary considerably — TechRadar is dominant in tech-adjacent categories but not in legal tech; trade publications shift by industry; Reddit&#39;s importance varies by buyer demographic. We will publish category-by-category breakdowns in subsequent reports. Until then, do not assume the exact rankings here transfer to a category we have not measured.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often will you refresh this study?</h3>
+            <p>Monthly internally; quarterly published refreshes. We&#39;ll annotate quarter-over-quarter changes so the reader can see whether the top 10 is stable, whether owned share is shifting, and whether new domains are entering the long tail. The first refresh will appear in August 2026.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What tools did you use for citation extraction?</h3>
+            <p>The SolCrys AEO platform&#39;s citation-extraction module. It instruments the four engines, captures full responses, extracts cited URLs (handling Perplexity&#39;s structured citations, ChatGPT&#39;s link annotations, Google AI Overviews&#39; source carousel, and Gemini&#39;s source attribution), normalizes URLs to domains, and applies the source-type taxonomy. The same module is available to platform customers and is the data source for SolCrys&#39;s customer-facing dashboards. We did not use a separate research tool to generate this study; the production platform produced the data, which we then aggregated.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does Wikipedia rank #1 even though most companies cannot get a Wikipedia entry?</h3>
+            <p>This is the right question, and it&#39;s why we wrote a separate caveat above. Wikipedia&#39;s #1 ranking reflects how AI engines retrieve — they lean on encyclopedic neutrality for definitions and category-context queries. It does not imply that every vendor should attempt a Wikipedia page; Wikipedia&#39;s notability and conflict-of-interest rules make most vendor-driven entries inappropriate or unsustainable. The practical takeaway for a B2B vendor is not &quot;create a Wikipedia page&quot; but &quot;earn enough independent third-party press that the underlying notability case is defensible — and let a Wikipedia entry follow if and when it earns itself.&quot;</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are you publishing this because you&#39;re a vendor and want to look smart?</h3>
+            <p>Partially yes; that disclosure is in the methodology. We&#39;re also publishing it because the AEO category needs more publicly disclosed citation data, and because a study that ranks SolCrys 7 of 7 on category mention rate is harder to dismiss as marketing puffery than a study where the publisher comes out on top. Use it accordingly. ---</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-answer-citations/">How AI Answer Engines Choose Sources: The 7 Signals We&#39;ve Mapped</a></h3>
+            <p>AI engines like ChatGPT, Perplexity, Google AI Overviews, and Claude choose sources using overlapping but distinct signals. This guide maps the 7 signals that drive citation eligibility and the engine-specific weighting differences.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-community-sources-ai/">Owned, Earned, and Community Sources in AI Answers: A 3-Layer Strategy</a></h3>
+            <p>AI engines cite three distinct source layers — owned (your site), earned (PR/editorial), and community (Reddit/G2/forums). This guide explains how to balance investment by category and life stage.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/reddit-g2-community-sources-aeo/">Reddit, G2, and Forums: How to Win the Community Source Layer for AI Citations</a></h3>
+            <p>AI engines cite Reddit, G2, and niche forums disproportionately when answering buyer prompts. This guide is the practitioner playbook for earning community citations without becoming spam — with the 7 rules of native engagement.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

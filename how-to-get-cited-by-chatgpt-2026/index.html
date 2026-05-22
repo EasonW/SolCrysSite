@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Get Cited by ChatGPT (2026): A Data-Backed Guide | SolCrys</title>
+    <meta name="description" content="A data-backed guide to getting cited by ChatGPT in 2026 — based on a 17,551-citation dataset across ChatGPT, Perplexity, AI Overviews, and Gemini." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/how-to-get-cited-by-chatgpt-2026/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Get Cited by ChatGPT (2026): A Data-Backed Guide | SolCrys" />
+    <meta property="og:description" content="A data-backed guide to getting cited by ChatGPT in 2026 — based on a 17,551-citation dataset across ChatGPT, Perplexity, AI Overviews, and Gemini." />
+    <meta property="og:url" content="https://solcrys.com/how-to-get-cited-by-chatgpt-2026/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Get Cited by ChatGPT (2026): A Data-Backed Guide","item":"https://solcrys.com/how-to-get-cited-by-chatgpt-2026/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Get Cited by ChatGPT (2026): A Data-Backed Guide","description":"A data-backed guide to getting cited by ChatGPT in 2026 — based on a 17,551-citation dataset across ChatGPT, Perplexity, AI Overviews, and Gemini.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/how-to-get-cited-by-chatgpt-2026/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/how-to-get-cited-by-chatgpt-2026/","mainEntity":[{"@type":"Question","name":"How long does it take to see ChatGPT citations after publishing?","acceptedAnswer":{"@type":"Answer","text":"For a page on a domain already indexed in Bing and crawled by OAI-SearchBot, typical first-citation lag is 24–72 hours for the page itself to be eligible. **Actual citation events on competitive queries usually take 4–12 weeks**, because corroboration (pattern #5) takes time to build. If you're tracking citations on a fresh prompt set, give it a full quarter before judging."}},{"@type":"Question","name":"Do I need to be on Wikipedia to get cited by ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"Not strictly, but it helps. Wikipedia is the #1 most-cited source in our dataset (978 citations) and across most third-party research. A Wikipedia presence raises corroboration confidence for everything else you publish. The caveat: Wikipedia has real notability standards. You cannot create your own page if your brand doesn't meet them — and trying to is counterproductive."}},{"@type":"Question","name":"Does it matter whether I allow GPTBot or only OAI-SearchBot?","acceptedAnswer":{"@type":"Answer","text":"Yes — they do different jobs. **OAI-SearchBot is the one you must allow for ChatGPT Search eligibility.** GPTBot governs whether your content can be included in OpenAI's foundation-model training data. Many publishers allow OAI-SearchBot (they want the citations) but block GPTBot (they don't want their content used to train future models without compensation). That split is legitimate and increasingly common."}},{"@type":"Question","name":"What about Perplexity citations specifically?","acceptedAnswer":{"@type":"Answer","text":"Perplexity weighs Reddit, LinkedIn, and G2 noticeably higher than ChatGPT does, weighs primary-source links heavily, and tends to refresh faster on news-style queries. Optimizing for Perplexity overlaps with ChatGPT on the basics (crawlability, structured content, authority) but diverges on source-layer emphasis: a strong Reddit + G2 + LinkedIn footprint pays disproportionately on Perplexity."}},{"@type":"Question","name":"Will Google AI Overviews cite my page if it doesn't rank in Google organic?","acceptedAnswer":{"@type":"Answer","text":"Less likely than for ChatGPT or Perplexity. AI Overviews leans harder on pages that already rank well in Google's traditional index. ChatGPT Search has a much looser relationship to organic ranking — Ahrefs found only ~12% overlap between AI-cited URLs and Google's top 10. Plan separate optimization tracks for each engine."}},{"@type":"Question","name":"Is there a single dashboard that tells me what's cited for my brand?","acceptedAnswer":{"@type":"Answer","text":"Yes — citation tracking is the core of any modern AEO platform, including ours. The harder question is not \"what cited me\" but \"what cited my competitors when I should have been cited instead.\" That gap analysis is where most of the strategic value lives. We cover the methodology in [citation gap audit](/citation-gap-audit/) and [AI answer citations](/ai-answer-citations/)."}},{"@type":"Question","name":"Should I worry about the ChatGPT base model (no search) at all?","acceptedAnswer":{"@type":"Answer","text":"Yes, but on a longer time horizon. Base-model \"knowledge\" of your brand depends on training data, which updates on a model-release cadence (months, not days). The fastest lever you control is ChatGPT Search citations; the slowest is base-model inclusion. Work both — but expect different timelines."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>How to Get Cited by ChatGPT (2026): A Data-Backed Guide</h1>
+        <p class="seo-lede">To get cited by ChatGPT in 2026, your content has to clear seven eligibility bars at once: it is <strong>shaped for passage-level retrieval</strong> (lists, tables, definitions, sourced data), carries <strong>verifiable authority signals</strong>, is <strong>crawlable by OAI-SearchBot and GPTBot</strong>, shows **clea</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I get my brand cited by ChatGPT?</li><li>What content does ChatGPT cite?</li><li>How does ChatGPT choose sources?</li><li>How do I become a source for AI search?</li><li>What types of content get cited in AI answers?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>To get cited by ChatGPT in 2026, your content has to clear seven eligibility bars at once: it is <strong>shaped for passage-level retrieval</strong> (lists, tables, definitions, sourced data), carries <strong>verifiable authority signals</strong>, is <strong>crawlable by OAI-SearchBot and GPTBot</strong>, shows <strong>clear recency</strong>, is <strong>corroborated by 2–3 other authoritative sources</strong>, has <strong>source-layer presence</strong> on places like Reddit, Wikipedia, and YouTube, and respects <strong>engine-specific shape preferences</strong> (ChatGPT is not Perplexity). No single trick gets you cited — only the stack does.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The data: what ChatGPT and the other answer engines actually cite</h2>
+      <p>Before recommending tactics, we should ground them. Below is the citation-source distribution from our own measurement at SolCrys — 17,551 citations captured over a 30-day window across <strong>ChatGPT, Perplexity, Google AI Overviews, and Gemini</strong>, on a 22-prompt AEO category prompt set (1,936 total responses, 2,219 unique cited domains).</p>
+      
+      <table>
+              <thead><tr><th>Source type</th><th>Share of all citations</th></tr></thead>
+              <tbody><tr><td><strong>Other</strong> (long-tail editorial, niche, mixed)</td><td>54.5%</td></tr><tr><td><strong>Competitor blogs</strong> (other AEO vendors&#39; .coms)</td><td>17.6%</td></tr><tr><td><strong>Editorial</strong> (TechRadar, HubSpot, trade press)</td><td>11.7%</td></tr><tr><td><strong>UGC</strong> (Reddit, YouTube, Quora, forums)</td><td>7.4%</td></tr><tr><td><strong>Owned</strong> (SolCrys&#39;s own .com)</td><td>0.85%</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Top 10 cited domains in the same dataset</h3>
+        <p>The other ~8% is split across uncategorized sources (Wikipedia and reference sites, search-engine surfaces, social).</p><p>Table: Domain; Citations. Rows: wikipedia.org, 978 | techradar.com, 908 | reddit.com, 785 | hubspot.com, 380 | tryprofound.com, 361 | semrush.com, 338 | conductor.com, 277 | seranking.com, 256 | youtube.com, 246 | airops.com, 187</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What this says, honestly</h3>
+        <p>Three things stand out, and we&#39;ll lean on all of them later in the playbook.</p><p>First, <strong>owned content alone barely registers</strong>. Our own brand site captures less than 1% of category citations even in a category we spend most of our publishing energy on. The dominant share goes to a long-tail of &quot;Other&quot; — niche editorial, comparison sites, glossaries, syllabi, conference pages — and to competitor blogs that have built editorial muscle. If your AEO strategy is &quot;publish more on our own blog,&quot; the dataset is telling you that&#39;s a partial strategy at best.</p><p>Second, <strong>the source-layer matters as much as the publish-layer</strong>. Wikipedia, Reddit, and YouTube together account for ~12% of all citations in this dataset. None of those are owned media. They&#39;re community surfaces and reference surfaces where you earn presence, not control it.</p><p>Third, <strong>the long tail dominates</strong>. More than half of citations go to sources outside the obvious editorial+competitor top tier. ChatGPT does not pick the same five domains for every prompt — it pulls from a wide, often-surprising distribution. That has tactical implications for how you target source-layer work.</p><p>This pattern is also visible in third-party research. Recent industry analyses found Reddit, YouTube, LinkedIn, Wikipedia, and Forbes ranking among the top-cited sources across ChatGPT, Google AI Mode, Gemini, Perplexity, and AI Overviews — and only ~12% of URLs cited by AI tools overlap with Google&#39;s top 10 organic results. Translation: the AI citation pool is broader and weirder than the SEO pool you already know.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What ChatGPT Search actually does — and what it doesn&#39;t</h2>
+      <p>A lot of confusion in this category comes from conflating two ChatGPT modes that behave very differently.</p><p><strong>ChatGPT (base model)</strong> answers from its training data. There is no live retrieval, no citation event, no URL list. Whatever the model says comes from what was in its training corpus. You can&#39;t directly &quot;get cited&quot; by the base model on a given week — what matters there is whether your brand/positioning is encoded in training data at all (a slower, multi-month problem we&#39;ve written about separately).</p><p><strong>ChatGPT Search</strong> is the answer engine you want to target. It is the mode that fires when ChatGPT decides to browse the web for an answer (and, in many cases, when the user explicitly invokes search). It works roughly like this in 2026:</p><p>- <strong>OAI-SearchBot</strong> — powers ChatGPT Search. Crawls and refreshes pages for the search index. The user agent you must allow if you want to be retrievable. - <strong>GPTBot</strong> — collects publicly accessible web content used to inform OpenAI&#39;s foundation model training. Separate decision: allow or block depending on your training-data stance. - <strong>ChatGPT-User</strong> — fires when a user (or a Custom GPT / GPT Action) tells ChatGPT to fetch a specific URL on demand. This is the &quot;go read this link&quot; agent. OpenAI has confirmed OAI-SearchBot and GPTBot share crawl information with each other to avoid duplicate fetches, but they are still controlled independently in robots.txt.</p><p>That structure is the reason the seven patterns below all matter. ChatGPT Search isn&#39;t a black box — it&#39;s an index + crawler + retriever + synthesizer pipeline, and each layer has eligibility criteria.</p>
+      <ul class="seo-list"><li><strong>Index layer.</strong> ChatGPT Search uses <strong>Bing&#39;s underlying web index</strong> as its primary retrieval substrate, augmented by OpenAI&#39;s own systems. OpenAI&#39;s VP of Engineering and OpenAI&#39;s launch materials both confirm this. <strong>If your site isn&#39;t indexed in Bing, you almost certainly will not be cited by ChatGPT Search.</strong></li><li><strong>Crawler layer.</strong> OpenAI runs three distinct user-agents, and they do different jobs:</li><li><strong>Retrieval layer.</strong> When a query comes in, ChatGPT Search retrieves candidate passages — not whole pages — and ranks them. The retrieval is closer to passage-level RAG than to traditional ten-blue-links ranking.</li><li><strong>Synthesis + citation layer.</strong> The model writes the answer using retrieved passages and emits a list of source URLs — the citations you actually care about. Refresh on retrieval memory is roughly hours for high-authority news sites and 24–72 hours for standard sites.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 7 citation-eligibility patterns</h2>
+      <p>These are the patterns we see correlated with citation events in our own dataset and across published industry research.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>Tends to favor</th></tr></thead>
+              <tbody><tr><td>ChatGPT Search</td><td>Wikipedia, Reddit, editorial reference sites (Forbes, TechRadar), structured data</td></tr><tr><td>Perplexity</td><td>Reddit, LinkedIn, G2, primary-source citations, fresh news</td></tr><tr><td>Google AI Overviews</td><td>Sites that already rank well in Google organic; YouTube; structured FAQs</td></tr><tr><td>Claude (with search)</td><td>Authoritative editorial, academic sources, fewer aggregator citations</td></tr><tr><td>Gemini</td><td>YouTube heavily, Google-favored editorial, Reddit, Wikipedia</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>1. Content shape AI can extract</h3>
+        <p>ChatGPT Search retrieves at the <strong>passage level</strong>, not the page level. That means the page has to be broken into clean, self-contained chunks the retriever can lift wholesale.</p><p>Concretely, content shapes that get cited disproportionately often:</p>
+        <ul class="seo-list"><li><strong>Definition paragraphs</strong> — a 2–4 sentence block that opens with the term and answers &quot;what is X?&quot; in plain language.</li><li><strong>Sourced lists</strong> with parallel structure (the kind you&#39;re reading right now).</li><li><strong>Tables</strong> with one row per item and consistent columns.</li><li><strong>FAQ blocks</strong> with real Q&amp;A (not FAQ schema slapped on unrelated content — see anti-patterns).</li><li><strong>Numerical claims with units and dates</strong> (&quot;17,551 citations across 22 prompts, 30-day window&quot;).</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Authority signals AI can verify</h3>
+        <p>The retriever is essentially asking, &quot;if I lift one chunk of this page and put it in an answer, will it stand alone?&quot; If the answer is yes, the chunk is more eligible. If the page only makes sense top-to-bottom, the retriever has fewer extractable passages and the page gets cited less.</p><p>This is the same reason long, narrative-only essays underperform structured how-to and reference content in AI citations even when they outperform on engagement and SEO time-on-page.</p><p>ChatGPT Search and its peer engines look for signals that a claim is verifiable — not just that it sounds confident.</p><p>The four signals that show up repeatedly:</p>
+        <ul class="seo-list"><li><strong>Named author</strong> with a real bio and (ideally) a credentials trail.</li><li><strong>Inline citations to primary sources</strong> — government data, academic papers, original company research.</li><li><strong>Visible publish date and visible updated date.</strong></li><li><strong>Primary research or proprietary data</strong> the page introduces (our 17,551-citation dataset is an example).</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Crawler accessibility</h3>
+        <p>&quot;Authority&quot; in the AEO sense isn&#39;t the same as backlink Domain Rating — it&#39;s the verifiable trail from claim to evidence. Pages with a strong evidence trail get cited even on lower-authority domains; pages with high DR but no evidence trail can be invisible.</p><p>If OAI-SearchBot can&#39;t fetch the page, the page is not in the candidate pool. Common own-goals we still see in 2026:</p>
+        <ul class="seo-list"><li><strong>Blocking OAI-SearchBot, GPTBot, or both in robots.txt</strong> for reasons no one on the current team remembers.</li><li><strong>Auth-gated content</strong> that returns a login wall to non-cookie&#39;d crawlers (most of your &quot;best content&quot; might be behind this).</li><li><strong>Heavy client-side JavaScript</strong> that renders the visible answer only after a hydration step.</li><li><strong>Geofencing or aggressive WAF rules</strong> that block crawler IP ranges.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Recency</h3>
+        <p>The minimum viable robots.txt for AEO is to explicitly <strong>allow</strong> OAI-SearchBot and OAI-SearchBot&#39;s peers (PerplexityBot, Google-Extended for AIO, ClaudeBot, etc.), keep the page server-rendered or pre-rendered, and avoid auth-walling the content you want cited. GPTBot is a separate policy call — allow it if you&#39;re comfortable with training-data inclusion, block it otherwise. The two decisions are independent.</p><p>For time-sensitive prompts (&quot;what are the best X tools in 2026&quot;), ChatGPT Search prefers fresh sources. Concretely, this means:</p>
+        <ul class="seo-list"><li><strong>Visible publish date</strong> in the article header (not just in JSON-LD).</li><li><strong>Visible &quot;last updated&quot; date</strong> for evergreen pages that have been refreshed.</li><li><strong>A year in the title</strong> for buyer-guide-style content, refreshed quarterly.</li><li><strong>Re-publish cadence</strong> rather than write-once-and-forget.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>7. Engine-specific patterns</h3>
+        <p>ChatGPT Search re-fetches high-authority news sites within hours; standard sites refresh on a 24–72 hour cycle. A quarterly refresh on evergreen pages is enough to keep recency signals warm; monthly is better for buyer-intent pages where competitive content is moving.</p><p>ChatGPT Search rarely cites a claim that exists only on one website. When the retriever sees the same factual claim across 2–3 authoritative sources, confidence rises and citation probability rises with it.</p><p>The implication is uncomfortable for content marketers: <strong>you don&#39;t get cited for a claim until that claim has been picked up elsewhere.</strong> A novel statistic in your blog post is less likely to be cited than the same statistic after a trade publication, a Reddit thread, and a Wikipedia entry have referenced it.</p><p>The tactical move is to engineer the corroboration. Publish original research → pitch it to trade press → answer relevant Reddit threads → update Wikipedia where notability allows. We cover the mechanics of this in our <a href="/earn-llm-citations-content-source-match/" target="_blank" rel="noopener noreferrer">earn LLM citations through content-source match</a> playbook.</p><p>Source layer = the surfaces ChatGPT trusts that you don&#39;t own. Wikipedia, Reddit, YouTube, Quora, G2, industry forums.</p><p>In our dataset, source-layer surfaces account for ~12% of all citations on their own — and the qualitative effect is larger because source-layer mentions also feed into the corroboration signal in pattern #5. When ChatGPT sees you discussed on Reddit by real users, referenced in a YouTube tutorial, and listed on Wikipedia, the cumulative confidence in your brand as a &quot;real source&quot; rises.</p><p>This is why the &quot;publish more blog content on our own domain&quot; strategy maxes out fast. Owned media is 0.85% of citations in our data. Earned + community is most of the iceberg.</p><p>Our <a href="/reddit-g2-community-sources-aeo/" target="_blank" rel="noopener noreferrer">Reddit + G2 community sources playbook</a> covers how to do source-layer presence work without being spammy.</p><p>Not every shape works equally for every engine. A simplified mental model:</p><p>The takeaway: if you optimize only for ChatGPT, you can leave 40–60% of your AI visibility on the table for the other engines your buyers also use. We unpack the asymmetries further in <a href="/optimize-for-chatgpt-search/" target="_blank" rel="noopener noreferrer">optimize for ChatGPT Search</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Engine-by-engine citation differences (cheat sheet)</h2>
+      <p>These are directional, not absolute. The key implication is that an &quot;AI citation strategy&quot; that doesn&#39;t decompose by engine is leaving accuracy on the table.</p>
+      
+      <table>
+              <thead><tr><th>Pattern</th><th>ChatGPT</th><th>Perplexity</th><th>Google AIO</th><th>Claude</th><th>Gemini</th></tr></thead>
+              <tbody><tr><td>Wikipedia weight</td><td>High</td><td>High</td><td>Med</td><td>Med</td><td>High</td></tr><tr><td>Reddit weight</td><td>High</td><td>Very high</td><td>Low</td><td>Low</td><td>High</td></tr><tr><td>YouTube weight</td><td>Low</td><td>Med</td><td>High</td><td>Low</td><td>Very high</td></tr><tr><td>Editorial (TechRadar, Forbes)</td><td>High</td><td>Med</td><td>Med</td><td>High</td><td>Med</td></tr><tr><td>G2 / Capterra (B2B SaaS)</td><td>Med</td><td>High</td><td>Low</td><td>Med</td><td>Low</td></tr><tr><td>Strong organic rank required</td><td>Loose</td><td>Loose</td><td>Tight</td><td>Loose</td><td>Med</td></tr><tr><td>Recency sensitivity</td><td>High</td><td>Very high</td><td>Med</td><td>Med</td><td>Med</td></tr><tr><td>Structured FAQ payoff</td><td>Med</td><td>Med</td><td>High</td><td>Low</td><td>High</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The owned + earned + community recommendation</h2>
+      <p>Given a 0.85% owned share in our own dataset, the strategic conclusion is that no brand wins AI citations by publishing on its own blog alone. You need three layers, weighted differently than most teams currently weight them.</p><p><strong>Layer 1 — Owned (~25% of effort).</strong> Reference-quality pages on your own domain, structured for passage retrieval, with verifiable authority signals. This is the bedrock. It&#39;s also the layer most teams over-invest in.</p><p><strong>Layer 2 — Earned editorial (~35% of effort).</strong> Coverage in trade publications (TechRadar, HubSpot, vertical trade press), inclusion in third-party comparisons and buyer guides, citations in industry research. This is what shows up as &quot;Editorial&quot; and a big chunk of &quot;Other&quot; in our distribution.</p><p><strong>Layer 3 — Community (~40% of effort).</strong> Wikipedia (where notability allows), Reddit (real participation, not promo), YouTube tutorials, Quora, G2 / Capterra reviews and answers, industry-specific forums. This is the layer with the highest leverage per dollar in 2026, and the one most B2B teams have no operational muscle for.</p><p>The deeper treatment of how to operationalize this 3-layer model is in <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned + earned + community sources for AI</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Anti-patterns: what NOT to do</h2>
+      <p>If you skim AEO Twitter or LinkedIn, you&#39;ll see a regular cycle of tactics that sound plausible but don&#39;t hold up. Here&#39;s our skeptical list — refute these in your own roadmap and you&#39;ll save quarters of wasted effort.</p><p>The pattern across these anti-patterns is the same: AI engines reward verifiable, authentic, structured content. Shortcuts that fake the signals get caught, ignored, or penalized.</p>
+      <ul class="seo-list"><li><strong>llms.txt files.</strong> A proposal to put an &quot;AI-readable&quot; content directive at the root of your site. Google has publicly said it does not use llms.txt. OpenAI, Anthropic, and Perplexity have not committed to reading it either. Until that changes, llms.txt is a vanity artifact, not a citation lever.</li><li><strong>AI-only schema or &quot;GEO schema.&quot;</strong> There is no special schema markup that AI engines preferentially reward. Google has explicitly said no. Use standard Schema.org markup (Article, Product, FAQ where genuinely applicable, Organization) — and stop there.</li><li><strong>Mass FAQ schema on pages without visible FAQs.</strong> Google&#39;s policy is that FAQ structured data must mirror visible page FAQ content. Adding FAQ schema to a page that has no visible FAQ block is a policy violation, not an AEO shortcut. The same standard effectively applies to AI engines that use Bing/Google indexes upstream.</li><li><strong>One-page-per-fanout / mass programmatic SEO.</strong> Generating thousands of nearly identical pages, one per long-tail variant, used to work in pure SEO and never really worked for AEO. Google has explicitly named scaled content abuse as a violation. AI engines deduplicate aggressively at the passage level, so the marginal cited passage from page #2,847 is essentially zero.</li><li><strong>Buying brand mentions or paying for &quot;AI seeding&quot; services.</strong> Inauthentic source-layer presence is detectable, ages poorly, and creates platform-policy risk on both Google and the major LLMs. Earned mentions compound; bought mentions decay.</li><li><strong>&quot;Guaranteed AI citation lift&quot; pitches.</strong> No vendor can guarantee citation lift on a specific query because no vendor controls the retriever. Anyone offering a guarantee is either misunderstanding the system or selling you bot-driven mention manipulation. Decline both.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Run a free audit on your own brand</h2>
+      <p>The fastest way to find out what ChatGPT actually cites for your category — and which of these seven patterns you&#39;re failing — is to measure your own brand against the same prompt set your buyers run.</p><p><a href="/free-audit/" target="_blank" rel="noopener noreferrer">Run a free 10-prompt audit</a> and we&#39;ll return URL-level citations across ChatGPT, Perplexity, Google AI Overviews, and Gemini, plus the source-type distribution for your category in the format above. It&#39;s the same data we used to write this article, scoped to your brand.</p><p>*Last updated 2026-05-22. Citation data drawn from a 30-day continuous measurement of the AEO category prompt set (22 prompts × 4 engines = 1,936 responses, 17,551 citations across 2,219 unique cited domains) on ChatGPT, Perplexity, Google AI Overviews, and Gemini. We republish this article quarterly with refreshed data.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How long does it take to see ChatGPT citations after publishing?</h3>
+            <p>For a page on a domain already indexed in Bing and crawled by OAI-SearchBot, typical first-citation lag is 24–72 hours for the page itself to be eligible. <strong>Actual citation events on competitive queries usually take 4–12 weeks</strong>, because corroboration (pattern #5) takes time to build. If you&#39;re tracking citations on a fresh prompt set, give it a full quarter before judging.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need to be on Wikipedia to get cited by ChatGPT?</h3>
+            <p>Not strictly, but it helps. Wikipedia is the #1 most-cited source in our dataset (978 citations) and across most third-party research. A Wikipedia presence raises corroboration confidence for everything else you publish. The caveat: Wikipedia has real notability standards. You cannot create your own page if your brand doesn&#39;t meet them — and trying to is counterproductive.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does it matter whether I allow GPTBot or only OAI-SearchBot?</h3>
+            <p>Yes — they do different jobs. <strong>OAI-SearchBot is the one you must allow for ChatGPT Search eligibility.</strong> GPTBot governs whether your content can be included in OpenAI&#39;s foundation-model training data. Many publishers allow OAI-SearchBot (they want the citations) but block GPTBot (they don&#39;t want their content used to train future models without compensation). That split is legitimate and increasingly common.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about Perplexity citations specifically?</h3>
+            <p>Perplexity weighs Reddit, LinkedIn, and G2 noticeably higher than ChatGPT does, weighs primary-source links heavily, and tends to refresh faster on news-style queries. Optimizing for Perplexity overlaps with ChatGPT on the basics (crawlability, structured content, authority) but diverges on source-layer emphasis: a strong Reddit + G2 + LinkedIn footprint pays disproportionately on Perplexity.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Will Google AI Overviews cite my page if it doesn&#39;t rank in Google organic?</h3>
+            <p>Less likely than for ChatGPT or Perplexity. AI Overviews leans harder on pages that already rank well in Google&#39;s traditional index. ChatGPT Search has a much looser relationship to organic ranking — Ahrefs found only ~12% overlap between AI-cited URLs and Google&#39;s top 10. Plan separate optimization tracks for each engine.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is there a single dashboard that tells me what&#39;s cited for my brand?</h3>
+            <p>Yes — citation tracking is the core of any modern AEO platform, including ours. The harder question is not &quot;what cited me&quot; but &quot;what cited my competitors when I should have been cited instead.&quot; That gap analysis is where most of the strategic value lives. We cover the methodology in <a href="/citation-gap-audit/" target="_blank" rel="noopener noreferrer">citation gap audit</a> and <a href="/ai-answer-citations/" target="_blank" rel="noopener noreferrer">AI answer citations</a>.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I worry about the ChatGPT base model (no search) at all?</h3>
+            <p>Yes, but on a longer time horizon. Base-model &quot;knowledge&quot; of your brand depends on training data, which updates on a model-release cadence (months, not days). The fastest lever you control is ChatGPT Search citations; the slowest is base-model inclusion. Work both — but expect different timelines.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-answer-citations/">How AI Answer Engines Choose Sources: The 7 Signals We&#39;ve Mapped</a></h3>
+            <p>AI engines like ChatGPT, Perplexity, Google AI Overviews, and Claude choose sources using overlapping but distinct signals. This guide maps the 7 signals that drive citation eligibility and the engine-specific weighting differences.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-community-sources-ai/">Owned, Earned, and Community Sources in AI Answers: A 3-Layer Strategy</a></h3>
+            <p>AI engines cite three distinct source layers — owned (your site), earned (PR/editorial), and community (Reddit/G2/forums). This guide explains how to balance investment by category and life stage.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/earn-llm-citations-content-source-match/">How to Earn LLM Citations Without Becoming Spam: The Content-Source Match Framework</a></h3>
+            <p>AI engines preferentially cite 5 specific content patterns. This guide breaks down the content-source match framework, the 12 examples of cited content, and the slow-burn strategy that compounds without manipulation.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

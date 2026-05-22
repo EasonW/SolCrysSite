@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Best AEO Tools for Small Marketing Teams (Starter Guide 2026) | SolCrys</title>
+    <meta name="description" content="A starter buyer&#39;s guide to AEO tools for marketing teams of 1-3: starter-tier pricing, setup time, what you can skip, and a 20-prompt template to run on day 1." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/best-aeo-tools-for-small-marketing-teams/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Best AEO Tools for Small Marketing Teams (Starter Guide 2026) | SolCrys" />
+    <meta property="og:description" content="A starter buyer&#39;s guide to AEO tools for marketing teams of 1-3: starter-tier pricing, setup time, what you can skip, and a 20-prompt template to run on day 1." />
+    <meta property="og:url" content="https://solcrys.com/best-aeo-tools-for-small-marketing-teams/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Best AEO Tools for Small Marketing Teams (Starter Guide 2026)","item":"https://solcrys.com/best-aeo-tools-for-small-marketing-teams/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Best AEO Tools for Small Marketing Teams (Starter Guide 2026)","description":"A starter buyer's guide to AEO tools for marketing teams of 1-3: starter-tier pricing, setup time, what you can skip, and a 20-prompt template to run on day 1.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/best-aeo-tools-for-small-marketing-teams/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/best-aeo-tools-for-small-marketing-teams/","mainEntity":[{"@type":"Question","name":"Is AEO just for big brands?","acceptedAnswer":{"@type":"Answer","text":"No. AEO matters more for small brands, not less. A large incumbent has 15 years of Wikipedia, Reddit, and TechCrunch coverage feeding AI answers — they show up by default. A small brand has none of that, so explicit AEO work is the lever that gets you into answers at all. Otherwise the engines default to whatever's already mentioned, and that's never you."}},{"@type":"Question","name":"How do I justify the spend to my founder (or to myself)?","acceptedAnswer":{"@type":"Answer","text":"Frame it the way your founder thinks about a paid channel. You're buying visibility data on a buying surface (AI answers) that's growing 30-50% year over year. The cheapest tier is in the $29-$199/month range — less than a single LinkedIn post boost. The question isn't \"is this worth $89/month?\" — it's \"is knowing whether ChatGPT recommends your competitor instead of you worth $89/month?\" For most early-stage brands, yes. For more, see our [AEO vs SEO](/aeo-vs-seo/) breakdown."}},{"@type":"Question","name":"Can I DIY this without a tool?","acceptedAnswer":{"@type":"Answer","text":"Yes, for the first month. Open ChatGPT, Perplexity, and Google AI Mode in three tabs, run your 20-prompt set manually, and screenshot the answers. You'll get a real read on visibility in about three hours. The reason most teams move to a tool by month two is that manual re-runs across engines, per week, become a part-time job — and you can't compare week-over-week reliably without timestamped data. DIY is fine for week one; it stops scaling around week four."}},{"@type":"Question","name":"What's the cheapest credible AI visibility tool?","acceptedAnswer":{"@type":"Answer","text":"Otterly Lite at $29/month is the lowest-friction defensible entry point in May 2026 (annual: $25/month). It tracks 15 prompts across ChatGPT, Google AI Overviews, Perplexity, and Microsoft Copilot. If you want daily refresh and a more startup-oriented dashboard at slightly more, Peec AI Starter at €89/month is the next step."}},{"@type":"Question","name":"How fast will I see results from AEO?","acceptedAnswer":{"@type":"Answer","text":"First measurable signal: 2-4 weeks. Real mention-rate movement on a tracked prompt set: 8-16 weeks, assuming you act on the data. If you're only running a dashboard and not shipping content fixes, you'll see what's wrong forever and never see it move. Pair a measurement tool with at least one content owner who can act on the gaps you find."}},{"@type":"Question","name":"What if my category is too small for AI answers?","acceptedAnswer":{"@type":"Answer","text":"You'd be surprised. Categories with under 5,000 buyers globally still surface in AI answers because the engines synthesize from product pages, review sites, and Reddit. The smaller the category, the smaller the citation universe — which actually makes a single Reddit thread or G2 listing disproportionately powerful for your brand. Worth running a 10-prompt audit before assuming the surface isn't there."}},{"@type":"Question","name":"Should I wait until I have a bigger team to start?","acceptedAnswer":{"@type":"Answer","text":"No. The teams that win AEO in 2026-2028 are the ones who started measuring in 2026, not the ones who waited until they could afford an enterprise platform. The cost of a year of being absent from AI answers in your category — while a competitor learns the surface — is much higher than the cost of an Otterly or Peec subscription."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>Best AEO Tools for Small Marketing Teams (Starter Guide 2026)</h1>
+        <p class="seo-lede">For a marketing team of 1-3 people getting started with Answer Engine Optimization in 2026, the three strongest starter picks are: <strong>Otterly Lite ($29/month)</strong> for the lowest-friction first read on AI visibility, <strong>Peec AI Starter (€89/month)</strong> if you want a real dashboard with d</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is the best AEO tool for a small marketing team?</li><li>Which AEO tools are good for startups?</li><li>How do I get started with AEO with a small team?</li><li>Is AEO worth it for a 2-person marketing team?</li><li>What&#39;s the cheapest AI visibility tool?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>For a marketing team of 1-3 people getting started with Answer Engine Optimization in 2026, the three strongest starter picks are: <strong>Otterly Lite ($29/month)</strong> for the lowest-friction first read on AI visibility, <strong>Peec AI Starter (€89/month)</strong> if you want a real dashboard with daily prompt tracking, and <strong>SolCrys starter</strong> if you want measurement plus a clear path to fix the gaps without buying a second tool later. Skip enterprise tiers; you don&#39;t need them yet.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why we wrote this for small teams specifically</h2>
+      <p>Most &quot;best AEO tools&quot; lists are written for VPs of Marketing at companies with a 12-person content team and a procurement process. If you&#39;re a founder, a solo marketer, or a team of three trying to figure out whether ChatGPT mentions your brand at all, those lists waste your time. They overweight features (multi-workspace governance, role-based access, custom dashboards) that don&#39;t matter at your scale and underweight the only things that do: <strong>can I see my visibility today, and can I tell whether my next move helped?</strong></p><p>We&#39;re SolCrys, so this guide carries a vendor bias — we run an AEO platform and we sell to teams in this range. To partly correct for that, we name specific competitors in every recommendation and tell you directly when one of them is the better starter pick. If you want a totally neutral take, you won&#39;t find it from anyone in this category — including us — so the responsible move is to read this against the <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a> and one outside source before you commit.</p><p>A quick reality check on the engines you&#39;re optimizing for, because vendor pitches blur this:</p><p>You don&#39;t need a tool that monitors 47 engines. You need one that gives you accurate readings on the 2-4 your buyers actually use.</p>
+      <ul class="seo-list"><li><strong>ChatGPT Search</strong> uses Bing&#39;s index for real-time web data, GPTBot for crawl, and RAG to assemble the answer. Optimizing for ChatGPT means being indexable by Bing and citable as a source GPTBot can fetch.</li><li><strong>Perplexity</strong> is a real-time RAG system that re-queries the web for almost every answer and shows citations inline. It rewards explicit answer-shaped content with named sources.</li><li><strong>Google AI Overviews and AI Mode</strong> ride on Google&#39;s existing index and ranking system. AEO here is an operating layer on top of SEO, not a replacement for it. If your SEO is broken, your AIO presence is broken.</li><li><strong>Claude</strong> uses Brave Search for web grounding. It&#39;s a smaller surface but technical buyers use it heavily.</li><li><strong>Gemini</strong> uses Google&#39;s index plus its own grounding layer. Overlap with AIO is high but not total.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a small team can skip vs. what you can&#39;t</h2>
+      <p>Small-team buyers get sold features designed for enterprises, then feel guilty when they don&#39;t use them. Here&#39;s the honest split.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>You can skip (for now)</h3>
+        
+        <ul class="seo-list"><li><strong>Enterprise governance and audit logs.</strong> If three people log in, you don&#39;t need SOC 2 evidence on every workflow yet.</li><li><strong>Multi-workspace isolation.</strong> Buy this when you have multiple brands or are an agency, not before.</li><li><strong>Role-based access control (RBAC).</strong> &quot;Founder and one contractor&quot; is not a role hierarchy.</li><li><strong>Custom dashboards and white-label reports.</strong> Spend the time on the underlying data, not on its packaging.</li><li><strong>Action automation, agent workflows, MCP integrations.</strong> Powerful — but they multiply effort you don&#39;t have yet.</li><li><strong>24/7 enterprise SLA support.</strong> A 24-hour email response is plenty when your team is three people.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>You cannot skip</h3>
+        <p>If your tool covers those five, you&#39;re equipped. The rest is comfort.</p>
+        <ul class="seo-list"><li><strong>At least one accurate measurement source.</strong> Without real prompt-level data, you&#39;re guessing.</li><li><strong>A way to confirm your brand was mentioned vs. just cited as a footnote.</strong> Mention rate and citation rate are different metrics; both matter.</li><li><strong>A starter prompt set you actually believe in.</strong> A tool with the wrong prompts produces the wrong roadmap. We cover construction in <a href="/ai-search-prompt-set/" target="_blank" rel="noopener noreferrer">How to Build an AI Search Prompt Set</a>.</li><li><strong>Visibility into the URLs the engines cite.</strong> &quot;We got mentioned&quot; without the source URL is gossip, not data.</li><li><strong>One named owner.</strong> AEO without an owner becomes nobody&#39;s job and dies in week three.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>4-tool comparison: starter-tier suitability</h2>
+      <p>These four are the realistic starter contenders for a 1-3 person team in 2026. We&#39;ve validated pricing against vendor pricing pages as of May 2026; bands shift, so treat published numbers as orientation and confirm at purchase.</p><p>Notes on the table:</p>
+      <ul class="seo-list"><li><strong>Setup time</strong> is wall-clock from signup to a screen that shows your brand&#39;s presence on at least one tracked prompt. Vendor onboarding flows change; if a tool takes more than 30 minutes for a small team, that&#39;s a warning sign about its target buyer.</li><li><strong>Engine coverage</strong> counts the engines you can actually pull data from on the starter tier. Several vendors list &quot;9 engines&quot; in their pitch but gate most behind higher tiers — read pricing pages, not feature pages.</li><li>We&#39;re not listing Profound, Conductor, or Brandlight enterprise tiers here. They&#39;re great platforms, but starter-tier suitability is the question, and those products optimize for buyers with budgets that would seem strange to a three-person team.</li></ul>
+      <table>
+              <thead><tr><th>Dimension</th><th>SolCrys Starter</th><th>Otterly Lite</th><th>Peec AI Starter</th><th>Brandlight Starter</th></tr></thead>
+              <tbody><tr><td><strong>Starter price</strong></td><td>Published on /pricing (starter tier)</td><td><strong>$29/mo</strong> (annual: $25/mo)</td><td><strong>€89/mo</strong> (~$95)</td><td>~$199/mo (free evaluation tier available)</td></tr><tr><td><strong>Free tier</strong></td><td>Free 10-prompt audit (no card)</td><td>Free trial</td><td>Trial available</td><td>Free version for evaluation</td></tr><tr><td><strong>Prompts included</strong></td><td>Audit-then-tracked set</td><td>15 prompts</td><td>25 prompts, daily run</td><td>Starter-tier prompt allocation</td></tr><tr><td><strong>Engines covered</strong></td><td>ChatGPT, Perplexity, Google AI Overviews / AI Mode, Gemini (Claude as add-on)</td><td>ChatGPT, Google AIO, Perplexity, Copilot (Gemini / AI Mode as paid add-ons)</td><td>ChatGPT, Perplexity, Google AIO (extra models as add-on)</td><td>Multi-engine including ChatGPT and Perplexity</td></tr><tr><td><strong>Setup time</strong></td><td>~5-15 min (audit) to first read</td><td>Minutes (single-page setup)</td><td>~15-30 min to dashboard configured</td><td>Onboarding flow, evaluation tier first</td></tr><tr><td><strong>Support quality</strong></td><td>Email + founder-accessible</td><td>Email + docs</td><td>Email</td><td>Email; activation tier adds 24/7</td></tr><tr><td><strong>Learning curve</strong></td><td>Low (audit-first UX)</td><td>Lowest (single dashboard)</td><td>Low-medium (more depth = more menus)</td><td>Medium (positioned upmarket)</td></tr><tr><td><strong>Best for</strong></td><td>You want measurement + a fix path</td><td>Cheapest defensible first read</td><td>Best-organized dashboard at startup pricing</td><td>You&#39;ll likely scale past starter quickly</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Which one for which situation</h3>
+        <p>If after reading this you still can&#39;t decide between the dashboard-only and execution-included paths, our <a href="/aeo-platform-pilot-playbook/" target="_blank" rel="noopener noreferrer">AEO Platform Pilot Playbook</a> gives you a 4-week structured trial protocol.</p>
+        <ul class="seo-list"><li><strong>You want to spend under $50/month and just see whether ChatGPT mentions you.</strong> Otterly Lite. It&#39;s the lowest-friction $29/month in the category and it answers the foundational question.</li><li><strong>You want a real daily dashboard and you&#39;ll show data to a founder weekly.</strong> Peec AI Starter. The dashboard is well-organized for a startup buyer and the daily-run cadence makes the numbers feel real.</li><li><strong>You want measurement plus a clear path from &quot;we have a gap&quot; to &quot;we shipped a fix.&quot;</strong> SolCrys. This is where our bias is clearest — we built it for this gap — and our <a href="/free-audit/" target="_blank" rel="noopener noreferrer">free 10-prompt audit</a> is the lowest-commitment way to test the claim.</li><li><strong>You expect to graduate to a bigger platform within 6 months.</strong> Brandlight starter, with the understanding you&#39;ll move up to its activation tier as you grow. Don&#39;t buy upmarket tools you won&#39;t use yet.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The 30-day starter prompt-set template</h2>
+      <p>The biggest small-team mistake is buying the tool and then running the demo prompt set forever. The demo prompts are written for screenshots, not for your buyers. Here&#39;s a 20-prompt starter pack you can adapt in an afternoon. Use it for the first 30 days; revise after.</p><p>Replace `[YOUR CATEGORY]`, `[YOUR PRODUCT]`, `[YOUR BRAND]`, and `[COMPETITOR 1/2/3]` with your specifics. Run the same 20 prompts across ChatGPT, Perplexity, and Google AI Overviews at minimum.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>5 category prompts (where do you sit in the landscape?)</h3>
+        
+        <ul class="seo-list"><li>What is the best [YOUR CATEGORY] tool for a small business in 2026?</li><li>Which companies are leaders in [YOUR CATEGORY]?</li><li>What are the most-used [YOUR CATEGORY] platforms today?</li><li>Who are the new entrants in [YOUR CATEGORY] worth watching?</li><li>What are the top alternatives to [CATEGORY LEADER] in 2026?</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>5 competitive prompts (who shows up when buyers shop)</h3>
+        
+        <ul class="seo-list"><li>[YOUR BRAND] vs [COMPETITOR 1]: which is better for a small team?</li><li>Alternatives to [COMPETITOR 1] for [SPECIFIC USE CASE]</li><li>Is [COMPETITOR 2] worth the price for a startup?</li><li>What&#39;s the cheapest tool like [COMPETITOR 3]?</li><li>Pros and cons of [COMPETITOR 1] vs [COMPETITOR 2]</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>5 product prompts (do you appear when buyers describe the job?)</h3>
+        
+        <ul class="seo-list"><li>How do I [JOB YOUR PRODUCT DOES] without hiring a full team?</li><li>What tool helps me [SPECIFIC OUTCOME YOUR PRODUCT DELIVERS]?</li><li>Best [PRODUCT TYPE] under [REALISTIC PRICE CEILING] per month</li><li>How do I [WORKFLOW] faster as a one-person marketing team?</li><li>What&#39;s the easiest [PRODUCT TYPE] to set up in under an hour?</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>5 risk and objection prompts (where will buyers worry?)</h3>
+        <p>What this prompt set gives you, on day 30, is four tracked signals: <strong>category presence, competitive overlap, jobs-to-be-done coverage, and objection narrative.</strong> Those are the four narratives buyers form about you in AI answers. If you only had one prompt set to run, this is the one.</p>
+        <ul class="seo-list"><li>Is [YOUR BRAND] safe for small business data?</li><li>What are the downsides of [YOUR CATEGORY] tools?</li><li>Common complaints about [YOUR CATEGORY] in 2026</li><li>Why do startups stop using [YOUR CATEGORY] tools?</li><li>How do I justify buying [YOUR CATEGORY] software to my founder or board?</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>&quot;You probably don&#39;t need [X] yet&quot;</h2>
+      <p>Where small teams over-buy:</p><p>The pattern: small teams should buy the smallest workable product, not the most impressive one. You upgrade when a specific feature has a specific job. Not before.</p>
+      <ul class="seo-list"><li><strong>Action automation.</strong> Tools that auto-publish fixes sound efficient. In practice, the first six months of AEO are about learning your brand&#39;s gap pattern, not automating its fix. Run things by hand; learn what works; automate after.</li><li><strong>Multi-tenant workspaces.</strong> You have one brand. Don&#39;t pay for workspace isolation built for 25-client agencies. Buy it when you actually have a second workspace.</li><li><strong>Custom dashboards.</strong> Building dashboard customization on top of weak underlying data is a procrastination move. The default dashboard is fine. Spend the time on the prompt set instead.</li><li><strong>Per-engine deep customization.</strong> &quot;We let you tune scoring weights per engine&quot; sounds advanced. For a three-person team, default weights are correct. Tune later, if ever.</li><li><strong>Slack / CRM / CMS integrations on day 1.</strong> Useful once you have a workflow; expensive procrastination before you have one. Email digests cover the same ground for the first 90 days.</li><li><strong>Anything called &quot;guaranteed AI citation lift.&quot;</strong> Nobody can guarantee this. Engine algorithms move weekly and citation behavior depends on third-party sources (Reddit, Wikipedia, G2) that no vendor controls. If a sales deck promises a guarantee, it&#39;s a red flag — see <a href="/llms-txt-not-a-strategy/" target="_blank" rel="noopener noreferrer">Why llms.txt Is Not a Strategy</a> for our broader take on AEO anti-patterns.</li><li><strong>llms.txt files, AI-only schema, FAQ-schema quotas, forced content chunking, one-page-per-fanout.</strong> These show up in vendor pitches as &quot;AI optimization.&quot; They are noise. AEO at the small-team scale is: be findable, be answer-shaped, be cited. None of these tactics moves those needles.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Run the free audit before you buy anything</h2>
+      <p>The cleanest way to decide between the four tools above is to first see what AI engines actually say about your brand today. Our <a href="/free-audit/" target="_blank" rel="noopener noreferrer">free 25-prompt AI visibility audit</a> runs that read across ChatGPT, Perplexity, Google AI Overviews, Gemini, and Claude, returns URL-level citation evidence, and shows you your number against your top 3 competitors. No credit card. About 5-15 minutes to set up, depending on how quickly you pick prompts.</p><p>Use the output to evaluate SolCrys, or use it to evaluate Otterly, Peec, or Brandlight — both are fine outcomes for us. The point is that you stop guessing whether AEO is worth it for your specific brand and start with a real reading.</p><p>*Last updated 2026-05-22. Pricing reflects published vendor pricing pages as of that date; vendors update pricing frequently, so confirm at purchase. SolCrys is a Governed AEO Execution Platform — vendor bias is disclosed. For the full buyer framework see the <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a>.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is AEO just for big brands?</h3>
+            <p>No. AEO matters more for small brands, not less. A large incumbent has 15 years of Wikipedia, Reddit, and TechCrunch coverage feeding AI answers — they show up by default. A small brand has none of that, so explicit AEO work is the lever that gets you into answers at all. Otherwise the engines default to whatever&#39;s already mentioned, and that&#39;s never you.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I justify the spend to my founder (or to myself)?</h3>
+            <p>Frame it the way your founder thinks about a paid channel. You&#39;re buying visibility data on a buying surface (AI answers) that&#39;s growing 30-50% year over year. The cheapest tier is in the $29-$199/month range — less than a single LinkedIn post boost. The question isn&#39;t &quot;is this worth $89/month?&quot; — it&#39;s &quot;is knowing whether ChatGPT recommends your competitor instead of you worth $89/month?&quot; For most early-stage brands, yes. For more, see our <a href="/aeo-vs-seo/" target="_blank" rel="noopener noreferrer">AEO vs SEO</a> breakdown.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I DIY this without a tool?</h3>
+            <p>Yes, for the first month. Open ChatGPT, Perplexity, and Google AI Mode in three tabs, run your 20-prompt set manually, and screenshot the answers. You&#39;ll get a real read on visibility in about three hours. The reason most teams move to a tool by month two is that manual re-runs across engines, per week, become a part-time job — and you can&#39;t compare week-over-week reliably without timestamped data. DIY is fine for week one; it stops scaling around week four.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the cheapest credible AI visibility tool?</h3>
+            <p>Otterly Lite at $29/month is the lowest-friction defensible entry point in May 2026 (annual: $25/month). It tracks 15 prompts across ChatGPT, Google AI Overviews, Perplexity, and Microsoft Copilot. If you want daily refresh and a more startup-oriented dashboard at slightly more, Peec AI Starter at €89/month is the next step.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How fast will I see results from AEO?</h3>
+            <p>First measurable signal: 2-4 weeks. Real mention-rate movement on a tracked prompt set: 8-16 weeks, assuming you act on the data. If you&#39;re only running a dashboard and not shipping content fixes, you&#39;ll see what&#39;s wrong forever and never see it move. Pair a measurement tool with at least one content owner who can act on the gaps you find.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if my category is too small for AI answers?</h3>
+            <p>You&#39;d be surprised. Categories with under 5,000 buyers globally still surface in AI answers because the engines synthesize from product pages, review sites, and Reddit. The smaller the category, the smaller the citation universe — which actually makes a single Reddit thread or G2 listing disproportionately powerful for your brand. Worth running a 10-prompt audit before assuming the surface isn&#39;t there.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I wait until I have a bigger team to start?</h3>
+            <p>No. The teams that win AEO in 2026-2028 are the ones who started measuring in 2026, not the ones who waited until they could afford an enterprise platform. The cost of a year of being absent from AI answers in your category — while a competitor learns the surface — is much higher than the cost of an Otterly or Peec subscription.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/ai-search-prompt-set/">AI Search Prompt Set</a></h3>
+            <p>A practical guide to building an AI search prompt set across category, comparison, risk, implementation, competitor, and brand-specific prompts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-platform-pilot-playbook/">How to Run a 30-Day AEO Platform Pilot Without Wasting Budget</a></h3>
+            <p>A structured 30-day pilot framework for AEO platforms — pre-pilot setup, week-by-week timeline, exit criteria, and the common pilot anti-patterns that produce wrong purchase decisions.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

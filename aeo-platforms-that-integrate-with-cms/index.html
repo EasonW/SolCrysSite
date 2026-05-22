@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AEO Platforms That Integrate with Your CMS (2026) | SolCrys</title>
+    <meta name="description" content="Which AEO platforms actually integrate with WordPress, Webflow, Contentful, Sanity, HubSpot, and Shopify in 2026 — and which only export PDFs. A 2,400-word buyer guide for content engineering leads." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-platforms-that-integrate-with-cms/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO Platforms That Integrate with Your CMS (2026) | SolCrys" />
+    <meta property="og:description" content="Which AEO platforms actually integrate with WordPress, Webflow, Contentful, Sanity, HubSpot, and Shopify in 2026 — and which only export PDFs. A 2,400-word buyer guide for content engineering leads." />
+    <meta property="og:url" content="https://solcrys.com/aeo-platforms-that-integrate-with-cms/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AEO Platforms That Integrate with Your CMS (2026)","item":"https://solcrys.com/aeo-platforms-that-integrate-with-cms/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AEO Platforms That Integrate with Your CMS (2026)","description":"Which AEO platforms actually integrate with WordPress, Webflow, Contentful, Sanity, HubSpot, and Shopify in 2026 — and which only export PDFs. A 2,400-word buyer guide for content engineering leads.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/aeo-platforms-that-integrate-with-cms/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-platforms-that-integrate-with-cms/","mainEntity":[{"@type":"Question","name":"Does my CMS need an open API to integrate with an AEO platform?","acceptedAnswer":{"@type":"Answer","text":"For bidirectional integration, yes — the AEO platform needs to read and write through some interface. Most modern CMSs (WordPress via REST or GraphQL, Webflow's CMS API, Contentful, Sanity, HubSpot CMS, Shopify) ship usable APIs out of the box. The exceptions are legacy enterprise CMSs (older AEM versions, custom-built systems) where the integration falls back to webhooks, file drops, or human-in-the-loop publishing."}},{"@type":"Question","name":"What about headless CMSs?","acceptedAnswer":{"@type":"Answer","text":"Headless CMSs (Contentful, Sanity, Strapi, Sanity Studio, Hygraph) are actually the easiest case for AEO integration because the API-first design means there's no UI scraping or theme-template guessing involved. The challenge with headless is not the CMS — it's the front-end. The AEO platform needs to know which rendered URL a CMS document maps to, which usually requires either a manual map or a Next.js/SvelteKit/Astro plugin that exposes the route table."}},{"@type":"Question","name":"Can I integrate via Zapier or Make?","acceptedAnswer":{"@type":"Answer","text":"Yes, for simple flows. Both Zapier and Make can sit between an AEO platform's webhook and a CMS's publish API. The limit is statefulness — Zapier/Make handle \"when X, do Y\" well, but they don't hold state between the recommendation, the approval, the publish, and the re-test. For one-shot pushes they're fine; for a real closed-loop workflow you want either a native vendor integration or an MCP-driven agent that can hold the full context."}},{"@type":"Question","name":"What's the difference between an integration and MCP access?","acceptedAnswer":{"@type":"Answer","text":"A traditional integration is a specific bridge between two products — SolCrys ↔ WordPress, for example. MCP access exposes the platform's data through an open protocol that any agent can read. The integration is fixed; MCP is composable. If you have one stack and one workflow, a native integration is simpler. If you have heterogeneous CMSs or you want to build custom workflows, MCP is the more durable choice. Both can coexist — and in our case, [they do](/solcrys-mcp-and-skills/)."}},{"@type":"Question","name":"Will my AEO platform break when my CMS updates its API?","acceptedAnswer":{"@type":"Answer","text":"This is the maintenance question buyers usually skip. Native connectors break on CMS API changes — WordPress core updates, Webflow CMS schema changes, Contentful migration releases — and how fast the AEO vendor patches the connector matters. Before signing a multi-year contract, ask the vendor for the last three CMS API changes that affected their connector and how long the fix took. The honest answer is usually \"we hadn't noticed until a customer reported it.\" Plan accordingly."}},{"@type":"Question","name":"Do I need an AEO platform with a CMS integration if my team is small?","acceptedAnswer":{"@type":"Answer","text":"Probably not, in the first six months. If you have one or two writers and a five-page priority list, a read-only AEO platform plus a tight Notion workflow will get you most of the value at a fraction of the cost. The bidirectional integration earns its keep when you're shipping 20+ AEO-driven changes per month and the human copy-paste step has become the bottleneck. Buy the dashboard first, hire (or contract) the writer, and graduate to an execution platform when the queue is what's slowing you down."}},{"@type":"Question","name":"Is \"CMS integration\" a feature or an architecture?","acceptedAnswer":{"@type":"Answer","text":"It's an architecture. Vendors who treat it as a feature ship one connector, declare victory, and then never ship the second because the first one was expensive. Vendors who treat it as an architecture (Profound's Agent layer, Conductor's enterprise connector framework, SolCrys's MCP + Skills) can extend to new CMSs without a quarter of engineering work. When you're evaluating, ask: if I move from WordPress to Webflow in 18 months, what happens to the integration story? The answer tells you whether you're buying a feature or an architecture."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>AEO Platforms That Integrate with Your CMS (2026)</h1>
+        <p class="seo-lede">As of May 2026, most Answer Engine Optimization (AEO) platforms are read-only — they export recommendations to PDF, Slack, or email and leave the CMS change to a human. <strong>Profound</strong> publishes content into WordPress, Sanity, and Contentful through its Agents feature. <strong>Conductor</strong></p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Which AEO platforms integrate with my CMS?</li><li>Does Profound integrate with WordPress?</li><li>What&#39;s the best AEO platform for Webflow?</li><li>Can AEO platforms push changes to my CMS automatically?</li><li>What is bidirectional CMS integration?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>As of May 2026, most Answer Engine Optimization (AEO) platforms are read-only — they export recommendations to PDF, Slack, or email and leave the CMS change to a human. <strong>Profound</strong> publishes content into WordPress, Sanity, and Contentful through its Agents feature. <strong>Conductor</strong> has long-running native connectors into WordPress, Contentful, and HubSpot CMS from its enterprise SEO heritage. <strong>SolCrys</strong> ships fixes to WordPress and headless CMS (Sanity, Contentful, etc.) via webhook, then re-tests the same prompts to score the recovery; the SolCrys MCP server itself is read-only — it exposes evidence, citations, and recommendations for your own agents to read, not a CMS write path. Native bidirectional connectors for additional CMSes (Webflow, HubSpot CMS, Shopify) are on the roadmap.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What &quot;integration&quot; actually means in AEO</h2>
+      <p>&quot;Integrates with your CMS&quot; is one of the most overloaded claims in the AEO buyer cycle. Three different things hide behind that phrase, and only one of them closes the workflow loop. Before you read the matrix, calibrate on the vocabulary.</p><p><strong>Read-only (export).</strong> The AEO platform produces a recommendation — &quot;add an FAQ to this page,&quot; &quot;rewrite this H2 to match the entity phrasing competitors are using&quot; — and hands it to a human via PDF, Slack message, CSV download, or email digest. The CMS is never touched by the platform. This is the dominant pattern in 2026; eight of the ten vendors in our last <a href="/best-aeo-tools-for-b2b-marketing-teams-2026/" target="_blank" rel="noopener noreferrer">B2B comparison</a> operate this way. It&#39;s not &quot;integration&quot; in any meaningful workflow sense — it&#39;s a notification.</p><p><strong>Write-only (push).</strong> The platform can publish an edit into the CMS via API or a connector, usually by mapping the recommendation to a known field (page body, meta description, schema block). It writes, but it doesn&#39;t read existing content first and it doesn&#39;t verify the change after deploy. You can ship changes, but the platform doesn&#39;t know what&#39;s there before or whether the change actually moved the answer.</p><p><strong>Bidirectional.</strong> The platform reads CMS content (so the diagnosis is grounded in the actual page state, not a stale crawl), writes changes back on human approval, and re-tests the same prompts after the CMS deploys the change so you see the recovery. This is the only pattern that closes the Measure → Diagnose → Execute → Verify loop on the CMS side. It is rare in 2026 — and it is the only integration model that is worth a dollar of premium pricing over a pure dashboard.</p><p>If a vendor says &quot;we integrate with WordPress&quot; on a discovery call, the very next question is: which of those three?</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Integration matrix</h2>
+      <p>The matrix below reflects publicly documented integrations as of May 2026, validated against vendor documentation, changelogs, and integrations pages. Cells are marked <strong>None</strong>, <strong>Read</strong> (the platform can ingest CMS content for diagnosis but not write back), <strong>Write</strong> (the platform can publish changes but not re-read or re-test from the CMS state), and <strong>Read/Write</strong> (bidirectional with a verification loop). Per docs as of 2026-05-22.</p><p>Three reads to call out. <strong>Profound&#39;s Agents feature</strong> added publishing into WordPress, Sanity, and Contentful in late 2025 — this is real, but it&#39;s write-only as documented; the Agent generates content and ships it, but the platform&#39;s diagnosis layer doesn&#39;t reach back into the CMS to verify or re-test on a per-page basis. <strong>Conductor</strong> is the legacy player here; their enterprise SEO platform has shipped CMS connectors for a decade, and several of them (WordPress, Contentful, HubSpot CMS) are bidirectional for content-brief workflows — though as a content-SEO platform with an AEO module bolted on, the AEO half of the loop doesn&#39;t always travel through those connectors yet. <strong>SolCrys</strong> is the only vendor in the matrix that re-tests the same prompts after the CMS change deploys — but only for the two paths we&#39;ve shipped today (WordPress + headless CMS via webhook). The rest of our row reads &quot;None (roadmap)&quot; because the honest state is that the connector hasn&#39;t shipped yet. If your stack is Webflow or HubSpot CMS, SolCrys is not bidirectional today and you should weigh that against vendor alternatives. Bias disclosed.</p><p>Webflow itself launched a private-beta in-platform AEO tool in April 2026, which technically makes Webflow → Webflow AEO a &quot;Read/Write&quot; path inside one vendor&#39;s walled garden. We&#39;ve excluded it from the matrix because it&#39;s not an AEO platform that integrates with Webflow; it&#39;s a CMS that added an AEO module. If you&#39;re a Webflow-native team and that single-vendor path appeals to you, evaluate it on its own terms.</p>
+      
+      <table>
+              <thead><tr><th>CMS</th><th>Profound</th><th>Peec AI</th><th>Otterly</th><th>Ahrefs Brand Radar</th><th>Conductor</th><th>Brandlight</th><th>SolCrys</th></tr></thead>
+              <tbody><tr><td>WordPress</td><td>Write</td><td>None</td><td>None</td><td>Read</td><td>Read/Write</td><td>Read</td><td>Write (webhook) + re-test</td></tr><tr><td>Webflow</td><td>None</td><td>None</td><td>None</td><td>Read</td><td>None</td><td>None</td><td>None (roadmap)</td></tr><tr><td>Contentful</td><td>Write</td><td>None</td><td>None</td><td>Read</td><td>Read/Write</td><td>None</td><td>Write (headless webhook) + re-test</td></tr><tr><td>Sanity</td><td>Write</td><td>None</td><td>None</td><td>None</td><td>None</td><td>None</td><td>Write (headless webhook) + re-test</td></tr><tr><td>HubSpot CMS</td><td>Read</td><td>None</td><td>None</td><td>None</td><td>Read/Write</td><td>Read</td><td>None (roadmap)</td></tr><tr><td>Shopify</td><td>None</td><td>None</td><td>None</td><td>None</td><td>None</td><td>None</td><td>None (Retail AI add-on)</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why bidirectional matters</h2>
+      <p>The difference between read-only and bidirectional is not theoretical — it shows up as hours per fix.</p><p><strong>Read-only workflow (the dominant pattern in 2026):</strong></p><p>Realistic time per fix: 30–90 minutes of human time, spread across 7–10 elapsed days, with multiple context switches between tools.</p><p><strong>Bidirectional workflow:</strong></p><p>Realistic time per fix: 3–10 minutes of human time, same-day completion, single tool surface.</p><p>On a team running 40 AEO fixes a month, the difference is a week of recovered headcount. That is the buyer case for bidirectional integration. Anything less is a dashboard wearing a costume.</p>
+      <ul class="seo-list"><li>AEO platform surfaces a recommendation.</li><li>Human reads the recommendation, judges it, and decides to act.</li><li>Human opens the CMS, finds the page, locates the block, pastes the change.</li><li>Human publishes (or routes to an approval workflow inside the CMS).</li><li>Human waits for the prompt re-test window — often a week — to see if the change moved the answer.</li><li>Human opens the AEO platform, finds the original prompt, and manually compares the before / after.</li><li>AEO platform surfaces a recommendation with a proposed diff against the live CMS content.</li><li>Human reviews the diff, approves or rejects.</li><li>Platform writes the approved change to the CMS via API.</li><li>Platform schedules a re-test of the affected prompts on the post-deploy state.</li><li>Platform reports the answer-shape change and the recovery score in the same view as the original diagnosis.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>MCP and Skills — a different integration paradigm</h2>
+      <p>SolCrys ships two native bidirectional paths today — WordPress and headless CMS (Sanity, Contentful) via webhook — and we have a different architectural bet for the rest of the CMS surface. We don&#39;t plan to ship six bespoke connectors.</p><p>The traditional vendor approach is <strong>&quot;we build a connector for CMS X.&quot;</strong> Each connector is a custom engineering project, each one ships on its own roadmap, each one breaks when the CMS changes its API. That model is why most vendors in the matrix above have only one or two real integrations — building and maintaining ten is a full engineering team.</p><p>Our bet was to expose AEO data through a <strong>Model Context Protocol (MCP) server</strong> and ship our agent workflows as open-source <a href="/solcrys-mcp-and-skills/" target="_blank" rel="noopener noreferrer">SolCrys Skills</a>. MCP is Anthropic&#39;s open protocol for letting AI agents — Claude, ChatGPT custom GPTs, Cursor, LangChain pipelines — read structured data from any compliant server. The SolCrys MCP server exposes citations, prompts, deep-analysis recommendations, content audits, and the task queue as agent-readable tools.</p><p>That changes the integration question from &quot;did SolCrys build a Webflow connector?&quot; to <strong>&quot;can any agent read SolCrys data and write to my CMS?&quot;</strong> The answer for every modern CMS with an API is yes — and the agent doing the writing can be one we shipped, one your team built, or one a partner shipped. The full rationale for that architectural choice is in our founder note on <a href="/why-we-bet-on-mcp/" target="_blank" rel="noopener noreferrer">why we bet on MCP early</a>.</p><p>The practical consequence is that &quot;CMS integration&quot; in the SolCrys model has two layers. The native layer is what we ship — WordPress and headless-CMS webhook publish + re-test, with native connectors for additional CMSes on the roadmap. The agent layer is what MCP unlocks — your own agent (Claude, ChatGPT custom GPT, Cursor, LangChain pipeline, or a Skill we ship) reads SolCrys evidence and recommendations through MCP, then performs the CMS write itself through whatever connector your stack supports. We ship four production Skills that wire common patterns end-to-end; teams that want a different workflow can build one in an afternoon. The SolCrys MCP server itself is read-only — it exposes data and recommendations, it does not publish content or push changes.</p><p>This isn&#39;t a claim that every team should use MCP for CMS work. If you have a single CMS and you want a one-click connector, the right answer might be Profound&#39;s Agent feature into WordPress, or Conductor&#39;s connector if you&#39;re already on their stack. MCP is the right paradigm when you have a heterogeneous content surface (a marketing site on Webflow, a blog on WordPress, product pages on Shopify, and a docs site on a static generator), when you have an engineering team that wants to compose its own workflows, or when you&#39;re an agency operating across 20 client CMSs and bespoke connectors don&#39;t scale.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to ask vendors about CMS integration</h2>
+      <p>Use these five questions to pressure-test any vendor&#39;s &quot;we integrate with your CMS&quot; claim. The right answers are short, specific, and willing to be put in writing.</p><p>A longer 12-question version of this list, with weighting guidance for enterprise procurement, lives in our <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a>.</p>
+      <ul class="seo-list"><li><strong>Is it read-only, write-only, or bidirectional?</strong> Ask for the exact data flow: does the platform pull current page state from the CMS, or does it work off its own crawl? Does it write changes back? Does it verify after deploy? Most vendors will reveal in two sentences whether you&#39;re buying a notification system or a workflow.</li><li><strong>Which CMSs are officially supported — with a documentation link?</strong> &quot;We can integrate with anything&quot; usually means &quot;we have a webhook and you&#39;ll need an engineer.&quot; Officially supported means there&#39;s a documented connector, a maintenance owner, and a changelog. Ask for the URL.</li><li><strong>Does the integration include an approval workflow before publish?</strong> A platform that can write to your CMS without a human approval gate is a liability. Ask to see the approval UI, the diff view, and the audit log. If they don&#39;t have one, the integration is not ready for a real content team.</li><li><strong>Can the AEO platform re-test the affected prompts after the CMS deploys the change?</strong> This is the verification step. Without it, you can ship a fix and never know whether the answer moved. Ask to see a before/after view in their product, on a real customer page, with real prompt data.</li><li><strong>Is there API, MCP, or webhook access for custom integrations?</strong> Even if their native CMS list misses your stack, an open surface (REST, MCP, webhooks) means your engineering team can wire it up. If the answer is &quot;we don&#39;t expose an API,&quot; the vendor is betting their roadmap will cover your CMS — and that&#39;s a bet you don&#39;t want to take.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Common integration anti-patterns</h2>
+      <p>Four patterns to watch for in vendor demos. All four are common in 2026, and all four should change your willingness to pay.</p><p><strong>&quot;Export to CSV&quot; called &quot;integration.&quot;</strong> A CSV download is not an integration. It&#39;s a file. If the vendor&#39;s &quot;CMS integration&quot; page shows a screenshot of a download button, you&#39;re buying a notification system. That can be fine — for a $150/month tool. It is not fine for a $25,000/year enterprise SKU.</p><p><strong>Slack notifications without action paths.</strong> &quot;We integrate with Slack&quot; usually means the platform can post a message to a channel when something changes. That&#39;s useful as an awareness signal, but it doesn&#39;t reduce time-to-fix unless the Slack message contains a one-click approval that ships the change. Most don&#39;t.</p><p><strong>One-way push without verification.</strong> Some vendors can write to your CMS but can&#39;t re-test the affected prompts to see whether the answer moved. You ship the change and you guess. This is worse than no integration in some cases — it gives the team false confidence that &quot;the AEO platform handled it.&quot;</p><p><strong>Integrations that require manual schema mapping per page.</strong> &quot;Connect SolCrys to your CMS&quot; should not mean &quot;spend three weeks mapping every page template to our internal data model.&quot; If the onboarding requires a per-page schema mapping ceremony, the connector is unfinished and the maintenance burden falls on you.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>CTA</h2>
+      <p>If you want to see how the bidirectional loop actually runs — CMS read, diagnosis, human approval, write-back, re-test, recovery score — we&#39;ll walk you through it on a live workspace with your CMS connected. <a href="/contact/" target="_blank" rel="noopener noreferrer">Book a SolCrys MCP + integrations demo</a>. If you&#39;re earlier in the buyer cycle, the <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a> and the <a href="/ai-visibility-dashboard-vs-aeo-execution-engine/" target="_blank" rel="noopener noreferrer">dashboard vs execution engine</a> deep-dive cover the underlying decision before you compare integration matrices.</p><p>*Last updated 2026-05-22. Integration claims validated against vendor documentation, changelogs, and integrations pages as of this date. We&#39;re SolCrys, so the SolCrys column reflects shipped capability we&#39;ll demonstrate on request; competitor columns reflect public documentation and may understate private-roadmap items. We re-publish this article quarterly with refreshed data.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does my CMS need an open API to integrate with an AEO platform?</h3>
+            <p>For bidirectional integration, yes — the AEO platform needs to read and write through some interface. Most modern CMSs (WordPress via REST or GraphQL, Webflow&#39;s CMS API, Contentful, Sanity, HubSpot CMS, Shopify) ship usable APIs out of the box. The exceptions are legacy enterprise CMSs (older AEM versions, custom-built systems) where the integration falls back to webhooks, file drops, or human-in-the-loop publishing.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about headless CMSs?</h3>
+            <p>Headless CMSs (Contentful, Sanity, Strapi, Sanity Studio, Hygraph) are actually the easiest case for AEO integration because the API-first design means there&#39;s no UI scraping or theme-template guessing involved. The challenge with headless is not the CMS — it&#39;s the front-end. The AEO platform needs to know which rendered URL a CMS document maps to, which usually requires either a manual map or a Next.js/SvelteKit/Astro plugin that exposes the route table.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I integrate via Zapier or Make?</h3>
+            <p>Yes, for simple flows. Both Zapier and Make can sit between an AEO platform&#39;s webhook and a CMS&#39;s publish API. The limit is statefulness — Zapier/Make handle &quot;when X, do Y&quot; well, but they don&#39;t hold state between the recommendation, the approval, the publish, and the re-test. For one-shot pushes they&#39;re fine; for a real closed-loop workflow you want either a native vendor integration or an MCP-driven agent that can hold the full context.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between an integration and MCP access?</h3>
+            <p>A traditional integration is a specific bridge between two products — SolCrys ↔ WordPress, for example. MCP access exposes the platform&#39;s data through an open protocol that any agent can read. The integration is fixed; MCP is composable. If you have one stack and one workflow, a native integration is simpler. If you have heterogeneous CMSs or you want to build custom workflows, MCP is the more durable choice. Both can coexist — and in our case, <a href="/solcrys-mcp-and-skills/" target="_blank" rel="noopener noreferrer">they do</a>.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Will my AEO platform break when my CMS updates its API?</h3>
+            <p>This is the maintenance question buyers usually skip. Native connectors break on CMS API changes — WordPress core updates, Webflow CMS schema changes, Contentful migration releases — and how fast the AEO vendor patches the connector matters. Before signing a multi-year contract, ask the vendor for the last three CMS API changes that affected their connector and how long the fix took. The honest answer is usually &quot;we hadn&#39;t noticed until a customer reported it.&quot; Plan accordingly.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need an AEO platform with a CMS integration if my team is small?</h3>
+            <p>Probably not, in the first six months. If you have one or two writers and a five-page priority list, a read-only AEO platform plus a tight Notion workflow will get you most of the value at a fraction of the cost. The bidirectional integration earns its keep when you&#39;re shipping 20+ AEO-driven changes per month and the human copy-paste step has become the bottleneck. Buy the dashboard first, hire (or contract) the writer, and graduate to an execution platform when the queue is what&#39;s slowing you down.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is &quot;CMS integration&quot; a feature or an architecture?</h3>
+            <p>It&#39;s an architecture. Vendors who treat it as a feature ship one connector, declare victory, and then never ship the second because the first one was expensive. Vendors who treat it as an architecture (Profound&#39;s Agent layer, Conductor&#39;s enterprise connector framework, SolCrys&#39;s MCP + Skills) can extend to new CMSs without a quarter of engineering work. When you&#39;re evaluating, ask: if I move from WordPress to Webflow in 18 months, what happens to the integration story? The answer tells you whether you&#39;re buying a feature or an architecture.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">MCP &amp; Skills</p>
+            <h3><a href="/solcrys-mcp-and-skills/">SolCrys MCP and Skills: tools, install, and the workflows that chain them</a></h3>
+            <p>A practical reference for the SolCrys MCP server and the four open-source AEO Skills. Nine tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">MCP &amp; Skills</p>
+            <h3><a href="/why-we-bet-on-mcp/">Why we bet on MCP early: agent-readiness as the new AEO surface</a></h3>
+            <p>Jia Chang, SolCrys CTO, on why we built our MCP server before customers asked for it, why we open-sourced the Skills layer on top of it, and what it signals about the next surface marketing teams need to optimize for.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

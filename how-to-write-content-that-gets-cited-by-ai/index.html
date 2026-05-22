@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Write Content That Gets Cited by AI Search (2026 Craft Guide) | SolCrys</title>
+    <meta name="description" content="A craft-focused guide to writing content AI engines actually cite. 9 content patterns with before/after examples, engine-by-engine preferences, and what 17,551 citations reveal." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/how-to-write-content-that-gets-cited-by-ai/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Write Content That Gets Cited by AI Search (2026 Craft Guide) | SolCrys" />
+    <meta property="og:description" content="A craft-focused guide to writing content AI engines actually cite. 9 content patterns with before/after examples, engine-by-engine preferences, and what 17,551 citations reveal." />
+    <meta property="og:url" content="https://solcrys.com/how-to-write-content-that-gets-cited-by-ai/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Write Content That Gets Cited by AI Search (2026 Craft Guide)","item":"https://solcrys.com/how-to-write-content-that-gets-cited-by-ai/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Write Content That Gets Cited by AI Search (2026 Craft Guide)","description":"A craft-focused guide to writing content AI engines actually cite. 9 content patterns with before/after examples, engine-by-engine preferences, and what 17,551 citations reveal.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/how-to-write-content-that-gets-cited-by-ai/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/how-to-write-content-that-gets-cited-by-ai/","mainEntity":[{"@type":"Question","name":"How long until I see citations after publishing?","acceptedAnswer":{"@type":"Answer","text":"Realistically 2–8 weeks for ChatGPT and Perplexity to begin citing a new page, longer for Google AI Overviews (which is gated on SEO ranking first). Pages that already rank organically can be picked up by AIO within days of publishing. Pages with no SEO foundation will rarely be cited by AIO regardless of shape."}},{"@type":"Question","name":"Does article length matter?","acceptedAnswer":{"@type":"Answer","text":"Less than writers assume. The Ahrefs 75K study found page volume correlates almost not at all (~0.194) with AI visibility. What matters is whether the page contains extractable passages on the right topic. A 600-word page with a strong direct answer, table, and FAQ outperforms a 4,000-word page with the same claim buried in paragraph 18."}},{"@type":"Question","name":"What about question-shaped H2s?","acceptedAnswer":{"@type":"Answer","text":"Use them when the content under the H2 is a real answer to a real question. Do not force every H2 into question shape — Google has explicitly said this is not a ranking factor, and the practice produces awkward, hard-to-skim pages."}},{"@type":"Question","name":"Should I use schema?","acceptedAnswer":{"@type":"Answer","text":"Yes, but only schema that mirrors visible content (Article, Product, Organization, Breadcrumb, HowTo, FAQPage — when there's a visible FAQ). Google's May 2026 guidance is clear: no special AI schema exists. Honest structured data is a comprehension signal; deceptive schema is a policy violation."}},{"@type":"Question","name":"Do I need a real FAQ block?","acceptedAnswer":{"@type":"Answer","text":"A visible FAQ block (questions and answers on the page) is one of the nine high-extraction shapes. A schema-only FAQ with no visible questions is a policy violation and won't earn citation. Write the FAQ for humans first; add schema only if it matches."}},{"@type":"Question","name":"Will AI search reward me for publishing more pages?","acceptedAnswer":{"@type":"Answer","text":"No. The data is unusually clear here — Ahrefs's 75K study found near-zero correlation between page count and AI visibility, and our own dataset shows owned domain page volume does not translate to owned citation share (we publish heavily and capture 0.85% of category citations). Better pages, not more pages."}},{"@type":"Question","name":"Are AI citations guaranteed if I follow these patterns?","acceptedAnswer":{"@type":"Answer","text":"No, and any vendor claiming \"guaranteed AI citation lift\" is overselling. The nine patterns increase the *likelihood* of passage-level retrieval and citation; they do not guarantee it. Authority, source-layer presence, and engine-specific quirks still matter. Treat this as craft, not a hack."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>How to Write Content That Gets Cited by AI Search (2026 Craft Guide)</h1>
+        <p class="seo-lede">To write content that gets cited by AI search engines like ChatGPT, Perplexity, Google AI Overviews, Claude, and Gemini, structure passages — not pages — for retrieval. Nine content patterns consistently increase citation likelihood: **definition blocks, bulleted lists, compariso</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I write content that AI engines cite?</li><li>What content patterns does ChatGPT cite?</li><li>How do I make my blog posts AI-friendly?</li><li>Does article length matter for AI citations?</li><li>Should I add FAQ schema to my articles?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>To write content that gets cited by AI search engines like ChatGPT, Perplexity, Google AI Overviews, Claude, and Gemini, structure passages — not pages — for retrieval. Nine content patterns consistently increase citation likelihood: <strong>definition blocks, bulleted lists, comparison tables, sourced statistics, direct-answer paragraphs, real FAQ blocks, step-by-step lists, glossary entries, and methodology disclosures.</strong> AI engines extract passages from pages. Pages shaped only for human scrolling lose to pages that are also shaped for passage-level lift.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why some content gets cited and most doesn&#39;t</h2>
+      <p>Retrieval-augmented generation (RAG) — the system behind ChatGPT Search, Perplexity, Google AI Overviews, AI Mode, Claude with web search, and Gemini — does not read your article the way a human does. It chunks the page (a NAACL 2025 Findings paper found that fixed-window chunks around 200 words match or beat semantic chunking on most retrieval tasks), embeds each chunk, ranks chunks against the user&#39;s query, and lifts the highest-ranked passages into the answer. The model then chooses which to cite.</p><p>That has one large implication for writers: <strong>the unit of retrieval is the passage, not the page</strong>. A 2,500-word essay where the key claim is buried in paragraph 14 will lose to a 600-word page where the same claim is the first sentence under a clean H2. A wall-of-text page with no extractable structure will lose to a less-authoritative competitor whose answer is in a four-row table.</p><p>Recent work on structural preservation makes the same point from the engineering side: flat chunking that destroys structural boundaries complicates citation tracking, while structure-aware chunking pushes citation accuracy above 0.9 on benchmarks like HotpotQA. Translation for writers: when you give the retriever clean structural boundaries — H2s, lists, tables, definition blocks — you make the engine&#39;s job easier. Easier extraction means higher rank. Higher rank means citation.</p><p>The rest of this guide is the craft layer: nine specific content shapes that get extracted more often, with before/after examples. None of these are hacks. They are the same writing habits good reference writers — Wikipedia editors, HubSpot&#39;s senior writers, TechRadar&#39;s review team — have used for years. Those habits now have a measurement layer underneath them.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>9 content patterns with before/after examples</h2>
+      <p>Each pattern below shows a &quot;before&quot; (commodity prose, the version most blog posts default to) and an &quot;after&quot; (the citable shape). Apply at least four of the nine on every page you want AI engines to cite.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>Strongest content preference</th><th>Recency weight</th></tr></thead>
+              <tbody><tr><td>ChatGPT Search</td><td>Passage-extractable lists + definitions</td><td>Medium-high</td></tr><tr><td>Perplexity</td><td>Recent, sourced, structured</td><td>Very high</td></tr><tr><td>Google AI Overviews</td><td>SEO-ranking content + clean H2/bullet structure</td><td>Medium</td></tr><tr><td>Claude (web search)</td><td>Authoritative editorial sources</td><td>Medium</td></tr><tr><td>Gemini</td><td>Inherits Google ranking + grounding sources</td><td>Medium</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>2. Bulleted lists: scannable, RAG-extractable</h3>
+        <p>A single-sentence definition AI can lift verbatim is one of the most over-cited content shapes in the dataset.</p><p><strong>Before:</strong> &quot;When people talk about Answer Engine Optimization, they usually mean a kind of evolution of SEO that takes into account the fact that AI tools are now answering questions for users, which means you have to think about how those tools work.&quot;</p><p><strong>After:</strong> &quot;Answer Engine Optimization (AEO) is the practice of optimizing content, structured data, and source-layer presence so that AI answer engines — ChatGPT, Perplexity, Google AI Overviews, Claude, Gemini — cite your brand when they answer buyer questions.&quot;</p><p>The &quot;after&quot; version is 36 words, leads with the term, follows with a precise definition, and names the engines. It can be extracted and dropped into an answer with zero rewriting. The &quot;before&quot; version cannot.</p><p>Bulleted lists are the most reliably-lifted shape in answer engines. They have natural chunk boundaries, parallel grammar, and finite item counts the model can summarize.</p><p><strong>Before:</strong> &quot;There are several reasons your content might not be getting cited, including issues with your page structure, your authority on the topic, how recent the page is, whether it&#39;s easy for crawlers to access, and a few other technical factors that all interact in different ways.&quot;</p><p><strong>After:</strong> &quot;Five common reasons content doesn&#39;t get cited by AI:</p>
+        <ul class="seo-list"><li>The page isn&#39;t crawlable by GPTBot, OAI-SearchBot, or PerplexityBot.</li><li>Key claims are buried below the fold instead of in a direct-answer paragraph.</li><li>The page has no structural boundaries (no H2s, no lists, no tables).</li><li>The topic has no authority signal (no sourced data, no named methodology).</li><li>The page hasn&#39;t been updated in 18+ months.&quot;</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Comparison tables: AI engines disproportionately cite tabular content</h3>
+        <p>Tables compress comparison into a structure the retriever can extract whole. TechRadar&#39;s review tables and HubSpot&#39;s &quot;X vs Y&quot; matrices are two of the most cited shapes in our 17,551-citation dataset for a reason.</p><p><strong>Before:</strong> &quot;ChatGPT tends to prefer different kinds of content compared to Perplexity, and Google AI Overviews has its own preferences too, while Claude often favors editorial sources...&quot;</p><p><strong>After:</strong></p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>7. Step-by-step lists: numbered procedures</h3>
+        <p>The table is liftable as a single unit. The prose version requires the reader to assemble the comparison themselves — and the engine to do the same.</p><p>Standalone numbers without provenance get downweighted. Numbers with a named, datable source are some of the most-cited fragments in the corpus.</p><p><strong>Before:</strong> &quot;Most content is not cited by AI engines, and only a small fraction of brands actually capture any meaningful citation share.&quot;</p><p><strong>After:</strong> &quot;Across our 17,551-citation SolCrys dataset spanning ChatGPT, Perplexity, Google AI Overviews, and Gemini over 30 days, owned content from any single vendor captured under 1% of category citations. Ahrefs&#39;s 75K-brand study, published in 2025, found YouTube mentions correlated more strongly (~0.737) with AI brand visibility than any other factor.&quot;</p><p>The &quot;after&quot; version is two sentences, three numbers, two sources, two methods. It is exactly the shape AI engines lift into answers about &quot;how rare are AI citations.&quot;</p><p>A direct-answer paragraph is a self-contained 40–80 word summary placed immediately under the H2 (or, for the page-level version, at the very top). It is the single highest-leverage shape on this list for ChatGPT Search and Perplexity.</p><p><strong>Before:</strong> A 600-word section that opens with three paragraphs of context before stating the answer.</p><p><strong>After:</strong> A 60-word paragraph that states the answer in the first sentence, qualifies in the second, and lists the components in the third — followed by the long-form discussion below it.</p><p>The &quot;after&quot; shape is what every section in this article uses. It is also what Wikipedia opens every article with. There is a reason it dominates citation share.</p><p>A real FAQ block — a visible H2 of questions with their answers, written for humans first — is a high-extraction shape. A schema-only FAQ (FAQPage JSON-LD without visible Q&amp;A on the page) is a policy violation under Google&#39;s structured data guidelines and, since Google retired FAQ rich results in May 2026, no longer eligible for visible search treatment either. Schema for non-visible content is the wrong move.</p><p><strong>Before:</strong> A FAQPage JSON-LD block in the page head listing five questions, with no visible FAQ on the page. (Policy violation, and Google has explicitly stopped surfacing FAQ rich results.)</p><p><strong>After:</strong> A visible &quot;## FAQ&quot; H2 with each question as an H3 (or bold), each answer as a clean 40–100 word paragraph. Add FAQPage schema only if it mirrors the visible content exactly.</p><p>Numbered steps are an extraction-friendly shape for procedural prompts (&quot;how do I…&quot;). They have explicit order, parallel grammar, and a finite count.</p><p><strong>Before:</strong> &quot;First, you&#39;d want to audit your existing pages to see what&#39;s working, and then it makes sense to think about what content shapes you&#39;re missing, after which you can start adding structure where it&#39;s most needed and so on.&quot;</p><p><strong>After:</strong> &quot;How to retrofit existing pages for AI citation:</p>
+        <ul class="seo-list"><li>Audit the page for the 9 content patterns in this guide.</li><li>Identify the 2–3 patterns missing.</li><li>Add a direct-answer paragraph under the H1 (40–80 words).</li><li>Convert at least one prose section into a comparison table or bulleted list.</li><li>Add a sourced-statistic block with named source and date.</li><li>Re-test the page in a tracked prompt set after 14 days.&quot;</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>9. Methodology disclosures: &quot;we measured X by Y&quot;</h3>
+        <p>A glossary entry is a definition block with even tighter shape: term in bold, single-sentence definition, optional one-sentence example. It is the most consistently-cited shape on Wikipedia (978 citations in our dataset — the #1 cited domain) and a major part of why HubSpot&#39;s glossary pages (HubSpot is at 380 citations) over-perform their content investment.</p><p><strong>Before:</strong> A paragraph defining &quot;retrieval-augmented generation&quot; inside a longer discussion of AI systems.</p><p><strong>After:</strong></p><p><strong>Retrieval-Augmented Generation (RAG)</strong> — A system architecture in which a language model retrieves relevant document chunks from an external source at query time and grounds its answer in those chunks. Used by ChatGPT Search, Perplexity, Google AI Overviews, Claude, and Gemini.</p><p>A methodology disclosure earns the trust signal AI engines use to weight authority. It also lets the engine cite your data with a defensible source attribution.</p><p><strong>Before:</strong> &quot;Our research shows that comparison tables get cited more often than other content shapes.&quot;</p><p><strong>After:</strong> &quot;We measured citation share by tracking 17,551 citations across ChatGPT, Perplexity, Google AI Overviews, and Gemini over a 30-day window, scoped to a 22-prompt AEO category prompt set (1,936 total responses, 2,219 unique cited domains). Within that sample, comparison tables appeared in citation passages at roughly 1.8x the rate of equivalent-length prose sections on the same topics.&quot;</p><p>The &quot;after&quot; version is liftable, attributable, and defensible. The &quot;before&quot; version is a marketing claim.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What Ahrefs&#39;s 75K-brand study found</h2>
+      <p>Ahrefs published a study in 2025 analyzing 75,000 brands across ChatGPT, Google AI Mode, and AI Overviews to find which signals correlate with brand visibility in AI answers. The headline numbers, with the appropriate caveat that correlation is not causation:</p><p>The takeaway for writers: scaling page count is a losing strategy; investing in fewer, better-shaped pages that are cited externally (YouTube, third-party editorial, branded mentions) is the winning strategy. This corroborates what our 17,551-citation dataset already showed — owned content alone barely registers; source-layer presence dominates.</p>
+      <ul class="seo-list"><li><strong>YouTube mentions</strong> showed the strongest correlation with AI brand visibility (~0.737), outperforming every other measured factor across all three engines.</li><li><strong>Branded web mentions</strong> correlated 0.66–0.71 with AI visibility — beating backlinks 3:1 (0.664 vs 0.218).</li><li><strong>Branded search volume</strong> (0.352) and <strong>Domain Rating</strong> (0.266) correlated weakly with ChatGPT visibility — meaning classic SEO authority metrics are not sufficient on their own.</li><li><strong>Site page volume</strong> (~0.194) had almost no relationship with AI visibility. Publishing more pages does not buy you more citations.</li><li><strong>Recency</strong> matters: a separate Ahrefs analysis of 17 million citations found AI assistants prefer fresher content than traditional Google rankings do, with ChatGPT being the most freshness-biased.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What the top-cited domains in our dataset consistently do</h2>
+      <p>A note of intellectual honesty here: SolCrys&#39;s own owned domain captures only 150 of the 17,551 citations in our 30-day AEO category dataset — about 0.85%. Our own citation success is modest. The right move is to look at what the *top-cited domains in our dataset* actually do, and copy the craft choices that earned them their position.</p><p><strong>Wikipedia</strong> (978 citations, #1 in our dataset): every article opens with a one-sentence definition (pattern #1), a 40–80 word lede (pattern #5), and a structured infobox (pattern #3). Sections are short, headings are explicit, lists are everywhere.</p><p><strong>TechRadar</strong> (908 citations, #2): every review uses a comparison table (pattern #3), a &quot;Pros / Cons&quot; bulleted list (pattern #2), a sourced spec block, and a clear verdict paragraph at the top (pattern #5).</p><p><strong>HubSpot</strong> (380 citations, #4): long-form deep guides with multiple H2s, each opening with a direct-answer paragraph (pattern #5), heavy use of glossary entries (pattern #8), and named methodology where data is presented (pattern #9).</p><p>The common thread: structure that respects the reader <strong>and</strong> the retriever. None of these publishers use AI-only schema, llms.txt files, or other engine-specific hacks. They use the patterns above, consistently, across thousands of pages.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Engine-by-engine content preferences</h2>
+      <p>Each engine has a different retrieval stack, which means different content shapes pay off differently. The summary table:</p><p>The pattern: ChatGPT and Perplexity reward passage shape most aggressively; Google AIO and Gemini reward SEO ranking first and then add RAG; Claude rewards authority and depth. Writing for one engine in isolation is a losing approach — the nine patterns above work across all five.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>Retrieval stack</th><th>Strongest content preference</th><th>Watch out for</th></tr></thead>
+              <tbody><tr><td><strong>ChatGPT Search</strong></td><td>Bing index + GPTBot/OAI-SearchBot + RAG</td><td>Passage-extractable lists, definitions, direct-answer paragraphs</td><td>Buried answers; pages without H2 structure</td></tr><tr><td><strong>Perplexity</strong></td><td>Real-time RAG over multi-source fetch</td><td>Recent, sourced, structured content with named methodology</td><td>Stale dates, unsourced claims</td></tr><tr><td><strong>Google AI Overviews / AI Mode</strong></td><td>Google ranking + grounding</td><td>Content that already ranks in SEO + clean H2/bullet structure</td><td>Pure AEO plays that ignore SEO fundamentals</td></tr><tr><td><strong>Claude (web search)</strong></td><td>Brave Search + Claude grounding</td><td>Authoritative editorial sources, longer-form analysis</td><td>Thin content, low-authority domains</td></tr><tr><td><strong>Gemini</strong></td><td>Google index + Gemini grounding</td><td>Mirrors Google AIO preferences</td><td>Same as Google AIO</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Anti-patterns (what to stop doing)</h2>
+      <p>The AI-search content market has produced a long list of &quot;tricks&quot; that do not work, do not survive policy review, or have been explicitly refuted by the engines themselves. Six to retire:</p>
+      <ul class="seo-list"><li><strong>Question-shaped H2 quotas.</strong> Forcing every H2 into a &quot;How do I…?&quot; shape is not a Google ranking factor — Google has explicitly stated this. Use question H2s where the content is genuinely a question; do not force them.</li><li><strong>FAQ schema on pages without visible FAQs.</strong> Policy violation under Google&#39;s structured data guidelines, and since Google retired FAQ rich results in May 2026, no longer eligible for visible search treatment anyway. Schema must mirror visible content.</li><li><strong>`llms.txt` as a content-discoverability lever.</strong> Google&#39;s May 2026 AI Features guidance explicitly states no special AI files are required. Ship `llms.txt` only if it does not delay higher-leverage work. See <a href="/llms-txt-not-a-strategy/" target="_blank" rel="noopener noreferrer">Why llms.txt is not a strategy</a>.</li><li><strong>&quot;AI-only&quot; schema.</strong> There is no special AI schema. Google&#39;s May 2026 guidance says any structured data you use should match visible page content. Stop chasing vendor-invented schema standards.</li><li><strong>Mass programmatic SEO.</strong> Google&#39;s spam guidelines flag scaled content abuse — programmatic pages with thin or near-duplicate content trigger downranking, not citation lift. The Ahrefs 75K study showed page count has near-zero correlation with AI visibility (~0.194).</li><li><strong>LLM-generated content without human editing.</strong> Pure model output lacks the E-E-A-T signals AI engines (and Google&#39;s quality systems) reward. Use AI as a draft layer, not the published layer.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Get the content-pattern checklist + run a free audit</h2>
+      <p>The fastest way to apply the nine patterns to your own pages is to start with the ones AI engines are already trying to extract from your site and failing on. Our <a href="/free-audit/" target="_blank" rel="noopener noreferrer">free 25-prompt AI visibility audit</a> shows the buyer prompts where your brand is missing from AI answers, the URLs that *are* getting cited (mentions-you data), and the content-shape gaps on each of those pages.</p><p>Use the audit as the input to a rewrite plan: pick the 5 highest-value missing prompts, apply the four most-relevant patterns above to each target page, republish, and re-test in 14 days. That is the entire AEO content loop — measurement, craft, ship, verify.</p><p>For the strategic version of this same idea — how to choose which pages get the rewrite investment — read <a href="/earn-llm-citations-content-source-match/" target="_blank" rel="noopener noreferrer">How to earn AI citations: the content-source match framework</a> and <a href="/ai-answer-citations/" target="_blank" rel="noopener noreferrer">How AI engines choose sources</a>. For platform-specific craft notes, see <a href="/optimize-for-chatgpt-search/" target="_blank" rel="noopener noreferrer">Optimize for ChatGPT Search</a> and <a href="/google-endorses-aeo-fundamentals/" target="_blank" rel="noopener noreferrer">Google endorses AEO fundamentals</a>.</p><p>*Last updated 2026-05-22. Citation data drawn from a continuous 30-day cross-engine measurement (22 prompts × 4 engines, 1,936 responses, 17,551 citations, 2,219 unique cited domains). Ahrefs 75K-brand correlation data: Ahrefs Blog, 2025. Google FAQ rich results retirement: Google Search Central, May 2026. RAG chunking research: NAACL 2025 Findings; EACL 2026 T2-RAGBench.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How long until I see citations after publishing?</h3>
+            <p>Realistically 2–8 weeks for ChatGPT and Perplexity to begin citing a new page, longer for Google AI Overviews (which is gated on SEO ranking first). Pages that already rank organically can be picked up by AIO within days of publishing. Pages with no SEO foundation will rarely be cited by AIO regardless of shape.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does article length matter?</h3>
+            <p>Less than writers assume. The Ahrefs 75K study found page volume correlates almost not at all (~0.194) with AI visibility. What matters is whether the page contains extractable passages on the right topic. A 600-word page with a strong direct answer, table, and FAQ outperforms a 4,000-word page with the same claim buried in paragraph 18.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about question-shaped H2s?</h3>
+            <p>Use them when the content under the H2 is a real answer to a real question. Do not force every H2 into question shape — Google has explicitly said this is not a ranking factor, and the practice produces awkward, hard-to-skim pages.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I use schema?</h3>
+            <p>Yes, but only schema that mirrors visible content (Article, Product, Organization, Breadcrumb, HowTo, FAQPage — when there&#39;s a visible FAQ). Google&#39;s May 2026 guidance is clear: no special AI schema exists. Honest structured data is a comprehension signal; deceptive schema is a policy violation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need a real FAQ block?</h3>
+            <p>A visible FAQ block (questions and answers on the page) is one of the nine high-extraction shapes. A schema-only FAQ with no visible questions is a policy violation and won&#39;t earn citation. Write the FAQ for humans first; add schema only if it matches.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Will AI search reward me for publishing more pages?</h3>
+            <p>No. The data is unusually clear here — Ahrefs&#39;s 75K study found near-zero correlation between page count and AI visibility, and our own dataset shows owned domain page volume does not translate to owned citation share (we publish heavily and capture 0.85% of category citations). Better pages, not more pages.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are AI citations guaranteed if I follow these patterns?</h3>
+            <p>No, and any vendor claiming &quot;guaranteed AI citation lift&quot; is overselling. The nine patterns increase the *likelihood* of passage-level retrieval and citation; they do not guarantee it. Authority, source-layer presence, and engine-specific quirks still matter. Treat this as craft, not a hack.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/earn-llm-citations-content-source-match/">How to Earn LLM Citations Without Becoming Spam: The Content-Source Match Framework</a></h3>
+            <p>AI engines preferentially cite 5 specific content patterns. This guide breaks down the content-source match framework, the 12 examples of cited content, and the slow-burn strategy that compounds without manipulation.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-answer-citations/">How AI Answer Engines Choose Sources: The 7 Signals We&#39;ve Mapped</a></h3>
+            <p>AI engines like ChatGPT, Perplexity, Google AI Overviews, and Claude choose sources using overlapping but distinct signals. This guide maps the 7 signals that drive citation eligibility and the engine-specific weighting differences.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/llms-txt-not-a-strategy/">Why llms.txt Is Not a Strategy</a></h3>
+            <p>llms.txt is a proposed standard for AI-friendly content delivery, but it is neither widely adopted by major AI engines nor a substitute for AEO fundamentals. This essay explains what llms.txt does, what it does not, and why brands should focus on the unsexy basics.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

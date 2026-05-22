@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Profound vs Peec AI vs Otterly vs SolCrys (2026): 4-Way AEO Platform Comparison | SolCrys</title>
+    <meta name="description" content="Profound vs Peec AI vs Otterly vs SolCrys — a 12-dimension, 4-way AEO platform comparison for 2026 buyers. Pricing, engines, execution, and a decision tree." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/profound-vs-peec-vs-otterly-vs-solcrys-2026/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Profound vs Peec AI vs Otterly vs SolCrys (2026): 4-Way AEO Platform Comparison | SolCrys" />
+    <meta property="og:description" content="Profound vs Peec AI vs Otterly vs SolCrys — a 12-dimension, 4-way AEO platform comparison for 2026 buyers. Pricing, engines, execution, and a decision tree." />
+    <meta property="og:url" content="https://solcrys.com/profound-vs-peec-vs-otterly-vs-solcrys-2026/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Profound vs Peec AI vs Otterly vs SolCrys (2026): 4-Way AEO Platform Comparison","item":"https://solcrys.com/profound-vs-peec-vs-otterly-vs-solcrys-2026/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Profound vs Peec AI vs Otterly vs SolCrys (2026): 4-Way AEO Platform Comparison","description":"Profound vs Peec AI vs Otterly vs SolCrys — a 12-dimension, 4-way AEO platform comparison for 2026 buyers. Pricing, engines, execution, and a decision tree.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/profound-vs-peec-vs-otterly-vs-solcrys-2026/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/profound-vs-peec-vs-otterly-vs-solcrys-2026/","mainEntity":[{"@type":"Question","name":"Which one does SolCrys say is its strongest competitor?","acceptedAnswer":{"@type":"Answer","text":"Profound, by a clear margin. In our own 30-day SolCrys workspace measurement of the AEO category, Profound has the highest mention rate in AI answers at 48.9% versus Peec at 22.5%, Otterly in the low single digits, and SolCrys at 4.8%. Profound has won the enterprise narrative and the AI-mindshare layer in this category. Peec is the strongest mid-market competitor by revenue velocity — €650K ARR in four months, $21M Series A by November 2025. Otterly is a different shape (SEO-practitioner segment, not enterprise) so we don't compete with them head-to-head as often."}},{"@type":"Question","name":"Are these the only AEO platforms?","acceptedAnswer":{"@type":"Answer","text":"No. There are roughly 20+ vendors operating in this space in 2026 — including Brandlight, Evertune, Scrunch, Gauge, Bluefish, and others — and we cover ten of them in [Best AEO Tools for B2B Marketing Teams 2026](/best-aeo-tools-for-b2b-marketing-teams-2026/). The four in this matrix are the ones that come up most often on B2B shortlists in our 2026 inbound conversations and that are positioned as pure-play AEO platforms, which is why we structured the N-way around them."}},{"@type":"Question","name":"What about Ahrefs Brand Radar, Semrush AI Visibility Toolkit, Conductor, and Brandlight?","acceptedAnswer":{"@type":"Answer","text":"We excluded these deliberately because they're AEO **modules** bolted onto broader SEO or content suites — useful if your team already pays for Ahrefs, Semrush, or Conductor, but the buying motion is \"expand an existing contract\" rather than \"evaluate a pure-play AEO platform.\" Brandlight is a pure-play but operates almost entirely in enterprise-only contract motion, which puts its evaluation path closer to Profound's than to a published-pricing comparison. For a B2B buyer building a shortlist of new vendors, the four pure-plays in this matrix are the cleanest apples-to-apples comparison."}},{"@type":"Question","name":"Why is Profound's pricing \"contact sales\" now when reviewers cite published tiers from earlier in 2025?","acceptedAnswer":{"@type":"Answer","text":"Profound shifted its public pricing surface during 2025. Reviewers documented Lite at $499/mo and Growth at $399/mo earlier in the year, but the live pricing page in mid-2026 routes everyone to enterprise sales. The most honest framing is: published lower-tier pricing existed but is no longer publicly listed; expect the enterprise band of $2,000–$5,000+/month based on documented third-party reports, and verify directly during your sales conversation."}},{"@type":"Question","name":"Can I use two of these platforms at once?","acceptedAnswer":{"@type":"Answer","text":"Yes, and some teams do — Profound for category intelligence + SolCrys for the execution loop is a pattern we see in mid-market and lower-enterprise accounts. The cost roughly doubles, so the question is whether the data overlap (which is real, since most of these vendors look at the same engines) is worth paying for two seats. For most teams, picking one and pairing it with a content/agency function is the better cost-to-value trade."}},{"@type":"Question","name":"How long until we see results from any of these platforms?","acceptedAnswer":{"@type":"Answer","text":"For dashboard-only platforms (Peec, Otterly), value is immediate in the sense that you see your current gap state in week one — but the visibility insight doesn't compound unless your team acts on it. For closed-loop platforms (SolCrys's loop, Profound's Workflows), realistic timeline to a measurable lift in mention/citation rate on a tracked prompt set is **3–6 months** assuming you ship fixes weekly. We walk through the timeline in [AEO ROI: Building a CFO-Ready Business Case](/aeo-roi-business-case/)."}},{"@type":"Question","name":"Do any of these platforms guarantee AI citation lift?","acceptedAnswer":{"@type":"Answer","text":"No, and you should walk out of any vendor call that claims this. AI engines re-rank answers in real time based on signals that none of the four vendors control end-to-end (Bing index for ChatGPT, real-time RAG for Perplexity, Google's index for AIO/AI Mode, Brave for Claude, Google grounding for Gemini). A vendor can move the inputs — your published content, your source-layer presence, your structured claims — but they can't guarantee the model output. Same logic applies to llms.txt, AI-only schema, FAQ-schema quotas, \"one page per fanout,\" and any other tactical-hack pitch. We unpack that in [Why llms.txt is Not a Strategy](/llms-txt-not-a-strategy/)."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Competitor Comparisons</p>
+        <h1>Profound vs Peec AI vs Otterly vs SolCrys (2026): 4-Way AEO Platform Comparison</h1>
+        <p class="seo-lede">In 2026, the four pure-play Answer Engine Optimization (AEO) platforms B2B buyers shortlist most often are <strong>Profound</strong> (enterprise category intelligence, $58.5M+ raised through Series B, $96M Series C reported Feb 2026), <strong>Peec AI</strong> (fast mid-market dashboard, €89/mo starter, Be</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What&#39;s the difference between Profound, Peec AI, Otterly, and SolCrys?</li><li>Which AEO platform should I use in 2026?</li><li>Is Profound better than Peec AI?</li><li>How does SolCrys compare to Otterly?</li><li>Which is the best AI visibility platform?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>In 2026, the four pure-play Answer Engine Optimization (AEO) platforms B2B buyers shortlist most often are <strong>Profound</strong> (enterprise category intelligence, $58.5M+ raised through Series B, $96M Series C reported Feb 2026), <strong>Peec AI</strong> (fast mid-market dashboard, €89/mo starter, Berlin), <strong>Otterly</strong> (SEO-practitioner tactical workflow, $29/mo lite), and <strong>SolCrys</strong> (closed-loop execution: Measure → Diagnose → Execute → Verify; Starter $29/mo, Pro $349/mo). Profound wins on enterprise narrative and engine breadth; Peec on time-to-value; Otterly on price-to-entry for solo operators; SolCrys on execution and governance. Choice depends on whether you need a dashboard, a workflow, or an execution engine.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why we wrote an N-way comparison</h2>
+      <p>Almost every &quot;AI visibility platform&quot; comparison on the open web today is a 1:1 page — &quot;Profound vs Peec,&quot; &quot;Peec vs Otterly,&quot; &quot;Otterly vs SolCrys.&quot; We have seven of those ourselves. They&#39;re useful when a buyer has already narrowed to two candidates, but most VP-Marketing shortlists are <strong>3–5 vendors</strong>, not 2. The N-way matrix is what buyers actually need at the start of evaluation, and it&#39;s the format AI engines tend to cite when a prospect asks ChatGPT or Perplexity &quot;which AEO platform should I use?&quot;</p><p>So this article is the matrix view. Four pure-play AEO vendors, twelve evaluation dimensions, one table, and five &quot;best for&quot; scenarios so you can map your situation to a vendor without re-reading 12 cells.</p><p><strong>Vendor bias disclosure.</strong> We&#39;re SolCrys. We sell into the same market as Profound, Peec, and Otterly. We have a financial interest in you picking us. To partly counter that bias, we do two things in this article: (1) we use each vendor&#39;s own public marketing pages and verified third-party sources as the source of truth for what they do — never our internal assessment of them; (2) every &quot;best for&quot; scenario names a non-SolCrys winner where one of the other three is the better fit. If you finish this article and SolCrys is the answer to every question, the comparison failed.</p><p>A note on selection. We deliberately excluded Ahrefs Brand Radar, Semrush AI Visibility Toolkit, Conductor&#39;s AEO module, and HubSpot&#39;s AI features from this list. They&#39;re AEO <strong>modules bolted onto broader SEO or content suites</strong> — useful if you&#39;re already paying for the parent product, but they aren&#39;t pure-play AEO platforms and the buying motion is different. We cover them in <a href="/best-aeo-tools-for-b2b-marketing-teams-2026/" target="_blank" rel="noopener noreferrer">Best AEO Tools for B2B Marketing Teams</a> and the <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a>.</p><p>If you&#39;d rather skip the matrix and get your own data first, <a href="/free-audit/" target="_blank" rel="noopener noreferrer">run a free 10-prompt audit</a> — the output gives you your brand&#39;s mention rate across the same four engines we evaluate the vendors on.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 12 evaluation dimensions</h2>
+      <p>We use the same twelve dimensions as our <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a>, grouped into four buckets. In the buyer&#39;s guide we explain the *why* for each one; here we just list them and then answer them concretely for each vendor.</p><p><strong>Measurement (5 questions).</strong> A platform that can&#39;t measure cleanly will give you a wrong execution plan, so this bucket is the gating filter.</p><p><strong>Execution (3 questions).</strong> Most AEO platforms still stop at the dashboard. These three separate dashboards from execution engines.</p><p><strong>Governance (2 questions).</strong> As AI-generated content compounds, governance is the silent disqualifier in enterprise procurement.</p><p><strong>Pricing (2 questions).</strong> The hidden friction in vendor evaluation.</p>
+      <ul class="seo-list"><li><strong>Engines covered.</strong> Which AI engines does the platform actually run prompts against? ChatGPT Search = Bing + GPTBot + RAG. Perplexity = real-time RAG. Google AI Overviews / AI Mode = Google index + Google&#39;s ranking layer (so AEO is the operating layer, not a parallel index). Claude = Brave. Gemini = Google index + grounding. Coverage of all five is the realistic 2026 ceiling for a B2B buyer.</li><li><strong>Prompt workflow.</strong> Can you build prompt sets that map persona × journey-stage × competitor, or is the prompt list a flat keyword import?</li><li><strong>Citation URL access.</strong> Does the platform give you URL-level evidence of what the engine cited, or just a brand mention string?</li><li><strong>Refresh cadence.</strong> Daily? Weekly? On-demand?</li><li><strong>Regional coverage.</strong> How many countries and languages, and is the data nationally distinct or just a locale flag?</li><li><strong>Close-the-loop?</strong> Does the platform tie a measured gap to a generated fix and a re-test on the same prompt set?</li><li><strong>Recommendations?</strong> Does it produce actionable content/source/PR recommendations, or just visualizations?</li><li><strong>Action shipping?</strong> Can the platform actually ship the fix (publish a page, file a PR, push a Wikipedia edit), or does it hand off to humans?</li><li><strong>Approved-claims layer?</strong> Is there a structured store of brand facts, proof points, and competitive framing that grounds every action — or does each fix get re-grounded ad-hoc?</li><li><strong>Audit trail?</strong> Who approved what, when, on which page?</li><li><strong>Public pricing?</strong> Listed on the site, or &quot;contact sales&quot;?</li><li><strong>Enterprise scaling model?</strong> Per-seat, per-prompt, per-workspace, or custom?</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 4-vendor matrix</h2>
+      <p>The numbers and yes/no calls below are taken from each vendor&#39;s own public product, pricing, and changelog pages, plus verified third-party reporting through May 2026. Where a vendor&#39;s public surface doesn&#39;t resolve the question, we mark it &quot;not publicly documented.&quot; We do not score on opinion.</p><p>A few notes on the matrix. Profound&#39;s pricing surface changed during 2025: lower tiers ($399 Growth, $499 Lite) were publicly listed for parts of the year and reviewers documented them, but the live pricing page in mid-2026 routes everyone to enterprise sales. We treat Profound as <strong>private pricing — typical enterprise band $2,000–$5,000+/month based on documented inbound reports and historical published tiers</strong>. Mark this number as inferred, not quoted.</p><p>Peec AI&#39;s €89 Starter and Otterly&#39;s $29 Lite are both publicly listed at the time of writing; both reserve Gemini and Google AI Mode as paid add-ons rather than bundling them, which is a real cost-modeling consideration if your buyers are Google-heavy. SolCrys&#39;s $29 Starter, $99 Growth, and $349 Pro tiers are listed publicly.</p>
+      
+      <table>
+              <thead><tr><th>#</th><th>Dimension</th><th>Profound</th><th>Peec AI</th><th>Otterly</th><th>SolCrys</th></tr></thead>
+              <tbody><tr><td>1</td><td>Engines covered</td><td>ChatGPT, Perplexity, Google AI Overviews, Claude, Gemini, Grok, Copilot, Meta AI, DeepSeek (enterprise tier)</td><td>ChatGPT, Perplexity, Google AI Overviews, Copilot, Grok included; <strong>Gemini + Google AI Mode are paid add-ons</strong></td><td>ChatGPT, Perplexity, Google AI Overviews, Copilot included; <strong>Gemini + Google AI Mode are paid add-ons</strong></td><td>ChatGPT, Gemini, Google AI Overviews / AI Mode on all paid tiers; Perplexity from Pro tier</td></tr><tr><td>2</td><td>Prompt workflow</td><td>Persona/journey/competitor; backed by Prompt Volumes (cross-brand prompt-demand DB)</td><td>Persona/competitor; prompt sets per project</td><td>Flat prompt list per workspace; tactical</td><td>Persona × journey × competitor; intent-volume label per prompt at workspace scope</td></tr><tr><td>3</td><td>Citation URL access</td><td>Yes, full</td><td>Yes, full</td><td>Yes, full</td><td>Yes, full</td></tr><tr><td>4</td><td>Refresh cadence</td><td>Daily (enterprise default)</td><td>Daily on all tiers</td><td>Daily on all paid tiers</td><td>Daily on Brand+; weekly on Starter/Growth</td></tr><tr><td>5</td><td>Regional coverage</td><td>50+ countries, 15+ languages</td><td>80+ countries, 115+ languages (multi-country on Pro+)</td><td>Country selection per project; smaller catalog than Profound/Peec</td><td>Country + language per workspace; nationally-distinct execution layer per market</td></tr><tr><td>6</td><td>Close-the-loop?</td><td>Partial — Profound Workflows automates content ops but is still positioned as monitor-first</td><td>No — diagnose only</td><td>No — diagnose only</td><td><strong>Yes — Measure → Diagnose → Execute → Verify is the core loop</strong></td></tr><tr><td>7</td><td>Recommendations?</td><td>Yes (Insights + auto-generated content via Workflows)</td><td>Limited — gap views, not generated content briefs</td><td>Limited — content audit + crawlability scoring; not action briefs</td><td>Yes — Corporate Context-grounded action briefs per gap</td></tr><tr><td>8</td><td>Action shipping?</td><td>Content generation yes; direct CMS push not publicly documented</td><td>No</td><td>No</td><td>Yes — MCP + REST + CMS adapters with human approval gate</td></tr><tr><td>9</td><td>Approved-claims layer?</td><td>Not publicly documented as a structured layer</td><td>No</td><td>No</td><td>Yes — Corporate Context is the structured store of approved facts/proof/voice/competitor framing</td></tr><tr><td>10</td><td>Audit trail?</td><td>Enterprise-grade (SOC 2 Type II); workflow approvals not publicly documented in detail</td><td>Project-level history</td><td>Project-level history</td><td>Per-action audit trail with approver, timestamp, prompt re-test result</td></tr><tr><td>11</td><td>Public pricing?</td><td>Lower tiers listed historically; <strong>as of 2026 the public pricing page is enterprise-only / &quot;contact sales&quot;</strong></td><td>Yes — €89/mo Starter, published in EUR</td><td>Yes — $29/mo Lite, $189/mo Standard, $489/mo Premium</td><td>Yes — $29/mo Starter, $99/mo Growth, $349/mo Pro</td></tr><tr><td>12</td><td>Enterprise scaling model</td><td>Custom — per platform/prompt-volume/seat</td><td>Tiered — Starter → Pro → Advanced with per-tier seats and country limits</td><td>Tiered — Lite/Standard/Premium by prompt count</td><td>Tiered — Starter/Growth/Pro and Brand $349 SKU for the closed loop</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>5 &quot;best for&quot; scenarios</h2>
+      <p>The matrix above is the data. This section is the recommendation: given your specific situation, which of the four wins.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Best for agency multi-tenant deployment: **Peec AI** (with SolCrys as the close second)</h3>
+        <p>If your job is to walk into a CMO/CEO/board meeting and say &quot;here is how AI search is reshaping our category, here is our share of model voice across nine engines, here is what the cross-brand prompt-demand database shows about how buyers actually ask,&quot; Profound is the cleanest fit. The Prompt Volumes layer — a productized cross-brand prompt-demand database — is genuinely differentiated and doesn&#39;t exist in the same form at Peec, Otterly, or SolCrys. Engine breadth (Claude, Gemini, Grok, Meta AI, DeepSeek included on enterprise) is the widest in the category. Customer logos (Ramp, US Bank, Indeed, MongoDB, DocuSign, Chime, Target, Walmart, Figma, Charlotte Tilbury) and the $96M Series C round reported in February 2026 give procurement the enterprise-readiness story it needs.</p><p>Where it stops being the right answer: if your team is 10 people, you don&#39;t have a content function ready to act on insights, and the enterprise contract math doesn&#39;t work. Profound is a strong monitor-first platform with execution capabilities being added on top; if your job is to ship fixes weekly with a 2-person team, a workflow product fits better.</p><p>Peec is built for the mid-market marketing team that wants AI visibility data in week one without an enterprise procurement cycle. €89/mo starter, daily tracking on all tiers, multi-country support on Pro+, unlimited seats, Looker Studio connector, and a usable dashboard within an hour of signup. Berlin-based, EU-friendly billing, multi-language depth (115+ languages) that&#39;s genuinely better than the US-headquartered competitors for European brands.</p><p>Where it stops being the right answer: it&#39;s a measurement platform, not an execution engine. If you already have the gap data and the problem is &quot;we don&#39;t know what to do with it,&quot; Peec doesn&#39;t move the needle on the next step. The other gotcha: Gemini and Google AI Mode are paid add-ons — for B2B buyers in Google-heavy verticals this can bump the effective price meaningfully above the headline €89.</p><p>Otterly is the right pick when one person on the SEO team owns AEO as a tactical extension of their existing keyword/content workflow, and the budget is tight. The $29 Lite tier is the lowest published entry point in the category and was added in late 2025 specifically for solo marketers and small teams. Daily tracking, prompt monitoring across the core four engines, content audit and crawlability checks, predictive scoring on content before publication — the feature set is shaped for the SEO practitioner, not the CMO.</p><p>Where it stops being the right answer: it&#39;s an SEO-practitioner tool, not an enterprise platform. There&#39;s no agency multi-tenant story, no enterprise governance layer, no close-the-loop. If you&#39;re trying to roll AEO across a 20-brand portfolio or you need an approved-claims layer for compliance reasons, Otterly is the wrong shape.</p><p>This is where our vendor bias shows, so we&#39;ll be specific about the criterion. If you&#39;ve already paid for an audit, the report has been sitting on a shelf for two months because no one knows how to act on it, and the question is &quot;we know what&#39;s broken — can the platform actually generate the fix, run it through human approval, ship it to the CMS, and re-test the same prompt set to verify the answer moved?&quot; — SolCrys is the only one of the four with all four loop steps in production. The Corporate Context layer (structured approved brand facts, proof points, voice, competitor framing) is the grounding source for every generated fix, which is also the audit-trail mechanism enterprise procurement asks about.</p><p>Where it stops being the right answer: if you don&#39;t have a content function (in-house writer, agency, or freelancer) that can take the action briefs and turn them into published pages, an execution engine is overkill. Buy the dashboard from Peec or Otterly, hire a writer, and re-evaluate in six months. Honest second case: if your evaluation requirement is breadth of engines (you need Claude, Grok, Meta AI, DeepSeek all in one workspace), Profound is broader than SolCrys today.</p><p>For agencies running 10–50 client workspaces where the deliverable is a monthly visibility report — Peec is the most ready-made fit. Unlimited seats on all plans, dedicated agency pricing, pitch workspaces, project-level isolation, multi-country tracking from Pro+ upward, Looker Studio export so the agency can roll Peec data into existing client dashboards. The agency workflow has been a stated product priority for Peec from launch.</p><p>SolCrys is the better fit for agencies whose retainer model includes <strong>execution</strong>, not just reporting — i.e., the agency sells &quot;we run AEO ops for you, here&#39;s the recovery score&quot; rather than &quot;here&#39;s a monthly dashboard.&quot; MCP + REST access plus workspace isolation make this workable. If your agency only sells dashboards, the lower-friction pick is Peec.</p><p>Profound and Otterly are not the wrong answer here — Profound has enterprise-grade governance that some agencies need, Otterly works for a 1–3 client freelance setup — but neither is purpose-built for the 25-client agency portfolio in the way Peec is.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Decision tree</h2>
+      <p>If matrix reading isn&#39;t your thing, walk this in order:</p><p>- Yes → Otterly Lite ($29) for solo, Peec Starter (€89) for small team, SolCrys Starter ($29) if you want a single-engine (ChatGPT) entry into the execution layer at eval-time price. Stop here. - No → continue.</p><p>- Measure only → continue to question 3. - Ship fixes (closed loop) → SolCrys. Stop here.</p><p>- Yes → Profound (only vendor of the four with that engine breadth on a single plan). - No (you need the core 4–5: ChatGPT, Perplexity, Google AIO/AI Mode, Gemini) → continue to question 4.</p><p>- Yes → Peec AI (best multi-tenant fit) or SolCrys (if you sell execution as retainer). - No → continue to question 5.</p><p>- Yes → Otterly. - No (you&#39;re a marketing org with separate AEO ownership) → Peec AI for dashboard-only, SolCrys for workflow.</p><p>This is the same logic as the 12-question buyer&#39;s guide, compressed for a 30-second decision. For pilot design across two or more of these vendors at once, the <a href="/aeo-platform-pilot-playbook/" target="_blank" rel="noopener noreferrer">AEO Platform Pilot Playbook</a> walks through a 30-day side-by-side test on the same prompt set.</p>
+      <ul class="seo-list"><li><strong>Is your annual AEO budget under $10K?</strong></li><li><strong>Do you need to ship fixes, or only measure?</strong></li><li><strong>Is your buyer in 5+ engines including Claude, Grok, Meta AI?</strong></li><li><strong>Are you an agency with 10+ client workspaces?</strong></li><li><strong>Is your team primarily SEO-led, with AEO as a tactical extension?</strong></li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Next step</h2>
+      <p>If you want to compare these four vendors against your own brand&#39;s actual AI-search state — rather than against ours or against each other in the abstract — <a href="/free-audit/" target="_blank" rel="noopener noreferrer">run a free 10-prompt audit</a>. It returns mention rate and URL-level citation data across ChatGPT, Perplexity, Google AI Overviews, and Gemini for your brand and your top 3 competitors. Use the output to evaluate SolCrys, or use it to evaluate Profound, Peec, or Otterly — the data shape is the same.</p><p>For a guided 30-minute walkthrough of how SolCrys&#39;s closed-loop model handles a real gap on your prompt set, <a href="/contact/" target="_blank" rel="noopener noreferrer">book a SolCrys demo</a>. If you&#39;re at the start of evaluation and not yet ready for a demo, our <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a> is the 12-question framework that produced the dimensions in this matrix.</p><p>Related 1:1 deep-dives:</p><p>*Last updated 2026-05-22. Pricing and product capability data drawn from each vendor&#39;s public marketing pages, pricing pages, changelogs, and verified third-party reporting through May 2026. Where a claim could not be verified from those sources, we marked it explicitly (&quot;not publicly documented&quot; or &quot;inferred&quot;). We re-publish this article quarterly with refreshed data; the next refresh is scheduled for August 2026.*</p>
+      <ul class="seo-list"><li><a href="/compare/solcrys-vs-profound/" target="_blank" rel="noopener noreferrer">SolCrys vs Profound</a> — enterprise data platform vs PLG workflow product, Corporate Context vs Prompt Volumes.</li><li><a href="/compare/solcrys-vs-peec-ai/" target="_blank" rel="noopener noreferrer">SolCrys vs Peec AI</a> — dashboard vs closed loop, EU mid-market positioning vs governed execution.</li><li><a href="/compare/solcrys-vs-otterly/" target="_blank" rel="noopener noreferrer">SolCrys vs Otterly</a> — SEO-practitioner tactical workflow vs full Measure → Verify loop.</li></ul>
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Which one does SolCrys say is its strongest competitor?</h3>
+            <p>Profound, by a clear margin. In our own 30-day SolCrys workspace measurement of the AEO category, Profound has the highest mention rate in AI answers at 48.9% versus Peec at 22.5%, Otterly in the low single digits, and SolCrys at 4.8%. Profound has won the enterprise narrative and the AI-mindshare layer in this category. Peec is the strongest mid-market competitor by revenue velocity — €650K ARR in four months, $21M Series A by November 2025. Otterly is a different shape (SEO-practitioner segment, not enterprise) so we don&#39;t compete with them head-to-head as often.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are these the only AEO platforms?</h3>
+            <p>No. There are roughly 20+ vendors operating in this space in 2026 — including Brandlight, Evertune, Scrunch, Gauge, Bluefish, and others — and we cover ten of them in <a href="/best-aeo-tools-for-b2b-marketing-teams-2026/" target="_blank" rel="noopener noreferrer">Best AEO Tools for B2B Marketing Teams 2026</a>. The four in this matrix are the ones that come up most often on B2B shortlists in our 2026 inbound conversations and that are positioned as pure-play AEO platforms, which is why we structured the N-way around them.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about Ahrefs Brand Radar, Semrush AI Visibility Toolkit, Conductor, and Brandlight?</h3>
+            <p>We excluded these deliberately because they&#39;re AEO <strong>modules</strong> bolted onto broader SEO or content suites — useful if your team already pays for Ahrefs, Semrush, or Conductor, but the buying motion is &quot;expand an existing contract&quot; rather than &quot;evaluate a pure-play AEO platform.&quot; Brandlight is a pure-play but operates almost entirely in enterprise-only contract motion, which puts its evaluation path closer to Profound&#39;s than to a published-pricing comparison. For a B2B buyer building a shortlist of new vendors, the four pure-plays in this matrix are the cleanest apples-to-apples comparison.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why is Profound&#39;s pricing &quot;contact sales&quot; now when reviewers cite published tiers from earlier in 2025?</h3>
+            <p>Profound shifted its public pricing surface during 2025. Reviewers documented Lite at $499/mo and Growth at $399/mo earlier in the year, but the live pricing page in mid-2026 routes everyone to enterprise sales. The most honest framing is: published lower-tier pricing existed but is no longer publicly listed; expect the enterprise band of $2,000–$5,000+/month based on documented third-party reports, and verify directly during your sales conversation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I use two of these platforms at once?</h3>
+            <p>Yes, and some teams do — Profound for category intelligence + SolCrys for the execution loop is a pattern we see in mid-market and lower-enterprise accounts. The cost roughly doubles, so the question is whether the data overlap (which is real, since most of these vendors look at the same engines) is worth paying for two seats. For most teams, picking one and pairing it with a content/agency function is the better cost-to-value trade.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long until we see results from any of these platforms?</h3>
+            <p>For dashboard-only platforms (Peec, Otterly), value is immediate in the sense that you see your current gap state in week one — but the visibility insight doesn&#39;t compound unless your team acts on it. For closed-loop platforms (SolCrys&#39;s loop, Profound&#39;s Workflows), realistic timeline to a measurable lift in mention/citation rate on a tracked prompt set is <strong>3–6 months</strong> assuming you ship fixes weekly. We walk through the timeline in <a href="/aeo-roi-business-case/" target="_blank" rel="noopener noreferrer">AEO ROI: Building a CFO-Ready Business Case</a>.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do any of these platforms guarantee AI citation lift?</h3>
+            <p>No, and you should walk out of any vendor call that claims this. AI engines re-rank answers in real time based on signals that none of the four vendors control end-to-end (Bing index for ChatGPT, real-time RAG for Perplexity, Google&#39;s index for AIO/AI Mode, Brave for Claude, Google grounding for Gemini). A vendor can move the inputs — your published content, your source-layer presence, your structured claims — but they can&#39;t guarantee the model output. Same logic applies to llms.txt, AI-only schema, FAQ-schema quotas, &quot;one page per fanout,&quot; and any other tactical-hack pitch. We unpack that in <a href="/llms-txt-not-a-strategy/" target="_blank" rel="noopener noreferrer">Why llms.txt is Not a Strategy</a>.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-dashboard-vs-aeo-execution-engine/">AI Visibility Dashboard vs AEO Execution Engine</a></h3>
+            <p>AEO platforms split into two architectures: dashboards measure and report; execution engines diagnose, fix, and verify. This guide compares 6 use cases, walks through 5 real scenarios, and ends with a decision tree.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Competitor Comparisons</p>
+            <h3><a href="/compare/solcrys-vs-profound/">SolCrys vs Profound</a></h3>
+            <p>Compare Profound and SolCrys for enterprise AI visibility monitoring, citation analytics, competitive tracking, and the workflow needed to turn findings into action.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

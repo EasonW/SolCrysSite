@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AEO Platform Pricing Compared (2026): Starter to Enterprise | SolCrys</title>
+    <meta name="description" content="Sourced 2026 pricing comparison for Profound, Peec AI, Otterly, Scrunch, Brandlight, and SolCrys — starter, growth, and enterprise bands with per-prompt math." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-platform-pricing-2026/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO Platform Pricing Compared (2026): Starter to Enterprise | SolCrys" />
+    <meta property="og:description" content="Sourced 2026 pricing comparison for Profound, Peec AI, Otterly, Scrunch, Brandlight, and SolCrys — starter, growth, and enterprise bands with per-prompt math." />
+    <meta property="og:url" content="https://solcrys.com/aeo-platform-pricing-2026/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AEO Platform Pricing Compared (2026): Starter to Enterprise","item":"https://solcrys.com/aeo-platform-pricing-2026/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AEO Platform Pricing Compared (2026): Starter to Enterprise","description":"Sourced 2026 pricing comparison for Profound, Peec AI, Otterly, Scrunch, Brandlight, and SolCrys — starter, growth, and enterprise bands with per-prompt math.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/aeo-platform-pricing-2026/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-platform-pricing-2026/","mainEntity":[{"@type":"Question","name":"Why doesn't Profound publish enterprise pricing?","acceptedAnswer":{"@type":"Answer","text":"Profound publishes Starter ($99) and Growth ($399) but routes Enterprise to a sales call because the contract scales with engine coverage, prompt volume, seat count, integrations, and SOC 2 / SSO requirements. Public discussions (G2, third-party reviews, indexly.ai, cairrot.com) place real Enterprise deals at $2,000–$5,000+/month. Brandlight follows the same pattern but doesn't publish any tier — every customer is contact-sales."}},{"@type":"Question","name":"What if I only want to track one engine?","acceptedAnswer":{"@type":"Answer","text":"Profound Starter ($99/mo) is built for this — ChatGPT-only, 50 prompts. Otterly Lite ($29/mo) is the cheapest entry but bundles four engines anyway. If you genuinely only need ChatGPT visibility, Profound Starter is the most focused. As soon as a second engine matters, the math changes — Otterly Standard ($189) or Peec Pro (~€205) beats Profound Growth ($399) on cost per engine for measurement workloads."}},{"@type":"Question","name":"Is there a free AEO platform?","acceptedAnswer":{"@type":"Answer","text":"No production-grade free tier exists in this category as of May 2026. Most vendors offer 7–14 day trials or a one-time free audit. SolCrys offers a free 10-prompt audit covering 4 engines as a low-friction onboarding — useful for evaluating any vendor on your category, not just SolCrys. Free Chrome extensions and one-off prompt checkers exist but don't replicate scheduled tracking, citation URL extraction, or competitor benchmarking."}},{"@type":"Question","name":"How does SolCrys price?","acceptedAnswer":{"@type":"Answer","text":"Three published Brand tiers plus two Agency tiers, on solcrys.com/pricing: **Starter $29/month** (20 prompts, ChatGPT only, 1 workspace, read-only MCP 100 calls), **Growth $99/month** (20 prompts, ChatGPT + Gemini + Google AI Overviews/AI Mode, 1 workspace, MCP 500 calls), **Pro $349/month** (60 prompts, all 4 default engines including Perplexity, 3 workspaces, 40 Deep Analyses, MCP 2K calls). **Agency $1,499/month** (10 client orgs × 30 prompts, 3 engines) and **Agency Pro $4,999/month** (25 client orgs × 30 prompts, all 4 engines) are priced per client-org portfolio. **Enterprise / Scale** is custom-quoted. **Claude** and **Retail AI (Amazon Rufus, Walmart Sparky)** are separate add-on packages, not bundled into any default tier. The SolCrys MCP server is read-only — it exposes citations, prompts, recommendations, and evidence for your own agents to read; it does not publish content or write to your CMS."}},{"@type":"Question","name":"What about agency pricing across the category?","acceptedAnswer":{"@type":"Answer","text":"Agencies need three things most vendors don't price natively: multi-tenant workspaces, white-label reports, and per-client billing. Scrunch's Growth tier ($417–$500) handles up to 5 personas / a small agency; beyond that, Enterprise. Peec's Advanced (~€425) tops out at 5 projects. Otterly's Standard/Premium offer \"unlimited workspaces\" but lack white-label. SolCrys's Agency tier is purpose-built for 10–50 clients with workspace isolation and per-client billing. Realistic agency-tier band across the category: **$1,499–$4,999/month** depending on workspace count and white-label depth."}},{"@type":"Question","name":"Are there annual prepay discounts?","acceptedAnswer":{"@type":"Answer","text":"Yes — most are in the 15–17% range for self-serve tiers: Otterly ~15% (Lite drops $29→$25, Standard $189→$160, Premium $489→$422), Scrunch 17% (effectively 2 months free), Peec up to 15%. Enterprise contracts often layer an additional 5–10% multi-year prepay discount. Always negotiate."}},{"@type":"Question","name":"Why do per-prompt costs vary 10x between vendors?","acceptedAnswer":{"@type":"Answer","text":"Because the product is different. A vendor charging $0.05/prompt-engine run is selling pure measurement; a vendor charging $0.50/prompt-engine run is bundling diagnose-and-fix work. The denominator (runs) is the same; the numerator (what's delivered) is not. Compare on cost per delivered unit of work, not cost per run."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>AEO Platform Pricing Compared (2026): Starter to Enterprise</h1>
+        <p class="seo-lede">Realistic 2026 price bands across the Answer Engine Optimization (AEO) category, for one brand, ~50 prompts, 4 engines, monthly tracking: <strong>Starter $29–$300/month</strong> (Otterly Lite, Peec Starter ~€85, Profound Starter $99, Scrunch Starter $250–$300, SolCrys entry). **Growth $189–$5</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How much does an AEO platform cost?</li><li>What is the pricing for Profound, Peec, Otterly, and SolCrys?</li><li>How much should I budget for AI visibility tracking?</li><li>Is there a free AEO platform?</li><li>What does enterprise AEO pricing look like?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Realistic 2026 price bands across the Answer Engine Optimization (AEO) category, for one brand, ~50 prompts, 4 engines, monthly tracking: <strong>Starter $29–$300/month</strong> (Otterly Lite, Peec Starter ~€85, Profound Starter $99, Scrunch Starter $250–$300, SolCrys entry). <strong>Growth $189–$500/month</strong> (Otterly Standard $189, Peec Pro ~€205, Profound Growth $399, Scrunch Growth $417–$500). <strong>Enterprise $2,000–$25,000+/month, custom-quoted</strong> (Profound, Brandlight, Conductor, SolCrys enterprise, Peec Enterprise). Per-engine and per-workspace add-ons are common and can double effective cost.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why AEO pricing is hard to compare</h2>
+      <p>Three problems make AEO pricing pages near-impossible to compare side-by-side without a worksheet:</p><p><strong>Different units of measurement.</strong> Otterly prices by *search prompts* (15, 100, 400 per tier). Peec AI prices by *prompts × projects × models* (50 prompts × 3 models × 1 project at Starter). Scrunch prices by *user licenses + custom prompts + industry prompts + personas* in one bundle. Profound prices by *engine coverage tier* (Starter is ChatGPT-only; Growth adds Perplexity and AI Overviews). SolCrys, Brandlight, and Profound&#39;s enterprise tier negotiate by *workspace + execution credits + integration scope*. The same dollar amount buys radically different scopes.</p><p><strong>Different commitments.</strong> Most vendors offer monthly and annual billing with 15–17% annual discounts (Otterly ~15%, Scrunch 17%, Peec up to 15%). Enterprise contracts at Profound, Brandlight, and SolCrys are typically annual prepay with custom multi-year options.</p><p><strong>Different scopes.</strong> A &quot;growth&quot; plan on a measurement-only dashboard (Peec, Otterly, Profound Growth) is not the same product as a &quot;growth&quot; plan on an execution-capable platform (SolCrys Pro, Conductor&#39;s AEO module). The first tells you where you stand in AI answers; the second ships content fixes and re-verifies. Compare on total cost of delivered work, not list price.</p><p>For a full buying-side framework, see our <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>6-vendor public-pricing matrix</h2>
+      <p>The matrix below uses <strong>only public pricing pages and public statements</strong> (G2, vendor blogs, Reddit, review sites). Where pricing is private, we mark &quot;Contact sales&quot; and give an inferred band with the source noted. All non-USD prices converted at approximate May 2026 rates for orientation only — buy in the vendor&#39;s billed currency.</p><p><strong>Important caveats.</strong> Profound&#39;s $99 Starter only covers ChatGPT; the moment you add Perplexity or Google AI Overviews, you&#39;re on $399 Growth at minimum. Peec&#39;s $30–$140/month *per extra model* add-on means a 4-engine setup at Starter is actually €85 + $30 = ~$122/mo, not the headline €85. Otterly&#39;s Google AI Mode and Gemini are paid add-ons on every tier ($9–$149/mo each). These structural choices matter more than the sticker price.</p>
+      
+      <table>
+              <thead><tr><th>Vendor</th><th>Starter (monthly)</th><th>Growth (monthly)</th><th>Enterprise band</th><th>Primary metric</th><th>Source</th></tr></thead>
+              <tbody><tr><td><strong>Otterly</strong></td><td><strong>$29</strong> (Lite, 15 prompts, ChatGPT/AI Overviews/Perplexity/Copilot)</td><td><strong>$189</strong> (Standard, 100 prompts, Looker connector)</td><td><strong>$489</strong> Premium (400 prompts); custom Enterprise above</td><td>Per *search prompt*</td><td>otterly.ai/pricing</td></tr><tr><td><strong>Peec AI</strong></td><td><strong>~€85 / ~$92</strong> (Starter, 50 prompts, 3 models, 1 project)</td><td><strong>~€205 / ~$222</strong> (Pro, 150 prompts, 3 models, 2 projects)</td><td><strong>~€425 / ~$460</strong> Advanced (350 prompts, 5 projects); custom Enterprise above</td><td>Per *prompt × project × model*</td><td>peec.ai/pricing</td></tr><tr><td><strong>Scrunch</strong></td><td><strong>$250–$300</strong> (Starter, 350 custom + 1,000 industry prompts, 3 seats, 5 page audits)</td><td><strong>$417–$500</strong> (Growth, 700 + 2,500 prompts, 5 seats, 10 audits)</td><td>Custom (SAML/OIDC, Enterprise API, dedicated GTM)</td><td>Per *user license + prompt bundle*</td><td>scrunch.com/pricing</td></tr><tr><td><strong>Profound</strong></td><td><strong>$99</strong> (Starter, ChatGPT only, 50 prompts)</td><td><strong>$399</strong> (Growth, adds Perplexity + Google AI Overviews)</td><td><strong>$2,000–$5,000+/month</strong> (custom; full engine set + SSO/SAML + SOC 2)</td><td>Per *engine tier*</td><td>tryprofound.com + indexly.ai/blog/profound-pricing (verified 2026-05)</td></tr><tr><td><strong>Brandlight</strong></td><td><strong>Private — contact sales</strong> (estimated ~$199–$750/mo entry, public discussions only)</td><td><strong>Private — contact sales</strong> (estimated $750–$2,500/mo)</td><td><strong>$4,000–$25,000+/month</strong> (estimated, enterprise-only positioning, 11 engines + SOC 2 Type II)</td><td>Per *workspace + engine coverage*</td><td>sat.brandlight.ai + checkthat.ai (estimated, public discussions as of 2026-05)</td></tr><tr><td><strong>SolCrys</strong></td><td><strong>$29</strong> (Starter, 20 prompts, ChatGPT only, 1 workspace, MCP 100 calls)</td><td><strong>$99</strong> Growth (20 prompts, +Gemini +Google AIO/AI Mode) or <strong>$349</strong> Pro (60 prompts, +Perplexity, 3 workspaces, 40 Deep Analyses)</td><td><strong>Custom-quoted</strong> (Enterprise / Scale tier; multi-workspace, governance, custom integrations)</td><td>Per *workspace + tracked prompts*</td><td>solcrys.com/pricing (Starter $29, Growth $99, Pro $349 published; Agency $1,499 / Agency Pro $4,999 published)</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Per-engine cost-per-prompt math</h2>
+      <p>Procurement teams should not budget off list price. The honest unit is <strong>cost per prompt-engine run per month</strong> — what it costs to evaluate one prompt on one engine, refreshed at the cadence the vendor offers.</p><p><strong>Worked example: 50 prompts × 4 engines (ChatGPT, Perplexity, Google AI Overviews, Gemini) × daily refresh = ~6,000 prompt-engine runs/month.</strong></p><p>Here&#39;s what that scope costs on each vendor&#39;s nearest fit tier (all numbers from the matrix above):</p><p><strong>How to read this table.</strong> On pure cost-per-run, Peec AI and Otterly win — they&#39;re built for measurement at scale and pass through that efficiency. Profound is competitive on the engines it covers but forces you to Enterprise to hit Gemini. Scrunch sits in the middle. SolCrys and Brandlight look expensive *per run* because the run is not the product they&#39;re selling — they bundle the diagnose-and-fix work that turns runs into shipped content. If you only want measurement, do not buy SolCrys; if you want measurement plus execution, the per-run number is the wrong denominator. Use cost-per-shipped-fix instead.</p>
+      
+      <table>
+              <thead><tr><th>Vendor</th><th>Closest tier</th><th>List price</th><th>Engine add-ons to hit 4 engines</th><th>Effective monthly</th><th>Cost per prompt-engine run</th></tr></thead>
+              <tbody><tr><td><strong>Otterly</strong></td><td>Standard ($189, 100 prompts)</td><td>$189</td><td>+ Gemini $59 + Google AI Mode $59 (already has ChatGPT/Perplexity/AI Overviews/Copilot)</td><td><strong>$307/mo</strong></td><td><strong>~$0.051</strong></td></tr><tr><td><strong>Peec AI</strong></td><td>Pro (~€205, 150 prompts, 3 models)</td><td>~$222</td><td>+ 1 extra model at $70</td><td><strong>~$292/mo</strong></td><td><strong>~$0.049</strong></td></tr><tr><td><strong>Scrunch</strong></td><td>Growth ($417 annual / $500 monthly, 700 custom prompts, 4 engines included)</td><td>$417–$500</td><td>Engines included</td><td><strong>$417–$500/mo</strong></td><td><strong>~$0.070–$0.083</strong></td></tr><tr><td><strong>Profound</strong></td><td>Growth ($399, ChatGPT + Perplexity + AI Overviews)</td><td>$399</td><td>+ Gemini requires Enterprise quote (no public add-on)</td><td><strong>$399/mo, but missing Gemini</strong></td><td><strong>~$0.067</strong> (3-engine basis)</td></tr><tr><td><strong>Brandlight</strong></td><td>Estimated mid-tier $750–$2,500/mo (all engines included)</td><td>$750–$2,500</td><td>None (bundled, estimated)</td><td><strong>$750–$2,500/mo (estimated)</strong></td><td><strong>~$0.125–$0.417 (estimated)</strong></td></tr><tr><td><strong>SolCrys</strong></td><td>Pro tier ($349, 60 prompts, full 4 engines + execution + 40 Deep Analyses)</td><td>$349</td><td>Engines included</td><td><strong>$349/mo</strong></td><td><strong>~$0.048</strong> (60 prompts × 4 engines × 30 daily runs basis)</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Hidden cost callouts</h2>
+      <p>These don&#39;t show up in the headline tier price but routinely double a 12-month TCO:</p><p><strong>Per-engine add-ons.</strong> Otterly charges $9–$149/month per extra engine (Google AI Mode, Gemini) depending on tier. Peec charges $30/$70/$140 per extra model per tier. Profound forces you up to Enterprise to access the full engine set.</p><p><strong>Per-workspace fees.</strong> Scrunch Starter caps at 3 user licenses; extra seats are $25/month each. Peec Starter is 1 project, Pro is 2, Advanced is 5; agencies running 10+ clients hit Enterprise quickly. SolCrys&#39;s Agency tier is priced by workspace count specifically because this is the most common surprise on competitors.</p><p><strong>Deep Analyses + Content Audits.</strong> SolCrys&#39;s tiers cap monthly Deep Analyses (2 on Starter, 12 on Growth, 40 on Pro, 200 on Agency, 700 on Agency Pro) and Content Audits (1, 4, 10, 50, 150 respectively). These are the platform&#39;s diagnose-and-fix unit of work — you&#39;ll run through them faster than tracked-prompt count if your team is actually shipping. Conductor charges similarly per content brief; Brandlight is custom-quoted. Always ask what counts as a &quot;unit&quot; and what burn rate to expect at your prompt volume.</p><p><strong>Integration fees.</strong> SSO/SAML, Looker Studio, MCP server access, REST API, and Salesforce/HubSpot connectors are *almost always* gated to a higher tier. Otterly&#39;s Looker connector starts at Standard. Peec&#39;s API + MCP + SSO start at Enterprise. Profound&#39;s SSO/SAML/SOC 2 are Enterprise-only.</p><p><strong>Onboarding fees.</strong> Enterprise contracts at Profound, Brandlight, and (SolCrys Enterprise / Scale) typically include a one-time setup of $2,500–$15,000 covering prompt-set design, persona modeling, competitor benchmarking, and integration. Otterly, Peec, and Scrunch are self-serve and don&#39;t charge setup.</p><p><strong>Annual prepay discounts.</strong> Otterly ~15%, Scrunch 17%, Peec ~15%, SolCrys 10–20% depending on tier. Enterprise contracts often allow multi-year prepay for an additional 5–10% off — useful for a finance team trying to lock the rate before the category re-prices.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Cost vs ROI framing</h2>
+      <p>A short version, full treatment in our <a href="/aeo-roi-business-case/" target="_blank" rel="noopener noreferrer">AEO ROI business case</a>.</p><p>The honest break-even calculation for a mid-market in-house team: a senior marketer running 50 prompts × 4 engines manually (copy each prompt into ChatGPT, Perplexity, AI Overviews, Gemini; record citations; tag mentions) takes roughly 8–12 hours per refresh. At a $75/hour blended cost, weekly refresh = ~$2,400–$3,600/month of human time, before any analysis. At that workload:</p><p>We cover the CFO-ready spreadsheet in the linked ROI piece.</p>
+      <ul class="seo-list"><li>A measurement-only tool at $200–$500/month pays for itself in week one.</li><li>A measurement + execution tool at $1,500–$3,500/month pays for itself if it also saves the ~20 hours/month of brief writing, fix prioritization, and re-test analysis — typically $1,500–$2,250/month of additional human time.</li><li>An enterprise contract at $5,000+/month needs to also show measurable lift in citation share or sourced pipeline (the harder claim), or it&#39;s a brand-channel investment, not an ROI calculation.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>CTA</h2>
+      <p>Two things you can do with this article:</p><p>For deeper buying-side reading, see <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a>, <a href="/aeo-roi-business-case/" target="_blank" rel="noopener noreferrer">AEO ROI Business Case</a>, and the <a href="/aeo-platform-pilot-playbook/" target="_blank" rel="noopener noreferrer">AEO Platform Pilot Playbook</a>. For head-to-head comparisons, see <a href="/compare/solcrys-vs-profound/" target="_blank" rel="noopener noreferrer">SolCrys vs Profound</a> and <a href="/compare/solcrys-vs-peec-ai/" target="_blank" rel="noopener noreferrer">SolCrys vs Peec AI</a>.</p><p>*Pricing sources used in this article: otterly.ai/pricing (verified 2026-05-22), peec.ai/pricing (verified 2026-05-22), scrunch.com/pricing (verified 2026-05-22), tryprofound.com/pricing + G2 + indexly.ai/blog/profound-pricing (Starter and Growth verified; Enterprise band estimated from third-party reviews 2026-05), sat.brandlight.ai + checkthat.ai + getaiso.com (Brandlight pricing estimated from public discussions, no published page as of 2026-05-22), solcrys.com/pricing (SolCrys tiers per published pricing page). We re-publish this article quarterly with refreshed data.*</p>
+      <ul class="seo-list"><li><strong>Run a free 10-prompt AI visibility audit</strong> on your brand across ChatGPT, Perplexity, Google AI Overviews, and Gemini — the same data shape that fills the per-engine columns above, scoped to your company. Use it to evaluate any vendor in this matrix, not just SolCrys. <a href="/free-audit/" target="_blank" rel="noopener noreferrer">Start the free audit</a>.</li><li><strong>Subscribe to refreshed pricing alerts</strong> — we re-verify every price in this table quarterly and notify subscribers when any vendor changes tier structure, raises sticker price, or moves an engine into a paid add-on. <a href="/pricing-alerts/" target="_blank" rel="noopener noreferrer">Get pricing alerts</a>.</li></ul>
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why doesn&#39;t Profound publish enterprise pricing?</h3>
+            <p>Profound publishes Starter ($99) and Growth ($399) but routes Enterprise to a sales call because the contract scales with engine coverage, prompt volume, seat count, integrations, and SOC 2 / SSO requirements. Public discussions (G2, third-party reviews, indexly.ai, cairrot.com) place real Enterprise deals at $2,000–$5,000+/month. Brandlight follows the same pattern but doesn&#39;t publish any tier — every customer is contact-sales.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if I only want to track one engine?</h3>
+            <p>Profound Starter ($99/mo) is built for this — ChatGPT-only, 50 prompts. Otterly Lite ($29/mo) is the cheapest entry but bundles four engines anyway. If you genuinely only need ChatGPT visibility, Profound Starter is the most focused. As soon as a second engine matters, the math changes — Otterly Standard ($189) or Peec Pro (~€205) beats Profound Growth ($399) on cost per engine for measurement workloads.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is there a free AEO platform?</h3>
+            <p>No production-grade free tier exists in this category as of May 2026. Most vendors offer 7–14 day trials or a one-time free audit. SolCrys offers a free 10-prompt audit covering 4 engines as a low-friction onboarding — useful for evaluating any vendor on your category, not just SolCrys. Free Chrome extensions and one-off prompt checkers exist but don&#39;t replicate scheduled tracking, citation URL extraction, or competitor benchmarking.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does SolCrys price?</h3>
+            <p>Three published Brand tiers plus two Agency tiers, on solcrys.com/pricing: <strong>Starter $29/month</strong> (20 prompts, ChatGPT only, 1 workspace, read-only MCP 100 calls), <strong>Growth $99/month</strong> (20 prompts, ChatGPT + Gemini + Google AI Overviews/AI Mode, 1 workspace, MCP 500 calls), <strong>Pro $349/month</strong> (60 prompts, all 4 default engines including Perplexity, 3 workspaces, 40 Deep Analyses, MCP 2K calls). <strong>Agency $1,499/month</strong> (10 client orgs × 30 prompts, 3 engines) and <strong>Agency Pro $4,999/month</strong> (25 client orgs × 30 prompts, all 4 engines) are priced per client-org portfolio. <strong>Enterprise / Scale</strong> is custom-quoted. <strong>Claude</strong> and <strong>Retail AI (Amazon Rufus, Walmart Sparky)</strong> are separate add-on packages, not bundled into any default tier. The SolCrys MCP server is read-only — it exposes citations, prompts, recommendations, and evidence for your own agents to read; it does not publish content or write to your CMS.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about agency pricing across the category?</h3>
+            <p>Agencies need three things most vendors don&#39;t price natively: multi-tenant workspaces, white-label reports, and per-client billing. Scrunch&#39;s Growth tier ($417–$500) handles up to 5 personas / a small agency; beyond that, Enterprise. Peec&#39;s Advanced (~€425) tops out at 5 projects. Otterly&#39;s Standard/Premium offer &quot;unlimited workspaces&quot; but lack white-label. SolCrys&#39;s Agency tier is purpose-built for 10–50 clients with workspace isolation and per-client billing. Realistic agency-tier band across the category: <strong>$1,499–$4,999/month</strong> depending on workspace count and white-label depth.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are there annual prepay discounts?</h3>
+            <p>Yes — most are in the 15–17% range for self-serve tiers: Otterly ~15% (Lite drops $29→$25, Standard $189→$160, Premium $489→$422), Scrunch 17% (effectively 2 months free), Peec up to 15%. Enterprise contracts often layer an additional 5–10% multi-year prepay discount. Always negotiate.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why do per-prompt costs vary 10x between vendors?</h3>
+            <p>Because the product is different. A vendor charging $0.05/prompt-engine run is selling pure measurement; a vendor charging $0.50/prompt-engine run is bundling diagnose-and-fix work. The denominator (runs) is the same; the numerator (what&#39;s delivered) is not. Compare on cost per delivered unit of work, not cost per run.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-roi-business-case/">AEO ROI Business Case</a></h3>
+            <p>A practitioner framework for estimating and reviewing AEO ROI with finance. Includes the AEO Revenue Model formula, three attribution methods, a 5-slide deck structure, and a 12-month measurement template.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-platform-pilot-playbook/">How to Run a 30-Day AEO Platform Pilot Without Wasting Budget</a></h3>
+            <p>A structured 30-day pilot framework for AEO platforms — pre-pilot setup, week-by-week timeline, exit criteria, and the common pilot anti-patterns that produce wrong purchase decisions.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

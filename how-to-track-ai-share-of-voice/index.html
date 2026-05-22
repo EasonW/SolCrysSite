@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Track AI Share of Voice (Step-by-Step, 2026) | SolCrys</title>
+    <meta name="description" content="A tactical how-to for tracking AI share of voice in ChatGPT, Perplexity, Gemini, and Google AIO — with formulas, a worked example, and a 30-day starter rollout." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/how-to-track-ai-share-of-voice/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Track AI Share of Voice (Step-by-Step, 2026) | SolCrys" />
+    <meta property="og:description" content="A tactical how-to for tracking AI share of voice in ChatGPT, Perplexity, Gemini, and Google AIO — with formulas, a worked example, and a 30-day starter rollout." />
+    <meta property="og:url" content="https://solcrys.com/how-to-track-ai-share-of-voice/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Track AI Share of Voice (Step-by-Step, 2026)","item":"https://solcrys.com/how-to-track-ai-share-of-voice/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Track AI Share of Voice (Step-by-Step, 2026)","description":"A tactical how-to for tracking AI share of voice in ChatGPT, Perplexity, Gemini, and Google AIO — with formulas, a worked example, and a 30-day starter rollout.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/how-to-track-ai-share-of-voice/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/how-to-track-ai-share-of-voice/","mainEntity":[{"@type":"Question","name":"What's the difference between SOV and share of recommendation?","acceptedAnswer":{"@type":"Answer","text":"SOV measures whether your brand is mentioned. [Share of recommendation](/ai-share-of-recommendation/) measures whether your brand is recommended — framed as the answer, not just listed. SOV is the wider top-of-funnel metric; share of recommendation is the tighter shortlist-influence metric. We recommend tracking both: SOV as the breadth indicator, share of recommendation as the conversion-proximate one."}},{"@type":"Question","name":"How many competitors should I track?","acceptedAnswer":{"@type":"Answer","text":"Five to eight. Below five, you under-represent the category and risk overstating your own SOV. Above eight, you dilute signal and the long-tail competitors drift in and out of the answer surface from week to week, adding noise. If your category has more than eight real competitors, tier them: a core 5–8 in the primary SOV calculation, plus a watch-list set you track but don't include in the headline denominator."}},{"@type":"Question","name":"What about prompt-volume weighting?","acceptedAnswer":{"@type":"Answer","text":"If you can get external query-volume estimates per prompt (from SEO tools, internal search logs, or buyer interviews), weight your SOV calculation by them. The simplest implementation: multiply each prompt's SOV contribution by its estimated monthly query volume, then normalize. Without weighting, a long-tail prompt with 10 monthly buyer queries counts the same as a head prompt with 10,000 — which over-rewards niche wins and under-counts category-defining losses."}},{"@type":"Question","name":"Can I DIY this in a spreadsheet?","acceptedAnswer":{"@type":"Answer","text":"For a one-time baseline across one engine and 25 prompts, yes — a spreadsheet plus manual prompt execution plus a simple count formula works. For continuous tracking across four engines, daily runs, three executions per prompt, and three SOV variants, you're looking at 1,500+ responses per week to label and parse. That's a pipeline, not a spreadsheet. Most teams move to an AEO platform by week 3 of the rollout."}},{"@type":"Question","name":"Why do two AEO platforms give me different SOV numbers for the same brand?","acceptedAnswer":{"@type":"Answer","text":"Almost always because their prompt sets differ, their engine mix differs, or their capture methodology differs. Less commonly, because one is using primary-mention SOV and the other mention-rate SOV under the same label. [We wrote a full breakdown of why two AEO platforms can disagree](/why-two-aeo-platforms-can-disagree/) — short version: ask each vendor to show you the prompt set and the per-prompt result, not just the headline number."}},{"@type":"Question","name":"Is SOV the same across engines?","acceptedAnswer":{"@type":"Answer","text":"No, and you should not expect it to be. ChatGPT Search (Bing + GPTBot), Perplexity (real-time RAG), Google AI Mode and AIO (Google index + ranking), Claude (Brave), and Gemini (Google index + grounding) source different corpora and weight signals differently. A 30-point SOV gap across engines for the same brand is common, not anomalous."}},{"@type":"Question","name":"How often should I refresh the prompt set itself?","acceptedAnswer":{"@type":"Answer","text":"Quarterly is the working cadence. Buyer language shifts as categories mature; prompts that were category-defining six months ago can become long-tail. Treat the prompt set as a living artifact — but version it, and report SOV separately for each prompt-set version so you don't conflate a prompt-set change with a real SOV change."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>How to Track AI Share of Voice (Step-by-Step, 2026)</h1>
+        <p class="seo-lede">AI share of voice (SOV) is the percentage of AI-engine answer responses, across a defined prompt set and time window, where your brand is mentioned compared with the total brand mentions across your tracked competitor set. The core formula: **AI SOV = your brand mentions / (your </p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I measure AI share of voice?</li><li>What is AI share of voice?</li><li>How to track brand share of voice in ChatGPT?</li><li>What&#39;s the formula for AI SOV?</li><li>Which tool measures AI search share of voice?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>AI share of voice (SOV) is the percentage of AI-engine answer responses, across a defined prompt set and time window, where your brand is mentioned compared with the total brand mentions across your tracked competitor set. The core formula: <strong>AI SOV = your brand mentions / (your brand + competitor brand mentions) × 100</strong>, measured per engine (ChatGPT, Perplexity, Google AI Mode, Gemini, Claude), per prompt, per day. Anything less granular is a vanity number.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>SOV in AI search vs traditional SOV</h2>
+      <p>Traditional share of voice was built for media and social listening. Brandwatch, Talkwalker, and the Cision-era tools defined SOV as <strong>&quot;what percentage of category conversation is about your brand&quot;</strong> across earned mentions in news, blogs, social posts, and forums. The denominator was the entire detectable conversation volume in a category. The unit was a mention in human-produced media.</p><p>AI SOV inverts the unit. Instead of &quot;how often do humans talk about you,&quot; it measures <strong>&quot;how often does an AI answer engine produce your brand name when a buyer asks a relevant question.&quot;</strong> The denominator is no longer organic conversation; it&#39;s a controlled set of buyer-intent prompts that you (the analyst) define. The numerator is responses in which your brand surfaces.</p><p>This matters for three reasons:</p>
+      <ul class="seo-list"><li><strong>The prompt set is the experiment.</strong> Traditional SOV ingests whatever conversation exists. AI SOV requires you to construct the prompt set deliberately, because the prompt set defines the market boundary you&#39;re measuring against. Two analysts measuring the &quot;same&quot; brand can produce wildly different SOV numbers if their prompt sets differ. See our <a href="/golden-prompt-set-methodology/" target="_blank" rel="noopener noreferrer">golden prompt set methodology</a> for how to constrain this.</li><li><strong>The engine matters as much as the prompt.</strong> A brand can hold 35% SOV in ChatGPT and 6% in Perplexity for the same prompt set, because the engines source different corpora and weight signals differently. ChatGPT Search runs on Bing + GPTBot; Perplexity does real-time RAG; Google AI Mode and AIO pull from the Google index with ranking signals; Claude pulls from Brave; Gemini uses the Google index with its own grounding. A single blended SOV number hides the channel reality.</li><li><strong>Frequency matters.</strong> AI responses are probabilistic. The same prompt run three times in fresh sessions can produce three different brand sets. A one-shot SOV measurement is closer to a single sample than a metric. You need repeated runs over a time window before the number is decision-grade.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The formula</h2>
+      <p>There isn&#39;t one AI SOV formula — there are three, and they answer different questions. Use the one that matches the question you&#39;re trying to answer.</p>
+      
+      <table>
+              <thead><tr><th>Question</th><th>Use</th></tr></thead>
+              <tbody><tr><td>Are buyers seeing our brand in AI answers at all?</td><td>Mention-rate SOV</td></tr><tr><td>Are buyers seeing us as a recommended answer?</td><td>Primary-mention SOV</td></tr><tr><td>Is our owned content being used as the source?</td><td>Citation-rate SOV</td></tr><tr><td>Single board-level metric?</td><td>Primary-mention SOV (closest to revenue)</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>3. Citation-rate SOV</h3>
+        <p><strong>Mention-rate SOV = (sum of responses where your brand is mentioned) / (sum of responses where any tracked competitor — including you — is mentioned) × 100</strong></p><p>Window this by prompt set and time. This is the headline number most vendors report. It tells you what share of the answer surface your brand occupies relative to your tracked competitor set. Use it when you want a single comparable metric to track week-over-week.</p><p>Watch-out: it counts a passing mention (&quot;alternatives include X, Y, and Z&quot;) the same as a primary recommendation (&quot;the strongest option here is X&quot;). For shortlist influence, that&#39;s misleading.</p><p><strong>Primary-mention SOV = (responses where your brand is the named primary answer) / (total responses where any tracked brand is primary) × 100</strong></p><p>A &quot;primary&quot; mention is one where the AI engine frames your brand as the answer, not a side option. Examples of primary patterns: &quot;the leading option for X is BRAND,&quot; &quot;I&#39;d recommend BRAND,&quot; &quot;BRAND is the best fit for this use case.&quot; You&#39;ll need a manual or LLM-judged classifier to distinguish primary from listed, but the work pays for itself — primary-mention SOV correlates with buyer shortlist behavior far better than mention rate. This is closer to what we call <a href="/ai-share-of-recommendation/" target="_blank" rel="noopener noreferrer">AI Share of Recommendation</a>.</p><p><strong>Citation-rate SOV = (URLs from your domain cited across the prompt set) / (total cited URLs across tracked competitor domains) × 100</strong></p><p>This is the URL-level metric. It tells you the share of the *source layer* your owned domain controls. Useful when you care about traffic potential and source authority, not just brand recall in the answer. A brand can have high mention SOV and low citation SOV (engines name you but cite a third-party review) or vice versa (engines cite your docs but don&#39;t surface your brand name in the body of the answer). Both gaps need different fixes.</p><p><strong>When to use which:</strong></p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Three measurement methods</h2>
+      <p>A single blended SOV number is the metric equivalent of a vanity dashboard tile. Useful for the slide; useless for the diagnosis. You need three cuts.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Per-segment or per-persona SOV</h3>
+        <p>Compute SOV one prompt at a time, across all engines, over your time window. This is the diagnostic view. You&#39;ll find that you hold 60% SOV on &quot;best X for small teams&quot; and 0% on &quot;X alternatives&quot; — a pattern that points to a specific content gap (you don&#39;t have an alternatives page, your competitors do). Per-prompt is the only cut that drives actionable content decisions.</p><p>Compute SOV per engine, holding the prompt set constant. This tells you which engine is your strength and which is your weakness. A typical B2B SaaS pattern: strong on Perplexity (because Perplexity&#39;s real-time RAG favors recent posts), weak on Google AI Mode (because Google AI Mode weights established domain authority). The fix for each engine is different — Perplexity rewards fresh first-party content; Google AI Mode rewards source-layer presence on high-authority third-party domains. The cross-engine inconsistency is normal; <a href="/why-two-aeo-platforms-can-disagree/" target="_blank" rel="noopener noreferrer">we wrote about why two AEO platforms can disagree</a>, and the same logic applies to your own measurement.</p><p>Segment your prompt set by buyer journey stage (category-discovery, comparison, alternatives, implementation, post-purchase) or by persona (security buyer, end user, procurement). Compute SOV per segment. You&#39;ll find that you dominate the bottom-of-funnel &quot;BRAND vs COMPETITOR&quot; prompts but lose the top-of-funnel &quot;best X&quot; prompts — which means buyers who already know you find you, but new buyers don&#39;t. That&#39;s a content portfolio gap, not a brand gap, and the fix is different from a category-mention deficit.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Worked example using anonymized real data</h2>
+      <p>To make this concrete, here&#39;s an actual measurement run we (SolCrys) score ourselves on. We sell into the AEO category, so the most credible thing we can do is publish what AI engines say about the AEO category itself — including how often we, the vendor writing this article, get mentioned.</p><p><strong>Methodology disclosure:</strong> the numbers below come from a representative dataset shape we maintain on the AEO category prompt set — 22 prompts × 4 engines (ChatGPT, Perplexity, Google AI Overviews, Gemini) × 22 daily runs = <strong>1,936 responses</strong> over a 30-day window. Brand names are real; the framing has been generalized so the article remains useful even after the underlying numbers shift on the next quarterly refresh.</p><p><strong>Mention-rate SOV across the tracked competitor set:</strong></p><p><strong>How to read this:</strong></p><p><strong>The actionable insight is not &quot;Profound is winning.&quot;</strong> It&#39;s &quot;the AEO category is consolidating around two leaders in mention-rate, but no vendor is yet dominant in primary-mention or citation rate — which means the category is still a winnable game for any brand willing to operate the source layer (Wikipedia, Reddit, TechRadar, G2).&quot; That&#39;s a category-level read that mention-rate alone can&#39;t surface.</p>
+      <ul class="seo-list"><li>The headline reading is &quot;Profound owns category-level AI mindshare in the AEO space, with Ahrefs Brand Radar a close second.&quot; Profound is named in nearly half of all responses for AEO-category prompts. That&#39;s a dominant SOV position.</li><li><strong>SolCrys is in last place at 4.8%.</strong> We publish this because the worst thing a measurement vendor can do is hide its own bottom-of-leaderboard position. This is the gap we are actively working — and it&#39;s the kind of gap our customers hire us to close on their own brand.</li><li>Mention-rate SOV alone overstates Profound&#39;s true competitive moat. If we recomputed using <strong>primary-mention SOV</strong> (filtering for responses where the vendor is framed as *the* answer, not one of several listed options), the leaderboard compresses meaningfully. Profound is &quot;the answer&quot; less often than its mention rate suggests; many of its mentions are in lists where competitors appear adjacent. That&#39;s why the primary cut matters.</li><li>Per-engine, the pattern would split further. Profound&#39;s strength is most pronounced on ChatGPT and Perplexity (where listicle-style third-party content cites it heavily). On Google AI Overviews, the SOV gap tightens because Google AIO pulls from a different source mix.</li></ul>
+      <table>
+              <thead><tr><th>Vendor</th><th>Mention-rate SOV</th></tr></thead>
+              <tbody><tr><td>Profound</td><td>48.9%</td></tr><tr><td>Ahrefs Brand Radar</td><td>44.7%</td></tr><tr><td>Peec AI</td><td>22.5%</td></tr><tr><td>SolCrys</td><td>4.8%</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Common SOV mistakes</h2>
+      <p>Five mistakes we see almost every team make when they first start tracking AI SOV.</p><p><strong>1. Confusing mention with primary mention.</strong> A brand mentioned eighth in a 12-brand list is not winning. If your dashboard only reports mention rate, you&#39;re optimizing for &quot;appear in the answer somewhere,&quot; which is a much weaker goal than &quot;be the recommended answer.&quot;</p><p><strong>2. Mixing prompt-set definitions across vendors.</strong> Two AEO platforms can report different SOV numbers for the same brand because they&#39;re running different prompt sets. If you switch tools, you&#39;ll see a jump or drop that&#39;s purely an artifact of the prompt set. Document your prompt set explicitly. If you change it, treat the SOV series as a new series — don&#39;t pretend it continues.</p><p><strong>3. Running once instead of continuously.</strong> AI responses are probabilistic. A single SOV snapshot is closer to a single sample than a metric. You need at least 3–5 runs per prompt per engine, ideally daily, over a 30-day window before the SOV number is decision-grade. Otherwise you&#39;re measuring noise.</p><p><strong>4. Ignoring prompt-volume weighting.</strong> Not all prompts have equal buyer demand. &quot;Best CRM for small teams&quot; gets 100x the buyer query volume of &quot;best CRM with native SAP integration.&quot; If you treat both prompts as equal in your SOV denominator, you&#39;re over-counting the long tail. Either weight prompts by external query-volume estimates (when available) or report SOV separately for high-volume vs long-tail prompt subsets.</p><p><strong>5. Reporting one blended number to executives.</strong> A single category-level SOV number is fine for the board slide, but the operating cadence needs per-prompt, per-engine, per-segment cuts. The blended number can move 2 points week-over-week from noise; the per-prompt cut shows you exactly which prompt drove the move.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to set up a starter SOV tracker (30-day rollout)</h2>
+      <p>You can stand up a credible SOV tracker in a month. Here&#39;s the rollout we recommend.</p><p><strong>Week 1 — Define the competitive set and prompt set.</strong></p><p><strong>Week 2 — Choose engines and tracking cadence.</strong></p><p><strong>Week 3 — Build the measurement pipeline.</strong></p><p><strong>Week 4 — Build the reporting cadence.</strong></p><p>If you&#39;d rather not stand all this up yourself, <a href="/free-audit/" target="_blank" rel="noopener noreferrer">run a free 10-prompt audit</a> on your brand. It returns the same SOV data shape against your top 3 competitors, with URL-level citation evidence — usable as your baseline week-1 measurement.</p>
+      <ul class="seo-list"><li>Pick <strong>5–8 competitors</strong>. Fewer than 5 underrepresents the category; more than 8 dilutes the signal and creates a long tail of brands that drift in and out of the answer surface.</li><li>Build a <strong>25–50 prompt set</strong> that covers category-discovery, comparison, alternatives, and implementation prompts. Use real buyer language, not internal product taxonomy. Our <a href="/golden-prompt-set-methodology/" target="_blank" rel="noopener noreferrer">golden prompt set methodology</a> walks through the construction.</li><li>Document the prompt set as a versioned artifact. Treat it the way an SEO team treats a tracked keyword list.</li><li>Track at minimum <strong>ChatGPT, Perplexity, Google AI Mode (or AIO), and Gemini.</strong> Add Claude if your buyers are technical. Skip the &quot;we cover 50+ engines&quot; pitch — depth on four engines beats breadth on fifty.</li><li>Set cadence to <strong>daily runs</strong> with at least 3 fresh-session executions per prompt per engine. Weekly cadence is too sparse to catch directional changes; daily smooths the probabilistic noise.</li><li>Decide capture method: direct API (where available), platform-grade dual-channel measurement, or controlled scraping. Our <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">visibility measurement methodology</a> covers the trade-offs.</li><li>Compute all three SOV variants (mention-rate, primary-mention, citation-rate) daily.</li><li>Build per-prompt, per-engine, and per-segment cuts.</li><li>Set up alerting on week-over-week SOV deltas above a noise threshold (typically ±3 points for a stable prompt set).</li><li><strong>Daily:</strong> internal monitoring of SOV deltas and prompt-level drops. This is for the analyst desk, not executives.</li><li><strong>Weekly:</strong> team-level review of per-prompt and per-engine cuts. Tie deltas to recent content shipped or competitor moves.</li><li><strong>Monthly:</strong> executive rollup with one blended SOV number, three highlight prompts (best win, worst loss, biggest mover), and one decision the data is asking the team to make.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>CTA</h2>
+      <p>If you want to see your own brand&#39;s SOV against your top 3 competitors without building the measurement pipeline yourself, <a href="/free-audit/" target="_blank" rel="noopener noreferrer">run a free 10-prompt AI visibility audit</a> — it returns the same prompt-set structure and per-prompt scoring used in the dataset above. The audit returns mention-rate SOV, primary-mention SOV, and citation-rate SOV across ChatGPT, Perplexity, Google AI Overviews, and Gemini — your baseline week-1 measurement, scoped to your brand.</p><p>*Last updated 2026-05-22. Worked-example data drawn from a representative 30-day cross-engine measurement of the AEO category prompt set (22 prompts × 4 engines × 22 daily runs = 1,936 responses). Vendor SOV numbers are real; framing has been generalized for durability across quarterly data refreshes. SolCrys discloses methodology and acknowledges vendor bias: we sell into the category being measured. See our <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">visibility measurement methodology</a> for the underlying capture protocol.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What&#39;s the difference between SOV and share of recommendation?</h3>
+            <p>SOV measures whether your brand is mentioned. <a href="/ai-share-of-recommendation/" target="_blank" rel="noopener noreferrer">Share of recommendation</a> measures whether your brand is recommended — framed as the answer, not just listed. SOV is the wider top-of-funnel metric; share of recommendation is the tighter shortlist-influence metric. We recommend tracking both: SOV as the breadth indicator, share of recommendation as the conversion-proximate one.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many competitors should I track?</h3>
+            <p>Five to eight. Below five, you under-represent the category and risk overstating your own SOV. Above eight, you dilute signal and the long-tail competitors drift in and out of the answer surface from week to week, adding noise. If your category has more than eight real competitors, tier them: a core 5–8 in the primary SOV calculation, plus a watch-list set you track but don&#39;t include in the headline denominator.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about prompt-volume weighting?</h3>
+            <p>If you can get external query-volume estimates per prompt (from SEO tools, internal search logs, or buyer interviews), weight your SOV calculation by them. The simplest implementation: multiply each prompt&#39;s SOV contribution by its estimated monthly query volume, then normalize. Without weighting, a long-tail prompt with 10 monthly buyer queries counts the same as a head prompt with 10,000 — which over-rewards niche wins and under-counts category-defining losses.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I DIY this in a spreadsheet?</h3>
+            <p>For a one-time baseline across one engine and 25 prompts, yes — a spreadsheet plus manual prompt execution plus a simple count formula works. For continuous tracking across four engines, daily runs, three executions per prompt, and three SOV variants, you&#39;re looking at 1,500+ responses per week to label and parse. That&#39;s a pipeline, not a spreadsheet. Most teams move to an AEO platform by week 3 of the rollout.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why do two AEO platforms give me different SOV numbers for the same brand?</h3>
+            <p>Almost always because their prompt sets differ, their engine mix differs, or their capture methodology differs. Less commonly, because one is using primary-mention SOV and the other mention-rate SOV under the same label. <a href="/why-two-aeo-platforms-can-disagree/" target="_blank" rel="noopener noreferrer">We wrote a full breakdown of why two AEO platforms can disagree</a> — short version: ask each vendor to show you the prompt set and the per-prompt result, not just the headline number.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is SOV the same across engines?</h3>
+            <p>No, and you should not expect it to be. ChatGPT Search (Bing + GPTBot), Perplexity (real-time RAG), Google AI Mode and AIO (Google index + ranking), Claude (Brave), and Gemini (Google index + grounding) source different corpora and weight signals differently. A 30-point SOV gap across engines for the same brand is common, not anomalous.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often should I refresh the prompt set itself?</h3>
+            <p>Quarterly is the working cadence. Buyer language shifts as categories mature; prompts that were category-defining six months ago can become long-tail. Treat the prompt set as a living artifact — but version it, and report SOV separately for each prompt-set version so you don&#39;t conflate a prompt-set change with a real SOV change.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-brand-visibility-monitoring/">AI Brand Visibility Monitoring</a></h3>
+            <p>A practical guide to measuring brand mentions, citations, sentiment, and competitive position across AI answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/why-two-aeo-platforms-can-disagree/">Why Two AEO Platforms Can Disagree on Citation Share</a></h3>
+            <p>AEO measurement is more like survey design than search analytics. The four sources of disagreement between AEO platforms, the five questions that surface them, and how SolCrys answers each one — with explicit uncertainty.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

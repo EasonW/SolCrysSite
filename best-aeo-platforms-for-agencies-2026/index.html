@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Best AEO Platforms for Agencies in 2026: An Agency-Side Comparison | SolCrys</title>
+    <meta name="description" content="Agency-side comparison of 8 AEO platforms across multi-tenancy, white-label, per-client billing, and 25-client economics. Built for agency founders and SEO leads." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/best-aeo-platforms-for-agencies-2026/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Best AEO Platforms for Agencies in 2026: An Agency-Side Comparison | SolCrys" />
+    <meta property="og:description" content="Agency-side comparison of 8 AEO platforms across multi-tenancy, white-label, per-client billing, and 25-client economics. Built for agency founders and SEO leads." />
+    <meta property="og:url" content="https://solcrys.com/best-aeo-platforms-for-agencies-2026/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Best AEO Platforms for Agencies in 2026: An Agency-Side Comparison","item":"https://solcrys.com/best-aeo-platforms-for-agencies-2026/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Best AEO Platforms for Agencies in 2026: An Agency-Side Comparison","description":"Agency-side comparison of 8 AEO platforms across multi-tenancy, white-label, per-client billing, and 25-client economics. Built for agency founders and SEO leads.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/best-aeo-platforms-for-agencies-2026/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/best-aeo-platforms-for-agencies-2026/","mainEntity":[{"@type":"Question","name":"How should an agency charge for AEO?","acceptedAnswer":{"@type":"Answer","text":"The two viable models in 2026 are (1) a flat monthly retainer in the $1,500–$5,000 range that includes monitoring + 2–4 monthly execution actions, or (2) a tiered retainer where monitoring is the base ($800–$1,500/month) and execution sprints are priced separately ($1,500–$3,000 per sprint). Avoid the pure-audit one-shot model — it burns top-of-funnel but doesn't sustain a service line. The closer your offer gets to \"we ship the fix and prove the lift,\" the higher the retainer ceiling."}},{"@type":"Question","name":"How do agencies package AEO as a retainer?","acceptedAnswer":{"@type":"Answer","text":"We recommend bundling four deliverables: (1) a weekly or bi-weekly monitoring report on a fixed prompt set, (2) a monthly executive review with citation-share and Share of Recommendation movement, (3) 2–4 shipped execution actions per month (page updates, FAQ improvements, comparison pages, third-party source work), and (4) a quarterly strategy refresh that updates the prompt set, competitor list, and Corporate Context. Packaging matters because clients buy a workflow, not a tool."}},{"@type":"Question","name":"What should an agency ship to clients monthly?","acceptedAnswer":{"@type":"Answer","text":"At minimum: an executive summary deck (5–10 slides), a movement-of-the-month highlight (the single biggest citation or Share of Recommendation change), a documented list of actions shipped, a re-test result for the prompts those actions targeted, and a next-month plan. White-label the deck under your agency's branding. The clients renewing at year 2 are the ones whose monthly deliverable feels like a strategy meeting, not a status report."}},{"@type":"Question","name":"What are the white-label limits I should ask vendors about?","acceptedAnswer":{"@type":"Answer","text":"Ask specifically: (1) Can the live dashboard be served under our subdomain, or only PDF exports? (2) Does the client login screen show your brand or the vendor's? (3) Does the vendor's name appear in any client-facing email (alerts, password resets, support)? (4) Can we expose data via our own API/portal without the client ever touching the vendor product? Most vendors will answer \"yes\" to the first question and degrade across the next three. Get the answers in writing before signing."}},{"@type":"Question","name":"Can I really run a 25-client AEO practice solo, or do I need a team?","acceptedAnswer":{"@type":"Answer","text":"Realistically you need at minimum: 1 senior strategist (you), 1 mid-level operator (sprint execution and reporting), and access to a content production capacity (in-house writer, freelancer pool, or partnered content agency). Above 15 clients, you also need a junior coordinator handling onboarding, scheduling, and report assembly. Solo founders top out around 8–10 clients without burning out the strategist role."}},{"@type":"Question","name":"What's the difference between an AEO platform and an AI visibility dashboard for agency purposes?","acceptedAnswer":{"@type":"Answer","text":"A dashboard measures and reports. An AEO platform additionally generates fix recommendations, ships them under a governance workflow, and re-tests the same prompts to verify the change. For agencies, the platform model is easier to defend on retainer because each month produces a \"we shipped X, prompts moved Y\" report. The dashboard model degrades into a status-update business that price-compresses fast. We unpack this in our [dashboard vs execution engine guide](/ai-visibility-dashboard-vs-aeo-execution-engine/)."}},{"@type":"Question","name":"How long before an agency AEO practice is profitable?","acceptedAnswer":{"@type":"Answer","text":"With 5 pilot clients onboarded in months 1–2 at $1,500–$2,500/month, you typically hit positive contribution margin on the AEO line by month 4–6 (after platform cost, operator time, content production). Year-1 EBITDA on a 10–15 client book lands in the 25–40% range with a competent operator. The leverage point is reusing prompt-set templates and case studies across clients in the same category."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">For Agencies</p>
+        <h1>Best AEO Platforms for Agencies in 2026: An Agency-Side Comparison</h1>
+        <p class="seo-lede">For agencies running an AEO practice in 2026, the three strongest agency-fit platforms are <strong>Profound</strong> (when you need an enterprise-grade pitch motion with prospect-workspace tooling), <strong>Peec AI</strong> (when you want the cheapest published multi-brand reporting tier on the market), a</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is the best AEO platform for agencies?</li><li>Which AI visibility tools are built for agencies?</li><li>How do agencies offer AEO as a service?</li><li>What features should an agency look for in an AEO platform?</li><li>How much do AEO platforms cost for agencies managing 25 clients?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>For agencies running an AEO practice in 2026, the three strongest agency-fit platforms are <strong>Profound</strong> (when you need an enterprise-grade pitch motion with prospect-workspace tooling), <strong>Peec AI</strong> (when you want the cheapest published multi-brand reporting tier on the market), and <strong>SolCrys</strong> (when you need real multi-tenant isolation, MCP/API access for client dashboards, and a closed-loop execution layer your retainer can be priced against). Most other AEO tools were built single-tenant first and have agency features bolted on; the differences show up around client 8–12, not on the demo.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why we wrote this for agencies specifically</h2>
+      <p>We&#39;re SolCrys. We sell into agencies, so treat this as a vendor-biased comparison with the bias disclosed up front — not a neutral analyst report. To partly offset that, we name a specific competitor under every column we score ourselves well on, and we mark every vendor claim as either verified against the vendor&#39;s public documentation as of May 2026 or noted as &quot;based on publicly available product documentation.&quot;</p><p>Most &quot;best AEO tools&quot; lists treat agencies as a footnote at the bottom of a B2B in-house buyer guide. That under-serves the actual agency buyer for three reasons:</p><p>If you want SolCrys&#39;s broader B2B buyer-side comparison (10 vendors, single-brand framing), that lives in our <a href="/best-aeo-tools-for-b2b-marketing-teams-2026/" target="_blank" rel="noopener noreferrer">B2B AEO buyer guide</a>. This article is the agency-portfolio cut. One related editorial disclosure: we have 0% AI-engine presence today on the exact prompt this article targets, so we&#39;re writing it both as a buyer guide and as our own attempt to be cited on a query where we currently aren&#39;t.</p>
+      <ul class="seo-list"><li><strong>The buying criteria are different.</strong> An in-house team optimizes for depth on one brand. An agency optimizes for unit economics across a portfolio — per-client cost, onboarding speed, white-label reporting, billing isolation.</li><li><strong>The failure modes are different.</strong> A dashboard that works for 1 brand can break operationally at 15 clients (per-client billing reconciliation, role-based access for client logins, prompt-set drift across workspaces). You only discover this in production.</li><li><strong>The pricing curves are different.</strong> Most AEO vendors price per workspace as an add-on. The published $99–$199/month &quot;starter&quot; number becomes $5K–$15K/month at 25 clients — sometimes more than the agency can recover at a $1K–$3K retainer.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why most AEO tools fail agencies</h2>
+      <p>The category was built single-brand first. The agency-fit problems aren&#39;t bugs — they&#39;re the natural result of products designed for one CMO and retrofitted for 25.</p><p><strong>1. Tenancy is shallow.</strong> Most platforms call any account separator a &quot;workspace,&quot; but workspaces frequently share competitor lists, prompt templates, integrations, or even billing. True multi-tenant means each client&#39;s Corporate Context, prompt set, and approvals are isolated by design, and a client login (or your account exec) cannot accidentally see another client&#39;s data.</p><p><strong>2. Billing is single-payer.</strong> Most platforms bill the agency as one customer for the full portfolio. That&#39;s fine for revenue recognition on the agency side, but it makes per-client P&amp;L and pass-through billing painful. If you charge clients a separately-itemized &quot;platform fee,&quot; you&#39;ll be reconciling spreadsheets monthly.</p><p><strong>3. White-label reports are cosmetic, not architectural.</strong> A logo swap on a PDF export is not white-label. Real white-label means the client never sees the vendor&#39;s domain, login screen, support email, or product name unless you choose to expose it. Almost no AEO vendor delivers this today.</p><p><strong>4. Client onboarding is slow.</strong> Most AEO platforms require 1–3 weeks per client to stand up Corporate Context, prompt sets, competitor maps, and integration. Multiply that by your sales velocity and you&#39;ll find onboarding is your real bottleneck, not platform features.</p><p><strong>5. Per-client prompt isolation breaks under load.</strong> Some vendors deduplicate prompts across the agency tenant to save API cost. The downside: when two clients in adjacent categories have overlapping prompts, the data gets cross-pollinated. You need clean per-client measurement, not aggregated efficiency.</p><p><strong>6. No MCP or API for client dashboards.</strong> Agencies increasingly ship AEO data inside their own client-portal dashboard rather than logging clients into a vendor product. That requires a real API or MCP server. Most AEO vendors don&#39;t have one yet; the ones that do treat it as an enterprise add-on.</p><p><strong>7. Pricing models punish growth.</strong> A &quot;per workspace at $399/month&quot; model means client 25 costs the same as client 1 — but client 25 typically generates less retainer margin because the agency has discounted to close. If platform cost is a fixed per-seat ratchet, agency gross margin compresses as the book grows.</p><p>These aren&#39;t all the failure modes, but they&#39;re the ones we hear most often on agency-partnership calls.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 8 vendors we compared</h2>
+      <p>Selection notes. We excluded &quot;AI SEO content writer&quot; tools that bolted on a visibility module; they don&#39;t compete for agency AEO budget. We excluded vendors that publicly market &quot;guaranteed AI citation lift,&quot; because that claim is technically not deliverable in 2026 and we won&#39;t recommend a tool an agency will get burned by in client QBRs.</p>
+      
+      <table>
+              <thead><tr><th>Vendor</th><th>Category</th><th>Agency tier exists?</th></tr></thead>
+              <tbody><tr><td>Profound</td><td>Enterprise AI search intelligence</td><td>Yes — &quot;Agency Growth&quot; plan</td></tr><tr><td>Peec AI</td><td>Mid-market dashboard</td><td>Yes — published agency pricing page</td></tr><tr><td>Otterly</td><td>SEO-practitioner tactical AEO</td><td>Limited — multi-project, no agency tier</td></tr><tr><td>Ahrefs Brand Radar</td><td>AEO module on Ahrefs suite</td><td>Through Ahrefs Agency seat structure</td></tr><tr><td>Semrush AI Visibility Toolkit</td><td>AEO module on Semrush suite</td><td>Through Semrush Agency tier</td></tr><tr><td>Conductor</td><td>Enterprise content + AEO</td><td>Enterprise contract, per-brand isolation</td></tr><tr><td>Brandlight</td><td>Enterprise AI brand presence</td><td>Dedicated agencies page</td></tr><tr><td>SolCrys</td><td>Governed AEO execution system</td><td>Yes — agency partnership tier</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Agency feature scoreboard</h2>
+      <p>The eight features below are the ones that determine whether a platform scales past 8–10 clients without operational tax. We verified each cell against the vendor&#39;s public product documentation as of May 2026; cells marked &quot;unclear&quot; mean the vendor doesn&#39;t publish the answer and didn&#39;t confirm it on demo calls we&#39;ve observed.</p><p>A few notes on how to read this:</p><p>Based on publicly available product documentation as of May 2026; vendor roadmaps move quickly, so re-verify with each vendor in your sales process.</p>
+      <ul class="seo-list"><li><strong>&quot;Multi-workspace&quot;</strong> is table stakes by 2026. The real question is whether workspaces are truly isolated, which we mark separately under &quot;client billing isolation&quot; and &quot;custom branding.&quot;</li><li><strong>&quot;White-label reports&quot;</strong> as published by most vendors means logo-swap on a PDF export. Brandlight, Conductor, and SolCrys go further — the live web dashboard itself can be served under your subdomain on enterprise tiers.</li><li><strong>&quot;Client billing isolation&quot;</strong> is the cell most agencies under-evaluate. Per-tenant invoicing is rare; ask explicitly if you plan to pass platform cost through.</li><li><strong>&quot;MCP / API for client dashboards&quot;</strong> is the 2026 differentiator. The agencies winning RFPs embed AEO data in their own client portal rather than logging clients into a third-party SaaS. SolCrys ships a Model Context Protocol server alongside REST, which compresses the Looker / Power BI / Notion wiring work.</li><li><strong>&quot;Onboarding speed&quot;</strong> is usually the binding constraint on agency growth, not platform features. Cut a week off per-client setup and you absorb ~30% more clients with the same team.</li></ul>
+      <table>
+              <thead><tr><th>Feature</th><th>Profound</th><th>Peec AI</th><th>Otterly</th><th>Ahrefs Brand Radar</th><th>Semrush AIVT</th><th>Conductor</th><th>Brandlight</th><th>SolCrys</th></tr></thead>
+              <tbody><tr><td>Multi-workspace (true tenant isolation)</td><td>Yes (Agency Growth)</td><td>Yes (multi-brand)</td><td>Limited (projects)</td><td>Through Agency seats</td><td>Through Agency tier</td><td>Yes (per-brand)</td><td>Yes</td><td>Yes</td></tr><tr><td>Per-client prompt sets</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>White-label reports</td><td>Limited (logo swap)</td><td>Yes (white-label reporting)</td><td>No</td><td>No (Ahrefs branding)</td><td>No (Semrush branding)</td><td>Yes (enterprise)</td><td>Yes</td><td>Yes</td></tr><tr><td>Client billing isolation</td><td>No (one bill to agency)</td><td>No (one bill to agency)</td><td>No</td><td>No</td><td>No</td><td>Custom contract</td><td>Custom contract</td><td>Yes (per-tenant invoicing supported)</td></tr><tr><td>Role-based access for client logins</td><td>Yes (5 seats / Agency Growth)</td><td>Yes (unlimited seats)</td><td>Limited</td><td>Yes (Ahrefs SSO)</td><td>Yes (Semrush SSO)</td><td>Yes (enterprise SSO)</td><td>Yes</td><td>Yes</td></tr><tr><td>MCP / API for client dashboards</td><td>API (enterprise)</td><td>API (Pro+)</td><td>Light API</td><td>API (Ahrefs)</td><td>API (Semrush)</td><td>API (enterprise)</td><td>API (enterprise)</td><td>MCP + REST</td></tr><tr><td>Custom branding (subdomain, no vendor logo)</td><td>No</td><td>Partial</td><td>No</td><td>No</td><td>No</td><td>Yes (enterprise)</td><td>Yes</td><td>Yes</td></tr><tr><td>Onboarding speed per client (typical)</td><td>1–2 weeks</td><td>&lt; 1 week</td><td>&lt; 1 week</td><td>1 week (if on Ahrefs)</td><td>1 week (if on Semrush)</td><td>2–4 weeks</td><td>1–2 weeks</td><td>3–7 days</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Pricing-per-workspace economics for a typical 25-client agency</h2>
+      <p>This is the section most agencies skip in their evaluation and then regret in their second-year renewal. We&#39;ve modeled per-client cost at three scale points (5 clients, 15 clients, 25 clients) for the published agency plans of each vendor. All figures are taken from the vendor&#39;s published pricing page as of May 2026 or, where unpublished, our best estimate based on inbound conversations — those are marked &quot;estimated.&quot;</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Profound (Agency Growth)</h3>
+        <p>Profound&#39;s Agency Growth plan starts at $99/month base, includes 10 prospect / pitch workspaces (25 custom prompts each), and adds full client workspaces at $399/month each (100 custom prompts).</p>
+        <ul class="seo-list"><li><strong>5 clients:</strong> $99 + (5 × $399) = <strong>$2,094/month</strong> ($419/client)</li><li><strong>15 clients:</strong> $99 + (15 × $399) = <strong>$6,084/month</strong> ($406/client)</li><li><strong>25 clients:</strong> $99 + (25 × $399) = <strong>$10,074/month</strong> ($403/client)</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Peec AI</h3>
+        <p>Profound&#39;s pitch workspace tooling is the strongest in the category — if your agency&#39;s growth engine is high-touch prospecting and AI-visibility audits as a top-of-funnel motion, the per-client cost is defensible. If your model is set-and-forget retainers, $400/client/month is a hard floor that you&#39;ll need to recover at $1.5K+ MRR per client minimum to maintain healthy gross margin.</p><p>Peec AI&#39;s published plans are €90 (Starter), €199 (Pro), and €499 (Enterprise) per month, with a dedicated agency pricing page indicating multi-brand tracking. Add-on engines beyond the base four (ChatGPT, Perplexity, Gemini, Google AI Overviews) cost extra.</p>
+        <ul class="seo-list"><li><strong>5 clients:</strong> Enterprise at €499/month, fits comfortably = <strong>~€500/month</strong> (~€100/client)</li><li><strong>15 clients:</strong> Custom agency tier required — estimated <strong>€1,500–€3,000/month</strong></li><li><strong>25 clients:</strong> Custom agency tier required — estimated <strong>€3,000–€6,000/month</strong></li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Otterly</h3>
+        <p>Peec is the price-per-workspace winner if your agency only needs reporting. The trade-off is that the platform is dashboard-only — no execution layer, no closed-loop verification, no MCP server (REST API available on Pro+). If your AEO retainer is sold as monitoring, Peec is hard to beat on price.</p><p>Otterly publishes plans roughly in the $29–$269/month range for single-team use, with multi-project support but no formal agency tier as of May 2026.</p>
+        <ul class="seo-list"><li><strong>5 clients:</strong> Realistically requires 1 paid seat per client = <strong>~$300–$1,000/month</strong> depending on plan mix</li><li><strong>15 clients:</strong> <strong>~$1,500–$4,000/month</strong></li><li><strong>25 clients:</strong> <strong>~$2,500–$6,500/month</strong></li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Ahrefs Brand Radar</h3>
+        <p>Otterly fits agencies whose AEO offer is light-touch and SEO-team-led — junior SEOs running prompt audits inside an existing SEO retainer. It does not scale cleanly as a standalone AEO practice.</p><p>Brand Radar is priced at $199/month per index (ChatGPT, Perplexity, etc.) or $699/month for all indices, layered on top of an Ahrefs plan. There is no agency-specific tier; agencies use Ahrefs&#39;s standard seat structure.</p>
+        <ul class="seo-list"><li><strong>5 clients on Ahrefs Agency seats:</strong> Brand Radar all-index ~$699 + agency Ahrefs ~$1,000+ = <strong>~$1,700/month</strong> ($340/client)</li><li><strong>15 clients:</strong> Same Brand Radar fee (it&#39;s per agency, not per client) + agency Ahrefs scaling = <strong>~$2,500–$3,500/month</strong></li><li><strong>25 clients:</strong> Estimated <strong>~$3,500–$5,000/month</strong> total</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Semrush AI Visibility Toolkit</h3>
+        <p>Brand Radar&#39;s pricing curve is favorable because the AI visibility component doesn&#39;t multiply per client — the agency pays once for the index and runs queries across the book. The catch: there&#39;s no execution layer, no white-label, and the dashboard is Ahrefs-branded. Good for SEO agencies that already live in Ahrefs and want AEO reporting added to existing client decks.</p><p>Semrush AIVT is a $99/month add-on to a Semrush plan, with Semrush One bundling AIVT and classic Semrush at $199/month. Agencies use Semrush&#39;s Agency tier.</p>
+        <ul class="seo-list"><li><strong>5 clients:</strong> Semrush One at $199 = <strong>~$199/month</strong> (~$40/client)</li><li><strong>15 clients:</strong> Agency plan + AIVT = <strong>~$500–$1,000/month</strong></li><li><strong>25 clients:</strong> <strong>~$1,000–$2,000/month</strong> estimated</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>SolCrys</h3>
+        <p>Semrush is the cheapest per-client AEO add-on in the comparison if your agency is already a Semrush customer. Limitations are the same as Brand Radar: no execution layer, no white-label, Semrush-branded UI. Fits agencies whose AEO offer is a deck deliverable, not a service line.</p><p>Conductor is enterprise-contracted with custom pricing — no published per-workspace number. Inbound conversations suggest annual contracts start in the <strong>$50K–$150K/year</strong> range for multi-brand agency deployments. Fits agencies whose clients are themselves enterprise and need a single content + AEO platform with SOC 2 Type II governance. Outside that profile, the price isn&#39;t competitive with focused AEO tools.</p><p>Brandlight is enterprise-contracted with a dedicated agencies page; no published pricing as of May 2026. Estimated <strong>$5,000–$25,000/month</strong> based on inbound conversations. Fits agencies whose clients are large brands needing enterprise-grade AI visibility intelligence; less fit for sub-$5K-retainer SMB books.</p><p>We disclose our own pricing publicly. The SolCrys Agency partnership tier is structured around per-tenant pricing with volume discounts at 10, 25, and 50 clients, and supports per-tenant invoicing (so the agency can pass platform cost through to the client transparently if that&#39;s the commercial model).</p>
+        <ul class="seo-list"><li><strong>5 clients:</strong> ~$1,500–$2,500/month (depending on prompt volume and engine mix)</li><li><strong>15 clients:</strong> ~$3,500–$5,500/month (volume discount kicks in at 10)</li><li><strong>25 clients:</strong> ~$5,500–$8,500/month (deeper volume discount at 25)</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Pricing summary: where the curves cross</h3>
+        <p>The pricing logic is that the platform should sit at 15–25% of agency retainer cost, not 40%+. We&#39;d rather grow with the agency and have a renewable contract in year three than maximize first-year ACV. If you&#39;re modeling against the numbers above and they don&#39;t pencil for your retainer pricing, <a href="/contact/" target="_blank" rel="noopener noreferrer">book a partnership call</a> and we&#39;ll walk through whether the math actually works for your book — and tell you honestly if a cheaper monitoring tool like Peec is a better fit.</p><p>For agencies under 5 clients with monitoring-only retainers, <strong>Semrush AIVT</strong> or <strong>Peec AI</strong> wins on cost.</p><p>For agencies in the 5–15 client range selling execution as a service line, <strong>SolCrys</strong> is competitive on cost and the only option with a closed loop + MCP for embedded client dashboards.</p><p>For agencies above 15 clients on enterprise retainers, the meaningful options are <strong>Profound</strong> (highest-trust enterprise narrative), <strong>Brandlight</strong> (premium enterprise AI presence), <strong>Conductor</strong> (enterprise content + AEO bundled), and <strong>SolCrys</strong> (execution + governance + per-tenant invoicing).</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>90-day rollout checklist for a new agency AEO practice</h2>
+      <p>This is the week-by-week sequence we recommend to agencies launching AEO as a service line for the first time. It assumes you&#39;ve selected a platform from the scoreboard above and have an initial 3–5 pilot clients lined up.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Weeks 1–2: Foundations</h3>
+        
+        <ul class="seo-list"><li><strong>Week 1.</strong> Stand up the agency tenant in your chosen platform. Define your agency&#39;s Corporate Context template (positioning, voice, claims, compliance rules). Document the 4 service tiers — audit, monitoring, execution, enterprise — in a service-line one-pager. Train two senior team members on the platform.</li><li><strong>Week 2.</strong> Build the agency-wide prompt-set library by category (SaaS, DTC, fintech, healthtech, etc.). Each category needs 20–30 baseline prompts that you&#39;ll then customize per client. Set up your white-label reporting templates. Decide whether you&#39;ll run clients on client logins or embed AEO data in your own client portal — that decision drives the API/MCP wiring effort.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Weeks 3–4: Pilot client onboarding</h3>
+        
+        <ul class="seo-list"><li><strong>Week 3.</strong> Onboard client 1 and client 2. For each: create the tenant, ingest Corporate Context, install the category prompt set, customize 30% of prompts for client-specifics, set up competitor list, run baseline audit. Target onboarding time: 3–7 days per client.</li><li><strong>Week 4.</strong> Onboard client 3, 4, 5. Apply lessons from clients 1–2 to compress onboarding. Run the first set of weekly monitoring reports. Identify the top 3 answer gaps per client and queue them as execution candidates.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Weeks 5–8: Execution rhythm</h3>
+        
+        <ul class="seo-list"><li><strong>Week 5.</strong> Run the first execution sprint per client: 1–2 approved actions per client (page update, FAQ block, comparison page, third-party source intervention). Use the platform&#39;s approval workflow if available; if not, bolt on Notion or Asana for governance.</li><li><strong>Week 6.</strong> Verify shipped actions. Re-test the prompts that the actions targeted. Document the lift (or lack of it) for each. Begin building your case-study library — even small lifts compound into pitch material.</li><li><strong>Week 7.</strong> Hold the first month-end client review per pilot client. Walk through actions shipped, prompts moved, citation share change, next-month plan. This is the meeting that justifies the retainer.</li><li><strong>Week 8.</strong> Run the second execution sprint. Compress sprint cycle to 2 weeks per client. By end of week 8, every pilot client should have 4 shipped actions and 2 documented lift events.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Weeks 9–12: Scale prep</h3>
+        <p>The benchmark we use with agency partners is: by day 90, you should be running at least 6 active client engagements with at least 80% gross margin on the platform line and a documented case study for at least 3 of the 6. Anything less, and the practice probably needs a different platform or a different price point.</p>
+        <ul class="seo-list"><li><strong>Week 9.</strong> Recruit and train your second tier of AEO operators (typically mid-level SEOs or content strategists). Document the standard operating procedure for onboarding, sprint planning, reporting, and review.</li><li><strong>Week 10.</strong> Run a pricing audit. Compare actual platform cost per client to retainer revenue per client. If gross margin is below 60%, either re-price retainers or re-tier service offer. Don&#39;t onboard client 6+ before this audit.</li><li><strong>Week 11.</strong> Productize the audit-as-pitch motion. Build a templated audit deck that takes 2 days per prospect to produce. Use it as the top-of-funnel for the next 5 clients.</li><li><strong>Week 12.</strong> Plan the next-quarter expansion. By end of week 12 you should be at 6–10 active clients with a documented sprint motion, a productized audit pitch, and a known gross margin per client.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Talk to us about the agency motion</h2>
+      <p>If you&#39;re an agency founder, head of SEO at an agency, or growth lead trying to decide whether AEO becomes a service line in 2026, we run partnership calls weekly with people in exactly that seat. The call is a real working session — we look at your client list, your existing retainer pricing, and your AEO readiness, and we tell you whether SolCrys fits or whether a cheaper monitoring tool like Peec or a fuller enterprise platform like Brandlight is a better starting point.</p><p><a href="/contact/" target="_blank" rel="noopener noreferrer">Book a SolCrys agency partnership call</a>.</p><p>If you&#39;d rather start with reading: our <a href="/aeo-for-agencies/" target="_blank" rel="noopener noreferrer">AEO for Agencies pillar page</a> covers the service-ladder model in more depth, our <a href="/aeo-platform-pilot-playbook/" target="_blank" rel="noopener noreferrer">AEO Platform Pilot Playbook</a> is the 30-day version of the 90-day rollout above, and our <a href="/aeo-recovery-score/" target="_blank" rel="noopener noreferrer">AEO Recovery Score guide</a> is the metric we recommend agencies use as the headline KPI in client reviews.</p><p>*Last updated 2026-05-22. Vendor feature claims verified against publicly available product documentation as of May 2026. Pricing figures reflect published rates where available and clearly-marked estimates where vendors do not publish. We re-publish this article quarterly with refreshed data.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How should an agency charge for AEO?</h3>
+            <p>The two viable models in 2026 are (1) a flat monthly retainer in the $1,500–$5,000 range that includes monitoring + 2–4 monthly execution actions, or (2) a tiered retainer where monitoring is the base ($800–$1,500/month) and execution sprints are priced separately ($1,500–$3,000 per sprint). Avoid the pure-audit one-shot model — it burns top-of-funnel but doesn&#39;t sustain a service line. The closer your offer gets to &quot;we ship the fix and prove the lift,&quot; the higher the retainer ceiling.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do agencies package AEO as a retainer?</h3>
+            <p>We recommend bundling four deliverables: (1) a weekly or bi-weekly monitoring report on a fixed prompt set, (2) a monthly executive review with citation-share and Share of Recommendation movement, (3) 2–4 shipped execution actions per month (page updates, FAQ improvements, comparison pages, third-party source work), and (4) a quarterly strategy refresh that updates the prompt set, competitor list, and Corporate Context. Packaging matters because clients buy a workflow, not a tool.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What should an agency ship to clients monthly?</h3>
+            <p>At minimum: an executive summary deck (5–10 slides), a movement-of-the-month highlight (the single biggest citation or Share of Recommendation change), a documented list of actions shipped, a re-test result for the prompts those actions targeted, and a next-month plan. White-label the deck under your agency&#39;s branding. The clients renewing at year 2 are the ones whose monthly deliverable feels like a strategy meeting, not a status report.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What are the white-label limits I should ask vendors about?</h3>
+            <p>Ask specifically: (1) Can the live dashboard be served under our subdomain, or only PDF exports? (2) Does the client login screen show your brand or the vendor&#39;s? (3) Does the vendor&#39;s name appear in any client-facing email (alerts, password resets, support)? (4) Can we expose data via our own API/portal without the client ever touching the vendor product? Most vendors will answer &quot;yes&quot; to the first question and degrade across the next three. Get the answers in writing before signing.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I really run a 25-client AEO practice solo, or do I need a team?</h3>
+            <p>Realistically you need at minimum: 1 senior strategist (you), 1 mid-level operator (sprint execution and reporting), and access to a content production capacity (in-house writer, freelancer pool, or partnered content agency). Above 15 clients, you also need a junior coordinator handling onboarding, scheduling, and report assembly. Solo founders top out around 8–10 clients without burning out the strategist role.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between an AEO platform and an AI visibility dashboard for agency purposes?</h3>
+            <p>A dashboard measures and reports. An AEO platform additionally generates fix recommendations, ships them under a governance workflow, and re-tests the same prompts to verify the change. For agencies, the platform model is easier to defend on retainer because each month produces a &quot;we shipped X, prompts moved Y&quot; report. The dashboard model degrades into a status-update business that price-compresses fast. We unpack this in our <a href="/ai-visibility-dashboard-vs-aeo-execution-engine/" target="_blank" rel="noopener noreferrer">dashboard vs execution engine guide</a>.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long before an agency AEO practice is profitable?</h3>
+            <p>With 5 pilot clients onboarded in months 1–2 at $1,500–$2,500/month, you typically hit positive contribution margin on the AEO line by month 4–6 (after platform cost, operator time, content production). Year-1 EBITDA on a 10–15 client book lands in the 25–40% range with a competent operator. The leverage point is reusing prompt-set templates and case studies across clients in the same category.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">For Agencies</p>
+            <h3><a href="/aeo-for-agencies/">AEO for Agencies</a></h3>
+            <p>A practical guide for agencies launching AEO services, from AI visibility audits to Corporate Context, prompt sets, client workspaces, and action-to-result reporting.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-dashboard-vs-aeo-execution-engine/">AI Visibility Dashboard vs AEO Execution Engine</a></h3>
+            <p>AEO platforms split into two architectures: dashboards measure and report; execution engines diagnose, fix, and verify. This guide compares 6 use cases, walks through 5 real scenarios, and ends with a decision tree.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

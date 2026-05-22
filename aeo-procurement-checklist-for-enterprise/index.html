@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Enterprise AEO Procurement Checklist (2026): A 25-Item Vendor Questionnaire | SolCrys</title>
+    <meta name="description" content="A 25-item enterprise procurement checklist for evaluating Answer Engine Optimization (AEO) vendors: security, data handling, SLAs, MSA, technical fit. With sample RFP language and red flags." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-procurement-checklist-for-enterprise/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Enterprise AEO Procurement Checklist (2026): A 25-Item Vendor Questionnaire | SolCrys" />
+    <meta property="og:description" content="A 25-item enterprise procurement checklist for evaluating Answer Engine Optimization (AEO) vendors: security, data handling, SLAs, MSA, technical fit. With sample RFP language and red flags." />
+    <meta property="og:url" content="https://solcrys.com/aeo-procurement-checklist-for-enterprise/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Enterprise AEO Procurement Checklist (2026): A 25-Item Vendor Questionnaire","item":"https://solcrys.com/aeo-procurement-checklist-for-enterprise/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Enterprise AEO Procurement Checklist (2026): A 25-Item Vendor Questionnaire","description":"A 25-item enterprise procurement checklist for evaluating Answer Engine Optimization (AEO) vendors: security, data handling, SLAs, MSA, technical fit. With sample RFP language and red flags.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/aeo-procurement-checklist-for-enterprise/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-procurement-checklist-for-enterprise/","mainEntity":[{"@type":"Question","name":"Can I skip the security review if I'm only using AEO for marketing?","acceptedAnswer":{"@type":"Answer","text":"No. The platform processes brand data, prompt sets that often encode competitive strategy, and in many cases ships content changes to owned properties. The blast radius of a breach or a misuse event is the same regardless of whether the use case is labeled \"marketing.\" Run the standard review."}},{"@type":"Question","name":"What about a startup AEO vendor without SOC 2 — is it ever OK?","acceptedAnswer":{"@type":"Answer","text":"Sometimes, with discipline. Acceptable when (a) the vendor has named an auditor and committed to a Type II completion date in writing, (b) you have a documented exception with sign-off from your CISO or equivalent, (c) the contract terms protect you (data deletion, audit rights, breach notification, no model training), and (d) the use case is scoped to non-regulated data. Not acceptable when the vendor cannot articulate a path or refuses to disclose its sub-processors."}},{"@type":"Question","name":"How do I evaluate AI usage inside the platform?","acceptedAnswer":{"@type":"Answer","text":"Ask three questions. First, *which third-party LLMs does the platform call, and for what purpose?* Second, *what contractual commitments does the vendor have from those LLM providers about training on routed data?* Third, *what data does the platform send to each LLM — prompts only, or prompts plus customer-specific brand context?* The right answer is that the vendor uses zero-retention API tiers and contractually prohibits training on customer data through the sub-processor chain."}},{"@type":"Question","name":"What about Marketing Mix Modeling (MMM) integration?","acceptedAnswer":{"@type":"Answer","text":"Most AEO platforms today do not integrate directly with MMM systems. Treat AEO contribution to MMM as a downstream analytics question that lives in your data warehouse, fed by AEO platform exports (citation rate, mention rate, action ship counts). Confirm that the AEO vendor exports those metrics in machine-readable form on a documented schedule."}},{"@type":"Question","name":"Do I need a separate procurement track for AEO versus my existing SEO platform?","acceptedAnswer":{"@type":"Answer","text":"If your SEO platform offers an AEO module (Ahrefs Brand Radar, Semrush AI Visibility Toolkit, Conductor's AEO module), the procurement track can usually be the same — you're amending an existing MSA. If you're adding a pure-play AEO vendor, run it as a fresh procurement cycle with the 25-item checklist above. AEO is an operating layer on top of SEO, so the platforms can coexist, but each platform that can write to your properties needs its own security review."}},{"@type":"Question","name":"Who should own AEO procurement internally — Marketing, IT, or Procurement?","acceptedAnswer":{"@type":"Answer","text":"Marketing sponsors; Procurement runs the cycle; IT Security gates on the security review; Legal owns the MSA / DPA. The handoff failure mode is Marketing committing verbally to a vendor before Procurement and Security are engaged, which forces an awkward unwind. The companion piece [CMO AEO Procurement Playbook](/cmo-aeo-procurement-playbook/) covers the marketing-side workflow that should run in parallel with this checklist."}},{"@type":"Question","name":"Is there a faster path for renewals?","acceptedAnswer":{"@type":"Answer","text":"Yes. On renewal, the security file is already established. Renewals typically take 4–8 weeks and focus on (a) updated SOC 2 reports, (b) any material sub-processor changes, (c) commercial terms (price escalation, scope changes), and (d) any new product surfaces (e.g., the vendor added an action-shipping feature mid-term)."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>Enterprise AEO Procurement Checklist (2026): A 25-Item Vendor Questionnaire</h1>
+        <p class="seo-lede">An enterprise procurement checklist for an Answer Engine Optimization (AEO) vendor should cover five areas: <strong>(1) Security</strong> (SOC 2, ISO 27001, encryption, SSO, RBAC, penetration testing); <strong>(2) Data and privacy</strong> (DPA, customer-data-training exclusion, GDPR/CCPA, deletion SLAs, </p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What should an enterprise procurement team check before buying AEO?</li><li>What&#39;s in an AEO RFP?</li><li>How do I evaluate AEO vendors for security?</li><li>What are the data residency options for AEO platforms?</li><li>Are AEO vendors enterprise-ready?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>An enterprise procurement checklist for an Answer Engine Optimization (AEO) vendor should cover five areas: <strong>(1) Security</strong> (SOC 2, ISO 27001, encryption, SSO, RBAC, penetration testing); <strong>(2) Data and privacy</strong> (DPA, customer-data-training exclusion, GDPR/CCPA, deletion SLAs, audit logging); <strong>(3) Service and reliability</strong> (uptime SLA, support tiers, incident communication, roadmap visibility); <strong>(4) Commercial terms</strong> (MSA, auto-renewal, price escalation, termination for convenience); and <strong>(5) Technical fit</strong> (API limits, MCP / agent-readiness, CMS integration, data portability). This article gives you the 25-item questionnaire, sample RFP language, common red flags, and a realistic 3–4 month timeline.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why AEO procurement is different from SEO procurement</h2>
+      <p>Most enterprise marketing organizations already have procurement playbooks for SEO platforms. AEO procurement is not the same exercise, and treating it as one tends to underweight the risks that actually matter at the 1,000+ employee scale.</p><p>Three structural differences are worth naming up front.</p><p><strong>The vendor population is young.</strong> The majority of AEO-specific platforms in market today were founded between 2022 and 2024. Profound, Peec AI, Otterly, Brandlight, Evertune, Scrunch, and SolCrys are all in that cohort. Compared to the SEO category — where most enterprise vendors have a decade or more of compliance audits behind them — the AEO category is still building out its enterprise readiness posture. Some have completed SOC 2 Type II, others are mid-audit, and a meaningful share have nothing publicly disclosed at all. The first job of an enterprise buyer is to find out which group a vendor falls in, not to assume.</p><p><strong>AEO platforms use AI inside the platform.</strong> Many of these tools call commercial LLM APIs (OpenAI, Anthropic, Google, Perplexity) on behalf of customers to generate content briefs, recommendations, or executed page updates. That introduces a second-order security question SEO procurement rarely faces: *what does the vendor do with your prompts, your brand data, and your competitive intelligence when it routes them through a third-party model?* Sub-processor disclosure stops being a checkbox and becomes a substantive review item.</p><p><strong>The action surface is broader.</strong> SEO platforms historically read your site and your analytics. A growing share of AEO platforms write — they push CMS updates, file PRs, post to Reddit accounts, or update Wikipedia drafts. Any platform that can take an action on your owned media needs the same procurement scrutiny as a CMS or marketing automation system, not the lighter touch typical of read-only analytics tools. AEO is the operating layer on top of SEO, not a replacement, and the procurement bar should reflect that operational reach.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 25-item enterprise checklist</h2>
+      <p>Use the checklist below as your vendor questionnaire. Score each item as <strong>Met / In flight (with target date) / Not met</strong>, and route the result through your standard security review.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Security (8 items)</h3>
+        
+        <ul class="seo-list"><li><strong>SOC 2 Type II — current report available under NDA?</strong> Type I is design only; Type II demonstrates the controls operate effectively over a defined audit window (usually 6–12 months). Type II is the enterprise expectation in 2026.</li><li><strong>ISO 27001 — completed or in flight?</strong> Required for many EU and APAC enterprise buyers. Acceptable if in flight with an auditor named and a target date.</li><li><strong>Data residency options — US, EU, APAC?</strong> Confirm where customer data is processed and stored. EU customers will typically require an EU-residency option to satisfy data-transfer requirements.</li><li><strong>Sub-processor list disclosed and kept current?</strong> The vendor should publish a sub-processor list (LLM providers, hosting, analytics, support tooling) and commit to notifying customers of additions before they take effect.</li><li><strong>Encryption at rest and in transit?</strong> AES-256 at rest, TLS 1.2+ in transit. Confirm key management practice (vendor-managed, KMS, or customer-managed).</li><li><strong>SSO support — SAML 2.0 and OIDC?</strong> Enterprise identity teams will require federated authentication. Confirm whether SSO is included in standard pricing or gated behind an enterprise tier.</li><li><strong>RBAC granularity?</strong> Beyond admin / user, can you scope permissions to specific workspaces, prompt sets, action approvals, and billing? Approval rights matter most for any platform that ships content changes.</li><li><strong>Penetration test report available?</strong> Annual third-party pen test, with executive summary available under NDA. Confirm remediation cadence for any findings.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Data and privacy (5 items)</h3>
+        
+        <ul class="seo-list"><li><strong>DPA template ready for execution?</strong> A vendor without a standard DPA template forces your legal team to draft from scratch, typically adding 4–8 weeks to the contract cycle.</li><li><strong>Customer data exclusion from model training?</strong> The vendor must contractually commit not to train its own models or its sub-processor LLMs on your prompts, your responses, your brand facts, or your competitive data. This is the single most important data clause for an AEO contract.</li><li><strong>GDPR and CCPA compliance posture?</strong> Confirm legal basis for processing, data-subject request handling SLA, and breach notification timeline. If you operate in regulated industries, also confirm HIPAA / FINRA posture as relevant.</li><li><strong>Data deletion and export SLAs?</strong> Confirm the timeline for full deletion on termination (typically 30–90 days) and self-serve export of your prompts, results, and citation data in machine-readable form.</li><li><strong>Audit logging available?</strong> Per-user, per-action audit trail covering authentication, permission changes, action approvals, content ships, and data exports. Required for SOX-adjacent environments.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Service and reliability (4 items)</h3>
+        
+        <ul class="seo-list"><li><strong>Uptime SLA and historical performance?</strong> Ask for the SLA threshold (99.5%, 99.9%, 99.95%) and 12 months of actual uptime data. The gap between commitment and actual is more informative than either number alone.</li><li><strong>Support tier options — 24x7 enterprise?</strong> Confirm response-time targets by severity (P1 / P2 / P3), named CSM availability, and escalation paths.</li><li><strong>Incident communication policy?</strong> Public status page, email subscription, severity definitions, and post-incident review (RCA) commitment for major events.</li><li><strong>Roadmap visibility?</strong> Quarterly roadmap shared under NDA, with a path to influence priorities as a named enterprise customer. AEO is moving fast; locked-in roadmaps are a multi-quarter risk.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Commercial (4 items)</h3>
+        
+        <ul class="seo-list"><li><strong>MSA terms negotiable?</strong> Confirm willingness to negotiate liability cap, indemnification scope, IP terms (especially around generated content and metadata), and assignment language. A click-through agreement is rarely acceptable at enterprise scale.</li><li><strong>Renewal auto-extension policy?</strong> The 30-day-notice auto-renewal common in SaaS is fine; aggressive 90-day auto-renewal windows are a procurement friction point. Require explicit notice and price-protection language.</li><li><strong>Price escalation clauses?</strong> Cap annual escalation at a defined ceiling (CPI or a fixed percentage). Anything above 5% per year on renewal should require business-case justification.</li><li><strong>Termination for convenience?</strong> Confirm whether early-termination rights exist for the customer (typical: 30–90 days&#39; notice with proration). Some vendors require term-completion regardless of usage.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Technical fit (4 items)</h3>
+        
+        <ul class="seo-list"><li><strong>API rate limits and authentication?</strong> Documented public API with OAuth 2.0 or API-key authentication, published rate limits, and webhooks for material events. Required for integration into existing marketing data stacks.</li><li><strong>MCP and agent-readiness?</strong> Model Context Protocol (MCP) support, or equivalent agent-callable interface, matters as enterprise marketing functions move toward agent orchestration. Confirm what surface area is exposed and what authentication model applies.</li><li><strong>CMS integration?</strong> Direct connectors or webhook-based integration with the CMSes your organization actually runs (WordPress, Contentful, Sanity, AEM, Optimizely, custom). See our <a href="/aeo-platforms-that-integrate-with-cms/" target="_blank" rel="noopener noreferrer">guide to AEO platforms that integrate with CMS</a> for the current state.</li><li><strong>Data export format and portability?</strong> Confirm export of historical prompts, responses, citations, and recommendations in CSV / JSON / Parquet, with a documented schema. Vendor lock-in via proprietary export formats is a recurring procurement issue in this category.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Sample RFP language</h2>
+      <p>The five questions below are designed to be pasted directly into your RFP template. Each requests a substantive response, not a binary checkbox.</p>
+      <ul class="seo-list"><li><strong>Security posture.</strong> &quot;Describe your current SOC 2 Type II audit status, including the audit window, auditor name, and date the most recent report was issued. If Type II is not yet complete, describe your current Type I status, target Type II completion date, and any compensating controls. Confirm whether reports are available under NDA before contract execution.&quot;</li><li><strong>Data handling.</strong> &quot;Describe what customer data your platform processes, where it is stored (by region), which sub-processors receive it, and what contractual commitments you make regarding the use of customer data for model training — by you and by your sub-processors. Provide your standard DPA for review.&quot;</li><li><strong>Multi-tenancy isolation.</strong> &quot;Describe your tenant isolation model. Is customer data stored in a shared database with logical separation, in per-tenant databases, or in another model? Describe the controls that prevent cross-tenant data access and any historical incidents involving cross-tenant exposure.&quot;</li><li><strong>Action-shipping governance.</strong> &quot;If your platform writes to customer-owned properties (CMS, social, third-party platforms), describe the approval workflow, audit logging, rollback capability, and the human-in-the-loop controls available. Specify which actions are fully automated, which require human approval, and which are recommendation-only.&quot;</li><li><strong>ROI proof methodology.</strong> &quot;Describe how you measure and report the impact of your platform on customer outcomes. Cite a customer case study where you tracked a measurable change in AI citation rate, mention rate, or downstream conversion, and describe the measurement methodology — including how you separated platform impact from concurrent marketing activity.&quot;</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Common enterprise procurement red flags</h2>
+      <p>These five patterns should trigger additional scrutiny — not always disqualification, but a formal exception process with sign-off from security, legal, and the business sponsor.</p><p>A longer treatment of vendor-side claims worth verifying — engine coverage, citation methodology, ROI guarantees — is in <a href="/aeo-vendor-claims-worth-verifying/" target="_blank" rel="noopener noreferrer">AEO vendor claims worth verifying</a>.</p>
+      <ul class="seo-list"><li><strong>No SOC 2 and no audit in flight.</strong> Acceptable only if the vendor names an auditor, a start date, and a target completion date, and your business case justifies bridging the gap with compensating controls.</li><li><strong>Customer data used for model training without opt-out.</strong> Disqualifying for most enterprise buyers. AEO data includes competitive intelligence and brand strategy; allowing a vendor to train on it has long-tail implications well beyond the contract term.</li><li><strong>No DPA template.</strong> Adds 4–8 weeks of legal redlines and a meaningful risk that the negotiation stalls. Reasonable for a true startup; unusual at enterprise pricing.</li><li><strong>Auto-renewal escalation above 5% per year without business justification.</strong> A common pricing-trap pattern. Push for CPI-indexed escalation or a defined ceiling.</li><li><strong>Refusal to disclose data residency.</strong> Often signals the vendor has not yet architected for regional isolation. Acceptable only if the vendor commits to a roadmap date and a contractual remedy if the date slips.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Timeline for enterprise AEO procurement</h2>
+      <p>A realistic enterprise AEO procurement cycle for the first contract runs 3–4 months end to end. Renewals are typically 4–8 weeks. The phased timeline below is the pattern we&#39;ve seen most often.</p><p>Total: <strong>3–4 months for the first contract</strong>, materially faster on renewal cycles where the security file is already established. Build buffer for security findings and any custom integration work.</p>
+      <ul class="seo-list"><li><strong>Week 1–2 — Marketing shortlist.</strong> Marketing and SEO leadership build a shortlist of 3–5 vendors using an N-way comparison framework. Our <a href="/profound-vs-peec-vs-otterly-vs-solcrys-2026/" target="_blank" rel="noopener noreferrer">Profound vs Peec vs Otterly vs SolCrys comparison</a> is a working example of the shape that step should take.</li><li><strong>Week 3–4 — Vendor demos and questionnaire.</strong> Each shortlisted vendor receives the 25-item checklist and presents a 60-minute working demo against your prompt set. Procurement attends to begin vendor file build-out.</li><li><strong>Week 5–8 — Security review and procurement evaluation.</strong> Security and IT review the SOC 2 report, sub-processor list, DPA, pen test summary, and architecture diagram. Procurement scores pricing, MSA willingness, and reference checks.</li><li><strong>Week 9–12 — Legal redlines and MSA negotiation.</strong> Legal redlines the MSA, DPA, SLA, and any custom terms. Expect 2–3 redline cycles. Most stall points cluster around indemnification scope, liability cap, IP for generated content, and data-training exclusions.</li><li><strong>Week 13–14 — Pilot start.</strong> Contracted pilot begins. Recommend a 60–90 day pilot scoped to a single business unit or brand with defined success criteria before full rollout.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What SolCrys answers honestly</h2>
+      <p>Procurement teams are correctly skeptical of vendors who self-rate their own enterprise readiness. The point of this section is to be specific rather than aspirational. As of May 2026:</p><p>If a hard SOC 2 Type II requirement is gating the decision today and there is no exception path, SolCrys is not the right vendor for that procurement cycle. Most other 25-item items are met or have a near-term answer.</p>
+      <ul class="seo-list"><li><strong>SOC 2 Type II:</strong> Not yet complete. SolCrys is preparing for SOC 2 Type I as a precursor; named-auditor and target dates available under NDA to procurement teams in active evaluation. By contrast, Profound publicly announced SOC 2 Type 2 in mid-2025 and Brandlight publishes SOC 2 Type II alignment on its trust pages, so SolCrys is not the leader on this dimension today and procurement should weight that accordingly.</li><li><strong>ISO 27001:</strong> Not in flight; under consideration for the 2026 roadmap based on customer demand.</li><li><strong>Data residency:</strong> US-region processing today. EU-region option is on the 2026 roadmap; not available as of this writing.</li><li><strong>Sub-processor disclosure:</strong> Available on request under NDA, not yet on a public trust page. Updates communicated to enterprise customers.</li><li><strong>Customer-data-training exclusion:</strong> SolCrys does not train its own models on customer data, and contractually prohibits its sub-processor LLMs from doing so. This is committed in the standard DPA.</li><li><strong>DPA template:</strong> Available.</li><li><strong>SSO:</strong> SAML 2.0 supported on enterprise tier; OIDC on roadmap.</li><li><strong>MCP / agent access:</strong> Available. MCP server is in production and exposes the workspace&#39;s prompt sets, citations, recommendations, and tasks to compliant agent clients.</li><li><strong>CMS integration:</strong> WordPress and headless-CMS webhook integration available; native connectors for additional CMSes on roadmap.</li><li><strong>Closed-loop execution:</strong> In production. Recommendation → human approval → page ship → re-test → recovery scoring is a single workflow.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Next step</h2>
+      <p>If you&#39;re an enterprise team starting an AEO procurement cycle, the editable version of the 25-item checklist plus sample RFP language is available as a download. To start a SolCrys enterprise evaluation with security-file access and a procurement-ready demo, <a href="/contact/" target="_blank" rel="noopener noreferrer">contact our enterprise team</a>. For the marketing-side decision framework that should run in parallel, see the <a href="/cmo-aeo-procurement-playbook/" target="_blank" rel="noopener noreferrer">CMO AEO Procurement Playbook</a>.</p><p>*Last updated 2026-05-22. This checklist is maintained by the SolCrys research team and reviewed quarterly. Vendor-specific security postures referenced (Profound SOC 2 Type II, Brandlight SOC 2 Type II alignment, Peec AI GDPR posture) are drawn from publicly available statements as of May 2026 and may have advanced since.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Can I skip the security review if I&#39;m only using AEO for marketing?</h3>
+            <p>No. The platform processes brand data, prompt sets that often encode competitive strategy, and in many cases ships content changes to owned properties. The blast radius of a breach or a misuse event is the same regardless of whether the use case is labeled &quot;marketing.&quot; Run the standard review.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about a startup AEO vendor without SOC 2 — is it ever OK?</h3>
+            <p>Sometimes, with discipline. Acceptable when (a) the vendor has named an auditor and committed to a Type II completion date in writing, (b) you have a documented exception with sign-off from your CISO or equivalent, (c) the contract terms protect you (data deletion, audit rights, breach notification, no model training), and (d) the use case is scoped to non-regulated data. Not acceptable when the vendor cannot articulate a path or refuses to disclose its sub-processors.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I evaluate AI usage inside the platform?</h3>
+            <p>Ask three questions. First, *which third-party LLMs does the platform call, and for what purpose?* Second, *what contractual commitments does the vendor have from those LLM providers about training on routed data?* Third, *what data does the platform send to each LLM — prompts only, or prompts plus customer-specific brand context?* The right answer is that the vendor uses zero-retention API tiers and contractually prohibits training on customer data through the sub-processor chain.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What about Marketing Mix Modeling (MMM) integration?</h3>
+            <p>Most AEO platforms today do not integrate directly with MMM systems. Treat AEO contribution to MMM as a downstream analytics question that lives in your data warehouse, fed by AEO platform exports (citation rate, mention rate, action ship counts). Confirm that the AEO vendor exports those metrics in machine-readable form on a documented schedule.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need a separate procurement track for AEO versus my existing SEO platform?</h3>
+            <p>If your SEO platform offers an AEO module (Ahrefs Brand Radar, Semrush AI Visibility Toolkit, Conductor&#39;s AEO module), the procurement track can usually be the same — you&#39;re amending an existing MSA. If you&#39;re adding a pure-play AEO vendor, run it as a fresh procurement cycle with the 25-item checklist above. AEO is an operating layer on top of SEO, so the platforms can coexist, but each platform that can write to your properties needs its own security review.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Who should own AEO procurement internally — Marketing, IT, or Procurement?</h3>
+            <p>Marketing sponsors; Procurement runs the cycle; IT Security gates on the security review; Legal owns the MSA / DPA. The handoff failure mode is Marketing committing verbally to a vendor before Procurement and Security are engaged, which forces an awkward unwind. The companion piece <a href="/cmo-aeo-procurement-playbook/" target="_blank" rel="noopener noreferrer">CMO AEO Procurement Playbook</a> covers the marketing-side workflow that should run in parallel with this checklist.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is there a faster path for renewals?</h3>
+            <p>Yes. On renewal, the security file is already established. Renewals typically take 4–8 weeks and focus on (a) updated SOC 2 reports, (b) any material sub-processor changes, (c) commercial terms (price escalation, scope changes), and (d) any new product surfaces (e.g., the vendor added an action-shipping feature mid-term).</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/cmo-aeo-procurement-playbook/">The CMO&#39;s AEO Procurement Playbook</a></h3>
+            <p>A 30-day playbook for evaluating and procuring an AEO platform — RFP design, POC scope, reference-check script, contract red lines. From Gwen Chen, ex-AWS marketing leader, on what AEO procurement should look like in 2026.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-platforms-that-integrate-with-cms/">AEO Platforms That Integrate with Your CMS (2026)</a></h3>
+            <p>Which AEO platforms actually integrate with WordPress, Webflow, Contentful, Sanity, HubSpot, and Shopify in 2026 — and which only export PDFs. A 2,400-word buyer guide for content engineering leads.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Track Where Your Competitors Get Cited in AI Search (2026) | SolCrys</title>
+    <meta name="description" content="A 4-step playbook for tracking which competitors AI engines cite — competitive share of voice, citation source maps, and replacement rate. Real SolCrys data." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/track-where-competitors-get-cited-in-ai/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Track Where Your Competitors Get Cited in AI Search (2026) | SolCrys" />
+    <meta property="og:description" content="A 4-step playbook for tracking which competitors AI engines cite — competitive share of voice, citation source maps, and replacement rate. Real SolCrys data." />
+    <meta property="og:url" content="https://solcrys.com/track-where-competitors-get-cited-in-ai/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Track Where Your Competitors Get Cited in AI Search (2026)","item":"https://solcrys.com/track-where-competitors-get-cited-in-ai/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Track Where Your Competitors Get Cited in AI Search (2026)","description":"A 4-step playbook for tracking which competitors AI engines cite — competitive share of voice, citation source maps, and replacement rate. Real SolCrys data.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/track-where-competitors-get-cited-in-ai/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/track-where-competitors-get-cited-in-ai/","mainEntity":[{"@type":"Question","name":"How many competitors should I track?","acceptedAnswer":{"@type":"Answer","text":"Three to five. Under three, you can't see distribution. Over seven, your prompt set gets diluted and your analyst time fragments. The 3–5 range matches what AI engines actually surface per answer."}},{"@type":"Question","name":"Can I see what AI says about my competitor specifically?","acceptedAnswer":{"@type":"Answer","text":"Yes. Any AEO platform with competitor tracking will return the per-prompt response text where the competitor was mentioned, and most expose the citation URLs used to ground the mention. You can read the actual AI sentences describing your competitor, not just a mention count."}},{"@type":"Question","name":"What if my competitor doesn't have a known brand name?","acceptedAnswer":{"@type":"Answer","text":"Two paths: (1) track them by domain instead of brand name (the AI engine will often cite their .com even when it doesn't name them); (2) track them via their product name or their founder's name. Smaller competitors are often cited via the founder's LinkedIn or a single product page rather than a category-level brand reference."}},{"@type":"Question","name":"What's the difference between SOV and citation share?","acceptedAnswer":{"@type":"Answer","text":"SOV (share of voice) is about *mentions in the answer text* — how often your brand is named in AI responses. Citation share is about *which URLs the engine pointed to as sources* — your owned-domain presence in the source list. A brand can have high SOV and low citation share (they're mentioned because *editorial outlets* talk about them) or high citation share and low SOV (their docs get cited but the answer doesn't name them). Track both."}},{"@type":"Question","name":"How often should I re-run the competitive tracking?","acceptedAnswer":{"@type":"Answer","text":"Daily for the prompt-level data ingestion; weekly for the analyst review; quarterly for the strategic re-baseline. Daily because AI answers drift; weekly because that's the cadence at which you can act on a finding; quarterly because the prompt set itself needs to evolve as the category does."}},{"@type":"Question","name":"Does this work for very new categories where AI answers are still forming?","acceptedAnswer":{"@type":"Answer","text":"Yes, but with a caveat: in a category under 18 months old, the AI engines will lean heavily on whichever editorial outlet covered the category first. Your competitive tracking will partly be tracking which outlet is shaping the narrative. That's still useful — it tells you who to brief."}},{"@type":"Question","name":"Is competitive tracking allowed under each engine's terms?","acceptedAnswer":{"@type":"Answer","text":"Reading what AI engines say publicly in response to your own prompts is, as of mid-2026, generally treated as user behavior — not scraping. Automated, high-volume querying is a different matter; use a platform that respects the engine APIs and rate limits. Don't try to scrape ChatGPT directly."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>How to Track Where Your Competitors Get Cited in AI Search (2026)</h1>
+        <p class="seo-lede">To track where competitors get cited in AI search, run a 4-step process: <strong>(1)</strong> build a 10–25-prompt competitive set covering the questions your buyers ask before choosing a vendor; <strong>(2)</strong> run those prompts across ChatGPT, Perplexity, Google AI Overviews, and Gemini at minimum;</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I track which competitors AI engines cite?</li><li>Can I see what ChatGPT says about my competitors?</li><li>What tool tracks competitor AI search citations?</li><li>How do I measure competitive share of voice in AI?</li><li>How often does AI recommend my competitor instead of me?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>To track where competitors get cited in AI search, run a 4-step process: <strong>(1)</strong> build a 10–25-prompt competitive set covering the questions your buyers ask before choosing a vendor; <strong>(2)</strong> run those prompts across ChatGPT, Perplexity, Google AI Overviews, and Gemini at minimum; <strong>(3)</strong> capture which competitors were mentioned, which got the primary (first / recommended) slot, and which third-party URLs were cited; <strong>(4)</strong> calculate competitive share of voice and citation gap. The output tells you which competitor is winning which prompt, and where your brand is being substituted out.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why competitor AI citation tracking matters</h2>
+      <p>A B2B buyer in 2026 asks ChatGPT a question like *&quot;what&#39;s the best AEO platform for a mid-market B2B SaaS team?&quot;* The answer cites three to five vendors by name, often with a one-line description and a primary recommendation. If your brand isn&#39;t one of the three, you&#39;re not on a list the buyer will look at — you&#39;re not even a tab they open. Your competitor is.</p><p>This is a different failure mode than losing a Google ranking. With Google, you can see you&#39;re on page 2; the buyer might still find you. With AI search, the answer is the shortlist. If you&#39;re not in it, you didn&#39;t lose the click — you lost the consideration. Tracking competitor citations is the only way to know which competitors are quietly inheriting your pipeline.</p><p>The economics are also lopsided. Recent benchmarks across B2B SaaS show top-cited brands earning roughly <strong>8× more AI citations than the median competitor</strong>, with leading brands in mature categories reaching <strong>25–45% share of voice</strong> while emerging brands typically start at 3–8%. The distribution is power-law, not linear — and the brands at the top compound, because every new piece of content they publish has more citation surface area to attach to.</p><p>Competitor citation tracking is how you find out (a) who&#39;s at the top of that distribution in *your* category, (b) which specific prompts they own, and (c) which third-party sources are amplifying them. Without that data, your AEO work is opinion. With it, the work has a target.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 4-step competitive tracking process</h2>
+      
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Step 1: Build a competitive prompt set</h3>
+        <p>The prompts that matter for competitive tracking are not the same as the prompts you use for brand monitoring. Brand monitoring leans on prompts where someone already knows your name (*&quot;is SolCrys any good?&quot;*). Competitive tracking leans on prompts where the buyer doesn&#39;t know any names yet, and is asking the engine to produce a shortlist.</p><p>A good competitive prompt set has 10–25 prompts, split across four buckets:</p>
+        <ul class="seo-list"><li><strong>Category-discovery prompts</strong> — *&quot;what are the best [category] tools in 2026?&quot;*, *&quot;top 5 [category] vendors compared&quot;*. These produce the canonical shortlist your category cycles through.</li><li><strong>Use-case prompts</strong> — *&quot;best [category] tool for [persona] working on [job]&quot;*. These split the shortlist by buyer segment and reveal niche winners.</li><li><strong>Versus prompts</strong> — *&quot;X vs Y for [job]&quot;*. These reveal how AI describes the tradeoffs and which features it leans on.</li><li><strong>Replacement prompts</strong> — *&quot;alternatives to [competitor]&quot;*, *&quot;is there a cheaper version of [competitor]&quot;*. These are the prompts where you have the best chance of inserting your brand against a dominant competitor.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 2: Run the prompts across the engines that matter</h3>
+        <p>For a 22-prompt set, we typically run 8 category-discovery, 6 use-case, 4 versus, and 4 replacement. Our <a href="/golden-prompt-set-methodology/" target="_blank" rel="noopener noreferrer">golden prompt set methodology</a> walks through how to source these from your sales transcripts rather than guess them.</p><p>For B2B in 2026, the minimum coverage is <strong>ChatGPT, Perplexity, Google AI Overviews, and Gemini</strong>. For developer / technical buyers, add Claude. For e-commerce or consumer-adjacent categories, add Amazon Rufus and ChatGPT Shopping.</p><p>Each engine retrieves differently and produces a different shortlist:</p>
+        <ul class="seo-list"><li><strong>ChatGPT Search</strong>: Bing index plus GPTBot crawling plus RAG-style retrieval into the model&#39;s response. Heavily weights editorial and listicle content.</li><li><strong>Perplexity</strong>: Real-time RAG with live web retrieval and explicit citations. The easiest engine to reverse-engineer because every claim has a source URL attached. Recent 2026 data shows Perplexity cites an average of 8.2 sources per answer (range 5–12 covers 81% of responses).</li><li><strong>Google AI Overviews / AI Mode</strong>: Google&#39;s own index plus ranking signals plus a generative layer. Closer to traditional SEO than the others.</li><li><strong>Gemini</strong>: Google index plus grounding plus the Gemini model&#39;s reasoning. Often produces a different shortlist than AIO despite sharing infrastructure.</li><li><strong>Claude</strong>: Brave search retrieval. Smaller distribution but heavily used in technical evaluation flows.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 3: Capture the right fields per response</h3>
+        <p>Run each prompt on each engine — not once, but on a rolling cadence (daily or weekly) so you can separate signal from noise. A single run is a snapshot. Twenty runs is a distribution. Competitive decisions live in the distribution.</p><p>For every prompt × engine response, you need at least four fields:</p>
+        <ul class="seo-list"><li><strong>Brand mentions</strong> — every competitor named anywhere in the response, including footnotes and citations.</li><li><strong>Primary mention</strong> — which competitor was named first, or explicitly recommended (&quot;the best choice is X&quot;). First-mention bias is real; AI engines, like humans, tend to anchor on the first vendor cited.</li><li><strong>Cited URLs</strong> — every link the engine used to ground the response, mapped to (a) the domain, (b) whether that domain is owned by a competitor, an editorial outlet, a community site (Reddit, Quora, Stack Exchange), or your own brand.</li><li><strong>Source-of-mention</strong> — for each competitor mention, which cited URL the AI engine appears to have drawn that mention from. This is the most under-collected field and the most valuable.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Step 4: Calculate competitive share of voice and citation gap</h3>
+        <p>The fourth field is what lets you do real competitive intelligence — not just &quot;competitor X was mentioned a lot&quot; but &quot;competitor X was mentioned a lot <strong>because TechRadar&#39;s category roundup is cited in 14 of the 22 prompts.</strong>&quot; The first sentence is a vanity number. The second is an action.</p><p>Once the data is in, two metrics matter most.</p><p><strong>Competitive share of voice (CSOV)</strong> is the percentage of your category&#39;s AI answers that mention each brand, calculated as: *(brand mentions across prompt set) / (total brand mentions for all tracked competitors) × 100*. This is the cleanest single-number competitive ranking.</p><p><strong>Citation gap</strong> is the difference between how often a competitor is *cited as a source* (their owned domain appears in the engine&#39;s citation list) versus how often that competitor is *mentioned in the answer*. A competitor with a small citation footprint but high mention rate is winning on third-party amplification (editorial, Reddit, comparison sites). A competitor with a large citation footprint and low mention rate is winning on owned content but losing on positioning. The two patterns require different counter-strategies.</p><p>A more advanced metric we&#39;ll define below is <strong>competitor replacement rate</strong> — how often a competitor is named in a prompt where your brand could plausibly be the answer.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Worked example using real SolCrys data</h2>
+      <p>To make this concrete, here&#39;s the actual cross-engine SOV breakdown for the <strong>AEO platform</strong> category — measured by SolCrys over a 30-day window across 22 prompts, 4 engines, and 1,936 responses, producing 17,551 citations across 2,219 unique domains.</p><p>(SOV percentages sum above 100 because most answers mention multiple vendors.)</p><p>Read the table like a competitive intelligence analyst:</p><p>A buyer-side competitive analyst running this exact table on their own category would do three things next:</p><p>This is the full loop: <strong>measure CSOV, segment by prompt type, map citation sources, define replacement targets.</strong> Anyone doing it well will produce a one-pager per quarter that the PMM team uses to prioritize content, the demand gen team uses to prioritize PR, and the product team uses to spot positioning drift.</p>
+      <ul class="seo-list"><li><strong>Profound and Ahrefs are the category default.</strong> They appear in roughly half of all AI answers about AEO tools. Any prompt where the buyer hasn&#39;t already specified a vendor is going to include them. Beating them on a category-discovery prompt requires either editorial amplification (getting cited in the same TechRadar / G2 / Reddit threads they&#39;re cited in) or a use-case-specific positioning play (a prompt where their fit is weak and ours is strong).</li><li><strong>Peec AI, Scrunch, Evertune, and Conductor form a credible second tier.</strong> They appear in 11–22% of answers. This is the band where competitive moves matter most — a 5-point SOV swing here is the difference between &quot;considered&quot; and &quot;not considered.&quot;</li><li><strong>SolCrys (the brand publishing this article) is at 4.8%.</strong> That&#39;s the honest number. We&#39;re outside the category default and below the second tier. Our action is not to chase Profound on category-discovery prompts — that&#39;s a four-year fight — but to win the prompts where we have a real differentiator: execution-engine prompts, agency multi-tenant prompts, and replacement prompts.</li><li><strong>Pull the per-prompt breakdown.</strong> A 48.9% category-level SOV hides which specific prompts each leader owns. Profound might dominate category-discovery while Ahrefs dominates pricing-comparison prompts. The action plan differs.</li><li><strong>Pull the citation source map for each leader.</strong> If Profound is cited via *TechRadar, G2, and a single Reddit thread*, that&#39;s three outreach targets. If they&#39;re cited via 40 different editorial outlets, that&#39;s a structural moat and a different strategy.</li><li><strong>Identify the replacement prompts.</strong> Which prompts mention a top-2 competitor but could plausibly include the analyst&#39;s brand? That&#39;s the highest-ROI prompt list, because the answer-shape is already &quot;recommend a vendor&quot; — you just need to be on the recommended list.</li></ul>
+      <table>
+              <thead><tr><th>Brand</th><th>Cross-engine SOV</th></tr></thead>
+              <tbody><tr><td>Profound</td><td>48.9%</td></tr><tr><td>Ahrefs</td><td>44.7%</td></tr><tr><td>Peec AI</td><td>22.5%</td></tr><tr><td>Scrunch</td><td>17.4%</td></tr><tr><td>Evertune</td><td>16.0%</td></tr><tr><td>Conductor</td><td>11.3%</td></tr><tr><td>SolCrys</td><td>4.8%</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Tools that do competitor citation tracking</h2>
+      <p>Most AEO platforms now support competitor tracking — the differences are in depth and source-layer access.</p><p>All four let you add a competitor list and track mention rate. The differentiators are (a) whether they expose the <strong>per-prompt</strong> breakdown (not just category averages), (b) whether they expose the <strong>cited URL</strong> layer so you can see *why* the competitor is winning, and (c) whether the platform suggests an action you can actually take. Most stop at (a). Some include (b). The ones that include (c) are the ones we&#39;d call execution engines rather than dashboards — covered in our <a href="/ai-brand-visibility-monitoring/" target="_blank" rel="noopener noreferrer">AI brand visibility monitoring</a> breakdown.</p>
+      <ul class="seo-list"><li><strong>Profound</strong> — strong on category-level intelligence and cross-engine depth. Best for enterprise teams that need a board-ready competitive narrative. Limitation: heavier setup, no listed pricing.</li><li><strong>Peec AI</strong> — fast mid-market dashboard, real-time competitor mention tracking, published pricing. Best when you need answers in week 1. Source-layer depth is moderate.</li><li><strong>Otterly</strong> — SEO-practitioner-friendly. Tracks competitors across multiple engines with URL-level citation visibility. Best for SEO-led teams who want competitive AI data inside an existing SEO workflow.</li><li><strong>SolCrys</strong> — competitive SOV, per-engine breakdown, citation source maps, MCP / API access so you can pull the data into your own competitive intelligence stack. Closed-loop: it doesn&#39;t just show the gap, it recommends the action and re-tests the prompt after you ship. Bias disclosure: we make SolCrys. The competitor-tracking dataset in the worked example above is what our own platform produces.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Three high-value competitive insights you can extract</h2>
+      <p>Once you have the data flowing, three insights repay the analyst effort most.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>3. Competitor positioning in answers</h3>
+        <p>For each competitor, list every third-party domain that cited them in the last 30 days, ranked by frequency. This is a literal map of the competitor&#39;s PR + community + editorial footprint as the AI engines see it.</p><p>The insight is usually a surprise. We&#39;ve seen competitors whose mention rate is 90% explained by <strong>a single Reddit megathread</strong> and one G2 category page. We&#39;ve seen others whose footprint is genuinely diversified across 30+ outlets. The first competitor is fragile; one Reddit moderation event flips them. The second is structurally entrenched and needs a multi-quarter response.</p><p>This is also the most actionable insight because it tells you exactly where to invest your own outreach, guest posts, podcast appearances, and analyst briefings.</p><p>This is the metric we use most internally. <strong>Competitor replacement rate</strong> = the percentage of prompts where a competitor is named, in a context where your brand could plausibly be the answer.</p><p>Calculated as: *(prompts where competitor C is mentioned AND prompt is one your brand is positioned for) / (total prompts your brand is positioned for) × 100*.</p><p>It tells you who is &quot;eating your lunch&quot; — not in the abstract, but on the specific prompts your buyer asks. If competitor X has a 60% replacement rate and competitor Y has a 20% replacement rate, X is the brand you build comparison content against, not Y. (Note: &quot;replacement rate&quot; is not a standardized term across vendor docs as of mid-2026 — different platforms use *prompt overlap*, *competitive mention rate*, or *substitution index*. The calculation matters more than the label.)</p><p>This is the qualitative layer. For each prompt where a competitor is mentioned, capture *how* the AI engine describes them. Three buckets:</p><p>Track the ratio across the prompt set. A competitor whose positioning is 80% positive on category-discovery prompts has won the narrative; a competitor whose positioning is 60% qualified (&quot;good but lacks…&quot;) has a wedge you can exploit.</p><p>The ethical line: this insight is for understanding the competitive map, not for manipulating a competitor&#39;s reputation. Do not use it to seed negative reviews, brigade communities, or impersonate buyers. Stick to what you publish about your own brand and what the data tells you to do — the rest is sabotage, and the AI engines (and any decent legal team) will catch it.</p>
+        <ul class="seo-list"><li><strong>Positive / aspirational</strong> — &quot;the leading platform for X&quot;</li><li><strong>Neutral / categorical</strong> — &quot;options include X, Y, Z&quot;</li><li><strong>Negative / qualified</strong> — &quot;X is expensive&quot; / &quot;X is good but lacks Y&quot;</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Common mistakes in competitive AI tracking</h2>
+      <p><strong>Tracking too few or too many competitors.</strong> Under three competitors and you can&#39;t see distribution patterns. Over seven and the prompt-set bandwidth gets diluted — every prompt is competing for slot allocation in the response, and the engines only name 3–5 vendors per answer anyway. <strong>3–5 tracked competitors is the sweet spot</strong> for most B2B categories.</p><p><strong>Confusing brand mention with primary mention.</strong> Being named 4th in a list of 5 is not the same as being the recommended pick. Always separate &quot;mentioned anywhere&quot; from &quot;named first / recommended.&quot; The two move differently and require different actions. We unpack this in <a href="/ai-share-of-recommendation/" target="_blank" rel="noopener noreferrer">AI share of recommendation</a>.</p><p><strong>Ignoring the source layer.</strong> &quot;Competitor X has 60% SOV&quot; is a dashboard number. &quot;Competitor X has 60% SOV because they&#39;re cited in 14 of the 22 prompts via *TechRadar*, *G2*, and *the AEO subreddit*&quot; is an action plan. Most teams stop at the first number, run a content sprint, and don&#39;t move the dial — because the dial is held by sources, not by their own pages. The <a href="/citation-gap-audit/" target="_blank" rel="noopener noreferrer">citation gap audit</a> is built to surface this layer specifically.</p><p><strong>Reacting to a single bad run.</strong> AI answers vary across runs. A single run where you lost to a competitor is a data point, not a trend. Decisions should be made on the rolling 14–30-day distribution, not on yesterday&#39;s snapshot. A platform that only shows you the latest run is not enough for competitive work.</p><p><strong>Tracking the wrong engines.</strong> &quot;We monitor 50+ engines&quot; is a vanity claim. Your buyer uses 3–5. Track those deeply rather than 50 shallowly — coverage breadth without recency or per-engine drill-down is a worse signal than coverage depth on the engines your buyer actually opens.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Run the audit</h2>
+      <p>The fastest way to see what your category looks like is to run it on yourself. We offer a <a href="/free-audit/" target="_blank" rel="noopener noreferrer">free 25-prompt competitive audit</a> that produces the same data shape as the worked example above — your brand&#39;s cross-engine SOV, your top 5 competitors&#39; SOV, the per-engine breakdown, the citation source map, and the prompts where you&#39;re missing entirely. You can use the output to evaluate SolCrys, evaluate a different platform, or just hand it to your PMM team as a one-pager. All three are valid.</p><p>We&#39;re SolCrys, and we build the AEO platform that produced the dataset cited in this article — so treat this as a vendor-published guide with the bias disclosed up front. The 4-step process and the metrics work regardless of which platform you use to collect the data.</p><p>*Last updated 2026-05-22. SOV figures are drawn from a 30-day cross-engine measurement of the AEO platform category: 22 prompts × 4 engines × 22 daily runs = 1,936 responses, 17,551 citations, 2,219 unique domains. We refresh this article quarterly.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How many competitors should I track?</h3>
+            <p>Three to five. Under three, you can&#39;t see distribution. Over seven, your prompt set gets diluted and your analyst time fragments. The 3–5 range matches what AI engines actually surface per answer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I see what AI says about my competitor specifically?</h3>
+            <p>Yes. Any AEO platform with competitor tracking will return the per-prompt response text where the competitor was mentioned, and most expose the citation URLs used to ground the mention. You can read the actual AI sentences describing your competitor, not just a mention count.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if my competitor doesn&#39;t have a known brand name?</h3>
+            <p>Two paths: (1) track them by domain instead of brand name (the AI engine will often cite their .com even when it doesn&#39;t name them); (2) track them via their product name or their founder&#39;s name. Smaller competitors are often cited via the founder&#39;s LinkedIn or a single product page rather than a category-level brand reference.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between SOV and citation share?</h3>
+            <p>SOV (share of voice) is about *mentions in the answer text* — how often your brand is named in AI responses. Citation share is about *which URLs the engine pointed to as sources* — your owned-domain presence in the source list. A brand can have high SOV and low citation share (they&#39;re mentioned because *editorial outlets* talk about them) or high citation share and low SOV (their docs get cited but the answer doesn&#39;t name them). Track both.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often should I re-run the competitive tracking?</h3>
+            <p>Daily for the prompt-level data ingestion; weekly for the analyst review; quarterly for the strategic re-baseline. Daily because AI answers drift; weekly because that&#39;s the cadence at which you can act on a finding; quarterly because the prompt set itself needs to evolve as the category does.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does this work for very new categories where AI answers are still forming?</h3>
+            <p>Yes, but with a caveat: in a category under 18 months old, the AI engines will lean heavily on whichever editorial outlet covered the category first. Your competitive tracking will partly be tracking which outlet is shaping the narrative. That&#39;s still useful — it tells you who to brief.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is competitive tracking allowed under each engine&#39;s terms?</h3>
+            <p>Reading what AI engines say publicly in response to your own prompts is, as of mid-2026, generally treated as user behavior — not scraping. Automated, high-volume querying is a different matter; use a platform that respects the engine APIs and rate limits. Don&#39;t try to scrape ChatGPT directly.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-brand-visibility-monitoring/">AI Brand Visibility Monitoring</a></h3>
+            <p>A practical guide to measuring brand mentions, citations, sentiment, and competitive position across AI answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/citation-gap-audit/">Citation Gap Audit</a></h3>
+            <p>A 5-step framework to identify which sources AI engines cite for your competitors but not for your brand, and the recovery actions for each gap type.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>

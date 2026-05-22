@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AEO for Mid-Market Companies (2026): Buyer&#39;s Guide for 100-1,000 Employee Teams | SolCrys</title>
+    <meta name="description" content="A 2026 buyer&#39;s guide to AEO for mid-market B2B companies (100-1,000 employees). Budgets, vendor fit, the 60-90-day pilot framework, and common mistakes." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-for-mid-market-companies/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO for Mid-Market Companies (2026): Buyer&#39;s Guide for 100-1,000 Employee Teams | SolCrys" />
+    <meta property="og:description" content="A 2026 buyer&#39;s guide to AEO for mid-market B2B companies (100-1,000 employees). Budgets, vendor fit, the 60-90-day pilot framework, and common mistakes." />
+    <meta property="og:url" content="https://solcrys.com/aeo-for-mid-market-companies/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AEO for Mid-Market Companies (2026): Buyer's Guide for 100-1,000 Employee Teams","item":"https://solcrys.com/aeo-for-mid-market-companies/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AEO for Mid-Market Companies (2026): Buyer's Guide for 100-1,000 Employee Teams","description":"A 2026 buyer's guide to AEO for mid-market B2B companies (100-1,000 employees). Budgets, vendor fit, the 60-90-day pilot framework, and common mistakes.","dateModified":"2026-05-22","datePublished":"2026-05-22","mainEntityOfPage":"https://solcrys.com/aeo-for-mid-market-companies/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-for-mid-market-companies/","mainEntity":[{"@type":"Question","name":"What's the right team size to start an AEO program at a mid-market company?","acceptedAnswer":{"@type":"Answer","text":"Five marketers minimum, with at least one person who can write or commission long-form content. Below five, you don't have the production capacity to act on the diagnostics, and the platform reverts to a vanity dashboard. Above 25, you're approaching enterprise — different procurement, different SKU."}},{"@type":"Question","name":"Do I need a dedicated AEO hire?","acceptedAnswer":{"@type":"Answer","text":"No, not in year one. The right pattern is a 25-40% allocation from an existing senior content or SEO marketer. Make it explicit in their goals, give them budget for one platform + freelance writing capacity, and review quarterly. A dedicated hire becomes justifiable once you're managing 200+ prompts across 3+ product lines."}},{"@type":"Question","name":"How do I get budget approved for AEO at a mid-market company?","acceptedAnswer":{"@type":"Answer","text":"Frame it as a defensive line item against organic-traffic erosion, not as a new growth channel. AI Overviews are taking click share from informational queries; AEO is how you maintain mention rate when the SERP becomes an answer. Pair the request with a 90-day pilot ceiling (e.g. \"$10K total over 3 months — platform + 1 piece of pillar content + 2 source-layer outreach campaigns\") and a defined success metric. CFOs approve bounded experiments far faster than they approve open-ended subscriptions. See our [AEO ROI Business Case](/aeo-roi-business-case/) template."}},{"@type":"Question","name":"Should I pilot with multiple vendors at the same time?","acceptedAnswer":{"@type":"Answer","text":"Yes, if your budget allows — run two vendors in parallel for 30 days on the same 25-prompt set. The data variance alone will teach you more about the market than any demo. Just budget the team time for it; a parallel pilot costs ~1.5x the people-hours of a single pilot."}},{"@type":"Question","name":"How long does it take to see ROI from AEO at a mid-market company?","acceptedAnswer":{"@type":"Answer","text":"Realistic timeline: 60-90 days to first measurable lift on tracked prompts, assuming you ship 5-10 actions in that window. Six months to a defensible weekly report showing AEO as a contributing channel to pipeline. Twelve months to compound, when source-layer work and owned-content updates start reinforcing each other."}},{"@type":"Question","name":"What engines should a mid-market B2B team prioritize?","acceptedAnswer":{"@type":"Answer","text":"ChatGPT (highest), Perplexity, Google AI Overviews / AI Mode, Gemini, in that order. For B2B services and consulting, Google AIO leads. For B2B SaaS evaluation, ChatGPT and Perplexity lead. Anything beyond these four is optional in year one for a mid-market team."}},{"@type":"Question","name":"Is AEO the same as SEO?","acceptedAnswer":{"@type":"Answer","text":"Related but not the same. Google AI Overviews and AI Mode are operating layers on top of the Google index, so good SEO is a prerequisite there. ChatGPT Search (Bing + GPTBot + RAG) and Perplexity (real-time RAG) weight signals differently — source-layer presence, semantic clarity, and recency matter more than backlinks. Mid-market teams should run AEO as an extension of the SEO function, not a replacement."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>AEO for Mid-Market Companies (2026): Buyer&#39;s Guide for 100-1,000 Employee Teams</h1>
+        <p class="seo-lede">A mid-market AEO platform (for 100-1,000 employee companies) should cost <strong>$500-5,000/month</strong>, cover at minimum ChatGPT Search, Perplexity, Google AI Mode, and Gemini, ship a starter set of 50-100 tracked prompts, expose URL-level citation data, integrate with HubSpot/Salesforce/</p>
+        <p>Updated 2026-05-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is the best AEO platform for a mid-market company?</li><li>How does AEO buying differ for mid-market vs enterprise?</li><li>What should a mid-size marketing team look for in AEO software?</li><li>How much should a mid-market company budget for AEO?</li><li>How long does it take to see ROI from AEO at a mid-market company?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>A mid-market AEO platform (for 100-1,000 employee companies) should cost <strong>$500-5,000/month</strong>, cover at minimum ChatGPT Search, Perplexity, Google AI Mode, and Gemini, ship a starter set of 50-100 tracked prompts, expose URL-level citation data, integrate with HubSpot/Salesforce/Slack, and include an action layer your in-house team will actually use. The right choice for a mid-market buyer is rarely the enterprise leader and never the free starter — it&#39;s the tier that fits a 5-25 person marketing function with a 90-day ROI window.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why mid-market is the underserved AEO segment</h2>
+      <p>Most AEO vendors built their first product for one of two extremes. Either a self-serve starter that a solo founder buys with a credit card, or an enterprise platform priced for a Fortune 500 procurement cycle. The middle — companies with 100 to 1,000 employees, $10M to $250M in revenue, 5 to 25 marketers, and a head of marketing who reports to a CEO or CMO — got squeezed.</p><p>Mid-market is also where the budget actually exists. Gartner&#39;s 2026 CMO Spend Survey puts the median B2B marketing budget at 9.1% of revenue, and mid-market growth-stage companies typically run 8-12% (versus 5-7% for mature enterprises). On a $50M-revenue business, that&#39;s $4-6M of marketing spend per year, of which a $1,000-3,000/month AEO line item is rounding error — assuming the buyer can find a vendor priced for them.</p><p>This guide is written for that buyer: a head of marketing or mid-market CMO who knows AI search matters, has the budget to act, doesn&#39;t have a 6-month procurement runway, and doesn&#39;t want to be sold an enterprise SKU &quot;to grow into.&quot;</p><p>We&#39;re SolCrys, and we sell an AEO platform with a mid-market tier — treat this as a buyer-side guide with disclosed vendor bias.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How mid-market AEO buying differs from enterprise and startup</h2>
+      <p>The mid-market buying motion sits between two patterns and shares characteristics with neither. The table below captures the differences a vendor pitch should respect.</p><p>The single biggest mid-market trap is buying the wrong shape. An enterprise SKU at $15,000/month with a six-week onboarding burns budget on capacity you won&#39;t use. A starter SKU at $99/month with 25 tracked prompts caps out in your third month — and now you&#39;re re-procuring and re-onboarding in your first 90 days. The mid-market sweet spot is a Growth or Pro tier between $349 and $3,500/month that scales prompt volume and engine coverage without forcing an enterprise contract.</p>
+      
+      <table>
+              <thead><tr><th>Dimension</th><th>Startup (1-3 marketers)</th><th>Mid-market (5-25 marketers)</th><th>Enterprise (50+ marketers)</th></tr></thead>
+              <tbody><tr><td>Budget</td><td>$0-500/mo</td><td>$500-5,000/mo</td><td>$5,000-25,000+/mo</td></tr><tr><td>Procurement</td><td>Founder / head of marketing decides</td><td>Marketing leader + finance signoff</td><td>Procurement + legal + security review</td></tr><tr><td>Sales cycle</td><td>Days</td><td>2-6 weeks</td><td>3-9 months</td></tr><tr><td>Setup</td><td>DIY, self-serve</td><td>Vendor onboarding (2-4 weeks)</td><td>Implementation services (6-12 weeks)</td></tr><tr><td>Prompt-set size</td><td>10-30 prompts</td><td>50-150 prompts</td><td>250-1,000+ prompts</td></tr><tr><td>Engine breadth</td><td>2-3 engines</td><td>4-5 engines</td><td>5+ engines, often regional variants</td></tr><tr><td>Action layer</td><td>&quot;Read the dashboard yourself&quot;</td><td>Vendor-assisted briefs, in-house ships</td><td>Dedicated CSM + execution services</td></tr><tr><td>Integrations expected</td><td>Slack, maybe HubSpot</td><td>HubSpot/Salesforce/Slack/Looker</td><td>Full martech stack + SSO + data warehouse</td></tr><tr><td>Security review</td><td>None</td><td>SOC 2 Type 2 + standard MSA</td><td>SOC 2 + ISO 27001 + DPA + custom redlines</td></tr><tr><td>Success criteria</td><td>&quot;I see something useful&quot;</td><td>&quot;Lift on tracked prompts in 90 days&quot;</td><td>&quot;Material AI search share-of-voice gain in 12 months&quot;</td></tr><tr><td>Renewal trigger</td><td>Cost / time</td><td>Demonstrable ROI on 1-2 tracked KPIs</td><td>Strategic alignment, board narrative</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What mid-market teams actually need: 6 criteria</h2>
+      <p>These are the criteria we see win mid-market RFIs. Each is a hard requirement, not a nice-to-have.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>6. Clear ROI proof in 60-90 days</h3>
+        <p>You should be able to export your full citation history (URL-level), your prompt-set, and your scoring data in CSV or via API at any time. If the vendor&#39;s pitch is &quot;all your data lives in our dashboard forever,&quot; walk away — that&#39;s enterprise lock-in priced as mid-market. SolCrys exposes data via MCP and REST. Peec AI exports CSV. Brandlight is API-on-request.</p><p>Below 50, you don&#39;t have enough signal to detect lift in a 90-day pilot (statistical noise overwhelms the signal). Above 150, you&#39;re paying for prompts no one on a 5-25 person team will actually review. The sweet spot is <strong>50-100 prompts</strong>, structured by persona × journey-stage × competitor. Vendors that force you to &quot;bring your own prompts&quot; without a starter library shift the discovery burden onto your team — which is usually why dashboards go unused after month two.</p><p>The honest engine breakdown matters. ChatGPT Search is Bing + GPTBot + RAG. Perplexity is real-time RAG. Google AI Overviews and AI Mode are layered on top of the Google index — meaning AEO is the operating layer on SEO for that surface. Gemini is Google + grounding. Claude uses Brave. For mid-market B2B, the four engines above cover roughly 90% of buyer intent today. Vendors advertising &quot;50+ engines&quot; are typically counting LLM API endpoints your buyer never uses. Score depth, not count.</p><p>This is where mid-market buyers most often regret a purchase. A dashboard tells you where you stand. A 5-person content team will read it twice, then never log in again, unless the platform also produces actionable briefs, page-update recommendations, and a way to verify whether the fix moved the score. Mid-market teams don&#39;t have a dedicated AEO analyst to translate dashboard data into work. The platform has to do that translation, or the platform becomes shelf-ware. See <a href="/ai-visibility-dashboard-vs-aeo-execution-engine/" target="_blank" rel="noopener noreferrer">AI Visibility Dashboard vs AEO Execution Engine</a> for the distinction.</p><p>HubSpot, Salesforce, Slack, and a BI layer (Looker, Tableau, or Mode) are the mid-market baseline. If you can&#39;t get a Slack alert when a competitor takes your mention rate on a top prompt, and you can&#39;t pipe AEO data into your weekly marketing report alongside organic and paid, the platform won&#39;t live in your team&#39;s workflow. It&#39;ll live in a tab no one opens.</p><p>Mid-market budgets renew on results, not narrative. The platform should let you set a baseline in week 1, ship at least 3-5 actions by week 6, and re-measure by week 10 with a clean before/after on the tracked prompt set. If the vendor&#39;s case studies all show &quot;12-month enterprise transformation,&quot; that&#39;s a mismatch. Ask explicitly: *&quot;Show me a 90-day mid-market case study with the prompt-level lift data.&quot;*</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>5-vendor comparison weighted for mid-market</h2>
+      <p>We scored each vendor on the six criteria above. Each gets a 1-5 rating, with notes. Pricing is observational from public pages and recent reviews — treat as orientation, not quotes.</p><p>A few interpretation notes.</p><p><strong>SolCrys (Pro tier, $349/mo)</strong> is the entry-point mid-market tier — 60 tracked prompts, 3 workspaces, 40 Deep Analyses, 10 Content Audits, all four default engines (ChatGPT, Perplexity, Google AI Overviews / AI Mode, Gemini). Larger teams scale into a custom-quoted Enterprise / Scale tier with multi-workspace and governance options. The differentiator is the action layer — a content brief that links back to the prompt it&#39;s trying to move, plus a Recovery Score after the WordPress or headless-CMS webhook ships the fix. MCP exposure is read-only (evidence and citation lookup for your own agents), not a CMS write path. Claude and the Retail AI assistants (Amazon Rufus, Walmart Sparky) are separate add-on packages. Bias disclosed.</p><p><strong>Peec AI (Growth, ~$241-505/mo)</strong> is the cleanest mid-market dashboard on the market. If your content team is strong and doesn&#39;t need brief generation from the platform, Peec is the fastest-to-value pick. Add-on engine pricing pushes effective cost higher than the headline number.</p><p><strong>Brandlight (mid-tier, ~$1,000-3,000/mo)</strong> is enterprise-pedigreed and works for mid-market buyers reaching toward Fortune 500 ambitions. Custom-quote pricing slows procurement; if you need to sign in two weeks, this won&#39;t fit.</p><p><strong>Ahrefs Brand Radar</strong> is the lowest-friction add for any team already on Ahrefs. No new vendor, no new procurement, no new login. Trade-off: no action layer.</p><p><strong>Conductor (AEO module)</strong> makes sense if your team is already on Conductor for SEO + content workflow. Adding AEO is a module conversation, not a vendor selection. Expect a custom quote and a longer ramp.</p><p>The pattern: <strong>if you already have a major martech vendor (Ahrefs, Conductor, Semrush), evaluate their AEO module first</strong> — the integration tax is the dominant variable. If you&#39;re starting fresh and need an AEO-native vendor, Peec (dashboard-first), SolCrys (execution-first), or Brandlight (enterprise-reach mid-market) are the three to shortlist. For the full buyer checklist, see our <a href="/ai-visibility-platform-buyers-guide/" target="_blank" rel="noopener noreferrer">AI Visibility Platform Buyer&#39;s Guide</a>.</p>
+      
+      <table>
+              <thead><tr><th>Vendor</th><th>Price band (mid-market tier)</th><th>Data ownership</th><th>50-100 starter prompts</th><th>4+ engines</th><th>Action layer</th><th>Integrations</th><th>90-day ROI proof</th><th>Best mid-market fit</th></tr></thead>
+              <tbody><tr><td><strong>SolCrys</strong> (Pro tier)</td><td>$349/mo (Enterprise/Scale custom-quoted)</td><td>5 (CSV export + read-only MCP for evidence)</td><td>5 (60 tracked prompts on Pro; curated starter set)</td><td>4 (ChatGPT, Perplexity, Google AI Overviews / AI Mode, Gemini); Claude as separate add-on</td><td>4 (Measure → Diagnose → Execute → Verify; WordPress + headless CMS via webhook)</td><td>3 (Slack, webhook to WordPress + headless CMS, read-only MCP)</td><td>4 (90-day pilot framework with Recovery Score)</td><td>In-house teams that need diagnosis briefs + a webhook-shipping path</td></tr><tr><td><strong>Peec AI</strong> (Growth)</td><td>~$241-505/mo</td><td>4 (CSV export)</td><td>4 (150-prompt cap)</td><td>4 (extra engines cost extra)</td><td>2 (diagnose only)</td><td>3 (Slack, API)</td><td>3 (good dashboard, no execution)</td><td>Mid-market teams that already have a content function</td></tr><tr><td><strong>Brandlight</strong> (mid-tier)</td><td>~$1,000-3,000/mo (sales quote)</td><td>3 (API on request)</td><td>4 (curated)</td><td>5 (deep)</td><td>3 (briefs, partial loop)</td><td>3 (HubSpot, Salesforce on request)</td><td>3 (oriented to enterprise)</td><td>Mid-market reaching toward enterprise</td></tr><tr><td><strong>Ahrefs Brand Radar</strong></td><td>Bundled in Ahrefs (~$129-449/mo seat add-ons)</td><td>4 (Ahrefs export)</td><td>3 (BYO prompts, light starter)</td><td>4 (4 engines)</td><td>2 (no execution)</td><td>5 (full Ahrefs stack)</td><td>3 (SEO-team-driven)</td><td>Teams already on Ahrefs</td></tr><tr><td><strong>Conductor (AEO module)</strong></td><td>Custom; typically $3,000-8,000/mo for mid-market</td><td>4 (export)</td><td>4 (curated)</td><td>3 (3 engines deep)</td><td>4 (partial execution via content workflow)</td><td>5 (deep CMS, GA, Salesforce)</td><td>3 (slower onboarding)</td><td>Teams already on Conductor</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 60-90-day mid-market pilot framework</h2>
+      <p>Mid-market AEO pilots fail when they have no defined endpoint. Here is the framework we recommend to mid-market buyers — vendor-agnostic, designed to produce a *scale-or-kill* decision by day 90.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Days 1-15: Baseline and prompt-set tuning</h3>
+        
+        <ul class="seo-list"><li>Week 1: load the starter 50-100 prompts, verify they match your real buyer journey (persona × stage × competitor matrix). Add 10-20 prompts that reflect your specific category language.</li><li>Week 2: capture baseline mention rate, citation rate, share-of-voice vs your top 3 competitors, and the URLs the engines currently cite when answering your category prompts.</li><li>Define success criteria explicitly: &quot;We will ship at least 5 actions by day 45, and we expect mention rate to lift by X percentage points on the top 25 prompts by day 90.&quot;</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Days 16-45: First content and source actions shipped</h3>
+        <p>The single most common mid-market mistake is skipping the success-criteria step. Without it, the day-90 review becomes a vibes conversation instead of a renewal decision. Our <a href="/aeo-platform-pilot-playbook/" target="_blank" rel="noopener noreferrer">AEO Platform Pilot Playbook</a> has the criteria template.</p>
+        <ul class="seo-list"><li>Pick 5-10 prompts where you&#39;re underperforming and the gap is closable in 30 days. Avoid prompts where the wrong answer is structural (e.g. you&#39;re a B2B SaaS and the buyer is asking about a consumer category — that&#39;s not a closable gap).</li><li>Ship the actions: page updates, new FAQ entries grounded in real data, source-layer outreach (Wikipedia presence, Reddit answers from real employees, third-party PR pickups).</li><li>Avoid the anti-patterns. Don&#39;t ship llms.txt, AI-only schema, FAQ schema quotas, forced chunking, or one-page-per-fanout content. These do not move citation rate and burn pilot credibility.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Days 46-75: Re-measure and calculate recovery</h3>
+        
+        <ul class="seo-list"><li>Re-run the same prompts on the same engines. Compare baseline to current.</li><li>Calculate a <a href="/aeo-recovery-score/" target="_blank" rel="noopener noreferrer">recovery score</a> per shipped action: did this specific fix move this specific prompt?</li><li>Identify which categories of action worked (e.g. source-layer outreach won on 7 of 10 prompts; page-update FAQ refresh won on 2 of 5). Use this to budget the next 90 days.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Days 76-90: Scale or kill decision</h3>
+        
+        <ul class="seo-list"><li>If the pilot hit the success criteria you defined at day 1, scale: expand prompt set to 150-300, add a workspace per product line, lock in annual pricing.</li><li>If the pilot missed the criteria, do a frank diagnostic — is the platform wrong, is the team capacity wrong, or are the prompts wrong? Mid-market teams that kill on insufficient capacity often re-buy 6 months later and succeed; teams that kill on platform fit are usually right the first time.</li><li>Document the decision in a one-page memo for your CFO. See <a href="/aeo-roi-business-case/" target="_blank" rel="noopener noreferrer">AEO ROI: Building a CFO-Ready Business Case</a> for the template.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Common mid-market AEO mistakes</h2>
+      <p>These are the patterns we see hurt mid-market buyers most often.</p><p><strong>1. Buying enterprise tier &quot;to grow into.&quot;</strong> You will not grow into 1,000 prompts and 12 engines in your first year. Pay for what you&#39;ll use in months 1-9; renegotiate at renewal. The unused-capacity tax on an enterprise SKU often equals the entire mid-market budget you should have spent on content production.</p><p><strong>2. Buying starter tier and outgrowing it in 3 months.</strong> The opposite trap. A $99/month plan with 25 prompts looks cheap until your 5-person team realizes they&#39;re flying blind on 75% of the buyer journey. You then re-procure, re-onboard, and lose your first quarter. The mid-market band ($500-5,000/month) exists for a reason.</p><p><strong>3. Treating AEO as a side project instead of a dedicated owner.</strong> The single best predictor of mid-market AEO success is naming one person — usually a senior content marketer or SEO lead — as the AEO owner. Not full-time; 25-40% of their week. Without that owner, the platform becomes everyone&#39;s responsibility, which means no one&#39;s.</p><p><strong>4. Not setting clear 90-day success criteria.</strong> Covered above, but worth repeating. A pilot without numerical success criteria becomes a subscription that renews on inertia.</p><p><strong>5. Evaluating vendors only by demo, not by data.</strong> Every vendor demo looks great. Ask for the same 10 prompts to be run on your brand across three vendors during the trial period; compare the outputs side-by-side. The variance will surprise you and will sharpen your selection. (See <a href="/why-two-aeo-platforms-can-disagree/" target="_blank" rel="noopener noreferrer">Why Two AEO Platforms Can Disagree</a> — different vendors will produce different visibility numbers for the same brand, for documented methodological reasons.)</p><p><strong>6. Underweighting source-layer work.</strong> Mid-market teams default to &quot;let&#39;s update our own pages.&quot; AI engines cite Wikipedia, Reddit, G2, TechRadar, and category trade publications heavily — sometimes more than they cite vendor-owned content. A pilot that only updates owned content will under-perform a pilot that ships 50/50 owned and source-layer.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Book a mid-market AEO walkthrough</h2>
+      <p>If you&#39;re scoping AEO for a 100-1,000 employee company and want a 30-minute walkthrough of the Pro tier, the starter prompt-set, the 60-90-day pilot framework, and where SolCrys fits versus the alternatives — <a href="/contact/" target="_blank" rel="noopener noreferrer">book a SolCrys demo specific to mid-market team size</a>. We&#39;ll run a 10-prompt sample audit on your brand before the call so the conversation starts from real data, not slides.</p><p>If you&#39;d rather self-serve the data first, the <a href="/free-audit/" target="_blank" rel="noopener noreferrer">free 10-prompt audit</a> gives you a baseline you can use in any vendor evaluation — ours or someone else&#39;s.</p><p>*Last updated 2026-05-22. Pricing observations from public vendor pages, recent third-party reviews (Cairrot, PikaSEO, Surmado, G2), and 2026 industry pricing guides. Budget benchmarks from Gartner CMO Spend Survey 2026 and Directive&#39;s 2026 B2B Marketing Budget Benchmarks. Treat as orientation, not quotes.*</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What&#39;s the right team size to start an AEO program at a mid-market company?</h3>
+            <p>Five marketers minimum, with at least one person who can write or commission long-form content. Below five, you don&#39;t have the production capacity to act on the diagnostics, and the platform reverts to a vanity dashboard. Above 25, you&#39;re approaching enterprise — different procurement, different SKU.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need a dedicated AEO hire?</h3>
+            <p>No, not in year one. The right pattern is a 25-40% allocation from an existing senior content or SEO marketer. Make it explicit in their goals, give them budget for one platform + freelance writing capacity, and review quarterly. A dedicated hire becomes justifiable once you&#39;re managing 200+ prompts across 3+ product lines.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I get budget approved for AEO at a mid-market company?</h3>
+            <p>Frame it as a defensive line item against organic-traffic erosion, not as a new growth channel. AI Overviews are taking click share from informational queries; AEO is how you maintain mention rate when the SERP becomes an answer. Pair the request with a 90-day pilot ceiling (e.g. &quot;$10K total over 3 months — platform + 1 piece of pillar content + 2 source-layer outreach campaigns&quot;) and a defined success metric. CFOs approve bounded experiments far faster than they approve open-ended subscriptions. See our <a href="/aeo-roi-business-case/" target="_blank" rel="noopener noreferrer">AEO ROI Business Case</a> template.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I pilot with multiple vendors at the same time?</h3>
+            <p>Yes, if your budget allows — run two vendors in parallel for 30 days on the same 25-prompt set. The data variance alone will teach you more about the market than any demo. Just budget the team time for it; a parallel pilot costs ~1.5x the people-hours of a single pilot.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long does it take to see ROI from AEO at a mid-market company?</h3>
+            <p>Realistic timeline: 60-90 days to first measurable lift on tracked prompts, assuming you ship 5-10 actions in that window. Six months to a defensible weekly report showing AEO as a contributing channel to pipeline. Twelve months to compound, when source-layer work and owned-content updates start reinforcing each other.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What engines should a mid-market B2B team prioritize?</h3>
+            <p>ChatGPT (highest), Perplexity, Google AI Overviews / AI Mode, Gemini, in that order. For B2B services and consulting, Google AIO leads. For B2B SaaS evaluation, ChatGPT and Perplexity lead. Anything beyond these four is optional in year one for a mid-market team.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is AEO the same as SEO?</h3>
+            <p>Related but not the same. Google AI Overviews and AI Mode are operating layers on top of the Google index, so good SEO is a prerequisite there. ChatGPT Search (Bing + GPTBot + RAG) and Perplexity (real-time RAG) weight signals differently — source-layer presence, semantic clarity, and recency matter more than backlinks. Mid-market teams should run AEO as an extension of the SEO function, not a replacement.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/ai-visibility-platform-buyers-guide/">AEO Platform Buyer&#39;s Guide 2026: 10 Questions to Ask Every Vendor</a></h3>
+            <p>A practitioner buyer guide for choosing an AEO/AI visibility platform in 2026. The 10 questions that separate dashboard tools from execution platforms, plus the red flags to avoid.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-platform-pilot-playbook/">How to Run a 30-Day AEO Platform Pilot Without Wasting Budget</a></h3>
+            <p>A structured 30-day pilot framework for AEO platforms — pre-pilot setup, week-by-week timeline, exit criteria, and the common pilot anti-patterns that produce wrong purchase decisions.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-roi-business-case/">AEO ROI Business Case</a></h3>
+            <p>A practitioner framework for estimating and reviewing AEO ROI with finance. Includes the AEO Revenue Model formula, three attribution methods, a 5-slide deck structure, and a 12-month measurement template.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bwYil95q.js"></script>
+  </body>
+</html>
