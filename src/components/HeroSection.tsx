@@ -1,15 +1,61 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useState, type FormEvent } from "react";
 import AnnouncementBanner from "./AnnouncementBanner";
 import LoopDiagram from "./LoopDiagram";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { trackEvent } from "@/lib/analytics";
 import siteContent from "@/content/siteContent.json";
+
+/**
+ * Loose URL-shape check — accepts apex domains, subdomains, and paths
+ * (`https://acme.com/products`). Same regex the /audit AuditFlow uses
+ * on the dashboard side, kept duplicate so both sides reject typos
+ * before the cross-domain redirect.
+ */
+function isValidUrlShape(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  const withoutProtocol = trimmed.replace(/^https?:\/\//i, "");
+  const host = withoutProtocol.split(/[\/?#]/)[0];
+  return /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(host);
+}
 
 const HeroSection = () => {
   const heroTitleHighlight = "governed marketing execution.";
   const heroTitleLead = siteContent.home.title
     .replace(heroTitleHighlight, "")
     .trim();
+
+  // Inline domain capture added 2026-05-25 — short-circuits the
+  // homepage → click CTA → land on /audit → re-enter domain loop into
+  // a single hero-form submit. Dashboard `/audit` reads `?domain=` on
+  // mount and pre-fills the AuditFlow state (no auto-submit; user
+  // retains a chance to edit on the audit page).
+  const [domain, setDomain] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmed = domain.trim();
+    if (!isValidUrlShape(trimmed)) {
+      setError("Please enter a valid URL (e.g., acme.com).");
+      return;
+    }
+    setError(null);
+    // Fire BOTH events:
+    //  - request_audit_open (existing) preserves the historical funnel
+    //    dashboards that count this surface as a Free Audit click.
+    //  - request_audit_open_with_domain (new) carries the pre-filled
+    //    domain so we can measure form-conversion vs. button-conversion
+    //    on the same hero, and downstream attribute domain-fill rate.
+    trackAuditClick("hero");
+    trackEvent("request_audit_open_with_domain", {
+      surface: "hero",
+      domain: trimmed,
+    });
+    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}`;
+  };
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-16">
@@ -35,17 +81,81 @@ const HeroSection = () => {
         </h1>
 
         {/* Subheadline */}
-        <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed opacity-0 animate-fade-up-delay-2">
+        <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed opacity-0 animate-fade-up-delay-2">
           {siteContent.home.description}
         </p>
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up-delay-3 mb-16">
-          <Button asChild variant="hero" size="lg" className="text-base px-8 py-6 h-auto">
-            <a href={AUDIT_URL} onClick={() => trackAuditClick("hero")}>
-              Get a Free AI Visibility Audit
+
+        {/* Primary CTA: inline domain form (replaces the previous
+            standalone "Get a Free AI Visibility Audit" button). The
+            input + submit pattern mirrors the well-tested Ahrefs/SEMrush
+            hero pattern and short-circuits one cross-domain navigation
+            step before /audit reads the domain. */}
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="max-w-2xl mx-auto opacity-0 animate-fade-up-delay-3 mb-4"
+        >
+          {/* No `shadow-lg` — this project's light-mode shadow tokens are
+              brutalist hard-offset (`12px 12px 0px 0px #000`) which renders
+              as a solid black box behind the form. The border + bg already
+              give the input enough visual weight; dark-mode soft shadow
+              wasn't worth the light-mode artifact. */}
+          <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 rounded-xl border border-border bg-card/50 backdrop-blur-sm focus-within:border-[hsl(195_90%_55%/0.6)] focus-within:ring-4 focus-within:ring-[hsl(195_90%_55%/0.12)] transition-all">
+            <label htmlFor="hero-domain" className="sr-only">
+              Your website URL
+            </label>
+            <input
+              id="hero-domain"
+              name="domain"
+              type="url"
+              value={domain}
+              onChange={(e) => {
+                setDomain(e.target.value);
+                if (error) setError(null);
+              }}
+              placeholder="https://acme.com"
+              autoComplete="url"
+              inputMode="url"
+              className="flex-1 min-w-0 px-5 py-4 sm:py-5 text-base sm:text-lg bg-transparent focus:outline-none placeholder:text-muted-foreground/70 text-foreground rounded-xl sm:rounded-l-xl sm:rounded-r-none text-left"
+            />
+            <Button
+              type="submit"
+              variant="hero"
+              size="lg"
+              className="text-base px-6 sm:px-7 py-6 sm:py-5 h-auto sm:rounded-l-none sm:rounded-r-xl whitespace-nowrap"
+            >
+              Get Free ChatGPT Audit
               <ArrowRight className="ml-2 w-5 h-5" />
-            </a>
-          </Button>
+            </Button>
+          </div>
+          {error ? (
+            <p
+              role="alert"
+              className="mt-2.5 text-sm text-[hsl(0_70%_65%)]"
+            >
+              {error}
+            </p>
+          ) : null}
+        </form>
+
+        {/* Tier-honesty subtitle — the free audit is ChatGPT-only and
+            one-shot. Naming the upgrade engines here matches the /audit
+            page's eyebrow-level tier disclosure, so visitors landing
+            on either surface get the same product-tier story. */}
+        <p className="text-sm text-muted-foreground/85 max-w-2xl mx-auto mb-10 opacity-0 animate-fade-up-delay-3">
+          Free ChatGPT scan
+          <span className="mx-2 text-muted-foreground/50">·</span>
+          5 min
+          <span className="mx-2 text-muted-foreground/50">·</span>
+          No credit card.{" "}
+          <span className="text-muted-foreground/70">
+            Gemini, Perplexity &amp; Google AI on the Brand plan.
+          </span>
+        </p>
+
+        {/* Secondary CTA — kept below the form so the form is the
+            unambiguous primary action. */}
+        <div className="flex justify-center opacity-0 animate-fade-up-delay-3 mb-16">
           <Button asChild variant="hero-outline" size="lg" className="text-base px-8 py-6 h-auto">
             <a href="#loop">See the SolCrys Loop</a>
           </Button>

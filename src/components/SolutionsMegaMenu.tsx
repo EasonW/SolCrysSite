@@ -16,7 +16,9 @@ interface SolutionsMegaMenuProps {
  */
 const SolutionsMegaMenu = ({ onItemClick }: SolutionsMegaMenuProps) => {
   return (
-    <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-2xl p-7 md:p-8">
+    {/* Soft elevation override — see ResourcesMegaMenu for rationale.
+        Project's `--shadow-2xl` is 24px brutalist offset in light mode. */}
+    <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-[0_24px_64px_-24px_rgba(0,0,0,0.22)] dark:shadow-[0_24px_64px_-24px_rgba(0,0,0,0.65)] p-7 md:p-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5">
         {SOLUTIONS_MENU_ITEMS.map((item) => (
           <a

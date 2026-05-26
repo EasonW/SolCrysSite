@@ -51,7 +51,7 @@ const ThemeToggle = () => {
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 top-full mt-2 w-36 rounded-md border border-border/40 bg-background/95 backdrop-blur-xl shadow-lg z-50 overflow-hidden"
+          className="absolute right-0 top-full mt-2 w-36 rounded-md border border-border/40 bg-background/95 backdrop-blur-xl shadow-[0_12px_32px_-12px_rgba(0,0,0,0.2)] dark:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.5)] z-50 overflow-hidden"
         >
           {options.map((option) => {
             const Icon = option.icon;
