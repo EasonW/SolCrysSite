@@ -16,12 +16,11 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
     trackAuditClick("resources_mega");
   };
 
+  // `.shadow-floating-lg` (in index.css) overrides the project's
+  // brutalist `--shadow-2xl` token (24px hard-offset black in light
+  // mode). Uses `!important` to win the Tailwind `shadow-{size}`
+  // specificity race; mode-aware via `.dark .shadow-floating-lg`.
   return (
-    {/* `.shadow-floating-lg` (in index.css) overrides the project's
-        brutalist `--shadow-2xl` token (24px hard-offset black in
-        light mode). Uses `!important` to win the Tailwind
-        `shadow-{size}` specificity race; mode-aware via the
-        `.dark .shadow-floating-lg` selector. */}
     <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-floating-lg p-7 md:p-8">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
         {RESOURCES_COLUMNS.map((col) => (

@@ -16,7 +16,6 @@ interface SolutionsMegaMenuProps {
  */
 const SolutionsMegaMenu = ({ onItemClick }: SolutionsMegaMenuProps) => {
   return (
-    {/* See ResourcesMegaMenu for the .shadow-floating-lg rationale. */}
     <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-floating-lg p-7 md:p-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5">
         {SOLUTIONS_MENU_ITEMS.map((item) => (
