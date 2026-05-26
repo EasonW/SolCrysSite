@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Free ChatGPT Visibility Tools (2026): What Actually Works | SolCrys</title>
+    <meta name="description" content="The free tools that actually let you check your brand&#39;s visibility in ChatGPT in 2026 — including SolCrys&#39;s free audit, manual ChatGPT spot-checks, and what the limits of each tier are." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/free-chatgpt-visibility-tools/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-25" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Free ChatGPT Visibility Tools (2026): What Actually Works | SolCrys" />
+    <meta property="og:description" content="The free tools that actually let you check your brand&#39;s visibility in ChatGPT in 2026 — including SolCrys&#39;s free audit, manual ChatGPT spot-checks, and what the limits of each tier are." />
+    <meta property="og:url" content="https://solcrys.com/free-chatgpt-visibility-tools/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Free ChatGPT Visibility Tools for Monitoring Brand Mentions (2026)","item":"https://solcrys.com/free-chatgpt-visibility-tools/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Free ChatGPT visibility tools: what works, what doesn't, and where each one breaks","description":"The free tools that actually let you check your brand's visibility in ChatGPT in 2026 — including SolCrys's free audit, manual ChatGPT spot-checks, and what the limits of each tier are.","dateModified":"2026-05-25","datePublished":"2026-05-25","mainEntityOfPage":"https://solcrys.com/free-chatgpt-visibility-tools/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/free-chatgpt-visibility-tools/","mainEntity":[{"@type":"Question","name":"What is the best free ChatGPT visibility tracker?","acceptedAnswer":{"@type":"Answer","text":"For a structured, one-shot read on your brand's visibility in ChatGPT, the [SolCrys free audit](https://app.solcrys.com/audit) is the best free option in 2026 — 10 buyer prompts, mention rate, share of voice vs. competitors, and citation sources, returned in about 5 minutes. For ongoing daily tracking, there is no genuinely free path; the paid platforms (SolCrys Brand, Profound, Peec) start in the $300–$500/month range."}},{"@type":"Question","name":"How can I monitor my brand in ChatGPT for free?","acceptedAnswer":{"@type":"Answer","text":"Three free paths exist: (1) run a one-shot SolCrys free audit to get a structured report, (2) manually prompt ChatGPT with your category questions for a qualitative spot-check, or (3) sign up for a free trial on a paid platform if you're already in vendor evaluation. None of the three give you ongoing daily tracking — that capability is paid across all major platforms."}},{"@type":"Question","name":"Is the SolCrys free audit actually free, or is it a trial?","acceptedAnswer":{"@type":"Answer","text":"It's actually free, not a time-bound trial. The free tier is one audit per domain per email — covers 10 ChatGPT prompts and returns the full report (mention rate, share of voice, citation sources) with no payment required and no automatic conversion to paid. Re-running on the same domain requires the paid Brand plan, which adds daily tracking, custom prompts, and three more engines (Gemini, Perplexity, Google AI Overviews)."}},{"@type":"Question","name":"Can I track my brand in Gemini and Perplexity for free too?","acceptedAnswer":{"@type":"Answer","text":"No major platform offers a free tier covering Gemini and Perplexity in 2026. The SolCrys free audit covers ChatGPT only; the same applies to Otterly's free dashboard tier. Multi-engine tracking is the structural reason the paid plans exist — running a daily scan across four engines on a useful prompt set has real API and infrastructure cost."}},{"@type":"Question","name":"Are manual ChatGPT spot-checks a substitute for a tracker?","acceptedAnswer":{"@type":"Answer","text":"For a one-off qualitative gut-check, yes. For systematic measurement, no. Manual checks can't capture cross-session variance, miss roughly half the competitor mentions on a careful reading, and don't aggregate over time. The structured part of a real tracker — fixed prompt set, consistent timing, mention parsing — is what makes the numbers comparable."}},{"@type":"Question","name":"Can I just script this against the OpenAI API myself?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you have engineering capacity and an internal owner for ongoing maintenance. The hard part isn't calling the API; it's curating a buyer-intent prompt set, parsing inconsistent brand mentions and link formats out of model responses, and managing storage. Most marketing teams that try the DIY path end up either abandoning it or buying a paid tracker within 90 days."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Search Tools</p>
+        <h1>Free ChatGPT visibility tools: what works, what doesn&#39;t, and where each one breaks</h1>
+        <p class="seo-lede">Most &quot;free ChatGPT visibility tools&quot; in 2026 are one-shot audits or trial credits attached to paid platforms. This guide compares the four free paths that actually exist — SolCrys&#39;s free audit, manual ChatGPT spot-checks, free trials on the paid platforms, and DIY scripts — and is honest about where each one stops being useful. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start with the SolCrys free audit →</a></p>
+        <p>Updated 2026-05-25</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Are there free tools to check brand visibility in ChatGPT?</li><li>What is the best free ChatGPT visibility tracker?</li><li>How can I monitor my brand in ChatGPT for free?</li><li>Can I check ChatGPT brand mentions without paying?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>There are four genuinely free paths to check your brand&#39;s visibility in ChatGPT in 2026, and they fit different jobs.</p>
+      <ul class="seo-list"><li><strong>SolCrys free audit</strong> — a one-shot 10-prompt scan against ChatGPT that returns mention rate, share of voice, and citation sources. 5 minutes, email-verified, no credit card. The closest thing to a real free product. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Run it →</a></li><li><strong>Manual ChatGPT spot-checks</strong> — open chat.openai.com and prompt the model with your category questions. Useful for qualitative gut-checks; impossible to scale or to compare over time.</li><li><strong>Free trials on paid platforms</strong> — Profound, Peec AI, and Otterly offer time-bound trials. Functional but they expire, and the trial scope is intentionally narrow.</li><li><strong>DIY scripts against the OpenAI API</strong> — possible for technical teams; what you save in license cost you pay in maintenance, prompt-set management, and parsing.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>SolCrys free audit — what the free tier actually does</h2>
+      <p>SolCrys&#39;s free audit is the most fully-featured free path because it&#39;s intentionally designed as an evaluation funnel for the paid plans, not as a stripped-down demo. The free tier runs 10 buyer-intent prompts against ChatGPT, parses each answer for brand mentions (yours and competitors) and source citations, and returns a single report you can keep.</p>
+      <ul class="seo-list"><li><strong>Covered:</strong> ChatGPT-only, 10 fixed buyer prompts, mention rate, competitor share of voice, top citation sources, one-shot.</li><li><strong>Not covered:</strong> Gemini, Perplexity, Google AI Overviews, custom prompts, ongoing daily tracking, alerts on drops, content action briefs. Those are paid.</li><li><strong>Limit per tier:</strong> One audit per domain per email. The rate limit is the abuse bound; legitimate re-runs need a new audit URL.</li><li><strong>Where the free tier breaks:</strong> When your category has materially different answers in Gemini or Perplexity (common in B2B and finance), or when you need a moving line over weeks, not a single snapshot.</li><li><strong>Right path forward:</strong> Free audit → see whether AI visibility is a real channel for your category → decide whether the paid Brand plan&#39;s daily multi-engine tracking is worth the spend.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Manual ChatGPT spot-checks — when they&#39;re useful and when they break</h2>
+      <p>Opening chat.openai.com and asking &quot;what are the best [category] tools?&quot; works as a gut-check, but it breaks fast as soon as you need anything systematic. The two reasons:</p>
+      <ul class="seo-list"><li><strong>Variance per session.</strong> ChatGPT&#39;s answers vary across sessions, accounts, and even minutes — sometimes due to model updates, sometimes due to the routing layer, sometimes due to plug-in availability. A manual spot-check can&#39;t average that variance.</li><li><strong>No structured capture.</strong> A human eye reading 10 ChatGPT answers will miss roughly half the competitor mentions and most of the citation links. The parsing layer in a real tracker is the boring part that makes the numbers honest.</li><li><strong>Right use:</strong> Quick &quot;are we in the conversation at all?&quot; sanity-check, e.g., before a board meeting or a campaign launch. Anything beyond that needs a tracker.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Free trials on paid platforms — what to expect</h2>
+      <p>Most paid AEO platforms offer some kind of free trial. The trials are functional but designed to convert, so the limits are calibrated against the upsell — usually a small prompt set, a single engine, or a time-boxed period. Useful for evaluation; not useful as an ongoing free tier.</p>
+      
+      <table>
+              <thead><tr><th>Platform</th><th>Free path</th><th>What&#39;s included</th><th>What it doesn&#39;t replace</th></tr></thead>
+              <tbody><tr><td>SolCrys</td><td>Free audit (no time limit on availability)</td><td>10 ChatGPT prompts, one-shot, full report</td><td>Ongoing tracking, multi-engine, custom prompts</td></tr><tr><td>Profound</td><td>Sales-led demo / trial</td><td>Demo of the enterprise platform; trial scope varies</td><td>A free product line — Profound is enterprise-priced</td></tr><tr><td>Peec AI</td><td>Time-bounded trial</td><td>Limited prompts on the paid platform</td><td>Long-term use without converting</td></tr><tr><td>Otterly AI</td><td>Free dashboard tier (basic)</td><td>Tracking a small number of brands/prompts</td><td>Custom prompts, multi-engine depth</td></tr><tr><td>AthenaHQ</td><td>Sales-led trial</td><td>Limited</td><td>Self-serve free tier</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>DIY: scripting your own ChatGPT visibility tracker</h2>
+      <p>Engineering-led teams can build a minimum tracker for under 100 lines of code. The OpenAI API is the underlying call; the rest is prompt management, response parsing, and storage. The tradeoffs are real:</p>
+      <ul class="seo-list"><li><strong>Costs you save:</strong> License (~$300–$1500/month at the entry plans of the paid platforms).</li><li><strong>Costs you absorb:</strong> OpenAI API tokens ($0.001–$0.010 per prompt depending on model), engineering time to build, ongoing prompt-set curation, response-parsing edge cases.</li><li><strong>What breaks first:</strong> Parsing. ChatGPT mentions competitors with inconsistent spelling, embeds links in different markdown formats, and sometimes refuses to recommend any brand. Parsing without false positives takes weeks of iteration.</li><li><strong>Right use:</strong> Engineering teams that want full control of prompts and storage, AND have an internal owner for ongoing maintenance. Wrong use: marketing teams that want to ship something this quarter.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Which free path matches which job</h2>
+      <p>The four paths above all answer different questions. The mapping below is the fastest way to find your starting point.</p>
+      
+      <table>
+              <thead><tr><th>Job-to-be-done</th><th>Right free path</th><th>Why</th></tr></thead>
+              <tbody><tr><td>I want a one-shot read on whether AI search is real for my category</td><td>SolCrys free audit</td><td>5 minutes, structured report, no setup</td></tr><tr><td>I want to see how a specific buyer prompt is answered today</td><td>Manual ChatGPT spot-check</td><td>Faster than any tool, suitable for one-off</td></tr><tr><td>I&#39;m evaluating a paid platform I plan to buy</td><td>Free trial on that platform</td><td>Trials are designed for evaluation</td></tr><tr><td>I have engineering and want full prompt + storage control</td><td>DIY script</td><td>Maximum flexibility, real maintenance cost</td></tr><tr><td>I need ongoing tracking but can&#39;t pay anything yet</td><td>Free audit + re-run quarterly</td><td>Honest answer: there is no &quot;free&quot; ongoing-tracking path; the audit is the closest substitute</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>When free stops being enough</h2>
+      <p>The free audit answers &quot;is AI visibility a real channel for my category?&quot; It cannot answer the next four questions:</p>
+      <ul class="seo-list"><li>Is my mention rate trending up or down over the last 30 days?</li><li>Does Gemini or Perplexity show a different set of competitors than ChatGPT?</li><li>Which prompts am I losing share of voice on this week?</li><li>Which content investments would actually shift mention rate?</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What paid tracking adds</h3>
+        <p>The paid SolCrys Brand plan ($349/mo) adds daily scans across ChatGPT, Gemini, Perplexity, and Google AI Overviews; custom prompt sets; alerting on drops; and content briefs targeted to the prompts you&#39;re losing. For the comparison of paid options including SolCrys, Profound, and Peec, see our <a href="/best-tools-to-track-brand-visibility-in-chatgpt/" target="_blank" rel="noopener noreferrer">best tools to track brand visibility in ChatGPT and Perplexity</a> writeup.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Get started</h2>
+      <p>The fastest free path is the SolCrys 5-minute audit. Domain in, email-verify, 10 ChatGPT prompts, one report. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Run the free audit at app.solcrys.com/audit →</a></p><p>If you&#39;ve already run it and want daily multi-engine tracking with custom prompts, see <a href="https://app.solcrys.com/pricing" target="_blank" rel="noopener noreferrer">SolCrys pricing</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is the best free ChatGPT visibility tracker?</h3>
+            <p>For a structured, one-shot read on your brand&#39;s visibility in ChatGPT, the <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">SolCrys free audit</a> is the best free option in 2026 — 10 buyer prompts, mention rate, share of voice vs. competitors, and citation sources, returned in about 5 minutes. For ongoing daily tracking, there is no genuinely free path; the paid platforms (SolCrys Brand, Profound, Peec) start in the $300–$500/month range.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How can I monitor my brand in ChatGPT for free?</h3>
+            <p>Three free paths exist: (1) run a one-shot SolCrys free audit to get a structured report, (2) manually prompt ChatGPT with your category questions for a qualitative spot-check, or (3) sign up for a free trial on a paid platform if you&#39;re already in vendor evaluation. None of the three give you ongoing daily tracking — that capability is paid across all major platforms.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is the SolCrys free audit actually free, or is it a trial?</h3>
+            <p>It&#39;s actually free, not a time-bound trial. The free tier is one audit per domain per email — covers 10 ChatGPT prompts and returns the full report (mention rate, share of voice, citation sources) with no payment required and no automatic conversion to paid. Re-running on the same domain requires the paid Brand plan, which adds daily tracking, custom prompts, and three more engines (Gemini, Perplexity, Google AI Overviews).</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I track my brand in Gemini and Perplexity for free too?</h3>
+            <p>No major platform offers a free tier covering Gemini and Perplexity in 2026. The SolCrys free audit covers ChatGPT only; the same applies to Otterly&#39;s free dashboard tier. Multi-engine tracking is the structural reason the paid plans exist — running a daily scan across four engines on a useful prompt set has real API and infrastructure cost.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are manual ChatGPT spot-checks a substitute for a tracker?</h3>
+            <p>For a one-off qualitative gut-check, yes. For systematic measurement, no. Manual checks can&#39;t capture cross-session variance, miss roughly half the competitor mentions on a careful reading, and don&#39;t aggregate over time. The structured part of a real tracker — fixed prompt set, consistent timing, mention parsing — is what makes the numbers comparable.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I just script this against the OpenAI API myself?</h3>
+            <p>Yes, if you have engineering capacity and an internal owner for ongoing maintenance. The hard part isn&#39;t calling the API; it&#39;s curating a buyer-intent prompt set, parsing inconsistent brand mentions and link formats out of model responses, and managing storage. Most marketing teams that try the DIY path end up either abandoning it or buying a paid tracker within 90 days.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/chatgpt-visibility-tracker/">ChatGPT Visibility Tracker</a></h3>
+            <p>Free ChatGPT visibility tracker. Measure your brand&#39;s mention rate, share of voice, and citations across ChatGPT, Gemini, Perplexity, and Google AI — start with a 5-minute audit.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/best-tools-to-track-brand-visibility-in-chatgpt/">Best Tools to Track Brand Visibility in ChatGPT and Perplexity (2026)</a></h3>
+            <p>Compared: 7 tools that actually track brand mentions in ChatGPT and Perplexity in 2026. Includes a DIY 5-prompt audit you can run in 10 minutes.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/chatgpt-brand-mentions/">ChatGPT Brand Mentions</a></h3>
+            <p>Learn how to monitor whether ChatGPT mentions, cites, or misrepresents a brand across high-intent customer prompts.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BVnCEg5a.js"></script>
+  </body>
+</html>

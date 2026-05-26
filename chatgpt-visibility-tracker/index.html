@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>ChatGPT Visibility Tracker (Free) — Track Brand Mentions in AI Search | SolCrys</title>
+    <meta name="description" content="Free ChatGPT visibility tracker. Measure your brand&#39;s mention rate, share of voice, and citations across ChatGPT, Gemini, Perplexity, and Google AI — start with a 5-minute audit." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/chatgpt-visibility-tracker/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-25" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="ChatGPT Visibility Tracker (Free) — Track Brand Mentions in AI Search | SolCrys" />
+    <meta property="og:description" content="Free ChatGPT visibility tracker. Measure your brand&#39;s mention rate, share of voice, and citations across ChatGPT, Gemini, Perplexity, and Google AI — start with a 5-minute audit." />
+    <meta property="og:url" content="https://solcrys.com/chatgpt-visibility-tracker/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DdoZts0y.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"ChatGPT Visibility Tracker","item":"https://solcrys.com/chatgpt-visibility-tracker/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The free ChatGPT visibility tracker for brand mentions in AI search","description":"Free ChatGPT visibility tracker. Measure your brand's mention rate, share of voice, and citations across ChatGPT, Gemini, Perplexity, and Google AI — start with a 5-minute audit.","dateModified":"2026-05-25","datePublished":"2026-05-25","mainEntityOfPage":"https://solcrys.com/chatgpt-visibility-tracker/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/chatgpt-visibility-tracker/","mainEntity":[{"@type":"Question","name":"What is a ChatGPT visibility tracker?","acceptedAnswer":{"@type":"Answer","text":"A ChatGPT visibility tracker is a measurement tool that runs a fixed set of buyer-intent prompts through ChatGPT, then reports how often your brand is named, how often competitors are named in your place, and which sources ChatGPT cited. It's the AI-search equivalent of a rank tracker, except the unit of analysis is your brand name inside an AI-generated answer, not your URL on a SERP."}},{"@type":"Question","name":"How do I track my brand's visibility in ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"The fastest path is the [SolCrys free audit](https://app.solcrys.com/audit): enter your domain, verify your email with a magic-link code, and a 5-minute scan runs 10 buyer prompts through ChatGPT and returns your mention rate, share of voice vs. competitors, and the top citation sources. For ongoing tracking — daily scans across ChatGPT, Gemini, Perplexity, and Google AI Overviews with custom prompt sets and alerting — the SolCrys Brand plan covers it from $349/month."}},{"@type":"Question","name":"Is there a free tool to monitor brand visibility in ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"Yes. SolCrys offers a free ChatGPT visibility tracker at [app.solcrys.com/audit](https://app.solcrys.com/audit). The free tier runs 10 prompts through ChatGPT one-time and returns a full report (mention rate + share of voice + citation sources). No credit card required. Daily, multi-engine tracking is paid."}},{"@type":"Question","name":"What's the best ChatGPT visibility tracker in 2026?","acceptedAnswer":{"@type":"Answer","text":"\"Best\" depends on the job you're hiring the tool to do. For free, one-shot ChatGPT-only audits, SolCrys's free tracker is the lowest-friction option. For enterprise daily tracking across all four major AI answer engines with custom prompt sets and the action layer that ships content briefs to close gaps, SolCrys's Brand and Enterprise plans are the canonical choice. For comparison shopping across all platforms in the category, see our [best tools to track brand visibility in ChatGPT and Perplexity](/best-tools-to-track-brand-visibility-in-chatgpt/) writeup."}},{"@type":"Question","name":"How is ChatGPT visibility tracking different from SEO?","acceptedAnswer":{"@type":"Answer","text":"Traditional SEO tools (Ahrefs, SEMrush, Moz) measure your URLs' rank on Google's keyword results page. ChatGPT visibility tracking measures whether AI engines mention your brand by name when they generate answers — a different signal that doesn't depend on URL rank. You can rank #1 on Google and never get mentioned by ChatGPT. As buyers shift to AI answer engines, mention rate becomes the new share-of-voice metric."}},{"@type":"Question","name":"Can I monitor ChatGPT, Perplexity, and Gemini in one tool?","acceptedAnswer":{"@type":"Answer","text":"Yes. SolCrys's paid plans track ChatGPT, Gemini, Perplexity, and Google AI Overviews / AI Mode daily on the same prompt set, so you can compare share of voice across engines and catch the cases where one engine ranks a competitor that the others don't. The free audit covers ChatGPT only."}},{"@type":"Question","name":"How do I measure share of voice in AI search?","acceptedAnswer":{"@type":"Answer","text":"Pick a set of buyer-intent prompts in your category, run them through ChatGPT (and the other major answer engines) regularly, and count brand mentions. Your share of voice is your mention count divided by total brand mentions across all results, for the same prompt set, over the same time window. A ChatGPT visibility tracker automates this — SolCrys reports it daily on the paid plans."}},{"@type":"Question","name":"How long does the free ChatGPT visibility audit take?","acceptedAnswer":{"@type":"Answer","text":"About 5 minutes end-to-end: domain entry (under 30 seconds), email-verify with a 6-digit code (about 1 minute), prompt scan against ChatGPT (about 3 minutes for 10 prompts), and report rendering. You stay on the page the whole time and the report opens inline when the scan completes."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Search Tools</p>
+        <h1>The free ChatGPT visibility tracker for brand mentions in AI search</h1>
+        <p class="seo-lede">A <strong>ChatGPT visibility tracker</strong> measures whether — and how — AI answer engines mention your brand when buyers ask category questions. Buyers are shifting from Google to ChatGPT, Gemini, Perplexity, and Google AI Overviews, but most teams still have no instrumentation on whether AI surfaces them by name. SolCrys&#39;s free tracker scans your domain against 10 buyer-intent prompts in ChatGPT in about 5 minutes and reports mention rate, share of voice vs. competitors, and the sources AI cited. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start the free audit →</a></p>
+        <p>Updated 2026-05-25</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is a ChatGPT visibility tracker?</li><li>How do I track my brand&#39;s visibility in ChatGPT?</li><li>Is there a free ChatGPT visibility tracker?</li><li>What&#39;s the best ChatGPT visibility tracker in 2026?</li><li>How is ChatGPT visibility tracking different from SEO?</li><li>Can I monitor Perplexity and Gemini in the same tool?</li><li>How do I measure share of voice in AI search?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>A <strong>ChatGPT visibility tracker</strong> is a tool that runs a fixed set of buyer prompts through ChatGPT (and, in most paid plans, the other major AI answer engines), then reports three things back to you: how often your brand is mentioned, how often competitors are mentioned in your place, and which sources ChatGPT cited when forming its answer.</p><p><strong>SolCrys is a free ChatGPT visibility tracker.</strong> Enter your domain at <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">app.solcrys.com/audit</a>, verify your email, and a 5-minute scan returns a single visibility score plus a competitor and citation breakdown. No credit card, no setup. Paid plans extend the same measurement to Gemini, Perplexity, and Google AI Overviews on a daily cadence.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a ChatGPT visibility tracker measures</h2>
+      <p>Three signals matter for AI search the way blue-link rank and click-through rate matter for traditional SEO. A useful tracker measures all three on the same set of buyer-intent prompts, so the metrics are comparable over time and across engines.</p>
+      <ul class="seo-list"><li><strong>Mention rate</strong> — across N prompts, how often does ChatGPT name your brand at all? This is the AI-search equivalent of impressions: if ChatGPT never mentions you, no downstream metric matters.</li><li><strong>Share of voice</strong> — of all brand mentions across the same N prompts, what percentage belong to you vs. each competitor? This is the AI-search equivalent of paid-search share of voice — a relative, head-to-head metric that travels across category and time.</li><li><strong>Citation sources</strong> — when ChatGPT names your brand, which URLs is it citing? Owned domains, customer review sites, Reddit threads, news articles, or competitor pages? Citation-source analysis tells you where to invest content effort to actually shift mention rate.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How the SolCrys free ChatGPT visibility tracker works</h2>
+      <p>The free audit is intentionally minimal — domain in, report out — so you can validate whether AI-search visibility is even a real problem for your category before talking to anyone in marketing or growth. Five steps:</p>
+      <ul class="seo-list"><li><strong>Step 1 — Domain in.</strong> Paste your URL at <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">app.solcrys.com/audit</a>. Any URL works (apex domain, product page, anything with a host).</li><li><strong>Step 2 — Email verify.</strong> Enter a work email; we send a 6-digit code. This anti-abuse step is what lets us run real ChatGPT prompts for free without melting the cost line.</li><li><strong>Step 3 — Prompt scan.</strong> We run 10 category prompts (&quot;best X for Y&quot;, &quot;alternatives to Z&quot;, etc.) through ChatGPT against your category. Same prompts every audit, so the result is comparable.</li><li><strong>Step 4 — Mention + citation extraction.</strong> Each ChatGPT answer is parsed for brand mentions (yours and competitors) and the source URLs it cited. We don&#39;t trust the model&#39;s claims; we extract the structured signals.</li><li><strong>Step 5 — Report.</strong> Single visibility score (your mention rate), competitor breakdown (share of voice), and the top 10 citation sources ChatGPT relied on. Five minutes end-to-end.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Free audit vs. paid SolCrys plans</h2>
+      <p>The free audit is a one-shot ChatGPT snapshot. The paid plans are daily multi-engine tracking with prompts you control, alerting, and the action layer (content briefs that target the prompts you&#39;re losing). The table below maps which capability lives where.</p>
+      
+      <table>
+              <thead><tr><th>Capability</th><th>Free audit</th><th>Brand ($349/mo)</th><th>Enterprise</th></tr></thead>
+              <tbody><tr><td>ChatGPT visibility tracking</td><td>Yes — 10 prompts, one-time</td><td>Yes — 50+ prompts, daily</td><td>Yes — unlimited prompts, daily</td></tr><tr><td>Gemini visibility tracking</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Perplexity visibility tracking</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Google AI Overviews tracking</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Citation source analysis</td><td>Yes — one-time</td><td>Yes — daily</td><td>Yes — daily, deeper</td></tr><tr><td>Competitor share of voice</td><td>Yes — one-time</td><td>Yes — daily</td><td>Yes — daily, custom set</td></tr><tr><td>Custom prompt sets</td><td>No (fixed 10)</td><td>Yes</td><td>Yes</td></tr><tr><td>Alerting on drops</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Action briefs (content → close gaps)</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Setup time</td><td>5 minutes</td><td>30 minutes</td><td>Onboarded with CSM</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Multi-engine coverage — beyond ChatGPT</h2>
+      <p>ChatGPT is the largest AI answer engine by query volume, but it&#39;s not the only one your buyers are using. A useful AI visibility tracker covers all four major surfaces, because share of voice in ChatGPT alone is a partial picture — Gemini and Perplexity often rank very different brands for the same buyer question, and Google AI Overviews is now the entry point to the rest of Google Search.</p>
+      <ul class="seo-list"><li><strong>ChatGPT</strong> — covered in both the free audit and paid plans. The dominant consumer AI surface and the one most search-shift studies cite.</li><li><strong>Google Gemini and AI Mode</strong> — covered in paid plans. Google&#39;s answer surface ships with hundreds of millions of latent users via the Google account graph.</li><li><strong>Perplexity</strong> — covered in paid plans. Researcher- and analyst-skewed audience; over-indexes on B2B SaaS and finance categories.</li><li><strong>Google AI Overviews</strong> — covered in paid plans. The most consequential surface for any brand that already invests in SEO, because Overviews appear above blue links on commercial-intent queries.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How a ChatGPT visibility tracker differs from SEO tools</h2>
+      <p>Traditional SEO tools (Ahrefs, SEMrush, Moz, SE Ranking) measure URL rank on Google&#39;s keyword results page. Their core unit of analysis is *your URL* and its position on a SERP. A ChatGPT visibility tracker has a different unit of analysis: *your brand name as a string token* inside an AI-generated answer. The signals don&#39;t substitute for each other:</p>
+      <ul class="seo-list"><li><strong>SEO measures URL rank.</strong> AI visibility measures whether your brand name appears in an answer paragraph at all. You can rank #1 on Google for a query and never get mentioned by ChatGPT on the same query.</li><li><strong>SEO is keyword-driven.</strong> AI visibility is prompt-driven. A tracker has to run actual prompts through a live model; you can&#39;t infer mention rate from a keyword-volume database.</li><li><strong>SEO clicks are countable.</strong> AI mentions are countable but referral-link signals are sparse. The right metric for AI search is mention rate and share of voice, not session counts.</li><li><strong>SEO tools optimize content for crawlers.</strong> AI visibility trackers surface what AI engines *already think* about your brand — including hallucinations and stale claims that need content correction.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Who uses a ChatGPT visibility tracker</h2>
+      <p>AI-search visibility cuts across functions. The four common entry points below cover the majority of SolCrys free-audit usage in 2026:</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Demand generation and growth marketing</h3>
+        <p>Demand-gen teams use a ChatGPT visibility tracker to attribute pipeline shifts that don&#39;t show up in Google Analytics. When buyers research a category in ChatGPT and arrive at the website by direct or branded search, the channel report says &quot;Direct&quot; — but the underlying behavior is AI-assisted research. The tracker surfaces the upstream surface.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Brand and PR teams</h3>
+        <p>Brand teams use the tracker to catch AI hallucinations early. ChatGPT will confidently misstate your pricing, your founder&#39;s name, your latest product, or your category position — and unlike a Google snippet you can&#39;t directly edit. The tracker tells you which prompts produce wrong answers, so PR and content teams can ship corrections (review-site updates, founder-byline pieces, Wikipedia edits) targeted to the actual hallucination.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Product and category marketing</h3>
+        <p>PMM teams use a ChatGPT visibility tracker as competitive intelligence: which competitors does AI mention in your place, with what framing, and which sources is AI citing to justify those mentions? It&#39;s how you find out that ChatGPT thinks your top competitor invented the category — and what content effort would shift that.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Founders and small marketing teams</h3>
+        <p>Single-PMM startups use the free audit as a 5-minute sanity check: &quot;is AI even mentioning us at all yet?&quot; If the audit shows zero mentions across 10 buyer prompts, you need a category-positioning conversation before you need an AEO platform. If the audit shows mentions but at a 12% share of voice vs. a 40% competitor, you need to ship content briefs targeted to the prompts you&#39;re losing — that&#39;s the paid Brand plan.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Get started — run a free ChatGPT visibility audit</h2>
+      <p>If you haven&#39;t measured your brand&#39;s visibility in ChatGPT yet, the free audit is the fastest way to see whether AI search is a real channel for your category. Five minutes, no setup, no credit card. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Run the free audit at app.solcrys.com/audit →</a></p><p>If you already know AI search matters for your category and want daily tracking across ChatGPT, Gemini, Perplexity, and Google AI Overviews — plus the action layer that closes the gaps — see <a href="https://app.solcrys.com/pricing" target="_blank" rel="noopener noreferrer">SolCrys pricing</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is a ChatGPT visibility tracker?</h3>
+            <p>A ChatGPT visibility tracker is a measurement tool that runs a fixed set of buyer-intent prompts through ChatGPT, then reports how often your brand is named, how often competitors are named in your place, and which sources ChatGPT cited. It&#39;s the AI-search equivalent of a rank tracker, except the unit of analysis is your brand name inside an AI-generated answer, not your URL on a SERP.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I track my brand&#39;s visibility in ChatGPT?</h3>
+            <p>The fastest path is the <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">SolCrys free audit</a>: enter your domain, verify your email with a magic-link code, and a 5-minute scan runs 10 buyer prompts through ChatGPT and returns your mention rate, share of voice vs. competitors, and the top citation sources. For ongoing tracking — daily scans across ChatGPT, Gemini, Perplexity, and Google AI Overviews with custom prompt sets and alerting — the SolCrys Brand plan covers it from $349/month.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is there a free tool to monitor brand visibility in ChatGPT?</h3>
+            <p>Yes. SolCrys offers a free ChatGPT visibility tracker at <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">app.solcrys.com/audit</a>. The free tier runs 10 prompts through ChatGPT one-time and returns a full report (mention rate + share of voice + citation sources). No credit card required. Daily, multi-engine tracking is paid.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the best ChatGPT visibility tracker in 2026?</h3>
+            <p>&quot;Best&quot; depends on the job you&#39;re hiring the tool to do. For free, one-shot ChatGPT-only audits, SolCrys&#39;s free tracker is the lowest-friction option. For enterprise daily tracking across all four major AI answer engines with custom prompt sets and the action layer that ships content briefs to close gaps, SolCrys&#39;s Brand and Enterprise plans are the canonical choice. For comparison shopping across all platforms in the category, see our <a href="/best-tools-to-track-brand-visibility-in-chatgpt/" target="_blank" rel="noopener noreferrer">best tools to track brand visibility in ChatGPT and Perplexity</a> writeup.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How is ChatGPT visibility tracking different from SEO?</h3>
+            <p>Traditional SEO tools (Ahrefs, SEMrush, Moz) measure your URLs&#39; rank on Google&#39;s keyword results page. ChatGPT visibility tracking measures whether AI engines mention your brand by name when they generate answers — a different signal that doesn&#39;t depend on URL rank. You can rank #1 on Google and never get mentioned by ChatGPT. As buyers shift to AI answer engines, mention rate becomes the new share-of-voice metric.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I monitor ChatGPT, Perplexity, and Gemini in one tool?</h3>
+            <p>Yes. SolCrys&#39;s paid plans track ChatGPT, Gemini, Perplexity, and Google AI Overviews / AI Mode daily on the same prompt set, so you can compare share of voice across engines and catch the cases where one engine ranks a competitor that the others don&#39;t. The free audit covers ChatGPT only.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I measure share of voice in AI search?</h3>
+            <p>Pick a set of buyer-intent prompts in your category, run them through ChatGPT (and the other major answer engines) regularly, and count brand mentions. Your share of voice is your mention count divided by total brand mentions across all results, for the same prompt set, over the same time window. A ChatGPT visibility tracker automates this — SolCrys reports it daily on the paid plans.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long does the free ChatGPT visibility audit take?</h3>
+            <p>About 5 minutes end-to-end: domain entry (under 30 seconds), email-verify with a 6-digit code (about 1 minute), prompt scan against ChatGPT (about 3 minutes for 10 prompts), and report rendering. You stay on the page the whole time and the report opens inline when the scan completes.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-brand-visibility-monitoring/">AI Brand Visibility Monitoring</a></h3>
+            <p>A practical guide to measuring brand mentions, citations, sentiment, and competitive position across AI answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/chatgpt-brand-mentions/">ChatGPT Brand Mentions</a></h3>
+            <p>Learn how to monitor whether ChatGPT mentions, cites, or misrepresents a brand across high-intent customer prompts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BVnCEg5a.js"></script>
+  </body>
+</html>
