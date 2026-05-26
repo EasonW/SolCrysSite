@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Google AI Overviews Tracker (Free Audit) — Track Brand in Google AI Search | SolCrys</title>
+    <meta name="description" content="Free Google AI Overviews tracker via ChatGPT baseline audit. Measure how Google AI Overviews and AI Mode show your brand — 5-minute audit to start, daily Google AI tracking on the Brand plan." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/google-ai-overviews-tracker/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-25" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Google AI Overviews Tracker (Free Audit) — Track Brand in Google AI Search | SolCrys" />
+    <meta property="og:description" content="Free Google AI Overviews tracker via ChatGPT baseline audit. Measure how Google AI Overviews and AI Mode show your brand — 5-minute audit to start, daily Google AI tracking on the Brand plan." />
+    <meta property="og:url" content="https://solcrys.com/google-ai-overviews-tracker/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BY1i_2g3.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Google AI Overviews Tracker","item":"https://solcrys.com/google-ai-overviews-tracker/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The Google AI Overviews tracker for brand visibility in SERP-integrated AI answers","description":"Free Google AI Overviews tracker via ChatGPT baseline audit. Measure how Google AI Overviews and AI Mode show your brand — 5-minute audit to start, daily Google AI tracking on the Brand plan.","dateModified":"2026-05-25","datePublished":"2026-05-25","mainEntityOfPage":"https://solcrys.com/google-ai-overviews-tracker/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/google-ai-overviews-tracker/","mainEntity":[{"@type":"Question","name":"What is a Google AI Overviews tracker?","acceptedAnswer":{"@type":"Answer","text":"A Google AI Overviews tracker measures how Google's AI-generated answers — both the boxed Overviews above SERP results and the conversational AI Mode surface — mention your brand on commercial-intent queries. It reports four signals: Overview appearance rate (does the AI box show up at all for the query), mention rate (when it shows up, are you named), SERP-to-Overview conversion (do queries you rank #1-5 on actually cite you in the Overview), and AI Mode multi-turn durability (do you stay in the conversation across follow-ups)."}},{"@type":"Question","name":"How does Google AI Overviews relate to organic SEO rank?","acceptedAnswer":{"@type":"Answer","text":"AI Overviews are constructed FROM the top organic and paid results on the same query, so your existing search rank is a direct input into your AI Overviews visibility. Pages ranking #1-5 organically appear most often in the Overview's source panel. This makes Google AI Overviews the only AI search surface where your existing SEO investment is a direct lever — and where a SERP-to-Overview conversion gap is a measurable, fixable problem (your page wins on ranking signals but isn't structured for AI extraction)."}},{"@type":"Question","name":"What's the difference between AI Overviews and AI Mode?","acceptedAnswer":{"@type":"Answer","text":"AI Overviews is the boxed summary that automatically appears above blue links on commercial queries — stateless, one-query-one-answer. AI Mode is a separate tab in Search results where the user can engage in a multi-turn conversation, with sources cited per turn. Tracking strategies differ: Overviews need mention rate + SERP-to-Overview conversion; AI Mode needs mention durability across the conversation. Both surfaces are powered by Gemini under the hood, but the buyer experience and competitive dynamics are different."}},{"@type":"Question","name":"Is the SolCrys free audit on Google AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"Not yet — the free audit runs against ChatGPT (10 prompts, 5 minutes). Daily Google AI Overviews + AI Mode tracking is on the Brand plan, which also covers ChatGPT, Gemini, and Perplexity. The ChatGPT baseline uses the same prompt set you'd run against Google AI on upgrade, so the metrics are directly comparable."}},{"@type":"Question","name":"Why is AI Overviews mention rate dropping my organic traffic?","acceptedAnswer":{"@type":"Answer","text":"Because AI Overviews sit above the first organic result and often answer the buyer's question in-page — buyers who get the answer from the Overview don't scroll down to click your blue link. GSC clicks on impacted queries commonly drop 30-60% when Overviews appear, even when you still rank #1. The defense isn't to deindex; it's to BE in the Overview's source panel and ideally named in the summary text. That's what AI Overviews tracking measures."}},{"@type":"Question","name":"Can I monitor Google AI Overviews and ChatGPT in one tool?","acceptedAnswer":{"@type":"Answer","text":"Yes — SolCrys's Brand plan tracks ChatGPT, Gemini, Perplexity, and Google AI Overviews + AI Mode daily on a single prompt set, with engine-specific signal extraction. For Google AI specifically, the plan reports Overview appearance rate, mention rate, and SERP-to-Overview conversion separately from the other engines so the SEO-to-AI chain stays measurable."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Search Tools</p>
+        <h1>The Google AI Overviews tracker for brand visibility in SERP-integrated AI answers</h1>
+        <p class="seo-lede">A <strong>Google AI Overviews tracker</strong> measures how Google&#39;s AI-generated answers — the boxed Overviews that sit above blue links on commercial-intent queries, and the conversational AI Mode surface — describe your brand and which competitors they name. Of all AI search surfaces, Google AI Overviews is the most consequential for any brand that already invests in SEO, because Overviews are constructed FROM your organic ranking — your existing SEO is now an AI visibility input. Start with SolCrys&#39;s free 5-minute ChatGPT audit; the Brand plan adds daily Google AI Overviews tracking. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start the free audit →</a></p>
+        <p>Updated 2026-05-25</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I track my brand in Google AI Overviews?</li><li>What is a Google AI Overviews tracker?</li><li>How does Google AI Overviews relate to organic SEO rank?</li><li>What is the difference between AI Overviews and AI Mode?</li><li>Can I track Google AI search visibility?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>A <strong>Google AI Overviews tracker</strong> measures whether — and how — Google&#39;s AI-generated answers mention your brand on commercial-intent queries. There are two distinct Google AI surfaces to track: <strong>AI Overviews</strong>, the boxed summary that sits above blue-link results on many queries, and <strong>AI Mode</strong>, the conversational interface that lets users follow up with more questions inside the SERP. Both are powered by Gemini under the hood but behave differently — Overviews are query-pinned and SERP-integrated; AI Mode is conversational and session-stateful.</p><p><strong>SolCrys&#39;s free audit gives you a ChatGPT baseline today</strong> (<a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">run it →</a>). Daily Google AI Overviews + AI Mode tracking lives on the Brand plan. The reason this engine matters disproportionately: AI Overviews are constructed FROM your organic search rank, so your existing SEO is now a direct AI-visibility input — and the page rank → AI mention chain is measurable.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why Google AI Overviews matters more than the other engines for SEO-invested brands</h2>
+      <p>ChatGPT, Perplexity, and Gemini all matter, but they share a common limitation from a Google-invested brand&#39;s perspective: their answers don&#39;t depend on your Google search rank. Google AI Overviews are different — they&#39;re constructed directly from the top organic and paid results on the same query. This makes the chain measurable and the levers known:</p>
+      <ul class="seo-list"><li><strong>Overviews source from the top of the SERP.</strong> Pages already ranking #1-5 organically appear most often in the citation list inside Overviews. If you rank #1 on a category query and AI Overviews don&#39;t mention you, the question is at the SERP-to-Overview conversion stage, not the SEO stage.</li><li><strong>Above the fold.</strong> AI Overviews sit ABOVE the first organic result on many commercial queries. Buyers who click out of the Overview likely never see your blue link below — visibility in the Overview is the new &quot;above the fold.&quot;</li><li><strong>Click-through erosion is real and measurable.</strong> GSC clicks on impacted queries can drop 30-60% when AI Overviews appear, even when you still rank #1 — buyers get the answer in the Overview and don&#39;t click through. Tracking Overview mention rate is now a defense against organic-traffic erosion.</li><li><strong>AI Mode is conversational.</strong> Once a buyer clicks into AI Mode, the session becomes stateful — follow-ups are answered with context from prior turns. Brand visibility across a 3-5 turn AI Mode session is materially different from one-shot Overview visibility on the entry query.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a Google AI Overviews tracker measures</h2>
+      <p>Four signals, measured across both AI Overviews and AI Mode:</p>
+      <ul class="seo-list"><li><strong>Overview appearance rate.</strong> Across N category prompts, how often does Google trigger an AI Overview on the SERP? Not every query gets one; the trigger rate itself is a useful signal of where AI search is reshaping your category.</li><li><strong>Brand mention rate within Overviews.</strong> When the Overview appears, how often is your brand named in the summary text or cited in the source-list panel?</li><li><strong>SERP-to-Overview conversion.</strong> For queries where you rank #1-5 organically, how often does the Overview actually cite you? A low conversion rate signals an Overviews-specific content gap — your page wins on organic ranking signals but isn&#39;t structured for AI extraction.</li><li><strong>AI Mode mention durability across conversation turns.</strong> When the buyer follows up with related questions, does your brand persist in the conversation context or get displaced by competitors? This is where multi-turn category positioning lives.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How AI Overviews differs from AI Mode</h2>
+      <p>Both are Google AI surfaces, but they have different behavior, different buyer intents, and different tracking strategies:</p>
+      
+      <table>
+              <thead><tr><th>Dimension</th><th>AI Overviews</th><th>AI Mode</th></tr></thead>
+              <tbody><tr><td>Trigger</td><td>Automatic on many commercial queries</td><td>User-initiated tab in Search results</td></tr><tr><td>Format</td><td>Boxed summary above blue links</td><td>Conversational chat interface</td></tr><tr><td>Source visibility</td><td>Source panel shown on expansion</td><td>Sources cited per turn</td></tr><tr><td>Session state</td><td>Stateless (one query, one Overview)</td><td>Stateful (multi-turn conversation)</td></tr><tr><td>Buyer intent</td><td>Quick-answer scan</td><td>Deeper research, follow-up questions</td></tr><tr><td>Tracking strategy</td><td>Mention rate + SERP-to-Overview conversion</td><td>Mention durability across N turns</td></tr><tr><td>Primary defense lever</td><td>Page-level structured content optimized for AI extraction</td><td>Category positioning + entity strength</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Free audit vs. daily Google AI tracking</h2>
+      <p>Daily Google AI Overviews + AI Mode tracking lives on the Brand plan. The free audit gives you a ChatGPT baseline; the Brand plan extends to the four engines that matter for AI search visibility — including Google AI Overviews, which is the only engine that&#39;s directly downstream of your existing SEO investment.</p>
+      
+      <table>
+              <thead><tr><th>Capability</th><th>Free audit</th><th>Brand plan (Google AI tracking)</th></tr></thead>
+              <tbody><tr><td>ChatGPT baseline</td><td>Yes — 10 prompts, one-time</td><td>Yes — daily</td></tr><tr><td>AI Overviews appearance rate</td><td>No (paid)</td><td>Yes — daily</td></tr><tr><td>AI Overviews mention rate (your brand)</td><td>No (paid)</td><td>Yes — daily</td></tr><tr><td>SERP-to-Overview conversion rate</td><td>No (paid)</td><td>Yes</td></tr><tr><td>AI Mode multi-turn tracking</td><td>No (paid)</td><td>Yes (3-5 turn default)</td></tr><tr><td>Cross-engine comparison (vs ChatGPT, Perplexity, Gemini)</td><td>No</td><td>Yes</td></tr><tr><td>Custom prompt sets</td><td>No (fixed 10)</td><td>Yes</td></tr><tr><td>Alerts on AI Overviews mention drops</td><td>No</td><td>Yes</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Get started</h2>
+      <p><a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Run the SolCrys free audit →</a> — 5 minutes, ChatGPT baseline. Then upgrade to the <a href="https://app.solcrys.com/pricing" target="_blank" rel="noopener noreferrer">Brand plan</a> for daily Google AI Overviews + AI Mode tracking with SERP-to-Overview conversion rate and multi-turn AI Mode visibility.</p><p>Adjacent reading: <a href="/aeo-vs-seo/" target="_blank" rel="noopener noreferrer">AEO vs SEO</a> for the framework behind how AI search is changing the SEO discipline, and the <a href="/gemini-visibility-tracker/" target="_blank" rel="noopener noreferrer">Gemini visibility tracker</a> for tracking the broader Gemini surface (consumer chatbot + API).</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is a Google AI Overviews tracker?</h3>
+            <p>A Google AI Overviews tracker measures how Google&#39;s AI-generated answers — both the boxed Overviews above SERP results and the conversational AI Mode surface — mention your brand on commercial-intent queries. It reports four signals: Overview appearance rate (does the AI box show up at all for the query), mention rate (when it shows up, are you named), SERP-to-Overview conversion (do queries you rank #1-5 on actually cite you in the Overview), and AI Mode multi-turn durability (do you stay in the conversation across follow-ups).</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does Google AI Overviews relate to organic SEO rank?</h3>
+            <p>AI Overviews are constructed FROM the top organic and paid results on the same query, so your existing search rank is a direct input into your AI Overviews visibility. Pages ranking #1-5 organically appear most often in the Overview&#39;s source panel. This makes Google AI Overviews the only AI search surface where your existing SEO investment is a direct lever — and where a SERP-to-Overview conversion gap is a measurable, fixable problem (your page wins on ranking signals but isn&#39;t structured for AI extraction).</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between AI Overviews and AI Mode?</h3>
+            <p>AI Overviews is the boxed summary that automatically appears above blue links on commercial queries — stateless, one-query-one-answer. AI Mode is a separate tab in Search results where the user can engage in a multi-turn conversation, with sources cited per turn. Tracking strategies differ: Overviews need mention rate + SERP-to-Overview conversion; AI Mode needs mention durability across the conversation. Both surfaces are powered by Gemini under the hood, but the buyer experience and competitive dynamics are different.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is the SolCrys free audit on Google AI Overviews?</h3>
+            <p>Not yet — the free audit runs against ChatGPT (10 prompts, 5 minutes). Daily Google AI Overviews + AI Mode tracking is on the Brand plan, which also covers ChatGPT, Gemini, and Perplexity. The ChatGPT baseline uses the same prompt set you&#39;d run against Google AI on upgrade, so the metrics are directly comparable.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why is AI Overviews mention rate dropping my organic traffic?</h3>
+            <p>Because AI Overviews sit above the first organic result and often answer the buyer&#39;s question in-page — buyers who get the answer from the Overview don&#39;t scroll down to click your blue link. GSC clicks on impacted queries commonly drop 30-60% when Overviews appear, even when you still rank #1. The defense isn&#39;t to deindex; it&#39;s to BE in the Overview&#39;s source panel and ideally named in the summary text. That&#39;s what AI Overviews tracking measures.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I monitor Google AI Overviews and ChatGPT in one tool?</h3>
+            <p>Yes — SolCrys&#39;s Brand plan tracks ChatGPT, Gemini, Perplexity, and Google AI Overviews + AI Mode daily on a single prompt set, with engine-specific signal extraction. For Google AI specifically, the plan reports Overview appearance rate, mention rate, and SERP-to-Overview conversion separately from the other engines so the SEO-to-AI chain stays measurable.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/chatgpt-visibility-tracker/">ChatGPT Visibility Tracker</a></h3>
+            <p>Free ChatGPT visibility tracker. Measure your brand&#39;s mention rate, share of voice, and citations across ChatGPT, Gemini, Perplexity, and Google AI — start with a 5-minute audit.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/gemini-visibility-tracker/">Gemini Visibility Tracker</a></h3>
+            <p>Free Gemini visibility tracker via ChatGPT baseline audit. Measure how Google Gemini describes your brand — 5-minute audit to start, daily Gemini tracking on the Brand plan.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/perplexity-visibility-tracker/">Perplexity Visibility Tracker</a></h3>
+            <p>Free Perplexity visibility tracker (via ChatGPT baseline audit). Measure brand mentions and citation share in Perplexity — 5-minute audit to start, daily Perplexity tracking on the Brand plan.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DhMWrxqx.js"></script>
+  </body>
+</html>

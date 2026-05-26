@@ -15682,3 +15682,340 @@ A: For a one-off qualitative gut-check, yes. For systematic measurement, no. Man
 
 Q: Can I just script this against the OpenAI API myself?
 A: Yes, if you have engineering capacity and an internal owner for ongoing maintenance. The hard part isn't calling the API; it's curating a buyer-intent prompt set, parsing inconsistent brand mentions and link formats out of model responses, and managing storage. Most marketing teams that try the DIY path end up either abandoning it or buying a paid tracker within 90 days.
+
+## Perplexity Visibility Tracker
+
+A **Perplexity visibility tracker** measures whether — and how — Perplexity mentions your brand when buyers ask category questions, AND which of your URLs Perplexity cites as sources. Perplexity's distinguishing feature vs. ChatGPT is that EVERY answer carries clickable citations, which makes citation share (not just mention rate) the metric that matters. Start with SolCrys's free 5-minute audit (ChatGPT baseline; same buyer prompts you'd run in Perplexity), and add daily Perplexity tracking on the Brand plan. [Start the free audit →](https://app.solcrys.com/audit)
+
+### Questions this guide answers
+
+- How do I track my brand's visibility in Perplexity?
+- What is a Perplexity visibility tracker?
+- How do I measure citation share in Perplexity?
+- Is Perplexity different from ChatGPT for brand visibility?
+- Can I track Perplexity Pro answers separately?
+
+### Direct answer
+
+A **Perplexity visibility tracker** measures two things on a fixed set of buyer prompts: how often Perplexity names your brand in the generated answer, and how often Perplexity cites your domain (or competitor domains) as the underlying source. Both signals matter because Perplexity exposes its sources on every answer — readers can click through, which makes citation share a more concrete buyer-traffic signal than ChatGPT's blended-answer mentions.
+
+**SolCrys's free audit gives you a ChatGPT baseline today** ([run it →](https://app.solcrys.com/audit)). Daily Perplexity tracking — running your prompt set against Perplexity, plus Gemini and Google AI Overviews, with citation-source extraction — lives on the Brand plan. The audit page sets the floor; the paid plan delivers the multi-engine moving line.
+
+
+
+
+### Why Perplexity needs its own tracker (vs. a generic AI visibility tool)
+
+Three structural differences between Perplexity and ChatGPT mean a single "AI visibility" number aggregated across both engines hides the answer your buyers actually see:
+
+
+- **Citation transparency.** Every Perplexity answer shows a numbered citation list with clickable source links. ChatGPT (default model) typically synthesizes without per-claim citations. Your goal in Perplexity is to BE in the citation list; in ChatGPT it's to be NAMED in the prose.
+- **Audience composition.** Perplexity over-indexes on researchers, analysts, B2B buyers, and finance — segments that read citations seriously. Mention rate alone misses this; citation share is the closer signal for downstream pipeline.
+- **Source mix.** Perplexity weights review sites, news, and Reddit/community pages differently from ChatGPT, which leans more on the model's training-time knowledge. The content investments that move Perplexity (third-party review presence, news coverage) are not always the ones that move ChatGPT.
+- **Pro vs. free tier behavior.** Perplexity Pro can call different underlying models (Claude, GPT-4 family, Sonar). The same prompt can return materially different answers between free Perplexity and Pro Perplexity, especially for technical or comparison queries.
+
+
+
+### What a Perplexity visibility tracker measures
+
+Three signals matter on Perplexity specifically. A good tracker measures all three on the same buyer-intent prompt set, so the metrics are comparable over time and between engines.
+
+
+- **Mention rate.** Across N category prompts, how often does Perplexity name your brand in the answer text?
+- **Citation share.** Of the source URLs Perplexity cites, what percentage are yours vs. each competitor's vs. neutral third parties? This is the metric Perplexity makes uniquely measurable — and the one with the cleanest line to clicks.
+- **Source-type mix.** Are your citations coming from your own domain (highest control), customer reviews (G2, Capterra, etc.), news, or community (Reddit, Hacker News)? Each source type has a different lever to pull.
+
+
+
+### Free audit (start here) vs. daily Perplexity tracking
+
+The SolCrys free audit gives you a ChatGPT baseline today — same buyer-intent prompts you'd run on Perplexity, so the numbers are directly comparable when you move to daily multi-engine tracking. The audit is the fastest "is AI visibility a real channel for my category?" sanity-check. The Brand plan adds Perplexity (plus Gemini and Google AI) on a daily cadence with citation extraction and competitor source-mix breakdown.
+
+
+
+Capability | Free audit | Brand plan (Perplexity tracking)
+--- | --- | ---
+ChatGPT mention rate | Yes — 10 prompts, one-time | Yes — daily, 50+ prompts
+Perplexity mention rate | No (paid) | Yes — daily
+Perplexity citation share | No (paid) | Yes — daily
+Perplexity Pro tier coverage | No (paid) | Yes — Pro + free tier diff tracked
+Source-type mix (owned / review / news / community) | No (paid) | Yes
+Custom prompt sets | No (fixed 10) | Yes
+Alerts on citation drops | No | Yes
+Setup time | 5 min | ~30 min to configure prompts
+
+
+### How citation share differs from mention rate
+
+On a Perplexity answer for "best CRM for small B2B teams," your brand might appear in the prose (mention rate +1) but not in the cited sources (citation share unchanged) — or vice versa. Both happen. The Brand plan splits them so you can act on the right gap:
+
+
+- **Mention rate up, citation share flat.** Perplexity knows you exist (training-time presence) but isn't pulling fresh source pages from you. Lever: more recent, high-citation-density content on your domain; review-site presence.
+- **Citation share up, mention rate flat.** Your domain is being scraped, but Perplexity isn't framing your brand into the answer prose. Lever: ensure cited pages clearly name your brand and category position (not just feature lists).
+- **Both up.** You're winning. Lever: defend and scale — repeat the content patterns that landed both signals.
+- **Both flat / declining.** Most common starting state. Lever: a measurement run (the free audit), a category prompt set, and a content brief targeting the prompts you're losing — the standard SolCrys Brand cycle.
+
+
+
+### Tracking Perplexity Pro answers separately
+
+Perplexity Pro routes some queries to alternate underlying models (Claude, GPT-4 family) and uses different web-search depth. For B2B buyers — who skew Pro — the answers your sales pipeline actually sees are not necessarily the answers a free-tier visitor sees. SolCrys's Brand plan optionally tracks Pro-tier answers as a separate channel on the same prompt set, so you can:
+
+
+- Compare free vs. Pro mention rate per prompt — sometimes a 20-30 point gap, especially in comparison queries.
+- Identify prompts where you appear on free Perplexity but not Pro (the actual buyer surface).
+- Detect when a model swap (Perplexity rotates underlying models periodically) suddenly changes your visibility.
+
+
+
+### Get started
+
+[Run the SolCrys free audit →](https://app.solcrys.com/audit) — 5 minutes, ChatGPT baseline. Once you've seen the baseline, add daily Perplexity tracking (plus Gemini and Google AI Overviews) on the [Brand plan](https://app.solcrys.com/pricing).
+
+For a side-by-side comparison of Perplexity tracking tools (SolCrys, Profound, Peec, Otterly), see our [best tools to track brand visibility in ChatGPT and Perplexity](/best-tools-to-track-brand-visibility-in-chatgpt/) guide.
+
+
+
+
+
+### FAQ
+
+Q: What is a Perplexity visibility tracker?
+A: A Perplexity visibility tracker is a tool that runs a fixed set of buyer prompts through Perplexity and reports two things back: your brand's mention rate (how often Perplexity names you in the answer text) and your citation share (how often Perplexity cites your domain as a source). Because Perplexity exposes its sources on every answer, citation share is uniquely measurable here — and is the cleaner signal for downstream click-through.
+
+Q: Is the SolCrys free audit on Perplexity?
+A: Not yet — the free audit currently runs against ChatGPT (a 5-minute baseline on 10 buyer prompts). Daily Perplexity tracking is on the SolCrys Brand plan, which also adds Gemini and Google AI Overviews. The ChatGPT baseline you run for free is the same prompt set you'd then port to Perplexity, so the metrics are directly comparable when you upgrade.
+
+Q: How does Perplexity tracking differ from ChatGPT tracking?
+A: Three structural differences. Perplexity shows clickable citations on every answer (so citation share is measurable and consequential); Perplexity over-indexes on researcher/analyst/B2B audiences (so mention rate weighting differs by category); and Perplexity Pro can route to alternate underlying models (so the same prompt produces different answers across tiers). A serious Perplexity tracker measures all three signals; a generic AI visibility tool typically collapses them.
+
+Q: Does Perplexity Pro show different answers than free Perplexity?
+A: Yes, often materially. Perplexity Pro can route queries to alternate underlying models (Claude, GPT-4 family) and uses deeper web-search context. For technical or comparison queries, the answer can differ by 20-30 percentage points in brand mention rate between free and Pro. If your buyers are likely on Pro (B2B SaaS, finance, research), you want a tracker that captures both tiers separately.
+
+Q: What's the most important metric for Perplexity visibility?
+A: Citation share, in most categories. Mention rate matters too (brand-in-answer-text is what readers see first), but Perplexity's clickable citations route real traffic to the cited sources — so being IN the citation list is a more direct buyer-acquisition signal than being merely named in the prose. For brands with strong third-party review presence, citation share also reveals which review sites Perplexity weights most for your category.
+
+Q: Can I monitor Perplexity, Gemini, and ChatGPT together?
+A: Yes, on the SolCrys Brand plan — daily tracking across ChatGPT, Gemini, Perplexity, and Google AI Overviews on a single prompt set, with engine-specific signal extraction (mention rate everywhere, citation share for Perplexity, AI Mode behavior for Google). The free audit is ChatGPT-only one-shot.
+
+## Gemini Visibility Tracker
+
+A **Gemini visibility tracker** measures how Google Gemini — across the consumer chatbot, Gemini API, and Workspace embeddings — describes your brand and which competitors it names instead. Gemini's distinguishing feature vs. ChatGPT and Perplexity is **deep Google account integration**: Gemini can see what the user has read, written, and searched, which makes the same buyer prompt return different answers per user. Start with SolCrys's free 5-minute audit (ChatGPT baseline today), and add daily Gemini tracking on the Brand plan. [Start the free audit →](https://app.solcrys.com/audit)
+
+### Questions this guide answers
+
+- How do I track my brand's visibility in Google Gemini?
+- What is a Gemini visibility tracker?
+- Is Gemini different from ChatGPT for brand visibility?
+- Can I track brand mentions across Gemini API and Gemini consumer?
+- How do I monitor brand visibility in Google AI Mode?
+
+### Direct answer
+
+A **Gemini visibility tracker** measures whether — and how — Google Gemini mentions your brand when buyers ask category questions across Gemini's three real surfaces: the consumer chatbot at gemini.google.com, the Gemini API (used inside thousands of third-party apps), and the in-Workspace assistant (Docs, Sheets, Gmail). All three return semantically related but materially different answers, and all three are buyer-facing.
+
+**SolCrys's free audit today gives you a ChatGPT baseline** ([run it →](https://app.solcrys.com/audit)). Daily Gemini tracking — running your prompt set against the consumer chatbot AND the API surface, with answer-diff and account-context modeling — lives on the Brand plan. Because Gemini's answers vary per user (account-aware retrieval), the value of recurring measurement is higher here than for any other engine.
+
+
+
+
+### Why Gemini needs its own tracker
+
+Gemini is not "ChatGPT, but from Google." Three structural differences mean a tracker that aggregates Gemini into a single AI-visibility number misses the answer your buyers see:
+
+
+- **Account-aware retrieval.** Gemini can read the signed-in user's Google account context (recent Search queries, opened emails, Drive content if granted). The same prompt from two buyers returns two materially different answers, especially in B2B where account context is rich. Mention rate per prompt is a population statistic — useful but coarser than ChatGPT.
+- **Three surfaces, three behaviors.** Gemini consumer (free + Advanced), Gemini API, and Workspace Gemini use different system prompts and different retrieval depths. The same buyer query in your category can return your brand on one surface and your competitor on the other.
+- **Tight Google Search integration.** Gemini blends Google Search results into answer construction more aggressively than ChatGPT or Perplexity. The pages that rank #1-3 on Google for your category prompts disproportionately drive Gemini mention rate.
+- **Multimodal context.** Gemini handles attached PDFs, images, and Workspace docs natively. Buyers comparing vendors often upload a vendor PDF and ask Gemini to compare — visibility is then a function of what's in the uploaded document, not just public web content.
+
+
+
+### What a Gemini visibility tracker measures
+
+Four signals, measured across both the consumer chatbot and the API surface:
+
+
+- **Mention rate (population-level).** Across N category prompts, how often does Gemini name your brand on a fresh, unauthenticated session? This is the baseline; account-aware answers will trend differently per user.
+- **Cross-surface delta.** Does Gemini consumer mention your brand more often than Gemini API on the same prompt? A 15+ point gap signals that the consumer system prompt is doing work you don't see at the API layer.
+- **Search-result borrow rate.** What percentage of Gemini's answer content traces back to pages already ranking on Google Search? High borrow rate = your existing SEO directly fuels Gemini visibility; low borrow rate = Gemini is leaning on training-time knowledge and you need different content levers.
+- **Recency sensitivity.** Are recent (<90 days) pages on your domain more visible to Gemini than older ones? Gemini is meaningfully more recency-weighted than ChatGPT, especially after the AI Overviews integration.
+
+
+
+### Free audit vs. daily Gemini tracking
+
+The free audit gives you a ChatGPT baseline today. The Brand plan adds Gemini — both the consumer chatbot and the API surface — on a daily cadence, with cross-surface delta tracking and account-context modeling for the prompts that vary most by user.
+
+
+
+Capability | Free audit | Brand plan (Gemini tracking)
+--- | --- | ---
+ChatGPT baseline | Yes — 10 prompts, one-time | Yes — daily
+Gemini consumer chatbot tracking | No (paid) | Yes — daily
+Gemini API tracking | No (paid) | Yes — daily
+Cross-surface delta (consumer vs API) | No (paid) | Yes
+Search-result borrow rate | No (paid) | Yes
+Recency sensitivity by page age | No (paid) | Yes
+Custom prompt sets | No (fixed 10) | Yes
+Alerting on visibility drops | No | Yes
+
+
+### Gemini consumer vs. API vs. Workspace — which to track
+
+Most teams should track at minimum the consumer surface (gemini.google.com) because that's where buyer research happens. B2B SaaS and API-integrated categories should additionally track the Gemini API surface, because most enterprise AI features built on Gemini route through the API — your competitor's product that uses Gemini in their app is calling the API, not the consumer chatbot. Workspace Gemini is the late-stage surface where deals get reviewed, and tracking it requires Workspace Enterprise.
+
+
+
+
+#### Consumer surface (gemini.google.com)
+
+The default tracking target. Free and Advanced tiers; Advanced uses Gemini Ultra which has materially different reasoning depth on technical comparison queries. SolCrys tracks both tiers on the Brand plan and reports the delta separately so you can spot tier-specific visibility cliffs.
+
+#### API surface (developer / app-embedded)
+
+Critical if your buyers' workflow tools use Gemini under the hood (Notion AI, many Workspace add-ons, custom enterprise assistants). API mention rate often differs from consumer mention rate because the system prompts and retrieval scaffolding are simpler. SolCrys runs the same prompt set against the API and reports the delta.
+
+#### Workspace Gemini (Docs, Sheets, Gmail)
+
+Hardest to measure — Workspace Gemini's answers depend on the user's account content. SolCrys offers a structured Workspace audit on Enterprise plans where the customer provides a representative document corpus; we can't track this in a fully automated way.
+
+### Get started
+
+[Run the SolCrys free audit →](https://app.solcrys.com/audit) — 5 minutes, ChatGPT baseline. Then upgrade to the [Brand plan](https://app.solcrys.com/pricing) for daily Gemini consumer + API tracking with cross-surface delta reporting.
+
+Adjacent guides: [Perplexity visibility tracker](/perplexity-visibility-tracker/) for citation-driven engines, [Google AI Overviews tracker](/google-ai-overviews-tracker/) for SERP-integrated AI surfaces.
+
+
+
+
+
+### FAQ
+
+Q: What is a Gemini visibility tracker?
+A: A Gemini visibility tracker is a tool that runs a fixed set of buyer prompts through Google Gemini and reports how often Gemini names your brand, which competitors it names instead, and how its answers vary across Gemini's three surfaces — consumer chatbot, Gemini API, and Workspace embedding. Because Gemini is account-aware, the tracker reports population-level mention rate (fresh unauthenticated sessions) rather than per-user numbers.
+
+Q: Is the SolCrys free audit on Gemini?
+A: Not yet — the free audit runs against ChatGPT (10 prompts, 5 minutes). Daily Gemini tracking is on the SolCrys Brand plan, which covers both the consumer chatbot and the Gemini API surface, plus ChatGPT, Perplexity, and Google AI Overviews. The free ChatGPT baseline uses the same prompt set you'd run against Gemini, so numbers are directly comparable on upgrade.
+
+Q: How is Gemini different from ChatGPT for brand visibility?
+A: Four ways. Gemini reads the signed-in user's Google account context (account-aware retrieval), so the same prompt returns different answers per user. Gemini blends Google Search results into answers more aggressively, so your SEO rank disproportionately drives Gemini mention rate. Gemini exposes three surfaces (consumer, API, Workspace) with different behaviors. And Gemini is materially more recency-weighted, especially after AI Overviews integration.
+
+Q: Can I track Gemini API separately from the consumer chatbot?
+A: Yes, on the SolCrys Brand plan. The API surface uses different system prompts and lighter retrieval scaffolding than the consumer chatbot, so the same buyer prompt can return materially different brand mention rates. Tracking both separately is important if your buyers' workflow tools (Notion AI, Workspace add-ons, custom enterprise assistants) use the Gemini API under the hood — that's the actual buyer surface for enterprise B2B.
+
+Q: Does Gemini Advanced (Ultra) show different answers than free Gemini?
+A: Yes, especially on technical comparison queries. Gemini Advanced (Ultra) has deeper reasoning chains and different retrieval depth than the free tier. The same prompt can return materially different brand mention rates between tiers. SolCrys tracks both tiers separately on the Brand plan and reports the delta so you can spot tier-specific visibility patterns.
+
+Q: How does Google AI Mode relate to Gemini tracking?
+A: Google AI Mode is the conversational answer surface inside Google Search (powered by Gemini under the hood). Tracking AI Mode is structurally closer to tracking AI Overviews than tracking the Gemini chatbot — it's SERP-integrated, query-driven, and reflects organic search rank more than chatbot-style retrieval. See our [Google AI Overviews tracker](/google-ai-overviews-tracker/) guide for the SERP-integrated tracking pattern.
+
+## Google AI Overviews Tracker
+
+A **Google AI Overviews tracker** measures how Google's AI-generated answers — the boxed Overviews that sit above blue links on commercial-intent queries, and the conversational AI Mode surface — describe your brand and which competitors they name. Of all AI search surfaces, Google AI Overviews is the most consequential for any brand that already invests in SEO, because Overviews are constructed FROM your organic ranking — your existing SEO is now an AI visibility input. Start with SolCrys's free 5-minute ChatGPT audit; the Brand plan adds daily Google AI Overviews tracking. [Start the free audit →](https://app.solcrys.com/audit)
+
+### Questions this guide answers
+
+- How do I track my brand in Google AI Overviews?
+- What is a Google AI Overviews tracker?
+- How does Google AI Overviews relate to organic SEO rank?
+- What is the difference between AI Overviews and AI Mode?
+- Can I track Google AI search visibility?
+
+### Direct answer
+
+A **Google AI Overviews tracker** measures whether — and how — Google's AI-generated answers mention your brand on commercial-intent queries. There are two distinct Google AI surfaces to track: **AI Overviews**, the boxed summary that sits above blue-link results on many queries, and **AI Mode**, the conversational interface that lets users follow up with more questions inside the SERP. Both are powered by Gemini under the hood but behave differently — Overviews are query-pinned and SERP-integrated; AI Mode is conversational and session-stateful.
+
+**SolCrys's free audit gives you a ChatGPT baseline today** ([run it →](https://app.solcrys.com/audit)). Daily Google AI Overviews + AI Mode tracking lives on the Brand plan. The reason this engine matters disproportionately: AI Overviews are constructed FROM your organic search rank, so your existing SEO is now a direct AI-visibility input — and the page rank → AI mention chain is measurable.
+
+
+
+
+### Why Google AI Overviews matters more than the other engines for SEO-invested brands
+
+ChatGPT, Perplexity, and Gemini all matter, but they share a common limitation from a Google-invested brand's perspective: their answers don't depend on your Google search rank. Google AI Overviews are different — they're constructed directly from the top organic and paid results on the same query. This makes the chain measurable and the levers known:
+
+
+- **Overviews source from the top of the SERP.** Pages already ranking #1-5 organically appear most often in the citation list inside Overviews. If you rank #1 on a category query and AI Overviews don't mention you, the question is at the SERP-to-Overview conversion stage, not the SEO stage.
+- **Above the fold.** AI Overviews sit ABOVE the first organic result on many commercial queries. Buyers who click out of the Overview likely never see your blue link below — visibility in the Overview is the new "above the fold."
+- **Click-through erosion is real and measurable.** GSC clicks on impacted queries can drop 30-60% when AI Overviews appear, even when you still rank #1 — buyers get the answer in the Overview and don't click through. Tracking Overview mention rate is now a defense against organic-traffic erosion.
+- **AI Mode is conversational.** Once a buyer clicks into AI Mode, the session becomes stateful — follow-ups are answered with context from prior turns. Brand visibility across a 3-5 turn AI Mode session is materially different from one-shot Overview visibility on the entry query.
+
+
+
+### What a Google AI Overviews tracker measures
+
+Four signals, measured across both AI Overviews and AI Mode:
+
+
+- **Overview appearance rate.** Across N category prompts, how often does Google trigger an AI Overview on the SERP? Not every query gets one; the trigger rate itself is a useful signal of where AI search is reshaping your category.
+- **Brand mention rate within Overviews.** When the Overview appears, how often is your brand named in the summary text or cited in the source-list panel?
+- **SERP-to-Overview conversion.** For queries where you rank #1-5 organically, how often does the Overview actually cite you? A low conversion rate signals an Overviews-specific content gap — your page wins on organic ranking signals but isn't structured for AI extraction.
+- **AI Mode mention durability across conversation turns.** When the buyer follows up with related questions, does your brand persist in the conversation context or get displaced by competitors? This is where multi-turn category positioning lives.
+
+
+
+### How AI Overviews differs from AI Mode
+
+Both are Google AI surfaces, but they have different behavior, different buyer intents, and different tracking strategies:
+
+
+
+Dimension | AI Overviews | AI Mode
+--- | --- | ---
+Trigger | Automatic on many commercial queries | User-initiated tab in Search results
+Format | Boxed summary above blue links | Conversational chat interface
+Source visibility | Source panel shown on expansion | Sources cited per turn
+Session state | Stateless (one query, one Overview) | Stateful (multi-turn conversation)
+Buyer intent | Quick-answer scan | Deeper research, follow-up questions
+Tracking strategy | Mention rate + SERP-to-Overview conversion | Mention durability across N turns
+Primary defense lever | Page-level structured content optimized for AI extraction | Category positioning + entity strength
+
+
+### Free audit vs. daily Google AI tracking
+
+Daily Google AI Overviews + AI Mode tracking lives on the Brand plan. The free audit gives you a ChatGPT baseline; the Brand plan extends to the four engines that matter for AI search visibility — including Google AI Overviews, which is the only engine that's directly downstream of your existing SEO investment.
+
+
+
+Capability | Free audit | Brand plan (Google AI tracking)
+--- | --- | ---
+ChatGPT baseline | Yes — 10 prompts, one-time | Yes — daily
+AI Overviews appearance rate | No (paid) | Yes — daily
+AI Overviews mention rate (your brand) | No (paid) | Yes — daily
+SERP-to-Overview conversion rate | No (paid) | Yes
+AI Mode multi-turn tracking | No (paid) | Yes (3-5 turn default)
+Cross-engine comparison (vs ChatGPT, Perplexity, Gemini) | No | Yes
+Custom prompt sets | No (fixed 10) | Yes
+Alerts on AI Overviews mention drops | No | Yes
+
+
+### Get started
+
+[Run the SolCrys free audit →](https://app.solcrys.com/audit) — 5 minutes, ChatGPT baseline. Then upgrade to the [Brand plan](https://app.solcrys.com/pricing) for daily Google AI Overviews + AI Mode tracking with SERP-to-Overview conversion rate and multi-turn AI Mode visibility.
+
+Adjacent reading: [AEO vs SEO](/aeo-vs-seo/) for the framework behind how AI search is changing the SEO discipline, and the [Gemini visibility tracker](/gemini-visibility-tracker/) for tracking the broader Gemini surface (consumer chatbot + API).
+
+
+
+
+
+### FAQ
+
+Q: What is a Google AI Overviews tracker?
+A: A Google AI Overviews tracker measures how Google's AI-generated answers — both the boxed Overviews above SERP results and the conversational AI Mode surface — mention your brand on commercial-intent queries. It reports four signals: Overview appearance rate (does the AI box show up at all for the query), mention rate (when it shows up, are you named), SERP-to-Overview conversion (do queries you rank #1-5 on actually cite you in the Overview), and AI Mode multi-turn durability (do you stay in the conversation across follow-ups).
+
+Q: How does Google AI Overviews relate to organic SEO rank?
+A: AI Overviews are constructed FROM the top organic and paid results on the same query, so your existing search rank is a direct input into your AI Overviews visibility. Pages ranking #1-5 organically appear most often in the Overview's source panel. This makes Google AI Overviews the only AI search surface where your existing SEO investment is a direct lever — and where a SERP-to-Overview conversion gap is a measurable, fixable problem (your page wins on ranking signals but isn't structured for AI extraction).
+
+Q: What's the difference between AI Overviews and AI Mode?
+A: AI Overviews is the boxed summary that automatically appears above blue links on commercial queries — stateless, one-query-one-answer. AI Mode is a separate tab in Search results where the user can engage in a multi-turn conversation, with sources cited per turn. Tracking strategies differ: Overviews need mention rate + SERP-to-Overview conversion; AI Mode needs mention durability across the conversation. Both surfaces are powered by Gemini under the hood, but the buyer experience and competitive dynamics are different.
+
+Q: Is the SolCrys free audit on Google AI Overviews?
+A: Not yet — the free audit runs against ChatGPT (10 prompts, 5 minutes). Daily Google AI Overviews + AI Mode tracking is on the Brand plan, which also covers ChatGPT, Gemini, and Perplexity. The ChatGPT baseline uses the same prompt set you'd run against Google AI on upgrade, so the metrics are directly comparable.
+
+Q: Why is AI Overviews mention rate dropping my organic traffic?
+A: Because AI Overviews sit above the first organic result and often answer the buyer's question in-page — buyers who get the answer from the Overview don't scroll down to click your blue link. GSC clicks on impacted queries commonly drop 30-60% when Overviews appear, even when you still rank #1. The defense isn't to deindex; it's to BE in the Overview's source panel and ideally named in the summary text. That's what AI Overviews tracking measures.
+
+Q: Can I monitor Google AI Overviews and ChatGPT in one tool?
+A: Yes — SolCrys's Brand plan tracks ChatGPT, Gemini, Perplexity, and Google AI Overviews + AI Mode daily on a single prompt set, with engine-specific signal extraction. For Google AI specifically, the plan reports Overview appearance rate, mention rate, and SERP-to-Overview conversion separately from the other engines so the SEO-to-AI chain stays measurable.

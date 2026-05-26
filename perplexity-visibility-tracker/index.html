@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Perplexity Visibility Tracker (Free Audit) — Track Brand Mentions in Perplexity | SolCrys</title>
+    <meta name="description" content="Free Perplexity visibility tracker (via ChatGPT baseline audit). Measure brand mentions and citation share in Perplexity — 5-minute audit to start, daily Perplexity tracking on the Brand plan." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/perplexity-visibility-tracker/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-25" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Perplexity Visibility Tracker (Free Audit) — Track Brand Mentions in Perplexity | SolCrys" />
+    <meta property="og:description" content="Free Perplexity visibility tracker (via ChatGPT baseline audit). Measure brand mentions and citation share in Perplexity — 5-minute audit to start, daily Perplexity tracking on the Brand plan." />
+    <meta property="og:url" content="https://solcrys.com/perplexity-visibility-tracker/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BY1i_2g3.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-E3VGGM7P1G');
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Perplexity Visibility Tracker","item":"https://solcrys.com/perplexity-visibility-tracker/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The Perplexity visibility tracker for brand mentions and citation share","description":"Free Perplexity visibility tracker (via ChatGPT baseline audit). Measure brand mentions and citation share in Perplexity — 5-minute audit to start, daily Perplexity tracking on the Brand plan.","dateModified":"2026-05-25","datePublished":"2026-05-25","mainEntityOfPage":"https://solcrys.com/perplexity-visibility-tracker/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/perplexity-visibility-tracker/","mainEntity":[{"@type":"Question","name":"What is a Perplexity visibility tracker?","acceptedAnswer":{"@type":"Answer","text":"A Perplexity visibility tracker is a tool that runs a fixed set of buyer prompts through Perplexity and reports two things back: your brand's mention rate (how often Perplexity names you in the answer text) and your citation share (how often Perplexity cites your domain as a source). Because Perplexity exposes its sources on every answer, citation share is uniquely measurable here — and is the cleaner signal for downstream click-through."}},{"@type":"Question","name":"Is the SolCrys free audit on Perplexity?","acceptedAnswer":{"@type":"Answer","text":"Not yet — the free audit currently runs against ChatGPT (a 5-minute baseline on 10 buyer prompts). Daily Perplexity tracking is on the SolCrys Brand plan, which also adds Gemini and Google AI Overviews. The ChatGPT baseline you run for free is the same prompt set you'd then port to Perplexity, so the metrics are directly comparable when you upgrade."}},{"@type":"Question","name":"How does Perplexity tracking differ from ChatGPT tracking?","acceptedAnswer":{"@type":"Answer","text":"Three structural differences. Perplexity shows clickable citations on every answer (so citation share is measurable and consequential); Perplexity over-indexes on researcher/analyst/B2B audiences (so mention rate weighting differs by category); and Perplexity Pro can route to alternate underlying models (so the same prompt produces different answers across tiers). A serious Perplexity tracker measures all three signals; a generic AI visibility tool typically collapses them."}},{"@type":"Question","name":"Does Perplexity Pro show different answers than free Perplexity?","acceptedAnswer":{"@type":"Answer","text":"Yes, often materially. Perplexity Pro can route queries to alternate underlying models (Claude, GPT-4 family) and uses deeper web-search context. For technical or comparison queries, the answer can differ by 20-30 percentage points in brand mention rate between free and Pro. If your buyers are likely on Pro (B2B SaaS, finance, research), you want a tracker that captures both tiers separately."}},{"@type":"Question","name":"What's the most important metric for Perplexity visibility?","acceptedAnswer":{"@type":"Answer","text":"Citation share, in most categories. Mention rate matters too (brand-in-answer-text is what readers see first), but Perplexity's clickable citations route real traffic to the cited sources — so being IN the citation list is a more direct buyer-acquisition signal than being merely named in the prose. For brands with strong third-party review presence, citation share also reveals which review sites Perplexity weights most for your category."}},{"@type":"Question","name":"Can I monitor Perplexity, Gemini, and ChatGPT together?","acceptedAnswer":{"@type":"Answer","text":"Yes, on the SolCrys Brand plan — daily tracking across ChatGPT, Gemini, Perplexity, and Google AI Overviews on a single prompt set, with engine-specific signal extraction (mention rate everywhere, citation share for Perplexity, AI Mode behavior for Google). The free audit is ChatGPT-only one-shot."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Search Tools</p>
+        <h1>The Perplexity visibility tracker for brand mentions and citation share</h1>
+        <p class="seo-lede">A <strong>Perplexity visibility tracker</strong> measures whether — and how — Perplexity mentions your brand when buyers ask category questions, AND which of your URLs Perplexity cites as sources. Perplexity&#39;s distinguishing feature vs. ChatGPT is that EVERY answer carries clickable citations, which makes citation share (not just mention rate) the metric that matters. Start with SolCrys&#39;s free 5-minute audit (ChatGPT baseline; same buyer prompts you&#39;d run in Perplexity), and add daily Perplexity tracking on the Brand plan. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start the free audit →</a></p>
+        <p>Updated 2026-05-25</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I track my brand&#39;s visibility in Perplexity?</li><li>What is a Perplexity visibility tracker?</li><li>How do I measure citation share in Perplexity?</li><li>Is Perplexity different from ChatGPT for brand visibility?</li><li>Can I track Perplexity Pro answers separately?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>A <strong>Perplexity visibility tracker</strong> measures two things on a fixed set of buyer prompts: how often Perplexity names your brand in the generated answer, and how often Perplexity cites your domain (or competitor domains) as the underlying source. Both signals matter because Perplexity exposes its sources on every answer — readers can click through, which makes citation share a more concrete buyer-traffic signal than ChatGPT&#39;s blended-answer mentions.</p><p><strong>SolCrys&#39;s free audit gives you a ChatGPT baseline today</strong> (<a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">run it →</a>). Daily Perplexity tracking — running your prompt set against Perplexity, plus Gemini and Google AI Overviews, with citation-source extraction — lives on the Brand plan. The audit page sets the floor; the paid plan delivers the multi-engine moving line.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why Perplexity needs its own tracker (vs. a generic AI visibility tool)</h2>
+      <p>Three structural differences between Perplexity and ChatGPT mean a single &quot;AI visibility&quot; number aggregated across both engines hides the answer your buyers actually see:</p>
+      <ul class="seo-list"><li><strong>Citation transparency.</strong> Every Perplexity answer shows a numbered citation list with clickable source links. ChatGPT (default model) typically synthesizes without per-claim citations. Your goal in Perplexity is to BE in the citation list; in ChatGPT it&#39;s to be NAMED in the prose.</li><li><strong>Audience composition.</strong> Perplexity over-indexes on researchers, analysts, B2B buyers, and finance — segments that read citations seriously. Mention rate alone misses this; citation share is the closer signal for downstream pipeline.</li><li><strong>Source mix.</strong> Perplexity weights review sites, news, and Reddit/community pages differently from ChatGPT, which leans more on the model&#39;s training-time knowledge. The content investments that move Perplexity (third-party review presence, news coverage) are not always the ones that move ChatGPT.</li><li><strong>Pro vs. free tier behavior.</strong> Perplexity Pro can call different underlying models (Claude, GPT-4 family, Sonar). The same prompt can return materially different answers between free Perplexity and Pro Perplexity, especially for technical or comparison queries.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a Perplexity visibility tracker measures</h2>
+      <p>Three signals matter on Perplexity specifically. A good tracker measures all three on the same buyer-intent prompt set, so the metrics are comparable over time and between engines.</p>
+      <ul class="seo-list"><li><strong>Mention rate.</strong> Across N category prompts, how often does Perplexity name your brand in the answer text?</li><li><strong>Citation share.</strong> Of the source URLs Perplexity cites, what percentage are yours vs. each competitor&#39;s vs. neutral third parties? This is the metric Perplexity makes uniquely measurable — and the one with the cleanest line to clicks.</li><li><strong>Source-type mix.</strong> Are your citations coming from your own domain (highest control), customer reviews (G2, Capterra, etc.), news, or community (Reddit, Hacker News)? Each source type has a different lever to pull.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Free audit (start here) vs. daily Perplexity tracking</h2>
+      <p>The SolCrys free audit gives you a ChatGPT baseline today — same buyer-intent prompts you&#39;d run on Perplexity, so the numbers are directly comparable when you move to daily multi-engine tracking. The audit is the fastest &quot;is AI visibility a real channel for my category?&quot; sanity-check. The Brand plan adds Perplexity (plus Gemini and Google AI) on a daily cadence with citation extraction and competitor source-mix breakdown.</p>
+      
+      <table>
+              <thead><tr><th>Capability</th><th>Free audit</th><th>Brand plan (Perplexity tracking)</th></tr></thead>
+              <tbody><tr><td>ChatGPT mention rate</td><td>Yes — 10 prompts, one-time</td><td>Yes — daily, 50+ prompts</td></tr><tr><td>Perplexity mention rate</td><td>No (paid)</td><td>Yes — daily</td></tr><tr><td>Perplexity citation share</td><td>No (paid)</td><td>Yes — daily</td></tr><tr><td>Perplexity Pro tier coverage</td><td>No (paid)</td><td>Yes — Pro + free tier diff tracked</td></tr><tr><td>Source-type mix (owned / review / news / community)</td><td>No (paid)</td><td>Yes</td></tr><tr><td>Custom prompt sets</td><td>No (fixed 10)</td><td>Yes</td></tr><tr><td>Alerts on citation drops</td><td>No</td><td>Yes</td></tr><tr><td>Setup time</td><td>5 min</td><td>~30 min to configure prompts</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>How citation share differs from mention rate</h2>
+      <p>On a Perplexity answer for &quot;best CRM for small B2B teams,&quot; your brand might appear in the prose (mention rate +1) but not in the cited sources (citation share unchanged) — or vice versa. Both happen. The Brand plan splits them so you can act on the right gap:</p>
+      <ul class="seo-list"><li><strong>Mention rate up, citation share flat.</strong> Perplexity knows you exist (training-time presence) but isn&#39;t pulling fresh source pages from you. Lever: more recent, high-citation-density content on your domain; review-site presence.</li><li><strong>Citation share up, mention rate flat.</strong> Your domain is being scraped, but Perplexity isn&#39;t framing your brand into the answer prose. Lever: ensure cited pages clearly name your brand and category position (not just feature lists).</li><li><strong>Both up.</strong> You&#39;re winning. Lever: defend and scale — repeat the content patterns that landed both signals.</li><li><strong>Both flat / declining.</strong> Most common starting state. Lever: a measurement run (the free audit), a category prompt set, and a content brief targeting the prompts you&#39;re losing — the standard SolCrys Brand cycle.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Tracking Perplexity Pro answers separately</h2>
+      <p>Perplexity Pro routes some queries to alternate underlying models (Claude, GPT-4 family) and uses different web-search depth. For B2B buyers — who skew Pro — the answers your sales pipeline actually sees are not necessarily the answers a free-tier visitor sees. SolCrys&#39;s Brand plan optionally tracks Pro-tier answers as a separate channel on the same prompt set, so you can:</p>
+      <ul class="seo-list"><li>Compare free vs. Pro mention rate per prompt — sometimes a 20-30 point gap, especially in comparison queries.</li><li>Identify prompts where you appear on free Perplexity but not Pro (the actual buyer surface).</li><li>Detect when a model swap (Perplexity rotates underlying models periodically) suddenly changes your visibility.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Get started</h2>
+      <p><a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Run the SolCrys free audit →</a> — 5 minutes, ChatGPT baseline. Once you&#39;ve seen the baseline, add daily Perplexity tracking (plus Gemini and Google AI Overviews) on the <a href="https://app.solcrys.com/pricing" target="_blank" rel="noopener noreferrer">Brand plan</a>.</p><p>For a side-by-side comparison of Perplexity tracking tools (SolCrys, Profound, Peec, Otterly), see our <a href="/best-tools-to-track-brand-visibility-in-chatgpt/" target="_blank" rel="noopener noreferrer">best tools to track brand visibility in ChatGPT and Perplexity</a> guide.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is a Perplexity visibility tracker?</h3>
+            <p>A Perplexity visibility tracker is a tool that runs a fixed set of buyer prompts through Perplexity and reports two things back: your brand&#39;s mention rate (how often Perplexity names you in the answer text) and your citation share (how often Perplexity cites your domain as a source). Because Perplexity exposes its sources on every answer, citation share is uniquely measurable here — and is the cleaner signal for downstream click-through.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is the SolCrys free audit on Perplexity?</h3>
+            <p>Not yet — the free audit currently runs against ChatGPT (a 5-minute baseline on 10 buyer prompts). Daily Perplexity tracking is on the SolCrys Brand plan, which also adds Gemini and Google AI Overviews. The ChatGPT baseline you run for free is the same prompt set you&#39;d then port to Perplexity, so the metrics are directly comparable when you upgrade.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does Perplexity tracking differ from ChatGPT tracking?</h3>
+            <p>Three structural differences. Perplexity shows clickable citations on every answer (so citation share is measurable and consequential); Perplexity over-indexes on researcher/analyst/B2B audiences (so mention rate weighting differs by category); and Perplexity Pro can route to alternate underlying models (so the same prompt produces different answers across tiers). A serious Perplexity tracker measures all three signals; a generic AI visibility tool typically collapses them.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does Perplexity Pro show different answers than free Perplexity?</h3>
+            <p>Yes, often materially. Perplexity Pro can route queries to alternate underlying models (Claude, GPT-4 family) and uses deeper web-search context. For technical or comparison queries, the answer can differ by 20-30 percentage points in brand mention rate between free and Pro. If your buyers are likely on Pro (B2B SaaS, finance, research), you want a tracker that captures both tiers separately.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the most important metric for Perplexity visibility?</h3>
+            <p>Citation share, in most categories. Mention rate matters too (brand-in-answer-text is what readers see first), but Perplexity&#39;s clickable citations route real traffic to the cited sources — so being IN the citation list is a more direct buyer-acquisition signal than being merely named in the prose. For brands with strong third-party review presence, citation share also reveals which review sites Perplexity weights most for your category.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I monitor Perplexity, Gemini, and ChatGPT together?</h3>
+            <p>Yes, on the SolCrys Brand plan — daily tracking across ChatGPT, Gemini, Perplexity, and Google AI Overviews on a single prompt set, with engine-specific signal extraction (mention rate everywhere, citation share for Perplexity, AI Mode behavior for Google). The free audit is ChatGPT-only one-shot.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/chatgpt-visibility-tracker/">ChatGPT Visibility Tracker</a></h3>
+            <p>Free ChatGPT visibility tracker. Measure your brand&#39;s mention rate, share of voice, and citations across ChatGPT, Gemini, Perplexity, and Google AI — start with a 5-minute audit.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/free-chatgpt-visibility-tools/">Free ChatGPT Visibility Tools for Monitoring Brand Mentions (2026)</a></h3>
+            <p>The free tools that actually let you check your brand&#39;s visibility in ChatGPT in 2026 — including SolCrys&#39;s free audit, manual ChatGPT spot-checks, and what the limits of each tier are.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/best-tools-to-track-brand-visibility-in-chatgpt/">Best Tools to Track Brand Visibility in ChatGPT and Perplexity (2026)</a></h3>
+            <p>Compared: 7 tools that actually track brand mentions in ChatGPT and Perplexity in 2026. Includes a DIY 5-prompt audit you can run in 10 minutes.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DhMWrxqx.js"></script>
+  </body>
+</html>
