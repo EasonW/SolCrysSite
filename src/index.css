@@ -143,6 +143,44 @@
     box-shadow: 0 0 40px hsl(40 85% 55% / 0.15), 0 0 80px hsl(40 85% 55% / 0.05);
   }
 
+  /* Floating-UI elevation utilities.
+   *
+   * The project's `--shadow-*` tokens are brutalist (12-24px hard
+   * black offsets) in light mode and soft blurs in dark mode. That
+   * works on flat branded panels but renders as ugly stamped-on
+   * rectangles behind floating UI (mega menus, dropdowns, hover
+   * cards). These three utilities give us soft, mode-aware elevation
+   * that always reads as "floating above the page."
+   *
+   * Use `!important` because Tailwind's `shadow-{size}` classes map
+   * to the brutalist tokens and otherwise win the specificity race
+   * when both are applied. */
+  .shadow-floating-sm {
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.12) !important;
+  }
+  .shadow-floating-md {
+    box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.2) !important;
+  }
+  .shadow-floating-lg {
+    box-shadow: 0 24px 64px -24px rgba(0, 0, 0, 0.22) !important;
+  }
+  .dark .shadow-floating-sm {
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.4) !important;
+  }
+  .dark .shadow-floating-md {
+    box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.5) !important;
+  }
+  .dark .shadow-floating-lg {
+    box-shadow: 0 24px 64px -24px rgba(0, 0, 0, 0.6) !important;
+  }
+  /* Hover-state versions for cards that lift on :hover. */
+  .hover-shadow-floating-md:hover {
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.18) !important;
+  }
+  .dark .hover-shadow-floating-md:hover {
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.55) !important;
+  }
+
   .glass-card {
     @apply bg-card/60 backdrop-blur-xl border border-border/50;
   }

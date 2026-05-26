@@ -191,7 +191,7 @@ const CustomerQuoteCarousel = ({
           type="button"
           onClick={prev}
           aria-label="Previous quote"
-          className="h-10 w-10 rounded-full bg-background border border-border/60 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)] flex items-center justify-center text-foreground hover:bg-muted/40 transition-colors"
+          className="h-10 w-10 rounded-full bg-background border border-border/60 shadow-floating-sm flex items-center justify-center text-foreground hover:bg-muted/40 transition-colors"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
@@ -201,7 +201,7 @@ const CustomerQuoteCarousel = ({
           type="button"
           onClick={next}
           aria-label="Next quote"
-          className="h-10 w-10 rounded-full bg-background border border-border/60 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)] flex items-center justify-center text-foreground hover:bg-muted/40 transition-colors"
+          className="h-10 w-10 rounded-full bg-background border border-border/60 shadow-floating-sm flex items-center justify-center text-foreground hover:bg-muted/40 transition-colors"
         >
           <ChevronRight className="h-5 w-5" />
         </button>

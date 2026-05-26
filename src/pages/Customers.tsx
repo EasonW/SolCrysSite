@@ -732,7 +732,7 @@ const CustomerStories = () => {
             {whatSolCrysDelivers.map(({ Icon, title, body }) => (
               <div
                 key={title}
-                className="fade-in-scroll group rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm p-7 transition-all hover:-translate-y-1 hover:shadow-[0_16px_36px_-16px_rgba(0,0,0,0.18)] dark:hover:shadow-[0_16px_36px_-16px_rgba(0,0,0,0.55)]"
+                className="fade-in-scroll group rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm p-7 transition-all hover:-translate-y-1 hover-shadow-floating-md"
               >
                 <div
                   className="inline-flex h-11 w-11 items-center justify-center rounded-xl mb-5"

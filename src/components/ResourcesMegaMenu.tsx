@@ -17,11 +17,12 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
   };
 
   return (
-    {/* Override the project's brutalist light-mode `--shadow-2xl`
-        (24px hard-offset black) with a soft inline elevation that
-        works in both themes. Floating UI needs blur+spread, not a
-        stamped-on hard-offset rectangle. */}
-    <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-[0_24px_64px_-24px_rgba(0,0,0,0.22)] dark:shadow-[0_24px_64px_-24px_rgba(0,0,0,0.65)] p-7 md:p-8">
+    {/* `.shadow-floating-lg` (in index.css) overrides the project's
+        brutalist `--shadow-2xl` token (24px hard-offset black in
+        light mode). Uses `!important` to win the Tailwind
+        `shadow-{size}` specificity race; mode-aware via the
+        `.dark .shadow-floating-lg` selector. */}
+    <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-floating-lg p-7 md:p-8">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
         {RESOURCES_COLUMNS.map((col) => (
           <div key={col.label} className="md:col-span-3">
