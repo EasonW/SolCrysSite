@@ -182,7 +182,7 @@ const EarlyAccessDialog = ({
             {loading ? copy.submitLoading : copy.submitLabel}
           </Button>
           <p className="text-xs text-muted-foreground text-center px-4">
-            We respect your privacy. Unsubscribe at any time.
+            We respect your privacy. Your details are only used to follow up on this request.
           </p>
         </form>
       </DialogContent>
