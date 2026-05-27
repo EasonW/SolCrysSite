@@ -15,12 +15,14 @@ import ResourcePage from "./pages/ResourcePage";
 import PricingRedirect from "./components/PricingRedirect";
 import News from "./pages/News";
 import NewsArticle from "./pages/NewsArticle";
+import ContactFloatingButton from "./components/ContactFloatingButton";
 import siteContent from "@/content/siteContent.json";
 
 const App = () => (
   <>
     <Sonner richColors position="top-right" />
     <BrowserRouter>
+      <ContactFloatingButton />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<AboutUs />} />

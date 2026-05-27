@@ -16,7 +16,8 @@ export type AuditSurface =
   | "pricing_enterprise"
   | "pricing_sticky_mobile"
   | "resources_mega"
-  | "news_article";
+  | "news_article"
+  | "floating_contact";
 
 export type PricingAudience = "brand" | "agency";
 
