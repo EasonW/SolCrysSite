@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Track Brand Visibility in ChatGPT (6-Step Guide, 2026) | SolCrys</title>
+    <meta name="description" content="A 6-step operator&#39;s guide to tracking your brand&#39;s visibility in ChatGPT — define buyer prompts, score mention rate and share of voice, log citation sources, set a cadence, automate when it earns its price." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/how-to-track-brand-visibility-in-chatgpt/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Track Brand Visibility in ChatGPT (6-Step Guide, 2026) | SolCrys" />
+    <meta property="og:description" content="A 6-step operator&#39;s guide to tracking your brand&#39;s visibility in ChatGPT — define buyer prompts, score mention rate and share of voice, log citation sources, set a cadence, automate when it earns its price." />
+    <meta property="og:url" content="https://solcrys.com/how-to-track-brand-visibility-in-chatgpt/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/how-to-track-brand-visibility-in-chatgpt.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/how-to-track-brand-visibility-in-chatgpt.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BY1i_2g3.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Track Brand Visibility in ChatGPT — a 6-Step Operator's Guide (2026)","item":"https://solcrys.com/how-to-track-brand-visibility-in-chatgpt/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to track brand visibility in ChatGPT — a 6-step operator's guide","description":"A 6-step operator's guide to tracking your brand's visibility in ChatGPT — define buyer prompts, score mention rate and share of voice, log citation sources, set a cadence, automate when it earns its price.","dateModified":"2026-05-26","datePublished":"2026-05-26","mainEntityOfPage":"https://solcrys.com/how-to-track-brand-visibility-in-chatgpt/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/how-to-track-brand-visibility-in-chatgpt/","mainEntity":[{"@type":"Question","name":"How often should I track ChatGPT visibility?","acceptedAnswer":{"@type":"Answer","text":"Monthly is the minimum useful cadence for manual tracking — engine output drifts slowly enough that month-over-month deltas are visible without burning operator hours on noise. Weekly is the sweet spot once you start iterating on content. Daily becomes mandatory if you have an outcome-bonus contract on mention rate or if you're in the first 60 days after a category-defining campaign launch."}},{"@type":"Question","name":"Can I track ChatGPT visibility manually?","acceptedAnswer":{"@type":"Answer","text":"Yes, and you should at least once even if you plan to automate. Run your prompt set through chatgpt.com (consumer surface, not the API) in fresh conversations, log the full response text and any cited sources into a spreadsheet, and score each one for mention, share of voice, and citation source. Plan ~90 minutes for the first 30-prompt run; subsequent runs go faster once your template is built."}},{"@type":"Question","name":"How many prompts should be in my ChatGPT tracking set?","acceptedAnswer":{"@type":"Answer","text":"Thirty is the working minimum — split 10/10/10 across discovery, comparison, and decision intents. Under 10 prompts, the noise floor swallows the signal. Sixty prompts gives you the cleanest signal but takes more time to maintain; most operators land between 30 and 50."}},{"@type":"Question","name":"What metrics should I track for AI search visibility?","acceptedAnswer":{"@type":"Answer","text":"Three: **mention rate** (out of N prompts, how often does ChatGPT name your brand?), **share of voice** (your mention count divided by total brand mentions across the same prompt set), and **citation sources** (which URLs ChatGPT cited, tagged into Owned/Editorial/UGC/Competitor buckets). Mention rate is the AI-search equivalent of impressions; share of voice travels across time even when output style shifts; citation sources tell you where to invest content effort."}},{"@type":"Question","name":"What's the difference between mention rate and share of voice?","acceptedAnswer":{"@type":"Answer","text":"**Mention rate** is absolute — out of N prompts, the percentage where your brand was named at all. **Share of voice** is relative — of all brand mentions across the same prompt set (yours + competitors), the percentage that are yours. Mention rate moves with prompt selection and engine drift; share of voice is more comparable across time because it normalizes for absolute output volume."}},{"@type":"Question","name":"Why are citation sources important?","acceptedAnswer":{"@type":"Answer","text":"Citation sources tell you *where* ChatGPT formed its answer. If 40% of your category's citations come from Reddit threads and 20% come from Forbes, then publishing more content on your own blog has structurally lower leverage than seeding Reddit and pitching Forbes. Citation source breakdown is what turns tracking from a vanity dashboard into an action plan."}},{"@type":"Question","name":"When should I move from manual tracking to a tool?","acceptedAnswer":{"@type":"Answer","text":"Three signals each on their own justify a tool: (1) your prompt set has grown past 30 prompts, (2) you want to track Gemini, Perplexity, or AI Overviews alongside ChatGPT, (3) you've moved from monthly to weekly or daily cadence. Once any two of those apply, the math on operator hours stops working — a $29-$349/month tool will save more time than it costs."}},{"@type":"Question","name":"How is ChatGPT visibility tracking different from SEO?","acceptedAnswer":{"@type":"Answer","text":"Traditional SEO measures your URLs' rank on Google's keyword-results page. The unit of analysis is *your URL* and its SERP position. ChatGPT visibility tracking measures whether AI engines mention your *brand name* by name in an answer — a different signal that doesn't depend on URL rank. You can rank #1 on Google and never get mentioned by ChatGPT for the same query. As buyers shift to AI answer engines, mention rate becomes the new share-of-voice metric."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Search Tools</p>
+        <h1>How to track brand visibility in ChatGPT — a 6-step operator&#39;s guide</h1>
+        <p class="seo-lede">Tracking your brand&#39;s visibility in ChatGPT is a measurement discipline, not a one-time scan. The job has six concrete steps: <strong>(1)</strong> define a buyer-intent prompt set, <strong>(2)</strong> run it against ChatGPT, <strong>(3)</strong> extract mention rate and share of voice, <strong>(4)</strong> log citation sources, <strong>(5)</strong> set a tracking cadence, <strong>(6)</strong> close the gaps with content. You can do every step manually with a spreadsheet and 90 minutes a month — or automate it once 30+ prompts and multi-engine coverage make the math break. This guide walks through both paths, then names where a tool earns its price. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Run a 5-minute free audit for a baseline →</a></p>
+        <p>Updated 2026-05-26</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I track my brand&#39;s visibility in ChatGPT?</li><li>What&#39;s the best way to track brand mentions in ChatGPT?</li><li>Can I track ChatGPT visibility manually or do I need a tool?</li><li>How often should I track ChatGPT visibility?</li><li>What metrics should I track for AI search visibility?</li><li>What tools should I use to track brand visibility in ChatGPT?</li><li>How do I measure share of voice in ChatGPT?</li><li>How many prompts should be in my ChatGPT tracking set?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p><strong>Tracking brand visibility in ChatGPT means running a fixed set of buyer-intent prompts through ChatGPT on a regular cadence and measuring three signals every time:</strong> how often ChatGPT names your brand (mention rate), what percentage of all brand mentions on the same prompt set are yours (share of voice), and which URLs ChatGPT cited when it formed the answer (citation sources). The six steps below are the same whether you do it manually in a spreadsheet or automate it with a tool.</p><p>If you want a baseline before you commit to a methodology, the <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">SolCrys free audit</a> runs 10 buyer prompts through ChatGPT and returns mention rate, share of voice, and citation sources in five minutes. The rest of this guide is the operator&#39;s view: how to define the prompt set, score the answers, and decide when manual tracking stops earning its hours back.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 1 — Define a buyer-intent prompt set</h2>
+      <p>The first measurement decision is which prompts you run. Get this wrong and every other step is wasted effort. The two most common mistakes: (a) tracking ego queries (&quot;What is [Brand]?&quot;) instead of how buyers actually research, and (b) tracking too few prompts (under 10) so the noise floor swallows the signal.</p><p>Aim for <strong>30 prompts as the working minimum</strong>, split across three buyer intents:</p>
+      <ul class="seo-list"><li><strong>Discovery (10 prompts)</strong> — top-of-funnel research the buyer runs before they have a brand in mind. Examples: &quot;best [category] for [persona]&quot;, &quot;how to solve [problem]&quot;, &quot;who makes [product type]&quot;. These prompts test whether ChatGPT recommends you at all when the buyer doesn&#39;t know to ask for you.</li><li><strong>Comparison (10 prompts)</strong> — mid-funnel evaluation, where buyers compare two or three named candidates. Examples: &quot;[Your brand] vs [Competitor 1]&quot;, &quot;alternatives to [Competitor 2]&quot;, &quot;[Competitor] pros and cons&quot;. These prompts test whether ChatGPT positions you correctly against named alternatives.</li><li><strong>Decision (10 prompts)</strong> — bottom-funnel purchase intent. Examples: &quot;pricing for [category]&quot;, &quot;best [category] for [specific use case]&quot;, &quot;is [Your brand] worth it for [use case]&quot;. These prompts test whether ChatGPT closes the buyer on you when intent is high.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 2 — Run the prompts (manually the first time)</h2>
+      <p>Run the full prompt set through ChatGPT manually the first time, even if you intend to automate later. Why: you&#39;ll see exactly what the consumer-facing engine does — which prompts trigger web search, which produce stale training-data answers, which the model refuses to answer at all. That qualitative read is the calibration you need before you trust any tool&#39;s automated score.</p><p>Concrete procedure:</p>
+      <ul class="seo-list"><li><strong>Use the consumer surface, not the API.</strong> Run from chat.openai.com (logged in is fine; logged out works too — note which one you used so you can stay consistent). The API uses a different model and has web search disabled by default, so API runs will not match what real buyers see.</li><li><strong>One new conversation per prompt.</strong> Open a fresh chat for each prompt so prior conversation context never leaks across answers. Conversation memory contaminates measurement.</li><li><strong>Capture the full response text, the cited sources, and the timestamp.</strong> Copy each answer into a spreadsheet row, including any inline citations the model provided. Timestamp matters because engine outputs drift week to week.</li><li><strong>Plan ~90 minutes the first time.</strong> Thirty prompts × ~90 seconds each (read + copy + paste + tag) = roughly 90 minutes. Subsequent runs go faster because your spreadsheet template is built.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 3 — Score each answer on three signals</h2>
+      <p>Once the responses are captured, score each one on the three signals that matter for AI search. These are the AI-search equivalent of impressions, clicks, and referring sources for SEO — different mechanics, same purpose: a small, stable set of comparable numbers.</p>
+      <ul class="seo-list"><li><strong>Mention rate</strong> — out of N prompts, how many mention your brand by name at all? Ignore qualifiers (&quot;could be a fit&quot;, &quot;some people use&quot;) at this step — count any non-zero mention as a mention. Mention rate is the AI-search impression metric: if ChatGPT never names you, no downstream metric matters.</li><li><strong>Share of voice</strong> — out of all brand mentions across the same N prompts, what percentage belong to you vs each named competitor? Share of voice is a relative metric, so it travels across time even when ChatGPT changes its absolute output style. Aim to track 3-5 named competitors plus an &quot;other&quot; bucket.</li><li><strong>Citation sources</strong> — when ChatGPT names your brand or a competitor, which URLs is it citing? Tag each cited URL into one of four buckets: <strong>Owned</strong> (your or competitor&#39;s domain), <strong>Editorial</strong> (third-party journalism — Forbes, TechCrunch, niche trade press), <strong>UGC</strong> (Reddit, Quora, review sites, forums), <strong>Competitor</strong> (competitor&#39;s owned content driving your mention indirectly). Citation source mix is what tells you *where* to invest content effort to actually shift the mention rate.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 4 — Set a tracking cadence</h2>
+      <p>How often you re-run the prompt set is a trade-off between measurement noise and operator effort. Three reference cadences:</p>
+      <ul class="seo-list"><li><strong>Monthly</strong> — the minimum useful cadence for manual tracking. Engine output drifts slowly enough that month-over-month deltas are visible; less than monthly and you&#39;ll miss the rebrand cycle (90 days) and lose the chance to react.</li><li><strong>Weekly</strong> — the practical sweet spot if you care about content iteration. After publishing a new piece, weekly cadence lets you see citation pickup within 2-4 weeks rather than 8-12. Most operating teams running manual tracking land here.</li><li><strong>Daily</strong> — the cadence you want if you&#39;ve automated, you have an outcome-bonus contract on visibility lift, or you&#39;re in the first 60 days after a category-defining campaign launch. Daily cadence detects engine model rotations and competitor moves the same day they happen. Below that, daily is overkill — you&#39;ll burn hours on noise.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>When daily becomes mandatory</h3>
+        <p>Two scenarios force daily cadence regardless of operator effort: (1) you&#39;ve signed a contract — internal OKR, external service-level agreement, or vendor outcome-bonus clause — that pays out on a specific mention-rate or share-of-voice target, in which case the audit trail needs to be daily to be defensible; (2) you&#39;ve just launched a category-defining campaign or product, and the early 60-day cycle is when most of the ChatGPT citation graph will form for that launch, so weekly cadence will miss the inflection.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Step 5 — Pick a tool (or stay manual, honestly)</h2>
+      <p>Manual tracking earns its hours back when your prompt set is small (≤20 prompts), ChatGPT is the only engine you care about, and your cadence is monthly. Past those thresholds the math breaks — 30 prompts × 4 engines × weekly cadence = 480 individual runs a month, which is no longer a defensible use of an operator&#39;s calendar. That&#39;s where a tool starts to earn the price.</p><p>Six things to look for when you evaluate a ChatGPT visibility tracker (regardless of vendor):</p>
+      <ul class="seo-list"><li><strong>Daily cadence option</strong> — not just weekly. Engine behavior drifts faster than weekly snapshots resolve.</li><li><strong>Same model the consumer sees</strong> — the tool should measure the version of ChatGPT a real buyer experiences (chatgpt.com default model with web search), not a developer-grade API call.</li><li><strong>Citation source breakdown</strong> — Owned/Editorial/UGC/Competitor tagging is the action layer. A tracker that only reports mention rate without telling you which URLs are doing the work has limited operator value.</li><li><strong>Custom prompt sets</strong> — a fixed generic prompt set per vendor will not match your category&#39;s buyer journey. You need to bring your own prompts.</li><li><strong>Raw response export</strong> — at minimum the tool should let you download the actual ChatGPT response text. If the tool hides raw responses behind an opaque score, you can&#39;t audit, you can&#39;t reproduce, you can&#39;t trust.</li><li><strong>Multi-engine coverage</strong> — even if you only care about ChatGPT today, your buyers will use Gemini and Perplexity within the next 12 months. A tracker that locks you into ChatGPT-only will become a re-purchase decision.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What&#39;s actually in the category in 2026</h3>
+        <p>Public AEO platforms in the visibility-tracking category as of mid-2026 include <a href="https://www.tryprofound.com/" target="_blank" rel="noopener noreferrer">Profound</a>, Otterly.ai, <a href="https://www.athenahq.ai/" target="_blank" rel="noopener noreferrer">AthenaHQ</a>, Peec.ai, and SolCrys. Pricing bands run from free (SolCrys free audit, <a href="https://higoodie.com/" target="_blank" rel="noopener noreferrer">Goodie</a> free tier) up through enterprise (Profound enterprise, multi-thousand monthly). The category-defining differences are cadence (daily vs weekly), engine coverage (ChatGPT-only vs four-engine), methodology disclosure (transparent at <a href="https://solcrys.com/methodology" target="_blank" rel="noopener noreferrer">solcrys.com/methodology</a> vs opaque), and whether the tool ships an action layer that turns gap data into content briefs.</p><p><strong>Disclosure: this guide is published by SolCrys. The advice in steps 1-4 is tool-agnostic — you can run all of it in a Google Sheet. The free audit at [app.solcrys.com/audit](https://app.solcrys.com/audit) is one way to get a baseline score in 5 minutes; the [best tools writeup](/best-tools-to-track-brand-visibility-in-chatgpt/) covers the rest of the category neutrally.</strong></p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Step 6 — Close the gaps (the point of the whole exercise)</h2>
+      <p>Tracking that doesn&#39;t produce action is theater. Every weekly or monthly tracking cycle should end with a small, ranked list of actions targeted at the specific prompts where you&#39;re losing. Three action paths, ordered by typical leverage:</p>
+      <ul class="seo-list"><li><strong>Owned content</strong> — publish a new article, FAQ, or landing page that directly answers a prompt where ChatGPT currently mentions competitors but not you. Target the prompt verbatim; structure the answer in passages an LLM can extract (clear H2/H3 + direct answers in the first 1-2 sentences of each section).</li><li><strong>Third-party citation seeding</strong> — when the citation source breakdown shows ChatGPT is citing Reddit threads, niche editorial, or Quora answers for your category, the move is to seed those surfaces with brand-accurate content (community posts, expert AMAs, founder bylines in niche trade publications). Owning the citation source surface is a slower lever but a harder moat to dislodge.</li><li><strong>Hallucination correction</strong> — when ChatGPT confidently misstates a fact about you (wrong pricing, wrong founder, wrong category claim), the action is to ship corrections to the sources ChatGPT cited (review-site updates, Wikipedia edits, vendor-listing corrections) so the next index refresh fixes the answer.</li><li>Rank each action by <strong>(prompt search volume × current loss × content cost to fix)</strong>. Ship the top 1-3 per cycle. Re-run the tracking set next cycle. Iterate.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Three pitfalls to avoid</h2>
+      <p>Three common mistakes that quietly waste tracking effort:</p>
+      <ul class="seo-list"><li><strong>Too few prompts.</strong> Under 10 prompts, the noise floor (one prompt going your way changes mention rate by 10+ percentage points) swallows the signal. Thirty is the working minimum; sixty is comfortable.</li><li><strong>Confusing impressions with mentions.</strong> &quot;My brand appeared in 12 of 30 ChatGPT answers&quot; is mention rate. &quot;My brand has 12 mentions across 30 answers&quot; can be 12 in one answer and zero in the other 29 — totally different signal. Score per-answer, not aggregate.</li><li><strong>Ignoring citation sources because they&#39;re not on your domain.</strong> The instinct is to focus on owned content. The data routinely shows that 30-60% of citation lift in a category comes from Reddit, niche editorial, and review sites — not the brand&#39;s own properties. If you only optimize owned content, you&#39;ll move the needle slower than competitors who also seed the third-party surfaces.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Manual vs tool — a 60-second decision matrix</h2>
+      <p>Use this to decide whether to keep tracking manually or to subscribe to a tool:</p>
+      
+      <table>
+              <thead><tr><th>Situation</th><th>Manual is fine</th><th>A tool earns its price</th></tr></thead>
+              <tbody><tr><td>Prompt set size</td><td>≤20 prompts</td><td>30+ prompts</td></tr><tr><td>Engines tracked</td><td>ChatGPT only</td><td>ChatGPT + 1-3 others</td></tr><tr><td>Cadence</td><td>Monthly</td><td>Weekly or daily</td></tr><tr><td>Operator hours/month available</td><td>≥4 hours predictable</td><td>Hours are not the constraint, focus is</td></tr><tr><td>Need to alert on drops</td><td>No — periodic review fine</td><td>Yes — you want a Slack ping the day a drop happens</td></tr><tr><td>Outcome-bonus contract</td><td>No</td><td>Yes — the audit trail must be defensible</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Get started — a 5-minute baseline before you commit to a methodology</h2>
+      <p>If you&#39;ve never run a structured ChatGPT visibility check on your brand, the cheapest first move is a one-time baseline. The <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">SolCrys free audit</a> runs 10 buyer-intent prompts through ChatGPT and returns mention rate, competitor share of voice, and the top citation sources in 5 minutes — no credit card, no setup. Use it as your zero-week reference; if the numbers are worth tracking forward, build the manual 30-prompt set in step 1 or upgrade to the Brand plan for daily multi-engine tracking. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Run the free audit →</a></p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How often should I track ChatGPT visibility?</h3>
+            <p>Monthly is the minimum useful cadence for manual tracking — engine output drifts slowly enough that month-over-month deltas are visible without burning operator hours on noise. Weekly is the sweet spot once you start iterating on content. Daily becomes mandatory if you have an outcome-bonus contract on mention rate or if you&#39;re in the first 60 days after a category-defining campaign launch.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I track ChatGPT visibility manually?</h3>
+            <p>Yes, and you should at least once even if you plan to automate. Run your prompt set through chatgpt.com (consumer surface, not the API) in fresh conversations, log the full response text and any cited sources into a spreadsheet, and score each one for mention, share of voice, and citation source. Plan ~90 minutes for the first 30-prompt run; subsequent runs go faster once your template is built.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many prompts should be in my ChatGPT tracking set?</h3>
+            <p>Thirty is the working minimum — split 10/10/10 across discovery, comparison, and decision intents. Under 10 prompts, the noise floor swallows the signal. Sixty prompts gives you the cleanest signal but takes more time to maintain; most operators land between 30 and 50.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What metrics should I track for AI search visibility?</h3>
+            <p>Three: <strong>mention rate</strong> (out of N prompts, how often does ChatGPT name your brand?), <strong>share of voice</strong> (your mention count divided by total brand mentions across the same prompt set), and <strong>citation sources</strong> (which URLs ChatGPT cited, tagged into Owned/Editorial/UGC/Competitor buckets). Mention rate is the AI-search equivalent of impressions; share of voice travels across time even when output style shifts; citation sources tell you where to invest content effort.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between mention rate and share of voice?</h3>
+            <p><strong>Mention rate</strong> is absolute — out of N prompts, the percentage where your brand was named at all. <strong>Share of voice</strong> is relative — of all brand mentions across the same prompt set (yours + competitors), the percentage that are yours. Mention rate moves with prompt selection and engine drift; share of voice is more comparable across time because it normalizes for absolute output volume.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why are citation sources important?</h3>
+            <p>Citation sources tell you *where* ChatGPT formed its answer. If 40% of your category&#39;s citations come from Reddit threads and 20% come from Forbes, then publishing more content on your own blog has structurally lower leverage than seeding Reddit and pitching Forbes. Citation source breakdown is what turns tracking from a vanity dashboard into an action plan.</p>
+          </article>
+          <article class="seo-card">
+            <h3>When should I move from manual tracking to a tool?</h3>
+            <p>Three signals each on their own justify a tool: (1) your prompt set has grown past 30 prompts, (2) you want to track Gemini, Perplexity, or AI Overviews alongside ChatGPT, (3) you&#39;ve moved from monthly to weekly or daily cadence. Once any two of those apply, the math on operator hours stops working — a $29-$349/month tool will save more time than it costs.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How is ChatGPT visibility tracking different from SEO?</h3>
+            <p>Traditional SEO measures your URLs&#39; rank on Google&#39;s keyword-results page. The unit of analysis is *your URL* and its SERP position. ChatGPT visibility tracking measures whether AI engines mention your *brand name* by name in an answer — a different signal that doesn&#39;t depend on URL rank. You can rank #1 on Google and never get mentioned by ChatGPT for the same query. As buyers shift to AI answer engines, mention rate becomes the new share-of-voice metric.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/chatgpt-visibility-tracker/">ChatGPT Visibility Tracker</a></h3>
+            <p>Free ChatGPT visibility tracker. Measure your brand&#39;s mention rate, share of voice, and citations across ChatGPT, Gemini, Perplexity, and Google AI — start with a 5-minute audit.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/free-chatgpt-visibility-tools/">Free ChatGPT Visibility Tools for Monitoring Brand Mentions (2026)</a></h3>
+            <p>The free tools that actually let you check your brand&#39;s visibility in ChatGPT in 2026 — including SolCrys&#39;s free audit, manual ChatGPT spot-checks, and what the limits of each tier are.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/best-tools-to-track-brand-visibility-in-chatgpt/">Best Tools to Track Brand Visibility in ChatGPT and Perplexity (2026)</a></h3>
+            <p>Compared: 7 tools that actually track brand mentions in ChatGPT and Perplexity in 2026. Includes a DIY 5-prompt audit you can run in 10 minutes.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-mc26pY-3.js"></script>
+  </body>
+</html>
