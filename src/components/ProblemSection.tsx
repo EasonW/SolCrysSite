@@ -5,21 +5,21 @@ const problems = [
     icon: Eye,
     title: "Discovery is moving into answers",
     description:
-      "More research journeys now end inside an AI answer. If your brand cannot be retrieved, cited, or recommended, the buyer's shortlist is shaped before they ever reach your site.",
+      "If buyers can't retrieve, cite, or recommend you in AI, the shortlist is set before they reach your site.",
     glow: "hsl(195 90% 55% / 0.08)",
   },
   {
     icon: AlertTriangle,
-    title: "Reports are not actions",
+    title: "Reports aren't actions",
     description:
-      "Most AI visibility tools surface gaps but leave the fix to a human team. Without a structured workflow, prompt screenshots pile up and the pages buyers actually read do not change.",
+      "Most AEO tools surface gaps and leave the fix to humans. Screenshots pile up; pages don't change.",
     glow: "hsl(40 85% 55% / 0.08)",
   },
   {
     icon: ShieldAlert,
     title: "Brand facts drift across answers",
     description:
-      "Outdated, inferred, or unsupported AI claims compound across engines until they become the default narrative. Reactive correction is too slow without a governed source of truth.",
+      "Outdated AI claims compound across engines until they become the default narrative.",
     glow: "hsl(0 70% 55% / 0.08)",
   },
 ];
@@ -36,15 +36,13 @@ const ProblemSection = () => {
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="text-center mb-16">
           <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
-            Why teams come to SolCrys
+            Why AEO
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
             AI search now decides what buyers see — before they click.
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            As discovery shifts from result pages to generated answers, marketing teams
-            need more than a dashboard. They need a workflow that turns answer gaps into
-            shipped, verified action.
+          <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
+            <dfn className="not-italic text-foreground font-medium">Answer Engine Optimization (AEO)</dfn> makes brand facts, proof, and pages easy for AI systems to retrieve, cite, and summarize.
           </p>
         </div>
 

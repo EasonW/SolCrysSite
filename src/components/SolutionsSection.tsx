@@ -16,13 +16,9 @@ const SolutionsSection = () => {
           <p className="text-sm font-medium text-[hsl(40_85%_55%)] tracking-wider uppercase mb-3">
             Solutions
           </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
             Built for the teams that own AI visibility.
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Each role has a different path through the loop. Start with the resources
-            built for yours.
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">

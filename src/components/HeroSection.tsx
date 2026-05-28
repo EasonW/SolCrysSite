@@ -138,19 +138,15 @@ const HeroSection = () => {
           ) : null}
         </form>
 
-        {/* Tier-honesty subtitle — the free audit is ChatGPT-only and
-            one-shot. Naming the upgrade engines here matches the /audit
-            page's eyebrow-level tier disclosure, so visitors landing
-            on either surface get the same product-tier story. */}
+        {/* Tier-honesty subtitle — names "ChatGPT" specifically so the
+            free scope is unambiguous against the hero's multi-engine
+            value promise. Full engine-tier disclosure lives on /audit. */}
         <p className="text-sm text-muted-foreground/85 max-w-2xl mx-auto mb-10 opacity-0 animate-fade-up-delay-3">
-          Free ChatGPT scan
+          Free ChatGPT audit
           <span className="mx-2 text-muted-foreground/50">·</span>
           5 min
           <span className="mx-2 text-muted-foreground/50">·</span>
-          No credit card.{" "}
-          <span className="text-muted-foreground/70">
-            Gemini, Perplexity &amp; Google AI on the Brand plan.
-          </span>
+          No credit card
         </p>
 
         {/* Secondary CTA — kept below the form so the form is the
@@ -166,15 +162,16 @@ const HeroSection = () => {
           <LoopDiagram />
         </div>
 
-        {/* Trust Bar */}
+        {/* Trust Bar — customer logos. Engine names already appear in
+            the subhead; doubling them here was redundant scan-noise. The
+            logos give buyers a faster credibility signal at first sight. */}
         <div className="mt-16 pt-8 border-t border-white/5">
-          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Monitor visibility across:</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">ChatGPT</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Gemini</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Google AI Overview</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Google AI Mode</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-200">Perplexity</span>
+          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Trusted by</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 hover:opacity-100 transition-opacity duration-500">
+            <span className="font-heading text-lg md:text-xl font-semibold tracking-tight" style={{ color: "#6366F1" }}>NextSilicon</span>
+            <img src="/customers/wyze-logo.png" alt="Wyze" className="h-5 md:h-6 w-auto" loading="lazy" />
+            <img src="/customers/clearlykept-logo.png" alt="ClearlyKept" className="h-5 md:h-6 w-auto" loading="lazy" />
+            <span className="font-heading text-lg md:text-xl font-semibold tracking-tight" style={{ color: "#FB923C" }}>BOBOYM</span>
           </div>
         </div>
       </div>

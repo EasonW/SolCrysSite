@@ -29,6 +29,16 @@ const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/conte
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
 
+// Curated homepage resource entry-points — TOFU (AEO 101) → MOFU
+// (methodology / how we measure) → BOFU (buyer's guide). Keep in sync
+// with HOMEPAGE_RESOURCE_SLUGS in src/components/ResourcesSection.tsx so
+// the crawler-facing prerender matches the SPA homepage exactly.
+const HOMEPAGE_RESOURCE_SLUGS = [
+  "aeo-vs-seo",
+  "visibility-measurement-methodology",
+  "ai-visibility-platform-buyers-guide",
+];
+
 // Draft mechanism: a resource page with status === "draft" stays accessible at
 // its canonical URL (so co-founders can review the production rendering) but is
 // excluded from all discovery surfaces — listings, sitemap, llms files,
@@ -591,8 +601,11 @@ function homeHtml() {
     </section>
     <section class="seo-container seo-section">
       <h2>AEO resources</h2>
+      <p>A curated entry point — full library at <a href="/resources/">resources</a>. Measurement methodology and source notes live at <a href="/visibility-measurement-methodology/">visibility measurement methodology</a>.</p>
       <div class="seo-grid">
-        ${resourcePages
+        ${HOMEPAGE_RESOURCE_SLUGS
+          .map((slug) => resourcePages.find((p) => p.slug === slug))
+          .filter(Boolean)
           .map(
             (page) => `
           <article class="seo-card">
@@ -603,17 +616,6 @@ function homeHtml() {
           )
           .join("")}
       </div>
-    </section>
-    <section id="source-notes" class="seo-container seo-section">
-      <h2>Source notes</h2>
-      <p>These references guide how SolCrys evaluates AI search visibility, crawler access, and answer readiness.</p>
-      <ul class="seo-list">
-        ${home.sourceNotes
-          .map(
-            (source) => `<li><a href="${escapeAttr(source.url)}" rel="noopener" target="_blank">${escapeHtml(source.label)}</a>: ${escapeHtml(source.description)}</li>`
-          )
-          .join("")}
-      </ul>
     </section>
     <section class="seo-container seo-section">
       <h2>FAQ</h2>

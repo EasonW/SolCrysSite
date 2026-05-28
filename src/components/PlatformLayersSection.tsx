@@ -28,17 +28,13 @@ const PlatformLayersSection = () => {
       <div className="absolute bottom-0 right-1/3 w-[350px] h-[350px] rounded-full bg-[hsl(195_90%_55%/0.03)] blur-[100px]" />
 
       <div className="container mx-auto px-6 max-w-5xl relative">
-        <div className="text-center mb-16">
+        <div className="text-center mb-14">
           <p className="text-sm font-medium text-[hsl(270_60%_60%)] tracking-wider uppercase mb-3">
             Platform
           </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
-            Four layers turn AI visibility into governed execution.
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+            Four layers, one closed loop.
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Each layer is a real product surface — together they close the loop from
-            measurement to verified, brand-safe action.
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mb-10">

@@ -1,7 +1,21 @@
 import siteContent from "@/content/siteContent.json";
 import { ArrowRight } from "lucide-react";
 
+// Explicit curation — three pages spanning TOFU (AEO 101) → MOFU
+// (methodology / how we measure) → BOFU (buyer's guide).
+// Order is deliberate; do not switch to slice() — array order is not
+// a conversion strategy.
+const HOMEPAGE_RESOURCE_SLUGS = [
+  "aeo-vs-seo",
+  "visibility-measurement-methodology",
+  "ai-visibility-platform-buyers-guide",
+];
+
 const ResourcesSection = () => {
+  const featured = HOMEPAGE_RESOURCE_SLUGS
+    .map((slug) => siteContent.resourcePages.find((p) => p.slug === slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
   return (
     <section id="resources" className="relative py-24 md:py-32 section-fade overflow-hidden">
       <div className="container mx-auto px-6 max-w-5xl relative">
@@ -10,12 +24,9 @@ const ResourcesSection = () => {
             <p className="text-sm font-medium text-[hsl(40_85%_55%)] tracking-wider uppercase mb-3">
               AEO Resource Hub
             </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
               Guides built around the questions marketing teams need to measure.
             </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed">
-              Each resource pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions.
-            </p>
           </div>
           <a
             href="/resources/"
@@ -27,7 +38,7 @@ const ResourcesSection = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {siteContent.resourcePages.slice(0, 6).map((page) => (
+          {featured.map((page) => (
             <a
               key={page.slug}
               href={`/${page.slug}/`}
