@@ -11880,8 +11880,6 @@ Hard-deleting prompts breaks continuity in three ways. Past responses orphan bec
 
 Archival preserves all three. SolCrys' prompt-management model uses a soft-delete pattern: the prompt row is marked inactive (`is_active = false`) and timestamped (`deleted_at = NOW()`) but never physically removed. Historical responses tied to that prompt remain joined and queryable; citations, sentiment, and trend reports survive. New runs stop generating responses for the archived prompt, freeing the slot, while every report-of-record still resolves.
 
-Version snapshots add a second layer. When you swap a rewritten prompt in for the original, both versions persist — the original keeps its measurement history, the rewrite starts its own. Compare them side by side over time; ship the better-performing version permanently after enough data accumulates.
-
 
 
 
@@ -11927,7 +11925,7 @@ A customer comes to us with 50 prompts in their set, six months of history, and 
 
 ### What SolCrys does to support this lifecycle
 
-Soft-delete with `is_active` + `deleted_at` markers on every prompt row. Historical responses, citations, and sentiment data are never physically removed, so trend reports survive every prompt-set change. Prompt sets are versioned — when prompts are added, removed, or rewritten, the active version's `prompt_count` updates while previous versions remain on disk and queryable. CSV imports that swap in a new prompt set archive the old prompts instead of destroying them. Together these mean the operating model in this essay is enforceable end-to-end, not just policy.
+Soft-delete with `is_active` + `deleted_at` markers on every prompt row. Historical responses, citations, and sentiment data are never physically removed, so trend reports survive every prompt-set change. CSV imports that swap in a new prompt set archive the old prompts instead of destroying them. Together these mean the operating model in this essay is enforceable end-to-end, not just policy.
 
 The Action Queue surfaces the Keep + Act candidates automatically — high-intent prompts where competitors appear and you do not get top placement in your weekly review. The Content Audit flags the 90-day fixability question by mapping each gap to a specific page that can close it.
 
@@ -11961,7 +11959,7 @@ Q: How often should I run this lifecycle review?
 A: Quarterly. AI engine behavior shifts quarter to quarter (engines reorder, new competitors enter citation surfaces, your own content moves), but reviewing more often than that produces decisions on noise rather than signal. Make the review a recurring calendar item at the start of each quarter; document each prompt's classification and reason for future continuity.
 
 Q: Can I see archived prompts and their data later?
-A: Via the API, yes — archived prompts and their historical responses are fully queryable. Via the dashboard today, archived prompts are filtered out of the default prompts view by design (so the active set is clean). If a 'show archived' toggle would help your workflow, send us a note — the data is already there; it is a UI add.
+A: Yes. Archived (inactive) prompts are visible on the prompts management page in the dashboard, alongside the active set, with their full historical responses and citation data preserved. They are also fully queryable via the API. Archive is a soft-delete — the data never goes away, and you can always inspect or reactivate an archived prompt later.
 
 ## Best AEO Tools for B2B Marketing Teams in 2026: A Buyer-Side Comparison Using Real AI Citation Data
 
