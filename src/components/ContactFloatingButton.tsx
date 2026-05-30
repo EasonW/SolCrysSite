@@ -3,12 +3,17 @@ import { MessageCircle } from "lucide-react";
 import EarlyAccessDialog from "@/components/EarlyAccessDialog";
 
 /**
- * Floating "Talk to a founder" launcher.
+ * Floating "Questions? Talk to a founder" launcher.
  *
  * Mirrors the geo-platform `FeedbackButton` placement (bottom-right pill)
  * but reuses the existing `EarlyAccessDialog mode="founder"` so the
  * contact form, analytics, lead-intake, and success toast are all the
  * same surface the inline pricing CTAs already use. No duplicate form.
+ *
+ * Passes `compact` so this ambient, mixed-intent surface shows a lighter
+ * form (Name + Company + Email required, optional Message; no Website /
+ * Phone) — a quick question, not a full sales intake. The full 6-field
+ * founder form stays on the high-intent pricing page (geo-platform).
  *
  * Visibility rules:
  *   - Hidden on `/pricing` (already has inline "Talk to a founder" CTAs;
@@ -34,15 +39,15 @@ const ContactFloatingButton = () => {
   if (isHiddenPath(pathname)) return null;
 
   return (
-    <EarlyAccessDialog mode="founder" surface="floating_contact">
+    <EarlyAccessDialog mode="founder" surface="floating_contact" compact>
       <button
         type="button"
-        aria-label="Talk to a SolCrys founder"
-        title="Talk to a SolCrys founder"
+        aria-label="Questions? Talk to a SolCrys founder"
+        title="Questions? Talk to a SolCrys founder"
         className="fixed right-4 bottom-4 z-40 inline-flex items-center gap-2 px-4 py-2.5 rounded-full shadow-floating-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
       >
         <MessageCircle className="h-4 w-4" aria-hidden="true" />
-        Talk to a founder
+        Questions? Talk to a founder
       </button>
     </EarlyAccessDialog>
   );

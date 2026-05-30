@@ -22,6 +22,15 @@ interface EarlyAccessDialogProps {
   children?: React.ReactNode;
   surface: AuditSurface;
   mode?: EarlyAccessMode;
+  /**
+   * Compact form: drops the optional Website + Phone fields, leaving
+   * Name + Company + Email (required) and an optional Message. Used by
+   * the floating contact widget, which catches mixed-intent traffic and
+   * should feel like a quick question, not a full sales intake. Company
+   * stays required because the lead-intake API hard-requires it (an
+   * empty value is rejected and would skip the triaged sales DB).
+   */
+  compact?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
@@ -67,6 +76,7 @@ const EarlyAccessDialog = ({
   children,
   surface,
   mode = "audit",
+  compact = false,
   open: controlledOpen,
   onOpenChange,
 }: EarlyAccessDialogProps) => {
@@ -161,18 +171,22 @@ const EarlyAccessDialog = ({
             <Label htmlFor="company">Company <span className="text-destructive">*</span></Label>
             <Input id="company" name="company" placeholder="Acme Inc." required />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="website">Company Website</Label>
-            <Input id="website" name="website" type="url" placeholder="https://example.com" />
-          </div>
+          {!compact && (
+            <div className="grid gap-2">
+              <Label htmlFor="website">Company Website</Label>
+              <Input id="website" name="website" type="url" placeholder="https://example.com" />
+            </div>
+          )}
           <div className="grid gap-2">
             <Label htmlFor="email">Email <span className="text-destructive">*</span></Label>
             <Input id="email" name="email" type="email" placeholder="john@company.com" required />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="phone">Phone (Optional)</Label>
-            <Input id="phone" name="phone" type="tel" placeholder="+1 (555) 000-0000" />
-          </div>
+          {!compact && (
+            <div className="grid gap-2">
+              <Label htmlFor="phone">Phone (Optional)</Label>
+              <Input id="phone" name="phone" type="tel" placeholder="+1 (555) 000-0000" />
+            </div>
+          )}
           <div className="grid gap-2">
             <Label htmlFor="message">Message (Optional)</Label>
             <Textarea id="message" name="message" placeholder={copy.messagePlaceholder} />
