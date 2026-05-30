@@ -16,17 +16,19 @@ const CTASection = () => {
 
           <div className="relative">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              See where AI answers are helping or hurting your brand.
+              See where ChatGPT names competitors before your brand.
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Run a free AI visibility audit across priority prompts, cited sources, competitors, and answer accuracy.
+              Run a free ChatGPT baseline for buyer prompts, competitor
+              mentions, and source gaps. Add daily multi-engine monitoring
+              when you are ready.
             </p>
             <Button asChild variant="hero" size="lg" className="text-base px-8 py-6">
               <a
                 href={AUDIT_URL}
                 onClick={() => trackAuditClick("cta_section")}
               >
-                Start your Free Audit
+                Start Free ChatGPT Audit
                 <ArrowRight className="ml-1" />
               </a>
             </Button>

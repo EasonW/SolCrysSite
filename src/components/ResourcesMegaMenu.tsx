@@ -70,15 +70,15 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
               Try SolCrys
             </p>
             <h3 className="font-display text-base font-semibold leading-tight mb-2">
-              Free AI Visibility Audit
+              Free ChatGPT Baseline
             </h3>
             <p className="text-xs text-muted-foreground leading-relaxed mb-4 flex-1">
-              GPS-based baseline preview with sample Deep Analyses and recommended
-              actions from the paid workflow.
+              One-time read on buyer prompts, competitor mentions, and source
+              gaps before you commit to daily monitoring.
             </p>
             <Button asChild variant="hero" size="sm" className="w-full">
               <a href={AUDIT_URL} onClick={handleAuditClick}>
-                Start your Audit
+                Start free audit
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
               </a>
             </Button>

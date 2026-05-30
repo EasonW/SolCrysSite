@@ -17,7 +17,7 @@ function isValidUrlShape(value: string): boolean {
   const trimmed = value.trim();
   if (!trimmed) return false;
   const withoutProtocol = trimmed.replace(/^https?:\/\//i, "");
-  const host = withoutProtocol.split(/[\/?#]/)[0];
+  const host = withoutProtocol.split(/[/?#]/)[0];
   return /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(host);
 }
 
@@ -124,7 +124,7 @@ const HeroSection = () => {
               size="lg"
               className="text-base px-6 sm:px-7 py-6 sm:py-5 h-auto sm:rounded-l-none sm:rounded-r-xl whitespace-nowrap"
             >
-              Get Free ChatGPT Audit
+              Start Free ChatGPT Audit
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
@@ -142,9 +142,9 @@ const HeroSection = () => {
             free scope is unambiguous against the hero's multi-engine
             value promise. Full engine-tier disclosure lives on /audit. */}
         <p className="text-sm text-muted-foreground/85 max-w-2xl mx-auto mb-10 opacity-0 animate-fade-up-delay-3">
-          Free ChatGPT audit
+          Start with a free ChatGPT baseline
           <span className="mx-2 text-muted-foreground/50">·</span>
-          5 min
+          Daily multi-engine monitoring on paid plans
           <span className="mx-2 text-muted-foreground/50">·</span>
           No credit card
         </p>
