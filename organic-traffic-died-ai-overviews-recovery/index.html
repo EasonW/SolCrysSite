@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Organic Traffic Dropped After AI Overviews? Diagnose and Recover | SolCrys</title>
+    <meta name="description" content="Informational traffic falling off a cliff in 2026 is real and measurable - Seer found a 61% organic CTR drop on queries with an AI Overview. Here is the 3-minute Search Console diagnostic, an honest verdict on what is not coming back, and the recovery path the data actually supports." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/organic-traffic-died-ai-overviews-recovery/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-31" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Organic Traffic Dropped After AI Overviews? Diagnose and Recover | SolCrys" />
+    <meta property="og:description" content="Informational traffic falling off a cliff in 2026 is real and measurable - Seer found a 61% organic CTR drop on queries with an AI Overview. Here is the 3-minute Search Console diagnostic, an honest verdict on what is not coming back, and the recovery path the data actually supports." />
+    <meta property="og:url" content="https://solcrys.com/organic-traffic-died-ai-overviews-recovery/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/organic-traffic-died-ai-overviews-recovery.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/organic-traffic-died-ai-overviews-recovery.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-D7uqQovo.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"SaaS Organic Traffic Died in 2026? The AI Overviews Diagnostic and Recovery Playbook.","item":"https://solcrys.com/organic-traffic-died-ai-overviews-recovery/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your SaaS organic traffic died in 2026. Here is the AI Overviews diagnostic and recovery playbook.","description":"Informational traffic falling off a cliff in 2026 is real and measurable - Seer found a 61% organic CTR drop on queries with an AI Overview. Here is the 3-minute Search Console diagnostic, an honest verdict on what is not coming back, and the recovery path the data actually supports.","dateModified":"2026-05-31","datePublished":"2026-05-31","mainEntityOfPage":"https://solcrys.com/organic-traffic-died-ai-overviews-recovery/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/organic-traffic-died-ai-overviews-recovery/","mainEntity":[{"@type":"Question","name":"Was there a Google core update in January 2026?","acceptedAnswer":{"@type":"Answer","text":"No confirmed core update happened in January 2026. The documented updates that line up with the 2026 traffic decline are the March 2026 core update (roughly March 27 to April 8) and the May 2026 core update (officially confirmed May 21), compounded by AI Overviews and the global expansion of AI Mode announced at Google I/O on May 19."}},{"@type":"Question","name":"How do I know AI Overviews caused my drop and not a ranking loss?","acceptedAnswer":{"@type":"Answer","text":"Segment Search Console by intent and compare impressions to clicks. If informational impressions stayed flat while clicks fell, the AI answer is absorbing the click - an AI Overviews pattern. If impressions and clicks fell together, that is a ranking or visibility loss, which is a different problem."}},{"@type":"Question","name":"Will my informational traffic come back?","acceptedAnswer":{"@type":"Answer","text":"Much of the simple-informational traffic is structurally gone, because the AI answer now satisfies the query without a click. Some clicks concentrate on cited sources - Seer found a 35% higher CTR for pages cited inside the AI Overview - so the realistic goal is to be that cited source and to shift toward decision and branded queries that still convert."}},{"@type":"Question","name":"Does adding llms.txt help recover AI Overviews traffic?","acceptedAnswer":{"@type":"Answer","text":"No. Google's guidance is that special AI files like llms.txt are not required to appear in generative search, and adding one does not recover lost AI Overviews traffic. The recovery levers are being citation-worthy, covering decision and branded queries, and earning presence in the third-party and community sources engines cite."}},{"@type":"Question","name":"What is the single most useful metric to track during recovery?","acceptedAnswer":{"@type":"Answer","text":"Whether you are cited inside AI answers on your priority buyer prompts, tracked by engine over time. A raw traffic chart shows the damage but not the recovery; citation and recommendation share show whether your changes are actually moving the answer."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Your SaaS organic traffic died in 2026. Here is the AI Overviews diagnostic and recovery playbook.</h1>
+        <p class="seo-lede">Marketers across SaaS are watching informational organic traffic fall and dating it, loosely, to &#39;January.&#39; The instinct is right; the date is off. The measurable damage lines up with the March 2026 and May 2026 Google core updates layered on top of AI Overviews and the global expansion of AI Mode. The signature is specific: impressions hold roughly flat while clicks fall, because your page is now feeding the AI answer without earning the click. This playbook gives you a 3-minute Search Console diagnostic to confirm it, an honest verdict on which traffic is not coming back, and the recovery path the data supports - being the cited source inside the answer, pivoting toward decision and branded queries, and winning the community source layer - plus the quick fixes to refuse.</p>
+        <p>Updated 2026-05-31</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why did my organic traffic drop in 2026?</li><li>How do I recover traffic lost to AI Overviews?</li><li>Which 2026 Google update caused my SaaS traffic to fall?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>If your SaaS informational traffic fell in 2026, you are not imagining it and it is not your imagination&#39;s favorite scapegoat either. The measurable cause is the combination of two confirmed Google core updates - March 2026 and May 2026 - sitting on top of AI Overviews and the global rollout of AI Mode, which now answers the question at the top of the page so the user never clicks.</p><p>The diagnostic signature is precise: impressions stay roughly flat while clicks drop. That pattern means your content is being used to generate the AI answer without earning the visit. The recovery is not &#39;win those informational clicks back&#39; - many are gone structurally. It is to become the source the answer cites, and to shift your effort toward the decision and branded queries that still convert.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>First, calibrate the timeline (it was not January)</h2>
+      <p>Practitioners keep dating this to January 2026. We did the homework, because an honest diagnosis needs the right cause. There was no confirmed January 2026 Google core update. What actually happened, and is documented:</p><p>The March 2026 core update rolled out roughly March 27 to April 8 and was unusually aggressive - reports put around 80% of top-3 positions changing. The May 2026 core update was officially confirmed on May 21, one day after Google I/O Day 2. And at I/O 2026 on May 19, Google made AI Mode powered by Gemini 3.5 Flash the default globally and reported AI Mode passing one billion monthly users. The &#39;my traffic died in January&#39; feeling is real, but the documented mechanism is March-plus-May core updates compounding with an AI answer layer that kept expanding all spring.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The damage, with a number you can cite</h2>
+      <p>This is not vibes. Seer Interactive analyzed 3,119 informational queries across 42 organizations and 25.1 million organic impressions from June 2024 to September 2025. On queries where an AI Overview appears, organic click-through rate fell 61% - from 1.76% to 0.61%. Even on queries without an AI Overview, organic CTR fell 41%, because the behavior change is broader than the feature itself.</p><p>The number that should reframe your strategy is this one: pages that were cited inside the AI Overview saw a 35% higher organic CTR than the baseline. The click did not vanish for everyone. It concentrated on the sources the answer names. That single finding is the entire recovery thesis - stop fighting to be the tenth blue link, start being the source inside the answer.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 3-minute Search Console diagnostic</h2>
+      <p>Confirm you are in the AI-Overviews pattern before you change anything. In Google Search Console, compare a recent period against the same period last year, and read the relationship between impressions and clicks by query intent.</p>
+      <ul class="seo-list"><li><strong>Segment by intent.</strong> Split your queries into informational (&#39;what is,&#39; &#39;how to,&#39; &#39;best way to&#39;) versus decision/branded (&#39;[your brand],&#39; &#39;[brand] pricing,&#39; &#39;[brand] vs [competitor],&#39; &#39;buy/demo/login&#39;). Do not read the site total - it hides the pattern.</li><li><strong>Read the divergence.</strong> The AI-Overviews signature is impressions roughly flat (or up) while clicks fall on informational queries. That gap is the AI answer absorbing the click. If both impressions and clicks fell together, that is a ranking/visibility loss - a different problem with a different fix.</li><li><strong>Check position vs. CTR.</strong> If your average position held but CTR collapsed on informational queries, you did not lose rankings - you lost the click to the answer above you.</li><li><strong>Isolate the dates.</strong> Mark March 27 and May 21 on the timeline. If your informational decline steps down around those dates, you have your culprits.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The honest verdict: some of it is not coming back</h2>
+      <p>We will not sell you a recovery fantasy. If your traffic came from simple informational queries that an AI Overview can now answer completely - definitions, basic how-tos, &#39;[term] meaning&#39; - a large share of those clicks is structurally gone. Users got their answer; they had no reason to click; and that behavior is now the default for a billion-plus AI Mode users.</p><p>Chasing those clicks back with more of the same informational content is the most common and most wasteful response. The right move is to accept the repricing and redirect effort to where clicks and pipeline still live.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What actually recovers</h2>
+      <p>Three plays, in priority order, each supported by the data above.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Become the source the answer cites</h3>
+        <p>Cited pages keep their clicks - the Seer data shows a 35% CTR premium for sources named inside the AI Overview. So the goal shifts from ranking to being retrievable and citation-worthy: answer the question cleanly and early on the page, make the claim verifiable and specific, and add the original data, firsthand experience, or analysis an engine cannot generate from training data alone. Generic content that paraphrases the top results is exactly what the AI Overview replaces.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Shift effort toward decision and branded queries</h3>
+        <p>Decision-stage and branded queries (&#39;[brand] vs [competitor],&#39; &#39;[category] pricing,&#39; &#39;best [category] for [ICP],&#39; &#39;how to migrate from [incumbent]&#39;) still drive clicks and convert far better than informational traffic ever did, because the user needs to leave the answer to act. Reallocate content investment from top-funnel definitions toward the comparison, pricing, and decision content that AI answers point toward rather than absorb.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Win the community and third-party source layer</h3>
+        <p>AI answers lean heavily on sources you do not own. In our own category measurement across four engines, as of 2026-05-31, the single most-cited domain is Reddit - the top source by a wide margin, ahead of arXiv, TechRadar, and Wikipedia - while owned-brand pages account for barely 1.5% of citations. You cannot recover decision-layer presence purely from your own blog. You need accurate, genuine presence where the engines actually look - community threads, credible third-party reviews, and reference pages - earned honestly, not farmed.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What not to do (the quick fixes that will not save you)</h2>
+      <p>When traffic drops, vendors appear promising one-file fixes. We refuse to recommend these without refutation, because they waste the recovery window.</p>
+      <ul class="seo-list"><li><strong>llms.txt as a recovery lever.</strong> Google&#39;s own guidance is that you do not need special AI files to appear in generative search. Adding llms.txt does not recover AI Overviews traffic. It is not where the problem lives.</li><li><strong>FAQ schema without visible FAQs.</strong> Marking up answers that are not actually on the page is a cosmetic trick, not a citation strategy, and risks being treated as exactly that.</li><li><strong>Mass-chunking content for &#39;AI readability.&#39;</strong> Slicing every page into machine-shaped fragments degrades the human experience without making you more citation-worthy. Engines cite sources that answer well, not sources that are pre-minced.</li><li><strong>More undifferentiated informational content.</strong> Publishing ten more &#39;what is [term]&#39; posts feeds the exact answer that replaced your click. Differentiated, evidence-backed content is the only kind worth producing now.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A 30-day recovery checklist</h2>
+      <p>A focused month, in sequence.</p>
+      <ul class="seo-list"><li>Week 1: Run the Search Console diagnostic. Quantify how much of the decline is informational-CTR loss vs. genuine ranking loss. Mark the March and May update dates against your data.</li><li>Week 1-2: Identify your top 10 informational pages by lost clicks. For each, decide: upgrade to a citation-worthy, evidence-rich version, consolidate, or retire. Do not reflexively rewrite all of them.</li><li>Week 2-3: Audit your decision and branded query coverage. Build or sharpen the comparison, pricing, and &#39;best [category] for [ICP]&#39; pages that still earn clicks and convert.</li><li>Week 3-4: Map the community and third-party source layer for your category - where do the engines cite for your buyer questions? Plan accurate, genuine presence there.</li><li>Ongoing: Track whether you are being cited inside AI answers on your priority prompts, by engine, over time - that is the recovery signal a traffic chart alone will not show you.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to apply this, by role</h2>
+      <p>Same playbook, different first move.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>SEO / content lead</h3>
+        <p>Run the diagnostic before the next planning cycle so you stop budgeting for clicks that are structurally gone. Reallocate from informational volume to citation-worthy decision content, and start tracking citation presence, not just rankings.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Head of Growth</h3>
+        <p>Reset the leadership narrative: the traffic line fell for a structural reason, not an execution failure, and the recovery metric is citation and recommendation share on buyer prompts, not a return to old informational pageviews.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Founder / CEO</h3>
+        <p>Do not demand the old traffic number back - it may not exist anymore. Fund the shift to being the cited source and to decision-stage and community presence, and judge progress by whether AI answers in your category now name you.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.seerinteractive.com/insights/ctr-aio" target="_blank" rel="noopener noreferrer">Seer Interactive - AI Overviews impact on CTR (3,119 informational queries, 42 organizations, 25.1M organic impressions, Jun 2024 - Sep 2025)</a></li><li><a href="https://searchengineland.com/google-ai-overviews-drive-drop-organic-paid-ctr-464212" target="_blank" rel="noopener noreferrer">Search Engine Land - Google AI Overviews drive 61% drop in organic CTR</a></li><li><a href="https://blog.google/products-and-platforms/products/search/search-io-2026/" target="_blank" rel="noopener noreferrer">Google - Search at I/O 2026 (AI Mode default, Gemini 3.5 Flash, 1B+ monthly users)</a></li><li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys AI citation measurement, SolCrys workspace, as of 2026-05-31, four engines (Reddit the top-cited domain; owned pages ~1.5% of citations)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Was there a Google core update in January 2026?</h3>
+            <p>No confirmed core update happened in January 2026. The documented updates that line up with the 2026 traffic decline are the March 2026 core update (roughly March 27 to April 8) and the May 2026 core update (officially confirmed May 21), compounded by AI Overviews and the global expansion of AI Mode announced at Google I/O on May 19.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I know AI Overviews caused my drop and not a ranking loss?</h3>
+            <p>Segment Search Console by intent and compare impressions to clicks. If informational impressions stayed flat while clicks fell, the AI answer is absorbing the click - an AI Overviews pattern. If impressions and clicks fell together, that is a ranking or visibility loss, which is a different problem.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Will my informational traffic come back?</h3>
+            <p>Much of the simple-informational traffic is structurally gone, because the AI answer now satisfies the query without a click. Some clicks concentrate on cited sources - Seer found a 35% higher CTR for pages cited inside the AI Overview - so the realistic goal is to be that cited source and to shift toward decision and branded queries that still convert.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does adding llms.txt help recover AI Overviews traffic?</h3>
+            <p>No. Google&#39;s guidance is that special AI files like llms.txt are not required to appear in generative search, and adding one does not recover lost AI Overviews traffic. The recovery levers are being citation-worthy, covering decision and branded queries, and earning presence in the third-party and community sources engines cite.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is the single most useful metric to track during recovery?</h3>
+            <p>Whether you are cited inside AI answers on your priority buyer prompts, tracked by engine over time. A raw traffic chart shows the damage but not the recovery; citation and recommendation share show whether your changes are actually moving the answer.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-recovery-score/">AEO Recovery Score</a></h3>
+            <p>AEO Recovery Score is a quantified framework for estimating how much of an answer gap your fix actions closed. This guide defines the formula, measurement windows, and how to set expectations without overclaiming recovery.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/optimize-for-google-ai-overviews-ai-mode/">How to Optimize for Google AI Overviews &amp; AI Mode</a></h3>
+            <p>How Google&#39;s AI Overviews and conversational AI Mode are built from your index, the inheritance signals that decide which pages get cited, and the optimization plays that actually move position.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/reddit-g2-community-sources-aeo/">Reddit, G2, and Forums: How to Win the Community Source Layer for AI Citations</a></h3>
+            <p>AI engines cite Reddit, G2, and niche forums disproportionately when answering buyer prompts. This guide is the practitioner playbook for earning community citations without becoming spam — with the 7 rules of native engagement.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-NJlieNp0.js"></script>
+  </body>
+</html>

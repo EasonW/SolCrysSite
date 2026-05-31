@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>ChatGPT Recommends Your Competitor? The 10-Minute Self-Audit | SolCrys</title>
+    <meta name="description" content="Ranking #1 on Google does not mean AI engines recommend you. Run this 10-minute test across ChatGPT, Perplexity, Gemini, and Google AI Overviews to see whether you are cited, mispositioned, or invisible - with the real data from when we ran it on ourselves." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/chatgpt-recommends-competitor-self-audit/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-31" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="ChatGPT Recommends Your Competitor? The 10-Minute Self-Audit | SolCrys" />
+    <meta property="og:description" content="Ranking #1 on Google does not mean AI engines recommend you. Run this 10-minute test across ChatGPT, Perplexity, Gemini, and Google AI Overviews to see whether you are cited, mispositioned, or invisible - with the real data from when we ran it on ourselves." />
+    <meta property="og:url" content="https://solcrys.com/chatgpt-recommends-competitor-self-audit/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/chatgpt-recommends-competitor-self-audit.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/chatgpt-recommends-competitor-self-audit.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-D7uqQovo.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Your SaaS Ranks #1 on Google. ChatGPT Recommends a Competitor. The 10-Minute Self-Audit.","item":"https://solcrys.com/chatgpt-recommends-competitor-self-audit/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your SaaS ranks #1 on Google. ChatGPT recommends a competitor. Here is the 10-minute self-audit.","description":"Ranking #1 on Google does not mean AI engines recommend you. Run this 10-minute test across ChatGPT, Perplexity, Gemini, and Google AI Overviews to see whether you are cited, mispositioned, or invisible - with the real data from when we ran it on ourselves.","dateModified":"2026-05-31","datePublished":"2026-05-31","mainEntityOfPage":"https://solcrys.com/chatgpt-recommends-competitor-self-audit/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/chatgpt-recommends-competitor-self-audit/","mainEntity":[{"@type":"Question","name":"If I rank #1 on Google, why would ChatGPT recommend someone else?","acceptedAnswer":{"@type":"Answer","text":"Because AI engines run their own retrieval and synthesis rather than reading Google's ranking. They prefer sources that make a claim easy to verify and attribute, and they lean on third-party and community pages. A page built to win the SERP is not automatically the page an engine retrieves and cites."}},{"@type":"Question","name":"Why do different engines give different answers about my brand?","acceptedAnswer":{"@type":"Answer","text":"They retrieve differently. Perplexity does live retrieval with inline citations; ChatGPT extracts and summarizes from passages; Gemini and Google AI Overviews lean on Google's index. In our own data, the same brand's presence varies by engine - so audit all four rather than trusting one."}},{"@type":"Question","name":"Is this just an SEO problem I can fix with more content?","acceptedAnswer":{"@type":"Answer","text":"Usually not. The most common failure mode is a source-layer and coverage gap, where the engines lack a trusted, extractable source connecting you to the buyer question. More blog volume on your own domain rarely fixes that. You need the right answer in the right place, including the third-party layer engines cite."}},{"@type":"Question","name":"How often should I re-run this test?","acceptedAnswer":{"@type":"Answer","text":"The 10-minute manual test is a good monthly gut-check. But AI answers move continuously as engines re-retrieve and competitors publish, so the prompts tied to real pipeline are worth tracking continuously rather than spot-checking."}},{"@type":"Question","name":"Did SolCrys really score 0% on its own buyer prompts?","acceptedAnswer":{"@type":"Answer","text":"Yes - on most of them. As of our 2026-05-31 measurement, we appeared in 100% of answers to our branded prompt but 0% on most buyer prompts (for example 'best generative engine optimization tools for B2B marketing teams'), and no more than 1-2 mentions out of 28 on the few non-branded prompts where we appear at all - never as the recommended brand. We publish our own numbers because the gap is the whole point: branded visibility hides a buyer-prompt blind spot, and a Google ranking will not warn you about it."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Your SaaS ranks #1 on Google. ChatGPT recommends a competitor. Here is the 10-minute self-audit.</h1>
+        <p class="seo-lede">Google rank and AI recommendation are decoupled. Being indexed is not the same as being cited, and being cited is not the same as being recommended first. A B2B founder can sit at position 1 in Google and still be absent from the ChatGPT, Perplexity, or Gemini answer that a buyer reads before they ever open a search tab. This guide gives you a runnable 10-minute test, a way to read the three failure modes (not cited, cited-but-mispositioned, cited-below-competitor), and the real numbers from when we ran the same audit on SolCrys - where we sit at 100% presence on our own branded prompt but at or near zero on the buyer prompts that actually decide deals - 0% on most, 1-2 mentions out of 28 on a few, and never the leading recommendation.</p>
+        <p>Updated 2026-05-31</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why does ChatGPT recommend my competitor instead of me?</li><li>Does ranking #1 on Google mean I show up in AI answers?</li><li>How do I check if AI engines recommend my product?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Ranking #1 on Google does not mean an AI engine recommends you. The two systems are decoupled. Google ranks pages; ChatGPT, Perplexity, Gemini, and Google AI Overviews assemble an answer by retrieving sources, weighing them, and naming a short list of brands - and the brand they name first is frequently not the brand that ranks first in the blue links.</p><p>The fastest way to find out where you actually stand is not a strategy deck. It is a 10-minute test you can run yourself, today, across the four engines your buyers use. This guide walks you through that test, shows you how to read the result, and - because we believe in showing our own numbers - includes what happened when we ran the same audit on SolCrys.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 10-minute test</h2>
+      <p>Open a fresh, logged-out session in each engine (logged-out matters - your own history biases the answer). Ask the same buyer question a real prospect would ask: &#39;What is the best [your category] tool for [your ICP]?&#39; Then read carefully and write down what you see. Run it in all four engines, because they do not answer the same way.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>ChatGPT (with search)</h3>
+        <p>ChatGPT tends to extract and summarize from a handful of passages, then produce a named shortlist. Note whether you appear at all, where in the list, and how your one-sentence description reads. ChatGPT often paraphrases your positioning rather than quoting it, so check for drift.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Perplexity</h3>
+        <p>Perplexity does live retrieval and shows numbered citations inline. This is the easiest engine to audit because you can click each source and see exactly which pages it pulled. Note which domains it cited for your category - in our data, those are rarely the brand&#39;s own pages.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Gemini and Google AI Overviews</h3>
+        <p>Gemini and the AI Overview at the top of Google Search lean on Google&#39;s index and its own retrieval. The same brand can rank #1 in the classic results directly below an AI Overview that never mentions it. Run both - AI Mode and a normal logged-out search for the question - and compare.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The three ways you are losing (and they are not the same problem)</h2>
+      <p>When founders run this test, the result is almost never &#39;we are fine.&#39; It is one of three distinct failure modes, and they have different fixes. Diagnose which one you are in before you do anything.</p>
+      
+      <table>
+              <thead><tr><th>Failure mode</th><th>What you see</th><th>What it means</th></tr></thead>
+              <tbody><tr><td>Not cited at all</td><td>Your brand does not appear in the answer in any engine</td><td>The engines do not have a usable, trusted source that connects your brand to this buyer question. This is a source-layer and coverage gap, not a ranking gap.</td></tr><tr><td>Cited but mispositioned</td><td>You appear, but the one-line description is wrong, dated, or undersells you</td><td>The engines found a source - just not the right one. They are summarizing a review site, an old page, or a competitor&#39;s framing of you rather than your own current positioning.</td></tr><tr><td>Cited below a competitor</td><td>You appear, but a competitor is named first and described in more detail</td><td>You are in the consideration set but losing the recommendation. This is a share-of-voice problem on the specific prompts that matter.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why this happens even when you rank #1</h2>
+      <p>Three structural reasons a top Google ranking does not carry over to AI answers.</p><p>First, retrieval is not ranking. An AI engine does not read the SERP and pick the top result. It runs its own retrieval over its own index and source preferences, then synthesizes. Pages that rank well for a human skimming ten blue links are not automatically the pages an engine retrieves to answer a question.</p><p>Second, engines prefer sources that make a claim easy to verify and attribute. A page that states a specific, checkable answer near the top - what the product is, who it is for, how it compares - is more usable to an engine than a page optimized to keep a human scrolling. Ranking rewards engagement; citation rewards extractable certainty.</p><p>Third, the engines lean heavily on third-party and community sources. In our own category measurement, the most-cited domains for AEO buyer questions are Reddit, TechRadar, and Wikipedia - not vendor sites. If your brand&#39;s story only lives on your own domain, you are absent from the layer the engines trust most.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>We ran this audit on ourselves. Here is what we found.</h2>
+      <p>We measure AI visibility for a living, so we hold ourselves to the same test. As of our latest measurement on 2026-05-31, across four engines (ChatGPT, Gemini, Perplexity, and Google AI Overviews), the gap between our branded prompt and our buyer prompts is the entire lesson of this article. These are our starting numbers, published openly - we are tracking our own climb on exactly these prompts, the same way we tell you to track yours.</p><p>On the prompt &#39;is SolCrys a legit AEO provider?&#39; we appear in 100% of answers - of course we do, the buyer already typed our name. But on the prompts that actually decide a purchase, where the buyer does not know us yet, we are at or near zero - 0% on most, 1-2 mentions out of 28 on the rest, and never the recommended brand:</p>
+      
+      <table>
+              <thead><tr><th>Prompt a buyer actually types</th><th>SolCrys presence</th><th>Read</th></tr></thead>
+              <tbody><tr><td>is SolCrys a legit AEO provider? (branded)</td><td>100%</td><td>Vanity. They already know our name.</td></tr><tr><td>best generative engine optimization tools for B2B marketing teams</td><td>0%</td><td>The buyer prompt that matters. We are not in the room.</td></tr><tr><td>best platforms for tracking brand visibility in ChatGPT and Perplexity</td><td>0%</td><td>Our exact use case. Still absent.</td></tr><tr><td>what GEO tools show which competitors are cited more often in AI search</td><td>0%</td><td>A feature we ship. Not mentioned.</td></tr><tr><td>what AEO tools can cover Amazon Rufus</td><td>7.1%</td><td>A rare partial win - and even here it is 2 answers out of 28.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Meanwhile, a competitor owns the category answer</h2>
+      <p>In the same measurement, across the same category prompts and engines, Profound appeared in 58.8% of answers and was the primary recommended brand in 44.5% of them. We were the primary brand in 4.7%, ranking 15th of 17 tracked brands by share of voice. That is the &#39;cited below a competitor&#39; failure mode at category scale - and it is exactly what a buyer experiences when they ask an engine which tool to use and hear a competitor&#39;s name first.</p><p>We are telling you our own unflattering numbers on purpose. If a company whose entire product is AI visibility can sit at zero on most of its own buyer prompts - and in low single digits on the rest - your odds of being quietly invisible are high, and a #1 Google ranking will not have warned you.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Read your results: a quick scoring rubric</h2>
+      <p>After running the test in all four engines, score yourself honestly.</p>
+      <ul class="seo-list"><li><strong>Named first in 3-4 engines:</strong> you own the recommendation. Defend it and monitor for drift.</li><li><strong>Named, but rarely first:</strong> consideration-set problem. You need share of voice on the specific buyer prompts, not more traffic.</li><li><strong>Named in only 1 engine:</strong> engine-specific gap. Note which engine includes you and which do not - Perplexity and ChatGPT can disagree sharply because they retrieve differently.</li><li><strong>Absent everywhere on non-branded prompts:</strong> source-layer and coverage gap. This is the most common result and the most fixable, but not by &#39;doing more SEO.&#39;</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to fix this week vs. what needs an ongoing loop</h2>
+      <p>Some of this is a same-week cleanup. Most of it is a loop, because AI answers move - the engines re-retrieve, competitors publish, and your position drifts whether you watch it or not.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>This week</h3>
+        <p>Fix the mispositioning first - it is the cheapest win. Make sure your highest-intent pages answer the category question in the first two paragraphs: what you are, who you are for, and how you compare, in plain extractable language. Correct any out-of-date claim an engine might be repeating about you.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>The ongoing loop</h3>
+        <p>Pick the 10-20 buyer prompts that map to real pipeline, measure your presence and your competitors&#39; presence on them across engines, and track the gap over time. A one-time audit tells you where you stand today; the loop tells you whether what you ship actually moves the answer. This is the difference between a dashboard that reports a number and a system that closes the gap - the distinction we cover in our buyer guide on dashboards vs. execution engines.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How to apply this, by role</h2>
+      <p>Same test, different next move depending on your seat.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Founder / CEO</h3>
+        <p>Run the test live in your next leadership meeting. Nothing focuses a team like watching an engine recommend a competitor in real time. Then assign ownership of the buyer-prompt set, not just &#39;SEO.&#39;</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Head of Growth / Marketing</h3>
+        <p>Build the prompt-to-pipeline map: which buyer questions, if you won the answer, would change your funnel. Measure those, report the competitor gap, and treat AI recommendation share as a top-of-funnel leading indicator.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>SEO / Content lead</h3>
+        <p>Stop assuming your Google rankings cover you. Audit the source layer - the third-party and community pages the engines actually cite for your category - and figure out where your brand needs to be present beyond your own domain.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys AI visibility measurement, SolCrys workspace, as of the latest run 2026-05-31, four engines (ChatGPT, Gemini, Perplexity, Google AI Overviews)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>If I rank #1 on Google, why would ChatGPT recommend someone else?</h3>
+            <p>Because AI engines run their own retrieval and synthesis rather than reading Google&#39;s ranking. They prefer sources that make a claim easy to verify and attribute, and they lean on third-party and community pages. A page built to win the SERP is not automatically the page an engine retrieves and cites.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why do different engines give different answers about my brand?</h3>
+            <p>They retrieve differently. Perplexity does live retrieval with inline citations; ChatGPT extracts and summarizes from passages; Gemini and Google AI Overviews lean on Google&#39;s index. In our own data, the same brand&#39;s presence varies by engine - so audit all four rather than trusting one.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is this just an SEO problem I can fix with more content?</h3>
+            <p>Usually not. The most common failure mode is a source-layer and coverage gap, where the engines lack a trusted, extractable source connecting you to the buyer question. More blog volume on your own domain rarely fixes that. You need the right answer in the right place, including the third-party layer engines cite.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often should I re-run this test?</h3>
+            <p>The 10-minute manual test is a good monthly gut-check. But AI answers move continuously as engines re-retrieve and competitors publish, so the prompts tied to real pipeline are worth tracking continuously rather than spot-checking.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Did SolCrys really score 0% on its own buyer prompts?</h3>
+            <p>Yes - on most of them. As of our 2026-05-31 measurement, we appeared in 100% of answers to our branded prompt but 0% on most buyer prompts (for example &#39;best generative engine optimization tools for B2B marketing teams&#39;), and no more than 1-2 mentions out of 28 on the few non-branded prompts where we appear at all - never as the recommended brand. We publish our own numbers because the gap is the whole point: branded visibility hides a buyer-prompt blind spot, and a Google ranking will not warn you about it.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/ai-search-is-decision-layer/">AI Search Is a Decision Layer</a></h3>
+            <p>Treating AI search as &#39;another channel&#39; alongside SEO and paid undercounts its impact. AI search is a decision layer that influences buyers across all other channels. This essay explains the implication for measurement and investment.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-to-track-ai-share-of-voice/">How to Track AI Share of Voice (Step-by-Step, 2026)</a></h3>
+            <p>A tactical how-to for tracking AI share of voice in ChatGPT, Perplexity, Gemini, and Google AIO — with formulas, a worked example, and a 30-day starter rollout.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/track-where-competitors-get-cited-in-ai/">How to Track Where Your Competitors Get Cited in AI Search (2026)</a></h3>
+            <p>A 4-step playbook for tracking which competitors AI engines cite — competitive share of voice, citation source maps, and replacement rate. Real SolCrys data.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-NJlieNp0.js"></script>
+  </body>
+</html>
