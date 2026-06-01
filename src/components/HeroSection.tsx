@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import AnnouncementBanner from "./AnnouncementBanner";
-import LoopDiagram from "./LoopDiagram";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { trackEvent } from "@/lib/analytics";
 import siteContent from "@/content/siteContent.json";
@@ -149,18 +148,10 @@ const HeroSection = () => {
           No credit card
         </p>
 
-        {/* Secondary CTA — kept below the form so the form is the
-            unambiguous primary action. */}
-        <div className="flex justify-center opacity-0 animate-fade-up-delay-3 mb-16">
-          <Button asChild variant="hero-outline" size="lg" className="text-base px-8 py-6 h-auto">
-            <a href="#loop">See the SolCrys Loop</a>
-          </Button>
-        </div>
-
-        {/* The SolCrys Loop — operational visualization, not aspirational claims */}
-        <div className="opacity-0 animate-fade-up-delay-3 translate-y-4">
-          <LoopDiagram />
-        </div>
+        {/* The SolCrys Loop lives in its own section (LoopSection) right
+            below the hero — it was pulled out of the hero so the pitch +
+            form aren't competing with the 4-step diagram in one viewport.
+            id="loop" now lives on that section. */}
 
         {/* Trust Bar — customer logos. Engine names already appear in
             the subhead; doubling them here was redundant scan-noise. The
