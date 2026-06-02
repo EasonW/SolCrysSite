@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "./ThemeToggle";
-import { ArrowRight, BookOpen, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown, Menu, Search, X } from "lucide-react";
 import ResourcesMegaMenu from "./ResourcesMegaMenu";
+import SearchCommand from "./SearchCommand";
 import SolutionsMegaMenu from "./SolutionsMegaMenu";
 import {
   RESOURCES_COLUMNS,
@@ -46,6 +47,7 @@ type OpenMenu = "resources" | "solutions" | null;
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   // Single open-menu enum so opening one dropdown auto-closes the
   // others. Replaces the prior boolean-per-menu pattern that would
   // otherwise allow two mega menus to overlap.
@@ -87,6 +89,18 @@ const Navbar = () => {
       document.removeEventListener("keydown", onKey);
     };
   }, [openMenu]);
+
+  // Global ⌘K / Ctrl+K toggles the search palette from anywhere on the site.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   const closeAll = () => {
     setMobileOpen(false);
@@ -191,8 +205,19 @@ const Navbar = () => {
           {renderFlatLink(flatNavLinks[3])}
         </div>
 
-        {/* Right cluster: theme toggle + mobile hamburger + Free Audit CTA */}
+        {/* Right cluster: search + theme toggle + mobile hamburger + Free Audit CTA */}
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Search resources"
+            className="inline-flex h-9 items-center gap-2 rounded-md px-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+          >
+            <Search className="h-4 w-4" />
+            <kbd className="hidden xl:inline-flex items-center rounded border border-border/60 px-1.5 font-sans text-[10px] leading-5 text-muted-foreground">
+              ⌘K
+            </kbd>
+          </button>
           <ThemeToggle />
           <button
             type="button"
@@ -402,6 +427,8 @@ const Navbar = () => {
           </div>
         </div>
       ) : null}
+
+      <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
     </nav>
   );
 };
