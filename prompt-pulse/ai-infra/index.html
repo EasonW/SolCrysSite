@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Prompt Pulse — AI Infra: what buyers ask AI (2026) | SolCrys</title>
+    <meta name="description" content="The real questions AI Infra buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/prompt-pulse/ai-infra/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-01" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prompt Pulse — AI Infra: what buyers ask AI (2026) | SolCrys" />
+    <meta property="og:description" content="The real questions AI Infra buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta property="og:url" content="https://solcrys.com/prompt-pulse/ai-infra/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-D7hBTQUq.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Prompt Pulse","item":"https://solcrys.com/prompt-pulse/"},{"@type":"ListItem","position":3,"name":"AI Infra","item":"https://solcrys.com/prompt-pulse/ai-infra/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Prompt Pulse — AI Infra: AI demand for buyer prompts","description":"The questions AI Infra buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free, updated monthly.","url":"https://solcrys.com/prompt-pulse/ai-infra/","isAccessibleForFree":true,"creator":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"temporalCoverage":"2026-06-01","dateModified":"2026-06-01","keywords":["AI chips / accelerators","AI compute","AI memory","AI storage","AI training","GPU cloud","GPUs","LLM inference","Model serving","Vector databases"],"variableMeasured":[{"@type":"PropertyValue","name":"Prompt demand tier (High/Medium/Low)"},{"@type":"PropertyValue","name":"AI demand trend"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","url":"https://solcrys.com/prompt-pulse/ai-infra/","numberOfItems":50,"itemListElement":[{"@type":"ListItem","position":1,"name":"What is a GPU in AI?"},{"@type":"ListItem","position":2,"name":"What is platform serving?"},{"@type":"ListItem","position":3,"name":"What is storage in AI?"},{"@type":"ListItem","position":4,"name":"What is model serving?"},{"@type":"ListItem","position":5,"name":"What is the best vector database?"},{"@type":"ListItem","position":6,"name":"Why are GPUs used for AI?"},{"@type":"ListItem","position":7,"name":"What are examples of model as a service?"},{"@type":"ListItem","position":8,"name":"What are the top 5 AI infrastructure companies?"},{"@type":"ListItem","position":9,"name":"What GPU is used for AI training?"},{"@type":"ListItem","position":10,"name":"What is AI training GPU?"},{"@type":"ListItem","position":11,"name":"What is the best AI inference?"},{"@type":"ListItem","position":12,"name":"Are vector databases dead?"},{"@type":"ListItem","position":13,"name":"What are GPU alternatives?"},{"@type":"ListItem","position":14,"name":"What is an AI inference platform?"},{"@type":"ListItem","position":15,"name":"What is the easiest vector database to use?"},{"@type":"ListItem","position":16,"name":"What LLM tool is best for inference?"},{"@type":"ListItem","position":17,"name":"What's the best platform for AI inference?"},{"@type":"ListItem","position":18,"name":"What are AI accelerator hardware options?"},{"@type":"ListItem","position":19,"name":"What are AI hardware accelerators?"},{"@type":"ListItem","position":20,"name":"What is the best GPU for AI training?"},{"@type":"ListItem","position":21,"name":"What's the best GPU for AI training?"},{"@type":"ListItem","position":22,"name":"What is the best inference chip?"},{"@type":"ListItem","position":23,"name":"What is the best GPU for AI training?"},{"@type":"ListItem","position":24,"name":"What is the cheapest cloud GPU?"},{"@type":"ListItem","position":25,"name":"What is the best vector database for RAG?"},{"@type":"ListItem","position":26,"name":"How is AI data stored?"},{"@type":"ListItem","position":27,"name":"How much does an H100 cloud GPU cost?"},{"@type":"ListItem","position":28,"name":"What is the best open source vector database?"},{"@type":"ListItem","position":29,"name":"What is the most popular vector database?"},{"@type":"ListItem","position":30,"name":"What are the best AI inference chips?"},{"@type":"ListItem","position":31,"name":"What GPU do I need for AI learning?"},{"@type":"ListItem","position":32,"name":"Who are the leaders in AI inference?"},{"@type":"ListItem","position":33,"name":"What's the difference between AI inference and training?"},{"@type":"ListItem","position":34,"name":"Why does AI need a GPU?"},{"@type":"ListItem","position":35,"name":"What's the best AI accelerator hardware?"},{"@type":"ListItem","position":36,"name":"What GPU should I use to train AI models?"},{"@type":"ListItem","position":37,"name":"What storage solutions work best for machine learning?"},{"@type":"ListItem","position":38,"name":"What companies provide AI data storage?"},{"@type":"ListItem","position":39,"name":"Who makes the best AI inference chips?"},{"@type":"ListItem","position":40,"name":"What GPU do you need to train AI?"},{"@type":"ListItem","position":41,"name":"What is object storage for AI?"},{"@type":"ListItem","position":42,"name":"What are the best AI data storage solutions?"},{"@type":"ListItem","position":43,"name":"What are the top model serving platforms?"},{"@type":"ListItem","position":44,"name":"What data storage options work for machine learning?"},{"@type":"ListItem","position":45,"name":"What is the best GPU for AI inferencing?"},{"@type":"ListItem","position":46,"name":"What are the top 3 vector databases?"},{"@type":"ListItem","position":47,"name":"Which is the fastest LLM inference provider?"},{"@type":"ListItem","position":48,"name":"Which cloud service has the best GPU for AI?"},{"@type":"ListItem","position":49,"name":"How do different AI chips compare?"},{"@type":"ListItem","position":50,"name":"How much does a GPU for AI training cost?"}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
+    <h1>The prompts AI Infra buyers ask AI</h1>
+    <p class="seo-lede">The real questions AI Infra buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. 100 prompts · 0 rising · 38 purchase-ready. Updated 2026-06-01, US/English.</p>
+    <section class="seo-section">
+      <h2>Demand ranking</h2>
+      <table>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>Trend</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <tbody><tr><td>What is a GPU in AI?</td><td>High</td><td>Stable -15%</td><td>General</td><td>Awareness</td></tr><tr><td>What is platform serving?</td><td>High</td><td>Stable +11%</td><td>General</td><td>Awareness</td></tr><tr><td>What is storage in AI?</td><td>High</td><td>Stable -9%</td><td>General</td><td>Awareness</td></tr><tr><td>What is model serving?</td><td>High</td><td>Cooling -33%</td><td>General</td><td>Awareness</td></tr><tr><td>What is the best vector database?</td><td>High</td><td>Cooling -44%</td><td>General</td><td>Decision</td></tr><tr><td>Why are GPUs used for AI?</td><td>High</td><td>Cooling -24%</td><td>General</td><td>Awareness</td></tr><tr><td>What are examples of model as a service?</td><td>High</td><td>Cooling -46%</td><td>General</td><td>Awareness</td></tr><tr><td>What are the top 5 AI infrastructure companies?</td><td>High</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What GPU is used for AI training?</td><td>High</td><td>Stable -11%</td><td>General</td><td>Consideration</td></tr><tr><td>What is AI training GPU?</td><td>High</td><td>Stable -11%</td><td>General</td><td>Consideration</td></tr><tr><td>What is the best AI inference?</td><td>High</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>Are vector databases dead?</td><td>High</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are GPU alternatives?</td><td>High</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What is an AI inference platform?</td><td>High</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is the easiest vector database to use?</td><td>High</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What LLM tool is best for inference?</td><td>High</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What&#39;s the best platform for AI inference?</td><td>High</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are AI accelerator hardware options?</td><td>High</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What are AI hardware accelerators?</td><td>High</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is the best GPU for AI training?</td><td>High</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What&#39;s the best GPU for AI training?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best inference chip?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best GPU for AI training?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the cheapest cloud GPU?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best vector database for RAG?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>How is AI data stored?</td><td>Medium</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>How much does an H100 cloud GPU cost?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best open source vector database?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the most popular vector database?</td><td>Medium</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are the best AI inference chips?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What GPU do I need for AI learning?</td><td>Medium</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>Who are the leaders in AI inference?</td><td>Medium</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What&#39;s the difference between AI inference and training?</td><td>Medium</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>Why does AI need a GPU?</td><td>Medium</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What&#39;s the best AI accelerator hardware?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What GPU should I use to train AI models?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What storage solutions work best for machine learning?</td><td>Medium</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What companies provide AI data storage?</td><td>Medium</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>Who makes the best AI inference chips?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What GPU do you need to train AI?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is object storage for AI?</td><td>Medium</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What are the best AI data storage solutions?</td><td>Medium</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are the top model serving platforms?</td><td>Medium</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What data storage options work for machine learning?</td><td>Medium</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What is the best GPU for AI inferencing?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What are the top 3 vector databases?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>Which is the fastest LLM inference provider?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>Which cloud service has the best GPU for AI?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>How do different AI chips compare?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>How much does a GPU for AI training cost?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What GPUs are best for AI training?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What graphics card should I use for AI training?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>How can I rent a GPU for AI training?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What GPU can I use as a replacement for AI?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best vector database for AI?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best vector database for local RAG?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best vector database for LLMs?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best open source vector database for RAG?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best vector database for AI agents?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is a serverless LLM inference platform?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>Is AIBrix an open source LLM inference platform?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>Are there AI data storage facilities in Cleveland, Tennessee?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>Are there free AI infrastructure courses?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>How much does cloud GPU for AI cost?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the cheapest GPU cloud for AI?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is the best GPU cloud for AI?</td><td>Low</td><td>—</td><td>General</td><td>Decision</td></tr><tr><td>What is replacing vector databases?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are the best AI inference companies?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are the best AI accelerator hardware startups?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What GPU should I use for AI training at home?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What GPU should I get for AI training according to Reddit?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What vector database does Reddit recommend?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are AI data storage needs?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What is an AI model serving platform?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What is an LLM model serving platform?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What is an ML model serving platform?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What is a single model serving platform?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What do people say about cloud GPU for AI on Reddit?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>Is there free cloud GPU for AI?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are GPU alternatives for AI?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What are the storage requirements for AI?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>How much memory do AI workloads need?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>Why do so few development teams deliver strong results with generative AI and LLMs?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>How much are companies actually spending on GPU usage?</td><td>Low</td><td>—</td><td>General</td><td>Consideration</td></tr><tr><td>What chips are used for AI inference?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is the most advanced AI chip available right now?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What are LLM inference systems?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What kind of storage does AI use?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>How do I use cloud GPU for AI?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What are the top AI inference chip companies?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What are the top AI inference chips?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is AI hardware accelerator architecture?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What companies make AI hardware accelerators?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is an AI hardware accelerator for 6G wireless?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is Google&#39;s AI accelerator hardware?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is the best vector database in 2026?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What are LLM inference providers?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What is LLM inference software?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What companies provide AI compute infrastructure?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr><tr><td>What are AI data storage centers?</td><td>Low</td><td>—</td><td>General</td><td>Awareness</td></tr></tbody>
+      </table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      <p>Prompt Demand Score is SolCrys's proprietary measure of how much real buyer demand sits behind each prompt across AI answer engines, refreshed monthly and relative within each industry. We publish ranking and movement, not vanity absolute counts; directional signals, not exact query counts.</p>
+    </section>
+  </main>
+  
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-R2LCJwgv.js"></script>
+  </body>
+</html>
