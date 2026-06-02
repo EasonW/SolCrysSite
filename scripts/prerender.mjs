@@ -1551,16 +1551,11 @@ writePage(
 // Crawler-facing static render of the same scrubbed public JSON the SPA reads
 // (single source of truth → no drift). Emits Dataset + ItemList + Breadcrumb
 // schema so AI engines can cite the prompt set as a data source.
-function ppDelta(p) {
-  return p.trend.delta90 == null
-    ? ""
-    : ` (${p.trend.delta90 > 0 ? "+" : ""}${Math.round(p.trend.delta90)}%)`;
-}
 function promptPulseVerticalBody(v) {
   const rows = v.prompts
     .map((p) => {
-      const trend = p.trend.delta90 == null ? "—" : `${escapeHtml(p.trend.label)}${ppDelta(p)}`;
-      return `<tr><td>${escapeHtml(p.prompt)}</td><td>${p.ppds}</td><td>${trend}</td><td>${escapeHtml(p.persona)}</td><td>${escapeHtml(p.stage)}</td></tr>`;
+      const trend = p.trend.label === "—" ? "—" : escapeHtml(p.trend.label);
+      return `<tr><td>${escapeHtml(p.prompt)}</td><td>${escapeHtml(p.demandTier)}</td><td>${trend}</td><td>${escapeHtml(p.persona)}</td><td>${escapeHtml(p.stage)}</td></tr>`;
     })
     .join("");
   return `
@@ -1569,7 +1564,7 @@ function promptPulseVerticalBody(v) {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
     <h1>The prompts ${escapeHtml(v.short)} buyers ask AI</h1>
-    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), ranked by SolCrys's Prompt Demand Score and 12-month AI trend. ${v.stats.prompts} prompts · ${v.stats.rising} rising · ${v.stats.decision} purchase-ready. Updated ${escapeHtml(v.updated)}, US/English.</p>
+    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts · ${v.stats.rising} rising · ${v.stats.decision} purchase-ready. Updated ${escapeHtml(v.updated)}, US/English.</p>
     <section class="seo-section">
       <h2>Demand ranking</h2>
       <table>
@@ -1590,15 +1585,15 @@ function promptPulseHubBody() {
   const rising = promptPulse.verticals
     .flatMap((v) =>
       v.prompts
-        .filter((p) => p.trend.label === "Rising" && p.trend.delta90 != null)
+        .filter((p) => p.trend.label === "Rising" || p.trend.label === "New")
         .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug })),
     )
-    .sort((a, b) => b.trend.delta90 - a.trend.delta90)
+    .sort((a, b) => b.trend.momentum - a.trend.momentum)
     .slice(0, 12);
   const risingRows = rising
     .map(
       (p) =>
-        `<tr><td>${escapeHtml(p.prompt)}</td><td>+${Math.round(p.trend.delta90)}%</td><td><a href="/prompt-pulse/${p.vSlug}/">${escapeHtml(p.vShort)}</a></td></tr>`,
+        `<tr><td>${escapeHtml(p.prompt)}</td><td>${escapeHtml(p.trend.label)}</td><td><a href="/prompt-pulse/${p.vSlug}/">${escapeHtml(p.vShort)}</a></td></tr>`,
     )
     .join("");
   const cards = promptPulse.verticals
@@ -1632,7 +1627,7 @@ function promptPulseDatasetSchema(v, routePath) {
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: `Prompt Pulse — ${v.short}: AI demand for buyer prompts`,
-    description: `The questions ${v.short} buyers ask AI answer engines, with a relative Prompt Demand Score and 12-month AI trend. Free, updated monthly.`,
+    description: `The questions ${v.short} buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free, updated monthly.`,
     url: canonicalUrl(routePath),
     isAccessibleForFree: true,
     creator: { "@type": "Organization", name: site.name, url: site.url },
@@ -1640,8 +1635,8 @@ function promptPulseDatasetSchema(v, routePath) {
     dateModified: v.updated,
     keywords: v.categories.topics,
     variableMeasured: [
-      { "@type": "PropertyValue", name: "Prompt Demand Score" },
-      { "@type": "PropertyValue", name: "AI search trend" },
+      { "@type": "PropertyValue", name: "Prompt demand tier (High/Medium/Low)" },
+      { "@type": "PropertyValue", name: "AI demand trend" },
     ],
   };
 }
@@ -1696,7 +1691,7 @@ for (const v of promptPulse.verticals) {
     renderLayout({
       routePath,
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
-      description: `The real questions ${v.short} buyers ask AI engines, ranked by demand and 12-month trend. Free, updated monthly.`,
+      description: `The real questions ${v.short} buyers ask AI engines, rated by demand tier and trend. Free, updated monthly.`,
       lastModified: v.updated,
       body: promptPulseVerticalBody(v),
       schemas: [

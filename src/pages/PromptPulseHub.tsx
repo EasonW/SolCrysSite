@@ -3,9 +3,9 @@ import Navbar from "@/components/Navbar";
 import Sparkline from "@/components/promptpulse/Sparkline";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import {
-  fmtDelta,
   promptPulse,
   risingAcrossVerticals,
+  trendArrow,
   trendColor,
   verticals,
 } from "@/lib/promptPulse";
@@ -76,7 +76,7 @@ const PromptPulseHub = () => {
                       <td className="whitespace-nowrap px-3 py-3">
                         <Sparkline values={p.spark} color={trendColor(p.trend.label)} />{" "}
                         <span className="text-xs" style={{ color: trendColor(p.trend.label) }}>
-                          ▲ {fmtDelta(p.trend.delta90)}
+                          {trendArrow(p.trend.label)} {p.trend.label}
                         </span>
                       </td>
                       <td className="whitespace-nowrap px-3 py-3">
@@ -99,7 +99,9 @@ const PromptPulseHub = () => {
             <h2 className="mb-4 text-2xl font-bold tracking-tight">Browse by industry</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               {verticals.map((v) => {
-                const topRiser = v.prompts.find((p) => p.trend.label === "Rising");
+                const topRiser = v.prompts.find(
+                  (p) => p.trend.label === "Rising" || p.trend.label === "New",
+                );
                 return (
                   <a
                     key={v.slug}
@@ -133,10 +135,10 @@ const PromptPulseHub = () => {
           <section className="mb-6 rounded-xl border border-border/30 bg-card/40 p-6">
             <h2 className="mb-2 text-xl font-bold tracking-tight">About this data</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Prompt Pulse tracks the real questions buyers ask AI answer engines and scores each by
-              SolCrys's proprietary demand index, refreshed monthly. We publish ranking and movement,
-              not vanity absolute counts; scores are relative within each industry (so rankings across
-              industries use trend, not score). Directional signals, not exact query counts.
+              Prompt Pulse tracks the real questions buyers ask AI answer engines and rates each with a
+              proprietary <strong className="text-foreground">High / Medium / Low demand</strong> tier and a
+              trend direction, refreshed monthly. Tiers are relative within each industry (so cross-industry
+              rankings use trend, not tier). Directional signals, not exact query counts.
             </p>
           </section>
 

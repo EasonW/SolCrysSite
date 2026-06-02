@@ -5,7 +5,7 @@ import {
   trendColor,
   trendArrow,
   stageColor,
-  fmtDelta,
+  tierColor,
 } from "@/lib/promptPulse";
 import Sparkline from "./Sparkline";
 
@@ -46,7 +46,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
     const cmp = (a: PromptRow, b: PromptRow) => {
       if (sortKey === "ppds") return (a.ppds - b.ppds) * sortDir;
       if (sortKey === "trend")
-        return ((a.trend.delta90 ?? -999) - (b.trend.delta90 ?? -999)) * sortDir;
+        return (a.trend.momentum - b.trend.momentum) * sortDir;
       const av = String((a as unknown as Record<string, unknown>)[sortKey] ?? a.prompt);
       const bv = String((b as unknown as Record<string, unknown>)[sortKey] ?? b.prompt);
       return av.localeCompare(bv) * sortDir;
@@ -147,22 +147,10 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
                   </span>
                 </td>
                 <td className="px-3 py-3 align-middle">
-                  <div className="relative h-[18px] w-[104px] overflow-hidden rounded-md bg-muted">
-                    <div
-                      className="absolute inset-y-0 left-0 rounded-md"
-                      style={{
-                        width: `${Math.max(p.ppds, 3)}%`,
-                        background:
-                          "linear-gradient(90deg, hsl(195 90% 55% / 0.45), hsl(195 90% 55%))",
-                      }}
-                    />
-                    <span className="absolute right-1.5 top-0 text-[12px] font-semibold leading-[18px] text-foreground">
-                      {p.ppds}
-                    </span>
-                  </div>
+                  <Chip label={p.demandTier} color={tierColor(p.demandTier)} />
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 align-middle">
-                  {p.trend.delta90 == null ? (
+                  {p.trend.label === "—" ? (
                     <span className="text-xs text-muted-foreground" title="Not enough AI-demand history">
                       —
                     </span>
@@ -170,7 +158,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
                     <>
                       <Sparkline values={p.spark} color={trendColor(p.trend.label)} />{" "}
                       <span className="text-xs" style={{ color: trendColor(p.trend.label) }}>
-                        {trendArrow(p.trend.label)} {fmtDelta(p.trend.delta90)}
+                        {trendArrow(p.trend.label)} {p.trend.label}
                       </span>
                     </>
                   )}

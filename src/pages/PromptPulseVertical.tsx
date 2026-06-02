@@ -99,10 +99,11 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
           <section className="mt-12 rounded-xl border border-border/30 bg-card/40 p-6">
             <h2 className="mb-2 text-xl font-bold tracking-tight">About this data</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              <strong className="text-foreground">Prompt Demand Score (0–100)</strong> is SolCrys's
+              <strong className="text-foreground">Demand (High / Medium / Low)</strong> is SolCrys's
               proprietary measure of how much real buyer demand sits behind each prompt across AI
-              answer engines, refreshed monthly. Scores are relative within each vertical. By design
-              we publish ranking and movement, not vanity absolute counts.
+              answer engines, refreshed monthly. Tiers are relative within each vertical, and
+              <strong className="text-foreground"> Trend</strong> shows whether a question is rising,
+              cooling, or newly emerging. By design we publish direction, not vanity absolute counts.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               The full methodology powers SolCrys's AI-visibility measurement product.{" "}
