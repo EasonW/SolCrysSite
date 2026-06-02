@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Prompt Pulse — Marketing &amp; Email: what buyers ask AI (2026) | SolCrys</title>
+    <meta name="description" content="The real questions Marketing &amp; Email buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/prompt-pulse/marketing-email/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-01" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prompt Pulse — Marketing &amp; Email: what buyers ask AI (2026) | SolCrys" />
+    <meta property="og:description" content="The real questions Marketing &amp; Email buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta property="og:url" content="https://solcrys.com/prompt-pulse/marketing-email/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-qh-S19Ok.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Prompt Pulse","item":"https://solcrys.com/prompt-pulse/"},{"@type":"ListItem","position":3,"name":"Marketing & Email","item":"https://solcrys.com/prompt-pulse/marketing-email/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Prompt Pulse — Marketing & Email: AI demand for buyer prompts","description":"The questions Marketing & Email buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free, updated monthly.","url":"https://solcrys.com/prompt-pulse/marketing-email/","isAccessibleForFree":true,"creator":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"temporalCoverage":"2026-06-01","dateModified":"2026-06-01","keywords":["Analytics / BI","Customer data (CDP)","Email marketing","Marketing automation"],"variableMeasured":[{"@type":"PropertyValue","name":"Prompt demand tier (High/Medium/Low)"},{"@type":"PropertyValue","name":"AI demand trend"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","url":"https://solcrys.com/prompt-pulse/marketing-email/","numberOfItems":50,"itemListElement":[{"@type":"ListItem","position":1,"name":"How do I use AI tools inside my email marketing platform to write subject lines and improve open rates?"},{"@type":"ListItem","position":2,"name":"What are the best top-5 automation tools for a lean marketing team that needs to automate email, social, and lead scoring?"},{"@type":"ListItem","position":3,"name":"What are the biggest mistakes teams make when implementing a marketing automation platform for the first time?"},{"@type":"ListItem","position":4,"name":"Is using an AI writing tool inside an email platform actually improving open and click rates, or is it just a marketing feature?"},{"@type":"ListItem","position":5,"name":"Is AI-powered predictive lead scoring in a marketing automation platform actually more accurate than manual rule-based scoring?"},{"@type":"ListItem","position":6,"name":"What level of technical skill do I need to fully use an enterprise marketing automation platform without relying on a developer?"},{"@type":"ListItem","position":7,"name":"What are the main use cases for AI tools in a marketing automation workflow?"},{"@type":"ListItem","position":8,"name":"Which marketing automation tools are worth paying for versus which ones have a good free tier?"},{"@type":"ListItem","position":9,"name":"Is there a genuinely free CRM that's actually usable for a small sales team, or do they all limit the important features?"},{"@type":"ListItem","position":10,"name":"What is multi-touch attribution and why does it matter for measuring marketing campaign performance?"},{"@type":"ListItem","position":11,"name":"How reliable is AI-powered data analysis for marketing decisions compared to having a dedicated analyst?"},{"@type":"ListItem","position":12,"name":"How do email marketing platform prices scale as my list grows past 50,000 subscribers?"},{"@type":"ListItem","position":13,"name":"What's the pricing difference between a standalone email platform and one bundled with marketing automation?"},{"@type":"ListItem","position":14,"name":"How do I build an effective welcome email automation sequence for a new ecommerce customer?"},{"@type":"ListItem","position":15,"name":"How do I improve email click-through rates beyond just writing better subject lines?"},{"@type":"ListItem","position":16,"name":"How do I build an abandoned cart email sequence that actually recovers revenue without annoying customers?"},{"@type":"ListItem","position":17,"name":"What's the best way to A/B test email subject lines at scale and know when results are statistically significant?"},{"@type":"ListItem","position":18,"name":"Is it worth switching email platforms if my current one has decent deliverability but lacks automation features?"},{"@type":"ListItem","position":19,"name":"How do I choose between a standalone email platform and one that's built into an ecommerce platform natively?"},{"@type":"ListItem","position":20,"name":"Should I prioritize open rate or click-to-open rate as my primary email engagement metric?"},{"@type":"ListItem","position":21,"name":"What is a realistic email open rate benchmark for B2C ecommerce, and how do I know if mine is underperforming?"},{"@type":"ListItem","position":22,"name":"How do I reduce my Google Ads CPC without sacrificing impression share or conversion volume?"},{"@type":"ListItem","position":23,"name":"Is Google Ads CPC inflation a platform problem or a sign I should restructure my campaign targeting?"},{"@type":"ListItem","position":24,"name":"How does Meta ads audience targeting performance compare to email-based retargeting for an ecommerce brand?"},{"@type":"ListItem","position":25,"name":"Should I invest in a customer data platform or just use the native audience tools built into my email platform?"},{"@type":"ListItem","position":26,"name":"What's the difference between a CDP and a CRM, and which one does my marketing team actually need?"},{"@type":"ListItem","position":27,"name":"How does a CDP actually differ from a data warehouse, and do I need both?"},{"@type":"ListItem","position":28,"name":"What are the different types of customer data a brand typically collects and how should they be managed?"},{"@type":"ListItem","position":29,"name":"What is the difference between first-party and third-party customer data, and why does it matter for my marketing strategy?"},{"@type":"ListItem","position":30,"name":"What types of data can a customer data platform ingest and activate, and what are its limits?"},{"@type":"ListItem","position":31,"name":"How do I fix my email deliverability when my campaigns are landing in the promotions or spam folder?"},{"@type":"ListItem","position":32,"name":"How do I clean my email list to remove inactive subscribers and protect my sender score?"},{"@type":"ListItem","position":33,"name":"Which customer data platform is best for a mid-size ecommerce brand that wants to unify online and offline customer data?"},{"@type":"ListItem","position":34,"name":"How much does a customer data platform typically cost for a brand with around 500,000 customer records?"},{"@type":"ListItem","position":35,"name":"What's the best analytics tool for a website that runs on a CMS and needs custom event tracking without heavy developer work?"},{"@type":"ListItem","position":36,"name":"Is it worth implementing a full customer data platform for a brand with under 100,000 customers, or is it overkill?"},{"@type":"ListItem","position":37,"name":"What are the best analytics tools for Instagram performance tracking for a brand running paid and organic together?"},{"@type":"ListItem","position":38,"name":"Which CRM platforms are best for a small sales and marketing team that needs tight email automation integration?"},{"@type":"ListItem","position":39,"name":"What's the best social media analytics tool for a marketing agency managing multiple client accounts?"},{"@type":"ListItem","position":40,"name":"Is it worth paying for a dedicated analytics tool for social media, or is the native platform data good enough?"},{"@type":"ListItem","position":41,"name":"Which marketing analytics platform gives the best multi-touch attribution for paid and organic channels?"},{"@type":"ListItem","position":42,"name":"How do I set up UTM parameters correctly so my email campaigns show up accurately in my analytics dashboard?"},{"@type":"ListItem","position":43,"name":"How do I correctly attribute conversions across email, paid search, and organic when all three touchpoints are involved?"},{"@type":"ListItem","position":44,"name":"How do I set up server-side tracking to recover lost conversion data after browser-based tracking started failing?"},{"@type":"ListItem","position":45,"name":"How do I build a marketing dashboard that shows pipeline contribution from email, paid, and organic in one view?"},{"@type":"ListItem","position":46,"name":"What's the best approach to tracking cross-channel attribution when my customers move between email, paid search, and organic before converting?"},{"@type":"ListItem","position":47,"name":"What are the downsides of relying on last-click attribution in my marketing analytics platform?"},{"@type":"ListItem","position":48,"name":"What are the limitations of using UTM tracking for attribution when iOS privacy changes have degraded cookie data?"},{"@type":"ListItem","position":49,"name":"What does a modern marketing analytics stack typically include for a growth-stage company?"},{"@type":"ListItem","position":50,"name":"What are UTM parameters and how do they help me understand where my marketing traffic is coming from?"}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
+    <h1>The prompts Marketing &amp; Email buyers ask AI</h1>
+    <p class="seo-lede">The real questions Marketing &amp; Email buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. 65 prompts · 10 rising · 34 purchase-ready. Updated 2026-06-01, US/English.</p>
+    <section class="seo-section">
+      <h2>Demand ranking</h2>
+      <table>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>Trend</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <tbody><tr><td>How do I use AI tools inside my email marketing platform to write subject lines and improve open rates?</td><td>High</td><td>Rising +300%+</td><td>Ecommerce marketer</td><td>Decision</td></tr><tr><td>What are the best top-5 automation tools for a lean marketing team that needs to automate email, social, and lead scoring?</td><td>High</td><td>Rising +300%+</td><td>Marketer</td><td>Decision</td></tr><tr><td>What are the biggest mistakes teams make when implementing a marketing automation platform for the first time?</td><td>High</td><td>Rising +300%+</td><td>Email / Lifecycle marketer</td><td>Consideration</td></tr><tr><td>Is using an AI writing tool inside an email platform actually improving open and click rates, or is it just a marketing feature?</td><td>High</td><td>Rising +300%+</td><td>Marketer</td><td>Consideration</td></tr><tr><td>Is AI-powered predictive lead scoring in a marketing automation platform actually more accurate than manual rule-based scoring?</td><td>High</td><td>Rising +300%+</td><td>Demand gen</td><td>Consideration</td></tr><tr><td>What level of technical skill do I need to fully use an enterprise marketing automation platform without relying on a developer?</td><td>High</td><td>Rising +300%+</td><td>Email / Lifecycle marketer</td><td>Consideration</td></tr><tr><td>What are the main use cases for AI tools in a marketing automation workflow?</td><td>High</td><td>Rising +300%+</td><td>Marketer</td><td>Awareness</td></tr><tr><td>Which marketing automation tools are worth paying for versus which ones have a good free tier?</td><td>High</td><td>Rising +28%</td><td>Founder / SMB owner</td><td>Decision</td></tr><tr><td>Is there a genuinely free CRM that&#39;s actually usable for a small sales team, or do they all limit the important features?</td><td>High</td><td>Rising +28%</td><td>Founder / SMB owner</td><td>Decision</td></tr><tr><td>What is multi-touch attribution and why does it matter for measuring marketing campaign performance?</td><td>High</td><td>New</td><td>Demand gen</td><td>Awareness</td></tr><tr><td>How reliable is AI-powered data analysis for marketing decisions compared to having a dedicated analyst?</td><td>High</td><td>Cooling -20%</td><td>Data / Analytics</td><td>Consideration</td></tr><tr><td>How do email marketing platform prices scale as my list grows past 50,000 subscribers?</td><td>High</td><td>Cooling -41%</td><td>Ecommerce marketer</td><td>Decision</td></tr><tr><td>What&#39;s the pricing difference between a standalone email platform and one bundled with marketing automation?</td><td>High</td><td>Cooling -41%</td><td>Email / Lifecycle marketer</td><td>Decision</td></tr><tr><td>How do I build an effective welcome email automation sequence for a new ecommerce customer?</td><td>High</td><td>Cooling -41%</td><td>Ecommerce marketer</td><td>Decision</td></tr><tr><td>How do I improve email click-through rates beyond just writing better subject lines?</td><td>High</td><td>Cooling -41%</td><td>Email / Lifecycle marketer</td><td>Decision</td></tr><tr><td>How do I build an abandoned cart email sequence that actually recovers revenue without annoying customers?</td><td>High</td><td>Cooling -41%</td><td>Ecommerce marketer</td><td>Decision</td></tr><tr><td>What&#39;s the best way to A/B test email subject lines at scale and know when results are statistically significant?</td><td>High</td><td>Cooling -41%</td><td>Email / Lifecycle marketer</td><td>Decision</td></tr><tr><td>Is it worth switching email platforms if my current one has decent deliverability but lacks automation features?</td><td>High</td><td>Cooling -41%</td><td>Ecommerce marketer</td><td>Consideration</td></tr><tr><td>How do I choose between a standalone email platform and one that&#39;s built into an ecommerce platform natively?</td><td>High</td><td>Cooling -41%</td><td>Ecommerce marketer</td><td>Consideration</td></tr><tr><td>Should I prioritize open rate or click-to-open rate as my primary email engagement metric?</td><td>High</td><td>Cooling -41%</td><td>Email / Lifecycle marketer</td><td>Consideration</td></tr><tr><td>What is a realistic email open rate benchmark for B2C ecommerce, and how do I know if mine is underperforming?</td><td>High</td><td>Cooling -41%</td><td>Ecommerce marketer</td><td>Awareness</td></tr><tr><td>How do I reduce my Google Ads CPC without sacrificing impression share or conversion volume?</td><td>High</td><td>Stable +2%</td><td>Demand gen</td><td>Decision</td></tr><tr><td>Is Google Ads CPC inflation a platform problem or a sign I should restructure my campaign targeting?</td><td>High</td><td>Stable +2%</td><td>Demand gen</td><td>Consideration</td></tr><tr><td>How does Meta ads audience targeting performance compare to email-based retargeting for an ecommerce brand?</td><td>High</td><td>Stable +2%</td><td>Ecommerce marketer</td><td>Consideration</td></tr><tr><td>Should I invest in a customer data platform or just use the native audience tools built into my email platform?</td><td>High</td><td>Cooling -22%</td><td>Ecommerce marketer</td><td>Consideration</td></tr><tr><td>What&#39;s the difference between a CDP and a CRM, and which one does my marketing team actually need?</td><td>High</td><td>Cooling -22%</td><td>Marketer</td><td>Consideration</td></tr><tr><td>How does a CDP actually differ from a data warehouse, and do I need both?</td><td>Medium</td><td>Cooling -22%</td><td>Data / Analytics</td><td>Consideration</td></tr><tr><td>What are the different types of customer data a brand typically collects and how should they be managed?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Awareness</td></tr><tr><td>What is the difference between first-party and third-party customer data, and why does it matter for my marketing strategy?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Awareness</td></tr><tr><td>What types of data can a customer data platform ingest and activate, and what are its limits?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Awareness</td></tr><tr><td>How do I fix my email deliverability when my campaigns are landing in the promotions or spam folder?</td><td>Medium</td><td>Cooling -38%</td><td>Email / Lifecycle marketer</td><td>Decision</td></tr><tr><td>How do I clean my email list to remove inactive subscribers and protect my sender score?</td><td>Medium</td><td>Cooling -38%</td><td>Email / Lifecycle marketer</td><td>Decision</td></tr><tr><td>Which customer data platform is best for a mid-size ecommerce brand that wants to unify online and offline customer data?</td><td>Medium</td><td>—</td><td>Ecommerce marketer</td><td>Decision</td></tr><tr><td>How much does a customer data platform typically cost for a brand with around 500,000 customer records?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>What&#39;s the best analytics tool for a website that runs on a CMS and needs custom event tracking without heavy developer work?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>Is it worth implementing a full customer data platform for a brand with under 100,000 customers, or is it overkill?</td><td>Medium</td><td>—</td><td>Ecommerce marketer</td><td>Consideration</td></tr><tr><td>What are the best analytics tools for Instagram performance tracking for a brand running paid and organic together?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>Which CRM platforms are best for a small sales and marketing team that needs tight email automation integration?</td><td>Medium</td><td>—</td><td>Founder / SMB owner</td><td>Decision</td></tr><tr><td>What&#39;s the best social media analytics tool for a marketing agency managing multiple client accounts?</td><td>Medium</td><td>—</td><td>Agency</td><td>Decision</td></tr><tr><td>Is it worth paying for a dedicated analytics tool for social media, or is the native platform data good enough?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Consideration</td></tr><tr><td>Which marketing analytics platform gives the best multi-touch attribution for paid and organic channels?</td><td>Medium</td><td>—</td><td>Demand gen</td><td>Decision</td></tr><tr><td>How do I set up UTM parameters correctly so my email campaigns show up accurately in my analytics dashboard?</td><td>Medium</td><td>—</td><td>Email / Lifecycle marketer</td><td>Decision</td></tr><tr><td>How do I correctly attribute conversions across email, paid search, and organic when all three touchpoints are involved?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Decision</td></tr><tr><td>How do I set up server-side tracking to recover lost conversion data after browser-based tracking started failing?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Decision</td></tr><tr><td>How do I build a marketing dashboard that shows pipeline contribution from email, paid, and organic in one view?</td><td>Medium</td><td>—</td><td>Demand gen</td><td>Decision</td></tr><tr><td>What&#39;s the best approach to tracking cross-channel attribution when my customers move between email, paid search, and organic before converting?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Decision</td></tr><tr><td>What are the downsides of relying on last-click attribution in my marketing analytics platform?</td><td>Medium</td><td>—</td><td>Demand gen</td><td>Consideration</td></tr><tr><td>What are the limitations of using UTM tracking for attribution when iOS privacy changes have degraded cookie data?</td><td>Medium</td><td>—</td><td>Demand gen</td><td>Consideration</td></tr><tr><td>What does a modern marketing analytics stack typically include for a growth-stage company?</td><td>Medium</td><td>—</td><td>Demand gen</td><td>Awareness</td></tr><tr><td>What are UTM parameters and how do they help me understand where my marketing traffic is coming from?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Awareness</td></tr><tr><td>What&#39;s the best email marketing platform for a small ecommerce store that sends fewer than 10,000 emails a month?</td><td>Medium</td><td>—</td><td>Ecommerce marketer</td><td>Decision</td></tr><tr><td>How do I use an AI tool to analyze my marketing campaign data and surface actionable insights faster?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Decision</td></tr><tr><td>What&#39;s the best data analytics tool for a marketing team that needs self-service dashboards without SQL knowledge?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>How do I set up automated reporting in my analytics platform so my team gets weekly campaign performance summaries without manual exports?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>Can a general-purpose AI assistant replace a dedicated business intelligence tool for marketing reporting?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Consideration</td></tr><tr><td>Should I build my own marketing data pipeline or just pay for a pre-built analytics connector tool?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Consideration</td></tr><tr><td>What&#39;s the most common way marketing teams integrate their email platform data with a BI tool for reporting?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Awareness</td></tr><tr><td>What&#39;s the best website analytics tool for a content-heavy site that needs more than just pageview data?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>How do I set up a customer data platform to unify my email, CRM, and ad platform data into a single customer profile?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>Which YouTube analytics tool gives the deepest data on audience retention and content performance for a media brand?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Decision</td></tr><tr><td>How do I use first-party data from my email list to build lookalike audiences in paid social campaigns?</td><td>Medium</td><td>—</td><td>Demand gen</td><td>Decision</td></tr><tr><td>What is a customer data platform and how is it different from the customer database in my CRM?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Awareness</td></tr><tr><td>What does a customer data platform actually do for a marketing team day to day?</td><td>Medium</td><td>—</td><td>Marketer</td><td>Awareness</td></tr><tr><td>How do customer data platforms typically handle identity resolution across anonymous and known visitors?</td><td>Medium</td><td>—</td><td>Data / Analytics</td><td>Awareness</td></tr><tr><td>Which analytics platform is best for a mobile app startup that needs to track in-app behavior and funnels?</td><td>Medium</td><td>—</td><td>Founder / SMB owner</td><td>Decision</td></tr></tbody>
+      </table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement — distilled from the real questions buyers ask across AI answer engines and the community sources they cite. Signals are relative within each industry and directional by design. <a href="/resources/">See the methodology in our resources</a>.</p>
+    </section>
+  </main>
+  
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-4ycw0BI2.js"></script>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Prompt Pulse — Ecommerce Platforms: what buyers ask AI (2026) | SolCrys</title>
+    <meta name="description" content="The real questions Ecommerce Platforms buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/prompt-pulse/ecommerce/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-02" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prompt Pulse — Ecommerce Platforms: what buyers ask AI (2026) | SolCrys" />
+    <meta property="og:description" content="The real questions Ecommerce Platforms buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta property="og:url" content="https://solcrys.com/prompt-pulse/ecommerce/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-qh-S19Ok.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Prompt Pulse","item":"https://solcrys.com/prompt-pulse/"},{"@type":"ListItem","position":3,"name":"Ecommerce Platforms","item":"https://solcrys.com/prompt-pulse/ecommerce/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Prompt Pulse — Ecommerce Platforms: AI demand for buyer prompts","description":"The questions Ecommerce Platforms buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free, updated monthly.","url":"https://solcrys.com/prompt-pulse/ecommerce/","isAccessibleForFree":true,"creator":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"temporalCoverage":"2026-06-02","dateModified":"2026-06-02","keywords":["B2B ecommerce","Dropshipping","Ecommerce platforms","Enterprise ecommerce","Headless commerce","Payments & checkout","Subscription commerce","Website builders"],"variableMeasured":[{"@type":"PropertyValue","name":"Prompt demand tier (High/Medium/Low)"},{"@type":"PropertyValue","name":"AI demand trend"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","url":"https://solcrys.com/prompt-pulse/ecommerce/","numberOfItems":50,"itemListElement":[{"@type":"ListItem","position":1,"name":"How do I handle returns and refunds policy on my ecommerce store without losing too much margin?"},{"@type":"ListItem","position":2,"name":"What items are restricted or not allowed to be sold on major online marketplaces?"},{"@type":"ListItem","position":3,"name":"What are the best online selling sites if I want to reach the most buyers?"},{"@type":"ListItem","position":4,"name":"What is the difference between a marketplace like a major retailer platform and running my own ecommerce store?"},{"@type":"ListItem","position":5,"name":"How do I find a profitable niche for my ecommerce store — what product categories are working right now?"},{"@type":"ListItem","position":6,"name":"What are the real success rates for dropshipping businesses and what separates profitable ones from failures?"},{"@type":"ListItem","position":7,"name":"Can I realistically make $10,000 a month dropshipping and what does it actually take?"},{"@type":"ListItem","position":8,"name":"What is the best helpdesk or customer support tool for a small ecommerce store handling WISMO tickets?"},{"@type":"ListItem","position":9,"name":"How do I set up automated customer support for common WISMO questions without hiring a full support team?"},{"@type":"ListItem","position":10,"name":"Is it better to sell on an established marketplace or build my own ecommerce store?"},{"@type":"ListItem","position":11,"name":"What are the best websites to sell stuff online quickly right now?"},{"@type":"ListItem","position":12,"name":"At what revenue or order volume should I migrate from a small-business ecommerce platform to an enterprise one?"},{"@type":"ListItem","position":13,"name":"How do enterprise ecommerce platforms handle things like multi-currency, multi-language, and global tax compliance?"},{"@type":"ListItem","position":14,"name":"How do I set up a proper returns and dispute process to reduce customer escalations on my store?"},{"@type":"ListItem","position":15,"name":"How do I handle lost packages and carrier disputes without eating all the cost myself?"},{"@type":"ListItem","position":16,"name":"Which ecommerce platform has the lowest transaction fees for a store doing under $5k per month?"},{"@type":"ListItem","position":17,"name":"What are the best payment gateways for an ecommerce store and how do they compare?"},{"@type":"ListItem","position":18,"name":"How do I reduce friction at checkout to improve my ecommerce conversion rate?"},{"@type":"ListItem","position":19,"name":"Why are customers cancelling subscriptions more frequently and how do I reduce churn?"},{"@type":"ListItem","position":20,"name":"What are the top ecommerce platforms right now and how do they compare for a small business?"},{"@type":"ListItem","position":21,"name":"What marketing channels are actually driving ecommerce sales in 2026 — paid ads, SEO, or social?"},{"@type":"ListItem","position":22,"name":"Why is my ecommerce store conversion rate below 1% and how do I diagnose where customers are dropping off?"},{"@type":"ListItem","position":23,"name":"How do I deal with broken or degraded analytics tracking from ad blockers and cookie changes?"},{"@type":"ListItem","position":24,"name":"What SEO features should I look for in an ecommerce platform to rank in Google search?"},{"@type":"ListItem","position":25,"name":"Which ecommerce platforms have the best built-in email marketing and abandoned cart recovery tools?"},{"@type":"ListItem","position":26,"name":"How do I choose between a hosted ecommerce platform and building my own website?"},{"@type":"ListItem","position":27,"name":"How should I approach testing and validating product-market fit before spending on paid ads for my store?"},{"@type":"ListItem","position":28,"name":"How is AI-generated content changing product listing SEO on ecommerce platforms?"},{"@type":"ListItem","position":29,"name":"Is influencer marketing still worth the cost for a DTC ecommerce brand in 2026?"},{"@type":"ListItem","position":30,"name":"How will AI change ecommerce — will it replace human-run online stores?"},{"@type":"ListItem","position":31,"name":"Which payment processor is better for a small ecommerce business — one with flat monthly fees or pay-per-transaction?"},{"@type":"ListItem","position":32,"name":"Do I need to form an LLC before launching an ecommerce store, or can I start selling first?"},{"@type":"ListItem","position":33,"name":"How important is site speed and performance for ecommerce conversion rates?"},{"@type":"ListItem","position":34,"name":"What's the best online selling platform for someone just starting out with under $500?"},{"@type":"ListItem","position":35,"name":"Is $800 realistically enough to launch a profitable ecommerce store from scratch?"},{"@type":"ListItem","position":36,"name":"Which ecommerce platform is best for a complete beginner with no technical background?"},{"@type":"ListItem","position":37,"name":"What is the minimum viable tech stack for launching an ecommerce store as a solo founder?"},{"@type":"ListItem","position":38,"name":"What are some real examples of B2B ecommerce done well that I can model my store after?"},{"@type":"ListItem","position":39,"name":"How do I decide between a full-featured ecommerce platform and a simple website builder with a cart added on?"},{"@type":"ListItem","position":40,"name":"What are the most reliable dropshipping supplier directories or platforms for US-based sellers?"},{"@type":"ListItem","position":41,"name":"How do I find reliable suppliers for dropshipping without getting burned on quality or consistency?"},{"@type":"ListItem","position":42,"name":"What features should I look for in a B2B ecommerce platform for managing bulk orders and net terms?"},{"@type":"ListItem","position":43,"name":"What are the key differences between ecommerce platforms built for B2C vs those built for B2B?"},{"@type":"ListItem","position":44,"name":"What types of products sell the fastest on social commerce and resale platforms?"},{"@type":"ListItem","position":45,"name":"What is a B2B ecommerce platform and how is it different from a regular online store?"},{"@type":"ListItem","position":46,"name":"What is headless commerce and is it relevant for a growing DTC brand?"},{"@type":"ListItem","position":47,"name":"How do subscription ecommerce businesses typically price their boxes to stay profitable?"},{"@type":"ListItem","position":48,"name":"What are the best enterprise ecommerce platforms for a large retail brand with complex requirements?"},{"@type":"ListItem","position":49,"name":"What are the best ecommerce platforms for managing a large product catalog with thousands of SKUs?"},{"@type":"ListItem","position":50,"name":"What should I look for in an ecommerce platform if I plan to scale to seven figures in the next two years?"}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
+    <h1>The prompts Ecommerce Platforms buyers ask AI</h1>
+    <p class="seo-lede">The real questions Ecommerce Platforms buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. 72 prompts · 16 rising · 30 purchase-ready. Updated 2026-06-02, US/English.</p>
+    <section class="seo-section">
+      <h2>Demand ranking</h2>
+      <table>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>Trend</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <tbody><tr><td>How do I handle returns and refunds policy on my ecommerce store without losing too much margin?</td><td>High</td><td>Stable -15%</td><td>Store manager</td><td>Consideration</td></tr><tr><td>What items are restricted or not allowed to be sold on major online marketplaces?</td><td>High</td><td>Stable -15%</td><td>General</td><td>Awareness</td></tr><tr><td>What are the best online selling sites if I want to reach the most buyers?</td><td>High</td><td>Rising +30%</td><td>General</td><td>Decision</td></tr><tr><td>What is the difference between a marketplace like a major retailer platform and running my own ecommerce store?</td><td>High</td><td>Rising +30%</td><td>Ecommerce founder</td><td>Awareness</td></tr><tr><td>How do I find a profitable niche for my ecommerce store — what product categories are working right now?</td><td>High</td><td>Stable -11%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>What are the real success rates for dropshipping businesses and what separates profitable ones from failures?</td><td>High</td><td>Stable -11%</td><td>Dropshipper</td><td>Consideration</td></tr><tr><td>Can I realistically make $10,000 a month dropshipping and what does it actually take?</td><td>High</td><td>Stable -11%</td><td>Dropshipper</td><td>Awareness</td></tr><tr><td>What is the best helpdesk or customer support tool for a small ecommerce store handling WISMO tickets?</td><td>High</td><td>Stable +5%</td><td>Store manager</td><td>Decision</td></tr><tr><td>How do I set up automated customer support for common WISMO questions without hiring a full support team?</td><td>High</td><td>Stable +5%</td><td>Store manager</td><td>Decision</td></tr><tr><td>Is it better to sell on an established marketplace or build my own ecommerce store?</td><td>High</td><td>Stable +5%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>What are the best websites to sell stuff online quickly right now?</td><td>High</td><td>Rising +31%</td><td>General</td><td>Decision</td></tr><tr><td>At what revenue or order volume should I migrate from a small-business ecommerce platform to an enterprise one?</td><td>High</td><td>Rising +42%</td><td>Enterprise retail</td><td>Consideration</td></tr><tr><td>How do enterprise ecommerce platforms handle things like multi-currency, multi-language, and global tax compliance?</td><td>High</td><td>Rising +42%</td><td>Enterprise retail</td><td>Consideration</td></tr><tr><td>How do I set up a proper returns and dispute process to reduce customer escalations on my store?</td><td>High</td><td>Stable -6%</td><td>Store manager</td><td>Decision</td></tr><tr><td>How do I handle lost packages and carrier disputes without eating all the cost myself?</td><td>High</td><td>Stable -6%</td><td>Store manager</td><td>Consideration</td></tr><tr><td>Which ecommerce platform has the lowest transaction fees for a store doing under $5k per month?</td><td>High</td><td>Rising +112%</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>What are the best payment gateways for an ecommerce store and how do they compare?</td><td>High</td><td>Rising +112%</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>How do I reduce friction at checkout to improve my ecommerce conversion rate?</td><td>High</td><td>Rising +112%</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>Why are customers cancelling subscriptions more frequently and how do I reduce churn?</td><td>High</td><td>New</td><td>DTC brand operator</td><td>Consideration</td></tr><tr><td>What are the top ecommerce platforms right now and how do they compare for a small business?</td><td>High</td><td>Rising +300%+</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>What marketing channels are actually driving ecommerce sales in 2026 — paid ads, SEO, or social?</td><td>High</td><td>Cooling -35%</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>Why is my ecommerce store conversion rate below 1% and how do I diagnose where customers are dropping off?</td><td>High</td><td>Cooling -35%</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>How do I deal with broken or degraded analytics tracking from ad blockers and cookie changes?</td><td>High</td><td>Cooling -35%</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>What SEO features should I look for in an ecommerce platform to rank in Google search?</td><td>High</td><td>Cooling -35%</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>Which ecommerce platforms have the best built-in email marketing and abandoned cart recovery tools?</td><td>High</td><td>Cooling -35%</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>How do I choose between a hosted ecommerce platform and building my own website?</td><td>High</td><td>Cooling -35%</td><td>Developer</td><td>Consideration</td></tr><tr><td>How should I approach testing and validating product-market fit before spending on paid ads for my store?</td><td>High</td><td>Cooling -35%</td><td>DTC brand operator</td><td>Consideration</td></tr><tr><td>How is AI-generated content changing product listing SEO on ecommerce platforms?</td><td>High</td><td>New</td><td>DTC brand operator</td><td>Consideration</td></tr><tr><td>Is influencer marketing still worth the cost for a DTC ecommerce brand in 2026?</td><td>Medium</td><td>New</td><td>DTC brand operator</td><td>Consideration</td></tr><tr><td>How will AI change ecommerce — will it replace human-run online stores?</td><td>High</td><td>New</td><td>Ecommerce founder</td><td>Awareness</td></tr><tr><td>Which payment processor is better for a small ecommerce business — one with flat monthly fees or pay-per-transaction?</td><td>Medium</td><td>Rising +64%</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>Do I need to form an LLC before launching an ecommerce store, or can I start selling first?</td><td>Medium</td><td>Cooling -21%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>How important is site speed and performance for ecommerce conversion rates?</td><td>Medium</td><td>Cooling -50%</td><td>DTC brand operator</td><td>Consideration</td></tr><tr><td>What&#39;s the best online selling platform for someone just starting out with under $500?</td><td>Medium</td><td>—</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>Is $800 realistically enough to launch a profitable ecommerce store from scratch?</td><td>Medium</td><td>—</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>Which ecommerce platform is best for a complete beginner with no technical background?</td><td>Medium</td><td>Cooling -25%</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>What is the minimum viable tech stack for launching an ecommerce store as a solo founder?</td><td>Medium</td><td>Cooling -25%</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>What are some real examples of B2B ecommerce done well that I can model my store after?</td><td>Medium</td><td>Rising +30%</td><td>Enterprise retail</td><td>Consideration</td></tr><tr><td>How do I decide between a full-featured ecommerce platform and a simple website builder with a cart added on?</td><td>Medium</td><td>Cooling -52%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>What are the most reliable dropshipping supplier directories or platforms for US-based sellers?</td><td>Medium</td><td>Cooling -43%</td><td>Dropshipper</td><td>Decision</td></tr><tr><td>How do I find reliable suppliers for dropshipping without getting burned on quality or consistency?</td><td>Medium</td><td>Cooling -43%</td><td>Dropshipper</td><td>Consideration</td></tr><tr><td>What features should I look for in a B2B ecommerce platform for managing bulk orders and net terms?</td><td>Medium</td><td>Cooling -25%</td><td>Enterprise retail</td><td>Consideration</td></tr><tr><td>What are the key differences between ecommerce platforms built for B2C vs those built for B2B?</td><td>Medium</td><td>Stable -15%</td><td>Enterprise retail</td><td>Consideration</td></tr><tr><td>What types of products sell the fastest on social commerce and resale platforms?</td><td>Medium</td><td>New</td><td>General</td><td>Awareness</td></tr><tr><td>What is a B2B ecommerce platform and how is it different from a regular online store?</td><td>Medium</td><td>Stable -15%</td><td>Enterprise retail</td><td>Awareness</td></tr><tr><td>What is headless commerce and is it relevant for a growing DTC brand?</td><td>Medium</td><td>Cooling -23%</td><td>Developer</td><td>Awareness</td></tr><tr><td>How do subscription ecommerce businesses typically price their boxes to stay profitable?</td><td>Medium</td><td>Stable -14%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>What are the best enterprise ecommerce platforms for a large retail brand with complex requirements?</td><td>Medium</td><td>—</td><td>Enterprise retail</td><td>Decision</td></tr><tr><td>What are the best ecommerce platforms for managing a large product catalog with thousands of SKUs?</td><td>Medium</td><td>—</td><td>Enterprise retail</td><td>Decision</td></tr><tr><td>What should I look for in an ecommerce platform if I plan to scale to seven figures in the next two years?</td><td>Medium</td><td>—</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>Is there a meaningful performance difference between ecommerce platforms for high-traffic flash sale events?</td><td>Medium</td><td>—</td><td>Enterprise retail</td><td>Consideration</td></tr><tr><td>What subscription app should I add to my ecommerce store to handle recurring billing?</td><td>Medium</td><td>Stable -9%</td><td>Store manager</td><td>Decision</td></tr><tr><td>Is headless ecommerce actually worth the investment for a mid-market brand?</td><td>Medium</td><td>Cooling -25%</td><td>Developer</td><td>Consideration</td></tr><tr><td>Is a flat-rate payment processor or a percentage-based gateway more cost-effective for a small business?</td><td>Medium</td><td>—</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>What are the downsides of headless commerce for a brand that doesn&#39;t have a large dev team?</td><td>Medium</td><td>Cooling -25%</td><td>Enterprise retail</td><td>Consideration</td></tr><tr><td>Can a headless commerce architecture actually improve conversion rates and page speed measurably?</td><td>Medium</td><td>Cooling -25%</td><td>Developer</td><td>Consideration</td></tr><tr><td>What does the &#39;subscription trap&#39; mean and how do I avoid creating one that damages my brand?</td><td>Medium</td><td>—</td><td>DTC brand operator</td><td>Awareness</td></tr><tr><td>Is a subscription model profitable for a small ecommerce brand or is it too complex to manage?</td><td>Medium</td><td>Stable -11%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>How much does it cost to build a proper ecommerce website from scratch vs using a builder?</td><td>Medium</td><td>Cooling -58%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>Which platform is best for dropshipping in 2026?</td><td>Medium</td><td>Cooling -44%</td><td>Dropshipper</td><td>Decision</td></tr><tr><td>What is the best online payment system for an ecommerce website in terms of fees and reliability?</td><td>Medium</td><td>—</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>How do I optimize my checkout flow to reduce cart abandonment?</td><td>Medium</td><td>—</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>Is running a dropshipping store on a general-purpose ecommerce platform better than a specialized dropshipping tool?</td><td>Medium</td><td>Cooling -44%</td><td>Dropshipper</td><td>Decision</td></tr><tr><td>What tools exist for A/B testing product images and page layout on an ecommerce store?</td><td>Medium</td><td>—</td><td>DTC brand operator</td><td>Decision</td></tr><tr><td>What should a well-designed ecommerce website include to convert visitors into buyers?</td><td>Medium</td><td>—</td><td>DTC brand operator</td><td>Consideration</td></tr><tr><td>What is likely to replace dropshipping as a business model as supplier marketplaces mature?</td><td>Medium</td><td>—</td><td>Dropshipper</td><td>Awareness</td></tr><tr><td>How do I protect my product designs and intellectual property when working with overseas suppliers?</td><td>Medium</td><td>—</td><td>DTC brand operator</td><td>Consideration</td></tr><tr><td>Should I use a website builder or a dedicated ecommerce platform to sell products online?</td><td>Medium</td><td>Cooling -56%</td><td>Ecommerce founder</td><td>Consideration</td></tr><tr><td>What is the best platform for running a subscription ecommerce business?</td><td>Medium</td><td>—</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>Which ecommerce platforms natively support subscriptions vs requiring a third-party app?</td><td>Medium</td><td>—</td><td>Ecommerce founder</td><td>Decision</td></tr><tr><td>What are some real-world examples of brands using headless commerce successfully?</td><td>Medium</td><td>—</td><td>Developer</td><td>Consideration</td></tr><tr><td>Which selling platform is easiest to get started on if I&#39;ve never sold anything online before?</td><td>Medium</td><td>Cooling -71%</td><td>Ecommerce founder</td><td>Decision</td></tr></tbody>
+      </table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement — distilled from the real questions buyers ask across AI answer engines and the community sources they cite. Signals are relative within each industry and directional by design. <a href="/resources/">See the methodology in our resources</a>.</p>
+    </section>
+  </main>
+  
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-4ycw0BI2.js"></script>
+  </body>
+</html>
