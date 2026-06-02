@@ -170,7 +170,6 @@ function navHtml() {
         <a href="/#solutions">Solutions</a>
         <a href="/#loop">The Loop</a>
         <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
-        <a href="/prompt-pulse/">Prompt Pulse</a>
         <a href="/resources/">Resources</a>
         <a href="/news/">News</a>
         <a href="/about/">Company</a>
@@ -1667,6 +1666,7 @@ writePage(
   "prompt-pulse/index.html",
   renderLayout({
     routePath: "/prompt-pulse/",
+    noindex: true,   // hidden during review — URL-only, not in nav/sitemap
     title: "Prompt Pulse — what your market is asking AI | SolCrys",
     description:
       "Free AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries, ranked by demand and what's rising. Updated monthly.",
@@ -1699,6 +1699,7 @@ for (const v of promptPulse.verticals) {
     `prompt-pulse/${v.slug}/index.html`,
     renderLayout({
       routePath,
+      noindex: true,   // hidden during review — URL-only, not in nav/sitemap
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
       description: `The real questions ${v.short} buyers ask AI engines, rated by demand tier and trend. Free, updated monthly.`,
       lastModified: v.updated,
@@ -1880,8 +1881,7 @@ const sitemapUrls = [
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
-  { path: "/prompt-pulse/", lastmod: promptPulse.updated },
-  ...promptPulse.verticals.map((v) => ({ path: `/prompt-pulse/${v.slug}/`, lastmod: v.updated })),
+  // Prompt Pulse intentionally excluded from sitemap during review (URL-only).
   { path: "/news/", lastmod: newsLatest },
   ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
   // Drafts are excluded from sitemap (so search engines don't discover them).
