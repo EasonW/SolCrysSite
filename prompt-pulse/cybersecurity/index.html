@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Prompt Pulse — Cybersecurity: what buyers ask AI (2026) | SolCrys</title>
+    <meta name="description" content="The real questions Cybersecurity buyers ask AI engines, ranked by demand and 12-month trend. Free, updated monthly." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/prompt-pulse/cybersecurity/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-01" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prompt Pulse — Cybersecurity: what buyers ask AI (2026) | SolCrys" />
+    <meta property="og:description" content="The real questions Cybersecurity buyers ask AI engines, ranked by demand and 12-month trend. Free, updated monthly." />
+    <meta property="og:url" content="https://solcrys.com/prompt-pulse/cybersecurity/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bceu7YAZ.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Prompt Pulse","item":"https://solcrys.com/prompt-pulse/"},{"@type":"ListItem","position":3,"name":"Cybersecurity","item":"https://solcrys.com/prompt-pulse/cybersecurity/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Prompt Pulse — Cybersecurity: AI demand for buyer prompts","description":"The questions Cybersecurity buyers ask AI answer engines, with a relative Prompt Demand Score and 12-month AI trend. Free, updated monthly.","url":"https://solcrys.com/prompt-pulse/cybersecurity/","isAccessibleForFree":true,"creator":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"temporalCoverage":"2026-06-01","dateModified":"2026-06-01","keywords":["Antivirus","Cloud security","Email security","Firewall","Network security","Password managers","Penetration testing","SIEM","VPN","Vulnerability management","Zero trust"],"variableMeasured":[{"@type":"PropertyValue","name":"Prompt Demand Score"},{"@type":"PropertyValue","name":"AI search trend"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","url":"https://solcrys.com/prompt-pulse/cybersecurity/","numberOfItems":50,"itemListElement":[{"@type":"ListItem","position":1,"name":"What are the 4 types of security?"},{"@type":"ListItem","position":2,"name":"What is the most hacked email provider?"},{"@type":"ListItem","position":3,"name":"Which email gets hacked the least?"},{"@type":"ListItem","position":4,"name":"What are the 4 types of vulnerability?"},{"@type":"ListItem","position":5,"name":"What are the 7 types of security?"},{"@type":"ListItem","position":6,"name":"What do hackers hate the most?"},{"@type":"ListItem","position":7,"name":"What are the 4 types of cloud computing?"},{"@type":"ListItem","position":8,"name":"Is using VPN illegal in the US?"},{"@type":"ListItem","position":9,"name":"What's the most trusted antivirus?"},{"@type":"ListItem","position":10,"name":"What is the least hacked email provider?"},{"@type":"ListItem","position":11,"name":"Can the FBI track a VPN?"},{"@type":"ListItem","position":12,"name":"Which password manager has never been hacked?"},{"@type":"ListItem","position":13,"name":"Is there a safer email than Gmail?"},{"@type":"ListItem","position":14,"name":"Does Spectrum have virus protection?"},{"@type":"ListItem","position":15,"name":"What VPN works with Spectrum?"},{"@type":"ListItem","position":16,"name":"Will Netflix ban me for VPN?"},{"@type":"ListItem","position":17,"name":"Why is Google really warning users to stop using their passwords?"},{"@type":"ListItem","position":18,"name":"Which email provider gets hacked the most?"},{"@type":"ListItem","position":19,"name":"Which VPN is 100% free?"},{"@type":"ListItem","position":20,"name":"What is the downside of using a VPN?"},{"@type":"ListItem","position":21,"name":"What are the four types of cloud security?"},{"@type":"ListItem","position":22,"name":"What are top 10 SIEM tools?"},{"@type":"ListItem","position":23,"name":"What antivirus does the US military use?"},{"@type":"ListItem","position":24,"name":"What are the 5 pillars of zero trust?"},{"@type":"ListItem","position":25,"name":"Is ZTNA replacing VPN?"},{"@type":"ListItem","position":26,"name":"What are the 5 steps of vulnerability management?"},{"@type":"ListItem","position":27,"name":"Are SIEMs outdated?"},{"@type":"ListItem","position":28,"name":"What are the 7 layers of network security?"},{"@type":"ListItem","position":29,"name":"What are the 7 stages of penetration testing?"},{"@type":"ListItem","position":30,"name":"What are the 4 C's of cloud security?"},{"@type":"ListItem","position":31,"name":"What is replacing SIEM?"},{"@type":"ListItem","position":32,"name":"What are all the soc tools?"},{"@type":"ListItem","position":33,"name":"Is there an antivirus that actually works?"},{"@type":"ListItem","position":34,"name":"What is the best home firewall?"},{"@type":"ListItem","position":35,"name":"What are the 5 pillars of cloud security?"},{"@type":"ListItem","position":36,"name":"What are the disadvantages of Zero Trust?"},{"@type":"ListItem","position":37,"name":"What is the most trustworthy password manager?"},{"@type":"ListItem","position":38,"name":"What are the five types of network security?"},{"@type":"ListItem","position":39,"name":"Who is the largest security company in the US?"},{"@type":"ListItem","position":40,"name":"What is the most widely used SIEM?"},{"@type":"ListItem","position":41,"name":"What password manager has never been hacked?"},{"@type":"ListItem","position":42,"name":"Is a VPN or firewall better?"},{"@type":"ListItem","position":43,"name":"What are the top 5 penetration testing techniques?"},{"@type":"ListItem","position":44,"name":"What is the most trusted antivirus software?"},{"@type":"ListItem","position":45,"name":"What is the safest free password manager?"},{"@type":"ListItem","position":46,"name":"What antivirus does Windows recommend?"},{"@type":"ListItem","position":47,"name":"What are the network security tools?"},{"@type":"ListItem","position":48,"name":"Is it worth having a firewall at home?"},{"@type":"ListItem","position":49,"name":"Do security experts recommend password managers?"},{"@type":"ListItem","position":50,"name":"Which email security is best?"}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
+    <h1>The prompts Cybersecurity buyers ask AI</h1>
+    <p class="seo-lede">The real questions Cybersecurity buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), ranked by SolCrys's Prompt Demand Score and 12-month AI trend. 84 prompts · 38 rising · 5 purchase-ready. Updated 2026-06-01, US/English.</p>
+    <section class="seo-section">
+      <h2>Demand ranking</h2>
+      <table>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>AI trend (12mo)</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <tbody><tr><td>What are the 4 types of security?</td><td>100</td><td>Rising (+46%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is the most hacked email provider?</td><td>96</td><td>Rising (+191%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>Which email gets hacked the least?</td><td>92</td><td>Rising (+5942%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>What are the 4 types of vulnerability?</td><td>83</td><td>Rising (+57%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 7 types of security?</td><td>83</td><td>Rising (+43%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What do hackers hate the most?</td><td>82</td><td>Rising (+15720%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 4 types of cloud computing?</td><td>81</td><td>Stable (-11%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Is using VPN illegal in the US?</td><td>78</td><td>Stable (+3%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What&#39;s the most trusted antivirus?</td><td>72</td><td>Rising (+138%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What is the least hacked email provider?</td><td>71</td><td>Rising (+527%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>Can the FBI track a VPN?</td><td>70</td><td>Rising (+147%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Which password manager has never been hacked?</td><td>69</td><td>Rising (+346%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>Is there a safer email than Gmail?</td><td>69</td><td>Rising (+155%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Does Spectrum have virus protection?</td><td>67</td><td>Rising (+12967%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What VPN works with Spectrum?</td><td>66</td><td>Stable</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Will Netflix ban me for VPN?</td><td>65</td><td>Cooling (-39%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Why is Google really warning users to stop using their passwords?</td><td>64</td><td>Rising (+1104%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Which email provider gets hacked the most?</td><td>64</td><td>Stable</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>Which VPN is 100% free?</td><td>62</td><td>Rising (+144%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What is the downside of using a VPN?</td><td>61</td><td>Rising (+97%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>What are the four types of cloud security?</td><td>60</td><td>Cooling (-23%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are top 10 SIEM tools?</td><td>59</td><td>Rising (+503%)</td><td>Security / IT team</td><td>Decision</td></tr><tr><td>What antivirus does the US military use?</td><td>59</td><td>Cooling (-39%)</td><td>Enterprise</td><td>Awareness</td></tr><tr><td>What are the 5 pillars of zero trust?</td><td>59</td><td>Cooling (-26%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Is ZTNA replacing VPN?</td><td>58</td><td>Rising (+34%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 5 steps of vulnerability management?</td><td>56</td><td>Stable (-6%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Are SIEMs outdated?</td><td>55</td><td>Rising (+288%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 7 layers of network security?</td><td>54</td><td>Stable (+8%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 7 stages of penetration testing?</td><td>54</td><td>Rising (+62%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 4 C&#39;s of cloud security?</td><td>54</td><td>Cooling (-61%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is replacing SIEM?</td><td>53</td><td>Rising (+333%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are all the soc tools?</td><td>51</td><td>Stable</td><td>Enterprise</td><td>Awareness</td></tr><tr><td>Is there an antivirus that actually works?</td><td>50</td><td>Rising (+47%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What is the best home firewall?</td><td>50</td><td>Cooling (-32%)</td><td>Home / individual</td><td>Decision</td></tr><tr><td>What are the 5 pillars of cloud security?</td><td>50</td><td>Cooling (-44%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the disadvantages of Zero Trust?</td><td>48</td><td>Rising (+1320%)</td><td>Security / IT team</td><td>Consideration</td></tr><tr><td>What is the most trustworthy password manager?</td><td>47</td><td>Cooling (-74%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What are the five types of network security?</td><td>47</td><td>Cooling (-42%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Who is the largest security company in the US?</td><td>47</td><td>Rising (+230%)</td><td>Business / SMB</td><td>Awareness</td></tr><tr><td>What is the most widely used SIEM?</td><td>45</td><td>Rising (+30%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What password manager has never been hacked?</td><td>44</td><td>Rising (+82%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>Is a VPN or firewall better?</td><td>44</td><td>Cooling (-31%)</td><td>Security / IT team</td><td>Consideration</td></tr><tr><td>What are the top 5 penetration testing techniques?</td><td>44</td><td>Cooling (-26%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is the most trusted antivirus software?</td><td>42</td><td>Stable (+7%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What is the safest free password manager?</td><td>41</td><td>Rising (+85%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What antivirus does Windows recommend?</td><td>41</td><td>Rising (+375%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>What are the network security tools?</td><td>41</td><td>Stable (+3%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Is it worth having a firewall at home?</td><td>41</td><td>Cooling (-42%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Do security experts recommend password managers?</td><td>40</td><td>Cooling (-39%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>Which email security is best?</td><td>40</td><td>Cooling (-47%)</td><td>Home / individual</td><td>Decision</td></tr><tr><td>What is the most trusted password manager?</td><td>39</td><td>Rising (+220%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What is the number one firewall in the world?</td><td>38</td><td>Rising (+1300%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Will Hulu ban you for using a VPN?</td><td>38</td><td>Rising (+50%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What are vulnerability management tools?</td><td>33</td><td>Cooling (-60%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is the most effective firewall?</td><td>32</td><td>Stable (+7%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What is the most used firewall?</td><td>30</td><td>Stable</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What are good examples of zero trust?</td><td>30</td><td>Rising (+56%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Does Microsoft have a SIEM tool?</td><td>29</td><td>Cooling (-38%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is the most popular SIEM tool?</td><td>29</td><td>Stable (-7%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Which password managers have never been hacked?</td><td>29</td><td>Cooling (-91%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>Which is the most trusted firewall?</td><td>29</td><td>Stable</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What are the penetration testing tools?</td><td>29</td><td>Cooling (-57%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Which tool is best for penetration testing?</td><td>29</td><td>Cooling (-40%)</td><td>Security / IT team</td><td>Decision</td></tr><tr><td>What tools are used for cloud security?</td><td>29</td><td>Rising (+117%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is Owasp top 10 tool?</td><td>22</td><td>Rising (+500%)</td><td>Developer</td><td>Awareness</td></tr><tr><td>What are cloud security best practices?</td><td>22</td><td>Rising (+50%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What passwords do hackers use most?</td><td>18</td><td>Rising (+100%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What&#39;s better than a firewall?</td><td>18</td><td>Rising (+33%)</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>What is the most widely used SIEM tool?</td><td>15</td><td>Cooling (-81%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is meant by zero trust security?</td><td>15</td><td>Rising (+50%)</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Is a VPN good for a business?</td><td>15</td><td>Rising (+200%)</td><td>Business / SMB</td><td>Awareness</td></tr><tr><td>What VPNs work with Hulu?</td><td>15</td><td>Stable (0%)</td><td>Business / SMB</td><td>Awareness</td></tr><tr><td>Is Google Password Manager risky?</td><td>12</td><td>Stable</td><td>Home / individual</td><td>Consideration</td></tr><tr><td>What tools should you use to have network security?</td><td>12</td><td>Stable</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>Which VPN is best for business?</td><td>12</td><td>Stable (0%)</td><td>Business / SMB</td><td>Decision</td></tr><tr><td>Is Spectrum blocking VPNs?</td><td>8</td><td>Cooling (-50%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>Does Microsoft have a SIEM product?</td><td>0</td><td>Stable</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 6 common tools used in networking?</td><td>0</td><td>Stable</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are some common network security tools?</td><td>0</td><td>Stable</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What are the 10 tools of cyber security?</td><td>0</td><td>Stable</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is the most advanced firewall?</td><td>0</td><td>Cooling (-100%)</td><td>Home / individual</td><td>Awareness</td></tr><tr><td>What are the three types of zero trust?</td><td>0</td><td>Stable</td><td>Security / IT team</td><td>Awareness</td></tr><tr><td>What is the difference between zero trust and traditional security?</td><td>0</td><td>Stable</td><td>Security / IT team</td><td>Consideration</td></tr><tr><td>Which three security devices are hosted in the cloud?</td><td>0</td><td>Stable</td><td>Security / IT team</td><td>Awareness</td></tr></tbody>
+      </table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      <p>Prompt Demand Score is SolCrys's proprietary measure of how much real buyer demand sits behind each prompt across AI answer engines, refreshed monthly and relative within each industry. We publish ranking and movement, not vanity absolute counts; directional signals, not exact query counts.</p>
+    </section>
+  </main>
+  
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BqPz0Bfe.js"></script>
+  </body>
+</html>

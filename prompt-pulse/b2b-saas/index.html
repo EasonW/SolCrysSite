@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Prompt Pulse — B2B SaaS: what buyers ask AI (2026) | SolCrys</title>
+    <meta name="description" content="The real questions B2B SaaS buyers ask AI engines, ranked by demand and 12-month trend. Free, updated monthly." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/prompt-pulse/b2b-saas/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-01" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prompt Pulse — B2B SaaS: what buyers ask AI (2026) | SolCrys" />
+    <meta property="og:description" content="The real questions B2B SaaS buyers ask AI engines, ranked by demand and 12-month trend. Free, updated monthly." />
+    <meta property="og:url" content="https://solcrys.com/prompt-pulse/b2b-saas/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Bceu7YAZ.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Prompt Pulse","item":"https://solcrys.com/prompt-pulse/"},{"@type":"ListItem","position":3,"name":"B2B SaaS","item":"https://solcrys.com/prompt-pulse/b2b-saas/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Prompt Pulse — B2B SaaS: AI demand for buyer prompts","description":"The questions B2B SaaS buyers ask AI answer engines, with a relative Prompt Demand Score and 12-month AI trend. Free, updated monthly.","url":"https://solcrys.com/prompt-pulse/b2b-saas/","isAccessibleForFree":true,"creator":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"temporalCoverage":"2026-06-01","dateModified":"2026-06-01","keywords":["Accounting","Analytics / BI","CRM","Collaboration","Customer data (CDP)","HR software","Marketing automation","Project management"],"variableMeasured":[{"@type":"PropertyValue","name":"Prompt Demand Score"},{"@type":"PropertyValue","name":"AI search trend"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","url":"https://solcrys.com/prompt-pulse/b2b-saas/","numberOfItems":50,"itemListElement":[{"@type":"ListItem","position":1,"name":"What is the 3 3 3 rule in marketing?"},{"@type":"ListItem","position":2,"name":"What is the 3-3-3 rule in sales?"},{"@type":"ListItem","position":3,"name":"What are the 4 types of analytics?"},{"@type":"ListItem","position":4,"name":"What are the top 5 automation tools?"},{"@type":"ListItem","position":5,"name":"What is no 1 CRM?"},{"@type":"ListItem","position":6,"name":"What are top 3 skills for a data analyst?"},{"@type":"ListItem","position":7,"name":"What are the 5 C's of collaboration?"},{"@type":"ListItem","position":8,"name":"What are the top 3 CRM systems?"},{"@type":"ListItem","position":9,"name":"What are the 4 types of automation?"},{"@type":"ListItem","position":10,"name":"What is the #1 CRM in the world?"},{"@type":"ListItem","position":11,"name":"What are the top 3 accounting softwares?"},{"@type":"ListItem","position":12,"name":"Is there a 100% free CRM?"},{"@type":"ListItem","position":13,"name":"What are the top 5 project management software?"},{"@type":"ListItem","position":14,"name":"Can Chatgpt make a CRM?"},{"@type":"ListItem","position":15,"name":"What is replacing Microsoft Project?"},{"@type":"ListItem","position":16,"name":"What software do most accountants use?"},{"@type":"ListItem","position":17,"name":"Which is the best accounting software?"},{"@type":"ListItem","position":18,"name":"What are the 5 big data analytics?"},{"@type":"ListItem","position":19,"name":"What are the 4 most common platform types?"},{"@type":"ListItem","position":20,"name":"Can ChatGPT do data analysis?"},{"@type":"ListItem","position":21,"name":"What are the 4 pillars of analytics?"},{"@type":"ListItem","position":22,"name":"What is the most used HR software?"},{"@type":"ListItem","position":23,"name":"Which CRM is best for beginners?"},{"@type":"ListItem","position":24,"name":"Is there a free HR software?"},{"@type":"ListItem","position":25,"name":"Which HR software is best?"},{"@type":"ListItem","position":26,"name":"What is CDP used for?"},{"@type":"ListItem","position":27,"name":"What are the 4 types of customer data?"},{"@type":"ListItem","position":28,"name":"What is a CDP vs. a CRM?"},{"@type":"ListItem","position":29,"name":"What is the best tool for team collaboration?"},{"@type":"ListItem","position":30,"name":"What are examples of collaboration software?"},{"@type":"ListItem","position":31,"name":"Does Microsoft have a collaboration tool?"},{"@type":"ListItem","position":32,"name":"What is the most popular project management software?"},{"@type":"ListItem","position":33,"name":"Does Google have a collaboration tool?"},{"@type":"ListItem","position":34,"name":"Does Microsoft 365 have project management?"},{"@type":"ListItem","position":35,"name":"What is the best marketing automation software?"},{"@type":"ListItem","position":36,"name":"What is the best Customer Data Platform?"},{"@type":"ListItem","position":37,"name":"What is an example of a Customer Data Platform?"},{"@type":"ListItem","position":38,"name":"Which is the best CRM software?"},{"@type":"ListItem","position":39,"name":"What are the top 5 CRM platforms?"},{"@type":"ListItem","position":40,"name":"What is the easiest CRM software to use?"},{"@type":"ListItem","position":41,"name":"Which tool is best for data analytics?"},{"@type":"ListItem","position":42,"name":"Is Google collaboration free?"},{"@type":"ListItem","position":43,"name":"What does a Customer Data Platform do?"},{"@type":"ListItem","position":44,"name":"Is ChatGPT good for data analysis?"},{"@type":"ListItem","position":45,"name":"What is the best team collaboration software?"},{"@type":"ListItem","position":46,"name":"Which project management software is best for beginners?"},{"@type":"ListItem","position":47,"name":"Which HR software is best overall?"},{"@type":"ListItem","position":48,"name":"What's the best HR software for small companies?"},{"@type":"ListItem","position":49,"name":"Is accounting dying out?"},{"@type":"ListItem","position":50,"name":"What is an example of marketing automation software?"}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
+    <h1>The prompts B2B SaaS buyers ask AI</h1>
+    <p class="seo-lede">The real questions B2B SaaS buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), ranked by SolCrys's Prompt Demand Score and 12-month AI trend. 57 prompts · 16 rising · 20 purchase-ready. Updated 2026-06-01, US/English.</p>
+    <section class="seo-section">
+      <h2>Demand ranking</h2>
+      <table>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>AI trend (12mo)</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <tbody><tr><td>What is the 3 3 3 rule in marketing?</td><td>100</td><td>Rising (+200%)</td><td>Marketing</td><td>Awareness</td></tr><tr><td>What is the 3-3-3 rule in sales?</td><td>92</td><td>Rising (+188%)</td><td>Sales / RevOps</td><td>Awareness</td></tr><tr><td>What are the 4 types of analytics?</td><td>78</td><td>Cooling (-16%)</td><td>Analytics</td><td>Awareness</td></tr><tr><td>What are the top 5 automation tools?</td><td>70</td><td>Rising (+258%)</td><td>Marketing</td><td>Decision</td></tr><tr><td>What is no 1 CRM?</td><td>68</td><td>Stable (-9%)</td><td>Sales / RevOps</td><td>Awareness</td></tr><tr><td>What are top 3 skills for a data analyst?</td><td>66</td><td>Rising (+57%)</td><td>Analytics</td><td>Awareness</td></tr><tr><td>What are the 5 C&#39;s of collaboration?</td><td>65</td><td>Rising (+55%)</td><td>IT / Collaboration</td><td>Awareness</td></tr><tr><td>What are the top 3 CRM systems?</td><td>64</td><td>Rising (+296%)</td><td>Sales / RevOps</td><td>Decision</td></tr><tr><td>What are the 4 types of automation?</td><td>64</td><td>Cooling (-47%)</td><td>Marketing</td><td>Awareness</td></tr><tr><td>What is the #1 CRM in the world?</td><td>63</td><td>Cooling (-25%)</td><td>Sales / RevOps</td><td>Decision</td></tr><tr><td>What are the top 3 accounting softwares?</td><td>63</td><td>Rising (+126%)</td><td>Finance</td><td>Decision</td></tr><tr><td>Is there a 100% free CRM?</td><td>62</td><td>Rising (+79%)</td><td>Marketing</td><td>Awareness</td></tr><tr><td>What are the top 5 project management software?</td><td>61</td><td>Rising (+4138%)</td><td>PM / Ops</td><td>Decision</td></tr><tr><td>Can Chatgpt make a CRM?</td><td>60</td><td>Rising (+2759%)</td><td>Sales / RevOps</td><td>Awareness</td></tr><tr><td>What is replacing Microsoft Project?</td><td>56</td><td>Stable (-3%)</td><td>PM / Ops</td><td>Awareness</td></tr><tr><td>What software do most accountants use?</td><td>56</td><td>Cooling (-27%)</td><td>Finance</td><td>Awareness</td></tr><tr><td>Which is the best accounting software?</td><td>55</td><td>Cooling (-30%)</td><td>Finance</td><td>Decision</td></tr><tr><td>What are the 5 big data analytics?</td><td>54</td><td>Rising (+703%)</td><td>Analytics</td><td>Awareness</td></tr><tr><td>What are the 4 most common platform types?</td><td>53</td><td>Stable</td><td>Marketing / Data</td><td>Awareness</td></tr><tr><td>Can ChatGPT do data analysis?</td><td>52</td><td>Stable (-7%)</td><td>Analytics</td><td>Awareness</td></tr><tr><td>What are the 4 pillars of analytics?</td><td>48</td><td>Cooling (-31%)</td><td>Analytics</td><td>Awareness</td></tr><tr><td>What is the most used HR software?</td><td>47</td><td>Stable (+1%)</td><td>HR</td><td>Awareness</td></tr><tr><td>Which CRM is best for beginners?</td><td>46</td><td>Cooling (-65%)</td><td>Beginner</td><td>Decision</td></tr><tr><td>Is there a free HR software?</td><td>44</td><td>Cooling (-48%)</td><td>HR</td><td>Awareness</td></tr><tr><td>Which HR software is best?</td><td>42</td><td>Cooling (-55%)</td><td>HR</td><td>Decision</td></tr><tr><td>What is CDP used for?</td><td>41</td><td>Stable (+10%)</td><td>Marketing / Data</td><td>Awareness</td></tr><tr><td>What are the 4 types of customer data?</td><td>41</td><td>Rising (+700%)</td><td>Marketing / Data</td><td>Awareness</td></tr><tr><td>What is a CDP vs. a CRM?</td><td>41</td><td>Cooling (-18%)</td><td>Marketing / Data</td><td>Consideration</td></tr><tr><td>What is the best tool for team collaboration?</td><td>36</td><td>Cooling (-50%)</td><td>IT / Collaboration</td><td>Decision</td></tr><tr><td>What are examples of collaboration software?</td><td>36</td><td>Rising (+52%)</td><td>IT / Collaboration</td><td>Awareness</td></tr><tr><td>Does Microsoft have a collaboration tool?</td><td>36</td><td>Cooling (-56%)</td><td>IT / Collaboration</td><td>Awareness</td></tr><tr><td>What is the most popular project management software?</td><td>34</td><td>Cooling (-69%)</td><td>PM / Ops</td><td>Awareness</td></tr><tr><td>Does Google have a collaboration tool?</td><td>34</td><td>Cooling (-49%)</td><td>IT / Collaboration</td><td>Awareness</td></tr><tr><td>Does Microsoft 365 have project management?</td><td>31</td><td>Cooling (-42%)</td><td>PM / Ops</td><td>Awareness</td></tr><tr><td>What is the best marketing automation software?</td><td>31</td><td>Cooling (-41%)</td><td>Marketing</td><td>Decision</td></tr><tr><td>What is the best Customer Data Platform?</td><td>31</td><td>Stable (-10%)</td><td>Marketing / Data</td><td>Decision</td></tr><tr><td>What is an example of a Customer Data Platform?</td><td>31</td><td>Cooling (-19%)</td><td>Marketing / Data</td><td>Awareness</td></tr><tr><td>Which is the best CRM software?</td><td>26</td><td>Cooling (-77%)</td><td>Sales / RevOps</td><td>Decision</td></tr><tr><td>What are the top 5 CRM platforms?</td><td>26</td><td>Stable</td><td>Sales / RevOps</td><td>Decision</td></tr><tr><td>What is the easiest CRM software to use?</td><td>22</td><td>Cooling (-68%)</td><td>Sales / RevOps</td><td>Awareness</td></tr><tr><td>Which tool is best for data analytics?</td><td>22</td><td>Cooling (-64%)</td><td>Analytics</td><td>Decision</td></tr><tr><td>Is Google collaboration free?</td><td>22</td><td>Cooling (-90%)</td><td>IT / Collaboration</td><td>Awareness</td></tr><tr><td>What does a Customer Data Platform do?</td><td>21</td><td>Rising (+167%)</td><td>Marketing / Data</td><td>Awareness</td></tr><tr><td>Is ChatGPT good for data analysis?</td><td>21</td><td>Rising (+100%)</td><td>Analytics</td><td>Awareness</td></tr><tr><td>What is the best team collaboration software?</td><td>21</td><td>Stable (0%)</td><td>IT / Collaboration</td><td>Decision</td></tr><tr><td>Which project management software is best for beginners?</td><td>19</td><td>Stable (0%)</td><td>Beginner</td><td>Decision</td></tr><tr><td>Which HR software is best overall?</td><td>19</td><td>Rising (+40%)</td><td>HR</td><td>Decision</td></tr><tr><td>What&#39;s the best HR software for small companies?</td><td>18</td><td>Cooling (-33%)</td><td>SMB owner</td><td>Decision</td></tr><tr><td>Is accounting dying out?</td><td>18</td><td>Cooling (-76%)</td><td>Finance</td><td>Awareness</td></tr><tr><td>What is an example of marketing automation software?</td><td>15</td><td>Stable</td><td>Marketing</td><td>Awareness</td></tr><tr><td>Is project management going away?</td><td>13</td><td>Cooling (-70%)</td><td>PM / Ops</td><td>Awareness</td></tr><tr><td>What are the most popular marketing automation tools?</td><td>13</td><td>Stable</td><td>Marketing</td><td>Awareness</td></tr><tr><td>What are the golden rules of collaboration?</td><td>10</td><td>Cooling (-50%)</td><td>IT / Collaboration</td><td>Awareness</td></tr><tr><td>Is Google Drive or OneDrive better for collaboration?</td><td>10</td><td>Cooling (-33%)</td><td>IT / Collaboration</td><td>Consideration</td></tr><tr><td>What are the most used tools for data analysis?</td><td>6</td><td>Cooling (-80%)</td><td>Analytics</td><td>Awareness</td></tr><tr><td>What are the top 5 CRM systems in the world?</td><td>0</td><td>Stable</td><td>Sales / RevOps</td><td>Decision</td></tr><tr><td>What are the top 3 analytics tools?</td><td>0</td><td>Stable</td><td>Analytics</td><td>Decision</td></tr></tbody>
+      </table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      <p>Prompt Demand Score is SolCrys's proprietary measure of how much real buyer demand sits behind each prompt across AI answer engines, refreshed monthly and relative within each industry. We publish ranking and movement, not vanity absolute counts; directional signals, not exact query counts.</p>
+    </section>
+  </main>
+  
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BqPz0Bfe.js"></script>
+  </body>
+</html>
