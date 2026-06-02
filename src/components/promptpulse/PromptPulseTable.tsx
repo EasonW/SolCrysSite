@@ -6,6 +6,8 @@ import {
   trendArrow,
   stageColor,
   tierColor,
+  fmtTrend,
+  trendSort,
 } from "@/lib/promptPulse";
 import Sparkline from "./Sparkline";
 
@@ -46,7 +48,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
     const cmp = (a: PromptRow, b: PromptRow) => {
       if (sortKey === "ppds") return (a.ppds - b.ppds) * sortDir;
       if (sortKey === "trend")
-        return (a.trend.momentum - b.trend.momentum) * sortDir;
+        return (trendSort(a.trend) - trendSort(b.trend)) * sortDir;
       const av = String((a as unknown as Record<string, unknown>)[sortKey] ?? a.prompt);
       const bv = String((b as unknown as Record<string, unknown>)[sortKey] ?? b.prompt);
       return av.localeCompare(bv) * sortDir;
@@ -158,7 +160,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
                     <>
                       <Sparkline values={p.spark} color={trendColor(p.trend.label)} />{" "}
                       <span className="text-xs" style={{ color: trendColor(p.trend.label) }}>
-                        {trendArrow(p.trend.label)} {p.trend.label}
+                        {trendArrow(p.trend.label)} {fmtTrend(p.trend)}
                       </span>
                     </>
                   )}

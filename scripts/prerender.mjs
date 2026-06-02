@@ -1551,12 +1551,21 @@ writePage(
 // Crawler-facing static render of the same scrubbed public JSON the SPA reads
 // (single source of truth → no drift). Emits Dataset + ItemList + Breadcrumb
 // schema so AI engines can cite the prompt set as a data source.
+function ppTrend(t) {
+  if (t.label === "—") return "—";
+  if (t.label === "New") return "New";
+  if (t.pct == null) return t.label;
+  const pct = t.pct > 300 ? "+300%+" : `${t.pct > 0 ? "+" : ""}${t.pct}%`;
+  return `${t.label} ${pct}`;
+}
+function ppTrendSort(t) {
+  return t.pct != null ? t.pct : t.label === "New" ? 999 : -999;
+}
 function promptPulseVerticalBody(v) {
   const rows = v.prompts
-    .map((p) => {
-      const trend = p.trend.label === "—" ? "—" : escapeHtml(p.trend.label);
-      return `<tr><td>${escapeHtml(p.prompt)}</td><td>${escapeHtml(p.demandTier)}</td><td>${trend}</td><td>${escapeHtml(p.persona)}</td><td>${escapeHtml(p.stage)}</td></tr>`;
-    })
+    .map((p) =>
+      `<tr><td>${escapeHtml(p.prompt)}</td><td>${escapeHtml(p.demandTier)}</td><td>${escapeHtml(ppTrend(p.trend))}</td><td>${escapeHtml(p.persona)}</td><td>${escapeHtml(p.stage)}</td></tr>`,
+    )
     .join("");
   return `
 <div class="seo-prerender">
@@ -1588,12 +1597,12 @@ function promptPulseHubBody() {
         .filter((p) => p.trend.label === "Rising" || p.trend.label === "New")
         .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug })),
     )
-    .sort((a, b) => b.trend.momentum - a.trend.momentum)
+    .sort((a, b) => ppTrendSort(b.trend) - ppTrendSort(a.trend))
     .slice(0, 12);
   const risingRows = rising
     .map(
       (p) =>
-        `<tr><td>${escapeHtml(p.prompt)}</td><td>${escapeHtml(p.trend.label)}</td><td><a href="/prompt-pulse/${p.vSlug}/">${escapeHtml(p.vShort)}</a></td></tr>`,
+        `<tr><td>${escapeHtml(p.prompt)}</td><td>${escapeHtml(ppTrend(p.trend))}</td><td><a href="/prompt-pulse/${p.vSlug}/">${escapeHtml(p.vShort)}</a></td></tr>`,
     )
     .join("");
   const cards = promptPulse.verticals

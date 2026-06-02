@@ -7,6 +7,7 @@ import {
   risingAcrossVerticals,
   trendArrow,
   trendColor,
+  fmtTrend,
   verticals,
 } from "@/lib/promptPulse";
 import { ArrowRight } from "lucide-react";
@@ -76,7 +77,7 @@ const PromptPulseHub = () => {
                       <td className="whitespace-nowrap px-3 py-3">
                         <Sparkline values={p.spark} color={trendColor(p.trend.label)} />{" "}
                         <span className="text-xs" style={{ color: trendColor(p.trend.label) }}>
-                          {trendArrow(p.trend.label)} {p.trend.label}
+                          {trendArrow(p.trend.label)} {fmtTrend(p.trend)}
                         </span>
                       </td>
                       <td className="whitespace-nowrap px-3 py-3">
