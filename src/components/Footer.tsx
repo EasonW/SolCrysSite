@@ -21,6 +21,7 @@ const productLinks = [
 ];
 
 const resourcesLinks = [
+  { href: "/prompt-pulse/", label: "Prompt Pulse (free data)" },
   { href: "/resources/", label: "All guides" },
   { href: "/optimize-for-chatgpt-search/", label: "ChatGPT" },
   { href: "/optimize-for-gemini/", label: "Gemini" },

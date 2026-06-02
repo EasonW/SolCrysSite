@@ -26,6 +26,7 @@ const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
 const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
+const promptPulse = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/promptPulse.json"), "utf8"));
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
 
@@ -169,6 +170,7 @@ function navHtml() {
         <a href="/#solutions">Solutions</a>
         <a href="/#loop">The Loop</a>
         <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
         <a href="/resources/">Resources</a>
         <a href="/news/">News</a>
         <a href="/about/">Company</a>
@@ -1545,6 +1547,172 @@ writePage(
   })
 );
 
+// ---- Prompt Pulse (free AI demand data) ----
+// Crawler-facing static render of the same scrubbed public JSON the SPA reads
+// (single source of truth → no drift). Emits Dataset + ItemList + Breadcrumb
+// schema so AI engines can cite the prompt set as a data source.
+function ppDelta(p) {
+  return p.trend.delta90 == null
+    ? ""
+    : ` (${p.trend.delta90 > 0 ? "+" : ""}${Math.round(p.trend.delta90)}%)`;
+}
+function promptPulseVerticalBody(v) {
+  const rows = v.prompts
+    .map(
+      (p) =>
+        `<tr><td>${escapeHtml(p.prompt)}</td><td>${p.ppds}</td><td>${escapeHtml(p.trend.label)}${ppDelta(p)}</td><td>${escapeHtml(p.persona)}</td><td>${escapeHtml(p.stage)}</td></tr>`,
+    )
+    .join("");
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
+    <h1>The prompts ${escapeHtml(v.short)} buyers ask AI</h1>
+    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), ranked by SolCrys's Prompt Demand Score and 12-month AI trend. ${v.stats.prompts} prompts · ${v.stats.rising} rising · ${v.stats.decision} purchase-ready. Updated ${escapeHtml(v.updated)}, US/English.</p>
+    <section class="seo-section">
+      <h2>Demand ranking</h2>
+      <table>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>AI trend (12mo)</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      <p>Prompt Demand Score is SolCrys's proprietary measure of how much real buyer demand sits behind each prompt across AI answer engines, refreshed monthly and relative within each industry. We publish ranking and movement, not vanity absolute counts; directional signals, not exact query counts.</p>
+    </section>
+  </main>
+  ${ctaHtml()}
+  ${footerHtml()}
+</div>`;
+}
+function promptPulseHubBody() {
+  const rising = promptPulse.verticals
+    .flatMap((v) =>
+      v.prompts
+        .filter((p) => p.trend.label === "Rising" && p.trend.delta90 != null)
+        .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug })),
+    )
+    .sort((a, b) => b.trend.delta90 - a.trend.delta90)
+    .slice(0, 12);
+  const risingRows = rising
+    .map(
+      (p) =>
+        `<tr><td>${escapeHtml(p.prompt)}</td><td>+${Math.round(p.trend.delta90)}%</td><td><a href="/prompt-pulse/${p.vSlug}/">${escapeHtml(p.vShort)}</a></td></tr>`,
+    )
+    .join("");
+  const cards = promptPulse.verticals
+    .map(
+      (v) =>
+        `<li><a href="/prompt-pulse/${v.slug}/"><strong>${escapeHtml(v.short)}</strong></a> — ${escapeHtml(v.blurb)} (${v.stats.prompts} prompts, ${v.stats.rising} rising, ${v.stats.decision} purchase-ready)</li>`,
+    )
+    .join("");
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
+    <h1>See what your market is asking AI</h1>
+    <p class="seo-lede">The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by demand, and showing what's rising. Free, updated ${escapeHtml(promptPulse.updated)}, US/English.</p>
+    <section class="seo-section">
+      <h2>Rising across all industries</h2>
+      <table><thead><tr><th>Prompt</th><th>AI trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table>
+    </section>
+    <section class="seo-section">
+      <h2>Browse by industry</h2>
+      <ul class="seo-list">${cards}</ul>
+    </section>
+  </main>
+  ${ctaHtml()}
+  ${footerHtml()}
+</div>`;
+}
+function promptPulseDatasetSchema(v, routePath) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: `Prompt Pulse — ${v.short}: AI demand for buyer prompts`,
+    description: `The questions ${v.short} buyers ask AI answer engines, with a relative Prompt Demand Score and 12-month AI trend. Free, updated monthly.`,
+    url: canonicalUrl(routePath),
+    isAccessibleForFree: true,
+    creator: { "@type": "Organization", name: site.name, url: site.url },
+    temporalCoverage: v.updated,
+    dateModified: v.updated,
+    keywords: v.categories.topics,
+    variableMeasured: [
+      { "@type": "PropertyValue", name: "Prompt Demand Score" },
+      { "@type": "PropertyValue", name: "AI search trend" },
+    ],
+  };
+}
+function promptPulseItemList(prompts, routePath, max = 50) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    url: canonicalUrl(routePath),
+    numberOfItems: Math.min(prompts.length, max),
+    itemListElement: prompts.slice(0, max).map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.prompt,
+    })),
+  };
+}
+
+writePage(
+  "prompt-pulse/index.html",
+  renderLayout({
+    routePath: "/prompt-pulse/",
+    title: "Prompt Pulse — what your market is asking AI | SolCrys",
+    description:
+      "Free AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries, ranked by demand and what's rising. Updated monthly.",
+    lastModified: promptPulse.updated,
+    body: promptPulseHubBody(),
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Prompt Pulse", path: "/prompt-pulse/" },
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "SolCrys Prompt Pulse",
+        url: canonicalUrl("/prompt-pulse/"),
+        hasPart: promptPulse.verticals.map((v) => ({
+          "@type": "Dataset",
+          name: `Prompt Pulse — ${v.short}`,
+          url: canonicalUrl(`/prompt-pulse/${v.slug}/`),
+        })),
+      },
+    ],
+  }),
+);
+
+for (const v of promptPulse.verticals) {
+  const routePath = `/prompt-pulse/${v.slug}/`;
+  writePage(
+    `prompt-pulse/${v.slug}/index.html`,
+    renderLayout({
+      routePath,
+      title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
+      description: `The real questions ${v.short} buyers ask AI engines, ranked by demand and 12-month trend. Free, updated monthly.`,
+      lastModified: v.updated,
+      body: promptPulseVerticalBody(v),
+      schemas: [
+        organizationSchema,
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Prompt Pulse", path: "/prompt-pulse/" },
+          { name: v.short, path: routePath },
+        ]),
+        promptPulseDatasetSchema(v, routePath),
+        promptPulseItemList(v.prompts, routePath),
+      ],
+    }),
+  );
+}
+
 for (const page of resourcePages) {
   const routePath = `/${page.slug}/`;
   const draft = isDraft(page);
@@ -1708,6 +1876,8 @@ const sitemapUrls = [
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
+  { path: "/prompt-pulse/", lastmod: promptPulse.updated },
+  ...promptPulse.verticals.map((v) => ({ path: `/prompt-pulse/${v.slug}/`, lastmod: v.updated })),
   { path: "/news/", lastmod: newsLatest },
   ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
   // Drafts are excluded from sitemap (so search engines don't discover them).

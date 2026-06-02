@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen } from "lucide-react";
+import { Activity, ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RESOURCES_COLUMNS } from "./resourcesMenuData";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
@@ -86,8 +86,28 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
         </div>
       </div>
 
-      {/* Full-width Browse-all CTA bar */}
+      {/* Prompt Pulse highlight — free AI demand data, the new TOFU entry */}
       <div className="mt-6 pt-6 border-t border-border/40">
+        <a
+          href="/prompt-pulse/"
+          onClick={onItemClick}
+          className="group mb-3 flex items-center justify-between rounded-xl border border-[hsl(40_85%_55%/0.4)] bg-[hsl(40_85%_55%/0.06)] px-5 py-4 transition-colors hover:bg-[hsl(40_85%_55%/0.12)]"
+        >
+          <div className="flex items-center gap-3">
+            <span className="flex-none rounded-md bg-[hsl(40_85%_55%/0.18)] p-2">
+              <Activity className="h-4 w-4 text-[hsl(40_85%_55%)]" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(40_85%_55%)]">
+                New · Prompt Pulse
+              </p>
+              <p className="text-sm font-medium text-foreground">
+                Free AI demand data — what buyers ask AI, by industry
+              </p>
+            </div>
+          </div>
+          <ArrowRight className="h-4 w-4 text-[hsl(40_85%_55%)] group-hover:translate-x-1 transition-transform" />
+        </a>
         <a
           href="/resources/"
           onClick={onItemClick}

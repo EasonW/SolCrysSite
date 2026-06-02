@@ -17,7 +17,10 @@ export type AuditSurface =
   | "pricing_sticky_mobile"
   | "resources_mega"
   | "news_article"
-  | "floating_contact";
+  | "floating_contact"
+  | "prompt_pulse_hub"
+  | "prompt_pulse_vertical"
+  | "prompt_pulse_about";
 
 export type PricingAudience = "brand" | "agency";
 

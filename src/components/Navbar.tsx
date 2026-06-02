@@ -178,6 +178,17 @@ const Navbar = () => {
           {renderFlatLink(flatNavLinks[1])}
           {renderFlatLink(flatNavLinks[2])}
 
+          {/* Prompt Pulse — flagship free-data surface, exposed top-level */}
+          <a
+            href="/prompt-pulse/"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Prompt Pulse
+            <span className="rounded-full bg-[hsl(40_85%_55%/0.18)] px-1.5 py-[1px] text-[9px] font-bold uppercase tracking-wide text-[hsl(40_85%_55%)]">
+              New
+            </span>
+          </a>
+
           {renderDropdownTrigger(
             "resources",
             "Resources",
@@ -296,6 +307,18 @@ const Navbar = () => {
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
               {flatNavLinks[2].label}
+            </a>
+
+            {/* Prompt Pulse — top-level on mobile too */}
+            <a
+              href="/prompt-pulse/"
+              onClick={closeAll}
+              className="flex items-center gap-2 py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            >
+              Prompt Pulse
+              <span className="rounded-full bg-[hsl(40_85%_55%/0.18)] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[hsl(40_85%_55%)]">
+                New
+              </span>
             </a>
 
             {/* Mobile Resources accordion */}
