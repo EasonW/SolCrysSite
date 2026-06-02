@@ -218,12 +218,9 @@ const Navbar = () => {
             type="button"
             onClick={() => setSearchOpen(true)}
             aria-label="Search resources"
-            className="inline-flex h-9 items-center gap-2 rounded-md px-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
           >
             <Search className="h-4 w-4" />
-            <kbd className="hidden xl:inline-flex items-center rounded border border-border/60 px-1.5 font-sans text-[10px] leading-5 text-muted-foreground">
-              ⌘K
-            </kbd>
           </button>
           <ThemeToggle />
           <button
