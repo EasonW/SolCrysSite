@@ -129,7 +129,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
             <tr>
               <Th k="prompt" label="Prompt" />
               <Th k="ppds" label="Demand" />
-              <Th k="trend" label="AI trend (12mo)" />
+              <Th k="trend" label="Trend" />
               <Th k="persona" label="Persona" />
               <Th k="stage" label="Buying stage" />
             </tr>
@@ -162,10 +162,18 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 align-middle">
-                  <Sparkline values={p.spark} color={trendColor(p.trend.label)} />{" "}
-                  <span className="text-xs" style={{ color: trendColor(p.trend.label) }}>
-                    {trendArrow(p.trend.label)} {fmtDelta(p.trend.delta90)}
-                  </span>
+                  {p.trend.delta90 == null ? (
+                    <span className="text-xs text-muted-foreground" title="Not enough AI-demand history">
+                      —
+                    </span>
+                  ) : (
+                    <>
+                      <Sparkline values={p.spark} color={trendColor(p.trend.label)} />{" "}
+                      <span className="text-xs" style={{ color: trendColor(p.trend.label) }}>
+                        {trendArrow(p.trend.label)} {fmtDelta(p.trend.delta90)}
+                      </span>
+                    </>
+                  )}
                 </td>
                 <td className="px-3 py-3 align-middle">
                   <Chip label={p.persona} />

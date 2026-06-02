@@ -57,7 +57,7 @@ const PromptPulseHub = () => {
                       Prompt
                     </th>
                     <th className="px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      AI trend (12mo)
+                      Trend
                     </th>
                     <th className="px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                       Industry

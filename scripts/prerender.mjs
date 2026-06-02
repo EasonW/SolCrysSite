@@ -1558,10 +1558,10 @@ function ppDelta(p) {
 }
 function promptPulseVerticalBody(v) {
   const rows = v.prompts
-    .map(
-      (p) =>
-        `<tr><td>${escapeHtml(p.prompt)}</td><td>${p.ppds}</td><td>${escapeHtml(p.trend.label)}${ppDelta(p)}</td><td>${escapeHtml(p.persona)}</td><td>${escapeHtml(p.stage)}</td></tr>`,
-    )
+    .map((p) => {
+      const trend = p.trend.delta90 == null ? "—" : `${escapeHtml(p.trend.label)}${ppDelta(p)}`;
+      return `<tr><td>${escapeHtml(p.prompt)}</td><td>${p.ppds}</td><td>${trend}</td><td>${escapeHtml(p.persona)}</td><td>${escapeHtml(p.stage)}</td></tr>`;
+    })
     .join("");
   return `
 <div class="seo-prerender">
@@ -1573,7 +1573,7 @@ function promptPulseVerticalBody(v) {
     <section class="seo-section">
       <h2>Demand ranking</h2>
       <table>
-        <thead><tr><th>Prompt</th><th>Demand</th><th>AI trend (12mo)</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>Trend</th><th>Persona</th><th>Buying stage</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </section>
@@ -1616,7 +1616,7 @@ function promptPulseHubBody() {
     <p class="seo-lede">The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by demand, and showing what's rising. Free, updated ${escapeHtml(promptPulse.updated)}, US/English.</p>
     <section class="seo-section">
       <h2>Rising across all industries</h2>
-      <table><thead><tr><th>Prompt</th><th>AI trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table>
+      <table><thead><tr><th>Prompt</th><th>Trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table>
     </section>
     <section class="seo-section">
       <h2>Browse by industry</h2>
