@@ -693,6 +693,12 @@ function customersHtml() {
     <section class="seo-container seo-section">
       <h2>Across the industry</h2>
       <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/mariavoloh/" rel="noopener">Maria Voloh</a> — Sr. Director, Global Digital Marketing, UiPath</p>
+        <blockquote>
+          <p>“We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
         <p class="seo-kicker"><a href="https://www.linkedin.com/in/tiafrate/" rel="noopener">Toni Iafrate</a> — Chief Communications Officer (company name withheld)</p>
         <blockquote>
           <p>“What stood out to me about SolCrys is that it goes beyond just showing data. Most tools stop at dashboards and metrics, but SolCrys helps teams understand what the data means and what actions to take next. That's incredibly valuable for communications and marketing leaders who need actionable intelligence, not just reports.”</p>
@@ -1396,7 +1402,7 @@ writePage(
   renderLayout({
     routePath: "/customers/",
     title: "Customer Stories | SolCrys",
-    description: "How leading brands use SolCrys to show up in AI answers — including NextSilicon (HPC & AI infrastructure), which lifted its mention rate from 1.9% to 7.4% in 45 days, and consumer smart home brand Wyze.",
+    description: "How leading brands — including UiPath, NextSilicon, and Wyze — use SolCrys to show up in AI answers. NextSilicon lifted its mention rate from 1.9% to 7.4% in 45 days.",
     body: customersHtml(),
     schemas: [
       organizationSchema,
@@ -1409,7 +1415,7 @@ writePage(
         "@type": "WebPage",
         name: "SolCrys Customer Stories",
         url: canonicalUrl("/customers/"),
-        description: "Customer stories from brands using SolCrys for AI search visibility, accuracy, and trust — across HPC and AI infrastructure (NextSilicon) and consumer (Wyze).",
+        description: "Customer stories from brands using SolCrys for AI search visibility, accuracy, and trust — across enterprise software (UiPath), HPC and AI infrastructure (NextSilicon), and consumer (Wyze).",
         datePublished: site.published || generatedAt,
         dateModified: site.updated || generatedAt
       },
@@ -1440,6 +1446,13 @@ writePage(
         itemReviewed: organizationSchema,
         author: { "@type": "Person", name: "Michelle Frees", jobTitle: "Head of Amazon, Wyze" },
         reviewBody: "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible. On top of that, they've surfaced rich customer insights that are informing our product decisions."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Maria Voloh", jobTitle: "Sr. Director, Global Digital Marketing, UiPath" },
+        reviewBody: "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines."
       }
     ]
   })
@@ -1920,7 +1933,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
 - [About](${site.url}/about/): Company story, founding team, and advisors.
-- [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days) and Wyze (consumer smart home).
+- [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring UiPath (enterprise automation software), NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days), and Wyze (consumer smart home).
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.

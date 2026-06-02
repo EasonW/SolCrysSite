@@ -33,8 +33,16 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
   const [persona, setPersona] = useState("");
   const [intent, setIntent] = useState("");
   const [stage, setStage] = useState("");
+  const [tier, setTier] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("ppds");
   const [sortDir, setSortDir] = useState(-1);
+
+  // Demand tiers actually present in this vertical (in rank order) — so empty
+  // options aren't offered (e.g. a vertical with no "Low" prompts after filtering).
+  const tiers = useMemo(
+    () => ["High", "Medium", "Low"].filter((t) => vertical.prompts.some((p) => p.demandTier === t)),
+    [vertical],
+  );
 
   const rows = useMemo(() => {
     const filtered = vertical.prompts.filter(
@@ -43,7 +51,8 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
         (!topic || p.topic === topic) &&
         (!persona || p.persona === persona) &&
         (!intent || p.intent === intent) &&
-        (!stage || p.stage === stage),
+        (!stage || p.stage === stage) &&
+        (!tier || p.demandTier === tier),
     );
     const cmp = (a: PromptRow, b: PromptRow) => {
       if (sortKey === "ppds") return (a.ppds - b.ppds) * sortDir;
@@ -54,7 +63,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
       return av.localeCompare(bv) * sortDir;
     };
     return [...filtered].sort(cmp);
-  }, [vertical, q, topic, persona, intent, stage, sortKey, sortDir]);
+  }, [vertical, q, topic, persona, intent, stage, tier, sortKey, sortDir]);
 
   const onSort = (k: SortKey) => {
     if (k === sortKey) {
@@ -87,6 +96,14 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
           placeholder="Search prompts…"
           className="min-w-[220px] flex-1 rounded-lg border border-border/40 bg-card/40 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-[hsl(195_90%_55%/0.6)] focus:outline-none"
         />
+        <select className={selectClass} value={tier} onChange={(e) => setTier(e.target.value)}>
+          <option value="">All demand</option>
+          {tiers.map((t) => (
+            <option key={t} value={t}>
+              {t} demand
+            </option>
+          ))}
+        </select>
         <select className={selectClass} value={stage} onChange={(e) => setStage(e.target.value)}>
           <option value="">All buying stages</option>
           {vertical.categories.stages.map((s) => (

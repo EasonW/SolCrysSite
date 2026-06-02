@@ -5,11 +5,22 @@ const WYZE_TEAL = "#00D4B4";
 const NEXTSILICON_INDIGO = "#6366F1";
 const CLEARLYKEPT_AMBER = "#F59E0B";
 const BOBOYM_ORANGE = "#FB923C";
+const UIPATH_ORANGE = "#FA4616";
 
 const BOBOYM_AMAZON_STORE =
   "https://www.amazon.com/BOBOYM-20-Inch-Expandable-Suitcase-360%C2%B0Rolling/dp/B0FXWHWTXN/";
 
 const CUSTOMER_QUOTES: CustomerQuote[] = [
+  {
+    name: "Maria Voloh",
+    role: "Sr. Director, Global Digital Marketing",
+    company: "UiPath",
+    photoUrl: "/customers/maria-voloh.jpg",
+    accent: UIPATH_ORANGE,
+    quote:
+      "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines.",
+    attribution: { type: "linkedin", href: "https://www.linkedin.com/in/mariavoloh/" },
+  },
   {
     name: "Brandon Draeger",
     role: "VP of Marketing",
@@ -75,6 +86,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
 ];
 
 const LOGO_ITEMS = [
+  { label: "UiPath", color: UIPATH_ORANGE },
   { label: "NextSilicon", color: NEXTSILICON_INDIGO },
   { label: "Wyze", color: WYZE_TEAL, image: "/customers/wyze-logo.png" },
   { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo.png" },
@@ -97,7 +109,7 @@ const CustomerTestimonialSection = () => {
             Customer Stories
           </p>
           <h2 className="font-heading text-3xl md:text-4xl text-foreground text-center max-w-3xl">
-            Trusted across HPC, AI infrastructure, and consumer brands.
+            Trusted across enterprise software, AI infrastructure, and consumer brands.
           </h2>
         </div>
 
@@ -126,13 +138,15 @@ const CustomerTestimonialSection = () => {
                   key={logo.label}
                   src={logo.image}
                   alt={logo.label}
-                  className="h-4 md:h-5 w-auto opacity-50 hover:opacity-80 transition-opacity"
+                  className="h-5 md:h-6 w-auto opacity-50 hover:opacity-80 transition-opacity"
                   loading="lazy"
                 />
               ) : (
                 <span
                   key={logo.label}
-                  className="font-heading text-sm font-semibold tracking-tight opacity-50 hover:opacity-80 transition-opacity"
+                  className={`font-heading ${
+                    logo.label === "UiPath" ? "text-xl md:text-2xl" : "text-lg md:text-xl"
+                  } font-semibold tracking-tight opacity-50 hover:opacity-80 transition-opacity`}
                   style={{ color: logo.color }}
                 >
                   {logo.label}

@@ -17,6 +17,7 @@ import {
 
 const WYZE_TEAL = "#00D4B4";
 const NEXTSILICON_INDIGO = "#6366F1";
+const UIPATH_ORANGE = "#FA4616";
 
 const LINKEDIN = {
   brandon: "https://www.linkedin.com/in/brandondraeger/",
@@ -24,6 +25,7 @@ const LINKEDIN = {
   michelle: "https://www.linkedin.com/in/michellewangfrees/",
   toni: "https://www.linkedin.com/in/tiafrate/",
   garrett: "https://www.linkedin.com/in/ACoAAAzCAM8B_4zaQelFta2ZX-vhiQRMG2QBCYg",
+  maria: "https://www.linkedin.com/in/mariavoloh/",
 } as const;
 
 const BOBOYM_AMAZON_STORE =
@@ -71,6 +73,9 @@ const michelleQuote =
 
 const toniQuote =
   "What stood out to me about SolCrys is that it goes beyond just showing data. Most tools stop at dashboards and metrics, but SolCrys helps teams understand what the data means and what actions to take next. That's incredibly valuable for communications and marketing leaders who need actionable intelligence, not just reports.";
+
+const mariaQuote =
+  "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines.";
 
 const garrettQuote =
   "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, integrate with GitHub, and draft content for our website is exactly what we need.";
@@ -577,11 +582,66 @@ const CustomerStories = () => {
               More customer voices
             </p>
             <h2 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground">
-              Founders, operators, and comms leaders using SolCrys to compete in AI discovery.
+              Founders, marketing leaders, and operators using SolCrys to compete in AI discovery.
             </h2>
           </div>
 
           <div className="space-y-6 md:space-y-8">
+            {/* Maria Voloh — UiPath */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
+              <div
+                className="absolute inset-x-0 top-0 h-px"
+                style={{
+                  background: `linear-gradient(to right, transparent, ${UIPATH_ORANGE}, transparent)`,
+                }}
+              />
+              <div className="grid md:grid-cols-[auto_1fr] gap-0">
+                <div className="flex md:flex-col items-center md:justify-center gap-4 p-8 md:p-10 md:w-[280px] border-b md:border-b-0 md:border-r border-border/40 bg-muted/20">
+                  <div
+                    className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border-2 shrink-0"
+                    style={{ borderColor: `${UIPATH_ORANGE}55` }}
+                  >
+                    <img
+                      src="/customers/maria-voloh.jpg"
+                      alt="Maria Voloh"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="md:mt-5 md:text-center md:flex md:flex-col md:items-center">
+                    <p className="font-heading text-base font-semibold text-foreground">
+                      Maria Voloh
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      Sr. Director, Global Digital Marketing
+                    </p>
+                    <p
+                      className="text-xs font-semibold uppercase tracking-[0.15em] mt-1"
+                      style={{ color: UIPATH_ORANGE }}
+                    >
+                      UiPath
+                    </p>
+                    <div className="mt-3">
+                      <LinkedInLink href={LINKEDIN.maria} name="Maria Voloh" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-8 md:p-12 flex flex-col justify-center">
+                  <div
+                    aria-hidden
+                    className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none"
+                    style={{ color: UIPATH_ORANGE, opacity: 0.45 }}
+                  >
+                    “
+                  </div>
+                  <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground">
+                    {mariaQuote}
+                  </blockquote>
+                </div>
+              </div>
+            </article>
+
             {/* Garrett Astler — ClearlyKept */}
             <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
               <div className="grid md:grid-cols-[auto_1fr] gap-0">

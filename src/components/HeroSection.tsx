@@ -159,6 +159,7 @@ const HeroSection = () => {
         <div className="mt-16 pt-8 border-t border-white/5">
           <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Trusted by</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 hover:opacity-100 transition-opacity duration-500">
+            <span className="font-heading text-xl md:text-2xl font-semibold tracking-tight" style={{ color: "#FA4616" }}>UiPath</span>
             <span className="font-heading text-lg md:text-xl font-semibold tracking-tight" style={{ color: "#6366F1" }}>NextSilicon</span>
             <img src="/customers/wyze-logo.png" alt="Wyze" className="h-5 md:h-6 w-auto" loading="lazy" />
             <img src="/customers/clearlykept-logo.png" alt="ClearlyKept" className="h-5 md:h-6 w-auto" loading="lazy" />
