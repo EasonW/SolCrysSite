@@ -139,7 +139,7 @@ const PromptPulseHub = () => {
               Prompt Pulse tracks the real questions buyers ask AI answer engines and rates each with a
               proprietary <strong className="text-foreground">High / Medium / Low demand</strong> tier and a
               trend direction, refreshed monthly. Tiers are relative within each industry (so cross-industry
-              rankings use trend, not tier). Directional signals, not exact query counts.
+              rankings use trend, not tier).
             </p>
           </section>
 

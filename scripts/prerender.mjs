@@ -1582,7 +1582,7 @@ function promptPulseVerticalBody(v) {
     </section>
     <section class="seo-section">
       <h2>About this data</h2>
-      <p>Prompt Demand Score is SolCrys's proprietary measure of how much real buyer demand sits behind each prompt across AI answer engines, refreshed monthly and relative within each industry. We publish ranking and movement, not vanity absolute counts; directional signals, not exact query counts.</p>
+      <p>Prompt Demand Score is SolCrys's proprietary measure of how much real buyer demand sits behind each prompt across AI answer engines, refreshed monthly and relative within each industry. We publish ranking and movement, not vanity absolute counts.</p>
     </section>
   </main>
   ${ctaHtml()}
