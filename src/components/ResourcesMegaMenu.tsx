@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen } from "lucide-react";
+import { Activity, ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RESOURCES_COLUMNS } from "./resourcesMenuData";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
@@ -86,19 +86,39 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
         </div>
       </div>
 
-      {/* Full-width Browse-all CTA bar (Prompt Pulse highlight hidden during review) */}
-      <div className="mt-6 pt-6 border-t border-border/40">
+      {/* Featured: Prompt Pulse (free tool) + Browse-all CTA */}
+      <div className="mt-6 pt-6 border-t border-border/40 grid grid-cols-1 sm:grid-cols-2 gap-3">
         <a
-          href="/resources/"
+          href="/prompt-pulse/"
           onClick={onItemClick}
           className="group flex items-center justify-between rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.06)] hover:bg-[hsl(195_90%_55%/0.12)] transition-colors px-5 py-4"
         >
           <div className="flex items-center gap-3">
             <span className="flex-none rounded-md bg-[hsl(195_90%_55%/0.18)] p-2">
-              <BookOpen className="h-4 w-4 text-[hsl(195_90%_55%)]" />
+              <Activity className="h-4 w-4 text-[hsl(195_90%_55%)]" />
             </span>
             <div className="min-w-0">
               <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(195_90%_55%)]">
+                Prompt Pulse · Free
+              </p>
+              <p className="text-sm font-medium text-foreground">
+                Free AI demand data — what buyers ask AI, by industry
+              </p>
+            </div>
+          </div>
+          <ArrowRight className="h-4 w-4 text-[hsl(195_90%_55%)] group-hover:translate-x-1 transition-transform" />
+        </a>
+        <a
+          href="/resources/"
+          onClick={onItemClick}
+          className="group flex items-center justify-between rounded-xl border border-border/40 bg-card/40 hover:bg-card/70 transition-colors px-5 py-4"
+        >
+          <div className="flex items-center gap-3">
+            <span className="flex-none rounded-md bg-muted/40 p-2">
+              <BookOpen className="h-4 w-4 text-muted-foreground" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
                 All resources
               </p>
               <p className="text-sm font-medium text-foreground">
@@ -106,7 +126,7 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
               </p>
             </div>
           </div>
-          <ArrowRight className="h-4 w-4 text-[hsl(195_90%_55%)] group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
         </a>
       </div>
     </div>

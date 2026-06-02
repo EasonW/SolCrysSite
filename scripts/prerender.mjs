@@ -170,6 +170,7 @@ function navHtml() {
         <a href="/#solutions">Solutions</a>
         <a href="/#loop">The Loop</a>
         <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
         <a href="/resources/">Resources</a>
         <a href="/news/">News</a>
         <a href="/about/">Company</a>
@@ -1595,7 +1596,7 @@ function promptPulseVerticalBody(v) {
     </section>
     <section class="seo-section">
       <h2>About this data</h2>
-      <p>Prompt Demand Score is SolCrys's proprietary measure of how much real buyer demand sits behind each prompt across AI answer engines, refreshed monthly and relative within each industry. We publish ranking and movement, not vanity absolute counts.</p>
+      <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement — distilled from the real questions buyers ask across AI answer engines and the community sources they cite. Signals are relative within each industry and directional by design. <a href="/resources/">See the methodology in our resources</a>.</p>
     </section>
   </main>
   ${ctaHtml()}
@@ -1603,14 +1604,22 @@ function promptPulseVerticalBody(v) {
 </div>`;
 }
 function promptPulseHubBody() {
-  const rising = promptPulse.verticals
-    .flatMap((v) =>
-      v.prompts
-        .filter((p) => p.trend.label === "Rising" || p.trend.label === "New")
-        .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug })),
-    )
-    .sort((a, b) => ppTrendSort(b.trend) - ppTrendSort(a.trend))
-    .slice(0, 12);
+  // Representative cross-industry sample: round-robin the strongest risers across
+  // verticals (≤2 each) so the table isn't dominated by one industry.
+  const perVertical = 2;
+  const groups = promptPulse.verticals.map((v) =>
+    v.prompts
+      .filter((p) => p.trend.label === "Rising" || p.trend.label === "New")
+      .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug }))
+      .sort((a, b) => ppTrendSort(b.trend) - ppTrendSort(a.trend))
+      .slice(0, perVertical),
+  );
+  const rising = [];
+  for (let i = 0; i < perVertical && rising.length < 12; i++) {
+    for (const g of groups) {
+      if (g[i] && rising.length < 12) rising.push(g[i]);
+    }
+  }
   const risingRows = rising
     .map(
       (p) =>
@@ -1631,12 +1640,12 @@ function promptPulseHubBody() {
     <h1>See what your market is asking AI</h1>
     <p class="seo-lede">The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by demand, and showing what's rising. Free, updated ${escapeHtml(promptPulse.updated)}, US/English.</p>
     <section class="seo-section">
-      <h2>Rising across all industries</h2>
-      <table><thead><tr><th>Prompt</th><th>Trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table>
-    </section>
-    <section class="seo-section">
       <h2>Browse by industry</h2>
       <ul class="seo-list">${cards}</ul>
+    </section>
+    <section class="seo-section">
+      <h2>Rising across all industries</h2>
+      <table><thead><tr><th>Prompt</th><th>Trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table>
     </section>
   </main>
   ${ctaHtml()}
@@ -1679,7 +1688,6 @@ writePage(
   "prompt-pulse/index.html",
   renderLayout({
     routePath: "/prompt-pulse/",
-    noindex: true,   // hidden during review — URL-only, not in nav/sitemap
     title: "Prompt Pulse — what your market is asking AI | SolCrys",
     description:
       "Free AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries, ranked by demand and what's rising. Updated monthly.",
@@ -1712,7 +1720,6 @@ for (const v of promptPulse.verticals) {
     `prompt-pulse/${v.slug}/index.html`,
     renderLayout({
       routePath,
-      noindex: true,   // hidden during review — URL-only, not in nav/sitemap
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
       description: `The real questions ${v.short} buyers ask AI engines, rated by demand tier and trend. Free, updated monthly.`,
       lastModified: v.updated,
@@ -1894,7 +1901,8 @@ const sitemapUrls = [
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
-  // Prompt Pulse intentionally excluded from sitemap during review (URL-only).
+  { path: "/prompt-pulse/", lastmod: promptPulse.updated },
+  ...promptPulse.verticals.map((v) => ({ path: `/prompt-pulse/${v.slug}/`, lastmod: v.updated || promptPulse.updated })),
   { path: "/news/", lastmod: newsLatest },
   ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
   // Drafts are excluded from sitemap (so search engines don't discover them).
@@ -1937,6 +1945,11 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
+- [Prompt Pulse](${site.url}/prompt-pulse/): Free AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising. Updated ${promptPulse.updated}.${promptPulse.verticals
+  .map(
+    (v) => `\n  - [${v.short}](${site.url}/prompt-pulse/${v.slug}/): ${v.stats.prompts} buyer prompts ${v.short} teams should track in AI answers.`
+  )
+  .join("")}
 - [Newsroom](${site.url}/news/): Press releases and founder notes.${newsPosts
   .map(
     (post) => `\n  - [${post.title}](${site.url}/news/${post.slug}/): ${post.dek}`
@@ -2013,4 +2026,4 @@ for (const { from, to } of retiredRedirects) {
   writePage(`${from}/index.html`, redirectHtml);
 }
 
-console.log(`Prerendered ${resourcePages.length + 6 + newsPosts.length + 1 + retiredRedirects.length} static HTML pages (incl. ${newsPosts.length} news + index), sitemap.xml, llms.txt, and llms-full.txt.`);
+console.log(`Prerendered ${resourcePages.length + 1 + promptPulse.verticals.length + 1 + newsPosts.length + 1 + retiredRedirects.length} static HTML pages (incl. ${promptPulse.verticals.length} Prompt Pulse verticals + ${newsPosts.length} news + index), sitemap.xml, llms.txt, and llms-full.txt.`);

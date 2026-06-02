@@ -44,7 +44,44 @@ const PromptPulseHub = () => {
             <p className="mt-3 text-sm text-muted-foreground">Updated {promptPulse.updated} · US / English</p>
           </header>
 
-          {/* Cross-vertical rising leaderboard (ranked by trend — comparable across verticals) */}
+          {/* Vertical directory — primary action: self-select your industry */}
+          <section className="mb-12">
+            <h2 className="mb-4 text-2xl font-bold tracking-tight">Browse by industry</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {verticals.map((v) => {
+                const topRiser = v.prompts.find(
+                  (p) => p.trend.label === "Rising" || p.trend.label === "New",
+                );
+                return (
+                  <a
+                    key={v.slug}
+                    href={`/prompt-pulse/${v.slug}/`}
+                    className="group rounded-xl border border-border/30 bg-card/40 p-5 transition-colors hover:border-[hsl(195_90%_55%/0.4)]"
+                  >
+                    <div className="mb-1 flex items-center justify-between">
+                      <h3 className="font-display text-lg font-semibold group-hover:text-[hsl(195_90%_55%)]">
+                        {v.short}
+                      </h3>
+                      <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-[hsl(195_90%_55%)]" />
+                    </div>
+                    <p className="mb-3 text-sm text-muted-foreground">{v.blurb}</p>
+                    <p className="text-xs text-muted-foreground">
+                      <span className="font-semibold text-foreground">{v.stats.prompts}</span> prompts ·{" "}
+                      <span style={{ color: "hsl(142 70% 45%)" }}>{v.stats.rising} rising</span> ·{" "}
+                      <span style={{ color: "hsl(40 85% 55%)" }}>{v.stats.decision} purchase-ready</span>
+                    </p>
+                    {topRiser ? (
+                      <p className="mt-2 truncate text-xs text-muted-foreground">
+                        ▲ Hot: “{topRiser.prompt}”
+                      </p>
+                    ) : null}
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Cross-vertical rising leaderboard (secondary showcase — the "pulse") */}
           <section className="mb-12">
             <h2 className="mb-1 text-2xl font-bold tracking-tight">🔥 Rising across all industries</h2>
             <p className="mb-4 text-sm text-muted-foreground">
@@ -95,51 +132,20 @@ const PromptPulseHub = () => {
             </div>
           </section>
 
-          {/* Vertical directory */}
-          <section className="mb-12">
-            <h2 className="mb-4 text-2xl font-bold tracking-tight">Browse by industry</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {verticals.map((v) => {
-                const topRiser = v.prompts.find(
-                  (p) => p.trend.label === "Rising" || p.trend.label === "New",
-                );
-                return (
-                  <a
-                    key={v.slug}
-                    href={`/prompt-pulse/${v.slug}/`}
-                    className="group rounded-xl border border-border/30 bg-card/40 p-5 transition-colors hover:border-[hsl(195_90%_55%/0.4)]"
-                  >
-                    <div className="mb-1 flex items-center justify-between">
-                      <h3 className="font-display text-lg font-semibold group-hover:text-[hsl(195_90%_55%)]">
-                        {v.short}
-                      </h3>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-[hsl(195_90%_55%)]" />
-                    </div>
-                    <p className="mb-3 text-sm text-muted-foreground">{v.blurb}</p>
-                    <p className="text-xs text-muted-foreground">
-                      <span className="font-semibold text-foreground">{v.stats.prompts}</span> prompts ·{" "}
-                      <span style={{ color: "hsl(142 70% 45%)" }}>{v.stats.rising} rising</span> ·{" "}
-                      <span style={{ color: "hsl(40 85% 55%)" }}>{v.stats.decision} purchase-ready</span>
-                    </p>
-                    {topRiser ? (
-                      <p className="mt-2 truncate text-xs text-muted-foreground">
-                        ▲ Hot: “{topRiser.prompt}”
-                      </p>
-                    ) : null}
-                  </a>
-                );
-              })}
-            </div>
-          </section>
-
           {/* About */}
           <section className="mb-6 rounded-xl border border-border/30 bg-card/40 p-6">
             <h2 className="mb-2 text-xl font-bold tracking-tight">About this data</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Prompt Pulse tracks the real questions buyers ask AI answer engines and rates each with a
-              proprietary <strong className="text-foreground">High / Medium / Low demand</strong> tier and a
-              trend direction, refreshed monthly. Tiers are relative within each industry (so cross-industry
-              rankings use trend, not tier).
+              Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind
+              our AI-visibility measurement — distilled from the real questions buyers ask across AI
+              answer engines and the community sources they cite. Signals are relative within each
+              industry and directional by design.{" "}
+              <a
+                href="/resources/"
+                className="text-[hsl(195_90%_55%)] underline-offset-4 hover:underline"
+              >
+                See the methodology in our resources →
+              </a>
             </p>
           </section>
 

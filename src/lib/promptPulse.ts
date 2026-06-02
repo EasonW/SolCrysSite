@@ -97,11 +97,21 @@ export function verticalTldr(v: VerticalData): string {
 
 /** Cross-vertical rising/new prompts for the hub leaderboard, ranked by
  *  the normalized trend % (New ranks highest). */
-export function risingAcrossVerticals(limit = 12) {
-  const all = verticals.flatMap((v) =>
+export function risingAcrossVerticals(limit = 12, perVertical = 2) {
+  // Representative cross-industry sample: take each vertical's strongest risers
+  // (≤perVertical), then round-robin so the table isn't dominated by one industry.
+  const groups = verticals.map((v) =>
     v.prompts
       .filter((p) => RISING.has(p.trend.label))
-      .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug })),
+      .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug }))
+      .sort((a, b) => trendSort(b.trend) - trendSort(a.trend))
+      .slice(0, perVertical),
   );
-  return all.sort((a, b) => trendSort(b.trend) - trendSort(a.trend)).slice(0, limit);
+  const out = [] as (typeof groups)[number];
+  for (let i = 0; i < perVertical && out.length < limit; i++) {
+    for (const g of groups) {
+      if (g[i] && out.length < limit) out.push(g[i]);
+    }
+  }
+  return out;
 }

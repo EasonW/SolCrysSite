@@ -6,6 +6,7 @@ import PlatformLayersSection from "@/components/PlatformLayersSection";
 import MCPSkillsSection from "@/components/MCPSkillsSection";
 import SolutionsSection from "@/components/SolutionsSection";
 import ResourcesSection from "@/components/ResourcesSection";
+import PromptPulseSection from "@/components/PromptPulseSection";
 import FAQSection from "@/components/FAQSection";
 import RecognitionSection from "@/components/RecognitionSection";
 import CustomerTestimonialSection from "@/components/CustomerTestimonialSection";
@@ -26,6 +27,7 @@ const Index = () => {
       <SolutionsSection />
       <MCPSkillsSection />
       <ResourcesSection />
+      <PromptPulseSection />
       <FAQSection />
       <RecognitionSection />
       <CTASection />

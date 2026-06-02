@@ -99,20 +99,15 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
           <section className="mt-12 rounded-xl border border-border/30 bg-card/40 p-6">
             <h2 className="mb-2 text-xl font-bold tracking-tight">About this data</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              <strong className="text-foreground">Demand (High / Medium / Low)</strong> is SolCrys's
-              proprietary measure of how much real buyer demand sits behind each prompt across AI
-              answer engines, refreshed monthly. Tiers are relative within each vertical, and
-              <strong className="text-foreground"> Trend</strong> shows whether a question is rising,
-              cooling, or newly emerging. By design we publish direction, not vanity absolute counts.
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              The full methodology powers SolCrys's AI-visibility measurement product.{" "}
+              Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind
+              our AI-visibility measurement — distilled from the real questions buyers ask across AI
+              answer engines and the community sources they cite. Signals are relative within each
+              industry and directional by design.{" "}
               <a
-                href={AUDIT_URL}
-                onClick={() => trackAuditClick("prompt_pulse_about")}
+                href="/resources/"
                 className="text-[hsl(195_90%_55%)] underline-offset-4 hover:underline"
               >
-                Talk to us about coverage →
+                See the methodology in our resources →
               </a>
             </p>
           </section>
