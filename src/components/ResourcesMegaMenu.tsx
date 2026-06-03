@@ -70,7 +70,7 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
             </p>
             <Button asChild variant="hero" size="sm" className="w-full">
               <a href="/free-chatgpt-visibility-tracker/" onClick={onItemClick}>
-                Try it free
+                Get Started for Free
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
               </a>
             </Button>
