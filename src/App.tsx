@@ -10,6 +10,7 @@ import Resources from "./pages/Resources";
 import ResourcePage from "./pages/ResourcePage";
 import PromptPulseHub from "./pages/PromptPulseHub";
 import PromptPulseVertical from "./pages/PromptPulseVertical";
+import FreeTrackerPage from "./pages/FreeTrackerPage";
 // Phase E: /pricing is canonical-hosted at app.solcrys.com/pricing.
 // The SPA route now renders a redirect bridge that handles warm-cache
 // client-side navigations (the static prerendered HTML handles cold
@@ -35,6 +36,8 @@ const App = () => (
         <Route path="/customers/nextsilicon/" element={<NextSiliconCaseStudy />} />
         <Route path="/pricing" element={<PricingRedirect />} />
         <Route path="/pricing/" element={<PricingRedirect />} />
+        <Route path="/free-chatgpt-visibility-tracker" element={<FreeTrackerPage />} />
+        <Route path="/free-chatgpt-visibility-tracker/" element={<FreeTrackerPage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/" element={<Resources />} />
         <Route path="/prompt-pulse" element={<PromptPulseHub />} />

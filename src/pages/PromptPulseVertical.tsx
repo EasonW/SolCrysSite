@@ -119,7 +119,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
           {/* CTA */}
           <section className="mt-6 rounded-2xl border border-[hsl(195_90%_55%/0.3)] bg-[hsl(195_90%_55%/0.06)] p-8 text-center">
             <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[hsl(195_90%_55%)]">
-              Free AI visibility audit
+              Free · No credit card
             </p>
             <h2 className="mb-2 text-2xl font-bold tracking-tight">
               Does AI mention <em>you</em> when buyers ask these?
@@ -134,7 +134,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
               onClick={() => trackAuditClick("prompt_pulse_vertical")}
               className="inline-flex items-center gap-2 rounded-lg bg-[hsl(195_90%_55%)] px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90"
             >
-              Run my free audit
+              Track ChatGPT Visibility, Free
               <ArrowRight className="h-4 w-4" />
             </a>
           </section>

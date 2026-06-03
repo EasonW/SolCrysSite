@@ -15,6 +15,9 @@ const CTASection = () => {
           <div className="absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-[hsl(40_85%_55%/0.06)] blur-3xl" />
 
           <div className="relative">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[hsl(195_90%_55%)]">
+              Free · No credit card
+            </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
               See where ChatGPT names competitors before your brand.
             </h2>
@@ -28,7 +31,7 @@ const CTASection = () => {
                 href={AUDIT_URL}
                 onClick={() => trackAuditClick("cta_section")}
               >
-                Start Free ChatGPT Audit
+                Track ChatGPT Visibility, Free
                 <ArrowRight className="ml-1" />
               </a>
             </Button>

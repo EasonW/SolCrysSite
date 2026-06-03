@@ -250,7 +250,7 @@ const Navbar = () => {
               href={AUDIT_URL}
               onClick={() => trackAuditClick("navbar")}
             >
-              Free Audit
+              Get Started
             </a>
           </Button>
         </div>

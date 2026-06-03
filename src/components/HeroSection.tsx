@@ -21,7 +21,7 @@ function isValidUrlShape(value: string): boolean {
 }
 
 const HeroSection = () => {
-  const heroTitleHighlight = "governed marketing execution.";
+  const heroTitleHighlight = "or your competitor?";
   const heroTitleLead = siteContent.home.title
     .replace(heroTitleHighlight, "")
     .trim();
@@ -123,7 +123,7 @@ const HeroSection = () => {
               size="lg"
               className="text-base px-6 sm:px-7 py-6 sm:py-5 h-auto sm:rounded-l-none sm:rounded-r-xl whitespace-nowrap"
             >
-              Start Free ChatGPT Audit
+              Track ChatGPT Visibility, Free
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
@@ -141,7 +141,7 @@ const HeroSection = () => {
             free scope is unambiguous against the hero's multi-engine
             value promise. Full engine-tier disclosure lives on /audit. */}
         <p className="text-sm text-muted-foreground/85 max-w-2xl mx-auto mb-10 opacity-0 animate-fade-up-delay-3">
-          Start with a free ChatGPT baseline
+          Free ChatGPT visibility tracker
           <span className="mx-2 text-muted-foreground/50">·</span>
           Daily multi-engine monitoring on paid plans
           <span className="mx-2 text-muted-foreground/50">·</span>

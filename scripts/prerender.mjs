@@ -185,6 +185,7 @@ function footerHtml() {
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
           <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
           <a href="/news/">News</a>
           <a href="/privacy.html">Privacy</a>
@@ -1892,6 +1893,157 @@ writePage(
 // Sitemap: per Google guidance, omit <priority> and <changefreq> (they are ignored)
 // and only set <lastmod> from real content updates, never deploy timestamps.
 const newsLatest = newsPosts[0]?.date || site.updated || generatedAt;
+// Free ChatGPT Visibility Tracker — keyword-targeted landing page. This is the
+// indexable ranking + AI-citation asset on solcrys.com; the actual run happens
+// in-app at app.solcrys.com/audit (the free tier). Mirrors the React
+// FreeTrackerPage content for crawlers + first paint.
+const freeTrackerRoute = "/free-chatgpt-visibility-tracker/";
+const freeTrackerTitle =
+  "Free ChatGPT Visibility Tracker — See If AI Recommends Your Brand | SolCrys";
+const freeTrackerDescription =
+  "Free ChatGPT visibility tracker. Enter your domain and see whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — about a minute, no credit card.";
+const freeTrackerSteps = [
+  {
+    name: "Enter your domain",
+    text: "No signup, no credit card. Just your website — or a competitor's.",
+  },
+  {
+    name: "We ask ChatGPT your buyers' questions",
+    text: "SolCrys runs the high-intent prompts people use to find products like yours, then reads how ChatGPT answers.",
+  },
+  {
+    name: "See where you show up — and where a rival wins",
+    text: "Your visibility score, the prompts where AI skips you, and which competitor it names instead.",
+  },
+];
+const freeTrackerFaqs = [
+  {
+    question: "Is the ChatGPT visibility tracker really free?",
+    answer:
+      "Yes. You can check your brand's ChatGPT visibility for free, with no credit card. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, and Perplexity plus automatic daily tracking.",
+  },
+  {
+    question: "Do I need to sign up?",
+    answer:
+      "Enter your domain to start. To unlock the full report, save it, and track changes over time, you create a free workspace — still no credit card.",
+  },
+  {
+    question: "Which AI engines does it cover?",
+    answer:
+      "The free tracker checks ChatGPT. SolCrys also tracks Gemini, Google AI Overviews / AI Mode, and Perplexity on paid plans, so you can see your visibility across every major answer engine.",
+  },
+  {
+    question: "How is this different from my Google ranking?",
+    answer:
+      "Ranking #1 on Google does not mean AI engines recommend you. ChatGPT synthesizes an answer from many sources and often names a different brand than the top Google result. This tracker shows what AI actually says about you.",
+  },
+  {
+    question: "How accurate is the result?",
+    answer:
+      "We query the live engine on real buyer prompts and report what it returned, including the citations and competitors it surfaced. AI answers vary run to run, so SolCrys tracks them over time rather than from a single snapshot.",
+  },
+];
+function freeTrackerBody() {
+  const stepHtml = freeTrackerSteps
+    .map((s) => `<li><strong>${escapeHtml(s.name)}.</strong> ${escapeHtml(s.text)}</li>`)
+    .join("\n        ");
+  const faqHtml = freeTrackerFaqs
+    .map((f) => `<h3>${escapeHtml(f.question)}</h3>\n      <p>${escapeHtml(f.answer)}</p>`)
+    .join("\n      ");
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main class="seo-container">
+    <p class="seo-kicker">Free ChatGPT visibility tracker</p>
+    <h1>Free ChatGPT Visibility Tracker</h1>
+    <p class="seo-lede">See whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — or names a competitor instead. About a minute, no signup.</p>
+    <p><a href="https://app.solcrys.com/audit">Track your ChatGPT visibility, free &rarr;</a> &middot; Free &middot; No credit card</p>
+    <section class="seo-section">
+      <h2>What &ldquo;AI visibility&rdquo; means &mdash; and why your Google rank doesn&rsquo;t cover it</h2>
+      <p>When a buyer asks ChatGPT &ldquo;what&rsquo;s the best tool for X,&rdquo; the answer names a short list of brands. AI visibility is whether you are on that list &mdash; decided by the citations and sources the model trusts, not by where you rank on Google. The tracker checks three outcomes for every prompt:</p>
+      <ul class="seo-list">
+        <li><strong>Mentioned</strong> &mdash; ChatGPT names your brand in the answer.</li>
+        <li><strong>Cited</strong> &mdash; ChatGPT links to your page as a source.</li>
+        <li><strong>Skipped</strong> &mdash; ChatGPT answers without you, often naming a rival.</li>
+      </ul>
+    </section>
+    <section class="seo-section">
+      <h2>How the free ChatGPT visibility tracker works</h2>
+      <ol class="seo-list">
+        ${stepHtml}
+      </ol>
+    </section>
+    <section class="seo-section">
+      <h2>What&rsquo;s in your free report</h2>
+      <ul class="seo-list">
+        <li>Your ChatGPT visibility score</li>
+        <li>The high-intent prompts where AI skips your brand</li>
+        <li>Which competitor ChatGPT recommends in your place</li>
+        <li>The citations and sources shaping the answer</li>
+      </ul>
+      <p>Free covers ChatGPT. Add Gemini, Google AI Overviews, and Perplexity &mdash; plus automatic daily tracking &mdash; on a paid plan.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Free ChatGPT visibility tracker &mdash; FAQ</h2>
+      ${faqHtml}
+    </section>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+writePage(
+  "free-chatgpt-visibility-tracker/index.html",
+  renderLayout({
+    routePath: freeTrackerRoute,
+    title: freeTrackerTitle,
+    description: freeTrackerDescription,
+    body: freeTrackerBody(),
+    lastModified: site.updated,
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Free ChatGPT Visibility Tracker", path: freeTrackerRoute },
+      ]),
+      webPageSchema({
+        routePath: freeTrackerRoute,
+        title: freeTrackerTitle,
+        description: freeTrackerDescription,
+      }),
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: "Free ChatGPT Visibility Tracker",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: canonicalUrl(freeTrackerRoute),
+        description: freeTrackerDescription,
+        isAccessibleForFree: true,
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          logo: { "@type": "ImageObject", url: site.logo },
+        },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: "How to check your brand's ChatGPT visibility for free",
+        description:
+          "Run a free ChatGPT visibility check on your brand in about a minute.",
+        step: freeTrackerSteps.map((s, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: s.name,
+          text: s.text,
+        })),
+      },
+      faqSchema(freeTrackerFaqs, freeTrackerRoute),
+    ],
+  }),
+);
+
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
@@ -1901,6 +2053,7 @@ const sitemapUrls = [
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
+  { path: "/free-chatgpt-visibility-tracker/", lastmod: site.updated || generatedAt },
   { path: "/prompt-pulse/", lastmod: promptPulse.updated },
   ...promptPulse.verticals.map((v) => ({ path: `/prompt-pulse/${v.slug}/`, lastmod: v.updated || promptPulse.updated })),
   { path: "/news/", lastmod: newsLatest },
