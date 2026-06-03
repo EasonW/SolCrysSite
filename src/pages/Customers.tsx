@@ -615,12 +615,12 @@ const CustomerStories = () => {
                     <p className="text-sm text-muted-foreground mt-0.5">
                       Sr. Director, Global Digital Marketing
                     </p>
-                    <p
-                      className="text-xs font-semibold uppercase tracking-[0.15em] mt-1"
-                      style={{ color: UIPATH_ORANGE }}
-                    >
-                      UiPath
-                    </p>
+                    <img
+                      src="/customers/uipath-logo.svg"
+                      alt="UiPath"
+                      className="mt-3 h-7 w-auto"
+                      loading="lazy"
+                    />
                     <div className="mt-3">
                       <LinkedInLink href={LINKEDIN.maria} name="Maria Voloh" />
                     </div>

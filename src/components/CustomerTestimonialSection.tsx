@@ -86,7 +86,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
 ];
 
 const LOGO_ITEMS = [
-  { label: "UiPath", color: UIPATH_ORANGE },
+  { label: "UiPath", color: UIPATH_ORANGE, image: "/customers/uipath-logo.svg", className: "h-7" },
   { label: "NextSilicon", color: NEXTSILICON_INDIGO },
   { label: "Wyze", color: WYZE_TEAL, image: "/customers/wyze-logo.png" },
   { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo.png" },
@@ -138,15 +138,13 @@ const CustomerTestimonialSection = () => {
                   key={logo.label}
                   src={logo.image}
                   alt={logo.label}
-                  className="h-5 md:h-6 w-auto opacity-50 hover:opacity-80 transition-opacity"
+                  className={`${logo.className ?? "h-5 md:h-6"} w-auto opacity-50 hover:opacity-80 transition-opacity`}
                   loading="lazy"
                 />
               ) : (
                 <span
                   key={logo.label}
-                  className={`font-heading ${
-                    logo.label === "UiPath" ? "text-xl md:text-2xl" : "text-lg md:text-xl"
-                  } font-semibold tracking-tight opacity-50 hover:opacity-80 transition-opacity`}
+                  className="font-heading text-lg md:text-xl font-semibold tracking-tight opacity-50 hover:opacity-80 transition-opacity"
                   style={{ color: logo.color }}
                 >
                   {logo.label}
