@@ -250,7 +250,7 @@ const Navbar = () => {
               href={AUDIT_URL}
               onClick={() => trackAuditClick("navbar")}
             >
-              Run Free Audit
+              Get Started
             </a>
           </Button>
         </div>
@@ -431,7 +431,7 @@ const Navbar = () => {
               }}
               className="mt-4 inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
             >
-              Run Free Audit
+              Get Started
             </a>
 
             {/* Mobile Login — visually separated below the primary CTA since
