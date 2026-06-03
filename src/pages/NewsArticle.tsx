@@ -234,6 +234,14 @@ const NewsArticle = ({ slug: configuredSlug }: NewsArticleProps) => {
 
             {author ? (
               <div className="mt-6 flex items-center gap-3 text-sm text-muted-foreground">
+                {personPhoto[author.name] ? (
+                  <img
+                    src={personPhoto[author.name]}
+                    alt={author.name}
+                    className="h-11 w-11 flex-none rounded-full object-cover border border-border/40"
+                    loading="lazy"
+                  />
+                ) : null}
                 <span>
                   By <span className="font-medium text-foreground">{author.name}</span>,{" "}
                   {author.role}

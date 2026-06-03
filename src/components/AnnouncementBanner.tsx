@@ -3,16 +3,16 @@ import { ArrowRight, Sparkles } from "lucide-react";
 const AnnouncementBanner = () => {
   return (
     <a
-      href="/news/introducing-solcrys-aeo/"
+      href="/news/why-prompt-pulse-and-the-chatgpt-tracker-are-free/"
       className="group inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 rounded-full border border-border/50 bg-card/40 backdrop-blur-md px-4 py-1.5 mb-6 max-w-full text-xs md:text-sm transition-colors hover:border-[hsl(195_90%_55%/0.45)]"
     >
       <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(195_90%_55%/0.12)] px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[hsl(195_90%_55%)]">
         <Sparkles className="h-3 w-3" />
-        Launch
+        New
       </span>
       <span className="text-muted-foreground">
-        <span className="font-medium text-foreground">Introducing SolCrys AEO</span>
-        <span className="hidden sm:inline"> — the operating platform for brands to win AI search</span>
+        <span className="font-medium text-foreground">Free ChatGPT Visibility Tracker + Prompt Pulse</span>
+        <span className="hidden sm:inline"> — two free tools, and why we made them free</span>
       </span>
       <span className="inline-flex items-center gap-1 font-medium text-[hsl(195_90%_55%)]">
         Read
