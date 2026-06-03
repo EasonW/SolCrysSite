@@ -66,8 +66,14 @@ const PromptPulseHub = () => {
                     </div>
                     <p className="mb-3 text-sm text-muted-foreground">{v.blurb}</p>
                     <p className="text-xs text-muted-foreground">
-                      <span className="font-semibold text-foreground">{v.stats.prompts}</span> prompts ·{" "}
-                      <span style={{ color: "hsl(142 70% 45%)" }}>{v.stats.rising} rising</span> ·{" "}
+                      <span className="font-semibold text-foreground">{v.stats.prompts}</span> prompts
+                      {v.stats.rising > 0 ? (
+                        <>
+                          {" · "}
+                          <span style={{ color: "hsl(142 70% 45%)" }}>{v.stats.rising} rising</span>
+                        </>
+                      ) : null}
+                      {" · "}
                       <span style={{ color: "hsl(40 85% 55%)" }}>{v.stats.decision} purchase-ready</span>
                     </p>
                     {topRiser ? (

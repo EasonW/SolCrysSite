@@ -1586,7 +1586,7 @@ function promptPulseVerticalBody(v) {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · Free AI demand data</p>
     <h1>The prompts ${escapeHtml(v.short)} buyers ask AI</h1>
-    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts · ${v.stats.rising} rising · ${v.stats.decision} purchase-ready. Updated ${escapeHtml(v.updated)}, US/English.</p>
+    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. Updated ${escapeHtml(v.updated)}, US/English.</p>
     <section class="seo-section">
       <h2>Demand ranking</h2>
       <table>
@@ -1629,7 +1629,7 @@ function promptPulseHubBody() {
   const cards = promptPulse.verticals
     .map(
       (v) =>
-        `<li><a href="/prompt-pulse/${v.slug}/"><strong>${escapeHtml(v.short)}</strong></a> — ${escapeHtml(v.blurb)} (${v.stats.prompts} prompts, ${v.stats.rising} rising, ${v.stats.decision} purchase-ready)</li>`,
+        `<li><a href="/prompt-pulse/${v.slug}/"><strong>${escapeHtml(v.short)}</strong></a> — ${escapeHtml(v.blurb)} (${v.stats.prompts} prompts${v.stats.rising > 0 ? `, ${v.stats.rising} rising` : ""}, ${v.stats.decision} purchase-ready)</li>`,
     )
     .join("");
   return `
