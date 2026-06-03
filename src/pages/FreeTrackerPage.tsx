@@ -215,7 +215,7 @@ const FreeTrackerPage = () => {
                   loading="lazy"
                 />
                 <img
-                  src="/customers/clearlykept-logo.png"
+                  src="/customers/clearlykept-logo-dark.png"
                   alt="ClearlyKept"
                   className="h-5 md:h-6 w-auto"
                   loading="lazy"

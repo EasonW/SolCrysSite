@@ -89,7 +89,7 @@ const LOGO_ITEMS = [
   { label: "UiPath", color: UIPATH_ORANGE, image: "/customers/uipath-logo.svg", className: "h-7" },
   { label: "NextSilicon", color: NEXTSILICON_INDIGO, image: "/customers/nextsilicon-logo.svg", className: "h-4 md:h-5" },
   { label: "Wyze", color: WYZE_TEAL, image: "/customers/wyze-logo.png" },
-  { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo.png" },
+  { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo-dark.png" },
   { label: "BOBOYM", color: BOBOYM_ORANGE },
 ];
 
