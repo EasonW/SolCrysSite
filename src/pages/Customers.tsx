@@ -823,9 +823,9 @@ const CustomerStories = () => {
             See where your brand shows up — and where it doesn't.
           </h2>
           <p className="fade-in-scroll text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8">
-            Run a free AI visibility audit. Map high-intent prompts to
-            mentions, citations, answer accuracy, and the content gaps your team
-            should fix next.
+            Run a free ChatGPT visibility audit. Map high-intent prompts to
+            mentions, citations, competitor recommendations, and the content
+            gaps your team should fix next.
           </p>
           <div className="fade-in-scroll flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild variant="hero" size="lg" className="text-base px-8 py-6 h-auto">
@@ -833,7 +833,7 @@ const CustomerStories = () => {
                 href={AUDIT_URL}
                 onClick={() => trackAuditClick("customers")}
               >
-                Get a Free AI Visibility Audit
+                Run Free ChatGPT Audit
                 <ArrowRight className="ml-2 w-5 h-5" />
               </a>
             </Button>

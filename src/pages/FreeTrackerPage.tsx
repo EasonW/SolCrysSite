@@ -21,7 +21,7 @@ import { trackEvent } from "@/lib/analytics";
 const PAGE_TITLE =
   "Free ChatGPT Visibility Tracker — See If AI Recommends Your Brand | SolCrys";
 const PAGE_DESCRIPTION =
-  "Free ChatGPT visibility tracker. Enter your domain and see whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — about a minute, no credit card.";
+  "Free ChatGPT visibility tracker. Enter your domain and see whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — about 5 minutes, no credit card.";
 const CANONICAL = "https://solcrys.com/free-chatgpt-visibility-tracker/";
 
 // Same loose URL-shape check the hero + /audit AuditFlow use, kept local so
@@ -38,7 +38,7 @@ const STEPS = [
   {
     Icon: Search,
     title: "Enter your domain",
-    body: "No signup, no credit card. Just your website — or a competitor's.",
+    body: "Start with your website — or a competitor's. No credit card.",
   },
   {
     Icon: BarChart3,
@@ -140,7 +140,7 @@ const FreeTrackerPage = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
               See whether ChatGPT mentions, cites, or skips your brand on the
               prompts your buyers actually ask — or names a competitor instead.
-              About a minute, no signup.
+              Results in about 5 minutes.
             </p>
 
             <form
@@ -172,7 +172,7 @@ const FreeTrackerPage = () => {
                   size="lg"
                   className="text-base px-6 sm:px-7 py-6 sm:py-5 h-auto sm:rounded-l-none sm:rounded-r-xl whitespace-nowrap"
                 >
-                  Track ChatGPT Visibility, Free
+                  Run free audit
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>
@@ -188,7 +188,7 @@ const FreeTrackerPage = () => {
               <span className="mx-2 text-muted-foreground/50">·</span>
               No credit card
               <span className="mx-2 text-muted-foreground/50">·</span>
-              Results in about a minute
+              Free workspace to save the report
             </p>
 
             <div className="mt-14 pt-8 border-t border-white/5">
@@ -196,12 +196,12 @@ const FreeTrackerPage = () => {
                 Trusted by
               </p>
               <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70">
-                <span
-                  className="font-heading text-xl md:text-2xl font-semibold tracking-tight"
-                  style={{ color: "#FA4616" }}
-                >
-                  UiPath
-                </span>
+                <img
+                  src="/customers/uipath-logo.svg"
+                  alt="UiPath"
+                  className="h-6 md:h-7 w-auto"
+                  loading="lazy"
+                />
                 <span
                   className="font-heading text-lg md:text-xl font-semibold tracking-tight"
                   style={{ color: "#6366F1" }}
@@ -349,11 +349,11 @@ const FreeTrackerPage = () => {
           <div className="container mx-auto px-6 max-w-3xl text-center">
             <div className="rounded-2xl border border-[hsl(195_90%_55%/0.25)] bg-[hsl(195_90%_55%/0.06)] p-10 md:p-14">
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
-                See if ChatGPT recommends you in about a minute.
+                See if ChatGPT recommends you in about 5 minutes.
               </h2>
               <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-                Free, no credit card. Enter your domain and get your ChatGPT
-                visibility report.
+                Free workspace, no credit card. Enter your domain and get your
+                ChatGPT visibility report.
               </p>
               <Button
                 asChild
@@ -365,7 +365,7 @@ const FreeTrackerPage = () => {
                   href={AUDIT_URL}
                   onClick={() => trackAuditClick("free_tracker_lp_footer")}
                 >
-                  Track ChatGPT Visibility, Free
+                  Run free audit
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </a>
               </Button>
