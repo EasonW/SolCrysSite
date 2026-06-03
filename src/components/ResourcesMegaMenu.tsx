@@ -99,10 +99,10 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
             </span>
             <div className="min-w-0">
               <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(195_90%_55%)]">
-                Prompt Pulse · Free
+                Prompt Pulse
               </p>
               <p className="text-sm font-medium text-foreground">
-                Free AI demand data — what buyers ask AI, by industry
+                AI demand data — what buyers ask AI, by industry
               </p>
             </div>
           </div>

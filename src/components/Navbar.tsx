@@ -194,12 +194,9 @@ const Navbar = () => {
 
           <a
             href="/prompt-pulse/"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Prompt Pulse
-            <span className="rounded-full bg-[hsl(195_90%_55%/0.15)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[hsl(195_90%_55%)]">
-              Free
-            </span>
           </a>
 
           {renderDropdownTrigger(
@@ -333,12 +330,9 @@ const Navbar = () => {
             <a
               href="/prompt-pulse/"
               onClick={closeAll}
-              className="flex items-center gap-2 py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+              className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
               Prompt Pulse
-              <span className="rounded-full bg-[hsl(195_90%_55%/0.15)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[hsl(195_90%_55%)]">
-                Free
-              </span>
             </a>
 
             {/* Mobile Resources accordion */}

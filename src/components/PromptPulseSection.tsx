@@ -20,14 +20,14 @@ const PromptPulseSection = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <div className="max-w-2xl">
             <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
-              Prompt Pulse · Free AI demand data
+              Prompt Pulse · AI demand data
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
               See what your market is asking AI.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
               The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — across{" "}
-              {industries} industries, ranked by demand and showing what's heating up. Free, refreshed monthly.
+              {industries} industries, ranked by demand and showing what's heating up. Refreshed monthly.
             </p>
           </div>
           <a

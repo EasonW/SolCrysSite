@@ -30,7 +30,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
     document.title = `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`;
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (desc) {
-      desc.content = `The real questions ${v.short} buyers ask AI engines, ranked by demand and trend. Free, updated monthly.`;
+      desc.content = `The real questions ${v.short} buyers ask AI engines, ranked by demand and trend. Updated monthly.`;
     }
   }, [v]);
 
@@ -55,7 +55,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
 
           <header className="mb-8">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[hsl(195_90%_55%)]">
-              Prompt Pulse · Free AI demand data
+              Prompt Pulse · AI demand data
             </p>
             <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
               The prompts {v.short} buyers ask AI

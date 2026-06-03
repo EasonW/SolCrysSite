@@ -19,7 +19,7 @@ const PromptPulseHub = () => {
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (desc) {
       desc.content =
-        "Free AI demand data: the real prompts buyers ask ChatGPT, Perplexity and AI Overviews across industries — ranked by demand and what's rising. Updated monthly.";
+        "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and AI Overviews across industries — ranked by demand and what's rising. Updated monthly.";
     }
   }, []);
 
@@ -32,14 +32,14 @@ const PromptPulseHub = () => {
         <div className="container mx-auto max-w-5xl px-6">
           <header className="mb-10">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[hsl(195_90%_55%)]">
-              Prompt Pulse · Free AI demand data
+              Prompt Pulse · AI demand data
             </p>
             <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
               See what your market is asking AI
             </h1>
             <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
               The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by
-              industry, ranked by demand, and showing what's heating up. Free, refreshed monthly.
+              industry, ranked by demand, and showing what's heating up. Refreshed monthly.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">Updated {promptPulse.updated} · US / English</p>
           </header>
