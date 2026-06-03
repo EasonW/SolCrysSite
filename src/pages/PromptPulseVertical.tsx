@@ -65,8 +65,12 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Stat n={v.stats.prompts} label="prompts" />
-              <Stat n={v.stats.rising} label="rising" color="hsl(142 70% 45%)" />
-              <Stat n={v.stats.cooling} label="cooling" color="hsl(18 85% 58%)" />
+              {v.stats.rising > 0 ? (
+                <Stat n={v.stats.rising} label="rising" color="hsl(142 70% 45%)" />
+              ) : null}
+              {v.stats.cooling > 0 ? (
+                <Stat n={v.stats.cooling} label="cooling" color="hsl(18 85% 58%)" />
+              ) : null}
               <Stat n={v.stats.decision} label="purchase-ready" color="hsl(40 85% 55%)" />
               <Stat n={v.updated} label="updated · monthly" />
             </div>
