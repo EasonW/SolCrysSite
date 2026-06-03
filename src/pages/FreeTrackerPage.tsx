@@ -195,19 +195,19 @@ const FreeTrackerPage = () => {
               <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">
                 Trusted by
               </p>
-              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70">
+              <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 md:gap-x-12 opacity-70">
                 <img
                   src="/customers/uipath-logo.svg"
                   alt="UiPath"
                   className="h-6 md:h-7 w-auto"
                   loading="lazy"
                 />
-                <span
-                  className="font-heading text-lg md:text-xl font-semibold tracking-tight"
-                  style={{ color: "#6366F1" }}
-                >
-                  NextSilicon
-                </span>
+                <img
+                  src="/customers/nextsilicon-logo.svg"
+                  alt="NextSilicon"
+                  className="h-4 md:h-5 w-auto"
+                  loading="lazy"
+                />
                 <img
                   src="/customers/wyze-logo.png"
                   alt="Wyze"

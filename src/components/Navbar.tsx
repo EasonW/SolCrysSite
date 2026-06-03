@@ -245,7 +245,7 @@ const Navbar = () => {
               at app.solcrys.com/audit (self-serve as of 2026-05-20).
               Previous EarlyAccessDialog modal is retained for the
               "founder chat" sales path only (see Pricing.tsx). */}
-          <Button asChild variant="hero" size="sm">
+          <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
             <a
               href={AUDIT_URL}
               onClick={() => trackAuditClick("navbar")}
@@ -423,11 +423,22 @@ const Navbar = () => {
               {flatNavLinks[3].label}
             </a>
 
-            {/* Mobile Login — visually separated below the nav block since
+            <a
+              href={AUDIT_URL}
+              onClick={() => {
+                trackAuditClick("navbar_mobile");
+                closeAll();
+              }}
+              className="mt-4 inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Run Free Audit
+            </a>
+
+            {/* Mobile Login — visually separated below the primary CTA since
                 it's an action, not a section link. */}
             <a
               href="https://app.solcrys.com/login"
-              className="mt-4 inline-flex w-full items-center justify-center rounded-md border border-border/60 px-4 py-3 text-base font-medium text-foreground hover:bg-accent/40 transition-colors"
+              className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-border/60 px-4 py-3 text-base font-medium text-foreground hover:bg-accent/40 transition-colors"
             >
               Login
             </a>

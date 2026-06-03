@@ -14,7 +14,7 @@ import {
   Workflow,
 } from "lucide-react";
 
-const NEXTSILICON_INDIGO = "#6366F1";
+const NEXTSILICON_INDIGO = "#5700FF";
 
 const LINKEDIN_BRANDON = "https://www.linkedin.com/in/brandondraeger/";
 

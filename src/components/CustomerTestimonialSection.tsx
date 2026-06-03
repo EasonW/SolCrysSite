@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import CustomerQuoteCarousel, { type CustomerQuote } from "@/components/CustomerQuoteCarousel";
 
 const WYZE_TEAL = "#00D4B4";
-const NEXTSILICON_INDIGO = "#6366F1";
+const NEXTSILICON_INDIGO = "#5700FF";
 const CLEARLYKEPT_AMBER = "#F59E0B";
 const BOBOYM_ORANGE = "#FB923C";
 const UIPATH_ORANGE = "#FA4616";
@@ -87,7 +87,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
 
 const LOGO_ITEMS = [
   { label: "UiPath", color: UIPATH_ORANGE, image: "/customers/uipath-logo.svg", className: "h-7" },
-  { label: "NextSilicon", color: NEXTSILICON_INDIGO },
+  { label: "NextSilicon", color: NEXTSILICON_INDIGO, image: "/customers/nextsilicon-logo.svg", className: "h-4 md:h-5" },
   { label: "Wyze", color: WYZE_TEAL, image: "/customers/wyze-logo.png" },
   { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo.png" },
   { label: "BOBOYM", color: BOBOYM_ORANGE },
@@ -128,7 +128,7 @@ const CustomerTestimonialSection = () => {
 
         {/* Logo wall — secondary trust signal, kept subtle */}
         <div className="mt-10 pt-6 border-t border-border/20">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-10">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 md:gap-x-10">
             <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60">
               Trusted by
             </span>

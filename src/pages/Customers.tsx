@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 const WYZE_TEAL = "#00D4B4";
-const NEXTSILICON_INDIGO = "#6366F1";
+const NEXTSILICON_INDIGO = "#5700FF";
 const UIPATH_ORANGE = "#FA4616";
 
 const LINKEDIN = {
@@ -168,12 +168,12 @@ const CustomerStories = () => {
           <div className="container mx-auto px-6 max-w-6xl">
             <div className="fade-in-scroll flex flex-col items-center mb-10">
               <p className="section-label mb-4">Featured customer</p>
-              <p
-                className="font-heading text-3xl md:text-4xl font-bold tracking-tight"
-                style={{ color: NEXTSILICON_INDIGO }}
-              >
-                NextSilicon
-              </p>
+              <img
+                src="/customers/nextsilicon-logo.svg"
+                alt="NextSilicon"
+                className="h-7 md:h-8 w-auto"
+                loading="lazy"
+              />
               <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 High-Performance Computing &amp; AI
               </p>
