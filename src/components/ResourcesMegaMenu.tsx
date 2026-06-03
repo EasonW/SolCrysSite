@@ -1,7 +1,6 @@
 import { Activity, ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RESOURCES_COLUMNS } from "./resourcesMenuData";
-import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import siteContent from "@/content/siteContent.json";
 
 interface ResourcesMegaMenuProps {
@@ -9,13 +8,6 @@ interface ResourcesMegaMenuProps {
 }
 
 const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
-  // Both close the menu and fire the GA event. Same pattern as the
-  // resource-item clicks above.
-  const handleAuditClick = () => {
-    onItemClick?.();
-    trackAuditClick("resources_mega");
-  };
-
   // `.shadow-floating-lg` (in index.css) overrides the project's
   // brutalist `--shadow-2xl` token (24px hard-offset black in light
   // mode). Uses `!important` to win the Tailwind `shadow-{size}`
@@ -77,8 +69,8 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
               which competitor it names instead. Free, no credit card.
             </p>
             <Button asChild variant="hero" size="sm" className="w-full">
-              <a href={AUDIT_URL} onClick={handleAuditClick}>
-                Get Started
+              <a href="/free-chatgpt-visibility-tracker/" onClick={onItemClick}>
+                Try it free
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
               </a>
             </Button>
