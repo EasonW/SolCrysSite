@@ -22,8 +22,8 @@ const CTASection = () => {
               See where ChatGPT names competitors before your brand.
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Run a free ChatGPT baseline for buyer prompts, competitor
-              mentions, and source gaps. Add daily multi-engine monitoring
+              Run a free ChatGPT visibility check for buyer prompts, competitor
+              mentions, and source gaps. Add daily multi-engine tracking
               when you are ready.
             </p>
             <Button asChild variant="hero" size="lg" className="text-base px-8 py-6">
