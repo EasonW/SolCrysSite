@@ -115,7 +115,7 @@ const FreeTrackerPage = () => {
       surface: "free_tracker_lp",
       domain: trimmed,
     });
-    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}`;
+    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`;
   };
 
   return (

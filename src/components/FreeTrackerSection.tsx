@@ -41,7 +41,7 @@ const FreeTrackerSection = () => {
       surface: "home_tracker_section",
       domain: trimmed,
     });
-    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}`;
+    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`;
   };
 
   return (
