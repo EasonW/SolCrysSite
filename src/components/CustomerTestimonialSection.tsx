@@ -16,6 +16,8 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     role: "Sr. Director, Global Digital Marketing",
     company: "UiPath",
     photoUrl: "/customers/maria-voloh.jpg",
+    companyLogoUrl: "/customers/uipath-logo.svg",
+    companyLogoClassName: "h-7",
     accent: UIPATH_ORANGE,
     quote:
       "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines.",
@@ -26,6 +28,8 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     role: "VP of Marketing",
     company: "NextSilicon",
     photoUrl: "/customers/brandon-draeger.jpg",
+    companyLogoUrl: "/customers/nextsilicon-logo.svg",
+    companyLogoClassName: "h-4 md:h-5",
     accent: NEXTSILICON_INDIGO,
     quote:
       "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. SolCrys is informing how we think about marketing performance across product launches, campaigns, and major events.",
@@ -36,6 +40,8 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     role: "CEO",
     company: "Wyze",
     photoUrl: "/customers/yun-zhang.jpg",
+    companyLogoUrl: "/customers/wyze-logo.png",
+    companyLogoClassName: "h-5 md:h-6",
     accent: WYZE_TEAL,
     quote:
       "SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust. We're excited to work with the SolCrys team as they build toward the future of brand discovery and agentic commerce.",
@@ -46,6 +52,8 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     role: "Head of Amazon",
     company: "Wyze",
     photoUrl: "/customers/michelle-frees.jpg",
+    companyLogoUrl: "/customers/wyze-logo.png",
+    companyLogoClassName: "h-5 md:h-6",
     accent: WYZE_TEAL,
     quote:
       "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible.",
@@ -56,6 +64,8 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     role: "Co-founder",
     company: "ClearlyKept",
     photoUrl: "/customers/garrett-astler.jpg",
+    companyLogoUrl: "/customers/clearlykept-logo-dark.png",
+    companyLogoClassName: "h-5 md:h-6",
     accent: CLEARLYKEPT_AMBER,
     quote:
       "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, and draft content for our website is exactly what we need.",

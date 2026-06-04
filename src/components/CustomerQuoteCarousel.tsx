@@ -11,6 +11,9 @@ export type CustomerQuote = {
   role: string;
   company: string;
   photoUrl: string | null;
+  /** Optional official company mark, preferred over the text eyebrow when set. */
+  companyLogoUrl?: string;
+  companyLogoClassName?: string;
   quote: string;
   accent?: string;
   attribution: AttributionLink;
@@ -56,6 +59,39 @@ const AttributionPill = ({ attribution, name }: { attribution: AttributionLink; 
       <LinkedInIcon />
       LinkedIn
     </a>
+  );
+};
+
+const CompanyMark = ({
+  company,
+  logoUrl,
+  logoClassName,
+  accent,
+}: {
+  company: string;
+  logoUrl?: string;
+  logoClassName?: string;
+  accent?: string;
+}) => {
+  if (logoUrl) {
+    return (
+      <div className="mb-2 flex justify-center md:justify-start">
+        <img
+          src={logoUrl}
+          alt={company}
+          className={`${logoClassName ?? "h-5"} w-auto max-w-[140px]`}
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+  return (
+    <p
+      className="text-[11px] uppercase tracking-[0.15em] mb-1"
+      style={accent ? { color: accent } : { color: "hsl(var(--muted-foreground))" }}
+    >
+      {company}
+    </p>
   );
 };
 
@@ -142,20 +178,16 @@ const CustomerQuoteCarousel = ({
                 <div className="flex flex-col items-center md:items-start justify-center gap-4 p-6 md:p-10 md:w-[300px] border-b md:border-b-0 md:border-r border-border/40 bg-muted/15">
                   <QuotePhoto photoUrl={q.photoUrl} accent={q.accent} alt={q.name} />
                   <div className="text-center md:text-left">
+                    <CompanyMark
+                      company={q.company}
+                      logoUrl={q.companyLogoUrl}
+                      logoClassName={q.companyLogoClassName}
+                      accent={q.accent}
+                    />
                     <p className="font-heading text-sm md:text-base font-semibold text-foreground">
                       {q.name}
                     </p>
                     <p className="text-xs md:text-sm text-muted-foreground mt-0.5">{q.role}</p>
-                    <p
-                      className="text-[11px] uppercase tracking-[0.15em] mt-1"
-                      style={
-                        q.accent
-                          ? { color: q.accent }
-                          : { color: "hsl(var(--muted-foreground))" }
-                      }
-                    >
-                      {q.company}
-                    </p>
                     <div className="mt-2">
                       <AttributionPill attribution={q.attribution} name={q.name} />
                     </div>
