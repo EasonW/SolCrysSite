@@ -573,6 +573,10 @@ function homeHtml() {
         <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track citation rate, answer accuracy, and recommendation share to prove which fixes actually moved the answer.</li>
       </ol>
     </section>
+    <section id="free-tracker" class="seo-container seo-section">
+      <h2>Free ChatGPT visibility tracker</h2>
+      <p>See if ChatGPT recommends your brand — or your competitor. Enter your domain and SolCrys checks where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — about 5 minutes, no credit card. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews / AI Mode, and Perplexity with automatic daily tracking. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="https://app.solcrys.com/audit">start free</a>.</p>
+    </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers turn AI visibility into governed execution</h2>
       <div class="seo-grid">

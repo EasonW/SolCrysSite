@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import LoopSection from "@/components/LoopSection";
+import FreeTrackerSection from "@/components/FreeTrackerSection";
 import ProblemSection from "@/components/ProblemSection";
 import PlatformLayersSection from "@/components/PlatformLayersSection";
 import MCPSkillsSection from "@/components/MCPSkillsSection";
@@ -21,6 +22,7 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <LoopSection />
+      <FreeTrackerSection />
       <CustomerTestimonialSection />
       <ProblemSection />
       <PlatformLayersSection />
