@@ -14443,6 +14443,149 @@ A: No. Closed loop changes the role of the content team from "originate every br
 Q: Why isn't every vendor doing this if it's better?
 A: Three reasons. The build is structurally expensive (see "why most vendors stop at diagnosis" above). The market is still being educated — many buyers in 2026 are still in "I need to see my number" mode, not "I need to ship the fix" mode, so dashboards still sell. And the verification step requires a discipline most vendors haven't built — running the same prompts on the same cadence and reporting deltas rather than absolute numbers. It will come; in mid-2026 it's still the differentiator.
 
+## Best AEO Platforms for Agent Workflows: Which Are Actually Programmatically Drivable (2026)
+
+Most AEO tool comparisons ask "which platform has the best dashboard" or "which one closes the loop for me." This one asks a different question, the one a team building an agentic content pipeline actually has: **which AEO platforms can I drive from my own agent stack — Claude Code, Cursor, n8n, a custom agent — programmatically?** We verified the agent surface of nine platforms against primary docs and graded them on one spine: read-only MCP vs write API. By mid-2026 shipping an MCP server is table stakes; what it lets an external agent **do** is not. Disclosure: SolCrys publishes this and is one of the platforms compared.
+
+### Questions this guide answers
+
+- What are the best AEO tools for programmatic content workflow orchestration?
+- Which AEO platforms can I drive from my own agent stack?
+- Which AEO platforms have an MCP server?
+- Can I automate AEO with agents, MCP, and APIs?
+- What is the difference between a read-only MCP and a write API for AEO?
+- Which AEO platform is the most agent-drivable in 2026?
+
+### Direct answer: which AEO platforms are actually agent-drivable
+
+If you want to run measure, diagnose, draft, ship, and verify from your OWN agent stack — Claude Code, Cursor, n8n, a custom agent — the honest 2026 answer is that very few platforms let you. **AirOps** is the most execute-capable: a first-party read-write MCP that actually triggers content-workflow runs. **Scrunch** gives you a read-write MCP on every plan, but the writes are tracking-config only. **Profound** can trigger pre-built internal agents via REST, but only on Enterprise plus beta plus by-request access. **SolCrys** (our platform — disclosed bias) exposes a deliberately **read-only** MCP plus an open-source Skills layer, so your agent can measure, diagnose, and draft the fix, then closes ship-and-verify in-platform behind a human approval gate. Everyone else — Conductor, Semrush, AthenaHQ, Otterly, Goodie — is either read-only telemetry, partially gated, or dashboard-bound.
+
+The single distinction that separates these is the one most comparisons skip: **read-only MCP vs write API.** A first-party MCP server is now table stakes — Profound, Conductor, Scrunch, AirOps, Semrush, and SolCrys all ship one. The real question is what that MCP lets an external agent DO, and whether the write path is governed. We judge every platform on exactly that, put ourselves in the same matrix under the same rubric, and tell you where each one's loop breaks.
+
+One framing up front: this is not another dashboard roundup or closed-loop scorecard. It segments platforms purely by whether YOU can orchestrate them from your own agent stack. If your question is whether the loop closes at all, read our [AEO platforms with closed-loop execution](/aeo-platforms-with-closed-loop-execution/) scorecard — that page grades the Measure to Verify outcome. This page is about who can drive that loop from your agent stack. All capability grades are as of June 2026 and verified against each vendor's primary docs; this category moves weekly, so we re-verify and re-publish.
+
+
+
+
+### What "agent-drivable" actually means (and why it is not the same as "has agents")
+
+"Agent-drivable" means an agent YOU control — in your stack, on your schedule — can call the platform's primitives programmatically: read citations and visibility, diagnose a gap, draft a fix, trigger a re-measure, and ideally ship. It is the opposite of a vendor "agent" that lives behind a dashboard and runs on the vendor's terms. This distinction matters because the marketing collapses it. **Profound Agents**, **Conductor's AgentStack Creator**, **AthenaHQ's ACE**, and **Goodie's** function-specific agents are all real — and all internal-only walled automations. "Has agents" tells you nothing about whether you can orchestrate the platform from outside it. See our [marketing agent infrastructure positioning](/marketing-agent-infrastructure-aeo-positioning/) piece for why the architecture label so often hides the concrete work.
+
+So we grade on five concrete surfaces, in order of how much external control they give you. The pattern emerging as best practice — and the one we deliberately adopted — is "retrieve widely, write narrowly, approve at every boundary": let agents read measurement and diagnosis freely over a read-only MCP, but route any publish through a narrow, human-gated channel. A platform that lets an autonomous agent both diagnose AND publish through one ungoverned MCP is not more advanced; it is a brand-safety incident waiting to happen.
+
+
+- **Native MCP server** — and whether it is read-only or read-write.
+- **Public REST API and SDKs** — the deterministic substrate content-ops and RevOps build repeatable pipelines on, underneath the MCP.
+- **Webhooks and events** — to trigger loops on change (almost nobody ships these for AEO yet).
+- **No-code connectors** (n8n, Zapier, Make) and CI/CD fit — a real maintained connector, not just "reachable via generic MCP."
+- **A governed publish path** — staged human approval and an audit trail at the write boundary, plus verification independent of the drafting agent.
+
+
+
+### The capability matrix: every platform, same rubric (including us)
+
+Read the matrix one axis at a time. On native MCP, read-only is the norm (Profound, Conductor, Semrush, and SolCrys all state it explicitly); read-write MCPs are rare (AirOps, Scrunch); and at least one advertised "MCP" is not connectable — AthenaHQ's is a marketing claim with no server URL, and Otterly's was still "coming soon" per its own June 2026 announcements despite a docs page that reads as live. On write and execute, only AirOps lets an external agent trigger actual content-workflow execution; Scrunch writes config; Profound triggers pre-built agents behind an Enterprise plus beta gate; everyone else is read-only or has no external write at all.
+
+Our own honest row: SolCrys ships a hosted, read-only MCP (ten read tools, OAuth or PAT) plus a portable open-source Skills layer (MIT), so your agent does measure, diagnose, and draft from your stack — but it does NOT autonomously publish. Ship-to-CMS and Verify (we re-run the same prompts and compute a Recovery Score) happen in our platform with a human approval gate, grounded in an approved-facts Corporate Context. That is a real limitation: our public MCP is read-only by design. We think that is the correct trade for brand safety, and we would rather state it plainly than dress a service token up as "autonomy." We list ourselves first because the rest of the table is organized around how agent-drivable a platform is, and that is the bet we made.
+
+
+
+Platform | Native MCP | Write / execute path | What an external agent can do | Best for
+--- | --- | --- | --- | ---
+**SolCrys** | Yes — read-only (ten tools, OAuth or PAT) | No public autonomous write; ship + verify run in-platform behind a human gate | Measure, diagnose, and draft via MCP plus open-source MIT Skills | An open, governed building block you assemble yourself
+**AirOps** | Yes — read-write (~40 tools, OAuth) | MCP run_grid_rows triggers content workflows; REST execute; native Zapier | Read AEO data AND execute content workflows | The most execute-capable surface; programmatic content-ops (poll-based)
+**Scrunch** | Yes — read-write, all plans (OAuth) | MCP / REST write tracking config and page audits; edge remediation (AXP) not externally triggerable | Measure, diagnose, and write tracking config; remediation runs elsewhere | Self-serve read-write config (watch the Sitecore acquisition roadmap)
+**Profound** | Yes — read-only (~15 tools) | Read-write REST (trigger pre-built agents, create/update prompts) — Enterprise + beta + by-request | Read via MCP; write and trigger via gated REST | Enterprise teams already on Profound with beta API access
+**Conductor** | Yes — read-only (early-access preview, paid customers only) | Read-only Data API (async query); no write or trigger | Read and diagnose only | A read-only telemetry source for your own agents and BI
+**Semrush** | Yes — read-only (SEO / Trends data) | Read-write Projects REST; the AI Visibility data is NOT on any API (UI CSV export only) | Orchestrate classic and AI-SERP SEO; not the AI-visibility metrics | Existing Semrush teams orchestrating SEO, not AI-visibility data
+**AthenaHQ** | No connectable server (the "MCP" is a marketing claim) | Read-dominant REST, Enterprise-only; writes are account-admin scope only | Measure only; the diagnose/execute agents stay behind the dashboard | An Enterprise read API to feed a monitor / report agent
+**Otterly** | Announced / "coming soon" — not confirmed shipped | Public REST + official Claude Skill; two write endpoints trigger GEO audits (measurement only) | Measure, read-diagnose, trigger audits, poll to verify | Affordable self-serve monitoring and on-demand audits
+**Goodie** | No | No public or documented external API or webhooks | Not externally orchestrable (internal agents only) | An in-platform ecommerce loop, not an orchestration component
+
+
+### Read-only MCP vs write API: the architectural spine
+
+Here is the pattern worth internalizing. Read operations belong on MCP resources for retrieval; state-changing writes belong on scoped tools or APIs behind user-level OAuth — never a long-lived service token. In practice almost every AEO MCP in this space is read-oriented for exactly this reason: it is the safe default. Profound says it outright ("All tools are read-only"); Conductor and Semrush do the same; Otterly's announced MCP spec is read-only tools. Where writes exist, they are correctly pushed to a separate keyed surface: Profound's REST API, AirOps's read-write MCP with OAuth, Scrunch's tier-gated write tools.
+
+This is why a read-only MCP is not a weakness — it is the governed half of a deliberate two-surface design. The danger sign is the opposite: one un-gated MCP using a service token that can both diagnose AND publish brand content autonomously. Our choice follows the safe pattern on purpose: the open MCP and Skills read and draft; the act of shipping lives behind human approval inside the platform. If a vendor's pitch is "our agent publishes for you, hands-off," the right follow-up is: with what token, with what scopes, and who approved the words that went live under your brand? Our CTO's [why we bet on MCP](/why-we-bet-on-mcp/) is the longer version of this argument.
+
+
+
+
+### The four tiers of agent-drivability
+
+Grouping the same nine platforms by how much external control they actually hand you:
+
+
+- **Native read-write MCP + portable skills (most agent-drivable):** AirOps, Scrunch, SolCrys — but the write scope differs sharply. AirOps triggers content-workflow execution; Scrunch writes tracking config and page audits; SolCrys keeps its MCP read-only and pairs it with open-source skills plus a governed ship/verify. Different bets: AirOps maximizes external execution, SolCrys maximizes a governed, portable building block.
+- **Public read/write API, read-only or no MCP:** Profound (read-only MCP plus a write REST API, gated to Enterprise + beta + by-request), Otterly (public REST plus an official Claude Skill, with its MCP still announced), and Semrush (a credible read-only MCP plus Projects writes — but its flagship AI Visibility metrics are reachable only by a rate-limited UI CSV export).
+- **Read-only telemetry for agents (measure/diagnose only):** Conductor (read-only MCP in early-access preview, plus a read-only Data API and downloadable analysis skills) and AthenaHQ (an Enterprise read-dominant REST API; its "MCP" is a positioning claim, not a connectable server). Good data sources; execution happens elsewhere.
+- **Internal agents only / not externally drivable:** Goodie — real in-platform agents and a genuine internal loop, but no public MCP, no documented API, and no webhooks. You consume it through its UI, not through your own orchestration layer.
+
+
+
+### Where the loop breaks: webhooks, verification, and the ship step
+
+Two structural gaps recur across the entire category. First, **webhooks**: as of June 2026, essentially none of these platforms ships outbound event-push for AEO changes — Profound, Conductor, Scrunch, AirOps, Otterly, AthenaHQ, and Semrush are all poll-only. That means every "closed loop" here is, today, a scheduled job that re-polls and re-reads, not an event-driven self-healing pipeline. Treat "real-time" claims with suspicion; daily is the honest cadence. Second, **verification independence**: a platform that measures, diagnoses, drafts, AND grades its own AI-visibility result is marking its own homework. The loop is only trustworthy when the measurement source is independent of the drafting agent and grounded in real engine queries, not the same model's approximation of whether it improved.
+
+The ship step is where almost everyone — including us — keeps a human in the loop, and we think that is right. Across the platforms we verified, the publish step stays human-gated by design: Profound and Conductor both keep a human approval gate inside their internal content agents before anything goes live. SolCrys is explicit about the same boundary: external agents read, diagnose, and draft over the open MCP and Skills; ship-to-CMS and the re-run-the-prompts Verify step route through the platform behind human approval. A closed loop with a human in it is a feature, not a failure — the fully-autonomous-publish version is the one to be nervous about.
+
+
+
+
+### How to choose for your orchestration layer
+
+Match the platform to the surface you actually need. If you are a content-ops or dev team that wants one callable node to both read AEO data and EXECUTE content workflows, **AirOps's** read-write MCP is the most capable — accept poll-based verification and paid gating. If you want self-serve read-write config writes on every plan and you will do remediation in your own CMS, **Scrunch** fits (mind the Sitecore acquisition roadmap). If you only need a clean read-only telemetry feed for your own agents and BI, **Conductor** and **AthenaHQ** are well-documented data sources. If you are already on **Semrush**, you can orchestrate classic and AI-SERP SEO — just know the flagship AI Visibility data is not on the API. And if a "platform" has no MCP, no documented API, and no webhooks (**Goodie**), it is a dashboard product, not an orchestration component, regardless of how agentic the copy sounds.
+
+Choose **SolCrys** when you specifically want a composable, governable building block: drive measure, diagnose, and draft from your own agent stack over an open read-only MCP, run the same logic in a non-Claude client via the portable open-source Skills, and close ship and verify with a human gate and an approved-facts Corporate Context. We are not the most autonomous option on this list, and we will say so — by design, your agent reads and drafts, and a human approves what ships under your brand. If your priority is hands-off autopublishing, look at AirOps. If your priority is an open, auditable, governed loop you assemble yourself, that is the trade we optimized for. For the broad, job-to-be-done tool comparison, see the [12 best AEO tools in 2026](/best-aeo-tools-2026/).
+
+
+
+
+### Drive SolCrys from your own agent stack
+
+If you want the composable, governed building block this guide describes, SolCrys is one connection away. Point your agent client at the hosted MCP server and pull your AEO data in plain English, grab the open-source Skills to run the same workflows in any client, and close ship and verify in the platform behind a human approval gate.
+
+
+- **Connect the MCP:** mcp.solcrys.com/mcp (Streamable HTTP, OAuth or PAT, read-only). Works with Claude Code, Claude Desktop, Cursor, VS Code, ChatGPT/Codex, and custom automation tools.
+- **Fork the Skills:** the open-source, MIT-licensed [SolCrys AEO Skills](https://github.com/SolCrysAI/SolCrys-AEO-Skills) — five production skills you run in your own client or adapt to your pipeline.
+- **See the hands-on setup:** [SolCrys MCP and Skills](/solcrys-mcp-and-skills/) walks through connection, the tool catalog, and the workflows; [why we bet on MCP](/why-we-bet-on-mcp/) is the thesis behind agent-readiness as an AEO surface.
+
+
+
+#### Start with the measurement
+
+Want the measurement first? [Run a free 10-prompt audit](https://app.solcrys.com/audit) — it is the Measure step your agent would read over the MCP. Or [book a demo](https://app.solcrys.com/contact-sales/) to see the governed ship-and-verify loop end to end. Capability grades in this guide are as of June 2026, verified against each vendor's primary documentation; agent surfaces in this category change weekly, and we re-verify and re-publish as they do. Disclosure: SolCrys operates one of the platforms compared.
+
+
+### Sources
+
+- [Profound — MCP capabilities (read-only tools)](https://docs.tryprofound.com/agent-apis/mcp/capabilities)
+- [AirOps — MCP server docs](https://docs.airops.com/mcp)
+- [Scrunch — AI search MCP](https://scrunchai.com)
+- [SolCrys — open-source AEO Skills (MIT)](https://github.com/SolCrysAI/SolCrys-AEO-Skills)
+- [SolCrys — MCP connection guide](https://github.com/SolCrysAI/SolCrys-AEO-Skills/blob/main/customer-guide.md)
+
+### FAQ
+
+Q: Is a native MCP server enough to call an AEO platform "agent-ready" in 2026?
+A: No. By June 2026 a first-party MCP server is table stakes — Profound, Conductor, Scrunch, AirOps, Semrush, and SolCrys all ship one. The differentiator is what the MCP exposes and whether it can write. Most AEO MCPs are deliberately read-only (Profound, Conductor, Semrush, SolCrys); a few are read-write (AirOps, Scrunch). And at least one advertised "MCP" is not connectable at all — AthenaHQ's is a marketing claim with no server URL, and Otterly's was still "coming soon" per its own June 2026 announcements. Judge the MCP by its tool list and its read/write boundary, not by its existence.
+
+Q: What is the difference between a read-only MCP and a write API, and why does it matter?
+A: A read-only MCP lets an agent query data — citations, visibility, prompts, gaps — but not change anything. A write API (or read-write MCP) lets it create, configure, trigger, or publish. The safe, emerging best-practice pattern is to map reads to a read-only MCP and route any state-changing write through a separate channel behind user-scoped OAuth with scoped permissions, never a long-lived service token. It matters because letting one ungoverned agent both diagnose AND publish brand content is a real brand-safety risk. A read-only MCP is not a weakness; it is the governed half of a deliberate two-surface design.
+
+Q: Which AEO platforms can an external agent actually EXECUTE through, not just read?
+A: Very few. AirOps is the most execute-capable — its read-write MCP can trigger actual content-workflow runs. Scrunch's read-write MCP can write tracking config and submit page audits, but the remediation lever (AXP edge serving) has no external trigger. Profound can trigger pre-built internal agents via REST, but only on Enterprise plus beta plus by-request. Otterly's two write endpoints only trigger GEO audits (measurement, not remediation). Everyone else is read-only telemetry (Conductor, Semrush, AthenaHQ) or not externally orchestrable (Goodie).
+
+Q: Can I build a fully autonomous, event-driven AEO loop today?
+A: Not really, for two reasons. First, essentially no AEO platform ships outbound webhooks for AEO changes as of June 2026 (Profound, Conductor, Scrunch, AirOps, Otterly, AthenaHQ, and Semrush are all poll-only), so loops are scheduled, not event-driven. Second, the publish step almost universally keeps a human approval gate by design. A realistic 2026 loop is: agents measure, diagnose, and draft autonomously on a daily cadence, then a human approves what ships. Treat "real-time, hands-off, self-healing" claims skeptically.
+
+Q: How is SolCrys agent-drivable, and what are its honest limits?
+A: SolCrys exposes a hosted, native MCP server (Streamable HTTP, OAuth or PAT) with a read-only tool set (visibility, prompts, citations, content audits, Corporate Context, deep analysis, tasks), connectable from Claude Code, Claude Desktop, Cursor, VS Code, ChatGPT/Codex, and custom automation — plus an open-source MIT Skills repo you can run as portable prompt templates in non-Claude clients. So your own agent can measure, diagnose, and draft the fix. The honest limit: the public MCP is read-only by design. Shipping to your CMS and Verify (we re-run the same prompts and compute a Recovery Score) happen in the platform behind a human approval gate, grounded in an approved-facts Corporate Context. We are not the most autonomous option here, and we say so — it is a deliberate brand-safety trade.
+
+Q: Why pick a composable read-only-MCP approach over a vendor that auto-publishes?
+A: Because governance and verifiability are the whole point of a brand-facing loop. An auto-publishing agent that also grades its own AI-visibility is marking its own homework, and an ungoverned write path is a liability question waiting to happen. The composable approach — read, diagnose, and draft from your own stack over an open MCP, then ship behind a human gate with an independent measurement source — keeps you in control of what goes live under your brand and keeps verification honest. If your priority is genuinely hands-off autopublishing, AirOps is the more execute-capable pick; if your priority is an open, auditable, governed loop you assemble yourself, that is the trade SolCrys optimized for.
+
 ## AEO for B2B SaaS Companies in 2026: A Vertical Guide
 
 Answer Engine Optimization for B2B SaaS in 2026 is not generic AEO. The SaaS buyer journey — discovery, comparison, evaluation, implementation, expansion — now starts inside ChatGPT and Perplexity, not Google. That means SaaS AEO weights ChatGPT Search and Perplexity above Google
