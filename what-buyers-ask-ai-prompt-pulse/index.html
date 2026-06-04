@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>What Buyers Actually Ask AI: 984 Prompts, 15 Industries | SolCrys</title>
+    <meta name="description" content="We analyzed 984 real buyer questions people put to AI across 15 industries. The finding: nearly 90% are mid-to-late-funnel — buyers use AI to decide, not just to define. Inside the SolCrys Prompt Pulse dataset." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/what-buyers-ask-ai-prompt-pulse/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-03" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="What Buyers Actually Ask AI: 984 Prompts, 15 Industries | SolCrys" />
+    <meta property="og:description" content="We analyzed 984 real buyer questions people put to AI across 15 industries. The finding: nearly 90% are mid-to-late-funnel — buyers use AI to decide, not just to define. Inside the SolCrys Prompt Pulse dataset." />
+    <meta property="og:url" content="https://solcrys.com/what-buyers-ask-ai-prompt-pulse/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-engine-optimization.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Dm-eoKf2.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"What Buyers Actually Ask AI: 984 Prompts Across 15 Industries","item":"https://solcrys.com/what-buyers-ask-ai-prompt-pulse/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"What buyers actually ask AI: 984 prompts across 15 industries","description":"We analyzed 984 real buyer questions people put to AI across 15 industries. The finding: nearly 90% are mid-to-late-funnel — buyers use AI to decide, not just to define. Inside the SolCrys Prompt Pulse dataset.","dateModified":"2026-06-03","datePublished":"2026-06-03","mainEntityOfPage":"https://solcrys.com/what-buyers-ask-ai-prompt-pulse/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/what-buyers-ask-ai-prompt-pulse/","mainEntity":[{"@type":"Question","name":"What is SolCrys Prompt Pulse?","acceptedAnswer":{"@type":"Answer","text":"Prompt Pulse is a free dataset of the real questions buyers ask AI assistants, organized by industry. The current snapshot holds 984 prompts across 15 verticals, each tagged by demand tier, trend (rising/stable/cooling), intent, persona, and buying stage. It's built to show what your market is asking ChatGPT, Perplexity, and Google's AI surfaces — and what's heating up — refreshed monthly. The live data is browsable at /prompt-pulse/."}},{"@type":"Question","name":"How many prompts and industries does it cover?","acceptedAnswer":{"@type":"Answer","text":"As of 2026-06-03, 984 prompts across 15 industries — Smart Home, plus the B2B SaaS stack (CRM, HR & Payroll, Accounting, Project Management, Marketing & Email, Ecommerce, Cybersecurity, SEO & AEO) and the AI-infrastructure layer (GPUs/accelerators, LLM inference, MLOps, LLM observability, AI cloud, and AI data/storage). The set grows and refreshes monthly."}},{"@type":"Question","name":"Where does the data come from?","acceptedAnswer":{"@type":"Answer","text":"Each vertical's question set is synthesized from four public demand sources — Google People-Also-Ask, autocomplete, keyword-expansion data, and the questions buyers ask in vertical communities — then deduplicated and scored against an AI-search demand signal. The result is a relative, within-vertical demand tier and a 12-month trend per prompt. The signals are directional, not exact query counts."}},{"@type":"Question","name":"Is this the same as keyword search volume?","acceptedAnswer":{"@type":"Answer","text":"No. Keyword volume counts short strings typed into a search box. Prompt Pulse counts full natural-language questions asked of AI assistants, and its demand tiers are directional and relative within each vertical — designed to show shape and movement, not to be read as a precise volume meter. The two are complementary: keyword tools for search head terms, Prompt Pulse for AI-assistant question demand."}},{"@type":"Question","name":"How is asking AI different from a Google search, for marketers?","acceptedAnswer":{"@type":"Answer","text":"Two ways that matter here. First, people ask AI in full sentences, so the unit of demand is a question, not a keyword. Second, the demand skews far more toward decisions — nearly 90% of the questions in this dataset are Consideration or Decision stage, versus the awareness-heavy mix marketers often assume. Practically, that means AI answers are where shortlists get formed, so being the recommended option on Decision-stage prompts is the high-value target."}},{"@type":"Question","name":"How often is Prompt Pulse updated?","acceptedAnswer":{"@type":"Answer","text":"The verticals refresh on a monthly cadence, which is why every snapshot is date-stamped rather than treated as evergreen. Monthly is deliberate — frequent enough to catch what's heating up, slow enough to show trend rather than run-to-run noise."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Prompt Intelligence</p>
+        <h1>What buyers actually ask AI: 984 prompts across 15 industries</h1>
+        <p class="seo-lede">Keyword tools tell you what people typed into a search box. They don&#39;t tell you what buyers are now <strong>asking AI assistants</strong> in full sentences. So we built a dataset of the real questions — <strong>984 of them, across 15 industries</strong> — and tagged each by demand, trend, intent, persona, and buying stage. The headline finding: <strong>nearly 90% of what buyers ask AI is mid-to-late-funnel.</strong> People aren&#39;t using ChatGPT and Perplexity to learn what a category is; they&#39;re using it to decide what to buy. This is the SolCrys Prompt Pulse dataset, and here is what it says. <a href="/prompt-pulse/" target="_blank" rel="noopener noreferrer">See the live data by industry →</a></p>
+        <p>Updated 2026-06-03</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What do people ask AI assistants about?</li><li>What questions do buyers ask ChatGPT before buying?</li><li>What is AI search demand data?</li><li>How is asking AI different from Google keyword search?</li><li>Which industries have the most AI buyer demand?</li><li>What are the most common AI prompts by industry?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>We analyzed <strong>984 real buyer questions</strong> that people put to AI assistants across <strong>15 industries</strong> — the SolCrys Prompt Pulse dataset, refreshed 2026-06-03. Each question is tagged by demand level, whether it&#39;s heating up or cooling, the buyer&#39;s intent, the persona asking, and where it sits in the buying journey.</p><p>The single clearest finding: <strong>nearly 90% of what buyers ask AI is mid-to-late-funnel</strong> (89.5% sits in Consideration or Decision). More than half — 53% — is purchase-ready Decision-stage. Only one question in ten is the &quot;what is X?&quot; awareness query people assume AI is mostly used for. Buyers aren&#39;t asking AI to define your category. They&#39;re asking it to pick a winner.</p><p>That matters because the answer they get is increasingly the shortlist they act on. The rest of this piece breaks down the four findings and what they mean for content and AI-search strategy. The full, live data is browsable by industry on the <a href="/prompt-pulse/" target="_blank" rel="noopener noreferrer">Prompt Pulse hub</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What we looked at</h2>
+      <p>A quick definition, because the unit of analysis is the whole point. Traditional keyword research counts the short strings people type into a search box (&quot;crm software&quot;, &quot;best smart lock&quot;). Prompt Pulse counts something different: the <strong>full natural-language question a buyer asks an AI assistant</strong> — &quot;Which CRM is considered number one for mid-market B2B sales teams?&quot; — because that sentence, not the keyword, is what ChatGPT, Perplexity, and Google&#39;s AI surfaces actually answer.</p><p>The current dataset spans 15 verticals — from consumer Smart Home through the B2B SaaS stack (CRM, HR, Accounting, Project Management, Marketing, Ecommerce, Cybersecurity, SEO/AEO) to the AI-infrastructure layer (GPUs, inference, MLOps, observability, cloud, data). Every prompt carries five tags: a <strong>demand tier</strong> (High / Medium / Low), a <strong>trend</strong> (rising, stable, or cooling), an <strong>intent</strong> (recommendation, comparison, cost, concern, how-to, informational), a <strong>persona</strong>, and a <strong>buying stage</strong> (Awareness → Consideration → Decision).</p><p>One honest caveat we keep on the data itself: these are <strong>directional AI-demand signals, relative within each vertical — not exact query counts.</strong> They&#39;re built to show shape and movement (what&#39;s in demand, what&#39;s heating up), not to be read as a precise search-volume meter.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Finding 1: Buyers ask AI to decide, not to define</h2>
+      <p>Sort all 984 questions by buying stage and the distribution is lopsided toward the bottom of the funnel.</p><p>The awareness layer — &quot;what is a CRM&quot;, &quot;how does a smart thermostat work&quot; — is barely a tenth of the questions. The overwhelming majority are buyers who already know the category and are now comparing options, pressure-testing concerns, and deciding.</p>
+      
+      <table>
+              <thead><tr><th>Buying stage</th><th>Share of all questions</th><th>What the buyer is doing</th></tr></thead>
+              <tbody><tr><td><strong>Decision</strong></td><td>53.2%</td><td>Choosing — &quot;which is best&quot;, &quot;is it worth it&quot;, specific products and pricing</td></tr><tr><td><strong>Consideration</strong></td><td>36.4%</td><td>Comparing and de-risking — &quot;X vs Y&quot;, &quot;biggest mistakes&quot;, &quot;can it do Z&quot;</td></tr><tr><td><strong>Awareness</strong></td><td>10.5%</td><td>Learning the category — &quot;what is&quot;, &quot;how does it work&quot;</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The intent mix says the same thing louder</h2>
+      <p>Tag the same questions by intent and <strong>over half are explicitly commercial</strong> — recommendation, comparison, or cost — the language of someone with a wallet open, not a student taking notes.</p><p>The practical reading for a marketer: if your content and your AI-search presence are built around top-of-funnel &quot;what is&quot; explainers, you&#39;re optimized for the 10% and absent from the 90% where the buying decision is actually being made inside the answer.</p>
+      
+      <table>
+              <thead><tr><th>Intent</th><th>Share</th><th>Example shape</th></tr></thead>
+              <tbody><tr><td><strong>Recommendation</strong></td><td>30.4%</td><td>&quot;What are the best tools for…&quot;</td></tr><tr><td><strong>Concern</strong></td><td>18.2%</td><td>&quot;What goes wrong when teams…&quot;</td></tr><tr><td><strong>How-to</strong></td><td>18.2%</td><td>&quot;How do I set up / migrate / automate…&quot;</td></tr><tr><td><strong>Comparison</strong></td><td>12.4%</td><td>&quot;X vs Y for [use case]&quot;</td></tr><tr><td><strong>Informational</strong></td><td>12.3%</td><td>&quot;What is / how does…&quot;</td></tr><tr><td><strong>Cost</strong></td><td>8.5%</td><td>&quot;How much does … cost in 2026?&quot;</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Finding 2: Demand is concentrated, and uneven by industry</h2>
+      <p>Across the dataset, <strong>45% of questions land in the High demand tier</strong> — these aren&#39;t long-tail curiosities, they&#39;re the questions buyers ask most. But the shape differs sharply by vertical, and that&#39;s the actionable part. The table below is every industry in the current snapshot, with how many questions it holds, how many are High-demand, how many are purchase-ready (Decision-stage), and how many are currently rising.</p><p>Two patterns stand out. <strong>Consumer and SaaS categories</strong> (Smart Home, Project Management, CRM, Accounting) carry the largest, most decision-heavy question sets — Project Management is 70% purchase-ready. And the <strong>AI-infrastructure verticals</strong> (LLM inference, observability, GPUs, cloud) are small but almost entirely High-demand: when there are only 31 questions buyers ask about LLM serving, nearly every one is a high-intent expert question. Niche, but no noise.</p>
+      
+      <table>
+              <thead><tr><th>Industry</th><th>Questions</th><th>High-demand</th><th>Purchase-ready</th><th>Rising</th></tr></thead>
+              <tbody><tr><td>Smart Home</td><td>100</td><td>28</td><td>57</td><td>30</td></tr><tr><td>HR &amp; Payroll</td><td>82</td><td>33</td><td>47</td><td>6</td></tr><tr><td>Accounting &amp; Bookkeeping</td><td>81</td><td>33</td><td>41</td><td>1</td></tr><tr><td>SEO &amp; AEO</td><td>80</td><td>32</td><td>41</td><td>11</td></tr><tr><td>Cybersecurity</td><td>79</td><td>32</td><td>37</td><td>24</td></tr><tr><td>Project Management</td><td>79</td><td>32</td><td>55</td><td>8</td></tr><tr><td>Ecommerce Platforms</td><td>72</td><td>29</td><td>30</td><td>16</td></tr><tr><td>MLOps &amp; Experiment Tracking</td><td>70</td><td>28</td><td>37</td><td>6</td></tr><tr><td>CRM &amp; Sales Tech</td><td>68</td><td>28</td><td>41</td><td>7</td></tr><tr><td>Marketing &amp; Email</td><td>65</td><td>26</td><td>34</td><td>10</td></tr><tr><td>AI Data, Storage &amp; Memory</td><td>59</td><td>31</td><td>29</td><td>0</td></tr><tr><td>AI Accelerators &amp; GPUs</td><td>43</td><td>26</td><td>22</td><td>0</td></tr><tr><td>AI Cloud &amp; Cluster Infra</td><td>38</td><td>26</td><td>21</td><td>2</td></tr><tr><td>LLM Observability &amp; Eval</td><td>37</td><td>32</td><td>17</td><td>1</td></tr><tr><td>LLM Inference &amp; Serving</td><td>31</td><td>31</td><td>14</td><td>0</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Finding 3: What&#39;s heating up — the &quot;can AI do this without a specialist?&quot; wave</h2>
+      <p>122 of the 984 questions are currently trending up. Read them together and a theme jumps out across unrelated industries: buyers asking whether AI and automation now let them do work that used to require a developer, an agency, or a specialist hire.</p><p>It shows up in SEO (&quot;Can a non-technical marketer realistically do their own SEO without a developer?&quot;), in CRM (&quot;Can I use an AI assistant to build a lightweight internal CRM using existing tools I already have?&quot;), and in email marketing (&quot;How do I use AI tools inside my email marketing platform to write subject lines and improve open rates?&quot;). The same questions cluster as rising in Smart Home, where the surge is around onboarding and automation setup for first-time builders.</p><p>The strategic read: in category after category, the rising edge of demand is the <strong>&quot;do it myself with AI&quot;</strong> buyer. If your category positioning still assumes the buyer needs a specialist to evaluate you, the questions heating up fastest are the ones you&#39;re least prepared to answer. (Trend is a directional signal — recent demand versus prior period, relative within each vertical — so treat the movement as a heat map, not a traffic forecast.)</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Finding 4: The questions are specific, and they&#39;re buyable</h2>
+      <p>The Decision-stage questions aren&#39;t vague. They name the buyer, the use case, and often the spec — and they&#39;re exactly the prompts where being the AI&#39;s recommended option wins or loses a deal. A few real examples from the High-demand, Decision-stage set, verbatim:</p>
+      <ul class="seo-list"><li><strong>CRM &amp; Sales Tech:</strong> &quot;Which CRM is considered number one for mid-market B2B sales teams?&quot;</li><li><strong>AI Accelerators &amp; GPUs:</strong> &quot;What is the typical GPU memory requirement for training a 7B parameter language model?&quot;</li><li><strong>AI Cloud &amp; Cluster Infrastructure:</strong> &quot;What are the GPU instance options on a major cloud platform and how do their prices stack up in 2026?&quot;</li><li><strong>AI Data, Storage &amp; Memory:</strong> &quot;How should I handle storage for synthetic AI training data pipelines that generate large volumes of samples continuously?&quot;</li><li><strong>Marketing &amp; Email:</strong> &quot;What are the best top-5 automation tools for a lean marketing team that needs to automate email, social, and lead scoring?&quot;</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why this matters for SEO and AEO</h2>
+      <p>Keyword research and prompt-level demand answer two different questions, and you now need both. A keyword tool tells you the head terms people type into Google. Prompt Pulse tells you the full questions buyers ask an AI assistant — which is the unit those assistants reason over when they assemble an answer and a shortlist.</p><p>The practical workflow this enables is straightforward and doesn&#39;t require any of the schema or markup tricks that don&#39;t actually move AI answers:</p>
+      <ul class="seo-list"><li><strong>Find the Decision and Consideration prompts in your vertical</strong> — the 90% where buying happens — and check, honestly, whether your content answers them at all.</li><li><strong>Look at the rising questions</strong> and write to the demand that&#39;s accelerating, not the demand that peaked last year.</li><li><strong>Map intent to format:</strong> recommendation and comparison prompts want genuinely useful comparison content; concern prompts want honest &quot;where this goes wrong&quot; answers; cost prompts want real numbers.</li><li><strong>Then measure whether it worked</strong> — the gap between &quot;we published content for this prompt&quot; and &quot;the AI now mentions us on this prompt&quot; is the whole game, and it&#39;s measurable.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How we built it</h2>
+      <p>Prompt Pulse synthesizes its question set from four public demand sources — Google&#39;s People-Also-Ask, autocomplete, keyword-expansion data, and the questions buyers actually ask in vertical communities — then deduplicates them and scores each prompt against an AI-search demand signal to produce the demand tier and the 12-month trend. It&#39;s deliberately <strong>brand-blind</strong>: the dataset is about the questions buyers ask, not about named third-party brands, so it&#39;s safe to act on as content strategy. The verticals refresh on a monthly cadence, which is why this snapshot is dated rather than evergreen.</p><p>What you see publicly is the prompt text and the labels (demand tier, trend, intent, persona, stage). The absolute volume numbers and the scoring weights stay internal, and the public signals are directional and relative within each vertical — not exact query counts. The full methodology and the live, browsable data sit on the <a href="/prompt-pulse/" target="_blank" rel="noopener noreferrer">Prompt Pulse hub</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See your industry — and whether AI recommends you</h2>
+      <p>Two next steps, depending on what you need. To see the real questions your buyers are asking AI in your category — ranked by demand, with what&#39;s heating up — browse the <a href="/prompt-pulse/" target="_blank" rel="noopener noreferrer">Prompt Pulse hub</a>. It&#39;s free and refreshed monthly.</p><p>To find out whether AI actually mentions <strong>you</strong> when buyers ask those Decision-stage questions, run the <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">free SolCrys audit</a>: 10 buyer prompts through ChatGPT, with your mention rate, competitor share of voice, and the sources AI cited. The pattern we see most often is a brand that&#39;s well-optimized for the 10% awareness questions and invisible on the 90% where the decision gets made — and that gap is exactly what a measure-then-fix loop is built to close.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="/prompt-pulse/" target="_blank" rel="noopener noreferrer">SolCrys Prompt Pulse — live data by industry</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is SolCrys Prompt Pulse?</h3>
+            <p>Prompt Pulse is a free dataset of the real questions buyers ask AI assistants, organized by industry. The current snapshot holds 984 prompts across 15 verticals, each tagged by demand tier, trend (rising/stable/cooling), intent, persona, and buying stage. It&#39;s built to show what your market is asking ChatGPT, Perplexity, and Google&#39;s AI surfaces — and what&#39;s heating up — refreshed monthly. The live data is browsable at /prompt-pulse/.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many prompts and industries does it cover?</h3>
+            <p>As of 2026-06-03, 984 prompts across 15 industries — Smart Home, plus the B2B SaaS stack (CRM, HR &amp; Payroll, Accounting, Project Management, Marketing &amp; Email, Ecommerce, Cybersecurity, SEO &amp; AEO) and the AI-infrastructure layer (GPUs/accelerators, LLM inference, MLOps, LLM observability, AI cloud, and AI data/storage). The set grows and refreshes monthly.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Where does the data come from?</h3>
+            <p>Each vertical&#39;s question set is synthesized from four public demand sources — Google People-Also-Ask, autocomplete, keyword-expansion data, and the questions buyers ask in vertical communities — then deduplicated and scored against an AI-search demand signal. The result is a relative, within-vertical demand tier and a 12-month trend per prompt. The signals are directional, not exact query counts.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is this the same as keyword search volume?</h3>
+            <p>No. Keyword volume counts short strings typed into a search box. Prompt Pulse counts full natural-language questions asked of AI assistants, and its demand tiers are directional and relative within each vertical — designed to show shape and movement, not to be read as a precise volume meter. The two are complementary: keyword tools for search head terms, Prompt Pulse for AI-assistant question demand.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How is asking AI different from a Google search, for marketers?</h3>
+            <p>Two ways that matter here. First, people ask AI in full sentences, so the unit of demand is a question, not a keyword. Second, the demand skews far more toward decisions — nearly 90% of the questions in this dataset are Consideration or Decision stage, versus the awareness-heavy mix marketers often assume. Practically, that means AI answers are where shortlists get formed, so being the recommended option on Decision-stage prompts is the high-value target.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often is Prompt Pulse updated?</h3>
+            <p>The verticals refresh on a monthly cadence, which is why every snapshot is date-stamped rather than treated as evergreen. Monthly is deliberate — frequent enough to catch what&#39;s heating up, slow enough to show trend rather than run-to-run noise.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/chatgpt-visibility-tracker/">ChatGPT Visibility Tracker</a></h3>
+            <p>Free ChatGPT visibility tracker. Measure your brand&#39;s mention rate, share of voice, and citations in ChatGPT — start with a 5-minute audit. Paid plans add Gemini, Perplexity, and Google AI.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/best-tools-to-track-brand-visibility-in-chatgpt/">Best Tools to Track Brand Visibility in ChatGPT and Perplexity (2026)</a></h3>
+            <p>Compared: 7 tools that actually track brand mentions in ChatGPT and Perplexity in 2026. Includes a DIY 5-prompt audit you can run in 10 minutes.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-brand-visibility-monitoring/">AI Brand Visibility Monitoring</a></h3>
+            <p>A practical guide to measuring brand mentions, citations, sentiment, and competitive position across AI answer engines.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BlLWPWDp.js"></script>
+  </body>
+</html>
