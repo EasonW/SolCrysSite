@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Prompt Pulse — AI Cloud &amp; Cluster Infrastructure: what buyers ask AI (2026) | SolCrys</title>
+    <meta name="description" content="The real questions AI Cloud &amp; Cluster Infrastructure buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/prompt-pulse/ai-cloud/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-03" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prompt Pulse — AI Cloud &amp; Cluster Infrastructure: what buyers ask AI (2026) | SolCrys" />
+    <meta property="og:description" content="The real questions AI Cloud &amp; Cluster Infrastructure buyers ask AI engines, rated by demand tier and trend. Free, updated monthly." />
+    <meta property="og:url" content="https://solcrys.com/prompt-pulse/ai-cloud/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BAQvzZuZ.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Prompt Pulse","item":"https://solcrys.com/prompt-pulse/"},{"@type":"ListItem","position":3,"name":"AI Cloud & Cluster Infrastructure","item":"https://solcrys.com/prompt-pulse/ai-cloud/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Prompt Pulse — AI Cloud & Cluster Infrastructure: AI demand for buyer prompts","description":"The questions AI Cloud & Cluster Infrastructure buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free, updated monthly.","url":"https://solcrys.com/prompt-pulse/ai-cloud/","isAccessibleForFree":true,"creator":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"temporalCoverage":"2026-06-03","dateModified":"2026-06-03","keywords":["AI training clusters","Bare-metal GPU","Cluster orchestration","Distributed training","GPU cloud providers","HPC / AI supercomputing","Managed Kubernetes","Renting GPUs"],"variableMeasured":[{"@type":"PropertyValue","name":"Prompt demand tier (High/Medium/Low)"},{"@type":"PropertyValue","name":"AI demand trend"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","url":"https://solcrys.com/prompt-pulse/ai-cloud/","numberOfItems":38,"itemListElement":[{"@type":"ListItem","position":1,"name":"What are the GPU instance options on a major cloud platform and how do their prices stack up in 2025?"},{"@type":"ListItem","position":2,"name":"Is Kubernetes actually the right tool for orchestrating GPU-based ML training, or is there something better?"},{"@type":"ListItem","position":3,"name":"Is there a modern alternative to Kubernetes for orchestrating AI training clusters?"},{"@type":"ListItem","position":4,"name":"What is HPC cloud infrastructure and how does it differ from a standard GPU cloud instance?"},{"@type":"ListItem","position":5,"name":"Which GPU cloud provider gives the best price-to-performance ratio for AI training in 2025?"},{"@type":"ListItem","position":6,"name":"What is the cheapest way to get H100 GPU access for a two-week fine-tuning run?"},{"@type":"ListItem","position":7,"name":"How do I estimate my monthly GPU cloud spend before committing to a training project?"},{"@type":"ListItem","position":8,"name":"How do I reduce cloud GPU costs for inference workloads that run 24/7 after training is complete?"},{"@type":"ListItem","position":9,"name":"What are the hidden costs of running GPU workloads on a major cloud platform versus a specialist GPU cloud?"},{"@type":"ListItem","position":10,"name":"What egress costs should I factor in when choosing a cloud provider for large-scale AI training?"},{"@type":"ListItem","position":11,"name":"What are the main factors driving up cost in a cloud GPU cluster beyond the raw compute price?"},{"@type":"ListItem","position":12,"name":"What is distributed training in machine learning and when do I actually need it?"},{"@type":"ListItem","position":13,"name":"What is the difference between model parallelism and data parallelism and when should each be used?"},{"@type":"ListItem","position":14,"name":"What is the fastest way to get started renting GPUs for AI training with no existing cloud account?"},{"@type":"ListItem","position":15,"name":"What is ML orchestration and why does it matter for managing training pipelines at scale?"},{"@type":"ListItem","position":16,"name":"What are the practical downsides of using a managed Kubernetes service for GPU-accelerated ML workloads?"},{"@type":"ListItem","position":17,"name":"What is the difference between a managed GPU cloud and a bare-metal GPU provider for AI training?"},{"@type":"ListItem","position":18,"name":"Which cloud provider has the most reliable GPU availability for large training jobs right now?"},{"@type":"ListItem","position":19,"name":"What is the cheapest GPU instance available on a major cloud provider for small model training jobs?"},{"@type":"ListItem","position":20,"name":"Which cloud provider has the most consistent GPU availability during peak demand periods?"},{"@type":"ListItem","position":21,"name":"Which regions have the most GPU capacity available on major cloud providers right now?"},{"@type":"ListItem","position":22,"name":"How do large AI labs build their own training clusters versus leasing from a cloud provider?"},{"@type":"ListItem","position":23,"name":"How do I build a cost-effective AI training cluster for a team of five ML engineers?"},{"@type":"ListItem","position":24,"name":"How do I size an AI training cluster to train a 70-billion-parameter model efficiently?"},{"@type":"ListItem","position":25,"name":"What storage solution should I pair with a cloud GPU cluster to avoid becoming an I/O bottleneck during training?"},{"@type":"ListItem","position":26,"name":"What monitoring and observability tools should I use for a multi-node GPU training cluster?"},{"@type":"ListItem","position":27,"name":"What is the minimum viable Kubernetes cluster configuration for running distributed ML training jobs?"},{"@type":"ListItem","position":28,"name":"What is the true total cost of ownership when running a 100-GPU AI training cluster in the cloud for six months?"},{"@type":"ListItem","position":29,"name":"How do I choose between a managed AI training platform and assembling my own infrastructure stack?"},{"@type":"ListItem","position":30,"name":"What is the current on-demand price for an A100 GPU instance on a major cloud platform?"},{"@type":"ListItem","position":31,"name":"What cluster orchestration tool should I use to manage GPU workloads across multiple nodes?"},{"@type":"ListItem","position":32,"name":"What are the best ML orchestration tools available in 2025 for managing multi-GPU training jobs?"},{"@type":"ListItem","position":33,"name":"Which GPU cloud provider offers the best spot or preemptible instance pricing for non-critical training runs?"},{"@type":"ListItem","position":34,"name":"How do I handle GPU job preemption gracefully in a shared cloud training cluster?"},{"@type":"ListItem","position":35,"name":"What tools help enforce GPU quota and fair-share scheduling across multiple teams sharing a cluster?"},{"@type":"ListItem","position":36,"name":"What are the real trade-offs between bare-metal GPU servers and virtual GPU cloud instances for deep learning?"},{"@type":"ListItem","position":37,"name":"How does the performance of a cloud-based AI training cluster compare to a purpose-built on-prem GPU server room?"},{"@type":"ListItem","position":38,"name":"What is an AI training cluster and what hardware does it typically consist of?"}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <p class="seo-kicker">Prompt Pulse · AI demand data</p>
+    <h1>The prompts AI Cloud &amp; Cluster Infrastructure buyers ask AI</h1>
+    <p class="seo-lede">The real questions AI Cloud &amp; Cluster Infrastructure buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. 38 prompts · 2 rising · 21 purchase-ready. Updated 2026-06-03, US/English.</p>
+    <section class="seo-section">
+      <h2>Demand ranking</h2>
+      <table>
+        <thead><tr><th>Prompt</th><th>Demand</th><th>Trend</th><th>Persona</th><th>Buying stage</th></tr></thead>
+        <tbody><tr><td>What are the GPU instance options on a major cloud platform and how do their prices stack up in 2025?</td><td>High</td><td>Cooling -31%</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>Is Kubernetes actually the right tool for orchestrating GPU-based ML training, or is there something better?</td><td>High</td><td>Rising +18%</td><td>ML / AI engineer</td><td>Consideration</td></tr><tr><td>Is there a modern alternative to Kubernetes for orchestrating AI training clusters?</td><td>High</td><td>Rising +18%</td><td>Platform / infra engineer</td><td>Consideration</td></tr><tr><td>What is HPC cloud infrastructure and how does it differ from a standard GPU cloud instance?</td><td>High</td><td>Stable -2%</td><td>HPC engineer</td><td>Awareness</td></tr><tr><td>Which GPU cloud provider gives the best price-to-performance ratio for AI training in 2025?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Decision</td></tr><tr><td>What is the cheapest way to get H100 GPU access for a two-week fine-tuning run?</td><td>High</td><td>—</td><td>Startup CTO / founder</td><td>Decision</td></tr><tr><td>How do I estimate my monthly GPU cloud spend before committing to a training project?</td><td>High</td><td>—</td><td>Startup CTO / founder</td><td>Decision</td></tr><tr><td>How do I reduce cloud GPU costs for inference workloads that run 24/7 after training is complete?</td><td>High</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>What are the hidden costs of running GPU workloads on a major cloud platform versus a specialist GPU cloud?</td><td>High</td><td>—</td><td>Enterprise architect</td><td>Consideration</td></tr><tr><td>What egress costs should I factor in when choosing a cloud provider for large-scale AI training?</td><td>High</td><td>—</td><td>Enterprise architect</td><td>Consideration</td></tr><tr><td>What are the main factors driving up cost in a cloud GPU cluster beyond the raw compute price?</td><td>High</td><td>—</td><td>Enterprise architect</td><td>Consideration</td></tr><tr><td>What is distributed training in machine learning and when do I actually need it?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Awareness</td></tr><tr><td>What is the difference between model parallelism and data parallelism and when should each be used?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Awareness</td></tr><tr><td>What is the fastest way to get started renting GPUs for AI training with no existing cloud account?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Decision</td></tr><tr><td>What is ML orchestration and why does it matter for managing training pipelines at scale?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Awareness</td></tr><tr><td>What are the practical downsides of using a managed Kubernetes service for GPU-accelerated ML workloads?</td><td>High</td><td>—</td><td>DevOps / SRE</td><td>Consideration</td></tr><tr><td>What is the difference between a managed GPU cloud and a bare-metal GPU provider for AI training?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Awareness</td></tr><tr><td>Which cloud provider has the most reliable GPU availability for large training jobs right now?</td><td>High</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>What is the cheapest GPU instance available on a major cloud provider for small model training jobs?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Decision</td></tr><tr><td>Which cloud provider has the most consistent GPU availability during peak demand periods?</td><td>High</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>Which regions have the most GPU capacity available on major cloud providers right now?</td><td>High</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>How do large AI labs build their own training clusters versus leasing from a cloud provider?</td><td>High</td><td>—</td><td>Enterprise architect</td><td>Consideration</td></tr><tr><td>How do I build a cost-effective AI training cluster for a team of five ML engineers?</td><td>High</td><td>—</td><td>Startup CTO / founder</td><td>Decision</td></tr><tr><td>How do I size an AI training cluster to train a 70-billion-parameter model efficiently?</td><td>High</td><td>—</td><td>ML / AI engineer</td><td>Decision</td></tr><tr><td>What storage solution should I pair with a cloud GPU cluster to avoid becoming an I/O bottleneck during training?</td><td>High</td><td>—</td><td>HPC engineer</td><td>Decision</td></tr><tr><td>What monitoring and observability tools should I use for a multi-node GPU training cluster?</td><td>Medium</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>What is the minimum viable Kubernetes cluster configuration for running distributed ML training jobs?</td><td>Medium</td><td>—</td><td>Platform / infra engineer</td><td>Decision</td></tr><tr><td>What is the true total cost of ownership when running a 100-GPU AI training cluster in the cloud for six months?</td><td>High</td><td>—</td><td>Enterprise architect</td><td>Consideration</td></tr><tr><td>How do I choose between a managed AI training platform and assembling my own infrastructure stack?</td><td>Medium</td><td>—</td><td>Startup CTO / founder</td><td>Consideration</td></tr><tr><td>What is the current on-demand price for an A100 GPU instance on a major cloud platform?</td><td>Medium</td><td>—</td><td>ML / AI engineer</td><td>Decision</td></tr><tr><td>What cluster orchestration tool should I use to manage GPU workloads across multiple nodes?</td><td>Medium</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>What are the best ML orchestration tools available in 2025 for managing multi-GPU training jobs?</td><td>Medium</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>Which GPU cloud provider offers the best spot or preemptible instance pricing for non-critical training runs?</td><td>Medium</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>How do I handle GPU job preemption gracefully in a shared cloud training cluster?</td><td>Medium</td><td>—</td><td>MLOps engineer</td><td>Decision</td></tr><tr><td>What tools help enforce GPU quota and fair-share scheduling across multiple teams sharing a cluster?</td><td>Medium</td><td>—</td><td>Platform / infra engineer</td><td>Decision</td></tr><tr><td>What are the real trade-offs between bare-metal GPU servers and virtual GPU cloud instances for deep learning?</td><td>Medium</td><td>—</td><td>Platform / infra engineer</td><td>Consideration</td></tr><tr><td>How does the performance of a cloud-based AI training cluster compare to a purpose-built on-prem GPU server room?</td><td>Medium</td><td>—</td><td>Enterprise architect</td><td>Consideration</td></tr><tr><td>What is an AI training cluster and what hardware does it typically consist of?</td><td>Medium</td><td>—</td><td>ML / AI engineer</td><td>Awareness</td></tr></tbody>
+      </table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement — distilled from the real questions buyers ask across AI answer engines and the community sources they cite. Signals are relative within each industry and directional by design. <a href="/resources/">See the methodology in our resources</a>.</p>
+    </section>
+  </main>
+  
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Dl2j0zRl.js"></script>
+  </body>
+</html>
