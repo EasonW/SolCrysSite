@@ -171,7 +171,7 @@ const CustomerStories = () => {
               <img
                 src="/customers/nextsilicon-logo.svg"
                 alt="NextSilicon"
-                className="h-7 md:h-8 w-auto"
+                className="h-7 md:h-8 w-auto invert dark:invert-0"
                 loading="lazy"
               />
               <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">

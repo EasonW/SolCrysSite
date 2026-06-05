@@ -66,9 +66,9 @@ const HeroSection = () => {
           <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Trusted by</p>
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 md:gap-x-12 opacity-70 hover:opacity-100 transition-opacity duration-500">
             <img src="/customers/uipath-logo.svg" alt="UiPath" className="h-7 w-auto" loading="lazy" />
-            <img src="/customers/nextsilicon-logo.svg" alt="NextSilicon" className="h-4 md:h-5 w-auto" loading="lazy" />
+            <img src="/customers/nextsilicon-logo.svg" alt="NextSilicon" className="h-4 md:h-5 w-auto invert dark:invert-0" loading="lazy" />
             <img src="/customers/wyze-logo.png" alt="Wyze" className="h-5 md:h-6 w-auto" loading="lazy" />
-            <img src="/customers/clearlykept-logo-dark.png" alt="ClearlyKept" className="h-5 md:h-6 w-auto" loading="lazy" />
+            <img src="/customers/clearlykept-logo.png" alt="ClearlyKept" className="h-5 md:h-6 w-auto dark:brightness-0 dark:invert" loading="lazy" />
             <span className="font-heading text-lg md:text-xl font-semibold tracking-tight" style={{ color: "#FB923C" }}>BOBOYM</span>
           </div>
         </div>

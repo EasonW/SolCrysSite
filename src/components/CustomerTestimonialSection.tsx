@@ -29,7 +29,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     company: "NextSilicon",
     photoUrl: "/customers/brandon-draeger.jpg",
     companyLogoUrl: "/customers/nextsilicon-logo.svg",
-    companyLogoClassName: "h-4 md:h-5",
+    companyLogoClassName: "h-4 md:h-5 invert dark:invert-0",
     accent: NEXTSILICON_INDIGO,
     quote:
       "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. SolCrys is informing how we think about marketing performance across product launches, campaigns, and major events.",
@@ -64,8 +64,8 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     role: "Co-founder",
     company: "ClearlyKept",
     photoUrl: "/customers/garrett-astler.jpg",
-    companyLogoUrl: "/customers/clearlykept-logo-dark.png",
-    companyLogoClassName: "h-5 md:h-6",
+    companyLogoUrl: "/customers/clearlykept-logo.png",
+    companyLogoClassName: "h-5 md:h-6 dark:brightness-0 dark:invert",
     accent: CLEARLYKEPT_AMBER,
     quote:
       "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, and draft content for our website is exactly what we need.",
@@ -97,9 +97,9 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
 
 const LOGO_ITEMS = [
   { label: "UiPath", color: UIPATH_ORANGE, image: "/customers/uipath-logo.svg", className: "h-7" },
-  { label: "NextSilicon", color: NEXTSILICON_INDIGO, image: "/customers/nextsilicon-logo.svg", className: "h-4 md:h-5" },
+  { label: "NextSilicon", color: NEXTSILICON_INDIGO, image: "/customers/nextsilicon-logo.svg", className: "h-4 md:h-5 invert dark:invert-0" },
   { label: "Wyze", color: WYZE_TEAL, image: "/customers/wyze-logo.png" },
-  { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo-dark.png" },
+  { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo.png", className: "h-5 md:h-6 dark:brightness-0 dark:invert" },
   { label: "BOBOYM", color: BOBOYM_ORANGE },
 ];
 

@@ -205,7 +205,7 @@ const FreeTrackerPage = () => {
                 <img
                   src="/customers/nextsilicon-logo.svg"
                   alt="NextSilicon"
-                  className="h-4 md:h-5 w-auto"
+                  className="h-4 md:h-5 w-auto invert dark:invert-0"
                   loading="lazy"
                 />
                 <img
@@ -215,9 +215,9 @@ const FreeTrackerPage = () => {
                   loading="lazy"
                 />
                 <img
-                  src="/customers/clearlykept-logo-dark.png"
+                  src="/customers/clearlykept-logo.png"
                   alt="ClearlyKept"
-                  className="h-5 md:h-6 w-auto"
+                  className="h-5 md:h-6 w-auto dark:brightness-0 dark:invert"
                   loading="lazy"
                 />
               </div>
