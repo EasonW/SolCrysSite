@@ -70,7 +70,7 @@ const FAQS = [
   },
   {
     q: "Which AI engines does it cover?",
-    a: "The free tracker checks ChatGPT. SolCrys also tracks Gemini, Google AI Overviews / AI Mode, and Perplexity on paid plans, so you can see your visibility across every major answer engine.",
+    a: "The free tracker checks ChatGPT. SolCrys also tracks Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on paid plans, so you can see your visibility across every major answer engine.",
   },
   {
     q: "How is this different from my Google ranking?",

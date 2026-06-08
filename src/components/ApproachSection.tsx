@@ -5,7 +5,7 @@ const steps = [
     number: "01",
     title: "Measure across engines",
     description:
-      "Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.",
+      "Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.",
   },
   {
     number: "02",
