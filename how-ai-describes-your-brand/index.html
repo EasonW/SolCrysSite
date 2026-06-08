@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] How AI Describes Your Brand, and How to Fix It | SolCrys</title>
+    <meta name="description" content="AI doesn&#39;t just decide whether to cite you, it decides what you are, and describes it differently on each engine. How the description forms, why a fix takes weeks to propagate, and how to correct it." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/how-ai-describes-your-brand/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-08" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] How AI Describes Your Brand, and How to Fix It | SolCrys" />
+    <meta property="og:description" content="AI doesn&#39;t just decide whether to cite you, it decides what you are, and describes it differently on each engine. How the description forms, why a fix takes weeks to propagate, and how to correct it." />
+    <meta property="og:url" content="https://solcrys.com/how-ai-describes-your-brand/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BT5oAxit.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)","item":"https://solcrys.com/how-ai-describes-your-brand/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How AI updates its description of you, and why a wrong one is worse than no mention","description":"AI doesn't just decide whether to cite you, it decides what you are, and describes it differently on each engine. How the description forms, why a fix takes weeks to propagate, and how to correct it.","dateModified":"2026-06-08","datePublished":"2026-06-08","mainEntityOfPage":"https://solcrys.com/how-ai-describes-your-brand/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/how-ai-describes-your-brand/","mainEntity":[{"@type":"Question","name":"Why does AI describe my brand wrong even when it cites me?","acceptedAnswer":{"@type":"Answer","text":"It's a source-of-truth gap. The model assembles the description at retrieval time, and when it can't find one clear authoritative statement of what you do on a page you own, it interpolates from adjacent products and third-party blurbs and gets the specifics wrong. Fixing the ambiguous canonical is the lever."}},{"@type":"Question","name":"Does AI describe my brand the same way on every engine?","acceptedAnswer":{"@type":"Answer","text":"No. The description is per-engine, because each engine assembles it from a different source mix. In our own tracking, Gemini and Google's AI describe us in positive terms while ChatGPT and Perplexity describe us flat and neutral, on the same prompts in the same window. Read the description per engine, not as one blended number."}},{"@type":"Question","name":"I fixed my page but the AI answer didn't change. Why not?","acceptedAnswer":{"@type":"Answer","text":"The correction propagates on each engine's re-crawl clock, not instantly. Live-retrieval engines climb chunk by chunk over days to weeks; snapshot-leaning engines stay wrong until they re-fetch, then flip. A correct fix can look like it failed for the first week because nothing has re-crawled yet. Don't kill it early."}},{"@type":"Question","name":"How long does it take to fix a wrong AI description?","acceptedAnswer":{"@type":"Answer","text":"Days to weeks, depending on the engine and how authoritative your domain already is. You can't force a re-crawl on your schedule; you can only make the right answer the easiest thing to extract and verify the change over a windowed trend rather than a single run."}},{"@type":"Question","name":"Is a wrong AI citation really worse than no citation?","acceptedAnswer":{"@type":"Answer","text":"For a brand without strong authority, often yes. A confident wrong description sets an expectation your signup or sales call can't meet, and you rarely see why the lead went cold. No mention is neutral; a wrong one actively mis-sells you."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>How AI updates its description of you, and why a wrong one is worse than no mention</h1>
+        <p class="seo-lede">Most AEO advice is about whether AI cites you. The harder problem is what it says you are once it does, and a confident wrong description is worse than no mention because it sets an expectation your signup or sales call can&#39;t meet. The description is assembled at retrieval time from the sources the engine trusts, so when your own canonical page is ambiguous the model interpolates from adjacent products and gets the specifics wrong. It is also per-engine: in our own tracking, Gemini and Google&#39;s AI describe us positively while ChatGPT and Perplexity describe us flat and neutral, same brand and prompts. The part teams get wrong is the update: fixing your canonical page does not flip the description instantly, it propagates on each engine&#39;s re-crawl clock. Live-retrieval engines climb chunk by chunk, snapshot-leaning engines flip cleanly, and Google updates on its index cadence, so a correct fix can look like it failed for the first week. The remedy is a Measure, Diagnose, Execute, Verify loop: read the cited description per engine, find which source carries the wrong version, make the correct claim the easiest thing to extract on your own page, and give the correction weeks rather than days to show up.</p>
+        <p>Updated 2026-06-08</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why does AI describe my brand wrong even when it cites me?</li><li>Does AI describe my brand differently on each engine?</li><li>How long does it take to fix a wrong AI citation or description?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>AI doesn&#39;t just decide whether to cite you. It decides what you are, it describes that differently on each engine, and after you fix it the description updates on each engine&#39;s own re-crawl clock, not instantly. A confident wrong description is worse than no mention, because it sets an expectation your signup or sales call can&#39;t meet.</p><p>The fix is a loop: read the cited description per engine (not just whether you appear), find which source carries the wrong version, make the correct claim the easiest thing to extract on a page you own, and give the correction weeks rather than days to propagate.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The description is assembled, not remembered</h2>
+      <p>An AI answer doesn&#39;t recall a fixed description of your brand. It reconstructs one at retrieval time from the sources it trusts for that query. When your own canonical page is thin or ambiguous about what you actually do, the model fills the gap by interpolating from adjacent products and third-party blurbs, and lands somewhere directionally close but wrong on the specifics.</p><p>That is why the fix starts on your own site even though your site is a small share of citations. Your owned pages are the canonical the model reconciles everything else against (see <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, and community sources</a>). When the canonical is unambiguous, the third-party mentions inherit an accurate version. When it&#39;s vague, every mention inherits the ambiguity, and you get a confident wrong answer at scale.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The same brand, described differently by each engine</h2>
+      <p>How AI describes you is not one thing. It is per-engine, and the differences are measurable. In our own AI-visibility tracking, across a 14-day window as of 2026-06-07, the tone of how the engines describe us splits cleanly:</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>How it describes us</th><th>Sentiment (avg)</th></tr></thead>
+              <tbody><tr><td>Gemini</td><td>Positive, warm</td><td>~0.95</td></tr><tr><td>Google AI Overviews</td><td>Positive</td><td>~0.89</td></tr><tr><td>ChatGPT (OpenAI)</td><td>Flat, neutral</td><td>~0.00 (all neutral)</td></tr><tr><td>Perplexity</td><td>Mostly neutral</td><td>~0.04</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Read it per engine, not as one number</h3>
+        <p>Same brand, same prompts, same window. Gemini and Google&#39;s AI surfaces describe us in positive terms; ChatGPT and Perplexity describe us neutrally. A single &#39;are we described well&#39; number would average that away and tell you nothing. You have to read the description per engine, because each one assembles it from a different source mix with a different retrieval method.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How the description updates after you fix it</h2>
+      <p>Here is the mechanism that trips teams up: fixing your canonical page does not flip the description instantly. It propagates by re-crawl, and the shape of that propagation depends on how the engine retrieves.</p>
+      <ul class="seo-list"><li><strong>Live-retrieval engines (Perplexity, ChatGPT Search)</strong> re-fetch and progressively enrich. The cited description climbs rather than flips: each re-crawl pulls a richer, more accurate chunk from your corrected page, until it is quoting your real copy. The wrong version gets incrementally overwritten by better excerpts from the same source.</li><li><strong>Snapshot-leaning engines (Claude on cached context, anything leaning on training data)</strong> stay wrong until they re-fetch, then flip cleanly. A step change, not a climb.</li><li><strong>Google AI Overviews and AI Mode</strong> inherit Google&#39;s Search index and core ranking, so the description updates on Google&#39;s normal recrawl-and-reindex cadence, not a separate AI clock.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Why a correct fix can look like it failed</h3>
+        <p>A correct fix can look like it failed for the first week, because the engine hasn&#39;t re-crawled yet, or has only pulled a partially-better chunk. The correction lag is real and runs days to weeks. Killing the fix after one bad week is the most common mistake, and it is the same error as reading a single noisy run as a trend.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How to fix a wrong description (and prove it moved)</h2>
+      <p>This is a Measure, Diagnose, Execute, Verify loop, and Verify is the part that matters most because of the lag.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Measure the description, not just presence</h3>
+        <p>Capture the exact wrong claim and the tone, on each engine, dated. Whether you appear is the easy half. What the answer says you do, and how warmly, is the half that decides whether the citation helps or hurts.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Diagnose where the wrong version comes from</h3>
+        <p>It is usually one of three sources: your own outdated page, a stale directory or app-store listing, or a third party that described you wrong and got cited. The source of the error tells you what to fix, and fixing the wrong source is why so many corrections never land.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Execute on the canonical first</h3>
+        <p>Make the correct claim unambiguous and extractable on your own page: a clean one-sentence statement of what you actually do, near the top, not buried under hero copy. If a third party carries the wrong version, get the corrected fact represented there too.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Verify over time, against the same frozen prompts</h3>
+        <p>Expect a lag. Watch the description climb on live-retrieval engines or flip on snapshot engines over days to weeks. Do not re-judge after a single run; only the windowed trend is trustworthy. This is the step monitoring-only tools skip, and it is the one that proves whether the fix actually moved the answer.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The honest caveats</h2>
+      <p>Engine retrieval behavior changes, and the correction cadence varies by engine and by how authoritative your domain already is. You cannot force an engine to re-crawl on your schedule; you can only make the right answer the easiest thing to extract and wait out the propagation.</p><p>Our sentiment figures are our own, dated, and for our category, so the per-engine direction generalizes but the exact numbers will not. The propagation patterns are drawn from how each engine retrieves plus reported practitioner observations, not a controlled cross-engine study. If you want the monitoring-and-governance side of this, see <a href="/ai-hallucination-risk-monitoring/" target="_blank" rel="noopener noreferrer">AI hallucination risk monitoring</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys per-engine sentiment, workspace solcysai-aeo, 14-day window ending 2026-06-07, four engines (ChatGPT, Gemini, Perplexity, Google AI Overviews)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google official AI optimization guide (May 2026), engine retrieval and indexing behavior</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why does AI describe my brand wrong even when it cites me?</h3>
+            <p>It&#39;s a source-of-truth gap. The model assembles the description at retrieval time, and when it can&#39;t find one clear authoritative statement of what you do on a page you own, it interpolates from adjacent products and third-party blurbs and gets the specifics wrong. Fixing the ambiguous canonical is the lever.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does AI describe my brand the same way on every engine?</h3>
+            <p>No. The description is per-engine, because each engine assembles it from a different source mix. In our own tracking, Gemini and Google&#39;s AI describe us in positive terms while ChatGPT and Perplexity describe us flat and neutral, on the same prompts in the same window. Read the description per engine, not as one blended number.</p>
+          </article>
+          <article class="seo-card">
+            <h3>I fixed my page but the AI answer didn&#39;t change. Why not?</h3>
+            <p>The correction propagates on each engine&#39;s re-crawl clock, not instantly. Live-retrieval engines climb chunk by chunk over days to weeks; snapshot-leaning engines stay wrong until they re-fetch, then flip. A correct fix can look like it failed for the first week because nothing has re-crawled yet. Don&#39;t kill it early.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long does it take to fix a wrong AI description?</h3>
+            <p>Days to weeks, depending on the engine and how authoritative your domain already is. You can&#39;t force a re-crawl on your schedule; you can only make the right answer the easiest thing to extract and verify the change over a windowed trend rather than a single run.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is a wrong AI citation really worse than no citation?</h3>
+            <p>For a brand without strong authority, often yes. A confident wrong description sets an expectation your signup or sales call can&#39;t meet, and you rarely see why the lead went cold. No mention is neutral; a wrong one actively mis-sells you.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/ai-hallucination-risk-monitoring/">AI Hallucination Risk Monitoring</a></h3>
+            <p>AI hallucination risk monitoring helps brands detect inaccurate, outdated, or unsupported claims in AI-generated answers and turn them into governed correction workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-community-sources-ai/">Owned, Earned, and Community Sources in AI Answers: A 3-Layer Strategy</a></h3>
+            <p>AI engines cite three source layers — owned (your site), earned (PR/editorial), and community (Reddit/G2/forums). In our own data, owned is only ~1.6% of citations yet still a top-10 source. Why third parties get you into the answer, why your own site still matters, and how to balance the three.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-answer-citations/">How AI Answer Engines Choose Sources: The 7 Signals We&#39;ve Mapped</a></h3>
+            <p>AI engines like ChatGPT, Perplexity, Google AI Overviews, and Claude choose sources using overlapping but distinct signals. This guide maps the 7 signals that drive citation eligibility and the engine-specific weighting differences.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BN5fGcew.js"></script>
+  </body>
+</html>
