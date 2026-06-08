@@ -204,6 +204,188 @@
   ],
   "resourcePages": [
     {
+      "slug": "how-ai-describes-your-brand",
+      "title": "How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)",
+      "metaTitle": "How AI Describes Your Brand, and How to Fix It | SolCrys",
+      "description": "AI doesn't just decide whether to cite you, it decides what you are, and describes it differently on each engine. How the description forms, why a fix takes weeks to propagate, and how to correct it.",
+      "h1": "How AI updates its description of you, and why a wrong one is worse than no mention",
+      "summary": "Most AEO advice is about whether AI cites you. The harder problem is what it says you are once it does, and a confident wrong description is worse than no mention because it sets an expectation your signup or sales call can't meet. The description is assembled at retrieval time from the sources the engine trusts, so when your own canonical page is ambiguous the model interpolates from adjacent products and gets the specifics wrong. It is also per-engine: in our own tracking, Gemini and Google's AI describe us positively while ChatGPT and Perplexity describe us flat and neutral, same brand and prompts. The part teams get wrong is the update: fixing your canonical page does not flip the description instantly, it propagates on each engine's re-crawl clock. Live-retrieval engines climb chunk by chunk, snapshot-leaning engines flip cleanly, and Google updates on its index cadence, so a correct fix can look like it failed for the first week. The remedy is a Measure, Diagnose, Execute, Verify loop: read the cited description per engine, find which source carries the wrong version, make the correct claim the easiest thing to extract on your own page, and give the correction weeks rather than days to show up.",
+      "category": "Citation & Source Influence",
+      "alsoListIn": [
+        "Risk Monitoring"
+      ],
+      "ogImage": "/og/how-ai-describes-your-brand.png",
+      "updated": "2026-06-08",
+      "status": "draft",
+      "primaryKeyword": "how ai describes your brand",
+      "author": {
+        "name": "Eason Wang",
+        "role": "Co-Founder & CPO, SolCrys",
+        "linkedin": "https://www.linkedin.com/in/eason-wang/",
+        "photoUrl": "/team/eason-wang.jpg"
+      },
+      "aeoTargets": [
+        "Why does AI describe my brand wrong even when it cites me?",
+        "Does AI describe my brand differently on each engine?",
+        "How long does it take to fix a wrong AI citation or description?"
+      ],
+      "relatedSlugs": [
+        "ai-hallucination-risk-monitoring",
+        "owned-earned-community-sources-ai",
+        "ai-answer-citations",
+        "is-ai-visibility-a-vanity-metric"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "AI doesn't just decide whether to cite you. It decides what you are, it describes that differently on each engine, and after you fix it the description updates on each engine's own re-crawl clock, not instantly. A confident wrong description is worse than no mention, because it sets an expectation your signup or sales call can't meet.",
+            "The fix is a loop: read the cited description per engine (not just whether you appear), find which source carries the wrong version, make the correct claim the easiest thing to extract on a page you own, and give the correction weeks rather than days to propagate."
+          ]
+        },
+        {
+          "heading": "The description is assembled, not remembered",
+          "body": [
+            "An AI answer doesn't recall a fixed description of your brand. It reconstructs one at retrieval time from the sources it trusts for that query. When your own canonical page is thin or ambiguous about what you actually do, the model fills the gap by interpolating from adjacent products and third-party blurbs, and lands somewhere directionally close but wrong on the specifics.",
+            "That is why the fix starts on your own site even though your site is a small share of citations. Your owned pages are the canonical the model reconciles everything else against (see [owned, earned, and community sources](/owned-earned-community-sources-ai/)). When the canonical is unambiguous, the third-party mentions inherit an accurate version. When it's vague, every mention inherits the ambiguity, and you get a confident wrong answer at scale."
+          ]
+        },
+        {
+          "heading": "The same brand, described differently by each engine",
+          "body": [
+            "How AI describes you is not one thing. It is per-engine, and the differences are measurable. In our own AI-visibility tracking, across a 14-day window as of 2026-06-07, the tone of how the engines describe us splits cleanly:"
+          ],
+          "table": {
+            "headers": [
+              "Engine",
+              "How it describes us",
+              "Sentiment (avg)"
+            ],
+            "rows": [
+              [
+                "Gemini",
+                "Positive, warm",
+                "~0.95"
+              ],
+              [
+                "Google AI Overviews",
+                "Positive",
+                "~0.89"
+              ],
+              [
+                "ChatGPT (OpenAI)",
+                "Flat, neutral",
+                "~0.00 (all neutral)"
+              ],
+              [
+                "Perplexity",
+                "Mostly neutral",
+                "~0.04"
+              ]
+            ]
+          },
+          "subsections": [
+            {
+              "heading": "Read it per engine, not as one number",
+              "body": [
+                "Same brand, same prompts, same window. Gemini and Google's AI surfaces describe us in positive terms; ChatGPT and Perplexity describe us neutrally. A single 'are we described well' number would average that away and tell you nothing. You have to read the description per engine, because each one assembles it from a different source mix with a different retrieval method."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "How the description updates after you fix it",
+          "body": [
+            "Here is the mechanism that trips teams up: fixing your canonical page does not flip the description instantly. It propagates by re-crawl, and the shape of that propagation depends on how the engine retrieves."
+          ],
+          "bullets": [
+            "**Live-retrieval engines (Perplexity, ChatGPT Search)** re-fetch and progressively enrich. The cited description climbs rather than flips: each re-crawl pulls a richer, more accurate chunk from your corrected page, until it is quoting your real copy. The wrong version gets incrementally overwritten by better excerpts from the same source.",
+            "**Snapshot-leaning engines (Claude on cached context, anything leaning on training data)** stay wrong until they re-fetch, then flip cleanly. A step change, not a climb.",
+            "**Google AI Overviews and AI Mode** inherit Google's Search index and core ranking, so the description updates on Google's normal recrawl-and-reindex cadence, not a separate AI clock."
+          ],
+          "subsections": [
+            {
+              "heading": "Why a correct fix can look like it failed",
+              "body": [
+                "A correct fix can look like it failed for the first week, because the engine hasn't re-crawled yet, or has only pulled a partially-better chunk. The correction lag is real and runs days to weeks. Killing the fix after one bad week is the most common mistake, and it is the same error as reading a single noisy run as a trend."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "How to fix a wrong description (and prove it moved)",
+          "body": [
+            "This is a Measure, Diagnose, Execute, Verify loop, and Verify is the part that matters most because of the lag."
+          ],
+          "subsections": [
+            {
+              "heading": "Measure the description, not just presence",
+              "body": [
+                "Capture the exact wrong claim and the tone, on each engine, dated. Whether you appear is the easy half. What the answer says you do, and how warmly, is the half that decides whether the citation helps or hurts."
+              ]
+            },
+            {
+              "heading": "Diagnose where the wrong version comes from",
+              "body": [
+                "It is usually one of three sources: your own outdated page, a stale directory or app-store listing, or a third party that described you wrong and got cited. The source of the error tells you what to fix, and fixing the wrong source is why so many corrections never land."
+              ]
+            },
+            {
+              "heading": "Execute on the canonical first",
+              "body": [
+                "Make the correct claim unambiguous and extractable on your own page: a clean one-sentence statement of what you actually do, near the top, not buried under hero copy. If a third party carries the wrong version, get the corrected fact represented there too."
+              ]
+            },
+            {
+              "heading": "Verify over time, against the same frozen prompts",
+              "body": [
+                "Expect a lag. Watch the description climb on live-retrieval engines or flip on snapshot engines over days to weeks. Do not re-judge after a single run; only the windowed trend is trustworthy. This is the step monitoring-only tools skip, and it is the one that proves whether the fix actually moved the answer."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "The honest caveats",
+          "body": [
+            "Engine retrieval behavior changes, and the correction cadence varies by engine and by how authoritative your domain already is. You cannot force an engine to re-crawl on your schedule; you can only make the right answer the easiest thing to extract and wait out the propagation.",
+            "Our sentiment figures are our own, dated, and for our category, so the per-engine direction generalizes but the exact numbers will not. The propagation patterns are drawn from how each engine retrieves plus reported practitioner observations, not a controlled cross-engine study. If you want the monitoring-and-governance side of this, see [AI hallucination risk monitoring](/ai-hallucination-risk-monitoring/)."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Why does AI describe my brand wrong even when it cites me?",
+          "answer": "It's a source-of-truth gap. The model assembles the description at retrieval time, and when it can't find one clear authoritative statement of what you do on a page you own, it interpolates from adjacent products and third-party blurbs and gets the specifics wrong. Fixing the ambiguous canonical is the lever."
+        },
+        {
+          "question": "Does AI describe my brand the same way on every engine?",
+          "answer": "No. The description is per-engine, because each engine assembles it from a different source mix. In our own tracking, Gemini and Google's AI describe us in positive terms while ChatGPT and Perplexity describe us flat and neutral, on the same prompts in the same window. Read the description per engine, not as one blended number."
+        },
+        {
+          "question": "I fixed my page but the AI answer didn't change. Why not?",
+          "answer": "The correction propagates on each engine's re-crawl clock, not instantly. Live-retrieval engines climb chunk by chunk over days to weeks; snapshot-leaning engines stay wrong until they re-fetch, then flip. A correct fix can look like it failed for the first week because nothing has re-crawled yet. Don't kill it early."
+        },
+        {
+          "question": "How long does it take to fix a wrong AI description?",
+          "answer": "Days to weeks, depending on the engine and how authoritative your domain already is. You can't force a re-crawl on your schedule; you can only make the right answer the easiest thing to extract and verify the change over a windowed trend rather than a single run."
+        },
+        {
+          "question": "Is a wrong AI citation really worse than no citation?",
+          "answer": "For a brand without strong authority, often yes. A confident wrong description sets an expectation your signup or sales call can't meet, and you rarely see why the lead went cold. No mention is neutral; a wrong one actively mis-sells you."
+        }
+      ],
+      "sources": [
+        {
+          "label": "SolCrys per-engine sentiment, workspace solcysai-aeo, 14-day window ending 2026-06-07, four engines (ChatGPT, Gemini, Perplexity, Google AI Overviews)",
+          "url": "https://solcrys.com/visibility-measurement-methodology"
+        },
+        {
+          "label": "Google official AI optimization guide (May 2026), engine retrieval and indexing behavior",
+          "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide"
+        }
+      ]
+    },
+    {
       "slug": "chatgpt-recommends-competitor-self-audit",
       "title": "Your SaaS Ranks #1 on Google. ChatGPT Recommends a Competitor. The 10-Minute Self-Audit.",
       "metaTitle": "ChatGPT Recommends Your Competitor? The 10-Minute Self-Audit | SolCrys",
