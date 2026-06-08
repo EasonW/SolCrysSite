@@ -552,7 +552,7 @@ function homeHtml() {
       <figure style="margin-top: 2rem;">
         <figcaption><strong>The SolCrys Loop</strong> — operational snapshot of one customer workspace. Numbers reflect actual state, not aggregate marketing claims.</figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Step 01 · Measure.</strong> 20 prompts tracked across ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans.</li>
+          <li><strong>Step 01 · Measure.</strong> 20 prompts tracked across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans.</li>
           <li><strong>Step 02 · Diagnose.</strong> 3 gaps detected, classified as absence, citation, accuracy, comparison, or action gap.</li>
           <li><strong>Step 03 · Execute.</strong> 1 action queued — brand-safe drafts via Corporate Context, routed for human review.</li>
           <li><strong>Step 04 · Verify.</strong> +5pp citation rate after re-testing the same prompt set. Loop continues.</li>
@@ -567,7 +567,7 @@ function homeHtml() {
       <h2>The SolCrys Loop: measure, diagnose, execute, verify</h2>
       <p>SolCrys closes the loop on AI search visibility. Each shipped action is tied to the same prompt set so teams can see which fixes actually changed the answer.</p>
       <ol class="seo-list">
-        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity on eligible plans. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.</li>
+        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.</li>
         <li><strong>Diagnose the answer gap.</strong> Classify each weak answer as an absence, citation, accuracy, comparison, or action gap. Map each gap to the page or source most likely to fix it.</li>
         <li><strong>Execute with Corporate Context.</strong> SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.</li>
         <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track citation rate, answer accuracy, and recommendation share to prove which fixes actually moved the answer.</li>
@@ -2159,24 +2159,47 @@ if (fs.existsSync(legacyStyles)) {
   fs.copyFileSync(legacyStyles, path.join(distDir, "styles.css"));
 }
 
+// Static redirect bridges for retired / never-built URLs that still 404 live.
+// GitHub Pages can't issue server-side 301s, so each entry emits the same
+// meta-refresh + canonical + JS-replace stand-in used for /pricing/ (see
+// pricingRedirectBridgeHtml above) — search engines treat a zero-second
+// meta-refresh as a 301 for canonical consolidation.
+//
+// `to` is either a same-site slug (resolved against solcrys.com) or an
+// absolute URL (e.g. the app subdomain, where the audit/contact funnels live).
+//
+// /free-audit/ and /contact/ were never real marketing-root routes — the
+// funnels moved to the app. An Ahrefs crawl surfaced both (plus /pricing-alerts/
+// and /strategy-positioning/) as 404s with heavy internal inlinks. The internal
+// links were repointed to the app CTAs in a prior commit, but the bare URLs
+// still 404 for external backlinks, search-index entries, AI citations, and
+// typed traffic. These bridges recover that link equity to the right page.
+// Destinations mirror the in-page CTAs: AUDIT_URL (src/lib/audit-cta.ts) and
+// contact-sales. /pricing-alerts/ and /strategy-positioning/ were internal-link
+// typos — send strays to their topical home (the pricing comparison page and
+// the About page's Founders' Notes section, respectively).
 const retiredRedirects = [
   { from: "ai-search-share-of-voice", to: "ai-share-of-recommendation" },
+  { from: "free-audit", to: "https://app.solcrys.com/audit" },
+  { from: "contact", to: "https://app.solcrys.com/contact-sales/" },
+  { from: "pricing-alerts", to: "aeo-platform-pricing-2026" },
+  { from: "strategy-positioning", to: "about" },
 ];
 
 for (const { from, to } of retiredRedirects) {
-  const target = canonicalUrl(`/${to}/`);
+  const target = /^https?:\/\//i.test(to) ? to : canonicalUrl(`/${to}/`);
   const redirectHtml = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Moved - see AI Share of Recommendation | SolCrys</title>
-    <link rel="canonical" href="${target}" />
+    <title>This page has moved | SolCrys</title>
+    <link rel="canonical" href="${escapeAttr(target)}" />
     <meta name="robots" content="noindex, follow" />
-    <meta http-equiv="refresh" content="0; url=${target}" />
+    <meta http-equiv="refresh" content="0; url=${escapeAttr(target)}" />
     <script>window.location.replace(${JSON.stringify(target)});</script>
   </head>
   <body>
-    <p>This page has moved. Redirecting to <a href="${target}">${target}</a>.</p>
+    <p>This page has moved. Redirecting to <a href="${escapeAttr(target)}">${escapeHtml(target)}</a>.</p>
   </body>
 </html>
 `;
