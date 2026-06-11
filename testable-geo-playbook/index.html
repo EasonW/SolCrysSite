@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] The Testable GEO Playbook: 4 Rules for Trustworthy AI-Visibility Tests | SolCrys</title>
+    <meta name="description" content="AI answers are non-deterministic, so a naive GEO test lies to you confidently. The four test-design rules that decide whether your AI-visibility result is signal or noise: measure a rate, test at the buyer&#39;s specificity level, test per language, and sort each cited source by the move." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/testable-geo-playbook/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-11" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] The Testable GEO Playbook: 4 Rules for Trustworthy AI-Visibility Tests | SolCrys" />
+    <meta property="og:description" content="AI answers are non-deterministic, so a naive GEO test lies to you confidently. The four test-design rules that decide whether your AI-visibility result is signal or noise: measure a rate, test at the buyer&#39;s specificity level, test per language, and sort each cited source by the move." />
+    <meta property="og:url" content="https://solcrys.com/testable-geo-playbook/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BT5oAxit.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Most GEO Advice Is Untestable. Here's How to Run It, and Not Fool Yourself.","item":"https://solcrys.com/testable-geo-playbook/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Most GEO advice is untestable. Here's how to run it, and not fool yourself.","description":"AI answers are non-deterministic, so a naive GEO test lies to you confidently. The four test-design rules that decide whether your AI-visibility result is signal or noise: measure a rate, test at the buyer's specificity level, test per language, and sort each cited source by the move.","dateModified":"2026-06-11","datePublished":"2026-06-11","mainEntityOfPage":"https://solcrys.com/testable-geo-playbook/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/testable-geo-playbook/","mainEntity":[{"@type":"Question","name":"How many times do I need to run a prompt before the result is trustworthy?","acceptedAnswer":{"@type":"Answer","text":"Around ten runs per prompt is a reasonable floor. AI answers are non-deterministic, so a single run is a coin flip. Report an appearance rate across runs (for example, cited in 7 of 10), and treat anything under roughly 5 to 7 points of movement as noise rather than a real change."}},{"@type":"Question","name":"Why does my AI-visibility number change every time I check?","acceptedAnswer":{"@type":"Answer","text":"Because the system is non-deterministic. In our own data the same prompt set swung from about 3.5% to 8.4% run to run while the real windowed average sat near 6%. The single numbers are not wrong; reading one in isolation is. Use the windowed rate, not the latest screenshot."}},{"@type":"Question","name":"Should I test the broad prompt or the specific one?","acceptedAnswer":{"@type":"Answer","text":"The specific one, because that is what a real buyer types. A brand visible 7 of 10 times on \"best tool for X\" can drop to 1 of 10 once you add a constraint like budget or team size. Broad prompts overstate your presence where it matters least, and the constrained prompts are usually cheaper to win."}},{"@type":"Question","name":"Does this need a tool, or can I do it myself?","acceptedAnswer":{"@type":"Answer","text":"You can run all four rules by hand in an afternoon: pick your buyer prompts, run each about ten times across the engines your buyers use, log the cited domains, and add constraints and languages. A tool earns its keep by doing this continuously and at scale, not by being the only way to do it once."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>Most GEO advice is untestable. Here&#39;s how to run it, and not fool yourself.</h1>
+        <p class="seo-lede">Most GEO advice is a vibe, so the fix is to treat each claim as a small experiment you can run in an afternoon. But AI answers are non-deterministic, which means a naive experiment lies to you confidently. Four test-design rules decide whether a result is signal or noise. Rule one: measure an appearance rate across roughly ten runs, never a single yes/no, because the same prompt set can swing run to run while the real windowed average sits elsewhere. Rule two: test at the specificity level a buyer actually uses, because a brand visible on a broad prompt can vanish the moment you add a constraint like budget, and that constrained prompt is both where the buyer stands and where it is cheapest to win. Rule three: test per language, because the source map changes completely across languages and a brand invisible in English can be the only clear answer in a lower-competition language. Rule four: sort each cited source by the move, using a competitive-query test, so a flat list of cited domains becomes a list with a move attached to each. Underneath these rules sit the source map, branded-versus-buyer prompts, share of voice, and description accuracy, each covered in its own guide. None of it requires a tool.</p>
+        <p>Updated 2026-06-11</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I test whether a GEO tactic actually worked?</li><li>Why do AI visibility results change every time I check?</li><li>How many runs do I need before an AI-visibility number is trustworthy?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Most GEO advice tells you to &quot;get cited&quot; or &quot;build authority&quot; without telling you what to measure or how to know if it worked. The fix is to treat each claim as a small experiment you can run in an afternoon. The catch is that AI answers are non-deterministic, so a naive experiment lies to you confidently: run the same prompt twice and you get different brands, sources, and ordering.</p><p>Four test-design rules decide whether a result is signal or noise: measure an appearance rate across many runs, not a single yes/no; test at the specificity level your buyer actually uses; test per language; and sort each cited source by the move, using a competitive-query test. The mechanisms these rules instrument (the source map, branded-versus-buyer prompts, citation accuracy) get their own guides, linked below. This page is about how to test them without fooling yourself.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Rule 1: Measure a rate across many runs, never a single yes/no</h2>
+      <p>This is the rule that invalidates most of what gets posted. A single run of an AI-visibility check is a coin flip. To see it, run the same buyer prompt ten times and watch the answer move.</p><p>In our own tracking, over a recent two-week window the same prompt set swung from about <strong>3.5% to 8.4% mention rate run to run</strong>, while the windowed average sat near <strong>6%</strong> (as of 2026-06-07, four engines). Three runs in the same hour came back 4.9%, 5.1%, and 5.5%. None of those single numbers is wrong, and all of them are noise if you read one in isolation.</p><p>So the unit of measurement is an <strong>appearance rate across N runs</strong>, not a yes/no from one session. &quot;Cited 7 of 10 times&quot; versus &quot;cited 2 of 10 times&quot; is a real difference. &quot;Cited once&quot; versus &quot;not cited once&quot; tells you nothing. A practical floor: with about ten runs per prompt, treat anything under roughly 5 to 7 points of movement as noise, not a result. Everything downstream (did our content move the needle, is this source reliable, are we gaining on a competitor) is unreadable until you have pinned this down.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Rule 2: Test at the specificity level your buyer actually uses</h2>
+      <p>A brand can look visible on a broad prompt and vanish the moment the question gets specific, which is exactly where a real buyer stands.</p><p>Run &quot;best [category] tool&quot; ten times, then add one constraint (a team size, a budget, an integration) and run it ten more. Appearance rate falls off a cliff. A brand cited 7 of 10 times on the broad query can drop to 1 of 10 once the context narrows. And nobody with a budget types the broad version. They type &quot;best [category] tool for a 5-person team under $200.&quot;</p><p>Two consequences. First, most dashboards read the broad prompt and <strong>overstate your presence exactly where it matters least</strong>. Second, the constrained prompts are usually the <strong>cheapest to win</strong>: far fewer roundups, threads, and review pages cover the narrow query, so the cited source set thins out and a single genuinely specific page or thread can own the slot. The source map is not one list. It is a different list per specificity level.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Rule 3: Test per language, not just in English</h2>
+      <p>The same buyer journey in Spanish, French, or Hindi pulls a different source map, and the difference is a lever, not a footnote.</p><p>A brand buried under forty English comparison pages can be the only clear answer in a lower-competition language, because far fewer regional sources cover the same query. Language is just another way the source set narrows, the same mechanism as Rule 2 on a different axis. The one caveat: it only counts where buyers actually transact in that language, not translated English keywords nobody types. But as a discovery lever in under-served languages, it is often dramatically cheaper than fighting the English source layer head on, and almost nobody is testing for it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Rule 4: Sort each cited source by the move, using a competitive-query test</h2>
+      <p>When you map which domains AI cites for your category, the same three or four keep showing up. But they do not all warrant the same response, and one test tells them apart.</p><p>Take a domain that is stably cited and run it against a broader, more competitive version of the query. If it survives the competition, it is genuine authority the model trusts widely, so you <strong>earn your way in</strong> alongside it rather than trying to out-rank it. If it vanishes once the query gets competitive, it was only cited because it was the sole coverage of a narrow niche, so it is a gap you can <strong>out-publish</strong> with something clearly better. One nuance: surviving does not always mean give up, since a competitive answer usually cites several sources and you can still land as one of them.</p><p>The point is that the test converts a flat list of cited domains into a list with a move attached to each. A report becomes a plan.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How the four rules compose into a real measurement</h2>
+      <p>These are the test-design layer. Underneath them sits the actual instrument, written up separately so this page stays focused:</p>
+      <ul class="seo-list"><li>Build the <a href="/citation-gap-audit/" target="_blank" rel="noopener noreferrer">citation source map</a>: which domains the engines cite for your category, tagged owned, competitor, editorial, or community.</li><li>Split <a href="/is-ai-visibility-a-vanity-metric/" target="_blank" rel="noopener noreferrer">branded versus buyer-intent prompts</a>: branded prompts always flatter you; the discovery ones are where a new buyer finds you.</li><li>Track <a href="/how-to-track-ai-share-of-voice/" target="_blank" rel="noopener noreferrer">share of voice the defensible way</a>: a relative position against named competitors, over a window.</li><li>Watch <a href="/how-ai-describes-your-brand/" target="_blank" rel="noopener noreferrer">how each engine describes you</a>, not just whether it cites you, and remember the fix propagates on a re-crawl clock.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What you end up with</h3>
+        <p>Run those four mechanisms through the four rules above and you have something a skeptic, or your own CEO, can actually trust: a per-engine, per-specificity, windowed appearance rate with a move attached to every cited source. Not a single score.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The honest version</h2>
+      <p>The reason this works is the same reason most AI-visibility dashboards mislead: they read one run, of one broad English prompt, and report a single score. Every rule here is just refusing one of those shortcuts.</p><p>None of it requires a tool. You can run all four by hand in an afternoon, which is the point. A vendor (us included) earns its keep by doing this continuously and at scale, not by being the only one who can do it once.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys run-to-run variance and per-engine data, workspace solcysai-aeo, two-week window ending 2026-06-07, four engines (ChatGPT, Gemini, Perplexity, Google AI Overviews)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google official AI optimization guide (May 2026), engine retrieval and indexing behavior</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How many times do I need to run a prompt before the result is trustworthy?</h3>
+            <p>Around ten runs per prompt is a reasonable floor. AI answers are non-deterministic, so a single run is a coin flip. Report an appearance rate across runs (for example, cited in 7 of 10), and treat anything under roughly 5 to 7 points of movement as noise rather than a real change.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does my AI-visibility number change every time I check?</h3>
+            <p>Because the system is non-deterministic. In our own data the same prompt set swung from about 3.5% to 8.4% run to run while the real windowed average sat near 6%. The single numbers are not wrong; reading one in isolation is. Use the windowed rate, not the latest screenshot.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I test the broad prompt or the specific one?</h3>
+            <p>The specific one, because that is what a real buyer types. A brand visible 7 of 10 times on &quot;best tool for X&quot; can drop to 1 of 10 once you add a constraint like budget or team size. Broad prompts overstate your presence where it matters least, and the constrained prompts are usually cheaper to win.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does this need a tool, or can I do it myself?</h3>
+            <p>You can run all four rules by hand in an afternoon: pick your buyer prompts, run each about ten times across the engines your buyers use, log the cited domains, and add constraints and languages. A tool earns its keep by doing this continuously and at scale, not by being the only way to do it once.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/is-ai-visibility-a-vanity-metric/">Is AI Visibility Tracking a Vanity Metric? How to Make It a Signal Your CEO Can Trust.</a></h3>
+            <p>Your CEO wants AI visibility on the dashboard and your gut says vanity metric. It is - if you track raw rank on vanity prompts. Here are the three conditions that turn it into a leading indicator, a CEO-ready reporting template, and why our own 100%-vs-0% data proves the point.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/citation-gap-audit/">Citation Gap Audit</a></h3>
+            <p>A 5-step framework to identify which sources AI engines cite for your competitors but not for your brand, and the recovery actions for each gap type.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-to-track-ai-share-of-voice/">How to Track AI Share of Voice (Step-by-Step, 2026)</a></h3>
+            <p>A tactical how-to for tracking AI share of voice in ChatGPT, Perplexity, Gemini, and Google AIO — with formulas, a worked example, and a 30-day starter rollout.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-LUUMlDWA.js"></script>
+  </body>
+</html>
