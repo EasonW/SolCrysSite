@@ -2,6 +2,112 @@
 
 SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.
 
+## Most GEO Advice Is Untestable. Here's How to Run It, and Not Fool Yourself.
+
+Most GEO advice is a vibe, so the fix is to treat each claim as a small experiment you can run in an afternoon. But AI answers are non-deterministic, which means a naive experiment lies to you confidently. Four test-design rules decide whether a result is signal or noise. Rule one: measure an appearance rate across roughly ten runs, never a single yes/no, because the same prompt set can swing run to run while the real windowed average sits elsewhere. Rule two: test at the specificity level a buyer actually uses, because a brand visible on a broad prompt can vanish the moment you add a constraint like budget, and that constrained prompt is both where the buyer stands and where it is cheapest to win. Rule three: test per language, because the source map changes completely across languages and a brand invisible in English can be the only clear answer in a lower-competition language. Rule four: sort each cited source by the move, using a competitive-query test, so a flat list of cited domains becomes a list with a move attached to each. Underneath these rules sit the source map, branded-versus-buyer prompts, share of voice, and description accuracy, each covered in its own guide. None of it requires a tool.
+
+### Questions this guide answers
+
+- How do I test whether a GEO tactic actually worked?
+- Why do AI visibility results change every time I check?
+- How many runs do I need before an AI-visibility number is trustworthy?
+
+### Direct answer
+
+Most GEO advice tells you to "get cited" or "build authority" without telling you what to measure or how to know if it worked. The fix is to treat each claim as a small experiment you can run in an afternoon. The catch is that AI answers are non-deterministic, so a naive experiment lies to you confidently: run the same prompt twice and you get different brands, sources, and ordering.
+
+Four test-design rules decide whether a result is signal or noise: measure an appearance rate across many runs, not a single yes/no; test at the specificity level your buyer actually uses; test per language; and sort each cited source by the move, using a competitive-query test. The mechanisms these rules instrument (the source map, branded-versus-buyer prompts, citation accuracy) get their own guides, linked below. This page is about how to test them without fooling yourself.
+
+
+
+
+### Rule 1: Measure a rate across many runs, never a single yes/no
+
+This is the rule that invalidates most of what gets posted. A single run of an AI-visibility check is a coin flip. To see it, run the same buyer prompt ten times and watch the answer move.
+
+In our own tracking, over a recent two-week window the same prompt set swung from about **3.5% to 8.4% mention rate run to run**, while the windowed average sat near **6%** (as of 2026-06-07, four engines). Three runs in the same hour came back 4.9%, 5.1%, and 5.5%. None of those single numbers is wrong, and all of them are noise if you read one in isolation.
+
+So the unit of measurement is an **appearance rate across N runs**, not a yes/no from one session. "Cited 7 of 10 times" versus "cited 2 of 10 times" is a real difference. "Cited once" versus "not cited once" tells you nothing. A practical floor: with about ten runs per prompt, treat anything under roughly 5 to 7 points of movement as noise, not a result. Everything downstream (did our content move the needle, is this source reliable, are we gaining on a competitor) is unreadable until you have pinned this down.
+
+
+
+
+### Rule 2: Test at the specificity level your buyer actually uses
+
+A brand can look visible on a broad prompt and vanish the moment the question gets specific, which is exactly where a real buyer stands.
+
+Run "best [category] tool" ten times, then add one constraint (a team size, a budget, an integration) and run it ten more. Appearance rate falls off a cliff. A brand cited 7 of 10 times on the broad query can drop to 1 of 10 once the context narrows. And nobody with a budget types the broad version. They type "best [category] tool for a 5-person team under $200."
+
+Two consequences. First, most dashboards read the broad prompt and **overstate your presence exactly where it matters least**. Second, the constrained prompts are usually the **cheapest to win**: far fewer roundups, threads, and review pages cover the narrow query, so the cited source set thins out and a single genuinely specific page or thread can own the slot. The source map is not one list. It is a different list per specificity level.
+
+
+
+
+### Rule 3: Test per language, not just in English
+
+The same buyer journey in Spanish, French, or Hindi pulls a different source map, and the difference is a lever, not a footnote.
+
+A brand buried under forty English comparison pages can be the only clear answer in a lower-competition language, because far fewer regional sources cover the same query. Language is just another way the source set narrows, the same mechanism as Rule 2 on a different axis. The one caveat: it only counts where buyers actually transact in that language, not translated English keywords nobody types. But as a discovery lever in under-served languages, it is often dramatically cheaper than fighting the English source layer head on, and almost nobody is testing for it.
+
+
+
+
+### Rule 4: Sort each cited source by the move, using a competitive-query test
+
+When you map which domains AI cites for your category, the same three or four keep showing up. But they do not all warrant the same response, and one test tells them apart.
+
+Take a domain that is stably cited and run it against a broader, more competitive version of the query. If it survives the competition, it is genuine authority the model trusts widely, so you **earn your way in** alongside it rather than trying to out-rank it. If it vanishes once the query gets competitive, it was only cited because it was the sole coverage of a narrow niche, so it is a gap you can **out-publish** with something clearly better. One nuance: surviving does not always mean give up, since a competitive answer usually cites several sources and you can still land as one of them.
+
+The point is that the test converts a flat list of cited domains into a list with a move attached to each. A report becomes a plan.
+
+
+
+
+### How the four rules compose into a real measurement
+
+These are the test-design layer. Underneath them sits the actual instrument, written up separately so this page stays focused:
+
+
+- Build the [citation source map](/citation-gap-audit/): which domains the engines cite for your category, tagged owned, competitor, editorial, or community.
+- Split [branded versus buyer-intent prompts](/is-ai-visibility-a-vanity-metric/): branded prompts always flatter you; the discovery ones are where a new buyer finds you.
+- Track [share of voice the defensible way](/how-to-track-ai-share-of-voice/): a relative position against named competitors, over a window.
+- Watch [how each engine describes you](/how-ai-describes-your-brand/), not just whether it cites you, and remember the fix propagates on a re-crawl clock.
+
+
+
+#### What you end up with
+
+Run those four mechanisms through the four rules above and you have something a skeptic, or your own CEO, can actually trust: a per-engine, per-specificity, windowed appearance rate with a move attached to every cited source. Not a single score.
+
+### The honest version
+
+The reason this works is the same reason most AI-visibility dashboards mislead: they read one run, of one broad English prompt, and report a single score. Every rule here is just refusing one of those shortcuts.
+
+None of it requires a tool. You can run all four by hand in an afternoon, which is the point. A vendor (us included) earns its keep by doing this continuously and at scale, not by being the only one who can do it once.
+
+
+
+
+
+### Sources
+
+- [SolCrys run-to-run variance and per-engine data, workspace solcysai-aeo, two-week window ending 2026-06-07, four engines (ChatGPT, Gemini, Perplexity, Google AI Overviews)](https://solcrys.com/visibility-measurement-methodology)
+- [Google official AI optimization guide (May 2026), engine retrieval and indexing behavior](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+
+### FAQ
+
+Q: How many times do I need to run a prompt before the result is trustworthy?
+A: Around ten runs per prompt is a reasonable floor. AI answers are non-deterministic, so a single run is a coin flip. Report an appearance rate across runs (for example, cited in 7 of 10), and treat anything under roughly 5 to 7 points of movement as noise rather than a real change.
+
+Q: Why does my AI-visibility number change every time I check?
+A: Because the system is non-deterministic. In our own data the same prompt set swung from about 3.5% to 8.4% run to run while the real windowed average sat near 6%. The single numbers are not wrong; reading one in isolation is. Use the windowed rate, not the latest screenshot.
+
+Q: Should I test the broad prompt or the specific one?
+A: The specific one, because that is what a real buyer types. A brand visible 7 of 10 times on "best tool for X" can drop to 1 of 10 once you add a constraint like budget or team size. Broad prompts overstate your presence where it matters least, and the constrained prompts are usually cheaper to win.
+
+Q: Does this need a tool, or can I do it myself?
+A: You can run all four rules by hand in an afternoon: pick your buyer prompts, run each about ten times across the engines your buyers use, log the cited domains, and add constraints and languages. A tool earns its keep by doing this continuously and at scale, not by being the only way to do it once.
+
 ## How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)
 
 Most AEO advice is about whether AI cites you. The harder problem is what it says you are once it does, and a confident wrong description is worse than no mention because it sets an expectation your signup or sales call can't meet. The description is assembled at retrieval time from the sources the engine trusts, so when your own canonical page is ambiguous the model interpolates from adjacent products and gets the specifics wrong. It is also per-engine: in our own tracking, Gemini and Google's AI describe us positively while ChatGPT and Perplexity describe us flat and neutral, same brand and prompts. The part teams get wrong is the update: fixing your canonical page does not flip the description instantly, it propagates on each engine's re-crawl clock. Live-retrieval engines climb chunk by chunk, snapshot-leaning engines flip cleanly, and Google updates on its index cadence, so a correct fix can look like it failed for the first week. The remedy is a Measure, Diagnose, Execute, Verify loop: read the cited description per engine, find which source carries the wrong version, make the correct claim the easiest thing to extract on your own page, and give the correction weeks rather than days to show up.
