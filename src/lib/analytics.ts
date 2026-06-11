@@ -24,8 +24,9 @@ export type AuditSurface =
 
 export type PricingAudience = "brand" | "agency";
 
+// The $99 entry tier is keyed "growth" but displayed as "Starter"; the legacy
+// $29 "brand_starter" tier was retired 2026-06-10.
 export type PricingPlanKey =
-  | "brand_starter"
   | "brand_growth"
   | "brand_pro"
   | "agency"
