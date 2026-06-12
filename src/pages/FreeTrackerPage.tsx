@@ -21,7 +21,7 @@ import { trackEvent } from "@/lib/analytics";
 const PAGE_TITLE =
   "Free ChatGPT Visibility Tracker — See If AI Recommends Your Brand | SolCrys";
 const PAGE_DESCRIPTION =
-  "Free ChatGPT visibility tracker. Enter your domain and see whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — about 5 minutes, no credit card.";
+  "Free ChatGPT visibility tracker. See whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — then get the exact fix to ship, not just a score. About 5 minutes, no credit card.";
 const CANONICAL = "https://solcrys.com/free-chatgpt-visibility-tracker/";
 
 // Same loose URL-shape check the hero + /audit AuditFlow use, kept local so
@@ -63,6 +63,10 @@ const FAQS = [
   {
     q: "Is the ChatGPT visibility tracker really free?",
     a: "Yes. You can check your brand's ChatGPT visibility for free, with no credit card. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, and Perplexity plus automatic daily tracking.",
+  },
+  {
+    q: "Does it just give me a score, or help me fix it?",
+    a: "Both. The visibility check is the measure step. In the same free workspace, a free content audit hands you the concrete fix to ship — the schema block, the heading rewrite — not just a score. That's what makes SolCrys a closed loop instead of a scoreboard: measure, diagnose, execute, verify. Re-testing at scale across every engine is the paid part.",
   },
   {
     q: "Do I need to sign up?",
@@ -140,7 +144,8 @@ const FreeTrackerPage = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
               See whether ChatGPT mentions, cites, or skips your brand on the
               prompts your buyers actually ask — or names a competitor instead.
-              Results in about 5 minutes.
+              Then, unlike a scoreboard, the free workspace hands you the exact
+              fix to ship. Results in about 5 minutes.
             </p>
 
             <form
@@ -316,6 +321,24 @@ const FreeTrackerPage = () => {
               Free covers ChatGPT. Add Gemini, Google AI Overviews, and
               Perplexity — plus automatic daily tracking — on a paid plan when
               you're ready.
+            </p>
+          </div>
+        </section>
+
+        {/* Closed loop — not just a score */}
+        <section className="border-t border-border/40 py-16 md:py-20 bg-card/20">
+          <div className="container mx-auto px-6 max-w-3xl text-center">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+              The tracker is step one. The free tier hands you the fix.
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Most free AI-visibility tools stop at the number. SolCrys doesn't.
+              The same free workspace runs a content audit that hands you the
+              exact change to ship — the JSON-LD block, the heading rewrite, the
+              FAQ to add — with the points each one recovers. That's the SolCrys
+              Loop: measure (here), diagnose, execute the fix, then re-test. On
+              the free tier that's ChatGPT and one audit a month; multi-engine
+              tracking and the automatic re-test at scale are the paid part.
             </p>
           </div>
         </section>
