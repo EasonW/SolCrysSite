@@ -2065,6 +2065,7 @@ writePage(
     description: freeTrackerDescription,
     body: freeTrackerBody(),
     lastModified: site.updated,
+    ogImage: "/og/free-chatgpt-visibility-tracker.png",
     schemas: [
       organizationSchema,
       breadcrumbSchema([
