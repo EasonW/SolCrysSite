@@ -4659,6 +4659,117 @@ A: Quality. Five substantive Reddit posts that get upvotes and engagement outper
 Q: How long until rebalanced investment shows in AI citation share?
 A: Owned content: 1–4 months. Earned: 3–12 months (depending on outreach cycle). Community: 3–9 months. Expect to wait 6–9 months before the rebalanced mix shows clear citation share lift.
 
+## AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target
+
+Generative engines don't rank a single authoritative page; they repeat the claim corroborated across independent sources. Why domain authority is the wrong target for AI citations, what our own category data shows, and the loop that gets you into the answer.
+
+### Questions this guide answers
+
+- Does domain authority matter for AI citations?
+- Why does AI cite my competitor instead of me?
+- What makes content get cited by ChatGPT and Perplexity?
+- Is domain authority dead for AI search?
+- How do AI engines choose which sources to cite?
+
+### Direct answer
+
+Most teams optimizing for AI search aim at the wrong target. They try to make one page more authoritative, but the model is not grading the authority of any single page. It is looking for a claim it can repeat with confidence, and that confidence comes from seeing the same claim corroborated across sources that do not depend on each other.
+
+That distinction changes what you build, what you measure, and where you spend. If your AI citation share is flat despite heavy content investment, the likely problem is that your claim lives on one strong page instead of being echoed across the independent sources each engine actually reads.
+
+
+
+
+### The habit we brought from SEO
+
+SEO trained a generation to think in terms of authority. PageRank treated a link as a vote, domain authority rolled those votes into a score, and the playbook followed: earn enough links to one page and it climbs. The discipline is built around making a single URL more trusted than its rivals for a query.
+
+Generative engines do not work that way. When someone asks ChatGPT or Perplexity "what is the best tool for X," the engine does not return a ranked list of the ten most authoritative pages. It retrieves a set of sources, reads them, and names the brands it can describe with the least uncertainty. Your page is one input. The deciding factor is whether the association you want shows up consistently across the sources the model pulls.
+
+
+
+
+### The mechanism: corroboration, not a vote
+
+Retrieval-augmented answers are built by consensus. The model assembles an answer from multiple retrieved documents. Where they agree, it states the claim plainly. Where they disagree, a reasoning step resolves the conflict, and the version backed by the most independent sources usually wins. Industry analyses of LLM citation behavior describe the same shape: engines build an internal evidence graph and weight sources by entity coherence, confirmation frequency, and some domain authority, then cite the claims that are corroborated rather than the page that is individually strongest.
+
+This is why authority behaves inconsistently here. A high-authority page that is the only source asserting a claim loses to a mid-authority brand whose claim is echoed in five independent places. The trust is not located in any one source. It is located in the agreement between them.
+
+The correlations now surfacing point the same way. Across third-party analyses of LLM citation patterns, the volume of brand mentions across the web tracks AI citation rates roughly three times more strongly than backlinks do. These figures are correlational, drawn from third-party datasets rather than controlled experiments, so treat them as direction, not proof. The direction is consistent: being talked about across the web tracks citation outcomes better than being linked to.
+
+
+
+Signal | Reported correlation with AI citation rate | What it measures
+--- | --- | ---
+Brand web mentions | ~0.66 | How often you are talked about across the web (corroboration)
+Brand authority signals | ~0.33 | Aggregate brand strength
+Backlinks | ~0.22 | The classic SEO authority vote
+
+
+#### Two findings that make it hard to ignore
+
+Only about 12% of AI-cited URLs appear in Google's top ten organic results for the same query, so citation is not a mirror of ranking. And only about 11% of cited sources overlap between ChatGPT and Perplexity, because each engine reads a different slice of the web. ChatGPT leans on consensus sources like Wikipedia and competitor sites; Perplexity leans hard on Reddit. If your corroboration lives on one authoritative domain, it reaches one engine's reading list. Spread across source types, it reaches all of them.
+
+### What our own category shows
+
+We measure our own market the same way we measure clients', so here is the AEO and AI-visibility category from the inside, over a recent seven-day window.
+
+We logged **12,409 citations across 1,343 distinct domains**. That alone reframes the game: AI answers in our category are not decided by a handful of authorities, they are assembled from a 1,343-domain consensus. **No single domain held more than about 8%** of citations. Reddit led at roughly 7.8%, followed by Wikipedia and TechRadar.
+
+Look at which domains travel, and the pattern is corroboration, not authority. The sources that show up everywhere are not the highest-authority homepages. They are the ones corroborated across both source types and engines: Reddit on the community side, Wikipedia and TechRadar on the editorial side, and the competitor comparison pages (Profound, HubSpot, Semrush) that appear on all five engines we track.
+
+Our own site is instructive precisely because it is small. **solcrys.com is about 1.7% of category citations, rank 10.** When we are cited it is broad, our domain appears across all five engines, but the volume is carried by third parties, because that is where corroboration accumulates. This is also why "your own site does not matter" is the wrong lesson: 1.7% as a single domain in a 1,343-domain field is a strong owned position, and it is the page that converts the click.
+
+
+
+
+### The honest part: authority is not dead, it is mispriced
+
+None of this means domain authority is irrelevant. Authority still influences whether a page gets retrieved at all, and it still carries weight in how engines resolve conflicting sources. A brand with no authoritative footprint anywhere is hard for a model to trust no matter how often it is mentioned.
+
+The accurate claim is narrower and more useful: authority is necessary but not sufficient, and most teams over-invest in it. Spending another quarter on links to one page, when that claim appears nowhere else the model reads, is spending on the wrong axis. The marginal dollar belongs on corroboration.
+
+
+
+
+### What to do instead
+
+The shift is from "make my page authoritative" to "make my claim corroborated across the sources the model already pulls." Concretely, that is a loop:
+
+
+- **Measure who corroborates you now.** For your real buyer prompts, pull the cited sources per prompt across engines and tag them owned, editorial, community, or competitor. That citation list is the map: it shows which source types the model reads for your category and where your association is missing.
+- **Pick one association and go get it stated.** Choose the claim you want to own, then get that exact association into the independent source types that came back in step one: an editorial roundup, a comparison page, a community thread, a review profile. Not just on your own site. The goal is agreement across sources, not a stronger single page.
+- **Verify it moved the answer.** Re-run the same prompt set and check whether the new corroboration changed what the engines say. This is the step most AI-visibility work skips, and the one that separates a real lever from a vanity metric.
+
+
+
+#### Authority asks a different question than corroboration
+
+Authority asks, "is my page strong enough to win?" Corroboration asks, "does the model see my claim in enough independent places to repeat it?" In generative search, the second question is the one that gets you into the answer.
+
+
+### Sources
+
+- [SolCrys AI visibility measurement, workspace solcysai-aeo, 7-day window ending 2026-06-12 (12,409 citations across 1,343 domains).](https://solcrys.com/visibility-measurement-methodology)
+- [Daily GEO Insights: how LLMs select citation sources (evidence graphs, confirmation frequency, domain authority weighting).](https://www.dailygeoinsights.com/llm-citation-source-selection-research/)
+- [ZipTie: how LLMs choose sources to cite, what the data shows (brand mentions vs backlinks correlation).](https://ziptie.dev/blog/how-llms-choose-sources-to-cite/)
+- [Profound: AI platform citation patterns across ChatGPT, Perplexity, and Google AI Overviews.](https://www.tryprofound.com/blog/ai-platform-citation-patterns)
+- [Authority Tech: ChatGPT vs Perplexity, only ~11% of cited sources overlap.](https://authoritytech.io/curated/ai-citation-11-percent-platform-overlap-per-engine-audit-2026)
+
+### FAQ
+
+Q: Does domain authority still matter for AI citations?
+A: Yes, but less than SEO habits assume. Authority helps a page get retrieved and carries some weight when engines resolve conflicting sources, so it is necessary but not sufficient. Third-party analyses find brand web mentions correlate with AI citation rates roughly three times more strongly than backlinks. The higher-leverage work is getting your claim corroborated across independent sources, not making one page more authoritative.
+
+Q: Why does AI cite my competitor instead of me even though my site is better?
+A: Because the model is not grading which site is better, it is repeating the claim it can corroborate. A competitor described consistently across community, editorial, and comparison sources is one the engine can explain confidently, so it becomes the default answer. The fix is to get your own association stated across those same independent sources, not to out-optimize a single page.
+
+Q: If authority is over-rated, should I stop doing SEO?
+A: No. Authority and ranking still gate whether you get retrieved, and for Google AI Overviews ranking carries most of the weight. SEO is the floor. The point is that for ChatGPT and Perplexity, the marginal dollar is often better spent on corroboration across third-party sources than on more links to one page.
+
+Q: How do I see which sources corroborate me?
+A: Run your real buyer prompts across the engines and pull the cited sources per prompt, tagged by type. SolCrys's free ChatGPT visibility tracker does this: it returns the cited sources per prompt so you can see which domains the model pulls for your category and whether your claim is among them. Free, no credit card, at app.solcrys.com/audit.
+
 ## Reddit, G2, and Forums: How to Win the Community Source Layer for AI Citations
 
 Reddit, G2, Capterra, and niche vertical forums can punch above their weight in AI search citations because community content is harder to fake and often more specific than brand copy. Published third-party studies have reported high Reddit visibility in some AI citation datasets, but rates vary by engine, query type, and category. YouTube is also becoming a more important source surface in many categories, especially where review videos and comment threads shape buyer decisions. The strategy for winning community citations is not posting your brand on Reddit, which gets ignored or downweighted. The strategy is accountable participation by real people from your team in communities where your category is genuinely discussed, plus structured efforts to earn high-specificity G2 reviews and analyst-page mentions. Done right, the community source layer takes months to mature and should be measured with your own prompt set. Brands that follow the seven rules of native community voice — real accounts, no pitching, specificity over enthusiasm, upfront disclosure, honest engagement with criticism, answering the question first, and consistent presence over campaigns — build a more durable community evidence layer.

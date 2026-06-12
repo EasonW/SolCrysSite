@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AI Cites Consensus, Not Authority | SolCrys</title>
+    <meta name="description" content="AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-citations-consensus-not-authority/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-12" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AI Cites Consensus, Not Authority | SolCrys" />
+    <meta property="og:description" content="AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead." />
+    <meta property="og:url" content="https://solcrys.com/ai-citations-consensus-not-authority/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-citations-consensus-not-authority.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-citations-consensus-not-authority.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-KC40C6aU.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target","item":"https://solcrys.com/ai-citations-consensus-not-authority/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AI Cites Consensus, Not Authority","description":"AI engines don't cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.","dateModified":"2026-06-12","datePublished":"2026-06-12","mainEntityOfPage":"https://solcrys.com/ai-citations-consensus-not-authority/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-citations-consensus-not-authority/","mainEntity":[{"@type":"Question","name":"Does domain authority still matter for AI citations?","acceptedAnswer":{"@type":"Answer","text":"Yes, but less than SEO habits assume. Authority helps a page get retrieved and carries some weight when engines resolve conflicting sources, so it is necessary but not sufficient. Third-party analyses find brand web mentions correlate with AI citation rates roughly three times more strongly than backlinks. The higher-leverage work is getting your claim corroborated across independent sources, not making one page more authoritative."}},{"@type":"Question","name":"Why does AI cite my competitor instead of me even though my site is better?","acceptedAnswer":{"@type":"Answer","text":"Because the model is not grading which site is better, it is repeating the claim it can corroborate. A competitor described consistently across community, editorial, and comparison sources is one the engine can explain confidently, so it becomes the default answer. The fix is to get your own association stated across those same independent sources, not to out-optimize a single page."}},{"@type":"Question","name":"If authority is over-rated, should I stop doing SEO?","acceptedAnswer":{"@type":"Answer","text":"No. Authority and ranking still gate whether you get retrieved, and for Google AI Overviews ranking carries most of the weight. SEO is the floor. The point is that for ChatGPT and Perplexity, the marginal dollar is often better spent on corroboration across third-party sources than on more links to one page."}},{"@type":"Question","name":"How do I see which sources corroborate me?","acceptedAnswer":{"@type":"Answer","text":"Run your real buyer prompts across the engines and pull the cited sources per prompt, tagged by type. SolCrys's free ChatGPT visibility tracker does this: it returns the cited sources per prompt so you can see which domains the model pulls for your category and whether your claim is among them. Free, no credit card, at app.solcrys.com/audit."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>AI Cites Consensus, Not Authority</h1>
+        <p class="seo-lede">Generative engines don&#39;t rank a single authoritative page; they repeat the claim corroborated across independent sources. Why domain authority is the wrong target for AI citations, what our own category data shows, and the loop that gets you into the answer.</p>
+        <p>Updated 2026-06-12</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Does domain authority matter for AI citations?</li><li>Why does AI cite my competitor instead of me?</li><li>What makes content get cited by ChatGPT and Perplexity?</li><li>Is domain authority dead for AI search?</li><li>How do AI engines choose which sources to cite?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Most teams optimizing for AI search aim at the wrong target. They try to make one page more authoritative, but the model is not grading the authority of any single page. It is looking for a claim it can repeat with confidence, and that confidence comes from seeing the same claim corroborated across sources that do not depend on each other.</p><p>That distinction changes what you build, what you measure, and where you spend. If your AI citation share is flat despite heavy content investment, the likely problem is that your claim lives on one strong page instead of being echoed across the independent sources each engine actually reads.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The habit we brought from SEO</h2>
+      <p>SEO trained a generation to think in terms of authority. PageRank treated a link as a vote, domain authority rolled those votes into a score, and the playbook followed: earn enough links to one page and it climbs. The discipline is built around making a single URL more trusted than its rivals for a query.</p><p>Generative engines do not work that way. When someone asks ChatGPT or Perplexity &quot;what is the best tool for X,&quot; the engine does not return a ranked list of the ten most authoritative pages. It retrieves a set of sources, reads them, and names the brands it can describe with the least uncertainty. Your page is one input. The deciding factor is whether the association you want shows up consistently across the sources the model pulls.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The mechanism: corroboration, not a vote</h2>
+      <p>Retrieval-augmented answers are built by consensus. The model assembles an answer from multiple retrieved documents. Where they agree, it states the claim plainly. Where they disagree, a reasoning step resolves the conflict, and the version backed by the most independent sources usually wins. Industry analyses of LLM citation behavior describe the same shape: engines build an internal evidence graph and weight sources by entity coherence, confirmation frequency, and some domain authority, then cite the claims that are corroborated rather than the page that is individually strongest.</p><p>This is why authority behaves inconsistently here. A high-authority page that is the only source asserting a claim loses to a mid-authority brand whose claim is echoed in five independent places. The trust is not located in any one source. It is located in the agreement between them.</p><p>The correlations now surfacing point the same way. Across third-party analyses of LLM citation patterns, the volume of brand mentions across the web tracks AI citation rates roughly three times more strongly than backlinks do. These figures are correlational, drawn from third-party datasets rather than controlled experiments, so treat them as direction, not proof. The direction is consistent: being talked about across the web tracks citation outcomes better than being linked to.</p>
+      
+      <table>
+              <thead><tr><th>Signal</th><th>Reported correlation with AI citation rate</th><th>What it measures</th></tr></thead>
+              <tbody><tr><td>Brand web mentions</td><td>~0.66</td><td>How often you are talked about across the web (corroboration)</td></tr><tr><td>Brand authority signals</td><td>~0.33</td><td>Aggregate brand strength</td></tr><tr><td>Backlinks</td><td>~0.22</td><td>The classic SEO authority vote</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Two findings that make it hard to ignore</h3>
+        <p>Only about 12% of AI-cited URLs appear in Google&#39;s top ten organic results for the same query, so citation is not a mirror of ranking. And only about 11% of cited sources overlap between ChatGPT and Perplexity, because each engine reads a different slice of the web. ChatGPT leans on consensus sources like Wikipedia and competitor sites; Perplexity leans hard on Reddit. If your corroboration lives on one authoritative domain, it reaches one engine&#39;s reading list. Spread across source types, it reaches all of them.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What our own category shows</h2>
+      <p>We measure our own market the same way we measure clients&#39;, so here is the AEO and AI-visibility category from the inside, over a recent seven-day window.</p><p>We logged <strong>12,409 citations across 1,343 distinct domains</strong>. That alone reframes the game: AI answers in our category are not decided by a handful of authorities, they are assembled from a 1,343-domain consensus. <strong>No single domain held more than about 8%</strong> of citations. Reddit led at roughly 7.8%, followed by Wikipedia and TechRadar.</p><p>Look at which domains travel, and the pattern is corroboration, not authority. The sources that show up everywhere are not the highest-authority homepages. They are the ones corroborated across both source types and engines: Reddit on the community side, Wikipedia and TechRadar on the editorial side, and the competitor comparison pages (Profound, HubSpot, Semrush) that appear on all five engines we track.</p><p>Our own site is instructive precisely because it is small. <strong>solcrys.com is about 1.7% of category citations, rank 10.</strong> When we are cited it is broad, our domain appears across all five engines, but the volume is carried by third parties, because that is where corroboration accumulates. This is also why &quot;your own site does not matter&quot; is the wrong lesson: 1.7% as a single domain in a 1,343-domain field is a strong owned position, and it is the page that converts the click.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The honest part: authority is not dead, it is mispriced</h2>
+      <p>None of this means domain authority is irrelevant. Authority still influences whether a page gets retrieved at all, and it still carries weight in how engines resolve conflicting sources. A brand with no authoritative footprint anywhere is hard for a model to trust no matter how often it is mentioned.</p><p>The accurate claim is narrower and more useful: authority is necessary but not sufficient, and most teams over-invest in it. Spending another quarter on links to one page, when that claim appears nowhere else the model reads, is spending on the wrong axis. The marginal dollar belongs on corroboration.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do instead</h2>
+      <p>The shift is from &quot;make my page authoritative&quot; to &quot;make my claim corroborated across the sources the model already pulls.&quot; Concretely, that is a loop:</p>
+      <ul class="seo-list"><li><strong>Measure who corroborates you now.</strong> For your real buyer prompts, pull the cited sources per prompt across engines and tag them owned, editorial, community, or competitor. That citation list is the map: it shows which source types the model reads for your category and where your association is missing.</li><li><strong>Pick one association and go get it stated.</strong> Choose the claim you want to own, then get that exact association into the independent source types that came back in step one: an editorial roundup, a comparison page, a community thread, a review profile. Not just on your own site. The goal is agreement across sources, not a stronger single page.</li><li><strong>Verify it moved the answer.</strong> Re-run the same prompt set and check whether the new corroboration changed what the engines say. This is the step most AI-visibility work skips, and the one that separates a real lever from a vanity metric.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Authority asks a different question than corroboration</h3>
+        <p>Authority asks, &quot;is my page strong enough to win?&quot; Corroboration asks, &quot;does the model see my claim in enough independent places to repeat it?&quot; In generative search, the second question is the one that gets you into the answer.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys AI visibility measurement, workspace solcysai-aeo, 7-day window ending 2026-06-12 (12,409 citations across 1,343 domains).</a></li><li><a href="https://www.dailygeoinsights.com/llm-citation-source-selection-research/" target="_blank" rel="noopener noreferrer">Daily GEO Insights: how LLMs select citation sources (evidence graphs, confirmation frequency, domain authority weighting).</a></li><li><a href="https://ziptie.dev/blog/how-llms-choose-sources-to-cite/" target="_blank" rel="noopener noreferrer">ZipTie: how LLMs choose sources to cite, what the data shows (brand mentions vs backlinks correlation).</a></li><li><a href="https://www.tryprofound.com/blog/ai-platform-citation-patterns" target="_blank" rel="noopener noreferrer">Profound: AI platform citation patterns across ChatGPT, Perplexity, and Google AI Overviews.</a></li><li><a href="https://authoritytech.io/curated/ai-citation-11-percent-platform-overlap-per-engine-audit-2026" target="_blank" rel="noopener noreferrer">Authority Tech: ChatGPT vs Perplexity, only ~11% of cited sources overlap.</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does domain authority still matter for AI citations?</h3>
+            <p>Yes, but less than SEO habits assume. Authority helps a page get retrieved and carries some weight when engines resolve conflicting sources, so it is necessary but not sufficient. Third-party analyses find brand web mentions correlate with AI citation rates roughly three times more strongly than backlinks. The higher-leverage work is getting your claim corroborated across independent sources, not making one page more authoritative.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does AI cite my competitor instead of me even though my site is better?</h3>
+            <p>Because the model is not grading which site is better, it is repeating the claim it can corroborate. A competitor described consistently across community, editorial, and comparison sources is one the engine can explain confidently, so it becomes the default answer. The fix is to get your own association stated across those same independent sources, not to out-optimize a single page.</p>
+          </article>
+          <article class="seo-card">
+            <h3>If authority is over-rated, should I stop doing SEO?</h3>
+            <p>No. Authority and ranking still gate whether you get retrieved, and for Google AI Overviews ranking carries most of the weight. SEO is the floor. The point is that for ChatGPT and Perplexity, the marginal dollar is often better spent on corroboration across third-party sources than on more links to one page.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I see which sources corroborate me?</h3>
+            <p>Run your real buyer prompts across the engines and pull the cited sources per prompt, tagged by type. SolCrys&#39;s free ChatGPT visibility tracker does this: it returns the cited sources per prompt so you can see which domains the model pulls for your category and whether your claim is among them. Free, no credit card, at app.solcrys.com/audit.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-build-a-source-layer-strategy/">How to Build a Source-Layer Strategy for AEO (2026)</a></h3>
+            <p>A strategic playbook for building the three source layers that AI engines actually cite: owned, earned, and community. Includes sequencing, costs, and an ethics line.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-community-sources-ai/">Owned, Earned, and Community Sources in AI Answers: A 3-Layer Strategy</a></h3>
+            <p>AI engines cite three source layers — owned (your site), earned (PR/editorial), and community (Reddit/G2/forums). In our own data, owned is only ~1.6% of citations yet still a top-10 source. Why third parties get you into the answer, why your own site still matters, and how to balance the three.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/wikipedia-techradar-reddit-dominate-ai-citations/">Reddit, Wikipedia, and TechRadar Dominate AI Citations: A 36,268-Citation Study of the AEO Category</a></h3>
+            <p>We analyzed 36,268 citations across 44 buyer prompts, 5 AI engines, and 30 days. Reddit, Wikipedia, and TechRadar lead — owned media is ~1.5% of category citations.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CypWAUOz.js"></script>
+  </body>
+</html>
