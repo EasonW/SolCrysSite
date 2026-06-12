@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] Free AEO Tools That Fix, Not Just Score (2026) | SolCrys</title>
+    <meta name="description" content="Every free AEO tool in 2026, mapped to Measure → Diagnose → Execute → Verify. Free-forever trackers, one-shot graders, and trials all stop at the score — an honest survey of which (if any) free tier actually hands you the fix." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/free-aeo-tools-that-fix-not-just-score/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-11" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] Free AEO Tools That Fix, Not Just Score (2026) | SolCrys" />
+    <meta property="og:description" content="Every free AEO tool in 2026, mapped to Measure → Diagnose → Execute → Verify. Free-forever trackers, one-shot graders, and trials all stop at the score — an honest survey of which (if any) free tier actually hands you the fix." />
+    <meta property="og:url" content="https://solcrys.com/free-aeo-tools-that-fix-not-just-score/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BT5oAxit.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Free AEO Tools That Fix, Not Just Score (2026): Every Free Option, Compared by the Loop","item":"https://solcrys.com/free-aeo-tools-that-fix-not-just-score/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Free AEO tools, compared by the loop: which ones fix, not just score you (2026)","description":"Every free AEO tool in 2026, mapped to Measure → Diagnose → Execute → Verify. Free-forever trackers, one-shot graders, and trials all stop at the score — an honest survey of which (if any) free tier actually hands you the fix.","dateModified":"2026-06-11","datePublished":"2026-06-11","mainEntityOfPage":"https://solcrys.com/free-aeo-tools-that-fix-not-just-score/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/free-aeo-tools-that-fix-not-just-score/","mainEntity":[{"@type":"Question","name":"Is there a free AEO tool that fixes my content, not just scores it?","acceptedAnswer":{"@type":"Answer","text":"Effectively one, with caveats. Across 16 free offerings surveyed in 2026, only SolCrys's free tier reaches the \"Execute\" step — its free Content Audit hands you the concrete fix (schema block, heading or meta rewrite) through the Action Hub, tied to the prompt set you were scored on. Everything else free — Trakkr, HubSpot, Ahrefs, Semrush, Mangools, Rankscale, Knowatoa, Goodie, Am I on AI — stops at a score or a recommendation. Writesonic's free LLM Optimizer will rewrite a text snippet, but it is disconnected from any measured gap or audit; its true loop is paid."}},{"@type":"Question","name":"What is the best free AI visibility tracker?","acceptedAnswer":{"@type":"Answer","text":"For free ongoing tracking, Trakkr — it is the only genuinely free-forever tracker (one brand, ~8 engines, daily). For a free one-shot score, HubSpot's AEO Grader is the most generous (unlimited, no signup). Both measure well; neither fixes anything."}},{"@type":"Question","name":"Do any free AEO tools close the full loop (measure, diagnose, execute, verify)?","acceptedAnswer":{"@type":"Answer","text":"No — not on a free basis, including SolCrys. The closing \"verify\" step (re-testing the same prompts to prove a fix moved the number) costs another measurement credit everywhere it exists, so a free tier cannot run it on demand. SolCrys gets furthest — measure, diagnose, and execute the fix on free — but the re-verify is rate-limited to the monthly audit and effectively wants a paid plan. Tools that close the whole loop (SolCrys, Writesonic, Profound, Conductor) gate execution and verification behind paid tiers."}},{"@type":"Question","name":"Why is everything free just a \"grader\"?","acceptedAnswer":{"@type":"Answer","text":"Because a free score is this category's lead magnet. It is cheap to produce, it surfaces an alarming number, and the alarm sells the paid plan. The recommendation, drafting, schema generation and re-test are the costly parts the paid tier is built to sell — so the free experience is designed to stop right before you would act."}},{"@type":"Question","name":"Is the SolCrys free tier really free?","acceptedAnswer":{"@type":"Answer","text":"Yes — no credit card. It is ChatGPT-only and manual, capped at 10 tracked prompts, one Content Audit and one Deep Analysis a month, one workspace. The trade is depth and cadence, not a paywall on the core loop."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Search Tools</p>
+        <h1>Free AEO tools, compared by the loop: which ones fix, not just score you (2026)</h1>
+        <p class="seo-lede">Almost every &quot;free AEO tool&quot; is a scoreboard — it measures, maybe diagnoses, and stops. A 16-tool survey across the measure → diagnose → execute → verify loop shows exactly one free tier reaches the Execute step, and why the whole category is engineered to stop before it.</p>
+        <p>Updated 2026-06-11</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Is there a free AEO tool that fixes my content, not just scores it?</li><li>Which free AI visibility tool gives recommendations I can actually ship?</li><li>Are there any free AEO tools that close the loop?</li><li>Do free AEO tools generate the schema or fix for me?</li><li>What is the best free AEO tool with execution, not just a dashboard?</li><li>Which free GEO tool tells me exactly what to change?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>There are plenty of free ways to find out how visible your brand is in AI answers in 2026. There is almost no free way to do anything about it. That gap is what this guide is about.</p><p>Sort the free options by the job and they fall into a four-step loop: Measure (where do I stand in AI answers?) → Diagnose (what specifically is wrong?) → Execute (give me the exact fix to ship) → Verify (re-test the same prompts to prove the fix worked). We surveyed 16 free offerings against those four steps. The result is lopsided: every free tool measures, some diagnose, and — with one honest exception we name below — none of them executes. They hand you a score and a gap list and stop.</p><p>Disclosure up front: SolCrys publishes this guide and our own free tier is one of the tools compared. We are not a neutral source. We have written it the way we wish other &quot;free tools&quot; lists were written — naming who is free-forever, who is a one-time lead-gen scan, and who is a trial with a meter running — and honest about our own caveats too (our free tier can hand you the fix but cannot yet fully re-verify it within the free quota; see below). Pricing and coverage are from each vendor&#39;s public 2026 pages and dated third-party reviews; treat them as orientation, not quotes.</p>
+      <ul class="seo-list"><li><strong>The whole free category stops at the scoreboard.</strong> Free-forever trackers (Trakkr), one-shot graders (HubSpot, Ahrefs, Semrush, Mangools, Rankscale, Knowatoa, Goodie), and free trials (Peec, Otterly, Scrunch, Nightwatch, Am I on AI) all top out at Measure or Measure + Diagnose.</li><li><strong>Best free measurement:</strong> Trakkr — the one genuinely free-forever tracker (1 brand, ~8 engines, daily). If all you want is a free line that keeps moving, start there.</li><li><strong>The one tool that reaches Execute on a free tier is SolCrys</strong> — the same free audit that scores your page hands you the concrete change to ship (the JSON-LD block, the heading rewrite), tied to the prompt set you were scored on.</li><li><strong>Verify is where everyone — including us, on free — runs out of road.</strong> A re-test costs another measurement credit, so a true free re-verify loop effectively does not exist anywhere yet. We are honest about that below.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The one distinction that decides everything: a score is not a fix</h2>
+      <p>Most &quot;free AEO tool&quot; lists rank tools by how good the number is — how many engines, how fresh, how pretty the dashboard. That is the wrong axis, because almost all of them live at the same step of the loop. They are scoreboards. A scoreboard tells you that you are losing 1–0. It does not tell you to swap your striker.</p><p>The expensive, skilled, slow part of AEO is never the measurement. It is the work after: figuring out the specific change that will move a specific answer, writing it, shipping it, and proving it moved. So the only distinction that changes your week is whether the free tool does any of that work for you, or hands the score back and wishes you luck.</p><p>That single question — score, or fix? — is what the comparison below sorts on.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Every free AEO option, mapped to the loop</h2>
+      <p>Stages are scored for the free offering only. &quot;Free-forever&quot; = a perpetual free plan. &quot;Grader&quot; = a free one-time scan or score. &quot;Trial&quot; = a time-boxed full product. Execute = the tool generates the artifact you ship (schema, rewrite, FAQ), not a generic tip.</p>
+      
+      <table>
+              <thead><tr><th>Tool</th><th>Free access</th><th>Measure</th><th>Diagnose</th><th>Execute (ship the fix)</th><th>Verify (re-test)</th><th>Closes loop on free?</th></tr></thead>
+              <tbody><tr><td><strong>SolCrys</strong></td><td>Free-forever tier</td><td>ChatGPT, manual (10 prompts)</td><td><strong>Yes</strong> — 1 audit + 1 deep analysis / mo</td><td><strong>Yes</strong> — Action Hub hands you the schema block / rewrite to ship</td><td>Partial — re-audit is real, but 1 audit/mo means the re-test lands next cycle or on paid</td><td><strong>Closest — only tool that reaches Execute</strong></td></tr><tr><td><strong>Trakkr</strong></td><td>Free-forever tracker</td><td><strong>Yes</strong> — best free measure, ~8 engines daily</td><td>Partial — flags &quot;add schema&quot; type gaps</td><td>No — recommends, does not draft</td><td>Partial — daily re-scan</td><td>No</td></tr><tr><td><strong>HubSpot AEO Grader</strong></td><td>Grader (unlimited, no signup)</td><td>Yes — one-shot, 3 engines</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Ahrefs AI Visibility Checker</strong></td><td>Grader (no signup)</td><td>Yes — one-shot snapshot</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Semrush AI Search Visibility Checker</strong></td><td>Grader (1st check free)</td><td>Yes — one-shot</td><td>Partial — &quot;opportunities&quot; vs competitors</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Mangools AI Search Grader</strong></td><td>Grader (3 models guest, 7 free acct)</td><td>Yes — widest free engine set</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Rankscale</strong></td><td>Grader (no-signup page audit)</td><td>Partial — page-readiness, not live answers</td><td>Partial — 200-checkpoint gaps</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Knowatoa</strong></td><td>Grader (60-sec audit)</td><td>Partial — one-off score</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Goodie</strong></td><td>Grader (no-signup, unlimited)</td><td>Partial — agent-readiness score</td><td><strong>Yes</strong> — &quot;3 moves&quot; recommendations</td><td>No — paid AEO Writer drafts</td><td>No</td><td>No</td></tr><tr><td><strong>Am I on AI</strong></td><td>Grader + 14-day trial</td><td>Partial free / Yes trial</td><td><strong>Yes</strong> — weekly action items</td><td>No — &quot;only advises, doesn&#39;t draft or publish&quot;</td><td>Yes (in trial)</td><td>No</td></tr><tr><td><strong>Writesonic (free tools)</strong></td><td>Graders (AI Search Grader + LLM Optimizer)</td><td>Yes</td><td>Partial</td><td><strong>Partial</strong> — rewrites a text snippet, but disconnected from your measured gap (see note)</td><td>No</td><td>No</td></tr><tr><td><strong>Peec / Otterly / Scrunch / Nightwatch</strong></td><td>Free trial only (no free-forever)</td><td>Yes (trial)</td><td>Partial–Full (trial)</td><td>Mostly No (Scrunch agent layer is paid)</td><td>Partial (trial)</td><td>No — expires with the trial</td></tr><tr><td><strong>Profound</strong></td><td>No free tier or trial (sales-led)</td><td>—</td><td>—</td><td>Paid only (Content Agents)</td><td>Paid only</td><td>No free entry at all</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;But Writesonic&#39;s free LLM Optimizer rewrites my text&quot; — the one honest counter, handled</h2>
+      <p>It does, and it is worth naming so this page is trustworthy rather than convenient. Writesonic ships two free standalone tools: an AI Search Grader (a score) and an LLM Optimizer that will rewrite a snippet to add quotes and citations. The rewrite is real &quot;execution.&quot;</p><p>But it is not loop execution, and the difference is the whole point. The LLM Optimizer is a disconnected text box. It does not know which buyer prompt you are losing, it is not fed by an audit of your live page, it does not emit the JSON-LD a crawler needs, and nothing ties the rewrite back to a re-test of the prompt set that scored you. Writesonic does close the full loop — measure, diagnose, execute, verify — but only on its paid GEO tiers (from ~$199/mo), not in the free tools. So on a free basis it lands the same place as everyone else: a score on one screen, a generic rewriter on another, and a manual leap in between.</p><p>That is the bar this comparison holds: does the free tool execute the fix that its own measurement told you to make? By that bar, the count is one.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why the whole free category stops at the scoreboard</h2>
+      <p>This is not an accident of any one vendor; it is the business model. A free AI-visibility score is the most efficient lead magnet in this category — it is cheap to run, it produces an alarming number (&quot;you appear in 4% of answers&quot;), and the alarm is what sells the paid plan. The recommendation engine, the content drafting, the schema generation, the re-test — the parts that cost real compute and reputation — are exactly what the paid tier is for. So the free experience is engineered to stop precisely at the moment you would want to act.</p><p>That logic is why &quot;free AEO tool&quot; so reliably means &quot;free AEO grader.&quot; It is also why the one place a free tier crosses into Execute is worth a closer look.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What &quot;reaches Execute on free&quot; actually looks like</h2>
+      <p>On the SolCrys free tier, you run a Content Audit on a page (one per month on free). The audit does not just score it — for each finding it surfaces, through the Action Hub, the specific remediation: the exact JSON-LD block to paste, the heading or meta rewrite, the FAQ to add, with the points each fix is worth. You promote a finding to a task and you are holding the change, not a suggestion to go make one. That is the step every other free tool leaves to you.</p><p>The honest boundary, stated plainly so we do not oversell our own column: free is ChatGPT-only and manual (it will not track Gemini, Perplexity, or Google AI surfaces — those are paid), it is one audit and one deep analysis a month, and the closing re-verify is rate-limited. The re-audit that proves your score recovered is built and shipped, but it spends another monthly audit credit — so on free you get one clean pass through measure → diagnose → execute, and the proof it worked arrives the next cycle or on a paid plan (Starter adds four audits a month). We would rather say that than pretend the free tier is the whole loop. It is not. It is the only free tier that gets you to the part that matters: the fix.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Which free path matches which job</h2>
+      <p>Pick by the job in front of you today, not by the prettiest dashboard.</p>
+      
+      <table>
+              <thead><tr><th>Your job today</th><th>Start with</th><th>Why</th></tr></thead>
+              <tbody><tr><td>A free line that keeps moving on one brand</td><td><strong>Trakkr</strong> (free-forever)</td><td>Only genuinely free ongoing tracker; ~8 engines daily</td></tr><tr><td>A fast, no-signup &quot;where do I stand?&quot; snapshot</td><td><strong>HubSpot AEO Grader</strong> or <strong>Ahrefs checker</strong></td><td>Generous, instant, zero friction — just don&#39;t mistake the score for a plan</td></tr><tr><td>Widest free engine coverage in one score</td><td><strong>Mangools</strong> (7 models)</td><td>Broadest free model set</td></tr><tr><td>A free read <strong>and</strong> the specific change to ship</td><td><strong>SolCrys free tier</strong></td><td>The only free path that hands you the fix tied to the prompt set you were scored on</td></tr><tr><td>Execution + verification at scale</td><td>Any paid loop (SolCrys, Writesonic, Profound)</td><td>Free tiers, by design, stop before the work</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Get started</h2>
+      <p>The fastest way to see &quot;score, then fix&quot; instead of just a score: run the SolCrys free audit — domain in, email-verify, no card — and promote one finding to see the actual change it hands you. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Get Started for Free at app.solcrys.com/audit →</a></p><p>Want a free line that keeps moving on one brand alongside it? Start a Trakkr free-forever tracker — we would genuinely rather you measure than not. Ready for multi-engine daily tracking with the full execute-and-verify loop? See <a href="https://app.solcrys.com/pricing" target="_blank" rel="noopener noreferrer">SolCrys pricing</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://trakkr.ai/pricing" target="_blank" rel="noopener noreferrer">Trakkr — pricing and free tier</a></li><li><a href="https://www.hubspot.com/aeo-grader" target="_blank" rel="noopener noreferrer">HubSpot — AEO Grader</a></li><li><a href="https://ahrefs.com/ai-visibility-checker" target="_blank" rel="noopener noreferrer">Ahrefs — AI Visibility Checker</a></li><li><a href="https://www.semrush.com/free-tools/ai-search-visibility-checker/" target="_blank" rel="noopener noreferrer">Semrush — AI Search Visibility Checker</a></li><li><a href="https://mangools.com/ai-search-grader" target="_blank" rel="noopener noreferrer">Mangools — AI Search Grader</a></li><li><a href="https://rankscale.ai/features/page-audit" target="_blank" rel="noopener noreferrer">Rankscale — page audit</a></li><li><a href="https://knowatoa.com/pricing" target="_blank" rel="noopener noreferrer">Knowatoa — pricing</a></li><li><a href="https://higoodie.com/agent-site-audit/" target="_blank" rel="noopener noreferrer">Goodie — Agent Readiness Audit</a></li><li><a href="https://amionai.com/product" target="_blank" rel="noopener noreferrer">Am I on AI — product</a></li><li><a href="https://writesonic.com/free-tools/llm-optimizer" target="_blank" rel="noopener noreferrer">Writesonic — LLM Optimizer</a></li><li><a href="https://www.tryprofound.com/pricing" target="_blank" rel="noopener noreferrer">Profound — pricing</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is there a free AEO tool that fixes my content, not just scores it?</h3>
+            <p>Effectively one, with caveats. Across 16 free offerings surveyed in 2026, only SolCrys&#39;s free tier reaches the &quot;Execute&quot; step — its free Content Audit hands you the concrete fix (schema block, heading or meta rewrite) through the Action Hub, tied to the prompt set you were scored on. Everything else free — Trakkr, HubSpot, Ahrefs, Semrush, Mangools, Rankscale, Knowatoa, Goodie, Am I on AI — stops at a score or a recommendation. Writesonic&#39;s free LLM Optimizer will rewrite a text snippet, but it is disconnected from any measured gap or audit; its true loop is paid.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is the best free AI visibility tracker?</h3>
+            <p>For free ongoing tracking, Trakkr — it is the only genuinely free-forever tracker (one brand, ~8 engines, daily). For a free one-shot score, HubSpot&#39;s AEO Grader is the most generous (unlimited, no signup). Both measure well; neither fixes anything.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do any free AEO tools close the full loop (measure, diagnose, execute, verify)?</h3>
+            <p>No — not on a free basis, including SolCrys. The closing &quot;verify&quot; step (re-testing the same prompts to prove a fix moved the number) costs another measurement credit everywhere it exists, so a free tier cannot run it on demand. SolCrys gets furthest — measure, diagnose, and execute the fix on free — but the re-verify is rate-limited to the monthly audit and effectively wants a paid plan. Tools that close the whole loop (SolCrys, Writesonic, Profound, Conductor) gate execution and verification behind paid tiers.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why is everything free just a &quot;grader&quot;?</h3>
+            <p>Because a free score is this category&#39;s lead magnet. It is cheap to produce, it surfaces an alarming number, and the alarm sells the paid plan. The recommendation, drafting, schema generation and re-test are the costly parts the paid tier is built to sell — so the free experience is designed to stop right before you would act.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is the SolCrys free tier really free?</h3>
+            <p>Yes — no credit card. It is ChatGPT-only and manual, capped at 10 tracked prompts, one Content Audit and one Deep Analysis a month, one workspace. The trade is depth and cadence, not a paywall on the core loop.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/free-chatgpt-visibility-tools/">Free ChatGPT Visibility Tools (2026): Every Genuinely-Free Option, Compared</a></h3>
+            <p>The genuinely-free tools to track your brand in ChatGPT in 2026 — free-forever trackers, one-time graders, and free trials — compared honestly, with the measurement-fidelity caveats most lists skip.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-platforms-with-closed-loop-execution/">AEO Platforms with Closed-Loop Execution (2026): Beyond Dashboards</a></h3>
+            <p>An honest vendor-by-vendor scorecard of 8 AEO platforms across Measure → Diagnose → Execute → Verify. Which actually close the loop, and which stop at diagnosis.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/best-aeo-tools-2026/">The 12 Best AEO Tools in 2026: Dashboards, Execution Engines, and Retail-Specific Platforms</a></h3>
+            <p>An honest practitioner comparison of the 12 best AEO (Answer Engine Optimization) tools in 2026 — SolCrys, Profound, AirOps, HubSpot, Otterly, Peec, Scrunch, AthenaHQ, Semrush, Ahrefs, SE Ranking, and Conductor — segmented by job-to-be-done with retail-specific platforms called out separately.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="mailto:support@solcrys.com?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Bl4Lejvq.js"></script>
+  </body>
+</html>
