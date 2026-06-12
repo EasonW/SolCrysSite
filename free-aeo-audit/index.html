@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Free AEO Audit Tool — Get the Fix, Not Just the Score | SolCrys</title>
+    <meta name="description" content="Free AEO audit: score any page across 40+ AI-search checks and get the exact fix to ship — the schema block, the meta rewrite, the points each fix recovers. Free workspace, no credit card." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/free-aeo-audit/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-05-15" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Free AEO Audit Tool — Get the Fix, Not Just the Score | SolCrys" />
+    <meta property="og:description" content="Free AEO audit: score any page across 40+ AI-search checks and get the exact fix to ship — the schema block, the meta rewrite, the points each fix recovers. Free workspace, no credit card." />
+    <meta property="og:url" content="https://solcrys.com/free-aeo-audit/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/free-aeo-audit.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/free-aeo-audit.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-KC40C6aU.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Free AEO Audit","item":"https://solcrys.com/free-aeo-audit/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","headline":"Free AEO Audit Tool — Get the Fix, Not Just the Score | SolCrys","name":"Free AEO Audit Tool — Get the Fix, Not Just the Score | SolCrys","url":"https://solcrys.com/free-aeo-audit/","description":"Free AEO audit: score any page across 40+ AI-search checks and get the exact fix to ship — the schema block, the meta rewrite, the points each fix recovers. Free workspace, no credit card.","datePublished":"2026-04-29","dateModified":"2026-05-15","author":{"@type":"Organization","name":"SolCrys Team","url":"https://solcrys.com"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}},"primaryImageOfPage":{"@type":"ImageObject","url":"https://solcrys.com/solcrys-og-card.png"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Free AEO Audit","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://solcrys.com/free-aeo-audit/","description":"Free AEO audit: score any page across 40+ AI-search checks and get the exact fix to ship — the schema block, the meta rewrite, the points each fix recovers. Free workspace, no credit card.","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"How to run a free AEO audit and ship the fixes","description":"Audit a page for AI search readiness and get the exact fixes to ship, free.","step":[{"@type":"HowToStep","position":1,"name":"Enter your domain","text":"Your free workspace opens with a ChatGPT visibility read: 10 buyer-intent prompts, where you show up, who gets named instead."},{"@type":"HowToStep","position":2,"name":"Run your free content audit","text":"Point it at the page behind your weakest prompt. It scores 40+ checks across content quality, credibility, technical readability, and discoverability."},{"@type":"HowToStep","position":3,"name":"Get the fixes, not homework","text":"Every finding ships with the current state, the update to make, the code or copy to paste, and the points it recovers."},{"@type":"HowToStep","position":4,"name":"Ship, then re-test","text":"Re-audit the page to watch the score recover — your next monthly audit on free, on demand on paid plans."}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/free-aeo-audit/","mainEntity":[{"@type":"Question","name":"What is an AEO audit?","acceptedAnswer":{"@type":"Answer","text":"An AEO (Answer Engine Optimization) audit scores a page on how well AI engines like ChatGPT, Perplexity, and Google AI can retrieve, trust, cite, and summarize it — then tells you what to change. SolCrys's free audit runs 40+ checks across content quality, credibility, technical readability, and discoverability, and returns each finding with the concrete fix attached."}},{"@type":"Question","name":"What does the audit check?","acceptedAnswer":{"@type":"Answer","text":"Four weighted categories: content quality (30%) — direct answers, term definitions, emphasized data; credibility (35%) — sourced statistics, external citations, author attribution; technical readability (20%) — JSON-LD that matches the content type, schema completeness, content visible without JavaScript; discoverability (15%) — meta description, links, canonical, sitemap, AI-crawler access."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The free workspace includes one content audit per month with the full findings and fixes, plus 10 tracked ChatGPT prompts and one deep analysis. No credit card — email verification is all it takes. Paid plans add more engines, daily tracking, and more audits."}},{"@type":"Question","name":"AEO audit vs GEO audit — what's the difference?","acceptedAnswer":{"@type":"Answer","text":"Same audit, different name. Some teams say GEO (Generative Engine Optimization), others say AEO (Answer Engine Optimization); both mean optimizing for AI-generated answers. The checks — schema, credibility signals, answer-ready structure, crawler access — are identical, so this free audit covers both."}},{"@type":"Question","name":"Do I get a score or the actual fix?","acceptedAnswer":{"@type":"Answer","text":"Both, and that's the point. Most free AEO graders return a score and generic tips. Every SolCrys finding ships with the current state, the update to make, the code or copy to paste (the JSON-LD block, the meta rewrite), and the points it recovers — so you leave with a fix, not homework."}},{"@type":"Question","name":"What should I do after the audit?","acceptedAnswer":{"@type":"Answer","text":"Ship the highest-point fixes first — each finding shows its points recoverable, so the priority order is explicit. Then re-test: re-auditing the same page shows the score recovery. On free that's your next monthly audit; paid plans re-test on demand and track the answer itself across engines daily."}},{"@type":"Question","name":"How is this different from a free AEO grader?","acceptedAnswer":{"@type":"Answer","text":"Graders measure; this audit executes. We surveyed 16 free AEO tools against the loop — measure, diagnose, execute, verify — and the free offerings all stop at a score or a gap list. The SolCrys free workspace is the only free tier we found that reaches execute: it hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit."}},{"@type":"Question","name":"Do I need to sign up?","acceptedAnswer":{"@type":"Answer","text":"Enter your domain to start. To run the audit, keep the findings, and track changes over time, you create a free workspace — email verification, no credit card."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="/#loop">The Loop</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/news/">News</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <p class="seo-kicker">Free AEO audit</p>
+    <h1>Free AEO Audit &mdash; Get the Fix, Not Just the Score</h1>
+    <p class="seo-lede">Most free AEO graders score you and stop. This audit runs 40+ AI-search checks on your pages and returns every finding with the change to ship attached &mdash; the schema block, the meta rewrite, the points it recovers. Free workspace, no credit card.</p>
+    <p><a href="https://app.solcrys.com/audit">Run your free AEO audit &rarr;</a> &middot; Free &middot; No credit card</p>
+    <section class="seo-section">
+      <h2>What a free AEO audit checks &mdash; 40+ checks, four weighted categories</h2>
+      <p>AI engines decide what to cite using signals your Google rank never measured. The audit scores the four families that decide whether an answer engine retrieves, trusts, cites, and summarizes your page:</p>
+      <ul class="seo-list">
+        <li><strong>Content quality (30% of the score)</strong> &mdash; does the page answer in the first 50 words, define terms, emphasize key numbers, and structure sections the way answer engines extract them?</li>
+        <li><strong>Credibility (35%)</strong> &mdash; sourced statistics, authoritative external citations, author and expert attribution, promotional-language density.</li>
+        <li><strong>Technical readability (20%)</strong> &mdash; JSON-LD present and matching the content type, schema completeness, text-to-HTML ratio, content visible without JavaScript.</li>
+        <li><strong>Discoverability (15%)</strong> &mdash; meta description, internal and outbound links, canonical, sitemap presence, descriptive URL slug, crawler access for all major AI bots.</li>
+      </ul>
+    </section>
+    <section class="seo-section">
+      <h2>How the free AEO audit works</h2>
+      <ol class="seo-list">
+        <li><strong>Enter your domain.</strong> Your free workspace opens with a ChatGPT visibility read: 10 buyer-intent prompts, where you show up, who gets named instead.</li>
+        <li><strong>Run your free content audit.</strong> Point it at the page behind your weakest prompt. It scores 40+ checks across content quality, credibility, technical readability, and discoverability.</li>
+        <li><strong>Get the fixes, not homework.</strong> Every finding ships with the current state, the update to make, the code or copy to paste, and the points it recovers.</li>
+        <li><strong>Ship, then re-test.</strong> Re-audit the page to watch the score recover — your next monthly audit on free, on demand on paid plans.</li>
+      </ol>
+      <p>That cycle &mdash; measure, diagnose, execute, verify &mdash; is <a href="/#loop">the SolCrys Loop</a>. The free workspace runs one full pass a month.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Findings come with the fix attached</h2>
+      <p>Real findings from running this audit on our own About page &mdash; it scored 60/100, and yes, we publish that:</p>
+      <p><strong>Finding: meta description too thin to stand alone (109 characters).</strong> AI engines lean on the meta description to judge page relevance when they don&rsquo;t parse the full body. The audit hands you the rewrite &mdash; <strong>14 points recoverable</strong>:</p>
+      <pre><code>&lt;meta name="description" content="Meet the SolCrys
+team — AI search strategists, enterprise marketers,
+and engineers building tools to measure and improve
+brand visibility in AI-generated answers." /&gt;</code></pre>
+      <ul class="seo-list">
+        <li><strong>Descriptive URL slug + the 301 redirect config to ship</strong> &mdash; <strong>15 points recoverable</strong></li>
+        <li><strong>Rephrase one H2 as a question</strong> so engines map it to user queries, with the suggested heading &mdash; <strong>15 points recoverable</strong></li>
+      </ul>
+      <p>Current state, the update to make, the code to paste, the points it recovers &mdash; every finding, in that form.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Graders measure &mdash; this audit executes</h2>
+      <p>We surveyed 16 free AEO tools against the full loop &mdash; measure &rarr; diagnose &rarr; execute &rarr; verify. The free graders and checkers all stop at a score or a gap list; even the biggest one returns five scored dimensions and generic tips. The SolCrys free workspace is the only free tier we found that reaches <em>execute</em>: the audit hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit; on-demand re-tests and multi-engine tracking are the paid part. See the evidence in <a href="/free-aeo-tools-that-fix-not-just-score/">16 free AEO tools, compared by the loop</a>, or start with the <a href="/free-chatgpt-visibility-tracker/">free ChatGPT visibility tracker</a> if you want the visibility read first.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Exactly what&rsquo;s free &mdash; no fine print</h2>
+      <table>
+        <thead>
+          <tr><th></th><th>Free workspace</th><th>Paid plans</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Content audits (with the fix)</td><td>1 / month</td><td>4&ndash;10 / month</td></tr>
+          <tr><td>Engines</td><td>ChatGPT &mdash; manual checks (3/mo)</td><td>Up to 5 engines, tracked daily</td></tr>
+          <tr><td>Tracked prompts</td><td>10</td><td>20&ndash;60</td></tr>
+          <tr><td>Deep analyses</td><td>1 / month</td><td>12&ndash;40 / month</td></tr>
+          <tr><td>Action Hub (the fix itself)</td><td>Included</td><td>Included</td></tr>
+          <tr><td>Re-test to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
+        </tbody>
+      </table>
+      <p>Full plan details on the <a href="https://app.solcrys.com/pricing">pricing page</a>.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Free AEO audit &mdash; FAQ</h2>
+      <h3>What is an AEO audit?</h3>
+      <p>An AEO (Answer Engine Optimization) audit scores a page on how well AI engines like ChatGPT, Perplexity, and Google AI can retrieve, trust, cite, and summarize it — then tells you what to change. SolCrys&#39;s free audit runs 40+ checks across content quality, credibility, technical readability, and discoverability, and returns each finding with the concrete fix attached.</p>
+      <h3>What does the audit check?</h3>
+      <p>Four weighted categories: content quality (30%) — direct answers, term definitions, emphasized data; credibility (35%) — sourced statistics, external citations, author attribution; technical readability (20%) — JSON-LD that matches the content type, schema completeness, content visible without JavaScript; discoverability (15%) — meta description, links, canonical, sitemap, AI-crawler access.</p>
+      <h3>Is it really free?</h3>
+      <p>Yes. The free workspace includes one content audit per month with the full findings and fixes, plus 10 tracked ChatGPT prompts and one deep analysis. No credit card — email verification is all it takes. Paid plans add more engines, daily tracking, and more audits.</p>
+      <h3>AEO audit vs GEO audit — what&#39;s the difference?</h3>
+      <p>Same audit, different name. Some teams say GEO (Generative Engine Optimization), others say AEO (Answer Engine Optimization); both mean optimizing for AI-generated answers. The checks — schema, credibility signals, answer-ready structure, crawler access — are identical, so this free audit covers both.</p>
+      <h3>Do I get a score or the actual fix?</h3>
+      <p>Both, and that&#39;s the point. Most free AEO graders return a score and generic tips. Every SolCrys finding ships with the current state, the update to make, the code or copy to paste (the JSON-LD block, the meta rewrite), and the points it recovers — so you leave with a fix, not homework.</p>
+      <h3>What should I do after the audit?</h3>
+      <p>Ship the highest-point fixes first — each finding shows its points recoverable, so the priority order is explicit. Then re-test: re-auditing the same page shows the score recovery. On free that&#39;s your next monthly audit; paid plans re-test on demand and track the answer itself across engines daily.</p>
+      <h3>How is this different from a free AEO grader?</h3>
+      <p>Graders measure; this audit executes. We surveyed 16 free AEO tools against the loop — measure, diagnose, execute, verify — and the free offerings all stop at a score or a gap list. The SolCrys free workspace is the only free tier we found that reaches execute: it hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit.</p>
+      <h3>Do I need to sign up?</h3>
+      <p>Enter your domain to start. To run the audit, keep the findings, and track changes over time, you create a free workspace — email verification, no credit card.</p>
+    </section>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-K-6-jbVt.js"></script>
+  </body>
+</html>
