@@ -1905,11 +1905,11 @@ const freeTrackerRoute = "/free-chatgpt-visibility-tracker/";
 const freeTrackerTitle =
   "Free ChatGPT Visibility Tracker — See If AI Recommends Your Brand | SolCrys";
 const freeTrackerDescription =
-  "Free ChatGPT visibility tracker. Enter your domain and see whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — about a minute, no credit card.";
+  "Free ChatGPT visibility tracker. Enter your domain and see whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — about 5 minutes, no credit card.";
 const freeTrackerSteps = [
   {
     name: "Enter your domain",
-    text: "No signup, no credit card. Just your website — or a competitor's.",
+    text: "Just your website — or a competitor's. No credit card.",
   },
   {
     name: "We ask ChatGPT your buyers' questions",
@@ -1960,7 +1960,7 @@ function freeTrackerBody() {
   <main class="seo-container">
     <p class="seo-kicker">Free ChatGPT visibility tracker</p>
     <h1>Free ChatGPT Visibility Tracker</h1>
-    <p class="seo-lede">See whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — or names a competitor instead. About a minute, no signup.</p>
+    <p class="seo-lede">See whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — or names a competitor instead. About 5 minutes, no credit card.</p>
     <p><a href="https://app.solcrys.com/audit">Track your ChatGPT visibility, free &rarr;</a> &middot; Free &middot; No credit card</p>
     <section class="seo-section">
       <h2>What &ldquo;AI visibility&rdquo; means &mdash; and why your Google rank doesn&rsquo;t cover it</h2>
@@ -2035,7 +2035,7 @@ writePage(
         "@type": "HowTo",
         name: "How to check your brand's ChatGPT visibility for free",
         description:
-          "Run a free ChatGPT visibility check on your brand in about a minute.",
+          "Run a free ChatGPT visibility check on your brand in about 5 minutes.",
         step: freeTrackerSteps.map((s, i) => ({
           "@type": "HowToStep",
           position: i + 1,
