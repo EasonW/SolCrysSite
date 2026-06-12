@@ -2110,6 +2110,206 @@ writePage(
   }),
 );
 
+// Free AEO Audit — the execution-intent sibling of the tracker LP.
+// Demand research 2026-06-12: "free aeo audit" / "free geo audit tool" are
+// autocomplete-confirmed clusters with a fragmented, measure-only SERP;
+// "execution engine" (our category term) has zero query demand. This page
+// anchors on the user's word ("audit") and carries the execution-engine
+// story in the body. Mirrors src/pages/FreeAeoAuditPage.tsx.
+const freeAeoAuditRoute = "/free-aeo-audit/";
+const freeAeoAuditTitle =
+  "Free AEO Audit Tool — Get the Fix, Not Just the Score | SolCrys";
+const freeAeoAuditDescription =
+  "Free AEO audit: score any page across 40+ AI-search checks and get the exact fix to ship — the schema block, the meta rewrite, the points each fix recovers. Free workspace, no credit card.";
+const freeAeoAuditSteps = [
+  {
+    name: "Enter your domain",
+    text: "Your free workspace opens with a ChatGPT visibility read: 10 buyer-intent prompts, where you show up, who gets named instead.",
+  },
+  {
+    name: "Run your free content audit",
+    text: "Point it at the page behind your weakest prompt. It scores 40+ checks across content quality, credibility, technical readability, and discoverability.",
+  },
+  {
+    name: "Get the fixes, not homework",
+    text: "Every finding ships with the current state, the update to make, the code or copy to paste, and the points it recovers.",
+  },
+  {
+    name: "Ship, then re-test",
+    text: "Re-audit the page to watch the score recover — your next monthly audit on free, on demand on paid plans.",
+  },
+];
+const freeAeoAuditFaqs = [
+  {
+    question: "What is an AEO audit?",
+    answer:
+      "An AEO (Answer Engine Optimization) audit scores a page on how well AI engines like ChatGPT, Perplexity, and Google AI can retrieve, trust, cite, and summarize it — then tells you what to change. SolCrys's free audit runs 40+ checks across content quality, credibility, technical readability, and discoverability, and returns each finding with the concrete fix attached.",
+  },
+  {
+    question: "What does the audit check?",
+    answer:
+      "Four weighted categories: content quality (30%) — direct answers, term definitions, emphasized data; credibility (35%) — sourced statistics, external citations, author attribution; technical readability (20%) — JSON-LD that matches the content type, schema completeness, content visible without JavaScript; discoverability (15%) — meta description, links, canonical, sitemap, AI-crawler access.",
+  },
+  {
+    question: "Is it really free?",
+    answer:
+      "Yes. The free workspace includes one content audit per month with the full findings and fixes, plus 10 tracked ChatGPT prompts and one deep analysis. No credit card — email verification is all it takes. Paid plans add more engines, daily tracking, and more audits.",
+  },
+  {
+    question: "AEO audit vs GEO audit — what's the difference?",
+    answer:
+      "Same audit, different name. Some teams say GEO (Generative Engine Optimization), others say AEO (Answer Engine Optimization); both mean optimizing for AI-generated answers. The checks — schema, credibility signals, answer-ready structure, crawler access — are identical, so this free audit covers both.",
+  },
+  {
+    question: "Do I get a score or the actual fix?",
+    answer:
+      "Both, and that's the point. Most free AEO graders return a score and generic tips. Every SolCrys finding ships with the current state, the update to make, the code or copy to paste (the JSON-LD block, the meta rewrite), and the points it recovers — so you leave with a fix, not homework.",
+  },
+  {
+    question: "What should I do after the audit?",
+    answer:
+      "Ship the highest-point fixes first — each finding shows its points recoverable, so the priority order is explicit. Then re-test: re-auditing the same page shows the score recovery. On free that's your next monthly audit; paid plans re-test on demand and track the answer itself across engines daily.",
+  },
+  {
+    question: "How is this different from a free AEO grader?",
+    answer:
+      "Graders measure; this audit executes. We surveyed 16 free AEO tools against the loop — measure, diagnose, execute, verify — and the free offerings all stop at a score or a gap list. The SolCrys free workspace is the only free tier we found that reaches execute: it hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit.",
+  },
+  {
+    question: "Do I need to sign up?",
+    answer:
+      "Enter your domain to start. To run the audit, keep the findings, and track changes over time, you create a free workspace — email verification, no credit card.",
+  },
+];
+function freeAeoAuditBody() {
+  const stepHtml = freeAeoAuditSteps
+    .map((s) => `<li><strong>${escapeHtml(s.name)}.</strong> ${escapeHtml(s.text)}</li>`)
+    .join("\n        ");
+  const faqHtml = freeAeoAuditFaqs
+    .map((f) => `<h3>${escapeHtml(f.question)}</h3>\n      <p>${escapeHtml(f.answer)}</p>`)
+    .join("\n      ");
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main class="seo-container">
+    <p class="seo-kicker">Free AEO audit</p>
+    <h1>Free AEO Audit &mdash; Get the Fix, Not Just the Score</h1>
+    <p class="seo-lede">Most free AEO graders score you and stop. This audit runs 40+ AI-search checks on your pages and returns every finding with the change to ship attached &mdash; the schema block, the meta rewrite, the points it recovers. Free workspace, no credit card.</p>
+    <p><a href="https://app.solcrys.com/audit">Run your free AEO audit &rarr;</a> &middot; Free &middot; No credit card</p>
+    <section class="seo-section">
+      <h2>What a free AEO audit checks &mdash; 40+ checks, four weighted categories</h2>
+      <p>AI engines decide what to cite using signals your Google rank never measured. The audit scores the four families that decide whether an answer engine retrieves, trusts, cites, and summarizes your page:</p>
+      <ul class="seo-list">
+        <li><strong>Content quality (30% of the score)</strong> &mdash; does the page answer in the first 50 words, define terms, emphasize key numbers, and structure sections the way answer engines extract them?</li>
+        <li><strong>Credibility (35%)</strong> &mdash; sourced statistics, authoritative external citations, author and expert attribution, promotional-language density.</li>
+        <li><strong>Technical readability (20%)</strong> &mdash; JSON-LD present and matching the content type, schema completeness, text-to-HTML ratio, content visible without JavaScript.</li>
+        <li><strong>Discoverability (15%)</strong> &mdash; meta description, internal and outbound links, canonical, sitemap presence, descriptive URL slug, crawler access for all major AI bots.</li>
+      </ul>
+    </section>
+    <section class="seo-section">
+      <h2>How the free AEO audit works</h2>
+      <ol class="seo-list">
+        ${stepHtml}
+      </ol>
+      <p>That cycle &mdash; measure, diagnose, execute, verify &mdash; is <a href="/#loop">the SolCrys Loop</a>. The free workspace runs one full pass a month.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Findings come with the fix attached</h2>
+      <p>Real findings from running this audit on our own About page &mdash; it scored 60/100, and yes, we publish that:</p>
+      <p><strong>Finding: meta description too thin to stand alone (109 characters).</strong> AI engines lean on the meta description to judge page relevance when they don&rsquo;t parse the full body. The audit hands you the rewrite &mdash; <strong>14 points recoverable</strong>:</p>
+      <pre><code>&lt;meta name="description" content="Meet the SolCrys
+team — AI search strategists, enterprise marketers,
+and engineers building tools to measure and improve
+brand visibility in AI-generated answers." /&gt;</code></pre>
+      <ul class="seo-list">
+        <li><strong>Descriptive URL slug + the 301 redirect config to ship</strong> &mdash; <strong>15 points recoverable</strong></li>
+        <li><strong>Rephrase one H2 as a question</strong> so engines map it to user queries, with the suggested heading &mdash; <strong>15 points recoverable</strong></li>
+      </ul>
+      <p>Current state, the update to make, the code to paste, the points it recovers &mdash; every finding, in that form.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Graders measure &mdash; this audit executes</h2>
+      <p>We surveyed 16 free AEO tools against the full loop &mdash; measure &rarr; diagnose &rarr; execute &rarr; verify. The free graders and checkers all stop at a score or a gap list; even the biggest one returns five scored dimensions and generic tips. The SolCrys free workspace is the only free tier we found that reaches <em>execute</em>: the audit hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit; on-demand re-tests and multi-engine tracking are the paid part. See the evidence in <a href="/free-aeo-tools-that-fix-not-just-score/">16 free AEO tools, compared by the loop</a>, or start with the <a href="/free-chatgpt-visibility-tracker/">free ChatGPT visibility tracker</a> if you want the visibility read first.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Exactly what&rsquo;s free &mdash; no fine print</h2>
+      <table>
+        <thead>
+          <tr><th></th><th>Free workspace</th><th>Paid plans</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Content audits (with the fix)</td><td>1 / month</td><td>4&ndash;10 / month</td></tr>
+          <tr><td>Engines</td><td>ChatGPT &mdash; manual checks (3/mo)</td><td>Up to 5 engines, tracked daily</td></tr>
+          <tr><td>Tracked prompts</td><td>10</td><td>20&ndash;60</td></tr>
+          <tr><td>Deep analyses</td><td>1 / month</td><td>12&ndash;40 / month</td></tr>
+          <tr><td>Action Hub (the fix itself)</td><td>Included</td><td>Included</td></tr>
+          <tr><td>Re-test to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
+        </tbody>
+      </table>
+      <p>Full plan details on the <a href="https://app.solcrys.com/pricing">pricing page</a>.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Free AEO audit &mdash; FAQ</h2>
+      ${faqHtml}
+    </section>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+writePage(
+  "free-aeo-audit/index.html",
+  renderLayout({
+    routePath: freeAeoAuditRoute,
+    title: freeAeoAuditTitle,
+    description: freeAeoAuditDescription,
+    body: freeAeoAuditBody(),
+    lastModified: site.updated,
+    ogImage: "/og/free-aeo-audit.png",
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Free AEO Audit", path: freeAeoAuditRoute },
+      ]),
+      webPageSchema({
+        routePath: freeAeoAuditRoute,
+        title: freeAeoAuditTitle,
+        description: freeAeoAuditDescription,
+      }),
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: "Free AEO Audit",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: canonicalUrl(freeAeoAuditRoute),
+        description: freeAeoAuditDescription,
+        isAccessibleForFree: true,
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          logo: { "@type": "ImageObject", url: site.logo },
+        },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: "How to run a free AEO audit and ship the fixes",
+        description:
+          "Audit a page for AI search readiness and get the exact fixes to ship, free.",
+        step: freeAeoAuditSteps.map((s, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: s.name,
+          text: s.text,
+        })),
+      },
+      faqSchema(freeAeoAuditFaqs, freeAeoAuditRoute),
+    ],
+  }),
+);
+
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
@@ -2120,6 +2320,7 @@ const sitemapUrls = [
   // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
   { path: "/free-chatgpt-visibility-tracker/", lastmod: site.updated || generatedAt },
+  { path: "/free-aeo-audit/", lastmod: site.updated || generatedAt },
   { path: "/prompt-pulse/", lastmod: promptPulse.updated },
   ...promptPulse.verticals.map((v) => ({ path: `/prompt-pulse/${v.slug}/`, lastmod: v.updated || promptPulse.updated })),
   { path: "/news/", lastmod: newsLatest },
