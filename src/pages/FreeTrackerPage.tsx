@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Search, BarChart3, Target } from "lucide-react";
+import { ArrowRight, Check, Search, BarChart3, Target, Wrench } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -50,6 +50,11 @@ const STEPS = [
     title: "See where you show up — and where a rival wins",
     body: "Your visibility score, the prompts where AI skips you, and which competitor it names instead.",
   },
+  {
+    Icon: Wrench,
+    title: "Get the fix, not just the score",
+    body: "In the same free workspace, run a free content audit on a page: it hands you the exact change to ship — the JSON-LD block, the heading rewrite — with the points each fix recovers.",
+  },
 ];
 
 const REPORT_INCLUDES = [
@@ -67,6 +72,14 @@ const FAQS = [
   {
     q: "Does it just give me a score, or help me fix it?",
     a: "Both. The visibility check is the measure step. In the same free workspace, a free content audit hands you the concrete fix to ship — the schema block, the heading rewrite — not just a score. That's what makes SolCrys a closed loop instead of a scoreboard: measure, diagnose, execute, verify. Re-testing at scale across every engine is the paid part.",
+  },
+  {
+    q: "What should I do after I get my results?",
+    a: "Run the loop. Pick the page behind your weakest prompt and run your free content audit on it — it returns the specific findings, the code or copy to ship, and the points each fix recovers. Ship the fix, then re-test: your next monthly audit (or a paid plan, on demand) re-scores the page so you can see the recovery. Score → fix → proof, instead of score → screenshot → forgotten.",
+  },
+  {
+    q: "What's included in the free workspace?",
+    a: "10 tracked prompts on ChatGPT with manual checks (3 per month), one content audit per month (with the concrete fixes), one deep analysis per month, and the Action Hub that turns findings into a task queue. Free forever, no credit card — email verification is all it takes. Paid plans add more engines, daily tracking, and more audits.",
   },
   {
     q: "Do I need to sign up?",
@@ -193,7 +206,7 @@ const FreeTrackerPage = () => {
               <span className="mx-2 text-muted-foreground/50">·</span>
               No credit card
               <span className="mx-2 text-muted-foreground/50">·</span>
-              Free workspace to save the report
+              Includes your free workspace
             </p>
 
             <div className="mt-14 pt-8 border-t border-white/5">
@@ -318,27 +331,179 @@ const FreeTrackerPage = () => {
               ))}
             </ul>
             <p className="text-sm text-muted-foreground text-center mt-8 max-w-2xl mx-auto">
-              Free covers ChatGPT. Add Gemini, Google AI Overviews, and
-              Perplexity — plus automatic daily tracking — on a paid plan when
-              you're ready.
+              Your report is saved to your free workspace — 10 tracked prompts,
+              one content audit and one deep analysis a month, and the Action
+              Hub that turns findings into fixes. No credit card.
             </p>
           </div>
         </section>
 
-        {/* Closed loop — not just a score */}
+        {/* The artifact — show the actual fix (no competitor page does this) */}
         <section className="border-t border-border/40 py-16 md:py-20 bg-card/20">
+          <div className="container mx-auto px-6 max-w-3xl">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4 text-center">
+              Here's the fix you actually get
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed text-center max-w-2xl mx-auto mb-8">
+              Every free checker we've tested ends at a score. A SolCrys audit
+              ends with the change to ship. These are real findings from
+              running the free content audit on our own About page — it scored
+              60/100, and yes, we publish that:
+            </p>
+            <div className="rounded-2xl border border-border/60 bg-background/60 p-6 md:p-8 text-left">
+              <p className="text-sm font-semibold mb-1">
+                Finding: schema type doesn't match the content
+              </p>
+              <p className="text-sm text-muted-foreground mb-4">
+                The page emits AboutPage + Organization markup; the template AI
+                engines expect here is BlogPosting. The audit hands you the
+                block to paste — <strong>14 points recoverable</strong>:
+              </p>
+              <pre className="rounded-xl border border-border/50 bg-card/40 p-4 overflow-x-auto text-[13px] leading-relaxed font-mono text-foreground/90">
+                <code>{`{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "About SolCrys — AI Search and AEO Team",
+  "author": {
+    "@type": "Person",
+    "name": "SolCrys Team",
+    "worksFor": { "@type": "Organization", "name": "SolCrys" }
+  },
+  "dateModified": "2026-05-15"
+}`}</code>
+              </pre>
+              <ul className="mt-5 grid gap-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2.5">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(195_90%_55%)]" />
+                  <span>
+                    Add source links to statistics and claims — the audit lists
+                    which sentences, with before/after —{" "}
+                    <strong className="text-foreground/90">
+                      35 points recoverable
+                    </strong>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(195_90%_55%)]" />
+                  <span>
+                    Wrap key numbers in <code>&lt;strong&gt;</code> so AI
+                    engines extract them —{" "}
+                    <strong className="text-foreground/90">
+                      20 points recoverable
+                    </strong>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <p className="text-sm text-muted-foreground text-center mt-6 max-w-2xl mx-auto">
+              Every audit returns findings in this form: the current state, the
+              update to make, the code to paste, and the points it recovers.
+              You leave with a fix, not homework.
+            </p>
+          </div>
+        </section>
+
+        {/* Closed loop — positioning vs the scoreboard category */}
+        <section className="border-t border-border/40 py-16 md:py-20">
           <div className="container mx-auto px-6 max-w-3xl text-center">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
-              The tracker is step one. The free tier hands you the fix.
+              Most free checkers stop at the score. This one reaches the fix.
             </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed">
-              Most free AI-visibility tools stop at the number. SolCrys doesn't.
-              The same free workspace runs a content audit that hands you the
-              exact change to ship — the JSON-LD block, the heading rewrite, the
-              FAQ to add — with the points each one recovers. That's the SolCrys
-              Loop: measure (here), diagnose, execute the fix, then re-test. On
-              the free tier that's ChatGPT and one audit a month; multi-engine
-              tracking and the automatic re-test at scale are the paid part.
+            <p className="text-muted-foreground text-lg leading-relaxed mb-5">
+              We surveyed 16 free AEO tools against the full loop — measure →
+              diagnose → execute → verify. Free-forever trackers, one-shot
+              graders, and trials all stop at measure or diagnose: a score and
+              a gap list, then you're on your own. The SolCrys free workspace
+              is the only free tier we found that reaches{" "}
+              <em>execute</em> — it hands you the fix itself. The honest
+              boundary: re-testing that the fix moved the answer uses your next
+              monthly audit on free; on-demand re-tests and multi-engine
+              tracking are the paid part.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              See the full comparison:{" "}
+              <a
+                href="/free-aeo-tools-that-fix-not-just-score/"
+                className="text-[hsl(195_90%_55%)] hover:underline"
+              >
+                16 free AEO tools, compared by the loop →
+              </a>
+            </p>
+          </div>
+        </section>
+
+        {/* Honest free-vs-paid limits */}
+        <section className="border-t border-border/40 py-16 md:py-20 bg-card/20">
+          <div className="container mx-auto px-6 max-w-3xl">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4 text-center">
+              Exactly what's free — no fine print
+            </h2>
+            <p className="text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
+              Most free tools never state their limits. Here are ours,
+              precisely:
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="border-b border-border/60 text-left">
+                    <th className="py-3 pr-4 font-semibold"> </th>
+                    <th className="py-3 pr-4 font-semibold">Free workspace</th>
+                    <th className="py-3 font-semibold">Paid plans</th>
+                  </tr>
+                </thead>
+                <tbody className="text-muted-foreground">
+                  <tr className="border-b border-border/40">
+                    <td className="py-3 pr-4 text-foreground/90">Engines</td>
+                    <td className="py-3 pr-4">ChatGPT — manual checks (3/mo)</td>
+                    <td className="py-3">Up to 5 engines, tracked daily</td>
+                  </tr>
+                  <tr className="border-b border-border/40">
+                    <td className="py-3 pr-4 text-foreground/90">
+                      Tracked prompts
+                    </td>
+                    <td className="py-3 pr-4">10</td>
+                    <td className="py-3">20–60</td>
+                  </tr>
+                  <tr className="border-b border-border/40">
+                    <td className="py-3 pr-4 text-foreground/90">
+                      Content audits (with the fix)
+                    </td>
+                    <td className="py-3 pr-4">1 / month</td>
+                    <td className="py-3">4–10 / month</td>
+                  </tr>
+                  <tr className="border-b border-border/40">
+                    <td className="py-3 pr-4 text-foreground/90">
+                      Deep analyses
+                    </td>
+                    <td className="py-3 pr-4">1 / month</td>
+                    <td className="py-3">12–40 / month</td>
+                  </tr>
+                  <tr className="border-b border-border/40">
+                    <td className="py-3 pr-4 text-foreground/90">
+                      Action Hub (the fix itself)
+                    </td>
+                    <td className="py-3 pr-4">Included</td>
+                    <td className="py-3">Included</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 text-foreground/90">
+                      Re-test to verify the fix
+                    </td>
+                    <td className="py-3 pr-4">Next month's audit</td>
+                    <td className="py-3">On demand, at scale</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="text-sm text-muted-foreground text-center mt-6">
+              Full plan details on the{" "}
+              <a
+                href="https://app.solcrys.com/pricing"
+                className="text-[hsl(195_90%_55%)] hover:underline"
+              >
+                pricing page
+              </a>
+              .
             </p>
           </div>
         </section>
@@ -372,11 +537,12 @@ const FreeTrackerPage = () => {
           <div className="container mx-auto px-6 max-w-3xl text-center">
             <div className="rounded-2xl border border-[hsl(195_90%_55%/0.25)] bg-[hsl(195_90%_55%/0.06)] p-10 md:p-14">
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
-                See if ChatGPT recommends you in about 5 minutes.
+                See if ChatGPT recommends you — then fix it.
               </h2>
               <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-                Free workspace, no credit card. Enter your domain and get your
-                ChatGPT visibility report.
+                Set up your free workspace: your first audit runs in about 5
+                minutes, and the findings come with the fixes. Free, no credit
+                card.
               </p>
               <Button
                 asChild

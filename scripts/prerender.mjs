@@ -1919,6 +1919,10 @@ const freeTrackerSteps = [
     name: "See where you show up — and where a rival wins",
     text: "Your visibility score, the prompts where AI skips you, and which competitor it names instead.",
   },
+  {
+    name: "Get the fix, not just the score",
+    text: "In the same free workspace, run a free content audit on a page: it hands you the exact change to ship — the JSON-LD block, the heading rewrite — with the points each fix recovers.",
+  },
 ];
 const freeTrackerFaqs = [
   {
@@ -1930,6 +1934,16 @@ const freeTrackerFaqs = [
     question: "Does it just give me a score, or help me fix it?",
     answer:
       "Both. The visibility check is the measure step. In the same free workspace, a free content audit hands you the concrete fix to ship — the schema block, the heading rewrite — not just a score. That is what makes SolCrys a closed loop instead of a scoreboard: measure, diagnose, execute, verify. Re-testing at scale across every engine is the paid part.",
+  },
+  {
+    question: "What should I do after I get my results?",
+    answer:
+      "Run the loop. Pick the page behind your weakest prompt and run your free content audit on it — it returns the specific findings, the code or copy to ship, and the points each fix recovers. Ship the fix, then re-test: your next monthly audit (or a paid plan, on demand) re-scores the page so you can see the recovery. Score → fix → proof, instead of score → screenshot → forgotten.",
+  },
+  {
+    question: "What's included in the free workspace?",
+    answer:
+      "10 tracked prompts on ChatGPT with manual checks (3 per month), one content audit per month (with the concrete fixes), one deep analysis per month, and the Action Hub that turns findings into a task queue. Free forever, no credit card — email verification is all it takes. Paid plans add more engines, daily tracking, and more audits.",
   },
   {
     question: "Do I need to sign up?",
@@ -1990,11 +2004,50 @@ function freeTrackerBody() {
         <li>Which competitor ChatGPT recommends in your place</li>
         <li>The citations and sources shaping the answer</li>
       </ul>
-      <p>Free covers ChatGPT. Add Gemini, Google AI Overviews, and Perplexity &mdash; plus automatic daily tracking &mdash; on a paid plan.</p>
+      <p>Your report is saved to your free workspace &mdash; 10 tracked prompts, one content audit and one deep analysis a month, and the Action Hub that turns findings into fixes. No credit card.</p>
     </section>
     <section class="seo-section">
-      <h2>The tracker is step one &mdash; the free tier hands you the fix</h2>
-      <p>Most free AI-visibility tools stop at the number. SolCrys does not. The same free workspace runs a content audit that hands you the exact change to ship &mdash; the JSON-LD block, the heading rewrite, the FAQ to add &mdash; with the points each one recovers. That is the SolCrys Loop: measure (here), diagnose, execute the fix, then re-test the same prompts. On the free tier that is ChatGPT and one audit a month; multi-engine tracking and the automatic re-test at scale are the paid part. <a href="/#loop">See how the SolCrys Loop works</a>.</p>
+      <h2>Here&rsquo;s the fix you actually get</h2>
+      <p>Every free checker we&rsquo;ve tested ends at a score. A SolCrys audit ends with the change to ship. These are real findings from running the free content audit on our own About page &mdash; it scored 60/100, and yes, we publish that:</p>
+      <p><strong>Finding: schema type doesn&rsquo;t match the content.</strong> The page emits AboutPage + Organization markup; the template AI engines expect here is BlogPosting. The audit hands you the block to paste &mdash; <strong>14 points recoverable</strong>:</p>
+      <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "About SolCrys — AI Search and AEO Team",
+  "author": {
+    "@type": "Person",
+    "name": "SolCrys Team",
+    "worksFor": { "@type": "Organization", "name": "SolCrys" }
+  },
+  "dateModified": "2026-05-15"
+}</code></pre>
+      <ul class="seo-list">
+        <li><strong>Add source links to statistics and claims</strong> &mdash; the audit lists which sentences, with before/after &mdash; <strong>35 points recoverable</strong></li>
+        <li><strong>Wrap key numbers in &lt;strong&gt;</strong> so AI engines extract them &mdash; <strong>20 points recoverable</strong></li>
+      </ul>
+      <p>Every audit returns findings in this form: the current state, the update to make, the code to paste, and the points it recovers. You leave with a fix, not homework.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Most free checkers stop at the score &mdash; this one reaches the fix</h2>
+      <p>We surveyed 16 free AEO tools against the full loop &mdash; measure &rarr; diagnose &rarr; execute &rarr; verify. Free-forever trackers, one-shot graders, and trials all stop at measure or diagnose: a score and a gap list, then you are on your own. The SolCrys free workspace is the only free tier we found that reaches <em>execute</em> &mdash; it hands you the fix itself. The honest boundary: re-testing that the fix moved the answer uses your next monthly audit on free; on-demand re-tests and multi-engine tracking are the paid part. That cycle is <a href="/#loop">the SolCrys Loop</a>; see the full comparison in <a href="/free-aeo-tools-that-fix-not-just-score/">16 free AEO tools, compared by the loop</a>.</p>
+    </section>
+    <section class="seo-section">
+      <h2>Exactly what&rsquo;s free &mdash; no fine print</h2>
+      <p>Most free tools never state their limits. Here are ours, precisely:</p>
+      <table>
+        <thead>
+          <tr><th></th><th>Free workspace</th><th>Paid plans</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Engines</td><td>ChatGPT &mdash; manual checks (3/mo)</td><td>Up to 5 engines, tracked daily</td></tr>
+          <tr><td>Tracked prompts</td><td>10</td><td>20&ndash;60</td></tr>
+          <tr><td>Content audits (with the fix)</td><td>1 / month</td><td>4&ndash;10 / month</td></tr>
+          <tr><td>Deep analyses</td><td>1 / month</td><td>12&ndash;40 / month</td></tr>
+          <tr><td>Action Hub (the fix itself)</td><td>Included</td><td>Included</td></tr>
+          <tr><td>Re-test to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
+        </tbody>
+      </table>
+      <p>Full plan details on the <a href="https://app.solcrys.com/pricing">pricing page</a>.</p>
     </section>
     <section class="seo-section">
       <h2>Free ChatGPT visibility tracker &mdash; FAQ</h2>
