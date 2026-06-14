@@ -429,7 +429,7 @@ const Navbar = () => {
                 trackAuditClick("navbar_mobile");
                 closeAll();
               }}
-              className="mt-4 inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-md bg-[hsl(var(--action))] px-4 py-3 text-base font-medium text-[hsl(var(--action-foreground))] hover:bg-[hsl(var(--action-hover))] transition-colors"
             >
               Get Started
             </a>
