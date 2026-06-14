@@ -44,10 +44,10 @@ const ContactFloatingButton = () => {
         type="button"
         aria-label="Questions? Talk to a SolCrys founder"
         title="Questions? Talk to a SolCrys founder"
-        className="fixed right-4 bottom-4 z-40 inline-flex items-center gap-2 px-4 py-2.5 rounded-full shadow-floating-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+        className="fixed right-3 bottom-3 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary p-0 text-sm font-medium text-primary-foreground shadow-floating-md transition-opacity hover:opacity-90 sm:right-4 sm:bottom-4 sm:h-auto sm:w-auto sm:gap-2 sm:px-4 sm:py-2.5"
       >
         <MessageCircle className="h-4 w-4" aria-hidden="true" />
-        Questions? Talk to a founder
+        <span className="hidden sm:inline">Questions? Talk to a founder</span>
       </button>
     </EarlyAccessDialog>
   );

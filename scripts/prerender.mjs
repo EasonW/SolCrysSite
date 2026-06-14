@@ -168,11 +168,10 @@ function navHtml() {
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
         <a href="/#features">Platform</a>
         <a href="/#solutions">Solutions</a>
-        <a href="/#loop">The Loop</a>
         <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
+        <a href="/customers/">Customers</a>
         <a href="/prompt-pulse/">Prompt Pulse</a>
         <a href="/resources/">Resources</a>
-        <a href="/news/">News</a>
         <a href="/about/">Company</a>
       </nav>
     </header>`;
@@ -202,7 +201,7 @@ function ctaHtml() {
         <p class="seo-kicker">Free AI visibility audit</p>
         <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
         <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
-        <p><a href="mailto:${escapeAttr(site.email)}?subject=SolCrys%20Free%20AI%20Visibility%20Audit">Get a free audit</a></p>
+        <p><a href="${escapeAttr(AUDIT_URL)}">Get a free audit</a></p>
       </div>
     </section>`;
 }
@@ -376,6 +375,9 @@ function writePage(relativePath, html) {
 const APP_PRICING_URL =
   (process.env.VITE_APP_PRICING_URL || "").trim() ||
   "https://app.solcrys.com/pricing";
+const AUDIT_URL =
+  (process.env.VITE_AUDIT_URL || "").trim() ||
+  "https://app.solcrys.com/audit";
 
 function pricingRedirectBridgeHtml() {
   const dest = APP_PRICING_URL;
@@ -575,7 +577,7 @@ function homeHtml() {
     </section>
     <section id="free-tracker" class="seo-container seo-section">
       <h2>Free ChatGPT visibility tracker</h2>
-      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews / AI Mode, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="https://app.solcrys.com/audit">start free</a>.</p>
+      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews / AI Mode, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
     </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers turn AI visibility into governed execution</h2>
@@ -2444,7 +2446,7 @@ if (fs.existsSync(legacyStyles)) {
 // the About page's Founders' Notes section, respectively).
 const retiredRedirects = [
   { from: "ai-search-share-of-voice", to: "ai-share-of-recommendation" },
-  { from: "free-audit", to: "https://app.solcrys.com/audit" },
+  { from: "free-audit", to: AUDIT_URL },
   { from: "contact", to: "https://app.solcrys.com/contact-sales/" },
   { from: "pricing-alerts", to: "aeo-platform-pricing-2026" },
   { from: "strategy-positioning", to: "about" },
