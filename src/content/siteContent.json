@@ -204,6 +204,277 @@
   ],
   "resourcePages": [
     {
+      "slug": "ai-brand-disambiguation-playbook",
+      "title": "When AI Confuses Your Brand With a Same-Name Company: A Disambiguation Playbook",
+      "metaTitle": "When AI Confuses Your Brand With a Same-Name Company | SolCrys",
+      "description": "An AI engine keeps mixing your brand up with a same-name company and citing both. Here's the four-step entity-disambiguation playbook to separate them — without ever naming the other company on your own site.",
+      "h1": "When AI confuses your brand with a same-name company",
+      "summary": "An AI engine that confuses your company with a same-name one is doing entity resolution badly: it merges two real-world entities, cross-contaminates their attributes, and splits your branded-query citations between them. The fix is not to tell it \"we're not them.\" There is no schema property for that, hidden-in-the-backend disambiguation is both a cloaking risk and ignored by AI, and naming the other company only reinforces the link. You win by establishing a distinct, consistently-corroborated identity: a canonical entity-home page, one Organization schema node with a stable @id, sameAs, founders, location, and a category-first disambiguatingDescription, plus a Wikidata item. The single explicit \"different from\" assertion lives off your own site, on Wikidata (property P1889), so you never have to name a competitor in your own copy. It is a four-step loop — measure the confusion across engines, diagnose the missing signals, execute the positive fixes, and verify the answers actually changed, on each engine's own clock.",
+      "category": "Citation & Source Influence",
+      "updated": "2026-06-15",
+      "ogImage": "/og/ai-brand-disambiguation-playbook.png",
+      "ogEyebrow": "Entity Disambiguation",
+      "ogTitleParts": [
+        "AI keeps confusing your brand",
+        "with a same-name company."
+      ],
+      "ogSubtitle": "The four-step playbook to separate them — without ever naming the other company.",
+      "primaryKeyword": "AI brand disambiguation",
+      "author": {
+        "name": "Eason Wang",
+        "role": "Co-Founder & CPO, SolCrys",
+        "linkedin": "https://www.linkedin.com/in/eason-wang/",
+        "photoUrl": "/team/eason-wang.jpg"
+      },
+      "aeoTargets": [
+        "Why does AI confuse my brand with a same-name company?",
+        "How do I disambiguate my brand from a same-name company in AI answers?",
+        "Can I tell AI two companies are different without naming the competitor on my site?"
+      ],
+      "relatedSlugs": [
+        "ai-citations-consensus-not-authority",
+        "how-to-build-a-source-layer-strategy",
+        "owned-earned-community-sources-ai",
+        "is-ai-visibility-a-vanity-metric"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "If an AI engine keeps mixing your company up with a similarly-named one, the instinct is to correct it somewhere — to state that you are not them. That instinct is wrong on both counts. You win this by making your own entity so specific, and so consistently described across the web, that the two can no longer be merged. The one explicit \"these are not the same company\" assertion belongs in a single neutral place — and it is not your own website.",
+            "Treat it as a governed execution loop, not a one-time edit: measure the confusion, diagnose the missing signals, execute the fixes, and verify the answers actually changed. The four-step playbook is below."
+          ]
+        },
+        {
+          "heading": "Your brand has a doppelganger in AI answers",
+          "body": [
+            "A B2B technology-marketing firm we work with ran a simple check: they asked ChatGPT whether their company was worth hiring for marketing services. The answer ranked them first and was broadly positive. The problem was in the citations. Roughly four of every ten sources the model leaned on were not theirs at all — they belonged to an unrelated organization that happened to share the name, a tech-events company in a different country. ChatGPT was quietly fusing two companies into one, attributing conference tracks and summit pages to a marketing agency.",
+            "This is an **entity collision** — same-name conflation. Two distinct real-world entities share a name, the engine cannot cleanly tell them apart, so it merges their attributes and splits the citations between them. The damage usually is not a bad review. It is subtler and worse:"
+          ],
+          "bullets": [
+            "**Attribute cross-contamination** — the AI describes you doing things the other company does, so its answer about you is confidently wrong on the specifics.",
+            "**Citation dilution** — half of your share of voice on your own branded query is spent narrating a company that isn't you.",
+            "**Wrong-doorway risk** — a buyer researching you reads facts about someone else, and either bounces or arrives mis-calibrated."
+          ]
+        },
+        {
+          "heading": "Why AI engines mix up same-name brands",
+          "body": [
+            "An AI answer does not recall a tidy record called \"your company.\" It resolves a name to an entity at answer time, and it leans on three things to do it:"
+          ],
+          "bullets": [
+            "**Knowledge graphs** — Wikidata, Google's Knowledge Graph, and Wikipedia are the structured backbone for who or what an entity is.",
+            "**Retrieval grounding** — a live pull of pages that match the name string, which is what populates the citation list.",
+            "**Entity class and attributes** — industry and category, headquarters and country, founders, founding date, and stable identifiers."
+          ],
+          "subsections": [
+            {
+              "heading": "The good news",
+              "body": [
+                "A marketing firm and an events company differ in category, geography, and founders — every axis an engine uses to disambiguate. A collision like that is very winnable once the signals exist. In our example, ChatGPT was already trying: it hedged with \"if by [the name] you mean the marketing firm…\" It wanted to separate them. It just did not have enough to do it reliably."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Two fixes that backfire",
+          "body": [
+            "Before the playbook, two tempting moves that make it worse."
+          ],
+          "subsections": [
+            {
+              "heading": "Hiding the disambiguation in your code",
+              "body": [
+                "The most common question is whether you can just put it in the backend, where users don't have to see it. Two problems. First, Google requires structured data to be a true representation of visible page content — its guideline is \"don't mark up content that is not visible to readers of the page.\" Facts that live only in markup, invisible to humans, edge into the cloaking and hidden-text territory that risks a ranking penalty. Second, it does not even work: in practitioner testing, ChatGPT and Perplexity largely ignore schema that has no visible counterpart and read the rendered page instead. Backend markup is an echo of what is on the page, not a private channel to the machines."
+              ]
+            },
+            {
+              "heading": "Writing \"we are not them\"",
+              "body": [
+                "Naming the doppelganger — even to push it away — places both names side by side in your own content. That strengthens the very association the model already has; co-occurrence is how engines decide two things belong together. You would be teaching it the connection. And there is no schema property for \"is different from\" anyway — schema.org offers only positive identity assertions like **sameAs**. The negative assertion belongs in exactly one place, off your own site (see Step 3)."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "The four-step playbook",
+          "body": [
+            "Disambiguation is a governed AEO execution loop. Each step has a job: prove the confusion, find the gap, ship the fix, then confirm it cleared."
+          ]
+        },
+        {
+          "heading": "Step 1 — Measure: prove the confusion and size it",
+          "body": [
+            "Don't guess from a single screenshot. Run your branded queries across several engines — ChatGPT, Perplexity, Gemini, Claude — and capture a baseline:"
+          ],
+          "bullets": [
+            "The identity set: what is [brand], who founded [brand], where is [brand] based, and the high-intent query that exposed the problem (is [brand] worth it for [your service]).",
+            "**Which domain each citation comes from** — yours versus the doppelganger's.",
+            "Whether the answer attributes the other company's attributes to you.",
+            "Your **citation share** on your own branded query."
+          ],
+          "subsections": [
+            {
+              "heading": "Why this comes first",
+              "body": [
+                "This baseline is the thing you re-run in Step 4 to prove the fix landed. Measuring is the first step of the loop, not the whole job — a visibility number that tells you that you are confused, without telling you why or what to change, has only done a quarter of the work."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Step 2 — Diagnose: find the missing signals",
+          "body": [
+            "Confusion is a symptom of weak or inconsistent entity signals. Look for:"
+          ],
+          "bullets": [
+            "**No entity home** — no single authoritative page plainly states who you are.",
+            "**Thin or missing Organization schema** — no stable **@id**, no **sameAs**, no **legalName**, **foundingDate**, or **address**.",
+            "**No knowledge-graph node** — you are not in Wikidata, so the engines' backbone holds no separate record for you.",
+            "**Inconsistent boilerplate** — your one-liner, HQ, or founding year differ across your site, LinkedIn, and Crunchbase. Every mismatch gives the engine a reason to doubt which entity is which, or to split you into two.",
+            "**No answer target** — no page directly answers the exact ambiguous query."
+          ]
+        },
+        {
+          "heading": "Step 3 — Execute: establish a distinct, corroborated identity",
+          "body": [
+            "Everything here is positive. You win by being unmistakably yourself — the competitor's name appears nowhere on your property.",
+            "**On your site**, three moves, all about stating who you are:"
+          ],
+          "bullets": [
+            "**Build the entity home.** One canonical page — usually your About page — that states identity in plain subject-verb-object sentences: \"Acme Marketing is a US-based B2B technology marketing firm that helps semiconductor, cloud, and enterprise-IT companies…\", not \"we help you…\" Kill the pronouns in identity sentences; the engine needs the name bound to the claim. Add a corporate fact sheet: legal name, HQ city and country, founding year, founders, category, and who you serve.",
+            "**Add an answer-target page.** A permanent \"What is Acme Marketing?\" definition page — a standing page beats a dated blog post here — that answers the ambiguous query in its first fifty words, category and location first.",
+            "**Ship one canonical Organization schema node.** A stable **@id** referenced site-wide, and mirror every fact in visible page text so you stay inside Google's guidelines and the engines actually read it. The properties that carry the load:"
+          ],
+          "table": {
+            "headers": [
+              "Schema property",
+              "What to set, and why it disambiguates"
+            ],
+            "rows": [
+              [
+                "**@id**",
+                "A stable URI for your organization (for example, https://yoursite.com/#organization), referenced site-wide so every page points to one entity node instead of scattering thin mentions."
+              ],
+              [
+                "**legalName** + **name**",
+                "Your registered legal name and trade name — a hard identity anchor the namesake won't share."
+              ],
+              [
+                "**foundingDate**",
+                "The year you were founded — cheap to add, and two companies almost never share one."
+              ],
+              [
+                "**address** + **areaServed**",
+                "HQ country and city, plus the markets you serve — a clean geographic split from a same-name company located elsewhere."
+              ],
+              [
+                "**founder**",
+                "Named founders — another attribute that separates you from the namesake."
+              ],
+              [
+                "**knowsAbout**",
+                "Your niche topics — the work you actually do, which the other company's profile would never list."
+              ],
+              [
+                "**sameAs**",
+                "Links to your LinkedIn, Crunchbase, and Wikidata item — the single strongest external identity signal, because each is a source an engine can cross-reference."
+              ],
+              [
+                "**disambiguatingDescription**",
+                "schema.org's purpose-built property for separating similar items: a short, category-first description of what you are. Use it to state your category, never to name anyone else."
+              ]
+            ]
+          },
+          "subsections": [
+            {
+              "heading": "Off your site — where the \"not related\" line belongs",
+              "body": [
+                "This is the heavier lever, and the only place the explicit non-relation assertion should live:"
+              ],
+              "bullets": [
+                "**Create or correct your Wikidata item.** A distinct entity with its own ID, an instance-of business type, an industry, and founders. Wikidata feeds the Knowledge Graph, so this is how you become a separate node from the namesake. Its bar is verifiable existence rather than fame — but you need at least one independent, third-party source, not just your own site, or the entry gets challenged.",
+                "**Use Wikidata's \"different from\" property (P1889).** This is the one property built to link two commonly-confused entities; its aliases literally include \"not to be confused with.\" It lives on a neutral third-party knowledge base, not your marketing site — so you get the explicit \"these are not the same company\" assertion without ever putting a competitor's name on your own pages.",
+                "**Make your boilerplate identical everywhere.** Same name, one-liner, HQ, and founding year across your site, LinkedIn, Crunchbase, and any review profile. Consistency is what raises an engine's confidence in your entity over the namesake's — and inconsistency is what splits you in two."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Step 4 — Verify: re-run and watch it clear",
+          "body": [
+            "Disambiguation is not done when you ship the schema. It is done when the answers change — and they change on each engine's own clock, not the moment you edit a page. Re-run the Step 1 query set on a schedule (a fix that works in ChatGPT can still fail in Gemini) and track:"
+          ],
+          "bullets": [
+            "Citation share on your branded query climbing back toward fully yours.",
+            "The namesake's pages dropping out of your answers.",
+            "Attributes re-attaching to the right company."
+          ],
+          "subsections": [
+            {
+              "heading": "The half most teams skip",
+              "body": [
+                "This re-measure-and-confirm step is the one most teams skip, and it is the only proof the work landed."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "The short version",
+          "body": [
+            "The whole playbook in five lines:"
+          ],
+          "bullets": [
+            "AI confuses same-name brands because it resolves entities from **knowledge graphs plus live retrieval**, and weak or inconsistent signals let it merge you.",
+            "**Don't** hide the disambiguation in backend code (cloaking risk, and AI ignores it), and **don't** name the other company (it reinforces the link).",
+            "**Win by establishing a distinct, consistent, corroborated identity:** entity home, Organization schema, Wikidata.",
+            "Put the only explicit \"not the same as\" assertion on **Wikidata (property P1889)** — neutral, and off your own site.",
+            "**Measure before, verify after.** It is a loop, not a single edit."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Can I stop AI from confusing my brand by adding a note in my website's code?",
+          "answer": "Not safely, and not effectively. Disambiguation facts that live only in your backend markup — invisible to human visitors — violate Google's rule that structured data must represent visible page content, and they edge into the cloaking and hidden-text territory that can cost you rankings. They also don't work: in testing, ChatGPT and Perplexity largely ignore schema with no visible counterpart and read the rendered page instead. Put the facts in visible content first, then let the schema echo them."
+        },
+        {
+          "question": "How do I tell AI that two companies are different without naming the competitor on my own site?",
+          "answer": "Use Wikidata's \"different from\" property (P1889) on your Wikidata item. It is purpose-built to link two commonly-confused entities, and it lives on a neutral third-party knowledge base that feeds the Knowledge Graph — so the explicit \"not the same company\" assertion never has to appear on your marketing pages. On your own site, disambiguate only positively: state your category, location, and founders so clearly that the two can't be merged."
+        },
+        {
+          "question": "Why does ChatGPT mix up companies that share a name?",
+          "answer": "Because it resolves a name to an entity at answer time using knowledge graphs (Wikidata, Google's Knowledge Graph) plus a live retrieval of pages that match the name. When your entity signals are thin, inconsistent, or missing from those knowledge graphs, the engine has nothing strong enough to keep two same-name companies apart, so it merges their attributes and cites both."
+        },
+        {
+          "question": "How long after I fix my entity signals will the AI answer correct itself?",
+          "answer": "There is no single number — each engine updates its description on its own clock, and the change does not happen the moment you edit a page. That is why the last step is to re-run the same branded queries across engines on a schedule and watch citation share recover and attributes re-attach. A fix that has already landed in ChatGPT can still be pending in Gemini."
+        }
+      ],
+      "sources": [
+        {
+          "label": "schema.org — disambiguatingDescription (property definition: a short description used to disambiguate from other, similar items)",
+          "url": "https://schema.org/disambiguatingDescription"
+        },
+        {
+          "label": "Wikidata — \"different from\" (P1889), the property for two items that may be confused with each other",
+          "url": "https://www.wikidata.org/wiki/Property:P1889"
+        },
+        {
+          "label": "Google Search Central — General structured data guidelines (structured data must be a true representation of visible page content)",
+          "url": "https://developers.google.com/search/docs/appearance/structured-data/sd-policies"
+        },
+        {
+          "label": "Google Search Central — Spam policies (cloaking; hidden text and links)",
+          "url": "https://developers.google.com/search/docs/essentials/spam-policies"
+        },
+        {
+          "label": "searchviu — what ChatGPT, Claude, Perplexity, and Gemini actually do with schema markup (2025 test)",
+          "url": "https://www.searchviu.com/en/schema-markup-and-ai-in-2025-what-chatgpt-claude-perplexity-gemini-really-see/"
+        }
+      ]
+    },
+    {
       "slug": "testable-geo-playbook",
       "title": "Most GEO Advice Is Untestable. Here's How to Run It, and Not Fool Yourself.",
       "metaTitle": "The Testable GEO Playbook: 4 Rules for Trustworthy AI-Visibility Tests | SolCrys",
