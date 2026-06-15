@@ -4,7 +4,7 @@ SolCrys helps marketing teams turn AI answer gaps into governed content, citatio
 
 ## When AI Confuses Your Brand With a Same-Name Company: A Disambiguation Playbook
 
-An AI engine that confuses your company with a same-name one is doing entity resolution badly: it merges two real-world entities, cross-contaminates their attributes, and splits your branded-query citations between them. The fix is not to tell it "we're not them." There is no schema property for that, hidden-in-the-backend disambiguation is both a cloaking risk and ignored by AI, and naming the other company only reinforces the link. You win by establishing a distinct, consistently-corroborated identity: a canonical entity-home page, one Organization schema node with a stable @id, sameAs, founders, location, and a category-first disambiguatingDescription, plus a Wikidata item. The single explicit "different from" assertion lives off your own site, on Wikidata (property P1889), so you never have to name a competitor in your own copy. It is a four-step loop — measure the confusion across engines, diagnose the missing signals, execute the positive fixes, and verify the answers actually changed, on each engine's own clock.
+An AI engine that confuses your company with a same-name one is doing entity resolution badly: it merges two real-world entities, cross-contaminates their attributes, and splits your branded-query citations between them. The fix is not to tell it "we're not them." There is no schema property for that, hidden-in-the-backend disambiguation is both a cloaking risk and ignored by AI, and naming the other company only reinforces the link. You win by establishing a distinct, consistently corroborated identity: a canonical entity homepage, a single Organization schema node with a stable @id, consistent sameAs, founder, and location properties, and a category-first disambiguatingDescription, and a corresponding Wikidata item. The single explicit "different from" assertion lives off your own site, on Wikidata (property P1889), so you never have to name a competitor in your own copy. It is a four-step loop — measure the confusion across engines, diagnose the missing signals, execute the positive fixes, and verify the answers actually changed, on each engine's own clock.
 
 ### Questions this guide answers
 
@@ -30,7 +30,7 @@ This is an **entity collision** — same-name conflation. Two distinct real-worl
 
 - **Attribute cross-contamination** — the AI describes you doing things the other company does, so its answer about you is confidently wrong on the specifics.
 - **Citation dilution** — half of your share of voice on your own branded query is spent narrating a company that isn't you.
-- **Wrong-doorway risk** — a buyer researching you reads facts about someone else, and either bounces or arrives mis-calibrated.
+- **Wrong-doorway risk** — a buyer researching you reads facts about someone else, and bounces.
 
 
 
@@ -47,7 +47,7 @@ An AI answer does not recall a tidy record called "your company." It resolves a 
 
 #### The good news
 
-A marketing firm and an events company differ in category, geography, and founders — every axis an engine uses to disambiguate. A collision like that is very winnable once the signals exist. In our example, ChatGPT was already trying: it hedged with "if by [the name] you mean the marketing firm…" It wanted to separate them. It just did not have enough to do it reliably.
+A marketing firm and an events company differ by category, geography, and founders. These are the kinds of details AI systems use to tell entities apart. That kind of mix-up can usually be fixed once the right signals are in place. In our example, ChatGPT was already trying to separate them. It hedged with, "If by [the name] you mean the marketing firm…" It seemed to recognize that there might be two different entities; it just did not have enough information to tell them apart.
 
 ### Two fixes that backfire
 
@@ -60,7 +60,7 @@ Before the playbook, two tempting moves that make it worse.
 
 The most common question is whether you can just put it in the backend, where users don't have to see it. Two problems. First, Google requires structured data to be a true representation of visible page content — its guideline is "don't mark up content that is not visible to readers of the page." Facts that live only in markup, invisible to humans, edge into the cloaking and hidden-text territory that risks a ranking penalty. Second, it does not even work: in practitioner testing, ChatGPT and Perplexity largely ignore schema that has no visible counterpart and read the rendered page instead. Backend markup is an echo of what is on the page, not a private channel to the machines.
 
-#### Writing "we are not them"
+#### Writing “we are not them”
 
 Naming the doppelganger — even to push it away — places both names side by side in your own content. That strengthens the very association the model already has; co-occurrence is how engines decide two things belong together. You would be teaching it the connection. And there is no schema property for "is different from" anyway — schema.org offers only positive identity assertions like **sameAs**. The negative assertion belongs in exactly one place, off your own site (see Step 3).
 
@@ -124,7 +124,7 @@ Schema property | What to set, and why it disambiguates
 **disambiguatingDescription** | schema.org's purpose-built property for separating similar items: a short, category-first description of what you are. Use it to state your category, never to name anyone else.
 
 
-#### Off your site — where the "not related" line belongs
+#### Off your site — where the “not related” line belongs
 
 This is the heavier lever, and the only place the explicit non-relation assertion should live:
 
