@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>When AI Confuses Your Brand With a Same-Name Company | SolCrys</title>
+    <meta name="description" content="An AI engine keeps mixing your brand up with a same-name company and citing both. Here&#39;s the four-step entity-disambiguation playbook to separate them — without ever naming the other company on your own site." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-brand-disambiguation-playbook/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-15" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="When AI Confuses Your Brand With a Same-Name Company | SolCrys" />
+    <meta property="og:description" content="An AI engine keeps mixing your brand up with a same-name company and citing both. Here&#39;s the four-step entity-disambiguation playbook to separate them — without ever naming the other company on your own site." />
+    <meta property="og:url" content="https://solcrys.com/ai-brand-disambiguation-playbook/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-brand-disambiguation-playbook.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-brand-disambiguation-playbook.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-PuTa5LEn.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"When AI Confuses Your Brand With a Same-Name Company: A Disambiguation Playbook","item":"https://solcrys.com/ai-brand-disambiguation-playbook/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"When AI confuses your brand with a same-name company","description":"An AI engine keeps mixing your brand up with a same-name company and citing both. Here's the four-step entity-disambiguation playbook to separate them — without ever naming the other company on your own site.","dateModified":"2026-06-15","datePublished":"2026-06-15","mainEntityOfPage":"https://solcrys.com/ai-brand-disambiguation-playbook/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-brand-disambiguation-playbook/","mainEntity":[{"@type":"Question","name":"Can I stop AI from confusing my brand by adding a note in my website's code?","acceptedAnswer":{"@type":"Answer","text":"Not safely, and not effectively. Disambiguation facts that live only in your backend markup — invisible to human visitors — violate Google's rule that structured data must represent visible page content, and they edge into the cloaking and hidden-text territory that can cost you rankings. They also don't work: in testing, ChatGPT and Perplexity largely ignore schema with no visible counterpart and read the rendered page instead. Put the facts in visible content first, then let the schema echo them."}},{"@type":"Question","name":"How do I tell AI that two companies are different without naming the competitor on my own site?","acceptedAnswer":{"@type":"Answer","text":"Use Wikidata's \"different from\" property (P1889) on your Wikidata item. It is purpose-built to link two commonly-confused entities, and it lives on a neutral third-party knowledge base that feeds the Knowledge Graph — so the explicit \"not the same company\" assertion never has to appear on your marketing pages. On your own site, disambiguate only positively: state your category, location, and founders so clearly that the two can't be merged."}},{"@type":"Question","name":"Why does ChatGPT mix up companies that share a name?","acceptedAnswer":{"@type":"Answer","text":"Because it resolves a name to an entity at answer time using knowledge graphs (Wikidata, Google's Knowledge Graph) plus a live retrieval of pages that match the name. When your entity signals are thin, inconsistent, or missing from those knowledge graphs, the engine has nothing strong enough to keep two same-name companies apart, so it merges their attributes and cites both."}},{"@type":"Question","name":"How long after I fix my entity signals will the AI answer correct itself?","acceptedAnswer":{"@type":"Answer","text":"There is no single number — each engine updates its description on its own clock, and the change does not happen the moment you edit a page. That is why the last step is to re-run the same branded queries across engines on a schedule and watch citation share recover and attributes re-attach. A fix that has already landed in ChatGPT can still be pending in Gemini."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>When AI confuses your brand with a same-name company</h1>
+        <p class="seo-lede">An AI engine that confuses your company with a same-name one is doing entity resolution badly: it merges two real-world entities, cross-contaminates their attributes, and splits your branded-query citations between them. The fix is not to tell it &quot;we&#39;re not them.&quot; There is no schema property for that, hidden-in-the-backend disambiguation is both a cloaking risk and ignored by AI, and naming the other company only reinforces the link. You win by establishing a distinct, consistently-corroborated identity: a canonical entity-home page, one Organization schema node with a stable @id, sameAs, founders, location, and a category-first disambiguatingDescription, plus a Wikidata item. The single explicit &quot;different from&quot; assertion lives off your own site, on Wikidata (property P1889), so you never have to name a competitor in your own copy. It is a four-step loop — measure the confusion across engines, diagnose the missing signals, execute the positive fixes, and verify the answers actually changed, on each engine&#39;s own clock.</p>
+        <p>Updated 2026-06-15</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why does AI confuse my brand with a same-name company?</li><li>How do I disambiguate my brand from a same-name company in AI answers?</li><li>Can I tell AI two companies are different without naming the competitor on my site?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>If an AI engine keeps mixing your company up with a similarly-named one, the instinct is to correct it somewhere — to state that you are not them. That instinct is wrong on both counts. You win this by making your own entity so specific, and so consistently described across the web, that the two can no longer be merged. The one explicit &quot;these are not the same company&quot; assertion belongs in a single neutral place — and it is not your own website.</p><p>Treat it as a governed execution loop, not a one-time edit: measure the confusion, diagnose the missing signals, execute the fixes, and verify the answers actually changed. The four-step playbook is below.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Your brand has a doppelganger in AI answers</h2>
+      <p>A B2B technology-marketing firm we work with ran a simple check: they asked ChatGPT whether their company was worth hiring for marketing services. The answer ranked them first and was broadly positive. The problem was in the citations. Roughly four of every ten sources the model leaned on were not theirs at all — they belonged to an unrelated organization that happened to share the name, a tech-events company in a different country. ChatGPT was quietly fusing two companies into one, attributing conference tracks and summit pages to a marketing agency.</p><p>This is an <strong>entity collision</strong> — same-name conflation. Two distinct real-world entities share a name, the engine cannot cleanly tell them apart, so it merges their attributes and splits the citations between them. The damage usually is not a bad review. It is subtler and worse:</p>
+      <ul class="seo-list"><li><strong>Attribute cross-contamination</strong> — the AI describes you doing things the other company does, so its answer about you is confidently wrong on the specifics.</li><li><strong>Citation dilution</strong> — half of your share of voice on your own branded query is spent narrating a company that isn&#39;t you.</li><li><strong>Wrong-doorway risk</strong> — a buyer researching you reads facts about someone else, and either bounces or arrives mis-calibrated.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why AI engines mix up same-name brands</h2>
+      <p>An AI answer does not recall a tidy record called &quot;your company.&quot; It resolves a name to an entity at answer time, and it leans on three things to do it:</p>
+      <ul class="seo-list"><li><strong>Knowledge graphs</strong> — Wikidata, Google&#39;s Knowledge Graph, and Wikipedia are the structured backbone for who or what an entity is.</li><li><strong>Retrieval grounding</strong> — a live pull of pages that match the name string, which is what populates the citation list.</li><li><strong>Entity class and attributes</strong> — industry and category, headquarters and country, founders, founding date, and stable identifiers.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>The good news</h3>
+        <p>A marketing firm and an events company differ in category, geography, and founders — every axis an engine uses to disambiguate. A collision like that is very winnable once the signals exist. In our example, ChatGPT was already trying: it hedged with &quot;if by [the name] you mean the marketing firm…&quot; It wanted to separate them. It just did not have enough to do it reliably.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Two fixes that backfire</h2>
+      <p>Before the playbook, two tempting moves that make it worse.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Hiding the disambiguation in your code</h3>
+        <p>The most common question is whether you can just put it in the backend, where users don&#39;t have to see it. Two problems. First, Google requires structured data to be a true representation of visible page content — its guideline is &quot;don&#39;t mark up content that is not visible to readers of the page.&quot; Facts that live only in markup, invisible to humans, edge into the cloaking and hidden-text territory that risks a ranking penalty. Second, it does not even work: in practitioner testing, ChatGPT and Perplexity largely ignore schema that has no visible counterpart and read the rendered page instead. Backend markup is an echo of what is on the page, not a private channel to the machines.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Writing &quot;we are not them&quot;</h3>
+        <p>Naming the doppelganger — even to push it away — places both names side by side in your own content. That strengthens the very association the model already has; co-occurrence is how engines decide two things belong together. You would be teaching it the connection. And there is no schema property for &quot;is different from&quot; anyway — schema.org offers only positive identity assertions like <strong>sameAs</strong>. The negative assertion belongs in exactly one place, off your own site (see Step 3).</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The four-step playbook</h2>
+      <p>Disambiguation is a governed AEO execution loop. Each step has a job: prove the confusion, find the gap, ship the fix, then confirm it cleared.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 1 — Measure: prove the confusion and size it</h2>
+      <p>Don&#39;t guess from a single screenshot. Run your branded queries across several engines — ChatGPT, Perplexity, Gemini, Claude — and capture a baseline:</p>
+      <ul class="seo-list"><li>The identity set: what is [brand], who founded [brand], where is [brand] based, and the high-intent query that exposed the problem (is [brand] worth it for [your service]).</li><li><strong>Which domain each citation comes from</strong> — yours versus the doppelganger&#39;s.</li><li>Whether the answer attributes the other company&#39;s attributes to you.</li><li>Your <strong>citation share</strong> on your own branded query.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Why this comes first</h3>
+        <p>This baseline is the thing you re-run in Step 4 to prove the fix landed. Measuring is the first step of the loop, not the whole job — a visibility number that tells you that you are confused, without telling you why or what to change, has only done a quarter of the work.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Step 2 — Diagnose: find the missing signals</h2>
+      <p>Confusion is a symptom of weak or inconsistent entity signals. Look for:</p>
+      <ul class="seo-list"><li><strong>No entity home</strong> — no single authoritative page plainly states who you are.</li><li><strong>Thin or missing Organization schema</strong> — no stable <strong>@id</strong>, no <strong>sameAs</strong>, no <strong>legalName</strong>, <strong>foundingDate</strong>, or <strong>address</strong>.</li><li><strong>No knowledge-graph node</strong> — you are not in Wikidata, so the engines&#39; backbone holds no separate record for you.</li><li><strong>Inconsistent boilerplate</strong> — your one-liner, HQ, or founding year differ across your site, LinkedIn, and Crunchbase. Every mismatch gives the engine a reason to doubt which entity is which, or to split you into two.</li><li><strong>No answer target</strong> — no page directly answers the exact ambiguous query.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 3 — Execute: establish a distinct, corroborated identity</h2>
+      <p>Everything here is positive. You win by being unmistakably yourself — the competitor&#39;s name appears nowhere on your property.</p><p><strong>On your site</strong>, three moves, all about stating who you are:</p>
+      <ul class="seo-list"><li><strong>Build the entity home.</strong> One canonical page — usually your About page — that states identity in plain subject-verb-object sentences: &quot;Acme Marketing is a US-based B2B technology marketing firm that helps semiconductor, cloud, and enterprise-IT companies…&quot;, not &quot;we help you…&quot; Kill the pronouns in identity sentences; the engine needs the name bound to the claim. Add a corporate fact sheet: legal name, HQ city and country, founding year, founders, category, and who you serve.</li><li><strong>Add an answer-target page.</strong> A permanent &quot;What is Acme Marketing?&quot; definition page — a standing page beats a dated blog post here — that answers the ambiguous query in its first fifty words, category and location first.</li><li><strong>Ship one canonical Organization schema node.</strong> A stable <strong>@id</strong> referenced site-wide, and mirror every fact in visible page text so you stay inside Google&#39;s guidelines and the engines actually read it. The properties that carry the load:</li></ul>
+      <table>
+              <thead><tr><th>Schema property</th><th>What to set, and why it disambiguates</th></tr></thead>
+              <tbody><tr><td><strong>@id</strong></td><td>A stable URI for your organization (for example, https://yoursite.com/#organization), referenced site-wide so every page points to one entity node instead of scattering thin mentions.</td></tr><tr><td><strong>legalName</strong> + <strong>name</strong></td><td>Your registered legal name and trade name — a hard identity anchor the namesake won&#39;t share.</td></tr><tr><td><strong>foundingDate</strong></td><td>The year you were founded — cheap to add, and two companies almost never share one.</td></tr><tr><td><strong>address</strong> + <strong>areaServed</strong></td><td>HQ country and city, plus the markets you serve — a clean geographic split from a same-name company located elsewhere.</td></tr><tr><td><strong>founder</strong></td><td>Named founders — another attribute that separates you from the namesake.</td></tr><tr><td><strong>knowsAbout</strong></td><td>Your niche topics — the work you actually do, which the other company&#39;s profile would never list.</td></tr><tr><td><strong>sameAs</strong></td><td>Links to your LinkedIn, Crunchbase, and Wikidata item — the single strongest external identity signal, because each is a source an engine can cross-reference.</td></tr><tr><td><strong>disambiguatingDescription</strong></td><td>schema.org&#39;s purpose-built property for separating similar items: a short, category-first description of what you are. Use it to state your category, never to name anyone else.</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Off your site — where the &quot;not related&quot; line belongs</h3>
+        <p>This is the heavier lever, and the only place the explicit non-relation assertion should live:</p>
+        <ul class="seo-list"><li><strong>Create or correct your Wikidata item.</strong> A distinct entity with its own ID, an instance-of business type, an industry, and founders. Wikidata feeds the Knowledge Graph, so this is how you become a separate node from the namesake. Its bar is verifiable existence rather than fame — but you need at least one independent, third-party source, not just your own site, or the entry gets challenged.</li><li><strong>Use Wikidata&#39;s &quot;different from&quot; property (P1889).</strong> This is the one property built to link two commonly-confused entities; its aliases literally include &quot;not to be confused with.&quot; It lives on a neutral third-party knowledge base, not your marketing site — so you get the explicit &quot;these are not the same company&quot; assertion without ever putting a competitor&#39;s name on your own pages.</li><li><strong>Make your boilerplate identical everywhere.</strong> Same name, one-liner, HQ, and founding year across your site, LinkedIn, Crunchbase, and any review profile. Consistency is what raises an engine&#39;s confidence in your entity over the namesake&#39;s — and inconsistency is what splits you in two.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Step 4 — Verify: re-run and watch it clear</h2>
+      <p>Disambiguation is not done when you ship the schema. It is done when the answers change — and they change on each engine&#39;s own clock, not the moment you edit a page. Re-run the Step 1 query set on a schedule (a fix that works in ChatGPT can still fail in Gemini) and track:</p>
+      <ul class="seo-list"><li>Citation share on your branded query climbing back toward fully yours.</li><li>The namesake&#39;s pages dropping out of your answers.</li><li>Attributes re-attaching to the right company.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>The half most teams skip</h3>
+        <p>This re-measure-and-confirm step is the one most teams skip, and it is the only proof the work landed.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The short version</h2>
+      <p>The whole playbook in five lines:</p>
+      <ul class="seo-list"><li>AI confuses same-name brands because it resolves entities from <strong>knowledge graphs plus live retrieval</strong>, and weak or inconsistent signals let it merge you.</li><li><strong>Don&#39;t</strong> hide the disambiguation in backend code (cloaking risk, and AI ignores it), and <strong>don&#39;t</strong> name the other company (it reinforces the link).</li><li><strong>Win by establishing a distinct, consistent, corroborated identity:</strong> entity home, Organization schema, Wikidata.</li><li>Put the only explicit &quot;not the same as&quot; assertion on <strong>Wikidata (property P1889)</strong> — neutral, and off your own site.</li><li><strong>Measure before, verify after.</strong> It is a loop, not a single edit.</li></ul>
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://schema.org/disambiguatingDescription" target="_blank" rel="noopener noreferrer">schema.org — disambiguatingDescription (property definition: a short description used to disambiguate from other, similar items)</a></li><li><a href="https://www.wikidata.org/wiki/Property:P1889" target="_blank" rel="noopener noreferrer">Wikidata — &quot;different from&quot; (P1889), the property for two items that may be confused with each other</a></li><li><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" target="_blank" rel="noopener noreferrer">Google Search Central — General structured data guidelines (structured data must be a true representation of visible page content)</a></li><li><a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">Google Search Central — Spam policies (cloaking; hidden text and links)</a></li><li><a href="https://www.searchviu.com/en/schema-markup-and-ai-in-2025-what-chatgpt-claude-perplexity-gemini-really-see/" target="_blank" rel="noopener noreferrer">searchviu — what ChatGPT, Claude, Perplexity, and Gemini actually do with schema markup (2025 test)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Can I stop AI from confusing my brand by adding a note in my website&#39;s code?</h3>
+            <p>Not safely, and not effectively. Disambiguation facts that live only in your backend markup — invisible to human visitors — violate Google&#39;s rule that structured data must represent visible page content, and they edge into the cloaking and hidden-text territory that can cost you rankings. They also don&#39;t work: in testing, ChatGPT and Perplexity largely ignore schema with no visible counterpart and read the rendered page instead. Put the facts in visible content first, then let the schema echo them.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I tell AI that two companies are different without naming the competitor on my own site?</h3>
+            <p>Use Wikidata&#39;s &quot;different from&quot; property (P1889) on your Wikidata item. It is purpose-built to link two commonly-confused entities, and it lives on a neutral third-party knowledge base that feeds the Knowledge Graph — so the explicit &quot;not the same company&quot; assertion never has to appear on your marketing pages. On your own site, disambiguate only positively: state your category, location, and founders so clearly that the two can&#39;t be merged.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does ChatGPT mix up companies that share a name?</h3>
+            <p>Because it resolves a name to an entity at answer time using knowledge graphs (Wikidata, Google&#39;s Knowledge Graph) plus a live retrieval of pages that match the name. When your entity signals are thin, inconsistent, or missing from those knowledge graphs, the engine has nothing strong enough to keep two same-name companies apart, so it merges their attributes and cites both.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long after I fix my entity signals will the AI answer correct itself?</h3>
+            <p>There is no single number — each engine updates its description on its own clock, and the change does not happen the moment you edit a page. That is why the last step is to re-run the same branded queries across engines on a schedule and watch citation share recover and attributes re-attach. A fix that has already landed in ChatGPT can still be pending in Gemini.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-build-a-source-layer-strategy/">How to Build a Source-Layer Strategy for AEO (2026)</a></h3>
+            <p>A strategic playbook for building the three source layers that AI engines actually cite: owned, earned, and community. Includes sequencing, costs, and an ethics line.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-community-sources-ai/">Owned, Earned, and Community Sources in AI Answers: A 3-Layer Strategy</a></h3>
+            <p>AI engines cite three source layers — owned (your site), earned (PR/editorial), and community (Reddit/G2/forums). In our own data, owned is only ~1.6% of citations yet still a top-10 source. Why third parties get you into the answer, why your own site still matters, and how to balance the three.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DJXgAIHL.js"></script>
+  </body>
+</html>
