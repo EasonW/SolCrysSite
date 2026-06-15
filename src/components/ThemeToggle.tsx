@@ -75,7 +75,7 @@ const ThemeToggle = () => {
                 <Icon className="h-4 w-4 shrink-0" />
                 <span>{option.label}</span>
                 {active ? (
-                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[hsl(195_90%_55%)]" />
+                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[hsl(var(--brand-accent))]" />
                 ) : null}
               </button>
             );

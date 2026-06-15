@@ -193,10 +193,10 @@ const AboutUs = () => {
                       </span>
                     ) : null}
                   </div>
-                  <p className="text-[11px] font-medium tracking-wider uppercase text-[hsl(195_90%_55%)] mb-2">
+                  <p className="text-[11px] font-medium tracking-wider uppercase text-[hsl(var(--brand-accent))] mb-2">
                     {note.category}
                   </p>
-                  <h3 className="font-heading text-lg md:text-xl text-foreground leading-snug group-hover:text-[hsl(195_90%_55%)] transition-colors mb-3">
+                  <h3 className="font-heading text-lg md:text-xl text-foreground leading-snug group-hover:text-[hsl(var(--brand-accent))] transition-colors mb-3">
                     {note.title}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
@@ -239,7 +239,7 @@ const AboutUs = () => {
           <div className="fade-in-scroll mt-10 text-center">
             <a
               href="/news/raejeanne-skillern-strategic-advisor/"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[hsl(195_90%_55%)] hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[hsl(var(--brand-accent))] hover:underline"
             >
               Read the announcement
               <span aria-hidden>→</span>

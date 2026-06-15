@@ -9,11 +9,11 @@ const SolutionsSection = () => {
       id="solutions"
       className="relative py-24 md:py-32 section-fade overflow-hidden"
     >
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[hsl(40_85%_55%/0.04)] blur-[120px]" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[hsl(var(--brand-accent)/0.04)] blur-[120px]" />
 
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="text-center mb-14">
-          <p className="text-sm font-medium text-[hsl(40_85%_55%)] tracking-wider uppercase mb-3">
+          <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
             Solutions
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">

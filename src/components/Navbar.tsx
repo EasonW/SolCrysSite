@@ -286,7 +286,7 @@ const Navbar = () => {
                     <a
                       href={item.href}
                       onClick={closeAll}
-                      className="flex items-start gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(195_90%_55%)] transition-colors"
+                      className="flex items-start gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(var(--brand-accent))] transition-colors"
                     >
                       <item.Icon className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
                       <span className="min-w-0">
@@ -302,7 +302,7 @@ const Navbar = () => {
                   <a
                     href="/#solutions"
                     onClick={closeAll}
-                    className="flex items-center gap-2 py-2 text-sm font-medium text-[hsl(195_90%_55%)]"
+                    className="flex items-center gap-2 py-2 text-sm font-medium text-[hsl(var(--brand-accent))]"
                   >
                     All solutions
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -355,7 +355,7 @@ const Navbar = () => {
                           <a
                             href={item.href}
                             onClick={closeAll}
-                            className="flex items-center gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(195_90%_55%)] transition-colors"
+                            className="flex items-center gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(var(--brand-accent))] transition-colors"
                           >
                             <item.Icon className="h-4 w-4 text-muted-foreground shrink-0" />
                             <span>{item.title}</span>
@@ -367,7 +367,7 @@ const Navbar = () => {
                           <a
                             href={col.seeAll.href}
                             onClick={closeAll}
-                            className="block py-2 text-xs font-medium text-[hsl(195_90%_55%)]"
+                            className="block py-2 text-xs font-medium text-[hsl(var(--brand-accent))]"
                           >
                             {col.seeAll.label}
                           </a>
@@ -379,14 +379,14 @@ const Navbar = () => {
                 <a
                   href="/resources/"
                   onClick={closeAll}
-                  className="mt-2 group flex items-center justify-between rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.06)] hover:bg-[hsl(195_90%_55%/0.12)] transition-colors px-4 py-3"
+                  className="mt-2 group flex items-center justify-between rounded-xl border border-[hsl(var(--brand-accent)/0.35)] bg-[hsl(var(--brand-accent)/0.06)] hover:bg-[hsl(var(--brand-accent)/0.12)] transition-colors px-4 py-3"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="flex-none rounded-md bg-[hsl(195_90%_55%/0.18)] p-2">
-                      <BookOpen className="h-4 w-4 text-[hsl(195_90%_55%)]" />
+                    <span className="flex-none rounded-md bg-[hsl(var(--brand-accent)/0.18)] p-2">
+                      <BookOpen className="h-4 w-4 text-[hsl(var(--brand-accent))]" />
                     </span>
                     <div className="min-w-0">
-                      <p className="text-[10px] uppercase tracking-wider font-semibold text-[hsl(195_90%_55%)]">
+                      <p className="text-[10px] uppercase tracking-wider font-semibold text-[hsl(var(--brand-accent))]">
                         All resources
                       </p>
                       <p className="text-sm font-medium text-foreground">
@@ -394,7 +394,7 @@ const Navbar = () => {
                       </p>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-[hsl(195_90%_55%)] group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="h-4 w-4 text-[hsl(var(--brand-accent))] group-hover:translate-x-1 transition-transform" />
                 </a>
                 {RESOURCES_FOOTER_LINKS.length > 0 ? (
                   <div className="pt-3 border-t border-border/20 space-y-1">
@@ -403,7 +403,7 @@ const Navbar = () => {
                         key={item.href}
                         href={item.href}
                         onClick={closeAll}
-                        className="flex items-center gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(195_90%_55%)] transition-colors"
+                        className="flex items-center gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(var(--brand-accent))] transition-colors"
                       >
                         <item.Icon className="h-4 w-4 text-muted-foreground shrink-0" />
                         <span>{item.title}</span>

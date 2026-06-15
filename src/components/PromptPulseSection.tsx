@@ -19,7 +19,7 @@ const PromptPulseSection = () => {
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <div className="max-w-2xl">
-            <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
+            <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
               Prompt Pulse · AI demand data
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -32,7 +32,7 @@ const PromptPulseSection = () => {
           </div>
           <a
             href="/prompt-pulse/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[hsl(195_90%_55%)] hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[hsl(var(--brand-accent))] hover:text-foreground transition-colors"
           >
             Explore Prompt Pulse
             <ArrowRight className="h-4 w-4" />
@@ -44,7 +44,7 @@ const PromptPulseSection = () => {
             <a
               key={`${p.vSlug}-${p.prompt}`}
               href={`/prompt-pulse/${p.vSlug}/`}
-              className="group rounded-xl border border-border/30 bg-card/40 backdrop-blur-sm p-5 transition-all duration-300 hover:border-[hsl(195_90%_55%/0.35)] hover:-translate-y-1"
+              className="group rounded-xl border border-border/30 bg-card/40 backdrop-blur-sm p-5 transition-all duration-300 hover:border-[hsl(var(--brand-accent)/0.35)] hover:-translate-y-1"
             >
               <div className="mb-3 flex items-center justify-between gap-3">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground">{p.vShort}</span>
@@ -52,7 +52,7 @@ const PromptPulseSection = () => {
                   {trendArrow(p.trend.label)} {fmtTrend(p.trend)}
                 </span>
               </div>
-              <p className="text-sm font-medium leading-relaxed text-foreground group-hover:text-[hsl(195_90%_55%)] transition-colors">
+              <p className="text-sm font-medium leading-relaxed text-foreground group-hover:text-[hsl(var(--brand-accent))] transition-colors">
                 {p.prompt}
               </p>
             </a>

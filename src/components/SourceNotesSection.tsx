@@ -8,7 +8,7 @@ const SourceNotesSection = () => {
         <div className="rounded-xl border border-border/30 bg-card/30 p-6 md:p-8">
           <div className="grid gap-6 md:grid-cols-[0.9fr_1.6fr] md:items-start">
             <div>
-              <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
+              <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
                 Source Notes
               </p>
               <h2 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">
@@ -26,9 +26,9 @@ const SourceNotesSection = () => {
                   href={source.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-lg border border-border/30 bg-background/40 p-4 transition-colors hover:border-[hsl(195_90%_55%/0.35)]"
+                  className="group rounded-lg border border-border/30 bg-background/40 p-4 transition-colors hover:border-[hsl(var(--brand-accent)/0.35)]"
                 >
-                  <span className="inline-flex items-center gap-2 font-medium group-hover:text-[hsl(195_90%_55%)]">
+                  <span className="inline-flex items-center gap-2 font-medium group-hover:text-[hsl(var(--brand-accent))]">
                     {source.label}
                     <ExternalLink className="h-4 w-4" />
                   </span>

@@ -21,16 +21,16 @@ const LoopSection = () => {
       className="relative scroll-mt-24 py-24 md:py-32 section-fade overflow-hidden"
     >
       {/* Ambient glows — mirror the section treatment used elsewhere on the page */}
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(40_85%_55%/0.04)] blur-[140px]" />
-      <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full bg-[hsl(195_90%_55%/0.03)] blur-[100px]" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(var(--brand-accent)/0.04)] blur-[140px]" />
+      <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full bg-[hsl(var(--brand-accent)/0.03)] blur-[100px]" />
 
       <div className="container mx-auto px-6 max-w-4xl relative text-center">
-        <p className="text-sm font-medium text-[hsl(40_85%_55%)] tracking-wider uppercase mb-3">
+        <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
           The SolCrys Loop
         </p>
         <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
           Measure, diagnose, execute,{" "}
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-accent))] to-[hsl(var(--brand-accent-2))]">
             then verify the lift.
           </span>
         </h2>

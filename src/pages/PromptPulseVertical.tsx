@@ -54,24 +54,24 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
           </nav>
 
           <header className="mb-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[hsl(195_90%_55%)]">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[hsl(var(--brand-accent))]">
               Prompt Pulse · AI demand data
             </p>
             <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
               The prompts {v.short} buyers ask AI
             </h1>
-            <p className="max-w-3xl border-l-2 border-[hsl(195_90%_55%)] pl-4 text-lg leading-relaxed text-muted-foreground">
+            <p className="max-w-3xl border-l-2 border-[hsl(var(--brand-accent))] pl-4 text-lg leading-relaxed text-muted-foreground">
               {verticalTldr(v)}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Stat n={v.stats.prompts} label="prompts" />
               {v.stats.rising > 0 ? (
-                <Stat n={v.stats.rising} label="rising" color="hsl(142 70% 45%)" />
+                <Stat n={v.stats.rising} label="rising" color="hsl(var(--brand-accent))" />
               ) : null}
               {v.stats.cooling > 0 ? (
-                <Stat n={v.stats.cooling} label="cooling" color="hsl(18 85% 58%)" />
+                <Stat n={v.stats.cooling} label="cooling" color="hsl(var(--brand-accent))" />
               ) : null}
-              <Stat n={v.stats.decision} label="purchase-ready" color="hsl(40 85% 55%)" />
+              <Stat n={v.stats.decision} label="purchase-ready" color="hsl(var(--brand-accent))" />
               <Stat n={v.updated} label="updated · monthly" />
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
@@ -88,8 +88,8 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
                 href={`/prompt-pulse/${other.slug}/`}
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
                   other.slug === v.slug
-                    ? "border-[hsl(195_90%_55%)] bg-[hsl(195_90%_55%/0.1)] text-foreground"
-                    : "border-border/40 text-muted-foreground hover:border-[hsl(195_90%_55%/0.5)] hover:text-foreground"
+                    ? "border-[hsl(var(--brand-accent))] bg-[hsl(var(--brand-accent)/0.1)] text-foreground"
+                    : "border-border/40 text-muted-foreground hover:border-[hsl(var(--brand-accent)/0.5)] hover:text-foreground"
                 }`}
               >
                 {other.short}
@@ -109,7 +109,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
               industry and directional by design.{" "}
               <a
                 href="/resources/"
-                className="text-[hsl(195_90%_55%)] underline-offset-4 hover:underline"
+                className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"
               >
                 See the methodology in our resources →
               </a>
@@ -117,8 +117,8 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
           </section>
 
           {/* CTA */}
-          <section className="mt-6 rounded-2xl border border-[hsl(195_90%_55%/0.3)] bg-[hsl(195_90%_55%/0.06)] p-8 text-center">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[hsl(195_90%_55%)]">
+          <section className="mt-6 rounded-2xl border border-[hsl(var(--brand-accent)/0.3)] bg-[hsl(var(--brand-accent)/0.06)] p-8 text-center">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent))]">
               Free · No credit card
             </p>
             <h2 className="mb-2 text-2xl font-bold tracking-tight">
@@ -132,7 +132,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
             <a
               href={AUDIT_URL}
               onClick={() => trackAuditClick("prompt_pulse_vertical")}
-              className="inline-flex items-center gap-2 rounded-lg bg-[hsl(195_90%_55%)] px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-lg bg-[hsl(var(--brand-accent))] px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90"
             >
               Track ChatGPT Visibility, Free
               <ArrowRight className="h-4 w-4" />

@@ -48,8 +48,16 @@
     --sidebar-ring: 0 0% 0%;
 
     /* Custom tokens */
-    --glow-primary: 195 90% 55%;
-    --glow-accent: 40 85% 55%;
+    /* Brand accent — the single decorative/interactive accent (teal family).
+       Consolidates the prior cyan (195), amber (40) and rainbow accents into
+       ONE brand hue so the marketing site reads as one color story, aligned
+       with the app's brand teal. --brand-accent-2 is the lighter gradient
+       partner used on headline text gradients. Tune these two to shift the
+       whole site's accent globally. */
+    --brand-accent: 172 70% 50%;
+    --brand-accent-2: 165 85% 68%;
+    --glow-primary: var(--brand-accent);
+    --glow-accent: var(--brand-accent);
     /* Brand action color (CTAs) — teal, shared with the app product UI.
        Light #017173 / hover #015A5C; dark overrides below. */
     --action: 181 98% 23%;
@@ -144,11 +152,11 @@
   }
 
   .glow-primary {
-    box-shadow: 0 0 40px hsl(195 90% 55% / 0.15), 0 0 80px hsl(195 90% 55% / 0.05);
+    box-shadow: 0 0 40px hsl(var(--brand-accent) / 0.15), 0 0 80px hsl(var(--brand-accent) / 0.05);
   }
 
   .glow-accent {
-    box-shadow: 0 0 40px hsl(40 85% 55% / 0.15), 0 0 80px hsl(40 85% 55% / 0.05);
+    box-shadow: 0 0 40px hsl(var(--brand-accent) / 0.15), 0 0 80px hsl(var(--brand-accent) / 0.05);
   }
 
   /* Floating-UI elevation utilities.
@@ -228,7 +236,7 @@ html {
 }
 
 .seo-prerender .seo-kicker {
-  color: hsl(195 90% 55%);
+  color: hsl(var(--brand-accent));
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;

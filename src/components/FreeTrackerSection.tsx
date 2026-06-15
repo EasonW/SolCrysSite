@@ -47,8 +47,8 @@ const FreeTrackerSection = () => {
   return (
     <section id="free-tracker" className="py-20 md:py-28 px-6">
       <div className="container mx-auto max-w-3xl">
-        <div className="rounded-2xl border border-[hsl(195_90%_55%/0.25)] bg-[hsl(195_90%_55%/0.05)] p-8 md:p-12 text-center">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-[hsl(195_90%_55%)]">
+        <div className="rounded-2xl border border-[hsl(var(--brand-accent)/0.25)] bg-[hsl(var(--brand-accent)/0.05)] p-8 md:p-12 text-center">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent))]">
             Free ChatGPT visibility tracker
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
@@ -69,7 +69,7 @@ const FreeTrackerSection = () => {
             noValidate
             className="max-w-2xl mx-auto mb-3"
           >
-            <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 rounded-xl border border-border bg-card/50 backdrop-blur-sm focus-within:border-[hsl(195_90%_55%/0.6)] focus-within:ring-4 focus-within:ring-[hsl(195_90%_55%/0.12)] transition-all">
+            <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 rounded-xl border border-border bg-card/50 backdrop-blur-sm focus-within:border-[hsl(var(--brand-accent)/0.6)] focus-within:ring-4 focus-within:ring-[hsl(var(--brand-accent)/0.12)] transition-all">
               <label htmlFor="home-tracker-domain" className="sr-only">
                 Your website URL
               </label>
@@ -98,7 +98,7 @@ const FreeTrackerSection = () => {
               </Button>
             </div>
             {error ? (
-              <p role="alert" className="mt-2.5 text-sm text-[hsl(0_70%_65%)]">
+              <p role="alert" className="mt-2.5 text-sm text-[hsl(var(--brand-accent))]">
                 {error}
               </p>
             ) : null}
@@ -113,7 +113,7 @@ const FreeTrackerSection = () => {
             <span className="mx-2 text-muted-foreground/50">·</span>
             <a
               href="/free-chatgpt-visibility-tracker/"
-              className="text-[hsl(195_90%_55%)] hover:underline"
+              className="text-[hsl(var(--brand-accent))] hover:underline"
             >
               How it works
             </a>

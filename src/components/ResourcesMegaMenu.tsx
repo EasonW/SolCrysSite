@@ -28,11 +28,11 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
                     onClick={onItemClick}
                     className="group flex gap-3 items-start rounded-md p-2 -m-2 hover:bg-muted/50 transition-colors"
                   >
-                    <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground group-hover:bg-[hsl(195_90%_55%/0.15)] group-hover:text-[hsl(195_90%_55%)] transition-colors">
+                    <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground group-hover:bg-[hsl(var(--brand-accent)/0.15)] group-hover:text-[hsl(var(--brand-accent))] transition-colors">
                       <item.Icon className="h-4 w-4" />
                     </span>
                     <span className="min-w-0">
-                      <span className="block text-sm font-medium text-foreground group-hover:text-[hsl(195_90%_55%)] transition-colors">
+                      <span className="block text-sm font-medium text-foreground group-hover:text-[hsl(var(--brand-accent))] transition-colors">
                         {item.title}
                       </span>
                       <span className="block text-xs text-muted-foreground leading-snug mt-0.5">
@@ -47,7 +47,7 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
               <a
                 href={col.seeAll.href}
                 onClick={onItemClick}
-                className="mt-3 inline-flex items-center text-xs font-medium text-[hsl(195_90%_55%)] hover:text-[hsl(195_90%_45%)] transition-colors"
+                className="mt-3 inline-flex items-center text-xs font-medium text-[hsl(var(--brand-accent))] hover:text-[hsl(var(--brand-accent))] transition-colors"
               >
                 {col.seeAll.label}
               </a>
@@ -57,8 +57,8 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
 
         {/* Free Audit CTA card — theme-aware to avoid inverse-color split with the menu */}
         <div className="md:col-span-3">
-          <div className="h-full rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-card/40 p-5 flex flex-col">
-            <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(195_90%_55%)] mb-2">
+          <div className="h-full rounded-xl border border-[hsl(var(--brand-accent)/0.35)] bg-card/40 p-5 flex flex-col">
+            <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(var(--brand-accent))] mb-2">
               Try SolCrys
             </p>
             <h3 className="font-display text-base font-semibold leading-tight mb-2">
@@ -83,14 +83,14 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
         <a
           href="/prompt-pulse/"
           onClick={onItemClick}
-          className="group flex items-center justify-between rounded-xl border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.06)] hover:bg-[hsl(195_90%_55%/0.12)] transition-colors px-5 py-4"
+          className="group flex items-center justify-between rounded-xl border border-[hsl(var(--brand-accent)/0.35)] bg-[hsl(var(--brand-accent)/0.06)] hover:bg-[hsl(var(--brand-accent)/0.12)] transition-colors px-5 py-4"
         >
           <div className="flex items-center gap-3">
-            <span className="flex-none rounded-md bg-[hsl(195_90%_55%/0.18)] p-2">
-              <Activity className="h-4 w-4 text-[hsl(195_90%_55%)]" />
+            <span className="flex-none rounded-md bg-[hsl(var(--brand-accent)/0.18)] p-2">
+              <Activity className="h-4 w-4 text-[hsl(var(--brand-accent))]" />
             </span>
             <div className="min-w-0">
-              <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(195_90%_55%)]">
+              <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(var(--brand-accent))]">
                 Prompt Pulse
               </p>
               <p className="text-sm font-medium text-foreground">
@@ -98,7 +98,7 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
               </p>
             </div>
           </div>
-          <ArrowRight className="h-4 w-4 text-[hsl(195_90%_55%)] group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="h-4 w-4 text-[hsl(var(--brand-accent))] group-hover:translate-x-1 transition-transform" />
         </a>
         <a
           href="/resources/"

@@ -28,7 +28,7 @@ const nodes: LoopNode[] = [
     metric: "20 prompts",
     description: "Across ChatGPT, Gemini, Google AI surfaces, and Perplexity on eligible plans.",
     icon: BarChart3,
-    color: "hsl(195 90% 55%)",
+    color: "hsl(var(--brand-accent))",
   },
   {
     step: "02",
@@ -36,7 +36,7 @@ const nodes: LoopNode[] = [
     metric: "3 gaps detected",
     description: "Classified as absence, citation, accuracy, comparison, or action gap.",
     icon: Search,
-    color: "hsl(40 85% 55%)",
+    color: "hsl(var(--brand-accent))",
   },
   {
     step: "03",
@@ -44,7 +44,7 @@ const nodes: LoopNode[] = [
     metric: "1 action queued",
     description: "Brand-safe recommendations and drafts routed for human review.",
     icon: Sparkles,
-    color: "hsl(270 60% 60%)",
+    color: "hsl(var(--brand-accent))",
   },
   {
     step: "04",
@@ -52,7 +52,7 @@ const nodes: LoopNode[] = [
     metric: "+5pp citation rate",
     description: "Re-tested against the same prompt set after the action shipped.",
     icon: CheckCircle2,
-    color: "hsl(150 65% 45%)",
+    color: "hsl(var(--brand-accent))",
   },
 ];
 

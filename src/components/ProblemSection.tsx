@@ -6,21 +6,21 @@ const problems = [
     title: "Discovery is moving into answers",
     description:
       "If buyers can't retrieve, cite, or recommend you in AI, the shortlist is set before they reach your site.",
-    glow: "hsl(195 90% 55% / 0.08)",
+    glow: "hsl(var(--brand-accent) / 0.08)",
   },
   {
     icon: AlertTriangle,
     title: "Reports aren't actions",
     description:
       "Most AEO tools surface gaps and leave the fix to humans. Screenshots pile up; pages don't change.",
-    glow: "hsl(40 85% 55% / 0.08)",
+    glow: "hsl(var(--brand-accent) / 0.08)",
   },
   {
     icon: ShieldAlert,
     title: "Brand facts drift across answers",
     description:
       "Outdated AI claims compound across engines until they become the default narrative.",
-    glow: "hsl(0 70% 55% / 0.08)",
+    glow: "hsl(var(--brand-accent) / 0.08)",
   },
 ];
 
@@ -31,11 +31,11 @@ const ProblemSection = () => {
       className="relative py-24 md:py-32 section-fade overflow-hidden"
     >
       {/* Ambient glow */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[hsl(195_90%_55%/0.04)] blur-[120px]" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[hsl(var(--brand-accent)/0.04)] blur-[120px]" />
 
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="text-center mb-16">
-          <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
+          <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
             Why AEO
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
@@ -50,7 +50,7 @@ const ProblemSection = () => {
           {problems.map((problem, index) => (
             <div
               key={index}
-              className="relative rounded-xl p-8 border border-border/30 bg-card/40 backdrop-blur-sm hover:border-[hsl(195_90%_55%/0.3)] transition-all duration-500 group overflow-hidden"
+              className="relative rounded-xl p-8 border border-border/30 bg-card/40 backdrop-blur-sm hover:border-[hsl(var(--brand-accent)/0.3)] transition-all duration-500 group overflow-hidden"
             >
               {/* Card glow on hover */}
               <div
@@ -59,8 +59,8 @@ const ProblemSection = () => {
               />
 
               <div className="relative">
-                <div className="h-12 w-12 rounded-lg bg-[hsl(195_90%_55%/0.1)] flex items-center justify-center mb-5 group-hover:bg-[hsl(195_90%_55%/0.15)] transition-colors">
-                  <problem.icon className="h-6 w-6 text-[hsl(195_90%_55%)]" />
+                <div className="h-12 w-12 rounded-lg bg-[hsl(var(--brand-accent)/0.1)] flex items-center justify-center mb-5 group-hover:bg-[hsl(var(--brand-accent)/0.15)] transition-colors">
+                  <problem.icon className="h-6 w-6 text-[hsl(var(--brand-accent))]" />
                 </div>
                 <h3 className="font-display text-lg font-semibold mb-3">
                   {problem.title}

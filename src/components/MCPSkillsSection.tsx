@@ -6,11 +6,11 @@ const MCPSkillsSection = () => {
       id="mcp"
       className="relative py-20 md:py-24 section-fade overflow-hidden"
     >
-      <div className="absolute top-1/4 right-1/4 w-[420px] h-[420px] rounded-full bg-[hsl(195_90%_55%/0.04)] blur-[120px]" />
-      <div className="absolute bottom-0 left-1/4 w-[360px] h-[360px] rounded-full bg-[hsl(270_60%_50%/0.03)] blur-[100px]" />
+      <div className="absolute top-1/4 right-1/4 w-[420px] h-[420px] rounded-full bg-[hsl(var(--brand-accent)/0.04)] blur-[120px]" />
+      <div className="absolute bottom-0 left-1/4 w-[360px] h-[360px] rounded-full bg-[hsl(var(--brand-accent)/0.03)] blur-[100px]" />
 
       <div className="container mx-auto px-6 max-w-3xl relative text-center">
-        <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-3">
+        <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
           MCP &amp; Skills
         </p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">

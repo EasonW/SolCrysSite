@@ -31,18 +31,18 @@ const ApproachSection = () => {
   return (
     <section id="loop" className="relative py-24 md:py-32 section-fade overflow-hidden">
       {/* Ambient glows */}
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(40_85%_55%/0.04)] blur-[140px]" />
-      <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full bg-[hsl(195_90%_55%/0.03)] blur-[100px]" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(var(--brand-accent)/0.04)] blur-[140px]" />
+      <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full bg-[hsl(var(--brand-accent)/0.03)] blur-[100px]" />
 
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <div className="lg:sticky lg:top-28">
-            <p className="text-sm font-medium text-[hsl(40_85%_55%)] tracking-wider uppercase mb-3">
+            <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
               The SolCrys Loop
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-5">
               Measure, diagnose, execute,{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-accent))] to-[hsl(var(--brand-accent-2))]">
                 then prove the lift.
               </span>
             </h2>
@@ -51,7 +51,7 @@ const ApproachSection = () => {
               tied to the same prompt set so you can see which fixes actually changed
               the answer.
             </p>
-            <div className="flex items-center gap-3 text-sm text-[hsl(195_90%_55%)]">
+            <div className="flex items-center gap-3 text-sm text-[hsl(var(--brand-accent))]">
               <CheckCircle2 className="h-5 w-5" />
               <span className="font-medium">
                 Prompt evidence, governed action, action-to-result verification.
@@ -63,11 +63,11 @@ const ApproachSection = () => {
             {steps.map((step) => (
               <div
                 key={step.number}
-                className="relative rounded-xl p-6 flex gap-5 border border-border/30 bg-card/40 backdrop-blur-sm hover:border-[hsl(40_85%_55%/0.3)] transition-all duration-500 group overflow-hidden"
+                className="relative rounded-xl p-6 flex gap-5 border border-border/30 bg-card/40 backdrop-blur-sm hover:border-[hsl(var(--brand-accent)/0.3)] transition-all duration-500 group overflow-hidden"
               >
                 {/* Hover glow */}
-                <div className="absolute -top-16 -right-16 h-32 w-32 rounded-full bg-[hsl(40_85%_55%/0.08)] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="text-2xl font-display font-bold text-[hsl(40_85%_55%/0.4)] shrink-0 relative">
+                <div className="absolute -top-16 -right-16 h-32 w-32 rounded-full bg-[hsl(var(--brand-accent)/0.08)] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="text-2xl font-display font-bold text-[hsl(var(--brand-accent)/0.4)] shrink-0 relative">
                   {step.number}
                 </div>
                 <div className="relative">

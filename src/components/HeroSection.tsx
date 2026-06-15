@@ -21,8 +21,8 @@ const HeroSection = () => {
     <section className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-16">
       {/* Aurora Borealis Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-transparent blur-[120px] animate-pulse-glow" />
-        <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-500/10 via-cyan-500/10 to-transparent blur-[100px]" />
+        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[hsl(var(--brand-accent)/0.2)] via-[hsl(var(--brand-accent)/0.1)] to-transparent blur-[120px] animate-pulse-glow" />
+        <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[hsl(var(--brand-accent)/0.1)] via-[hsl(var(--brand-accent)/0.06)] to-transparent blur-[100px]" />
       </div>
 
       {/* Grid pattern overlay */}
@@ -37,7 +37,7 @@ const HeroSection = () => {
         {/* Headline — the thesis (SolCrys's core positioning pillar). */}
         <h1 className="mx-auto mb-6 max-w-[18rem] text-[clamp(2.05rem,8.8vw,3rem)] font-bold leading-[1.08] tracking-tight opacity-0 animate-fade-up-delay-1 sm:max-w-3xl sm:text-5xl md:max-w-5xl md:text-6xl lg:text-7xl">
           {heroTitleLead} <br className="hidden md:block" />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">{heroTitleHighlight}</span>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-accent))] to-[hsl(var(--brand-accent-2))]">{heroTitleHighlight}</span>
         </h1>
 
         {/* Subheadline */}

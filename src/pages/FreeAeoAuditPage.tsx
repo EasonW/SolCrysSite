@@ -170,15 +170,15 @@ const FreeAeoAuditPage = () => {
         {/* Hero + tool */}
         <section className="relative overflow-hidden pt-10 pb-16 md:pt-16">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-transparent blur-[120px]" />
+            <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[hsl(var(--brand-accent)/0.2)] via-[hsl(var(--brand-accent)/0.1)] to-transparent blur-[120px]" />
           </div>
           <div className="container mx-auto px-6 max-w-4xl text-center relative z-10">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-[hsl(195_90%_55%)]">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent))]">
               Free AEO audit
             </p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight mb-5">
               Free AEO Audit —{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(195_90%_55%)] to-[hsl(40_85%_55%)]">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-accent))] to-[hsl(var(--brand-accent-2))]">
                 get the fix, not just the score
               </span>
             </h1>
@@ -194,7 +194,7 @@ const FreeAeoAuditPage = () => {
               noValidate
               className="max-w-2xl mx-auto mb-3"
             >
-              <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 rounded-xl border border-border bg-card/50 backdrop-blur-sm focus-within:border-[hsl(195_90%_55%/0.6)] focus-within:ring-4 focus-within:ring-[hsl(195_90%_55%/0.12)] transition-all">
+              <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 rounded-xl border border-border bg-card/50 backdrop-blur-sm focus-within:border-[hsl(var(--brand-accent)/0.6)] focus-within:ring-4 focus-within:ring-[hsl(var(--brand-accent)/0.12)] transition-all">
                 <label htmlFor="aeo-audit-domain" className="sr-only">
                   Your website URL
                 </label>
@@ -223,7 +223,7 @@ const FreeAeoAuditPage = () => {
                 </Button>
               </div>
               {error ? (
-                <p role="alert" className="mt-2.5 text-sm text-[hsl(0_70%_65%)]">
+                <p role="alert" className="mt-2.5 text-sm text-[hsl(var(--brand-accent))]">
                   {error}
                 </p>
               ) : null}
@@ -283,7 +283,7 @@ const FreeAeoAuditPage = () => {
               {STEPS.map((step, i) => (
                 <div key={step.title} className="relative">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[hsl(195_90%_55%/0.12)] text-[hsl(195_90%_55%)]">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[hsl(var(--brand-accent)/0.12)] text-[hsl(var(--brand-accent))]">
                       <step.Icon className="h-5 w-5" />
                     </span>
                     <span className="text-sm font-semibold text-muted-foreground">
@@ -301,7 +301,7 @@ const FreeAeoAuditPage = () => {
             </div>
             <p className="text-sm text-muted-foreground text-center mt-10 max-w-2xl mx-auto">
               That cycle — measure, diagnose, execute, verify — is{" "}
-              <a href="/#loop" className="text-[hsl(195_90%_55%)] hover:underline">
+              <a href="/#loop" className="text-[hsl(var(--brand-accent))] hover:underline">
                 the SolCrys Loop
               </a>
               . The free workspace runs one full pass a month.
@@ -337,7 +337,7 @@ brand visibility in AI-generated answers." />`}</code>
               </pre>
               <ul className="mt-5 grid gap-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2.5">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(195_90%_55%)]" />
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--brand-accent))]" />
                   <span>
                     Descriptive URL slug + the 301 redirect config to ship —{" "}
                     <strong className="text-foreground/90">
@@ -346,7 +346,7 @@ brand visibility in AI-generated answers." />`}</code>
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(195_90%_55%)]" />
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--brand-accent))]" />
                   <span>
                     Rephrase one H2 as a question so engines map it to user
                     queries — with the suggested heading —{" "}
@@ -384,14 +384,14 @@ brand visibility in AI-generated answers." />`}</code>
               See the evidence:{" "}
               <a
                 href="/free-aeo-tools-that-fix-not-just-score/"
-                className="text-[hsl(195_90%_55%)] hover:underline"
+                className="text-[hsl(var(--brand-accent))] hover:underline"
               >
                 16 free AEO tools, compared by the loop →
               </a>{" "}
               · Just want visibility first?{" "}
               <a
                 href="/free-chatgpt-visibility-tracker/"
-                className="text-[hsl(195_90%_55%)] hover:underline"
+                className="text-[hsl(var(--brand-accent))] hover:underline"
               >
                 Free ChatGPT visibility tracker →
               </a>
@@ -462,7 +462,7 @@ brand visibility in AI-generated answers." />`}</code>
               Full plan details on the{" "}
               <a
                 href="https://app.solcrys.com/pricing"
-                className="text-[hsl(195_90%_55%)] hover:underline"
+                className="text-[hsl(var(--brand-accent))] hover:underline"
               >
                 pricing page
               </a>
@@ -498,7 +498,7 @@ brand visibility in AI-generated answers." />`}</code>
         {/* Final CTA */}
         <section className="border-t border-border/40 py-20 md:py-24">
           <div className="container mx-auto px-6 max-w-3xl text-center">
-            <div className="rounded-2xl border border-[hsl(195_90%_55%/0.25)] bg-[hsl(195_90%_55%/0.06)] p-10 md:p-14">
+            <div className="rounded-2xl border border-[hsl(var(--brand-accent)/0.25)] bg-[hsl(var(--brand-accent)/0.06)] p-10 md:p-14">
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
                 Audit a page. Ship the fix. Watch the score recover.
               </h2>

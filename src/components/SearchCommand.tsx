@@ -110,7 +110,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                 onMouseEnter={() => setActive(i)}
                 onClick={() => go(result)}
                 className={`flex w-full flex-col items-start gap-1 px-4 py-3 text-left transition-colors ${
-                  i === active ? "bg-[hsl(195_90%_55%/0.1)]" : ""
+                  i === active ? "bg-[hsl(var(--brand-accent)/0.1)]" : ""
                 }`}
               >
                 <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -118,7 +118,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                 </span>
                 <span
                   className={`font-display text-sm font-medium ${
-                    i === active ? "text-[hsl(195_90%_55%)]" : "text-foreground"
+                    i === active ? "text-[hsl(var(--brand-accent))]" : "text-foreground"
                   }`}
                 >
                   {result.title}

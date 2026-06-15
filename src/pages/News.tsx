@@ -25,7 +25,7 @@ const News = () => {
       <Navbar />
       <main className="pt-28 pb-20">
         <section className="container mx-auto px-6 max-w-5xl">
-          <p className="text-sm font-medium text-[hsl(195_90%_55%)] tracking-wider uppercase mb-4">
+          <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-4">
             Newsroom
           </p>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
@@ -41,10 +41,10 @@ const News = () => {
               <a
                 key={post.slug}
                 href={`/news/${post.slug}/`}
-                className="group rounded-xl border border-border/30 bg-card/40 backdrop-blur-sm p-7 transition-all duration-300 hover:border-[hsl(195_90%_55%/0.35)] hover:-translate-y-0.5"
+                className="group rounded-xl border border-border/30 bg-card/40 backdrop-blur-sm p-7 transition-all duration-300 hover:border-[hsl(var(--brand-accent)/0.35)] hover:-translate-y-0.5"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="inline-flex items-center rounded-full border border-[hsl(195_90%_55%/0.35)] bg-[hsl(195_90%_55%/0.08)] px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-[hsl(195_90%_55%)]">
+                  <span className="inline-flex items-center rounded-full border border-[hsl(var(--brand-accent)/0.35)] bg-[hsl(var(--brand-accent)/0.08)] px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-[hsl(var(--brand-accent))]">
                     {kindLabels[post.kind] ?? post.kind}
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -58,11 +58,11 @@ const News = () => {
                     </time>
                   </span>
                 </div>
-                <h2 className="font-display text-2xl md:text-3xl font-semibold mb-3 group-hover:text-[hsl(195_90%_55%)] transition-colors">
+                <h2 className="font-display text-2xl md:text-3xl font-semibold mb-3 group-hover:text-[hsl(var(--brand-accent))] transition-colors">
                   {post.title}
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-5">{post.dek}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-medium text-[hsl(195_90%_55%)]">
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-[hsl(var(--brand-accent))]">
                   Read
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </span>

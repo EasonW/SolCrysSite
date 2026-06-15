@@ -24,12 +24,12 @@ const PlatformLayersSection = () => {
       className="relative py-24 md:py-32 section-fade overflow-hidden"
     >
       {/* Ambient orbs */}
-      <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[hsl(270_60%_50%/0.04)] blur-[120px]" />
-      <div className="absolute bottom-0 right-1/3 w-[350px] h-[350px] rounded-full bg-[hsl(195_90%_55%/0.03)] blur-[100px]" />
+      <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[hsl(var(--brand-accent)/0.04)] blur-[120px]" />
+      <div className="absolute bottom-0 right-1/3 w-[350px] h-[350px] rounded-full bg-[hsl(var(--brand-accent)/0.03)] blur-[100px]" />
 
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="text-center mb-14">
-          <p className="text-sm font-medium text-[hsl(270_60%_60%)] tracking-wider uppercase mb-3">
+          <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
             Platform
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -72,7 +72,7 @@ const PlatformLayersSection = () => {
         <div className="rounded-xl border border-border/30 bg-card/30 backdrop-blur-sm p-6 md:p-8">
           <div className="grid lg:grid-cols-[1fr_2fr] gap-6 items-center">
             <div>
-              <p className="text-xs uppercase tracking-wider text-[hsl(150_65%_45%)] mb-2 font-medium">
+              <p className="text-xs uppercase tracking-wider text-[hsl(var(--brand-accent))] mb-2 font-medium">
                 Action-to-result report
               </p>
               <h3 className="font-display text-xl md:text-2xl font-semibold mb-3 tracking-tight">
@@ -87,7 +87,7 @@ const PlatformLayersSection = () => {
             <div className="rounded-lg overflow-hidden border border-white/10 bg-white/5">
               <div className="h-7 border-b border-white/5 bg-white/5 flex items-center px-3 gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-red-500/30" />
-                <div className="w-2 h-2 rounded-full bg-yellow-500/30" />
+                <div className="w-2 h-2 rounded-full bg-[hsl(var(--brand-accent)/0.3)]" />
                 <div className="w-2 h-2 rounded-full bg-green-500/30" />
               </div>
               <img

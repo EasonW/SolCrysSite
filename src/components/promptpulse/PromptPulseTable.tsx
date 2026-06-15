@@ -16,7 +16,7 @@ type SortKey = "ppds" | "trend" | "prompt" | "persona" | "stage";
 const NUMERIC: SortKey[] = ["ppds", "trend"];
 
 const selectClass =
-  "rounded-lg border border-border/40 bg-card/40 px-3 py-2 text-sm text-foreground focus:border-[hsl(195_90%_55%/0.6)] focus:outline-none";
+  "rounded-lg border border-border/40 bg-card/40 px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--brand-accent)/0.6)] focus:outline-none";
 
 const Chip = ({ label, color }: { label: string; color?: string }) => (
   <span
@@ -94,7 +94,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search prompts…"
-          className="min-w-[220px] flex-1 rounded-lg border border-border/40 bg-card/40 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-[hsl(195_90%_55%/0.6)] focus:outline-none"
+          className="min-w-[220px] flex-1 rounded-lg border border-border/40 bg-card/40 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-[hsl(var(--brand-accent)/0.6)] focus:outline-none"
         />
         <select className={selectClass} value={tier} onChange={(e) => setTier(e.target.value)}>
           <option value="">All demand</option>
@@ -157,7 +157,7 @@ const PromptPulseTable = ({ vertical }: { vertical: VerticalData }) => {
             {rows.map((p) => (
               <tr
                 key={p.prompt}
-                className="border-t border-border/30 hover:bg-[hsl(195_90%_55%/0.04)]"
+                className="border-t border-border/30 hover:bg-[hsl(var(--brand-accent)/0.04)]"
               >
                 <td className="max-w-[420px] px-3 py-3 align-middle">
                   <span className="font-medium text-foreground">{p.prompt}</span>
