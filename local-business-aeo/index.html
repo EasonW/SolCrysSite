@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] Local Business AEO: Why Local Businesses Vanish in AI Answers | SolCrys</title>
+    <meta name="description" content="For local queries, answer engines build recommendations from directories, reviews, and best-of lists — not your homepage or your Maps pin. Why you can rank #1 on Google Maps and still be invisible in AI answers, and how to close the gap per city and per engine." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/local-business-aeo/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-16" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] Local Business AEO: Why Local Businesses Vanish in AI Answers | SolCrys" />
+    <meta property="og:description" content="For local queries, answer engines build recommendations from directories, reviews, and best-of lists — not your homepage or your Maps pin. Why you can rank #1 on Google Maps and still be invisible in AI answers, and how to close the gap per city and per engine." />
+    <meta property="og:url" content="https://solcrys.com/local-business-aeo/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/local-business-aeo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/local-business-aeo.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Local Business AEO: Maps-Wins, AI-Invisible","item":"https://solcrys.com/local-business-aeo/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Local business AEO: you can win on Google Maps and still be invisible in the AI answer","description":"For local queries, answer engines build recommendations from directories, reviews, and best-of lists — not your homepage or your Maps pin. Why you can rank #1 on Google Maps and still be invisible in AI answers, and how to close the gap per city and per engine.","dateModified":"2026-06-16","datePublished":"2026-06-16","mainEntityOfPage":"https://solcrys.com/local-business-aeo/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/local-business-aeo/","mainEntity":[{"@type":"Question","name":"Do I still need a website for local AEO?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your website owns your objective facts (hours, services, prices) and converts the click after an engine names you. But it will not win the \"best X\" recommendation on its own — that is decided on the third-party surface (directories, reviews, best-of lists). Treat it as one funnel: third-party earns the mention, your site converts the click."}},{"@type":"Question","name":"Is optimizing my Google Business Profile enough for AI search?","acceptedAnswer":{"@type":"Answer","text":"No — it is necessary but not sufficient. A complete, accurate GBP is the eligibility layer and is decisive for Gemini, but in the Whitespark/BrightLocal 2026 survey it accounts for only ~12% of AI-citation weight. On-page content (24%), reviews (16%), citations (13%), and links (13%) carry the AI recommendation."}},{"@type":"Question","name":"Why does my competitor show up in ChatGPT and I don't?","acceptedAnswer":{"@type":"Answer","text":"Different engines pull from different sources — there is no shared local index. ChatGPT leans on Foursquare POI data plus Bing, directories, and best-of listicles; Perplexity on vertical directories, reviews, and Reddit; Gemini on Google's index plus GBP/Maps. A competitor that dominates one engine is usually present on the specific third-party sources that engine trusts, where you are missing."}},{"@type":"Question","name":"Does ranking #1 on Google Maps get me into AI answers?","acceptedAnswer":{"@type":"Answer","text":"Not by itself. Maps ranking and AI citation are two separate games. Maps is governed by Google's proximity/relevance/prominence model; an AI recommendation is assembled from the engine's own grounding sources, usually not the Maps local pack. You can rank #1 on Maps and still be absent from the AI answer."}},{"@type":"Question","name":"How do I optimize 'near me' searches for AI?","acceptedAnswer":{"@type":"Answer","text":"Model city and neighborhood, not radius. Language models rewrite \"near me\" into an explicit city, and geo-precision is still coarse — one test put Google AI Mode results 4.9 miles out versus 0.3 miles on Maps (Birdeye). Build your prompt sets and pages around explicit city/neighborhood phrasing."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>Local business AEO: you can win on Google Maps and still be invisible in the AI answer</h1>
+        <p class="seo-lede">Ranking on Google Maps and being cited in an AI answer are two separate games. For local recommendation queries, engines assemble the answer from third-party sources — directories, reviews, editorial best-of lists — not from your website or your Maps pin. Google Business Profile is necessary but only ~12% of AI-citation weight; the recommendation is won on content, citations, and reviews, and each engine grounds local intent differently. This guide explains where local AI citations actually come from and the per-city, per-engine loop to close the gap.</p>
+        <p>Updated 2026-06-16</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do AI answer engines pick local businesses?</li><li>Why doesn&#39;t my business show up in ChatGPT or AI recommendations?</li><li>Is optimizing my Google Business Profile enough for AI search?</li><li>How do AI engines answer &#39;best [business] near me&#39;?</li><li>Where do AI answer engines get local recommendations?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>For local recommendation queries — &quot;best personal-injury lawyer in Austin&quot;, &quot;good family hotel near downtown&quot; — answer engines do not read your website or your Google Maps pin and hand back a recommendation. They assemble the answer from the <strong>third-party surface</strong>: vertical directories, review sites, editorial &quot;best-of&quot; lists, and their own grounding data. That is why a business can rank <strong>#1 on Google Maps and still be absent from the AI answer</strong>.</p><p>Your Google Business Profile still matters, but it is the eligibility layer, not the whole answer. In the Whitespark/BrightLocal 2026 ranking-factors survey it accounts for about <strong>12% of AI-citation weight</strong>, down from 32% in the classic local pack, while on-page content, reviews, and citations carry more. And no two engines ground local intent the same way, so &quot;optimize for AI&quot; is really three or four different jobs.</p><p>Your website is not irrelevant — it owns your objective facts (hours, services, prices) and it converts the click after an engine names you. But it will not win the <strong>&quot;best X&quot; recommendation</strong> on its own. Closing the gap is a per-city, per-engine loop: <strong>Measure</strong> where each engine cites you, <strong>Diagnose</strong> which third-party sources it trusts that you are missing, <strong>Execute</strong> the fixes, and <strong>Verify</strong> the answer actually moved.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The Maps-wins, AI-invisible gap</h2>
+      <p>Ranking on Google Maps and being cited in an AI answer are <strong>two separate games</strong>, and you can win one while losing the other. Maps ranking is governed by Google&#39;s proximity, relevance, and prominence model against your Business Profile. An AI recommendation is assembled from whatever sources the engine grounds on — which usually is not the Maps local pack at all.</p><p>The gap is documented. In one widely-cited example, cannabis dispensaries that ranked well on Google were effectively <strong>invisible on ChatGPT</strong> (Cannabis Industry Journal, 2025). The same teardown found local-business profile accuracy of roughly <strong>68% on ChatGPT and Perplexity versus 100% on Gemini</strong> — a reminder that each engine works from a different, sometimes stale, picture of your business.</p><p>The practical consequence: a dashboard that only tracks your Maps rank will tell you that you are winning while the AI answer quietly recommends three competitors.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Local AI recommendations are built from third-party sources, not your homepage</h2>
+      <p>When you look at where AI citations for local queries actually come from, the weight shifts away from the profile you control toward the sources others control. The clearest published anchor is the <strong>Whitespark/BrightLocal 2026 Local Search Ranking Factors</strong> survey (published November 2025), which for the first time added an &quot;AI Search Visibility&quot; factor set alongside the classic local-pack weights:</p>
+      
+      <table>
+              <thead><tr><th>Signal group</th><th>Google Local Pack</th><th>AI Search Visibility</th></tr></thead>
+              <tbody><tr><td>Google Business Profile</td><td>32%</td><td>12%</td></tr><tr><td>On-page content</td><td>15%</td><td>24%</td></tr><tr><td>Reviews</td><td>20%</td><td>16%</td></tr><tr><td>Links</td><td>8%</td><td>13%</td></tr><tr><td>Citations (NAP / directories)</td><td>6%</td><td>13%</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What the weight shift means</h2>
+      <p>Read the two columns together: <strong>Google Business Profile drops from 32% to 12%</strong>, while <strong>on-page content (24%), reviews (16%), citations (13%), and links (13%)</strong> carry the AI answer. The lever for being cited in local AI answers is the content and third-party validation an engine can find about you across the web — not a single profile you fill in once.</p><p>This is the opposite of the standard local-marketing advice, which still treats the Google Business Profile as the center of gravity. It is central for the <strong>Maps pack</strong>. It is a minority of the signal once the question becomes which business an answer engine names.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;Just optimize your Google Business Profile&quot; is necessary, not sufficient</h2>
+      <p>Every local-marketing vendor will tell you to optimize your Google Business Profile, and they are not wrong — it is table stakes. A complete, accurate, well-categorized profile is the <strong>eligibility layer</strong>. It is decisive for Gemini, which grounds heavily on Google Maps and GBP data (though it tends to use that data without citing it directly), and it keeps your name, address, and hours consistent everywhere else.</p><p>But eligibility is not selection. At roughly <strong>12% of AI-citation weight</strong>, GBP gets you into consideration; it does not win you the recommendation. If your advice stops at &quot;claim and optimize your GBP&quot;, you have done the necessary 12% and skipped the majority that decides who the engine actually names.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Each engine grounds local intent differently — there is no shared local index</h2>
+      <p>There is no single &quot;local index&quot; that all the engines query. Each one assembles local answers from its own grounding sources, which is why your competitor can dominate one engine and be missing from another.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>How it grounds local intent</th><th>What it over-indexes on</th></tr></thead>
+              <tbody><tr><td>Google AI Overviews / AI Mode / Gemini</td><td>Google&#39;s search index plus Google Business Profile and Maps data</td><td>Your own brand domain and GBP accuracy (Gemini uses GBP data but rarely cites it directly)</td></tr><tr><td>ChatGPT Search</td><td>Foursquare POI data (OpenAI partner since December 2024) plus Bing web grounding</td><td>Third-party directories and best-of listicles</td></tr><tr><td>Perplexity</td><td>Real-time web plus vertical directories and review sites</td><td>Expert and review sources, and Reddit</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The three trust models</h2>
+      <p>An analysis of 6.8 million citations published by Yext (2025) summarizes the trust models bluntly: <strong>Gemini trusts what your brand says about itself</strong> (about 52% of its citations were brand-owned domains), <strong>ChatGPT trusts web consensus and directories</strong> (about 49% third-party directory citations), and <strong>Perplexity trusts experts and reviews</strong> (vertical directories were its single largest source on subjective queries).</p><p>Treat the exact percentages as directional — the study is vendor-published — but the shape is consistent with everything else here: you optimize the <a href="/ai-answer-citations/" target="_blank" rel="noopener noreferrer">seven citation signals</a> that all engines share, then do engine-specific work at the margin. For local, that margin is large: the directory and review surface that ChatGPT and Perplexity lean on is exactly where most local businesses have the thinnest presence.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;Near me&quot; is a city-level query to an LLM, not a radius</h2>
+      <p>Local SEO trained everyone to think in radius and proximity. Language models do not work that way. ChatGPT only added <strong>opt-in location sharing on 2026-03-31</strong> (Search Engine Land), and it is off by default — so for most users the model infers location from IP, prior conversation, or the city in the prompt, and it <strong>rewrites &quot;near me&quot; into an explicit city</strong> (&quot;restaurants near me&quot; becomes &quot;top restaurants San Francisco&quot;).</p><p>Even with location on, precision is coarse. One test of Google&#39;s AI Mode in Chicago returned results averaging <strong>4.9 miles away, versus 0.3 miles for Google Maps</strong> (Birdeye). The implication for both measurement and content is concrete: model your prompts and your pages at <strong>city and neighborhood granularity</strong>, not a radius — the engine is answering a city-level question even when the user typed &quot;near me&quot;.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Two verticals, worked: legal and hotels</h2>
+      <p><strong>Law firms.</strong> Ask an engine for the best lawyer in a city and it fans out across legal directories — Avvo, Justia, FindLaw, Martindale, Super Lawyers, Best Lawyers — far more than across individual firm sites. Martindale-Avvo, a directory operator, describes an &quot;Authority Stack&quot; of four signals it says AI uses to evaluate lawyers: <strong>ratings</strong> (profiles under 4.0 out of 5.0 get filtered out), <strong>reviews</strong>, third-party <strong>recognitions</strong>, and <strong>NAP consistency</strong>. Treat the specific mechanism as directional — it comes from an interested party — but the direction is clear: a firm with a beautiful website and a thin directory footprint loses to a firm with the opposite profile.</p><p><strong>Hotels.</strong> Cloudbeds&#39; study of AI hotel recommendations found <strong>55.3% of citations were OTAs</strong> such as Booking and Expedia, with recommended hotels appearing heavily on YouTube, blogs, and Reddit, and <strong>72.4% of recommendations going to brand or major-group properties</strong>. A separate London teardown (LuxDirect) found that <strong>65.1% of Google AI Mode answers linked to an OTA rather than the hotel&#39;s own site</strong>, and that a handful of properties captured the majority of recommendations. The lesson for an independent hotel with an excellent website: scale and a good site are not the same as AI visibility, and the citation is usually won on a third-party page.</p><p>Both verticals make the same point from opposite ends. Even when you have a strong owned site, your AI citations are won on the <strong>third-party surface specific to your category</strong> — and that surface is different for a law firm than for a hotel.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Closing the gap: a per-city, per-engine loop</h2>
+      <p>Because the answer is assembled per engine and per city, the work has to be measured the same way. The method is the SolCrys loop — <strong>Measure → Diagnose → Execute → Verify</strong> — applied to local:</p>
+      
+      <table>
+              <thead><tr><th>Step</th><th>What it means for local</th></tr></thead>
+              <tbody><tr><td>Measure</td><td>A geo-prompt set per city, run separately against each engine, using explicit city and neighborhood phrasing rather than &quot;near me&quot;.</td></tr><tr><td>Diagnose</td><td>Classify every citation by source (your own site vs OTA / directory vs review site vs Reddit) per engine, and cross-reference your Google Maps local-pack rank for the same query to see the Maps-vs-AI gap directly.</td></tr><tr><td>Execute</td><td>Fix the gaps the diagnosis names — directory coverage and NAP consistency, the structured data below, and content that the cited best-of pages and directories actually draw from. Execute is governed and human-approved; the engine never publishes for you.</td></tr><tr><td>Verify</td><td>Re-run the same frozen prompt set after the change to prove whether the action moved the answer — not whether your Maps rank moved.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>One funnel, not two</h2>
+      <p>One caveat keeps the strategy honest: this is <strong>one funnel, not two</strong>. The third-party surface earns the <strong>mention</strong>; your owned site owns the <strong>objective facts</strong> — hours, services, prices — and converts the <strong>click</strong> once the engine names you. Optimizing the earned surface while neglecting your own pages, or the reverse, leaves half the funnel on the table. &quot;Your website does not matter for local AI&quot; is as wrong as &quot;just optimize your GBP&quot;.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A note on structured data (the honest version)</h2>
+      <p>Structured data helps, but not for the reasons most &quot;AI SEO&quot; posts claim. There is <strong>no AI-only schema</strong> and no FAQ-schema quota that buys citations — Google has said as much. What schema does is let an engine <strong>state your identity and NAP unambiguously and cross-check it</strong> against the directories and profiles that cite you. Three patterns carry most of the value:</p>
+      
+      <table>
+              <thead><tr><th>Business</th><th>Most-specific schema type</th><th>High-leverage attributes</th></tr></thead>
+              <tbody><tr><td>Law firm</td><td>Attorney (under LegalService → LocalBusiness)</td><td>areaServed (jurisdictions), knowsAbout, aggregateRating, sameAs to legal directories</td></tr><tr><td>Hotel</td><td>Hotel (under LodgingBusiness)</td><td>amenityFeature, starRating, checkinTime / checkoutTime, petsAllowed, sameAs to OTAs</td></tr><tr><td>Multi-location</td><td>One Organization on the main site plus a LocalBusiness block per location page</td><td>Per-location address, geo, openingHoursSpecification</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The highest-leverage property</h2>
+      <p>Across verticals the single highest-leverage property is <strong>sameAs</strong> — linking your structured data to your Google Business Profile, Yelp, and the vertical directories above, so an engine can confirm it is the same business across every source it trusts (schema.org). Use the most specific type available, give each physical location its own block, and keep the name, address, and phone identical to what the directories show.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where to start</h2>
+      <p>Start by finding out where AI engines cite you today. SolCrys&#39;s free audit shows which sources answer engines pull from for your brand and where the gaps are — <strong>free, no credit card</strong> (run <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">the audit</a>). If you operate multiple locations or a regulated vertical like legal or hospitality and want help closing the Maps-vs-AI gap per city, <a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">talk to us</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.brightlocal.com/learn/google-local-algorithm-and-ranking-factors/" target="_blank" rel="noopener noreferrer">Whitespark / BrightLocal — Local Search Ranking Factors and the AI Search Visibility factor set</a></li><li><a href="https://www.yext.com/blog/ai-visibility-in-2025-how-gemini-chatgpt-perplexity-cite-brands" target="_blank" rel="noopener noreferrer">Yext — AI visibility in 2025: how Gemini, ChatGPT, and Perplexity cite brands (6.8M citation analysis)</a></li><li><a href="https://searchengineland.com/chatgpt-enables-location-sharing-for-more-precise-local-responses-473060" target="_blank" rel="noopener noreferrer">Search Engine Land — ChatGPT enables location sharing for more precise local responses</a></li><li><a href="https://birdeye.com/blog/impact-of-ai-local-search/" target="_blank" rel="noopener noreferrer">Birdeye — The impact of AI on local search</a></li><li><a href="https://www.cloudbeds.com/articles/ai-hotel-recommendations-study/" target="_blank" rel="noopener noreferrer">Cloudbeds — AI hotel recommendations study</a></li><li><a href="https://cannabisindustryjournal.com/feature_article/dispensaries-are-winning-on-google-and-disappearing-on-chatgpt/" target="_blank" rel="noopener noreferrer">Cannabis Industry Journal — Dispensaries are winning on Google and disappearing on ChatGPT</a></li><li><a href="https://www.martindale-avvo.com/blog/the-authority-stack-the-4-signals-ai-uses-to-evaluate-lawyers/" target="_blank" rel="noopener noreferrer">Martindale-Avvo — The Authority Stack (directory-operator source; treat as directional)</a></li><li><a href="https://schema.org/LocalBusiness" target="_blank" rel="noopener noreferrer">schema.org — LocalBusiness</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Do I still need a website for local AEO?</h3>
+            <p>Yes. Your website owns your objective facts (hours, services, prices) and converts the click after an engine names you. But it will not win the &quot;best X&quot; recommendation on its own — that is decided on the third-party surface (directories, reviews, best-of lists). Treat it as one funnel: third-party earns the mention, your site converts the click.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is optimizing my Google Business Profile enough for AI search?</h3>
+            <p>No — it is necessary but not sufficient. A complete, accurate GBP is the eligibility layer and is decisive for Gemini, but in the Whitespark/BrightLocal 2026 survey it accounts for only ~12% of AI-citation weight. On-page content (24%), reviews (16%), citations (13%), and links (13%) carry the AI recommendation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does my competitor show up in ChatGPT and I don&#39;t?</h3>
+            <p>Different engines pull from different sources — there is no shared local index. ChatGPT leans on Foursquare POI data plus Bing, directories, and best-of listicles; Perplexity on vertical directories, reviews, and Reddit; Gemini on Google&#39;s index plus GBP/Maps. A competitor that dominates one engine is usually present on the specific third-party sources that engine trusts, where you are missing.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does ranking #1 on Google Maps get me into AI answers?</h3>
+            <p>Not by itself. Maps ranking and AI citation are two separate games. Maps is governed by Google&#39;s proximity/relevance/prominence model; an AI recommendation is assembled from the engine&#39;s own grounding sources, usually not the Maps local pack. You can rank #1 on Maps and still be absent from the AI answer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I optimize &#39;near me&#39; searches for AI?</h3>
+            <p>Model city and neighborhood, not radius. Language models rewrite &quot;near me&quot; into an explicit city, and geo-precision is still coarse — one test put Google AI Mode results 4.9 miles out versus 0.3 miles on Maps (Birdeye). Build your prompt sets and pages around explicit city/neighborhood phrasing.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-answer-citations/">How AI Answer Engines Choose Sources: The 7 Signals We&#39;ve Mapped</a></h3>
+            <p>AI engines like ChatGPT, Perplexity, Google AI Overviews, and Claude choose sources using overlapping but distinct signals. This guide maps the 7 signals that drive citation eligibility and the engine-specific weighting differences.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/citation-gap-audit/">Citation Gap Audit</a></h3>
+            <p>A 5-step framework to identify which sources AI engines cite for your competitors but not for your brand, and the recovery actions for each gap type.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/listing-optimization-for-ai-answer-engines/">Listing Optimization for Answer Engines: 12 Patterns That Work</a></h3>
+            <p>12 specific listing patterns — from title tokenization to bullet structure to A+ content blocks — that improve answer-readiness for retail AI assistants such as Amazon Alexa for Shopping, Walmart Sparky, and ChatGPT Shopping. Each pattern includes before/after examples.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CsKorz21.js"></script>
+  </body>
+</html>
