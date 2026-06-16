@@ -18024,3 +18024,125 @@ A: It changes the transaction surface, not the discovery surface. Open-web AEO (
 
 Q: Should I shift budget toward retail AEO after this rebrand?
 A: Only if marketplace channels already drive meaningful revenue. The rebrand does not change which surface drives your business — it changes the measurement and operating model on the surface that already does. See our hybrid stack pattern in Generic AEO vs Retail AEO for the budget split heuristic.
+
+## How Many Runs Until Your AI-Visibility Number Is Trustworthy?
+
+AI engines are non-deterministic, so one check is a single draw from a distribution, not a measurement. This page covers how many repeated runs and prompts it takes before an AI-visibility number means something — confidence intervals, the published sample-size evidence, and the noise floor below which a difference can't be trusted.
+
+### Questions this guide answers
+
+- How many times should I run AI visibility checks?
+- Is a single ChatGPT check enough to measure brand visibility?
+- How many runs for a reliable AI visibility score?
+- What sample size do I need to measure AI visibility?
+- How small an AI visibility difference can I trust?
+
+### Direct answer
+
+A single AI check is one sample from a non-deterministic system, not a measurement. To trust that a number is real — that your brand moved, or that one engine cites you more than another — you need enough repeated runs across a frozen prompt set that your confidence interval is narrower than the difference you're claiming.
+
+In practice that means dozens of runs per engine. One 2026 study found roughly 30–50 runs on one engine and closer to 90–100 on another to get a ±5-point interval on citation share. Report the result as a windowed range, not a single decimal, and treat differences smaller than about 5–7 points as noise until more data closes the gap.
+
+
+
+
+### Why one check is not a measurement
+
+Ask the same engine the same question twice and you can get two different answers. This is how generative models work: they sample probabilistically.
+
+Rand Fishkin and Patrick O'Donnell measured how large that effect is — 2,961 repeated runs of the same prompts across ChatGPT, Claude, and Google's AI in late 2025 — and found that two runs of one prompt returned the same list of brands less than 1 time in 100, and the same list in the same order roughly 1 time in 1,000 (SparkToro, 2026).
+
+So a screenshot of "ChatGPT recommends a competitor" is one draw from a distribution. It might be the typical case. It might be the tail. From a single run you cannot tell which, and acting on it is reporting weather as climate.
+
+
+
+
+### The number you want is an interval, not a point
+
+Anyone who has run a model eval or an A/B test already knows the move: when the signal is noisy, you don't report a single value, you report a range and a level of confidence.
+
+"Cited in 12% of answers" means little on its own. "Cited in 12% of answers, 95% confidence interval 7–18%" tells you what you can actually claim. The width of that interval shrinks as you add runs, roughly with the square root of the sample size, which is why a number carried to one decimal place off a handful of runs is decoration — the real uncertainty is wider than the decimal implies.
+
+The first question to ask any AI-visibility tool is not "what's the number" but "what's the interval, and how many runs is it averaging."
+
+
+
+
+### How many runs is "enough"? The published evidence
+
+A 2026 study by Ronald Sielinski measured this directly for citation share across Perplexity, SearchGPT, and Gemini. To get a confidence interval tight enough to trust (about ±5 points), it took on the order of 30–50 queries on one engine and closer to 90–100 on another; one engine had not stabilized even at 200 queries.
+
+The same work found that apparent differences under roughly 5–7 points were usually indistinguishable from measurement noise (Sielinski, arXiv, 2026).
+
+The exact thresholds depend on the engine and on how often your brand appears at all, but the direction is consistent, and it sets a floor: a few runs is never enough to trust a small difference.
+
+
+
+What you're trying to claim | Roughly what it takes
+--- | ---
+**"Is ChatGPT recommending us?" from one check** | Not a measurement. One draw; two runs match less than 1 in 100 (SparkToro, 2026).
+**"Our visibility moved this week"** | A windowed change bigger than run-to-run noise — a 7/14/30-day delta, not a single run.
+**"Engine A cites us more than Engine B"** | Tens of runs per engine; gaps under ~5–7 points are usually noise (Sielinski, 2026).
+**A ±5-point confidence interval on citation share** | ~30–50 runs on one engine to ~90–100 on another (Sielinski, 2026).
+
+
+### It's runs × prompts, not just runs
+
+Sample size has two axes. Running one prompt 100 times tells you about that one prompt. Real coverage comes from running a set of prompts, each enough times to be stable.
+
+SparkToro's own conclusion lands here: a visibility percentage measured across dozens to hundreds of prompts, each run multiple times, is a reasonable metric — a single prompt or a single run is not.
+
+The prompts have to be the right ones and stay fixed, which is a measurement-design problem in its own right (see [Golden Prompt Set Methodology](/golden-prompt-set-methodology/) and our [four-state prompt lifecycle](/aeo-prompt-set-lifecycle/)). A blended average across mismatched prompts hides the gaps that matter; bucket by intent and read each bucket on its own.
+
+
+
+
+### What to do with this
+
+Five operating rules fall out of the math:
+
+Freeze your prompt set so the test isn't moving under your feet.
+
+Report a window (7, 14, or 30 days), never a single run.
+
+Act only on a change bigger than your run-to-run noise floor — and actually compute that floor.
+
+Ask any tool for the interval and the run count, not just the point estimate.
+
+Track mention, recommendation, citation, and description separately; they move independently and a blended score erases the actionable part.
+
+Trustworthy measurement is step one of the loop — measure, diagnose, execute, verify. A number you can't trust poisons every step after it: you diagnose noise, execute against a phantom, and "verify" a result that was never real. (More on the variance itself in [Why Your AI Visibility Score Moves](/why-ai-visibility-score-moves/), on how we capture each data point in our [measurement methodology](/visibility-measurement-methodology/), and on what to ask a vendor in our [data-methodology checklist](/evaluate-aeo-platform-methodology-checklist/).)
+
+
+
+
+### What we don't claim
+
+The published thresholds above come from specific studies on specific engines and topics; treat them as directional, not as a universal constant.
+
+The runs you need scale with how rare your brand is in the answers — rarer brands need more runs for the same precision — and with how small a difference you're trying to detect. More runs cost more, so there is a real precision-versus-cost tradeoff, and the right sample size is the one that makes your specific decision safely, not the largest possible.
+
+And no amount of sampling rigor guarantees a visibility lift — it only tells you, honestly, whether one happened.
+
+Want a frozen prompt set run repeatedly across engines, with the evidence behind each number? Start with the free AI Visibility Audit — free, no credit card: [app.solcrys.com/audit](https://app.solcrys.com/audit).
+
+
+
+
+
+### FAQ
+
+Q: Is a single ChatGPT check enough to measure my brand's AI visibility?
+A: No. One check is a single draw from a non-deterministic system; two runs of the same prompt match less than 1 in 100 (SparkToro, 2026). Use a fixed prompt set, run it repeatedly, and report a window rather than a single result.
+
+Q: How many runs do I need for a reliable AI-visibility number?
+A: Dozens per engine. One 2026 study found roughly 30–50 runs on one engine and closer to 90–100 on another for a ±5-point confidence interval on citation share (Sielinski, arXiv). Fewer runs widen the interval, so a small difference becomes untrustworthy.
+
+Q: How small a difference between two weeks or two engines can I actually trust?
+A: As a rule of thumb from the same study, gaps under about 5–7 points are usually within measurement noise. Trust a difference only once it exceeds your computed run-to-run variation.
+
+Q: Do I need more prompts or more runs?
+A: Both — sample size is runs × prompts. Many runs of one prompt only describe that prompt; coverage comes from a fixed, intent-bucketed set, with each prompt run enough times to be stable.
+
+Q: Why does my AI-visibility score move when nothing I control changed?
+A: Engine non-determinism plus a constantly changing source landscape. This is expected variance, not a bug — see Why Your AI Visibility Score Moves for the six sources of normal movement.
