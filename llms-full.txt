@@ -18146,3 +18146,189 @@ A: Both — sample size is runs × prompts. Many runs of one prompt only describ
 
 Q: Why does my AI-visibility score move when nothing I control changed?
 A: Engine non-determinism plus a constantly changing source landscape. This is expected variance, not a bug — see Why Your AI Visibility Score Moves for the six sources of normal movement.
+
+## Local Business AEO: Maps-Wins, AI-Invisible
+
+Ranking on Google Maps and being cited in an AI answer are two separate games. For local recommendation queries, engines assemble the answer from third-party sources — directories, reviews, editorial best-of lists — not from your website or your Maps pin. Google Business Profile is necessary but only ~12% of AI-citation weight; the recommendation is won on content, citations, and reviews, and each engine grounds local intent differently. This guide explains where local AI citations actually come from and the per-city, per-engine loop to close the gap.
+
+### Questions this guide answers
+
+- How do AI answer engines pick local businesses?
+- Why doesn't my business show up in ChatGPT or AI recommendations?
+- Is optimizing my Google Business Profile enough for AI search?
+- How do AI engines answer 'best [business] near me'?
+- Where do AI answer engines get local recommendations?
+
+### Direct answer
+
+For local recommendation queries — "best personal-injury lawyer in Austin", "good family hotel near downtown" — answer engines do not read your website or your Google Maps pin and hand back a recommendation. They assemble the answer from the **third-party surface**: vertical directories, review sites, editorial "best-of" lists, and their own grounding data. That is why a business can rank **#1 on Google Maps and still be absent from the AI answer**.
+
+Your Google Business Profile still matters, but it is the eligibility layer, not the whole answer. In the Whitespark/BrightLocal 2026 ranking-factors survey it accounts for about **12% of AI-citation weight**, down from 32% in the classic local pack, while on-page content, reviews, and citations carry more. And no two engines ground local intent the same way, so "optimize for AI" is really three or four different jobs.
+
+Your website is not irrelevant — it owns your objective facts (hours, services, prices) and it converts the click after an engine names you. But it will not win the **"best X" recommendation** on its own. Closing the gap is a per-city, per-engine loop: **Measure** where each engine cites you, **Diagnose** which third-party sources it trusts that you are missing, **Execute** the fixes, and **Verify** the answer actually moved.
+
+
+
+
+### The Maps-wins, AI-invisible gap
+
+Ranking on Google Maps and being cited in an AI answer are **two separate games**, and you can win one while losing the other. Maps ranking is governed by Google's proximity, relevance, and prominence model against your Business Profile. An AI recommendation is assembled from whatever sources the engine grounds on — which usually is not the Maps local pack at all.
+
+The gap is documented. In one widely-cited example, cannabis dispensaries that ranked well on Google were effectively **invisible on ChatGPT** (Cannabis Industry Journal, 2025). The same teardown found local-business profile accuracy of roughly **68% on ChatGPT and Perplexity versus 100% on Gemini** — a reminder that each engine works from a different, sometimes stale, picture of your business.
+
+The practical consequence: a dashboard that only tracks your Maps rank will tell you that you are winning while the AI answer quietly recommends three competitors.
+
+
+
+
+### Local AI recommendations are built from third-party sources, not your homepage
+
+When you look at where AI citations for local queries actually come from, the weight shifts away from the profile you control toward the sources others control. The clearest published anchor is the **Whitespark/BrightLocal 2026 Local Search Ranking Factors** survey (published November 2025), which for the first time added an "AI Search Visibility" factor set alongside the classic local-pack weights:
+
+
+
+Signal group | Google Local Pack | AI Search Visibility
+--- | --- | ---
+Google Business Profile | 32% | 12%
+On-page content | 15% | 24%
+Reviews | 20% | 16%
+Links | 8% | 13%
+Citations (NAP / directories) | 6% | 13%
+
+
+### What the weight shift means
+
+Read the two columns together: **Google Business Profile drops from 32% to 12%**, while **on-page content (24%), reviews (16%), citations (13%), and links (13%)** carry the AI answer. The lever for being cited in local AI answers is the content and third-party validation an engine can find about you across the web — not a single profile you fill in once.
+
+This is the opposite of the standard local-marketing advice, which still treats the Google Business Profile as the center of gravity. It is central for the **Maps pack**. It is a minority of the signal once the question becomes which business an answer engine names.
+
+
+
+
+### "Just optimize your Google Business Profile" is necessary, not sufficient
+
+Every local-marketing vendor will tell you to optimize your Google Business Profile, and they are not wrong — it is table stakes. A complete, accurate, well-categorized profile is the **eligibility layer**. It is decisive for Gemini, which grounds heavily on Google Maps and GBP data (though it tends to use that data without citing it directly), and it keeps your name, address, and hours consistent everywhere else.
+
+But eligibility is not selection. At roughly **12% of AI-citation weight**, GBP gets you into consideration; it does not win you the recommendation. If your advice stops at "claim and optimize your GBP", you have done the necessary 12% and skipped the majority that decides who the engine actually names.
+
+
+
+
+### Each engine grounds local intent differently — there is no shared local index
+
+There is no single "local index" that all the engines query. Each one assembles local answers from its own grounding sources, which is why your competitor can dominate one engine and be missing from another.
+
+
+
+Engine | How it grounds local intent | What it over-indexes on
+--- | --- | ---
+Google AI Overviews / AI Mode / Gemini | Google's search index plus Google Business Profile and Maps data | Your own brand domain and GBP accuracy (Gemini uses GBP data but rarely cites it directly)
+ChatGPT Search | Foursquare POI data (OpenAI partner since December 2024) plus Bing web grounding | Third-party directories and best-of listicles
+Perplexity | Real-time web plus vertical directories and review sites | Expert and review sources, and Reddit
+
+
+### The three trust models
+
+An analysis of 6.8 million citations published by Yext (2025) summarizes the trust models bluntly: **Gemini trusts what your brand says about itself** (about 52% of its citations were brand-owned domains), **ChatGPT trusts web consensus and directories** (about 49% third-party directory citations), and **Perplexity trusts experts and reviews** (vertical directories were its single largest source on subjective queries).
+
+Treat the exact percentages as directional — the study is vendor-published — but the shape is consistent with everything else here: you optimize the [seven citation signals](/ai-answer-citations/) that all engines share, then do engine-specific work at the margin. For local, that margin is large: the directory and review surface that ChatGPT and Perplexity lean on is exactly where most local businesses have the thinnest presence.
+
+
+
+
+### "Near me" is a city-level query to an LLM, not a radius
+
+Local SEO trained everyone to think in radius and proximity. Language models do not work that way. ChatGPT only added **opt-in location sharing on 2026-03-31** (Search Engine Land), and it is off by default — so for most users the model infers location from IP, prior conversation, or the city in the prompt, and it **rewrites "near me" into an explicit city** ("restaurants near me" becomes "top restaurants San Francisco").
+
+Even with location on, precision is coarse. One test of Google's AI Mode in Chicago returned results averaging **4.9 miles away, versus 0.3 miles for Google Maps** (Birdeye). The implication for both measurement and content is concrete: model your prompts and your pages at **city and neighborhood granularity**, not a radius — the engine is answering a city-level question even when the user typed "near me".
+
+
+
+
+### Two verticals, worked: legal and hotels
+
+**Law firms.** Ask an engine for the best lawyer in a city and it fans out across legal directories — Avvo, Justia, FindLaw, Martindale, Super Lawyers, Best Lawyers — far more than across individual firm sites. Martindale-Avvo, a directory operator, describes an "Authority Stack" of four signals it says AI uses to evaluate lawyers: **ratings** (profiles under 4.0 out of 5.0 get filtered out), **reviews**, third-party **recognitions**, and **NAP consistency**. Treat the specific mechanism as directional — it comes from an interested party — but the direction is clear: a firm with a beautiful website and a thin directory footprint loses to a firm with the opposite profile.
+
+**Hotels.** Cloudbeds' study of AI hotel recommendations found **55.3% of citations were OTAs** such as Booking and Expedia, with recommended hotels appearing heavily on YouTube, blogs, and Reddit, and **72.4% of recommendations going to brand or major-group properties**. A separate London teardown (LuxDirect) found that **65.1% of Google AI Mode answers linked to an OTA rather than the hotel's own site**, and that a handful of properties captured the majority of recommendations. The lesson for an independent hotel with an excellent website: scale and a good site are not the same as AI visibility, and the citation is usually won on a third-party page.
+
+Both verticals make the same point from opposite ends. Even when you have a strong owned site, your AI citations are won on the **third-party surface specific to your category** — and that surface is different for a law firm than for a hotel.
+
+
+
+
+### Closing the gap: a per-city, per-engine loop
+
+Because the answer is assembled per engine and per city, the work has to be measured the same way. The method is the SolCrys loop — **Measure → Diagnose → Execute → Verify** — applied to local:
+
+
+
+Step | What it means for local
+--- | ---
+Measure | A geo-prompt set per city, run separately against each engine, using explicit city and neighborhood phrasing rather than "near me".
+Diagnose | Classify every citation by source (your own site vs OTA / directory vs review site vs Reddit) per engine, and cross-reference your Google Maps local-pack rank for the same query to see the Maps-vs-AI gap directly.
+Execute | Fix the gaps the diagnosis names — directory coverage and NAP consistency, the structured data below, and content that the cited best-of pages and directories actually draw from. Execute is governed and human-approved; the engine never publishes for you.
+Verify | Re-run the same frozen prompt set after the change to prove whether the action moved the answer — not whether your Maps rank moved.
+
+
+### One funnel, not two
+
+One caveat keeps the strategy honest: this is **one funnel, not two**. The third-party surface earns the **mention**; your owned site owns the **objective facts** — hours, services, prices — and converts the **click** once the engine names you. Optimizing the earned surface while neglecting your own pages, or the reverse, leaves half the funnel on the table. "Your website does not matter for local AI" is as wrong as "just optimize your GBP".
+
+
+
+
+### A note on structured data (the honest version)
+
+Structured data helps, but not for the reasons most "AI SEO" posts claim. There is **no AI-only schema** and no FAQ-schema quota that buys citations — Google has said as much. What schema does is let an engine **state your identity and NAP unambiguously and cross-check it** against the directories and profiles that cite you. Three patterns carry most of the value:
+
+
+
+Business | Most-specific schema type | High-leverage attributes
+--- | --- | ---
+Law firm | Attorney (under LegalService → LocalBusiness) | areaServed (jurisdictions), knowsAbout, aggregateRating, sameAs to legal directories
+Hotel | Hotel (under LodgingBusiness) | amenityFeature, starRating, checkinTime / checkoutTime, petsAllowed, sameAs to OTAs
+Multi-location | One Organization on the main site plus a LocalBusiness block per location page | Per-location address, geo, openingHoursSpecification
+
+
+### The highest-leverage property
+
+Across verticals the single highest-leverage property is **sameAs** — linking your structured data to your Google Business Profile, Yelp, and the vertical directories above, so an engine can confirm it is the same business across every source it trusts (schema.org). Use the most specific type available, give each physical location its own block, and keep the name, address, and phone identical to what the directories show.
+
+
+
+
+### Where to start
+
+Start by finding out where AI engines cite you today. SolCrys's free audit shows which sources answer engines pull from for your brand and where the gaps are — **free, no credit card** (run [the audit](https://app.solcrys.com/audit)). If you operate multiple locations or a regulated vertical like legal or hospitality and want help closing the Maps-vs-AI gap per city, [talk to us](https://app.solcrys.com/contact-sales/).
+
+
+
+
+
+### Sources
+
+- [Whitespark / BrightLocal — Local Search Ranking Factors and the AI Search Visibility factor set](https://www.brightlocal.com/learn/google-local-algorithm-and-ranking-factors/)
+- [Yext — AI visibility in 2025: how Gemini, ChatGPT, and Perplexity cite brands (6.8M citation analysis)](https://www.yext.com/blog/ai-visibility-in-2025-how-gemini-chatgpt-perplexity-cite-brands)
+- [Search Engine Land — ChatGPT enables location sharing for more precise local responses](https://searchengineland.com/chatgpt-enables-location-sharing-for-more-precise-local-responses-473060)
+- [Birdeye — The impact of AI on local search](https://birdeye.com/blog/impact-of-ai-local-search/)
+- [Cloudbeds — AI hotel recommendations study](https://www.cloudbeds.com/articles/ai-hotel-recommendations-study/)
+- [Cannabis Industry Journal — Dispensaries are winning on Google and disappearing on ChatGPT](https://cannabisindustryjournal.com/feature_article/dispensaries-are-winning-on-google-and-disappearing-on-chatgpt/)
+- [Martindale-Avvo — The Authority Stack (directory-operator source; treat as directional)](https://www.martindale-avvo.com/blog/the-authority-stack-the-4-signals-ai-uses-to-evaluate-lawyers/)
+- [schema.org — LocalBusiness](https://schema.org/LocalBusiness)
+
+### FAQ
+
+Q: Do I still need a website for local AEO?
+A: Yes. Your website owns your objective facts (hours, services, prices) and converts the click after an engine names you. But it will not win the "best X" recommendation on its own — that is decided on the third-party surface (directories, reviews, best-of lists). Treat it as one funnel: third-party earns the mention, your site converts the click.
+
+Q: Is optimizing my Google Business Profile enough for AI search?
+A: No — it is necessary but not sufficient. A complete, accurate GBP is the eligibility layer and is decisive for Gemini, but in the Whitespark/BrightLocal 2026 survey it accounts for only ~12% of AI-citation weight. On-page content (24%), reviews (16%), citations (13%), and links (13%) carry the AI recommendation.
+
+Q: Why does my competitor show up in ChatGPT and I don't?
+A: Different engines pull from different sources — there is no shared local index. ChatGPT leans on Foursquare POI data plus Bing, directories, and best-of listicles; Perplexity on vertical directories, reviews, and Reddit; Gemini on Google's index plus GBP/Maps. A competitor that dominates one engine is usually present on the specific third-party sources that engine trusts, where you are missing.
+
+Q: Does ranking #1 on Google Maps get me into AI answers?
+A: Not by itself. Maps ranking and AI citation are two separate games. Maps is governed by Google's proximity/relevance/prominence model; an AI recommendation is assembled from the engine's own grounding sources, usually not the Maps local pack. You can rank #1 on Maps and still be absent from the AI answer.
+
+Q: How do I optimize 'near me' searches for AI?
+A: Model city and neighborhood, not radius. Language models rewrite "near me" into an explicit city, and geo-precision is still coarse — one test put Google AI Mode results 4.9 miles out versus 0.3 miles on Maps (Birdeye). Build your prompt sets and pages around explicit city/neighborhood phrasing.
