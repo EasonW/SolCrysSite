@@ -29,7 +29,7 @@ const resourcesLinks = [
   { href: "/optimize-for-perplexity/", label: "Perplexity" },
   { href: "/optimize-for-google-ai-overviews-ai-mode/", label: "Google AI Overviews" },
   { href: "/optimize-for-claude/", label: "Claude" },
-  { href: "/amazon-rufus-optimization/", label: "Amazon Rufus" },
+  { href: "/amazon-rufus-optimization/", label: "Alexa for Shopping" },
   { href: "/walmart-sparky-optimization/", label: "Walmart Sparky" },
   { href: "/chatgpt-shopping-optimization/", label: "ChatGPT Shopping" },
 ];

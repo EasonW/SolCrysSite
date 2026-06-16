@@ -37,7 +37,7 @@ export const SOLUTIONS_MENU_ITEMS: SolutionsMenuItem[] = [
   {
     title: "For Retail & Commerce",
     audience: "Marketplace, DTC, and digital shelf teams",
-    desc: "Win AI shopping recommendations on Amazon Rufus, Walmart Sparky, and ChatGPT Shopping.",
+    desc: "Win AI shopping recommendations on Amazon Alexa for Shopping, Walmart Sparky, and ChatGPT Shopping.",
     href: "/retail-aeo/",
     Icon: ShoppingCart,
   },

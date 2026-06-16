@@ -94,7 +94,7 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         Icon: Globe,
       },
     ],
-    // Claude, Amazon Rufus, Walmart Sparky, ChatGPT Shopping live under
+    // Claude, Alexa for Shopping (formerly Rufus), Walmart Sparky, ChatGPT Shopping live under
     // their own routes; the "see all engines" anchor on /resources/
     // surfaces them with the rest.
     seeAll: {
