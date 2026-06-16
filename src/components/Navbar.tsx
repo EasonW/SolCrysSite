@@ -179,7 +179,7 @@ const Navbar = () => {
 
         {/* Desktop nav — order:
             Platform · Solutions ▾ · Pricing · Customers · Resources ▾ · Company  */}
-        <div ref={wrapperRef} className="hidden lg:flex items-center gap-8">
+        <div ref={wrapperRef} className="hidden xl:flex items-center gap-6">
           {renderFlatLink(flatNavLinks[0])}
 
           {renderDropdownTrigger(
@@ -194,7 +194,7 @@ const Navbar = () => {
 
           <a
             href="/prompt-pulse/"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="whitespace-nowrap text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Prompt Pulse
           </a>
@@ -223,7 +223,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setMobileOpen((v) => !v)}
-            className="lg:hidden inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+            className="xl:hidden inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav-panel"
@@ -237,7 +237,7 @@ const Navbar = () => {
               inside the dropdown panel below. */}
           <a
             href="https://app.solcrys.com/login"
-            className="hidden lg:inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/40 transition-colors"
+            className="hidden xl:inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/40 transition-colors"
           >
             Login
           </a>
@@ -260,7 +260,7 @@ const Navbar = () => {
       {mobileOpen ? (
         <div
           id="mobile-nav-panel"
-          className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto"
+          className="xl:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto"
         >
           <div className="container mx-auto px-6 py-3 flex flex-col">
             {/* Platform */}
