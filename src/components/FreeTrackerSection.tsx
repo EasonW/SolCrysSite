@@ -91,10 +91,10 @@ const FreeTrackerSection = () => {
                 type="submit"
                 variant="hero"
                 size="lg"
-                className="text-base px-6 sm:px-7 py-6 sm:py-5 h-auto sm:rounded-l-none sm:rounded-r-xl whitespace-nowrap"
+                className="text-base px-6 sm:px-7 py-4 sm:py-5 h-auto min-w-0 whitespace-normal sm:whitespace-nowrap rounded-xl sm:rounded-l-none sm:rounded-r-xl"
               >
                 Track ChatGPT Visibility, Free
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-5 h-5 shrink-0" />
               </Button>
             </div>
             {error ? (
