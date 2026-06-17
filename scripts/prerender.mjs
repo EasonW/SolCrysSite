@@ -345,15 +345,19 @@ function writePage(relativePath, html) {
  * redirects server-side. This emits the closest static equivalent:
  *
  *   - `<meta http-equiv="refresh" content="0; url=...">` — the
- *     industry-standard SEO 301 stand-in. Search engines (Google,
- *     Bing, DuckDuckGo) treat zero-second meta-refresh as equivalent
- *     to a 301 for canonical consolidation.
- *   - `<link rel="canonical" href="https://app.solcrys.com/pricing">`
- *     — explicit signal to crawlers that the canonical URL is on the
- *     app subdomain.
+ *     industry-standard SEO 301 stand-in, and the ONLY consolidation
+ *     signal this bridge needs. Google interprets a zero-second
+ *     meta-refresh as a *permanent* redirect, which consolidates
+ *     ranking signals onto the target. We deliberately do NOT also emit
+ *     a `<link rel="canonical">` here: stacking a canonical on a
+ *     `noindex` page is a contradictory signal (Google reduces the
+ *     weight of ambiguous input), and pointing it at app/pricing while
+ *     app/pricing canonicaled back here created a two-way canonical
+ *     loop. The app page is now self-canonical; this bridge only
+ *     redirects.
  *   - `<meta name="robots" content="noindex,follow">` — the bridge
- *     page itself shouldn't be indexed, but its outbound canonical
- *     link should still be followed.
+ *     page itself shouldn't be indexed, but its links/signals should
+ *     still be followed through to the redirect target.
  *   - Inline JS that preserves theme handoff (`solcrys-theme`
  *     localStorage → `?theme=<light|dark>` URL param) plus any
  *     inbound UTM params, then `window.location.replace()` for a
@@ -420,7 +424,6 @@ function pricingRedirectBridgeHtml() {
     <meta http-equiv="refresh" content="0; url=${escapeAttr(dest)}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex,follow" />
-    <link rel="canonical" href="${escapeAttr(dest)}" />
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeAttr(description)}" />
     <script>${handoffScript}</script>
@@ -1531,12 +1534,13 @@ writePage(
   })
 );
 
-// Phase E: /pricing/ is canonical-hosted at app.solcrys.com/pricing.
-// We emit a minimal redirect bridge here (meta-refresh + canonical +
-// theme handoff). No structured data, no nav chrome, noindex — the
-// destination page has the full schema graph (see geo-platform's
-// `lib/marketing/pricing-jsonld.ts`). The bridge exists purely to
-// route bookmarks, AI citations, and inbound links to the new URL.
+// /pricing/ is canonical-hosted at app.solcrys.com/pricing (the app
+// page is self-canonical). We emit a minimal redirect bridge here
+// (0s meta-refresh + theme handoff, NO canonical — see
+// pricingRedirectBridgeHtml). No structured data, no nav chrome,
+// noindex — the destination page has the full schema graph (see
+// geo-platform's `lib/marketing/pricing-jsonld.ts`). The bridge exists
+// purely to route bookmarks, AI citations, and inbound links to the URL.
 writePage("pricing/index.html", pricingRedirectBridgeHtml());
 
 writePage(
