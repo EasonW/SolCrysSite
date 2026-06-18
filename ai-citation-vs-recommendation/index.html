@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Cited but Not Recommended: The AI-Search KPI Most Teams Get Wrong | SolCrys</title>
+    <meta name="description" content="Getting cited as a source and getting recommended as the pick are two different AI-search outcomes, and they are decoupling. Why most teams track the wrong one, what a 100-query study and our own 5-engine data show, and the KPI to measure instead." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-citation-vs-recommendation/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-18" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Cited but Not Recommended: The AI-Search KPI Most Teams Get Wrong | SolCrys" />
+    <meta property="og:description" content="Getting cited as a source and getting recommended as the pick are two different AI-search outcomes, and they are decoupling. Why most teams track the wrong one, what a 100-query study and our own 5-engine data show, and the KPI to measure instead." />
+    <meta property="og:url" content="https://solcrys.com/ai-citation-vs-recommendation/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-citation-vs-recommendation.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-citation-vs-recommendation.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Cited but Not Recommended: Why AI Citations Are the Wrong KPI","item":"https://solcrys.com/ai-citation-vs-recommendation/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Cited Is Not Recommended: The AI-Search Metric Most Teams Get Wrong","description":"Getting cited as a source and getting recommended as the pick are two different AI-search outcomes, and they are decoupling. Why most teams track the wrong one, what a 100-query study and our own 5-engine data show, and the KPI to measure instead.","dateModified":"2026-06-18","datePublished":"2026-06-18","mainEntityOfPage":"https://solcrys.com/ai-citation-vs-recommendation/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-citation-vs-recommendation/","mainEntity":[{"@type":"Question","name":"What is the difference between being cited and being recommended by AI?","acceptedAnswer":{"@type":"Answer","text":"A citation means your page appears in the sources behind an AI answer. A recommendation means the engine names your brand as a pick the buyer should consider. They are different events: a brand can be cited often and recommended rarely. The recommendation is what a buyer acts on, so it is the more valuable outcome to track."}},{"@type":"Question","name":"Can my own \"best [category]\" listicle hurt me in AI search?","acceptedAnswer":{"@type":"Answer","text":"It can backfire. In an analysis of 100 B2B \"best software\" queries in Google AI Overviews, SEO analyst Lily Ray found that when a brand's own self-promotional listicle was cited as a source, that brand was left out of the actual recommendation about 69% of the time — the picks went to the established competitors named in the article. A self-coronation can earn a citation while voting for your competition. Even-handed, genuinely useful comparison content is the safer build."}},{"@type":"Question","name":"What AI-search KPI should I track instead of citation rate?","acceptedAnswer":{"@type":"Answer","text":"Track recommendation rate — how often each engine names you as a pick — as the headline metric, alongside mention rate and citation rate, and watch the gap between them. A wide gap (often cited or mentioned, rarely recommended) tells you that you are visible but not chosen, which points at an authority or corroboration problem rather than a content-coverage one."}},{"@type":"Question","name":"Do citations still matter if recommendation is what counts?","acceptedAnswer":{"@type":"Answer","text":"Yes. Citations earn the referral click, signal that an engine can retrieve and trust your page, and on Google's AI surfaces are tied to the SEO authority that gates retrieval. Citations are necessary but not sufficient. The point is not to stop earning them, but to stop treating a citation as proof you have been recommended."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>Cited Is Not Recommended: The AI-Search Metric Most Teams Get Wrong</h1>
+        <p class="seo-lede">Being cited as a source in an AI answer and being recommended as the pick are two different outcomes, and most teams (and most tools) optimize the first while the second is what actually drives buyers. They are decoupling: a self-promotional &quot;best [category]&quot; listicle can earn a citation while the recommendation goes to the established competitors you named. SEO analyst Lily Ray measured this across 100 B2B queries in Google AI Overviews; our own data shows the same split across five engines, where the most-cited sources (Reddit, Wikipedia, TechRadar) are not the most-recommended brands, and brands mentioned in a third of answers are the primary pick far less often. This piece separates the three metrics that matter, explains why recommendation anchors to corroborated authority rather than self-assertion, and gives marketing leaders the KPI to track instead of citation rate.</p>
+        <p>Updated 2026-06-18</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is the difference between being cited and being recommended by AI?</li><li>Can my own &quot;best [category]&quot; listicle hurt me in AI search?</li><li>What AI-search KPI should I track instead of citation rate?</li><li>Why does AI cite my page but recommend a competitor?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Being <strong>cited</strong> as a source in an AI answer and being <strong>recommended</strong> as the pick are two different outcomes, and most teams optimize the first while the second is what actually moves a buyer. They are not the same event, and they are decoupling: an engine can pull your page into its list of sources and still hand the recommendation to a competitor.</p><p>If your headline AI-search KPI is citation rate, you may be measuring the cheaper outcome. The one that converts is whether the engine names you as a pick — and that is earned differently.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Two outcomes, not one</h2>
+      <p>A citation is the engine showing its work: your page appears in the sources behind the answer. A recommendation is the engine making a choice: your brand is named as an option the buyer should consider. A reader acts on the recommendation. The source list is mostly footnotes.</p><p>Most AI-visibility tools report citation or mention counts because they are easy to capture. But a brand can be cited often and recommended rarely, and that gap is the whole story for a buyer-facing team.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The self-promotional listicle can vote against you</h2>
+      <p>The sharpest illustration comes from SEO analyst Lily Ray (Algorythmic; VP SEO &amp; AI Search at Amsive), who tracked 100 B2B &quot;best [category] software&quot; queries in Google AI Overviews across three dates in April, May, and June 2026. She separated two metrics: whether a brand&#39;s own &quot;best&quot; listicle was cited as a source, and whether that brand was actually named as a recommendation in the answer.</p><p>The result: when a brand&#39;s own self-promotional listicle was cited, that brand was left out of the recommendation about <strong>69% of the time</strong> (224 of 323 cited self-promoter listicles), and across all the prompts she tracked, <strong>74%</strong> returned an answer that cited a self-promoter&#39;s listicle but excluded that brand from the picks. The recommendations went to the established competitors those articles had listed. As Ray puts it, the recommendation &quot;is what actually matters — by an order of magnitude.&quot;</p><p>So you publish a listicle, name your competitors, crown yourself number one, and the engine cites you as the source while recommending everyone else on your list. You made the case for your competition. (Ray also reports screenshots of AI Overviews flagging some categories as &quot;saturated with self-proclaimed experts,&quot; but she is careful to call that an observation, not a confirmed Google feature — and we could not independently verify it, so treat it as color, not fact.)</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>We see the same split across five engines, not just Google</h2>
+      <p>Ray&#39;s study is Google AI Overviews and one vertical, so we checked our own category the way we measure clients&#39;. Over a recent seven-day window across five engines, the pattern holds, and it is not subtle.</p><p>First, the most-cited sources are not the most-recommended brands. The domains engines cited most in our category were Reddit, Wikipedia, and TechRadar — third-party sources, not vendors — while the brands they actually recommended as picks were the established category leaders. The source list and the shortlist are different objects.</p><p>Second, being named is not being chosen. Several competitors were mentioned in roughly a third of answers but were the primary recommendation far less often:</p>
+      
+      <table>
+              <thead><tr><th>Brand</th><th>Mentioned in answers</th><th>Primary recommendation</th><th>Named-but-not-picked gap</th></tr></thead>
+              <tbody><tr><td>Profound</td><td>65%</td><td>56%</td><td>9 pts</td></tr><tr><td>Scrunch</td><td>34%</td><td>20%</td><td>14 pts</td></tr><tr><td>Peec AI</td><td>34%</td><td>18%</td><td>16 pts</td></tr><tr><td>Ahrefs</td><td>34%</td><td>15%</td><td>19 pts</td></tr><tr><td>Semrush</td><td>24%</td><td>19%</td><td>5 pts</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>What this is and isn&#39;t</h3>
+        <p>We can&#39;t replicate Ray&#39;s exact listicle test from this data, so we are not claiming her precise mechanism. What our numbers show is the broader version of her point: across engines, the sources an engine cites and the brands it recommends are different sets, and a high mention rate does not convert into the primary pick. That is why we report mention, recommendation, and citation as three separate metrics, not one blended &quot;visibility&quot; score. (SolCrys measurement, workspace solcysai-aeo, 7-day window ending 2026-06-18, five engines.)</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Why the two decouple</h2>
+      <p>Citation and recommendation answer different questions for the model. A citation asks: is this page relevant evidence for the query? A recommendation asks: which brand does the weight of the evidence support? The first can be satisfied by a single on-topic page — including your own self-serving one. The second is a judgment the model assembles from agreement across the independent sources it trusts.</p><p>That is why recommendation anchors to corroborated authority rather than self-assertion. Calling yourself the best is one source saying one thing; being recommended means the sources the model already reads agree you belong on the list. A self-citation cannot manufacture that agreement, which is the deeper reason we argue that <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>, and why the controlled study we cover in <a href="/what-gets-cited-geo-study/" target="_blank" rel="noopener noreferrer">what gets cited in AI answers</a> had to delete brand trust to even see the content factors.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to measure, and what to do</h2>
+      <p>For a marketing leader, the practical shift is from tracking citations to tracking recommendations and the gap between them.</p>
+      <ul class="seo-list"><li><strong>Make recommendation rate the headline KPI, per engine.</strong> Track how often the engine names you as a pick, not just how often your URL appears in the sources. Watch the gap between the two — a wide gap means you are visible but not chosen.</li><li><strong>Audit your own &quot;best [category]&quot; content.</strong> If your listicle crowns you number one and names competitors, check whether it earns you the recommendation or just hands the engine a citation that votes for them. Genuinely useful, even-handed comparison content tends to do better than a self-coronation.</li><li><strong>Earn the recommendation the way it is actually won.</strong> Get your claim corroborated across the independent third-party sources the engines read for your category, rather than only asserting it on your own domain. See <a href="/how-to-build-a-source-layer-strategy/" target="_blank" rel="noopener noreferrer">how to build a source-layer strategy</a>.</li><li><strong>Run the gap as a test.</strong> If you rank well, get cited, and still are not recommended, that is a diagnosable pattern — use the <a href="/chatgpt-recommends-competitor-self-audit/" target="_blank" rel="noopener noreferrer">10-minute self-audit</a> to see which of the three failures you have.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Citations still matter — just not as the finish line</h2>
+      <p>None of this means citations are worthless. Being cited is how you get the referral click, it is evidence the engine can retrieve and trust your page, and on Google&#39;s AI surfaces it is tied to the SEO authority that gates retrieval in the first place. Citations are necessary. They are just not the win.</p><p>The honest version: mention, citation, and recommendation are three different things, and the order that matters for revenue runs the other way from how most teams measure. Track all three, lead with recommendation, and stop mistaking a citation for a vote in your favor.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Gwen Chen is co-founder and CEO of SolCrys, an AEO operating system that helps brands and agencies win discovery across major AI engines. She has spent the past decade working across AI, search, marketing, and go-to-market roles at enterprises and startups. Connect on <a href="https://www.linkedin.com/in/gwenchenx/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://lilyraynyc.substack.com/p/why-calling-yourself-the-best-could" target="_blank" rel="noopener noreferrer">Lily Ray (Algorythmic / Amsive), &quot;Why Calling Yourself the &#39;Best&#39; Could Be Helping Your Competitors Win in AI Search&quot; — 100 B2B &quot;best [category] software&quot; queries in Google AI Overviews across Apr 15, May 15, Jun 8, 2026.</a></li><li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys AI visibility measurement, workspace solcysai-aeo, 7-day window ending 2026-06-18, five engines (mention rate vs primary-recommendation rate by brand; 13,739 citations across 1,534 domains).</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is the difference between being cited and being recommended by AI?</h3>
+            <p>A citation means your page appears in the sources behind an AI answer. A recommendation means the engine names your brand as a pick the buyer should consider. They are different events: a brand can be cited often and recommended rarely. The recommendation is what a buyer acts on, so it is the more valuable outcome to track.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can my own &quot;best [category]&quot; listicle hurt me in AI search?</h3>
+            <p>It can backfire. In an analysis of 100 B2B &quot;best software&quot; queries in Google AI Overviews, SEO analyst Lily Ray found that when a brand&#39;s own self-promotional listicle was cited as a source, that brand was left out of the actual recommendation about 69% of the time — the picks went to the established competitors named in the article. A self-coronation can earn a citation while voting for your competition. Even-handed, genuinely useful comparison content is the safer build.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What AI-search KPI should I track instead of citation rate?</h3>
+            <p>Track recommendation rate — how often each engine names you as a pick — as the headline metric, alongside mention rate and citation rate, and watch the gap between them. A wide gap (often cited or mentioned, rarely recommended) tells you that you are visible but not chosen, which points at an authority or corroboration problem rather than a content-coverage one.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do citations still matter if recommendation is what counts?</h3>
+            <p>Yes. Citations earn the referral click, signal that an engine can retrieve and trust your page, and on Google&#39;s AI surfaces are tied to the SEO authority that gates retrieval. Citations are necessary but not sufficient. The point is not to stop earning them, but to stop treating a citation as proof you have been recommended.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/what-gets-cited-geo-study/">What Gets Cited in AI Answers: Reading the New 252K-Trial GEO Study</a></h3>
+            <p>A 252,000-trial study across six LLMs ranks what makes AI answer engines cite a source. Then it anonymizes away the brand trust that decides citations in production. How to read it without over-rotating.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/chatgpt-recommends-competitor-self-audit/">Your SaaS Ranks #1 on Google. ChatGPT Recommends a Competitor. The 10-Minute Self-Audit.</a></h3>
+            <p>Ranking #1 on Google does not mean AI engines recommend you. Run this 10-minute test across ChatGPT, Perplexity, Gemini, and Google AI Overviews to see whether you are cited, mispositioned, or invisible - with the real data from when we ran it on ourselves.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CXFfDsdv.js"></script>
+  </body>
+</html>
