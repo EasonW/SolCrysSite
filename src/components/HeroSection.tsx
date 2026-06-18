@@ -51,7 +51,7 @@ const HeroSection = () => {
         <div className="flex w-full flex-col items-center justify-center gap-4 opacity-0 animate-fade-up-delay-3 sm:flex-row">
           <Button asChild variant="hero" size="lg" className="h-auto w-full max-w-[17.5rem] justify-center px-6 py-5 text-sm sm:w-auto sm:max-w-none sm:px-8 sm:py-6 sm:text-base">
             <a href={AUDIT_URL} onClick={() => trackAuditClick("hero")}>
-              Get Started for Free
+              Start Free
               <ArrowRight className="ml-2 w-5 h-5" />
             </a>
           </Button>

@@ -190,7 +190,7 @@ const FreeTrackerPage = () => {
                   size="lg"
                   className="text-base px-6 sm:px-7 py-6 sm:py-5 h-auto sm:rounded-l-none sm:rounded-r-xl whitespace-nowrap"
                 >
-                  Get Started for Free
+                  Start Free
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>
@@ -554,7 +554,7 @@ const FreeTrackerPage = () => {
                   href={AUDIT_URL}
                   onClick={() => trackAuditClick("free_tracker_lp_footer")}
                 >
-                  Get Started for Free
+                  Start Free
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </a>
               </Button>

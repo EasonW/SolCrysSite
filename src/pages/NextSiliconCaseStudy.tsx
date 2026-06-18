@@ -430,7 +430,7 @@ const NextSiliconCaseStudy = () => {
                 href={AUDIT_URL}
                 onClick={() => trackAuditClick("customers-nextsilicon")}
               >
-                Get Started for Free
+                Start Free
                 <ArrowRight className="ml-2 w-5 h-5" />
               </a>
             </Button>
