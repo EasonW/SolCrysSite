@@ -9696,7 +9696,7 @@ A: Whenever a major AI engine publishes new official guidance (the May 2026 Goog
 
 ## How to Set Up a SolCrys Workspace: A Best-Practices Guide
 
-A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. Everything else — the prompt set, the competitor list, Corporate Context, the scores, and the Action Hub — is scoped to it. This guide covers what a workspace contains, the two ways to create one (an automated brand scan from your domain, or a manual setup), and the setup decisions that determine whether your numbers are trustworthy: how tightly to scope the category, when to split into multiple workspaces, which engines and competitors to track, why to load Corporate Context early, and how to build and run the prompt set. It closes with the common setup mistakes that quietly poison a measurement program.
+A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. The prompt set, the competitor list, the scores, and the Action Hub are scoped to it; Corporate Context is the exception — it is set once at the organization level and shared across all of your workspaces. This guide covers what a workspace contains, the two ways to create one (an automated brand scan from your domain, or a manual setup), and the setup decisions that determine whether your numbers are trustworthy: how tightly to scope the category, when to split into multiple workspaces, which engines and competitors to track, why to load Corporate Context early, and how to build and run the prompt set. It closes with the common setup mistakes that quietly poison a measurement program.
 
 ### Questions this guide answers
 
@@ -9707,7 +9707,7 @@ A workspace is the unit of measurement in SolCrys: one brand, in one tightly-def
 
 ### Direct answer
 
-A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. The prompt set, competitors, Corporate Context, scores, and the Action Hub all live inside it. Setting one up well is mostly two things — scoping it tightly, and choosing deliberately what it tracks.
+A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. The prompt set, competitors, scores, and the Action Hub all live inside it; Corporate Context is shared across all of your workspaces, not scoped to any one of them. Setting one up well is mostly two things — scoping it tightly, and choosing deliberately what it tracks.
 
 You can create a workspace two ways: an automated brand scan that reads your domain and pre-fills most of the setup, or a manual setup. Either way the only things you must provide are your brand name and a specific product or service category.
 
@@ -9723,7 +9723,7 @@ Before the setup steps, it helps to know the parts, because each is a decision:
 - **Tracked engines.** The AI answer engines the workspace runs against (ChatGPT, Google AI Overviews, Gemini, Claude, Perplexity). A new workspace starts with one engine enabled by default; you choose the rest.
 - **Prompt set.** Your Golden Prompt Set — the versioned list of buyer questions the workspace runs on every cycle. A new workspace starts empty; you build it.
 - **Competitors.** The brands you are measured against for share of voice. Seeded during the brand scan and expanded as new competitors are detected in answers.
-- **Corporate Context.** Your approved brand facts — positioning, product details, claims you can and cannot make — that ground prompt generation, content audits, and drafted Actions.
+- **Corporate Context.** Your approved brand facts — positioning, product details, claims you can and cannot make. Unlike the parts above, it is set once at the organization level and shared across all of your workspaces; each workspace draws on it to ground prompt generation, content audits, and drafted Actions.
 - **The Action Hub.** The queue where detected gaps become recommended actions you can ship and then verify.
 
 
@@ -9734,7 +9734,7 @@ Before the setup steps, it helps to know the parts, because each is a decision:
 
 **Manual setup (the fallback).** If you would rather not scan, or the scan can't reach the site, you set up by hand. You provide the brand name and the product or service category; everything else is added afterward in settings.
 
-In both paths, the two required inputs are the same: brand name and a specific category. Engines, prompts, competitors, and Corporate Context are all configurable after creation, so you are never blocked at the start.
+In both paths, the two required inputs are the same: brand name and a specific category. Engines, prompts, and competitors are all configured per workspace after creation, so you are never blocked at the start. Corporate Context is set up once for your whole organization and shared across every workspace.
 
 
 
@@ -9750,7 +9750,7 @@ A category that is too broad produces a noisy prompt set, a competitor list full
 
 ### Best practice 2: one workspace per brand and market
 
-Every workspace is fully independent — its own prompts, competitors, Corporate Context, scores, and Actions. That independence is the reason to keep each one focused.
+Every workspace is fully independent — its own prompts, competitors, scores, and Actions (Corporate Context is the shared, organization-level exception). That independence is the reason to keep each one focused.
 
 Use one workspace per brand (or product line) you want to measure and act on separately. Don't put two brands in one workspace; their mentions, competitors, and share of voice will blur together and the Action queue becomes hard to prioritize.
 
@@ -9779,9 +9779,9 @@ Your share-of-voice number is only as honest as this list. A competitor set padd
 
 ### Best practice 5: load Corporate Context early
 
-Corporate Context is the approved source of truth for your brand: current product facts, positioning, claims you can make, claims you can't, and competitor rules. SolCrys reads it when it generates prompts, audits content, and drafts Actions.
+Corporate Context is the approved source of truth for your brand: current product facts, positioning, claims you can make, claims you can't, and competitor rules. It is set once at the organization level and shared across all of your workspaces, and SolCrys reads it whenever it generates prompts, audits content, or drafts Actions in any of them.
 
-Loading it early pays off twice. It makes generated prompts and Actions more accurate from the first cycle, and it keeps drafted content from introducing new inaccuracies you would have to catch later. A workspace with no Corporate Context still runs, but its generated outputs are working from less. ([More on Corporate Context.](/corporate-context-ai-marketing/))
+Loading it early pays off across every workspace at once. It makes generated prompts and Actions more accurate from the first cycle, and keeps drafted content from introducing new inaccuracies you would have to catch later. Workspaces still run without it, but their generated outputs are working from less. ([More on Corporate Context.](/corporate-context-ai-marketing/))
 
 
 
@@ -9831,13 +9831,13 @@ Most workspaces that produce untrustworthy numbers made one of these choices at 
 ### FAQ
 
 Q: What is a workspace in SolCrys?
-A: A workspace is the unit of AI-visibility measurement: one brand, in one product or service category, tracked across the AI engines you select. Its prompt set, competitors, Corporate Context, scores, and recommended Actions are all scoped to that one workspace, so each workspace is an independent tracking container.
+A: A workspace is the unit of AI-visibility measurement: one brand, in one product or service category, tracked across the AI engines you select. Its prompt set, competitors, scores, and recommended Actions are all scoped to that one workspace, so each workspace is an independent tracking container. Corporate Context is the exception — it is set once at the organization level and shared across all the workspaces in your organization.
 
 Q: Should I use one workspace or several?
 A: Use one workspace per brand (or product line) and per market that you want to measure and act on separately. Because workspaces are independent and do not share a region or language setting, the clean pattern for multiple markets is a separate workspace per market, each with localized prompts and competitors. Putting multiple brands or markets into one workspace blurs share of voice and makes the Action queue hard to prioritize.
 
 Q: What do I need to create a workspace?
-A: Only two things: your brand name and a specific product or service category. You can start from an automated brand scan of your domain — which pre-fills the brand name, category, likely competitors, and owned domains for you to review — or set up manually. Engines, the prompt set, competitors, and Corporate Context are all configured after creation.
+A: Only two things: your brand name and a specific product or service category. You can start from an automated brand scan of your domain — which pre-fills the brand name, category, likely competitors, and owned domains for you to review — or set up manually. Engines, the prompt set, and competitors are all configured per workspace after creation. Corporate Context is separate — it is set up once for your whole organization and shared across every workspace.
 
 Q: Does a workspace track multiple languages or regions at once?
 A: A single workspace does not have a built-in region or language dimension. If you need to track more than one market, set up a separate workspace per market with prompts and competitors localized to it. That keeps each market's numbers comparable over time rather than averaging different markets into one figure.
