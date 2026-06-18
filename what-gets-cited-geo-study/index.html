@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>What Gets Cited in AI Answers: the 252K-Trial GEO Study | SolCrys</title>
+    <meta name="description" content="A 252,000-trial study across six LLMs ranks what makes AI answer engines cite a source. Then it anonymizes away the brand trust that decides citations in production. How to read it without over-rotating." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/what-gets-cited-geo-study/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="What Gets Cited in AI Answers: the 252K-Trial GEO Study | SolCrys" />
+    <meta property="og:description" content="A 252,000-trial study across six LLMs ranks what makes AI answer engines cite a source. Then it anonymizes away the brand trust that decides citations in production. How to read it without over-rotating." />
+    <meta property="og:url" content="https://solcrys.com/what-gets-cited-geo-study/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/what-gets-cited-geo-study.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/what-gets-cited-geo-study.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"What Gets Cited in AI Answers: Reading the New 252K-Trial GEO Study","item":"https://solcrys.com/what-gets-cited-geo-study/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"What a 252K-Trial Study Says About AI Citations — and the Variable It Deletes","description":"A 252,000-trial study across six LLMs ranks what makes AI answer engines cite a source. Then it anonymizes away the brand trust that decides citations in production. How to read it without over-rotating.","dateModified":"2026-06-17","datePublished":"2026-06-17","mainEntityOfPage":"https://solcrys.com/what-gets-cited-geo-study/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/what-gets-cited-geo-study/","mainEntity":[{"@type":"Question","name":"What does the \"What Gets Cited\" study actually prove?","acceptedAnswer":{"@type":"Answer","text":"It is a controlled, two-document experiment (about 252,000 trials across six LLMs) showing that content factors sort into a hierarchy when deciding which of two sources an AI engine cites first. Four gatekeepers — topic match, price mentioned, a recent timestamp, and retrieval position — are effectively pass-or-fail; a second tier (specifications, evidence over hedging, comparisons, depth) breaks ties. Crucially, it proves this about content while holding brand and domain trust constant, because every brand was anonymized. So it shows which content wins between two equally-trusted sources, not what gets cited in real, named-brand retrieval."}},{"@type":"Question","name":"If I optimize all the content factors, will AI cite me?","acceptedAnswer":{"@type":"Answer","text":"Not necessarily. The study deliberately anonymized brands and domains to isolate content, which removes the dominant driver in production: whether the engine trusts and retrieves your domain at all for that query. A page can satisfy every content gatekeeper and still never be cited because it is never retrieved. Content optimization is necessary but not sufficient. You also need your claim corroborated across the trusted sources the model already pulls for your category."}},{"@type":"Question","name":"Do the gatekeeper factors apply to B2B as well as B2C?","acceptedAnswer":{"@type":"Answer","text":"The hierarchy transfers; the literal factors do not, fully. The study's corpus is consumer product reviews, so \"price not mentioned equals out\" is partly a domain artifact. For B2B, the equivalent gatekeeper is answering the specific buyer decision — the integration, the team size, the compliance requirement — with concrete specifics rather than a literal price. Translate the shape (topic match, freshness, specifics, evidence, comparisons), not the exact checklist."}},{"@type":"Question","name":"How do I tell whether my problem is content or source trust?","acceptedAnswer":{"@type":"Answer","text":"Pull the cited sources for your real buyer prompts across engines. If your domain is not retrieved at all, that is a source-trust gap and on-page edits will not fix it — you need corroboration across third-party sources. If you are retrieved but not cited first, the study's content factors become your checklist. SolCrys's free ChatGPT visibility tracker returns the cited sources per prompt so you can see which it is. Free, no credit card, at app.solcrys.com/audit."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>What a 252K-Trial Study Says About AI Citations — and the Variable It Deletes</h1>
+        <p class="seo-lede">A team at Sprinklr ran ~252,000 trials across six LLMs to measure what makes an AI answer engine cite one source over another, and sorted 18 content factors into a clear hierarchy: four gatekeepers (topic match, price mentioned, recent timestamp, retrieval position) that are pass-or-fail, then a second tier of differentiators (specifications, evidence over hedging, comparisons, depth) that break ties. The catch is the design choice almost nobody quoting it will mention: to isolate content cleanly the authors anonymized every brand and domain, deleting the variable that dominates production retrieval — source trust. So the study answers what content wins between two equally-trusted sources, not what gets cited in the wild. This is a critical read of the paper: what it proves, why content optimization is necessary but not sufficient, what our own 1,531-domain category data shows about the layer it brackets out, and the measure-diagnose-execute-verify loop that respects both halves.</p>
+        <p>Updated 2026-06-17</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What makes AI answer engines cite one source over another?</li><li>What does the Sprinklr &quot;What Gets Cited&quot; GEO study find?</li><li>What are the gatekeeper factors for AI citations?</li><li>Is optimizing content enough to get cited by AI?</li><li>Why does my optimized page still not get cited by AI?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>There is now a serious, controlled experiment on what makes an AI answer engine cite one source instead of another. A team at Sprinklr ran roughly 252,000 trials across six models and published it as <a href="https://arxiv.org/abs/2605.25517" target="_blank" rel="noopener noreferrer">&quot;What Gets Cited: Competitive GEO in AI Answer Engines&quot;</a> (SIGIR &#39;26). It is the cleanest read we have on the content-level drivers of citation, and most advice quoting it will stop at the headline list of factors.</p><p>The most useful thing about the study is also the thing almost nobody quoting it will mention: to measure content cleanly, the authors deleted the variable that decides citations in the real world. Read it that way and it is genuinely valuable. Read it as &quot;here is what gets cited&quot; and it will quietly point you at the wrong work. The accurate takeaway is a both/and: <strong>content factors are necessary, but they are not sufficient</strong>, because the study had to hold the dominant production driver — brand and domain trust — constant in order to see them.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What the study actually did</h2>
+      <p>The design is a paired, two-document test. For each trial the authors inject two candidate sources into a model&#39;s context, ask a question, and record which source the first citation marker points to. They built it from 100 product-review blogs across 50 consumer categories, then varied one content factor at a time — 18 of them — while holding everything else constant. Every brand, product model, and publisher was replaced with a fictional alias so the model could not lean on familiarity. Then they ran it about 252,000 times across Gemini 2.5 Flash, GPT-5 Nano, GPT-5 Mini, GPT-5.2, Claude 3.5 Sonnet, and Kimi K2 Thinking, swapping the document order to control for position bias.</p><p>That is a real experiment, not a correlation scrape. Varying one factor at a time and counterbalancing order is what lets you attribute an effect to the factor rather than to a confound. It is also why the result is narrow in a specific, important way, which we will get to.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The finding: a hierarchy, not a checklist</h2>
+      <p>The clean result is that the 18 factors are not a flat list. They sort into tiers, and the tiers matter more than any single factor.</p><p>Four factors behaved like <strong>gatekeepers</strong> — unanimous across all six models, with effects large enough that failing any one of them effectively zeroed out a source&#39;s citation odds no matter how strong the rest of the page was. Below those sat a second tier of <strong>differentiators</strong> that broke ties once a source had cleared the gates. Formatting-only changes and promotional tone showed weak or inconsistent effects and can be deprioritized.</p>
+      
+      <table>
+              <thead><tr><th>Tier</th><th>Factors</th><th>How it behaves</th></tr></thead>
+              <tbody><tr><td>Gatekeepers</td><td>Topic match · Price mentioned · Recent timestamp · Retrieval position</td><td>Unanimous across all six models, very large effects. Fail one and the source is effectively out, regardless of other strengths.</td></tr><tr><td>Differentiators</td><td>Specifications · Evidence over hedged language · Internal consistency · Comparisons · Depth of coverage</td><td>Break ties once a source has cleared the gates. Real effects, but smaller and more model-dependent.</td></tr><tr><td>Deprioritize</td><td>Formatting-only changes · Promotional tone</td><td>Weak or inconsistent effects across models. Low return on effort.</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>The caveat the carousels will skip</h3>
+        <p>The exact effect sizes vary a lot by model, some are enormous, and a handful of the model fits carried convergence warnings. Treat the hierarchy — gatekeepers, then differentiators — as the robust finding, and read the precise odds ratios from the paper rather than from a summary. And remember the corpus is consumer product reviews, so a few factors are partly domain artifacts (more on that below).</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The variable the study deletes</h2>
+      <p>Here is the part that changes how you should use it.</p><p>To isolate content, the authors anonymized every brand and domain into fictional aliases. That is the correct experimental move — it strips out familiarity bias so the measured effect is the content factor and not &quot;the model has heard of this brand.&quot; But brand and domain trust is not noise to be controlled away. In production retrieval it is the dominant driver. The engine does not choose between two equally-trusted strangers; it retrieves and cites the domains it already trusts for the category, and the authors say exactly this in their own limitations section.</p><p>So the precise claim the study supports is: given two sources the model trusts equally, here is which content wins. It is <strong>not</strong>: here is what gets cited in the wild. Those are different questions, and the gap between them is most of the actual job. A page can satisfy every content gatekeeper in the paper and still never be retrieved, because it lives on a domain the engine does not pull for that query. The experiment holds that constant precisely so it can see everything else — which means the thing it holds constant is invisible in the results, not absent from reality.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What our own category data says about that deleted variable</h2>
+      <p>We measure our own market the way we measure clients&#39;, so we can put a number on the layer the study brackets out. Across a recent seven-day window we logged <strong>13,510 citations spanning 1,531 distinct domains</strong>, and <strong>no single domain held more than about 6.4%</strong> of them. Reddit led at roughly 6.4% (859 of 13,510), Wikipedia followed near 4%, and Semrush, Profound, TechRadar, and HubSpot clustered around 2% each. (SolCrys measurement, workspace solcysai-aeo, 7-day window ending 2026-06-18, five engines.)</p><p>A 1,531-domain consensus is the production reality the testbed compresses to two anonymous documents. Which domains get retrieved, and how consistently a claim is corroborated across independent source types, is what decides who shows up — and that is the exact axis the anonymization removes. It is also why only about 12% of AI-cited URLs rank in Google&#39;s top ten for the same query, and why ChatGPT and Perplexity overlap on only about 11% of cited sources: each engine reads a different trusted slice of the web. The content factors operate inside whichever slice gets retrieved. They do not get you into the slice.</p><p>We made the longer version of this argument in <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Don&#39;t transplant B2C product reviews onto B2B</h2>
+      <p>One more reason to read the paper as a hierarchy and not a checklist: the corpus is consumer product reviews. &quot;Price not mentioned equals out&quot; is partly an artifact of that domain — when you are buying a fitness tracker, a page with no price genuinely fails to answer the question.</p><p>For a B2B SaaS buyer comparing platforms, the equivalent gatekeeper is not a literal dollar figure; it is whether the page answers the specific decision the buyer is making — the integration, the team size, the compliance requirement — with concrete specifics instead of brochure language. So translate the shape of the finding (topic match, freshness, concrete specifics, evidence over hedging, comparisons) and do not copy the literal factor list across a domain boundary it was never measured on.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The honest synthesis: necessary, not sufficient</h2>
+      <p>Put the two halves together and the takeaway is a both/and, not a winner.</p><p>The content factors are real, and most of them are cheap to fix: answer the actual question, state concrete specifics, keep the timestamp current, replace hedged claims with evidence, add the comparison. Those are editorial changes you can ship this week, and the study is good evidence they matter once you are in the running.</p><p>The source layer is the thing the study had to delete to see them — and in production it decides whether you are in the running at all. The failure mode the paper will accidentally encourage is teams treating the factor checklist as the whole game, polishing pages the engine never retrieves. The accurate reading is that content optimization is <strong>necessary but not sufficient</strong>, and the marginal dollar usually belongs on getting your claim corroborated across the trusted sources the model already pulls.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do with it</h2>
+      <p>The loop that respects both halves is the one we run on ourselves: <strong>Measure, Diagnose, Execute, Verify.</strong></p>
+      <ul class="seo-list"><li><strong>Measure</strong> the real source map. For your actual buyer prompts, pull the cited sources per prompt across the engines you care about, and tag them owned, competitor, editorial, or community. That tells you which trusted domains the model reads for your category — the layer the study held constant.</li><li><strong>Diagnose</strong> where you are losing. If you are not even retrieved, that is a source-trust gap, and no amount of on-page polish fixes it. If you are retrieved but not cited first, now the study&#39;s content factors are exactly your diagnostic checklist.</li><li><strong>Execute</strong> on the right layer. Fix the cheap content gatekeepers on pages that already get pulled; spend the harder budget on corroboration — comparison pages, editorial roundups, community threads — where you are invisible in the source map.</li><li><strong>Verify</strong> by re-running the same frozen prompt set and checking whether the answer actually moved. AI answers are non-deterministic, so measure a rate across runs, not a single yes or no.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>The order matters</h3>
+        <p>The study is a real contribution. It just answers the second question — what content wins between trusted sources — with unusual rigor, while the first question — which sources get trusted enough to be retrieved — is the one it deliberately set aside. Optimize for both, in that order. For the source-layer half, see <a href="/how-to-build-a-source-layer-strategy/" target="_blank" rel="noopener noreferrer">how to build a source-layer strategy</a>; for the content half, the <a href="/how-to-write-content-that-gets-cited-by-ai/" target="_blank" rel="noopener noreferrer">content that gets cited</a> guide; and for running any of it as a real experiment, <a href="/testable-geo-playbook/" target="_blank" rel="noopener noreferrer">how to test GEO claims without fooling yourself</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Jia Chang is Co-Founder &amp; CTO of SolCrys, the AEO operating system for brands and agencies competing for visibility, citations, and recommendations across the major AI engines. AI architect with 15+ years building production AI systems, most recently as an engineering leader at Microsoft. Connect on <a href="https://www.linkedin.com/in/jia-c/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://arxiv.org/abs/2605.25517" target="_blank" rel="noopener noreferrer">Vishwakarma, Kumar, Jamidar (Sprinklr). &quot;What Gets Cited: Competitive GEO in AI Answer Engines.&quot; arXiv:2605.25517, SIGIR &#39;26 — ~252,000 trials across six LLMs, 18 content factors in a paired two-document RAG testbed.</a></li><li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys AI visibility measurement, workspace solcysai-aeo, 7-day window ending 2026-06-18 (13,510 citations across 1,531 domains; Reddit ~6.4% top; solcrys.com rank 7 at ~2.0%).</a></li><li><a href="https://www.tryprofound.com/blog/ai-platform-citation-patterns" target="_blank" rel="noopener noreferrer">Profound: AI platform citation patterns — only ~12% of AI-cited URLs appear in Google&#39;s top ten for the same query.</a></li><li><a href="https://authoritytech.io/curated/ai-citation-11-percent-platform-overlap-per-engine-audit-2026" target="_blank" rel="noopener noreferrer">Authority Tech: ChatGPT vs Perplexity, only ~11% of cited sources overlap per engine.</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What does the &quot;What Gets Cited&quot; study actually prove?</h3>
+            <p>It is a controlled, two-document experiment (about 252,000 trials across six LLMs) showing that content factors sort into a hierarchy when deciding which of two sources an AI engine cites first. Four gatekeepers — topic match, price mentioned, a recent timestamp, and retrieval position — are effectively pass-or-fail; a second tier (specifications, evidence over hedging, comparisons, depth) breaks ties. Crucially, it proves this about content while holding brand and domain trust constant, because every brand was anonymized. So it shows which content wins between two equally-trusted sources, not what gets cited in real, named-brand retrieval.</p>
+          </article>
+          <article class="seo-card">
+            <h3>If I optimize all the content factors, will AI cite me?</h3>
+            <p>Not necessarily. The study deliberately anonymized brands and domains to isolate content, which removes the dominant driver in production: whether the engine trusts and retrieves your domain at all for that query. A page can satisfy every content gatekeeper and still never be cited because it is never retrieved. Content optimization is necessary but not sufficient. You also need your claim corroborated across the trusted sources the model already pulls for your category.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do the gatekeeper factors apply to B2B as well as B2C?</h3>
+            <p>The hierarchy transfers; the literal factors do not, fully. The study&#39;s corpus is consumer product reviews, so &quot;price not mentioned equals out&quot; is partly a domain artifact. For B2B, the equivalent gatekeeper is answering the specific buyer decision — the integration, the team size, the compliance requirement — with concrete specifics rather than a literal price. Translate the shape (topic match, freshness, specifics, evidence, comparisons), not the exact checklist.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I tell whether my problem is content or source trust?</h3>
+            <p>Pull the cited sources for your real buyer prompts across engines. If your domain is not retrieved at all, that is a source-trust gap and on-page edits will not fix it — you need corroboration across third-party sources. If you are retrieved but not cited first, the study&#39;s content factors become your checklist. SolCrys&#39;s free ChatGPT visibility tracker returns the cited sources per prompt so you can see which it is. Free, no credit card, at app.solcrys.com/audit.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-write-content-that-gets-cited-by-ai/">How to Write Content That Gets Cited by AI Search (2026 Craft Guide)</a></h3>
+            <p>A craft-focused guide to writing content AI engines actually cite. 9 content patterns with before/after examples, engine-by-engine preferences, and what 17,551 citations reveal.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/testable-geo-playbook/">Most GEO Advice Is Untestable. Here&#39;s How to Run It, and Not Fool Yourself.</a></h3>
+            <p>AI answers are non-deterministic, so a naive GEO test lies to you confidently. The four test-design rules that decide whether your AI-visibility result is signal or noise: measure a rate, test at the buyer&#39;s specificity level, test per language, and sort each cited source by the move.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-RXlZWImk.js"></script>
+  </body>
+</html>

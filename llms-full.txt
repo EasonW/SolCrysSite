@@ -5092,6 +5092,142 @@ A: No. Authority and ranking still gate whether you get retrieved, and for Googl
 Q: How do I see which sources corroborate me?
 A: Run your real buyer prompts across the engines and pull the cited sources per prompt, tagged by type. SolCrys's free ChatGPT visibility tracker does this: it returns the cited sources per prompt so you can see which domains the model pulls for your category and whether your claim is among them. Free, no credit card, at app.solcrys.com/audit.
 
+## What Gets Cited in AI Answers: Reading the New 252K-Trial GEO Study
+
+A team at Sprinklr ran ~252,000 trials across six LLMs to measure what makes an AI answer engine cite one source over another, and sorted 18 content factors into a clear hierarchy: four gatekeepers (topic match, price mentioned, recent timestamp, retrieval position) that are pass-or-fail, then a second tier of differentiators (specifications, evidence over hedging, comparisons, depth) that break ties. The catch is the design choice almost nobody quoting it will mention: to isolate content cleanly the authors anonymized every brand and domain, deleting the variable that dominates production retrieval — source trust. So the study answers what content wins between two equally-trusted sources, not what gets cited in the wild. This is a critical read of the paper: what it proves, why content optimization is necessary but not sufficient, what our own 1,531-domain category data shows about the layer it brackets out, and the measure-diagnose-execute-verify loop that respects both halves.
+
+### Questions this guide answers
+
+- What makes AI answer engines cite one source over another?
+- What does the Sprinklr "What Gets Cited" GEO study find?
+- What are the gatekeeper factors for AI citations?
+- Is optimizing content enough to get cited by AI?
+- Why does my optimized page still not get cited by AI?
+
+### Direct answer
+
+There is now a serious, controlled experiment on what makes an AI answer engine cite one source instead of another. A team at Sprinklr ran roughly 252,000 trials across six models and published it as ["What Gets Cited: Competitive GEO in AI Answer Engines"](https://arxiv.org/abs/2605.25517) (SIGIR '26). It is the cleanest read we have on the content-level drivers of citation, and most advice quoting it will stop at the headline list of factors.
+
+The most useful thing about the study is also the thing almost nobody quoting it will mention: to measure content cleanly, the authors deleted the variable that decides citations in the real world. Read it that way and it is genuinely valuable. Read it as "here is what gets cited" and it will quietly point you at the wrong work. The accurate takeaway is a both/and: **content factors are necessary, but they are not sufficient**, because the study had to hold the dominant production driver — brand and domain trust — constant in order to see them.
+
+
+
+
+### What the study actually did
+
+The design is a paired, two-document test. For each trial the authors inject two candidate sources into a model's context, ask a question, and record which source the first citation marker points to. They built it from 100 product-review blogs across 50 consumer categories, then varied one content factor at a time — 18 of them — while holding everything else constant. Every brand, product model, and publisher was replaced with a fictional alias so the model could not lean on familiarity. Then they ran it about 252,000 times across Gemini 2.5 Flash, GPT-5 Nano, GPT-5 Mini, GPT-5.2, Claude 3.5 Sonnet, and Kimi K2 Thinking, swapping the document order to control for position bias.
+
+That is a real experiment, not a correlation scrape. Varying one factor at a time and counterbalancing order is what lets you attribute an effect to the factor rather than to a confound. It is also why the result is narrow in a specific, important way, which we will get to.
+
+
+
+
+### The finding: a hierarchy, not a checklist
+
+The clean result is that the 18 factors are not a flat list. They sort into tiers, and the tiers matter more than any single factor.
+
+Four factors behaved like **gatekeepers** — unanimous across all six models, with effects large enough that failing any one of them effectively zeroed out a source's citation odds no matter how strong the rest of the page was. Below those sat a second tier of **differentiators** that broke ties once a source had cleared the gates. Formatting-only changes and promotional tone showed weak or inconsistent effects and can be deprioritized.
+
+
+
+Tier | Factors | How it behaves
+--- | --- | ---
+Gatekeepers | Topic match · Price mentioned · Recent timestamp · Retrieval position | Unanimous across all six models, very large effects. Fail one and the source is effectively out, regardless of other strengths.
+Differentiators | Specifications · Evidence over hedged language · Internal consistency · Comparisons · Depth of coverage | Break ties once a source has cleared the gates. Real effects, but smaller and more model-dependent.
+Deprioritize | Formatting-only changes · Promotional tone | Weak or inconsistent effects across models. Low return on effort.
+
+
+#### The caveat the carousels will skip
+
+The exact effect sizes vary a lot by model, some are enormous, and a handful of the model fits carried convergence warnings. Treat the hierarchy — gatekeepers, then differentiators — as the robust finding, and read the precise odds ratios from the paper rather than from a summary. And remember the corpus is consumer product reviews, so a few factors are partly domain artifacts (more on that below).
+
+### The variable the study deletes
+
+Here is the part that changes how you should use it.
+
+To isolate content, the authors anonymized every brand and domain into fictional aliases. That is the correct experimental move — it strips out familiarity bias so the measured effect is the content factor and not "the model has heard of this brand." But brand and domain trust is not noise to be controlled away. In production retrieval it is the dominant driver. The engine does not choose between two equally-trusted strangers; it retrieves and cites the domains it already trusts for the category, and the authors say exactly this in their own limitations section.
+
+So the precise claim the study supports is: given two sources the model trusts equally, here is which content wins. It is **not**: here is what gets cited in the wild. Those are different questions, and the gap between them is most of the actual job. A page can satisfy every content gatekeeper in the paper and still never be retrieved, because it lives on a domain the engine does not pull for that query. The experiment holds that constant precisely so it can see everything else — which means the thing it holds constant is invisible in the results, not absent from reality.
+
+
+
+
+### What our own category data says about that deleted variable
+
+We measure our own market the way we measure clients', so we can put a number on the layer the study brackets out. Across a recent seven-day window we logged **13,510 citations spanning 1,531 distinct domains**, and **no single domain held more than about 6.4%** of them. Reddit led at roughly 6.4% (859 of 13,510), Wikipedia followed near 4%, and Semrush, Profound, TechRadar, and HubSpot clustered around 2% each. (SolCrys measurement, workspace solcysai-aeo, 7-day window ending 2026-06-18, five engines.)
+
+A 1,531-domain consensus is the production reality the testbed compresses to two anonymous documents. Which domains get retrieved, and how consistently a claim is corroborated across independent source types, is what decides who shows up — and that is the exact axis the anonymization removes. It is also why only about 12% of AI-cited URLs rank in Google's top ten for the same query, and why ChatGPT and Perplexity overlap on only about 11% of cited sources: each engine reads a different trusted slice of the web. The content factors operate inside whichever slice gets retrieved. They do not get you into the slice.
+
+We made the longer version of this argument in [AI cites consensus, not authority](/ai-citations-consensus-not-authority/).
+
+
+
+
+### Don't transplant B2C product reviews onto B2B
+
+One more reason to read the paper as a hierarchy and not a checklist: the corpus is consumer product reviews. "Price not mentioned equals out" is partly an artifact of that domain — when you are buying a fitness tracker, a page with no price genuinely fails to answer the question.
+
+For a B2B SaaS buyer comparing platforms, the equivalent gatekeeper is not a literal dollar figure; it is whether the page answers the specific decision the buyer is making — the integration, the team size, the compliance requirement — with concrete specifics instead of brochure language. So translate the shape of the finding (topic match, freshness, concrete specifics, evidence over hedging, comparisons) and do not copy the literal factor list across a domain boundary it was never measured on.
+
+
+
+
+### The honest synthesis: necessary, not sufficient
+
+Put the two halves together and the takeaway is a both/and, not a winner.
+
+The content factors are real, and most of them are cheap to fix: answer the actual question, state concrete specifics, keep the timestamp current, replace hedged claims with evidence, add the comparison. Those are editorial changes you can ship this week, and the study is good evidence they matter once you are in the running.
+
+The source layer is the thing the study had to delete to see them — and in production it decides whether you are in the running at all. The failure mode the paper will accidentally encourage is teams treating the factor checklist as the whole game, polishing pages the engine never retrieves. The accurate reading is that content optimization is **necessary but not sufficient**, and the marginal dollar usually belongs on getting your claim corroborated across the trusted sources the model already pulls.
+
+
+
+
+### What to do with it
+
+The loop that respects both halves is the one we run on ourselves: **Measure, Diagnose, Execute, Verify.**
+
+
+- **Measure** the real source map. For your actual buyer prompts, pull the cited sources per prompt across the engines you care about, and tag them owned, competitor, editorial, or community. That tells you which trusted domains the model reads for your category — the layer the study held constant.
+- **Diagnose** where you are losing. If you are not even retrieved, that is a source-trust gap, and no amount of on-page polish fixes it. If you are retrieved but not cited first, now the study's content factors are exactly your diagnostic checklist.
+- **Execute** on the right layer. Fix the cheap content gatekeepers on pages that already get pulled; spend the harder budget on corroboration — comparison pages, editorial roundups, community threads — where you are invisible in the source map.
+- **Verify** by re-running the same frozen prompt set and checking whether the answer actually moved. AI answers are non-deterministic, so measure a rate across runs, not a single yes or no.
+
+
+
+#### The order matters
+
+The study is a real contribution. It just answers the second question — what content wins between trusted sources — with unusual rigor, while the first question — which sources get trusted enough to be retrieved — is the one it deliberately set aside. Optimize for both, in that order. For the source-layer half, see [how to build a source-layer strategy](/how-to-build-a-source-layer-strategy/); for the content half, the [content that gets cited](/how-to-write-content-that-gets-cited-by-ai/) guide; and for running any of it as a real experiment, [how to test GEO claims without fooling yourself](/testable-geo-playbook/).
+
+### About the author
+
+Jia Chang is Co-Founder & CTO of SolCrys, the AEO operating system for brands and agencies competing for visibility, citations, and recommendations across the major AI engines. AI architect with 15+ years building production AI systems, most recently as an engineering leader at Microsoft. Connect on [LinkedIn](https://www.linkedin.com/in/jia-c/).
+
+
+
+
+
+### Sources
+
+- [Vishwakarma, Kumar, Jamidar (Sprinklr). "What Gets Cited: Competitive GEO in AI Answer Engines." arXiv:2605.25517, SIGIR '26 — ~252,000 trials across six LLMs, 18 content factors in a paired two-document RAG testbed.](https://arxiv.org/abs/2605.25517)
+- [SolCrys AI visibility measurement, workspace solcysai-aeo, 7-day window ending 2026-06-18 (13,510 citations across 1,531 domains; Reddit ~6.4% top; solcrys.com rank 7 at ~2.0%).](https://solcrys.com/visibility-measurement-methodology)
+- [Profound: AI platform citation patterns — only ~12% of AI-cited URLs appear in Google's top ten for the same query.](https://www.tryprofound.com/blog/ai-platform-citation-patterns)
+- [Authority Tech: ChatGPT vs Perplexity, only ~11% of cited sources overlap per engine.](https://authoritytech.io/curated/ai-citation-11-percent-platform-overlap-per-engine-audit-2026)
+
+### FAQ
+
+Q: What does the "What Gets Cited" study actually prove?
+A: It is a controlled, two-document experiment (about 252,000 trials across six LLMs) showing that content factors sort into a hierarchy when deciding which of two sources an AI engine cites first. Four gatekeepers — topic match, price mentioned, a recent timestamp, and retrieval position — are effectively pass-or-fail; a second tier (specifications, evidence over hedging, comparisons, depth) breaks ties. Crucially, it proves this about content while holding brand and domain trust constant, because every brand was anonymized. So it shows which content wins between two equally-trusted sources, not what gets cited in real, named-brand retrieval.
+
+Q: If I optimize all the content factors, will AI cite me?
+A: Not necessarily. The study deliberately anonymized brands and domains to isolate content, which removes the dominant driver in production: whether the engine trusts and retrieves your domain at all for that query. A page can satisfy every content gatekeeper and still never be cited because it is never retrieved. Content optimization is necessary but not sufficient. You also need your claim corroborated across the trusted sources the model already pulls for your category.
+
+Q: Do the gatekeeper factors apply to B2B as well as B2C?
+A: The hierarchy transfers; the literal factors do not, fully. The study's corpus is consumer product reviews, so "price not mentioned equals out" is partly a domain artifact. For B2B, the equivalent gatekeeper is answering the specific buyer decision — the integration, the team size, the compliance requirement — with concrete specifics rather than a literal price. Translate the shape (topic match, freshness, specifics, evidence, comparisons), not the exact checklist.
+
+Q: How do I tell whether my problem is content or source trust?
+A: Pull the cited sources for your real buyer prompts across engines. If your domain is not retrieved at all, that is a source-trust gap and on-page edits will not fix it — you need corroboration across third-party sources. If you are retrieved but not cited first, the study's content factors become your checklist. SolCrys's free ChatGPT visibility tracker returns the cited sources per prompt so you can see which it is. Free, no credit card, at app.solcrys.com/audit.
+
 ## Reddit, G2, and Forums: How to Win the Community Source Layer for AI Citations
 
 Reddit, G2, Capterra, and niche vertical forums can punch above their weight in AI search citations because community content is harder to fake and often more specific than brand copy. Published third-party studies have reported high Reddit visibility in some AI citation datasets, but rates vary by engine, query type, and category. YouTube is also becoming a more important source surface in many categories, especially where review videos and comment threads shape buyer decisions. The strategy for winning community citations is not posting your brand on Reddit, which gets ignored or downweighted. The strategy is accountable participation by real people from your team in communities where your category is genuinely discussed, plus structured efforts to earn high-specificity G2 reviews and analyst-page mentions. Done right, the community source layer takes months to mature and should be measured with your own prompt set. Brands that follow the seven rules of native community voice — real accounts, no pitching, specificity over enthusiasm, upfront disclosure, honest engagement with criticism, answering the question first, and consistent presence over campaigns — build a more durable community evidence layer.
