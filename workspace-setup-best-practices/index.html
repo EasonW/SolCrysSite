@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Set Up a SolCrys Workspace: Best Practices | SolCrys</title>
+    <meta name="description" content="What a SolCrys workspace is, the two ways to create one, and the best practices that keep your AI-visibility measurement clean: scoping the category, when to use multiple workspaces, engines, competitors, Corporate Context, and the prompt set." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/workspace-setup-best-practices/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-18" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Set Up a SolCrys Workspace: Best Practices | SolCrys" />
+    <meta property="og:description" content="What a SolCrys workspace is, the two ways to create one, and the best practices that keep your AI-visibility measurement clean: scoping the category, when to use multiple workspaces, engines, competitors, Corporate Context, and the prompt set." />
+    <meta property="og:url" content="https://solcrys.com/workspace-setup-best-practices/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/workspace-setup-best-practices.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/workspace-setup-best-practices.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Set Up a SolCrys Workspace: A Best-Practices Guide","item":"https://solcrys.com/workspace-setup-best-practices/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Set Up a SolCrys Workspace: A Best-Practices Guide","description":"What a SolCrys workspace is, the two ways to create one, and the best practices that keep your AI-visibility measurement clean: scoping the category, when to use multiple workspaces, engines, competitors, Corporate Context, and the prompt set.","dateModified":"2026-06-18","datePublished":"2026-06-18","mainEntityOfPage":"https://solcrys.com/workspace-setup-best-practices/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/workspace-setup-best-practices/","mainEntity":[{"@type":"Question","name":"What is a workspace in SolCrys?","acceptedAnswer":{"@type":"Answer","text":"A workspace is the unit of AI-visibility measurement: one brand, in one product or service category, tracked across the AI engines you select. Its prompt set, competitors, Corporate Context, scores, and recommended Actions are all scoped to that one workspace, so each workspace is an independent tracking container."}},{"@type":"Question","name":"Should I use one workspace or several?","acceptedAnswer":{"@type":"Answer","text":"Use one workspace per brand (or product line) and per market that you want to measure and act on separately. Because workspaces are independent and do not share a region or language setting, the clean pattern for multiple markets is a separate workspace per market, each with localized prompts and competitors. Putting multiple brands or markets into one workspace blurs share of voice and makes the Action queue hard to prioritize."}},{"@type":"Question","name":"What do I need to create a workspace?","acceptedAnswer":{"@type":"Answer","text":"Only two things: your brand name and a specific product or service category. You can start from an automated brand scan of your domain — which pre-fills the brand name, category, likely competitors, and owned domains for you to review — or set up manually. Engines, the prompt set, competitors, and Corporate Context are all configured after creation."}},{"@type":"Question","name":"Does a workspace track multiple languages or regions at once?","acceptedAnswer":{"@type":"Answer","text":"A single workspace does not have a built-in region or language dimension. If you need to track more than one market, set up a separate workspace per market with prompts and competitors localized to it. That keeps each market's numbers comparable over time rather than averaging different markets into one figure."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>How to Set Up a SolCrys Workspace: A Best-Practices Guide</h1>
+        <p class="seo-lede">A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. Everything else — the prompt set, the competitor list, Corporate Context, the scores, and the Action Hub — is scoped to it. This guide covers what a workspace contains, the two ways to create one (an automated brand scan from your domain, or a manual setup), and the setup decisions that determine whether your numbers are trustworthy: how tightly to scope the category, when to split into multiple workspaces, which engines and competitors to track, why to load Corporate Context early, and how to build and run the prompt set. It closes with the common setup mistakes that quietly poison a measurement program.</p>
+        <p>Updated 2026-06-18</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I set up a SolCrys workspace?</li><li>What is a workspace in an AEO platform?</li><li>Should I use one workspace or multiple?</li><li>What are the best practices for setting up AI visibility tracking?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. The prompt set, competitors, Corporate Context, scores, and the Action Hub all live inside it. Setting one up well is mostly two things — scoping it tightly, and choosing deliberately what it tracks.</p><p>You can create a workspace two ways: an automated brand scan that reads your domain and pre-fills most of the setup, or a manual setup. Either way the only things you must provide are your brand name and a specific product or service category.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a workspace contains</h2>
+      <p>Before the setup steps, it helps to know the parts, because each is a decision:</p>
+      <ul class="seo-list"><li><strong>Brand and category.</strong> The brand you are measuring and the product or service category it competes in. The category is the single most important setting — it drives everything downstream.</li><li><strong>Tracked engines.</strong> The AI answer engines the workspace runs against (ChatGPT, Google AI Overviews, Gemini, Claude, Perplexity). A new workspace starts with one engine enabled by default; you choose the rest.</li><li><strong>Prompt set.</strong> Your Golden Prompt Set — the versioned list of buyer questions the workspace runs on every cycle. A new workspace starts empty; you build it.</li><li><strong>Competitors.</strong> The brands you are measured against for share of voice. Seeded during the brand scan and expanded as new competitors are detected in answers.</li><li><strong>Corporate Context.</strong> Your approved brand facts — positioning, product details, claims you can and cannot make — that ground prompt generation, content audits, and drafted Actions.</li><li><strong>The Action Hub.</strong> The queue where detected gaps become recommended actions you can ship and then verify.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The two ways to create one</h2>
+      <p><strong>Brand scan (the fast path).</strong> You enter your domain, and SolCrys scans it to pre-fill the brand name, your product or service category, a starting set of competitors, and your owned domains. You review and adjust. This is the recommended start because it seeds the competitor and domain lists from real data instead of a blank form.</p><p><strong>Manual setup (the fallback).</strong> If you would rather not scan, or the scan can&#39;t reach the site, you set up by hand. You provide the brand name and the product or service category; everything else is added afterward in settings.</p><p>In both paths, the two required inputs are the same: brand name and a specific category. Engines, prompts, competitors, and Corporate Context are all configurable after creation, so you are never blocked at the start.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Best practice 1: scope the category tightly</h2>
+      <p>The category is the highest-leverage setting in the whole workspace, because it determines which prompts are relevant and who counts as a competitor. Make it specific — a short, concrete phrase like &quot;managed cloud databases&quot; or &quot;AI visibility software,&quot; not &quot;software&quot; or &quot;marketing.&quot;</p><p>A category that is too broad produces a noisy prompt set, a competitor list full of brands you don&#39;t actually compete with, and a share-of-voice number that means nothing. If your brand genuinely plays in two distinct categories, that is a signal to use two workspaces, not one broad one.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Best practice 2: one workspace per brand and market</h2>
+      <p>Every workspace is fully independent — its own prompts, competitors, Corporate Context, scores, and Actions. That independence is the reason to keep each one focused.</p><p>Use one workspace per brand (or product line) you want to measure and act on separately. Don&#39;t put two brands in one workspace; their mentions, competitors, and share of voice will blur together and the Action queue becomes hard to prioritize.</p><p>Markets work the same way. A workspace does not carry a separate region or language field, so if you track more than one market, the clean pattern is a separate workspace per market (for example, one per region you sell into), with each workspace&#39;s prompts and competitors localized to that market. That keeps each market&#39;s numbers comparable over time instead of averaging different markets into one figure.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Best practice 3: track the engines that matter, not all of them</h2>
+      <p>A new workspace defaults to a single engine. It is tempting to switch all of them on, but more engines mean more runs, more noise, and more to act on. Add the engines where your buyers actually are first.</p><p>If you are not sure which those are, our <a href="/engine-prioritization-framework/" target="_blank" rel="noopener noreferrer">four-signal engine-prioritization framework</a> — audience fit, prompt gap, buyer value, fixability — gives you a defensible order rather than a guess.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Best practice 4: curate the competitor set</h2>
+      <p>Competitors are seeded during the brand scan and new ones are surfaced automatically as they appear in answers. Treat that list as a draft, not the truth. Confirm the brands you genuinely compete with and remove the ones you don&#39;t.</p><p>Your share-of-voice number is only as honest as this list. A competitor set padded with adjacent brands flatters or deflates your position; a tight, accurate set makes the comparison mean something.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Best practice 5: load Corporate Context early</h2>
+      <p>Corporate Context is the approved source of truth for your brand: current product facts, positioning, claims you can make, claims you can&#39;t, and competitor rules. SolCrys reads it when it generates prompts, audits content, and drafts Actions.</p><p>Loading it early pays off twice. It makes generated prompts and Actions more accurate from the first cycle, and it keeps drafted content from introducing new inaccuracies you would have to catch later. A workspace with no Corporate Context still runs, but its generated outputs are working from less. (<a href="/corporate-context-ai-marketing/" target="_blank" rel="noopener noreferrer">More on Corporate Context.</a>)</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Best practice 6: build the prompt set deliberately, then manage it</h2>
+      <p>A new workspace starts with an empty prompt set, which is intentional — the prompt set is your measurement instrument and it should reflect your real buyers, not a generic template. Build your Golden Prompt Set around the questions buyers actually ask: category, comparison, competitor, risk, implementation, persona, and brand prompts. (<a href="/golden-prompt-set-methodology/" target="_blank" rel="noopener noreferrer">How we build the Golden Prompt Set</a> and <a href="/ai-search-prompt-set/" target="_blank" rel="noopener noreferrer">what a strong prompt set covers</a>.)</p><p>Then manage it as a living instrument. Keep, rewrite, archive, or add prompts as the market shifts — and don&#39;t delete zero-visibility prompts, which are often your clearest, uncontested gaps. Versioning the set keeps month-over-month numbers comparable. (<a href="/aeo-prompt-set-lifecycle/" target="_blank" rel="noopener noreferrer">The four-state prompt-set lifecycle.</a>)</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Best practice 7: read rates, not single runs</h2>
+      <p>The workspace runs its prompt set on a schedule (weekly by default). AI answers are non-deterministic, so any one run is a single draw, not a measurement. Judge an appearance rate across runs, and treat small run-to-run moves as noise until you have enough samples. (<a href="/how-many-runs-until-ai-visibility-trustworthy/" target="_blank" rel="noopener noreferrer">How many runs it takes to trust a number.</a>)</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>From workspace to Actions</h2>
+      <p>Once the workspace is measuring, the gaps it finds become a queue in the <a href="/inside-the-action-hub/" target="_blank" rel="noopener noreferrer">Action Hub</a>: each weak prompt or missing citation turns into a recommended action you can ship, then re-test on the same prompt set to verify whether the answer actually moved. The workspace is where the measure, diagnose, execute, verify loop lives — which is why scoping it well at the start pays back on every cycle after.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Common setup mistakes</h2>
+      <p>Most workspaces that produce untrustworthy numbers made one of these choices at setup:</p>
+      <ul class="seo-list"><li><strong>A category that is too broad</strong>, which floods the prompt set with irrelevant questions and the wrong competitors.</li><li><strong>Two brands or two markets in one workspace</strong>, which blurs share of voice and the Action queue.</li><li><strong>A branded-only prompt set</strong>, which always flatters you — your own name is the one prompt you reliably win. Balance branded with the unbranded, buyer-intent prompts where a new buyer actually finds you (<a href="/is-ai-visibility-a-vanity-metric/" target="_blank" rel="noopener noreferrer">why that matters</a>).</li><li><strong>Reading a single run</strong> as a result instead of a rate across runs.</li><li><strong>Skipping Corporate Context</strong>, which leaves generated prompts and Actions working from less than they could be.</li><li><strong>Switching on every engine at once</strong> before you know where your buyers are.</li></ul>
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">SolCrys AI Visibility Measurement Methodology — what is captured per tracked prompt and engine.</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is a workspace in SolCrys?</h3>
+            <p>A workspace is the unit of AI-visibility measurement: one brand, in one product or service category, tracked across the AI engines you select. Its prompt set, competitors, Corporate Context, scores, and recommended Actions are all scoped to that one workspace, so each workspace is an independent tracking container.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I use one workspace or several?</h3>
+            <p>Use one workspace per brand (or product line) and per market that you want to measure and act on separately. Because workspaces are independent and do not share a region or language setting, the clean pattern for multiple markets is a separate workspace per market, each with localized prompts and competitors. Putting multiple brands or markets into one workspace blurs share of voice and makes the Action queue hard to prioritize.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What do I need to create a workspace?</h3>
+            <p>Only two things: your brand name and a specific product or service category. You can start from an automated brand scan of your domain — which pre-fills the brand name, category, likely competitors, and owned domains for you to review — or set up manually. Engines, the prompt set, competitors, and Corporate Context are all configured after creation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does a workspace track multiple languages or regions at once?</h3>
+            <p>A single workspace does not have a built-in region or language dimension. If you need to track more than one market, set up a separate workspace per market with prompts and competitors localized to it. That keeps each market&#39;s numbers comparable over time rather than averaging different markets into one figure.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here&#39;s how we build it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/engine-prioritization-framework/">Which AI engine should you focus on? A four-signal framework for AEO prioritization</a></h3>
+            <p>Most AEO programs over-index on engine market share and under-index on signal quality. Gwen Chen, SolCrys CEO, on the four-signal framework — audience fit, prompt gap, buyer value, fixability — that decides where AEO investment actually pays off, plus a 5-factor scoring rubric and the 2026 read on every major engine.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/corporate-context-ai-marketing/">Corporate Context Is the New CMS</a></h3>
+            <p>Corporate Context gives AI marketing agents the brand facts, claims, guardrails, and evidence they need to execute safely across AEO workflows.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DGOMDKVL.js"></script>
+  </body>
+</html>

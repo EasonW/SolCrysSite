@@ -9694,6 +9694,154 @@ A: The full internal SOP — including the operational pre-publication grep and 
 Q: How often do you update the standards?
 A: Whenever a major AI engine publishes new official guidance (the May 2026 Google guide is the most recent trigger), whenever we discover a new anti-pattern in the wild, or quarterly at minimum. Updates are versioned and dated.
 
+## How to Set Up a SolCrys Workspace: A Best-Practices Guide
+
+A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. Everything else — the prompt set, the competitor list, Corporate Context, the scores, and the Action Hub — is scoped to it. This guide covers what a workspace contains, the two ways to create one (an automated brand scan from your domain, or a manual setup), and the setup decisions that determine whether your numbers are trustworthy: how tightly to scope the category, when to split into multiple workspaces, which engines and competitors to track, why to load Corporate Context early, and how to build and run the prompt set. It closes with the common setup mistakes that quietly poison a measurement program.
+
+### Questions this guide answers
+
+- How do I set up a SolCrys workspace?
+- What is a workspace in an AEO platform?
+- Should I use one workspace or multiple?
+- What are the best practices for setting up AI visibility tracking?
+
+### Direct answer
+
+A workspace is the unit of measurement in SolCrys: one brand, in one tightly-defined category, tracked across the AI engines you choose. The prompt set, competitors, Corporate Context, scores, and the Action Hub all live inside it. Setting one up well is mostly two things — scoping it tightly, and choosing deliberately what it tracks.
+
+You can create a workspace two ways: an automated brand scan that reads your domain and pre-fills most of the setup, or a manual setup. Either way the only things you must provide are your brand name and a specific product or service category.
+
+
+
+
+### What a workspace contains
+
+Before the setup steps, it helps to know the parts, because each is a decision:
+
+
+- **Brand and category.** The brand you are measuring and the product or service category it competes in. The category is the single most important setting — it drives everything downstream.
+- **Tracked engines.** The AI answer engines the workspace runs against (ChatGPT, Google AI Overviews, Gemini, Claude, Perplexity). A new workspace starts with one engine enabled by default; you choose the rest.
+- **Prompt set.** Your Golden Prompt Set — the versioned list of buyer questions the workspace runs on every cycle. A new workspace starts empty; you build it.
+- **Competitors.** The brands you are measured against for share of voice. Seeded during the brand scan and expanded as new competitors are detected in answers.
+- **Corporate Context.** Your approved brand facts — positioning, product details, claims you can and cannot make — that ground prompt generation, content audits, and drafted Actions.
+- **The Action Hub.** The queue where detected gaps become recommended actions you can ship and then verify.
+
+
+
+### The two ways to create one
+
+**Brand scan (the fast path).** You enter your domain, and SolCrys scans it to pre-fill the brand name, your product or service category, a starting set of competitors, and your owned domains. You review and adjust. This is the recommended start because it seeds the competitor and domain lists from real data instead of a blank form.
+
+**Manual setup (the fallback).** If you would rather not scan, or the scan can't reach the site, you set up by hand. You provide the brand name and the product or service category; everything else is added afterward in settings.
+
+In both paths, the two required inputs are the same: brand name and a specific category. Engines, prompts, competitors, and Corporate Context are all configurable after creation, so you are never blocked at the start.
+
+
+
+
+### Best practice 1: scope the category tightly
+
+The category is the highest-leverage setting in the whole workspace, because it determines which prompts are relevant and who counts as a competitor. Make it specific — a short, concrete phrase like "managed cloud databases" or "AI visibility software," not "software" or "marketing."
+
+A category that is too broad produces a noisy prompt set, a competitor list full of brands you don't actually compete with, and a share-of-voice number that means nothing. If your brand genuinely plays in two distinct categories, that is a signal to use two workspaces, not one broad one.
+
+
+
+
+### Best practice 2: one workspace per brand and market
+
+Every workspace is fully independent — its own prompts, competitors, Corporate Context, scores, and Actions. That independence is the reason to keep each one focused.
+
+Use one workspace per brand (or product line) you want to measure and act on separately. Don't put two brands in one workspace; their mentions, competitors, and share of voice will blur together and the Action queue becomes hard to prioritize.
+
+Markets work the same way. A workspace does not carry a separate region or language field, so if you track more than one market, the clean pattern is a separate workspace per market (for example, one per region you sell into), with each workspace's prompts and competitors localized to that market. That keeps each market's numbers comparable over time instead of averaging different markets into one figure.
+
+
+
+
+### Best practice 3: track the engines that matter, not all of them
+
+A new workspace defaults to a single engine. It is tempting to switch all of them on, but more engines mean more runs, more noise, and more to act on. Add the engines where your buyers actually are first.
+
+If you are not sure which those are, our [four-signal engine-prioritization framework](/engine-prioritization-framework/) — audience fit, prompt gap, buyer value, fixability — gives you a defensible order rather than a guess.
+
+
+
+
+### Best practice 4: curate the competitor set
+
+Competitors are seeded during the brand scan and new ones are surfaced automatically as they appear in answers. Treat that list as a draft, not the truth. Confirm the brands you genuinely compete with and remove the ones you don't.
+
+Your share-of-voice number is only as honest as this list. A competitor set padded with adjacent brands flatters or deflates your position; a tight, accurate set makes the comparison mean something.
+
+
+
+
+### Best practice 5: load Corporate Context early
+
+Corporate Context is the approved source of truth for your brand: current product facts, positioning, claims you can make, claims you can't, and competitor rules. SolCrys reads it when it generates prompts, audits content, and drafts Actions.
+
+Loading it early pays off twice. It makes generated prompts and Actions more accurate from the first cycle, and it keeps drafted content from introducing new inaccuracies you would have to catch later. A workspace with no Corporate Context still runs, but its generated outputs are working from less. ([More on Corporate Context.](/corporate-context-ai-marketing/))
+
+
+
+
+### Best practice 6: build the prompt set deliberately, then manage it
+
+A new workspace starts with an empty prompt set, which is intentional — the prompt set is your measurement instrument and it should reflect your real buyers, not a generic template. Build your Golden Prompt Set around the questions buyers actually ask: category, comparison, competitor, risk, implementation, persona, and brand prompts. ([How we build the Golden Prompt Set](/golden-prompt-set-methodology/) and [what a strong prompt set covers](/ai-search-prompt-set/).)
+
+Then manage it as a living instrument. Keep, rewrite, archive, or add prompts as the market shifts — and don't delete zero-visibility prompts, which are often your clearest, uncontested gaps. Versioning the set keeps month-over-month numbers comparable. ([The four-state prompt-set lifecycle.](/aeo-prompt-set-lifecycle/))
+
+
+
+
+### Best practice 7: read rates, not single runs
+
+The workspace runs its prompt set on a schedule (weekly by default). AI answers are non-deterministic, so any one run is a single draw, not a measurement. Judge an appearance rate across runs, and treat small run-to-run moves as noise until you have enough samples. ([How many runs it takes to trust a number.](/how-many-runs-until-ai-visibility-trustworthy/))
+
+
+
+
+### From workspace to Actions
+
+Once the workspace is measuring, the gaps it finds become a queue in the [Action Hub](/inside-the-action-hub/): each weak prompt or missing citation turns into a recommended action you can ship, then re-test on the same prompt set to verify whether the answer actually moved. The workspace is where the measure, diagnose, execute, verify loop lives — which is why scoping it well at the start pays back on every cycle after.
+
+
+
+
+### Common setup mistakes
+
+Most workspaces that produce untrustworthy numbers made one of these choices at setup:
+
+
+- **A category that is too broad**, which floods the prompt set with irrelevant questions and the wrong competitors.
+- **Two brands or two markets in one workspace**, which blurs share of voice and the Action queue.
+- **A branded-only prompt set**, which always flatters you — your own name is the one prompt you reliably win. Balance branded with the unbranded, buyer-intent prompts where a new buyer actually finds you ([why that matters](/is-ai-visibility-a-vanity-metric/)).
+- **Reading a single run** as a result instead of a rate across runs.
+- **Skipping Corporate Context**, which leaves generated prompts and Actions working from less than they could be.
+- **Switching on every engine at once** before you know where your buyers are.
+
+
+
+
+### Sources
+
+- [SolCrys AI Visibility Measurement Methodology — what is captured per tracked prompt and engine.](https://solcrys.com/visibility-measurement-methodology/)
+
+### FAQ
+
+Q: What is a workspace in SolCrys?
+A: A workspace is the unit of AI-visibility measurement: one brand, in one product or service category, tracked across the AI engines you select. Its prompt set, competitors, Corporate Context, scores, and recommended Actions are all scoped to that one workspace, so each workspace is an independent tracking container.
+
+Q: Should I use one workspace or several?
+A: Use one workspace per brand (or product line) and per market that you want to measure and act on separately. Because workspaces are independent and do not share a region or language setting, the clean pattern for multiple markets is a separate workspace per market, each with localized prompts and competitors. Putting multiple brands or markets into one workspace blurs share of voice and makes the Action queue hard to prioritize.
+
+Q: What do I need to create a workspace?
+A: Only two things: your brand name and a specific product or service category. You can start from an automated brand scan of your domain — which pre-fills the brand name, category, likely competitors, and owned domains for you to review — or set up manually. Engines, the prompt set, competitors, and Corporate Context are all configured after creation.
+
+Q: Does a workspace track multiple languages or regions at once?
+A: A single workspace does not have a built-in region or language dimension. If you need to track more than one market, set up a separate workspace per market with prompts and competitors localized to it. That keeps each market's numbers comparable over time rather than averaging different markets into one figure.
+
 ## Golden Prompt Set Methodology
 
 We build a Golden Prompt Set (GPS) for every customer category by grounding on four real-world signals: intent volume across major search and marketplace surfaces, trending questions from leading public community platforms, AI query volume signals, and live follow-up questions from supported surfaces where reliable. Every prompt we hand you carries projected query volume and source provenance so you can prioritize questions your buyers actually run - not the ones marketers wish they ran. We publish this methodology in full because prompt selection is the single biggest determinant of AEO data quality. If we're tracking the wrong prompts, every chart in your dashboard is wrong - so we'd rather you evaluate how we choose before you sign than after.
