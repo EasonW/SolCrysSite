@@ -1529,17 +1529,37 @@ A: Some risk. Mitigate by ensuring data export at any time, treating Corporate C
 
 ## AEO vs SEO
 
-SEO remains the foundation for discoverability. AEO extends that work into prompt-level visibility, citation readiness, and answer accuracy.
+SEO and AEO are one system, not rivals. SEO and authority still decide whether a page is retrieved at all; AEO decides whether it is cited and described accurately once it is. How much SEO carries over depends on the engine: Google's AI Overviews and AI Mode inherit Search ranking, so SEO is most of the work there, while pure-RAG engines like ChatGPT and Perplexity cite sources that can diverge sharply from your Google rank. What stays the same, what changes, and the metrics for each.
 
 ### Questions this guide answers
 
 - How is AEO different from SEO?
 - Does AEO replace SEO?
+- Do Google AI Overviews use my SEO rankings?
 - What metrics matter for AI search visibility?
 
 ### Direct answer
 
-SEO helps pages rank in search results. AEO helps content become a reliable source inside AI-generated answers, recommendations, and comparisons.
+SEO helps a page rank in search results. AEO helps that page become a source AI engines retrieve, cite, and describe accurately inside generated answers. They are one system, not a replacement: SEO and authority still gate whether you are retrieved at all, and AEO decides whether you are the source the model quotes once you are.
+
+
+
+
+### How much SEO carries over depends on the engine
+
+Treating AEO as one rule across every engine is the most common mistake. How tightly it depends on SEO splits by surface:
+
+
+- Google AI Overviews and AI Mode inherit Google's Search index, core ranking systems, and query fan-out, so strong SEO is most of the work. On Google's surfaces, AEO is an operating layer on top of SEO, not a separate channel (per Google's 2026 AI optimization guidance).
+- ChatGPT Search, Perplexity, and Claude run true retrieval over their own reading lists, so citation can diverge sharply from your Google rank. A page that ranks nowhere can still be the cited source, and a top-ranking page can be ignored.
+
+
+
+### The divergence is measurable
+
+How far citation drifts from ranking is not a hunch. Only about 12% of AI-cited URLs appear in Google's top ten organic results for the same query, and ChatGPT and Perplexity overlap on only about 11% of cited sources because each reads a different slice of the web. Ranking is necessary on Google's AI surfaces and far from sufficient on the pure-RAG ones.
+
+We see the same shape in our own category. Over a recent seven-day window, AI answers about AEO tools pulled from 13,739 citations across 1,534 distinct domains — a consensus far wider than any single results page, with no domain above about 6.4%. Our own site is cited across all five engines we track but sits at rank 7 with about 2.0% of citations: a solid SEO-style position that still leaves most of the category's citations with third-party sources. Being retrievable is the floor; being corroborated across the sources each engine reads is what wins the citation. (SolCrys measurement, 7-day window ending 2026-06-18.)
 
 
 
@@ -1589,6 +1609,12 @@ Where should we improve next? | Competitor citation gaps and missing answer pass
 
 ### FAQ
 
+Q: Does AEO replace SEO?
+A: No. AEO is an operating layer on top of SEO, not a replacement. SEO and authority still decide whether a page is crawlable and retrievable, which is a precondition for being cited. On Google's AI Overviews and AI Mode, SEO does most of the work because those surfaces inherit Search ranking. On pure-RAG engines like ChatGPT and Perplexity, you also need to be the clearest, most corroborated source once retrieved.
+
+Q: Do Google AI Overviews use my SEO rankings?
+A: Yes. AI Overviews and AI Mode are built on Google's Search index, core ranking systems, and query fan-out, so your existing SEO strength is the main driver of whether you appear there. That is different from ChatGPT or Perplexity, which retrieve over their own reading lists, so a strong Google rank does not guarantee a citation on those engines.
+
 Q: Should a brand create separate AEO pages?
 A: Only when the page answers a real question better than an existing page. AEO rewards clarity and usefulness, not duplicated pages with new labels.
 
@@ -1622,6 +1648,19 @@ A useful monitoring system must capture more than whether the brand appears. It 
 - Position and framing: how the brand is described relative to competitors.
 - Accuracy: whether features, pricing, claims, and category fit are correct.
 - Sentiment: whether the generated answer is positive, neutral, or negative.
+
+
+
+### What this looks like in real data
+
+To make the signals concrete, here is what they show for our own brand over a recent seven-day window across five engines. We publish this as a dated baseline we are openly climbing from, not a static verdict.
+
+
+- **Mention rate hides a spread.** We appeared in 6.4% of answers overall, but across individual runs the same prompt set swung from 3.6% to 10%. That is why you read a rate over several runs, not a single check.
+- **Per engine, not blended.** Mentions ranged from 9.5% on Claude (our strongest) down to 4.5% on Perplexity (our weakest). A blended average would have hidden a roughly 2x gap, so track each engine separately.
+- **Sentiment, not just presence.** In the same window Gemini and Google AI Overviews described us positively (average sentiment near 1.0), while ChatGPT was almost entirely neutral (around 0.07). Same brand, same week, very different framing — presence alone misses it.
+- **Citation versus mention.** Answers in our category drew on 13,739 citations across 1,534 domains; our owned pages were about 2.0% of them (rank 7). Mentions show awareness inside the answer; citations show the engine is using your content as evidence.
+- **Share of voice tells you if you are gaining.** Against 16 other tracked brands we sat 16th of 17 by share of voice, while the category leader appeared in roughly 65% of answers. Your own rate in isolation flatters you; the relative position is the honest read.
 
 
 
@@ -2730,6 +2769,15 @@ AI hallucination risk monitoring is the process of checking whether answer engin
 AI hallucination is often discussed as a model problem. For companies, it becomes a business problem when generated answers shape buyer decisions. An answer engine may describe an old product version, invent a feature, omit an important limitation, name the wrong competitors, misstate pricing or packaging, attribute a claim to the company that legal has not approved, recommend a competitor based on outdated comparisons, or summarize reviews unfairly.
 
 Even when the answer is not malicious, the buyer may treat it as guidance. That means brand accuracy needs to be monitored the same way teams monitor rankings, reviews, and analyst coverage.
+
+
+
+
+### Accuracy and framing vary by engine
+
+A brand is rarely described identically across engines, so accuracy and framing have to be tracked per engine, not as one blended score. In our own monitoring over a recent seven-day window, Gemini and Google AI Overviews described us positively (average sentiment near 1.0) while ChatGPT stayed almost entirely neutral (around 0.07) — same brand, same week. Factual errors behave the same way: a stale or invented claim can surface on one engine while another, reading a different set of sources, gets it right. (SolCrys measurement, 7-day window ending 2026-06-18.)
+
+That also shapes the fix. Because engines tend to discount a source that contradicts the corroborated consensus, the durable correction for a hallucination is to make the accurate claim the consistent, evidence-backed version across the sources the engine actually reads, not just on one owned page (see [what gets cited in AI answers](/what-gets-cited-geo-study/)). The unit of monitoring is therefore prompt by engine by run, and a single bad answer is not yet a trend.
 
 
 
