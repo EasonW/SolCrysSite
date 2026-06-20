@@ -204,6 +204,184 @@
   ],
   "resourcePages": [
     {
+      "slug": "is-ai-telling-the-truth-about-your-brand",
+      "title": "When AI Describes Your Brand, Is It Telling the Truth?",
+      "metaTitle": "When AI Describes Your Brand, Is It Telling the Truth? | SolCrys",
+      "description": "AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.",
+      "h1": "When AI Describes Your Brand, Is It Telling the Truth?",
+      "summary": "Most AI-search tools tell you whether an engine mentions you. The harder question is whether it mentions you correctly, because AI answers routinely drop a claim you earned, quote a retired price, or assert something you never said, and recent research shows that text can be steered on purpose. Answer Accuracy grades every AI answer against your own grounding truth across all five major engines and returns the receipts when an engine gets you wrong.",
+      "category": "Risk Monitoring",
+      "ogImage": "/og/is-ai-telling-the-truth-about-your-brand.png",
+      "ogEyebrow": "Risk Monitoring",
+      "ogTitleParts": ["When AI describes your brand,", "is it telling the truth?"],
+      "updated": "2026-06-20",
+      "primaryKeyword": "AI brand accuracy",
+      "aeoTargets": [
+        "Is AI describing my brand correctly?",
+        "How do I check what ChatGPT and Gemini say about my company?",
+        "What do I do when AI states wrong facts about my brand?",
+        "Can AI search results be manipulated or poisoned?",
+        "How do I monitor brand accuracy across AI engines?"
+      ],
+      "relatedSlugs": [
+        "ai-hallucination-risk-monitoring",
+        "how-ai-describes-your-brand",
+        "ai-brand-disambiguation-playbook",
+        "ai-citations-consensus-not-authority",
+        "citation-gap-audit"
+      ],
+      "status": "draft",
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "Most AI-search tools answer one question: does the engine mention you? The harder question, the one that actually moves deals, is whether it mentions you correctly. AI answers routinely drop a claim you spent years earning, quote a price or spec you retired long ago, or state something you never said with complete confidence. And a recent Cornell Tech paper shows that text can be steered on purpose: roughly 13 words planted on a single Reddit or Wikipedia page can change which sources research agents cite across an entire cluster of related questions.",
+            "You can't firewall the open web. You can measure what it does to the story AI tells about you, and prove it. That's what Answer Accuracy does, a SolCrys feature now in preview that grades every AI answer against your own grounding truth across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, and hands you the receipts when an engine gets you wrong: the exact claim it dropped, the prohibited or fabricated claim it asserted, and why. Not a vibe score."
+          ]
+        },
+        {
+          "heading": "Your customer meets your brand inside an answer you never wrote",
+          "body": [
+            "For a fast-growing share of buyers, the first encounter with your company is not your website. It's a paragraph inside an AI answer that summarizes you, positions you against competitors, and quietly decides what counts as true about you, before anyone at your company enters the conversation. (For how engines assemble that paragraph, see [how AI describes your brand](/how-ai-describes-your-brand/).)",
+            "This is not a forecast. In G2's April 2026 buyer-behavior research, 71% of B2B software buyers said they now rely on AI chatbots for software research, up from 60% the year before. 69% chose a different vendor than they had originally planned based on what an AI chatbot told them, and about one in three bought from a vendor they had never heard of before the model recommended it (G2, reported via PR Newswire, April 2026).",
+            "Read those numbers together and the conclusion is uncomfortable. The engine is the narrator of your brand for the buyers you most want, and the narrator is improvising. So the question that should keep a CMO or CEO up at night is simple: when the machine describes your company, is it telling the truth? Often, it isn't."
+          ]
+        },
+        {
+          "heading": "The four ways AI gets your brand wrong",
+          "body": [
+            "When an AI engine misrepresents you, it usually fails in one of four ways. Each maps to a concrete, checkable failure, not a feeling."
+          ],
+          "table": {
+            "headers": ["Failure", "What it looks like", "Why it costs you"],
+            "rows": [
+              ["Dropped claim", "The differentiator you spent years earning never makes it into the answer", "You sound generic; a competitor's claim fills the gap"],
+              ["Outdated fact", "A price, plan, spec, or policy you retired long ago is quoted as current", "Buyers anchor on the wrong number and disqualify you, or arrive misinformed"],
+              ["Fabrication", "The engine asserts a feature, limit, or fact you never stated, with full confidence", "A hallucinated fact becomes the buyer's first impression"],
+              ["Planted claim", "Someone seeded misinformation the model now repeats", "Your narrative is shaped by a party you didn't authorize"]
+            ]
+          }
+        },
+        {
+          "heading": "Three of these are everyday hallucination, and they're expensive",
+          "body": [
+            "The first three failures are everyday [hallucination](/ai-hallucination-risk-monitoring/). They are also expensive. In a case working through the Minnesota courts, solar installer Wolf River Electric alleges Google's AI Overview falsely stated the company had been sued by the state Attorney General, a suit it was never part of, and that the answer cited sources which did not contain the claim. The company says customers cancelled signed contracts, and is seeking damages reported in the $110M to $210M range (Reason / Volokh Conspiracy, June 2025).",
+            "Earlier, a Canadian tribunal held Air Canada responsible for its support chatbot inventing a bereavement-refund policy that didn't exist, and ordered the airline to honor it. The pattern is consistent: the model speaks for you, the model is wrong, and you carry the cost.",
+            "The fourth failure, planted on purpose, used to be the speculative one. It isn't anymore."
+          ]
+        },
+        {
+          "heading": "\"Planted on purpose\" is no longer hypothetical",
+          "body": [
+            "In May 2026, researchers at Cornell Tech (Zhang, Triedman, and Shmatikov) published [Deep-Research Agents Can Be Poisoned via User-Generated Content](https://arxiv.org/abs/2605.24245) (arXiv:2605.24245). They showed that as few as ~13 words, appended to a single user-generated page, a Reddit comment, a Wikipedia paragraph, a Quora answer, can reliably steer which sources an AI research agent cites. Not for one query, but across an entire cluster of related questions, because deep-research agents retrieve the same popular pages again and again no matter how the user phrases the question.",
+            "The numbers are precise enough to take seriously. A single poisoned URL with ~13 words of injected text achieved a 38 to 51% mention rate for the attacker's chosen source, conditional on that page being retrieved. The live attack (the authors call it WARP, Web Agent Retrieval Poisoning) was demonstrated against open-source deep-research agents; the authors separately measured that commercial deep-research products lean heavily on the same user-generated sources, making them exposed to the identical lever.",
+            "Two findings matter most for anyone responsible for a brand:"
+          ],
+          "bullets": [
+            "**You cannot cleanly filter it out.** The team tested the obvious defenses: blocking user-generated domains, screening inputs by statistical weirdness, screening outputs for similarity. All failed. The injected text actually looks more normal than ordinary content (lower perplexity), so it slips past filters built to catch anomalies.",
+            "**The engine isn't weighing credibility the way you'd hope.** As co-author Tingwei Zhang put it to 404 Media, which [covered the paper](https://www.404media.co/it-is-trivially-easy-to-use-reddit-to-manipulate-ai-search-research-suggests/) weeks later: \"It's not thinking about which source you find more credible: a random Reddit comment or an article from a government website.\""
+          ]
+        },
+        {
+          "heading": "You can't firewall the open web, but you can prove what it does to you",
+          "body": [
+            "An honest note on engine specificity: the researchers ran the live poisoning against open-source agents and measured, but did not poison, commercial ones. The takeaway is not that ChatGPT has been hacked. It's that the retrieval layer every AI answer depends on is steerable by ordinary-looking text on the open web, and the most-cited sources are exactly the ones easiest to edit.",
+            "Here's the trap. You can't pre-approve every Reddit thread, every directory, every forum the engines pull from. The attack surface is the whole internet, and the defenses that should catch tampering don't. So lock down the web is not a strategy available to you.",
+            "What is available: continuously read the story the engines actually tell about you, hold it against the truth you've defined, and catch every deviation with evidence, whether the cause is a stale page, an honest hallucination, or planted text. You move from hoping the narrator is accurate to knowing, with receipts, every place it isn't."
+          ]
+        },
+        {
+          "heading": "Why we built Answer Accuracy",
+          "body": [
+            "That's the bet behind Answer Accuracy. SolCrys launched its AEO platform in May 2026. Four weeks later, in early June, we shipped the answer to exactly this threat. The feature is in preview now, and the rest of this page is how it works and how to start measuring your own exposure today."
+          ]
+        },
+        {
+          "heading": "How Answer Accuracy works",
+          "body": [
+            "Answer Accuracy grades every AI answer about your brand against an authoritative version of your own truth, across all five major engines. Three pieces make it work.",
+            "**1. Your grounding truth, held as Corporate Context.** You define what's true about your brand once: your messaging pillars, the claims that must appear, the claims that must never appear, your canonical facts, and your current product specs and pricing. SolCrys holds this as a versioned Corporate Context, set at the organization level so it's shared and consistent across every workspace and every run. When you retire a price or earn a new claim, you update one source of truth and every future grade reflects it.",
+            "**2. A graded verdict on every answer, on every engine.** For each prompt, on each of the five engines (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude), Answer Accuracy returns a pass or fail verdict with a confidence level. When an answer fails, it's classified into one specific, named category rather than a fuzzy score:"
+          ],
+          "table": {
+            "headers": ["Failure type", "What it means"],
+            "rows": [
+              ["Missing required claim", "The answer omitted a claim your grounding truth requires"],
+              ["Prohibited claim", "The answer asserted something your grounding truth disallows"],
+              ["Contradicts grounding", "The answer materially conflicts with a canonical fact"],
+              ["Unsupported claim", "The answer asserted something with no support, a fabrication"],
+              ["Outdated info", "The answer stated a previously-true fact your grounding marks as retired"]
+            ]
+          }
+        },
+        {
+          "heading": "Receipts, not vibes",
+          "body": [
+            "When an engine gets you wrong, you don't get a number to interpret. You get the evidence: the exact required claim it dropped, the specific prohibited or fabricated claim it asserted, the engine and run where it happened, and the reason. This is enforced where it counts. In the data model, a fail cannot exist without its evidence: a passing answer carries no violation, and a failing answer is structurally required to carry the specific deviating claims that justify the verdict. Trust isn't a slogan here; it's a database constraint.",
+            "That's a deliberate contrast with single-number AI visibility scoreboards, which can tell you a number went down but can't tell you which claim to fix. A score is something you watch. Receipts are something you act on."
+          ]
+        },
+        {
+          "heading": "Where it fits: Measure, Diagnose, Execute, Verify",
+          "body": [
+            "SolCrys runs on one loop, Measure then Diagnose then Execute then Verify, and Answer Accuracy sharpens the first two and feeds the last."
+          ],
+          "bullets": [
+            "**Measure** stops being are you mentioned and becomes are you mentioned correctly. Presence is table stakes; accuracy is the metric that maps to revenue.",
+            "**Diagnose** is where the receipts earn their keep. A dropped claim points you at a content or source-layer gap. A contradiction or outdated fact often points at a stale page, or at the Corporate Context itself if the truth was never written down clearly. The failure type tells you which fix, not just that there's a problem.",
+            "**Verify** closes the loop. After you fix the source, the page, or the context, you re-test the same frozen prompts and watch the verdict flip from fail to pass. No guarantees of lift, just the same test, run again, showing whether the fix worked."
+          ]
+        },
+        {
+          "heading": "What to do this week",
+          "body": [
+            "You don't need a platform to start. You need an hour and your real buyer questions."
+          ],
+          "bullets": [
+            "**Write down 10 to 15 questions a buyer would actually ask** before choosing in your category: pricing, comparisons, is X good for Y, your category definition.",
+            "**Ask each one in all five engines** and capture the verbatim answer about you.",
+            "**Hold each answer against your real, current facts.** Mark every dropped claim, every outdated number, every fabrication.",
+            "**Decide the fix per failure.** A missing claim is usually a content or source-layer job. A contradiction is usually a stale page. A fabrication often traces to weak or conflicting sources the engine had to guess from.",
+            "**Re-test the same questions after you ship the fix.** If the answer didn't change, the fix didn't reach the retrieval layer."
+          ]
+        },
+        {
+          "heading": "See where you stand",
+          "body": [
+            "That's the manual version of the loop. When you want it run continuously, graded against a versioned source of truth across every engine, with the receipts attached, that's what Answer Accuracy automates.",
+            "Start with your baseline. [Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys will show you where the five major engines mention you, which sources they cite, and where you're missing from the answers your buyers ask (the [Citation Gap Audit](/citation-gap-audit/)). Answer Accuracy is in preview: if grading those answers against your own grounding truth is the problem you're trying to solve, [talk to us](https://app.solcrys.com/contact-sales/) about turning it on for your organization.",
+            "The web will keep narrating your brand whether or not you're listening. The only question is whether you can see what it's saying, and prove it."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How do I check whether AI is describing my brand correctly?",
+          "answer": "Ask the questions your buyers actually ask in each engine (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude) and compare each answer against your current, real facts. Log every claim the engine dropped, every retired price or spec it quoted, and anything it asserted that you never said. Doing this once is revealing; doing it continuously, graded against a defined source of truth, is what Answer Accuracy automates."
+        },
+        {
+          "question": "What's the difference between AI visibility tracking and Answer Accuracy?",
+          "answer": "Visibility tracking answers whether the engine mentions you, and how often. Answer Accuracy answers whether the engine describes you correctly. A brand can have high visibility and still be misrepresented in most of those mentions. Answer Accuracy grades each answer pass or fail against your grounding truth and, on a fail, returns the specific claim that was dropped, prohibited, fabricated, or outdated."
+        },
+        {
+          "question": "Can AI search results really be manipulated?",
+          "answer": "Yes, and there's peer-reviewed evidence. A May 2026 Cornell Tech paper showed that roughly 13 words added to a single user-generated page can steer which sources research agents cite across a whole cluster of related queries, and that standard filters don't reliably catch it. The live attack was demonstrated on open-source deep-research agents; the same paper showed commercial agents rely heavily on the same easily-edited sources."
+        },
+        {
+          "question": "What is Corporate Context?",
+          "answer": "Corporate Context is your brand's grounding truth, held by SolCrys as an authoritative, versioned document: your messaging pillars, required and prohibited claims, canonical facts, and current specs and pricing. It's set at the organization level so every workspace and every accuracy check grades against the same source of truth. When the facts change, you update it once."
+        },
+        {
+          "question": "Which engines does Answer Accuracy cover?",
+          "answer": "All five major answer engines: ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude. Each answer gets its own verdict per engine and per run, so you can see exactly which engine got you wrong and where."
+        },
+        {
+          "question": "Is Answer Accuracy generally available?",
+          "answer": "It's in preview. The underlying visibility and citation measurement is live today; you can run a free audit to see your baseline. To grade answers against your own grounding truth with Answer Accuracy, reach out and we'll enable it for your organization."
+        }
+      ]
+    },
+    {
       "slug": "are-saas-directory-submissions-worth-it-2026",
       "title": "Are SaaS Directory Submissions Still Worth It in 2026?",
       "metaTitle": "Are SaaS Directory Submissions Still Worth It in 2026? | SolCrys",
