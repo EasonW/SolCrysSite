@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] When AI Describes Your Brand, Is It Telling the Truth? | SolCrys</title>
+    <meta name="description" content="AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/is-ai-telling-the-truth-about-your-brand/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-20" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] When AI Describes Your Brand, Is It Telling the Truth? | SolCrys" />
+    <meta property="og:description" content="AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts." />
+    <meta property="og:url" content="https://solcrys.com/is-ai-telling-the-truth-about-your-brand/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/is-ai-telling-the-truth-about-your-brand.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/is-ai-telling-the-truth-about-your-brand.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"When AI Describes Your Brand, Is It Telling the Truth?","item":"https://solcrys.com/is-ai-telling-the-truth-about-your-brand/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"When AI Describes Your Brand, Is It Telling the Truth?","description":"AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.","dateModified":"2026-06-20","datePublished":"2026-06-20","mainEntityOfPage":"https://solcrys.com/is-ai-telling-the-truth-about-your-brand/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/is-ai-telling-the-truth-about-your-brand/","mainEntity":[{"@type":"Question","name":"How do I check whether AI is describing my brand correctly?","acceptedAnswer":{"@type":"Answer","text":"Ask the questions your buyers actually ask in each engine (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude) and compare each answer against your current, real facts. Log every claim the engine dropped, every retired price or spec it quoted, and anything it asserted that you never said. Doing this once is revealing; doing it continuously, graded against a defined source of truth, is what Answer Accuracy automates."}},{"@type":"Question","name":"What's the difference between AI visibility tracking and Answer Accuracy?","acceptedAnswer":{"@type":"Answer","text":"Visibility tracking answers whether the engine mentions you, and how often. Answer Accuracy answers whether the engine describes you correctly. A brand can have high visibility and still be misrepresented in most of those mentions. Answer Accuracy grades each answer pass or fail against your grounding truth and, on a fail, returns the specific claim that was dropped, prohibited, fabricated, or outdated."}},{"@type":"Question","name":"Can AI search results really be manipulated?","acceptedAnswer":{"@type":"Answer","text":"Yes, and there's peer-reviewed evidence. A May 2026 Cornell Tech paper showed that roughly 13 words added to a single user-generated page can steer which sources research agents cite across a whole cluster of related queries, and that standard filters don't reliably catch it. The live attack was demonstrated on open-source deep-research agents; the same paper showed commercial agents rely heavily on the same easily-edited sources."}},{"@type":"Question","name":"What is Corporate Context?","acceptedAnswer":{"@type":"Answer","text":"Corporate Context is your brand's grounding truth, held by SolCrys as an authoritative, versioned document: your messaging pillars, required and prohibited claims, canonical facts, and current specs and pricing. It's set at the organization level so every workspace and every accuracy check grades against the same source of truth. When the facts change, you update it once."}},{"@type":"Question","name":"Which engines does Answer Accuracy cover?","acceptedAnswer":{"@type":"Answer","text":"All five major answer engines: ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude. Each answer gets its own verdict per engine and per run, so you can see exactly which engine got you wrong and where."}},{"@type":"Question","name":"Is Answer Accuracy generally available?","acceptedAnswer":{"@type":"Answer","text":"It's in preview. The underlying visibility and citation measurement is live today; you can run a free audit to see your baseline. To grade answers against your own grounding truth with Answer Accuracy, reach out and we'll enable it for your organization."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Risk Monitoring</p>
+        <h1>When AI Describes Your Brand, Is It Telling the Truth?</h1>
+        <p class="seo-lede">Most AI-search tools tell you whether an engine mentions you. The harder question is whether it mentions you correctly, because AI answers routinely drop a claim you earned, quote a retired price, or assert something you never said, and recent research shows that text can be steered on purpose. Answer Accuracy grades every AI answer against your own grounding truth across all five major engines and returns the receipts when an engine gets you wrong.</p>
+        <p>Updated 2026-06-20</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Is AI describing my brand correctly?</li><li>How do I check what ChatGPT and Gemini say about my company?</li><li>What do I do when AI states wrong facts about my brand?</li><li>Can AI search results be manipulated or poisoned?</li><li>How do I monitor brand accuracy across AI engines?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Most AI-search tools answer one question: does the engine mention you? The harder question, the one that actually moves deals, is whether it mentions you correctly. AI answers routinely drop a claim you spent years earning, quote a price or spec you retired long ago, or state something you never said with complete confidence. And a recent Cornell Tech paper shows that text can be steered on purpose: roughly 13 words planted on a single Reddit or Wikipedia page can change which sources research agents cite across an entire cluster of related questions.</p><p>You can&#39;t firewall the open web. You can measure what it does to the story AI tells about you, and prove it. That&#39;s what Answer Accuracy does, a SolCrys feature now in preview that grades every AI answer against your own grounding truth across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, and hands you the receipts when an engine gets you wrong: the exact claim it dropped, the prohibited or fabricated claim it asserted, and why. Not a vibe score.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Your customer meets your brand inside an answer you never wrote</h2>
+      <p>For a fast-growing share of buyers, the first encounter with your company is not your website. It&#39;s a paragraph inside an AI answer that summarizes you, positions you against competitors, and quietly decides what counts as true about you, before anyone at your company enters the conversation. (For how engines assemble that paragraph, see <a href="/how-ai-describes-your-brand/" target="_blank" rel="noopener noreferrer">how AI describes your brand</a>.)</p><p>This is not a forecast. In G2&#39;s April 2026 buyer-behavior research, 71% of B2B software buyers said they now rely on AI chatbots for software research, up from 60% the year before. 69% chose a different vendor than they had originally planned based on what an AI chatbot told them, and about one in three bought from a vendor they had never heard of before the model recommended it (G2, reported via PR Newswire, April 2026).</p><p>Read those numbers together and the conclusion is uncomfortable. The engine is the narrator of your brand for the buyers you most want, and the narrator is improvising. So the question that should keep a CMO or CEO up at night is simple: when the machine describes your company, is it telling the truth? Often, it isn&#39;t.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The four ways AI gets your brand wrong</h2>
+      <p>When an AI engine misrepresents you, it usually fails in one of four ways. Each maps to a concrete, checkable failure, not a feeling.</p>
+      
+      <table>
+              <thead><tr><th>Failure</th><th>What it looks like</th><th>Why it costs you</th></tr></thead>
+              <tbody><tr><td>Dropped claim</td><td>The differentiator you spent years earning never makes it into the answer</td><td>You sound generic; a competitor&#39;s claim fills the gap</td></tr><tr><td>Outdated fact</td><td>A price, plan, spec, or policy you retired long ago is quoted as current</td><td>Buyers anchor on the wrong number and disqualify you, or arrive misinformed</td></tr><tr><td>Fabrication</td><td>The engine asserts a feature, limit, or fact you never stated, with full confidence</td><td>A hallucinated fact becomes the buyer&#39;s first impression</td></tr><tr><td>Planted claim</td><td>Someone seeded misinformation the model now repeats</td><td>Your narrative is shaped by a party you didn&#39;t authorize</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Three of these are everyday hallucination, and they&#39;re expensive</h2>
+      <p>The first three failures are everyday <a href="/ai-hallucination-risk-monitoring/" target="_blank" rel="noopener noreferrer">hallucination</a>. They are also expensive. In a case working through the Minnesota courts, solar installer Wolf River Electric alleges Google&#39;s AI Overview falsely stated the company had been sued by the state Attorney General, a suit it was never part of, and that the answer cited sources which did not contain the claim. The company says customers cancelled signed contracts, and is seeking damages reported in the $110M to $210M range (Reason / Volokh Conspiracy, June 2025).</p><p>Earlier, a Canadian tribunal held Air Canada responsible for its support chatbot inventing a bereavement-refund policy that didn&#39;t exist, and ordered the airline to honor it. The pattern is consistent: the model speaks for you, the model is wrong, and you carry the cost.</p><p>The fourth failure, planted on purpose, used to be the speculative one. It isn&#39;t anymore.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;Planted on purpose&quot; is no longer hypothetical</h2>
+      <p>In May 2026, researchers at Cornell Tech (Zhang, Triedman, and Shmatikov) published <a href="https://arxiv.org/abs/2605.24245" target="_blank" rel="noopener noreferrer">Deep-Research Agents Can Be Poisoned via User-Generated Content</a> (arXiv:2605.24245). They showed that as few as ~13 words, appended to a single user-generated page, a Reddit comment, a Wikipedia paragraph, a Quora answer, can reliably steer which sources an AI research agent cites. Not for one query, but across an entire cluster of related questions, because deep-research agents retrieve the same popular pages again and again no matter how the user phrases the question.</p><p>The numbers are precise enough to take seriously. A single poisoned URL with ~13 words of injected text achieved a 38 to 51% mention rate for the attacker&#39;s chosen source, conditional on that page being retrieved. The live attack (the authors call it WARP, Web Agent Retrieval Poisoning) was demonstrated against open-source deep-research agents; the authors separately measured that commercial deep-research products lean heavily on the same user-generated sources, making them exposed to the identical lever.</p><p>Two findings matter most for anyone responsible for a brand:</p>
+      <ul class="seo-list"><li><strong>You cannot cleanly filter it out.</strong> The team tested the obvious defenses: blocking user-generated domains, screening inputs by statistical weirdness, screening outputs for similarity. All failed. The injected text actually looks more normal than ordinary content (lower perplexity), so it slips past filters built to catch anomalies.</li><li><strong>The engine isn&#39;t weighing credibility the way you&#39;d hope.</strong> As co-author Tingwei Zhang put it to 404 Media, which <a href="https://www.404media.co/it-is-trivially-easy-to-use-reddit-to-manipulate-ai-search-research-suggests/" target="_blank" rel="noopener noreferrer">covered the paper</a> weeks later: &quot;It&#39;s not thinking about which source you find more credible: a random Reddit comment or an article from a government website.&quot;</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>You can&#39;t firewall the open web, but you can prove what it does to you</h2>
+      <p>An honest note on engine specificity: the researchers ran the live poisoning against open-source agents and measured, but did not poison, commercial ones. The takeaway is not that ChatGPT has been hacked. It&#39;s that the retrieval layer every AI answer depends on is steerable by ordinary-looking text on the open web, and the most-cited sources are exactly the ones easiest to edit.</p><p>Here&#39;s the trap. You can&#39;t pre-approve every Reddit thread, every directory, every forum the engines pull from. The attack surface is the whole internet, and the defenses that should catch tampering don&#39;t. So lock down the web is not a strategy available to you.</p><p>What is available: continuously read the story the engines actually tell about you, hold it against the truth you&#39;ve defined, and catch every deviation with evidence, whether the cause is a stale page, an honest hallucination, or planted text. You move from hoping the narrator is accurate to knowing, with receipts, every place it isn&#39;t.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why we built Answer Accuracy</h2>
+      <p>That&#39;s the bet behind Answer Accuracy. SolCrys launched its AEO platform in May 2026. Four weeks later, in early June, we shipped the answer to exactly this threat. The feature is in preview now, and the rest of this page is how it works and how to start measuring your own exposure today.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How Answer Accuracy works</h2>
+      <p>Answer Accuracy grades every AI answer about your brand against an authoritative version of your own truth, across all five major engines. Three pieces make it work.</p><p><strong>1. Your grounding truth, held as Corporate Context.</strong> You define what&#39;s true about your brand once: your messaging pillars, the claims that must appear, the claims that must never appear, your canonical facts, and your current product specs and pricing. SolCrys holds this as a versioned Corporate Context, set at the organization level so it&#39;s shared and consistent across every workspace and every run. When you retire a price or earn a new claim, you update one source of truth and every future grade reflects it.</p><p><strong>2. A graded verdict on every answer, on every engine.</strong> For each prompt, on each of the five engines (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude), Answer Accuracy returns a pass or fail verdict with a confidence level. When an answer fails, it&#39;s classified into one specific, named category rather than a fuzzy score:</p>
+      
+      <table>
+              <thead><tr><th>Failure type</th><th>What it means</th></tr></thead>
+              <tbody><tr><td>Missing required claim</td><td>The answer omitted a claim your grounding truth requires</td></tr><tr><td>Prohibited claim</td><td>The answer asserted something your grounding truth disallows</td></tr><tr><td>Contradicts grounding</td><td>The answer materially conflicts with a canonical fact</td></tr><tr><td>Unsupported claim</td><td>The answer asserted something with no support, a fabrication</td></tr><tr><td>Outdated info</td><td>The answer stated a previously-true fact your grounding marks as retired</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Receipts, not vibes</h2>
+      <p>When an engine gets you wrong, you don&#39;t get a number to interpret. You get the evidence: the exact required claim it dropped, the specific prohibited or fabricated claim it asserted, the engine and run where it happened, and the reason. This is enforced where it counts. In the data model, a fail cannot exist without its evidence: a passing answer carries no violation, and a failing answer is structurally required to carry the specific deviating claims that justify the verdict. Trust isn&#39;t a slogan here; it&#39;s a database constraint.</p><p>That&#39;s a deliberate contrast with single-number AI visibility scoreboards, which can tell you a number went down but can&#39;t tell you which claim to fix. A score is something you watch. Receipts are something you act on.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where it fits: Measure, Diagnose, Execute, Verify</h2>
+      <p>SolCrys runs on one loop, Measure then Diagnose then Execute then Verify, and Answer Accuracy sharpens the first two and feeds the last.</p>
+      <ul class="seo-list"><li><strong>Measure</strong> stops being are you mentioned and becomes are you mentioned correctly. Presence is table stakes; accuracy is the metric that maps to revenue.</li><li><strong>Diagnose</strong> is where the receipts earn their keep. A dropped claim points you at a content or source-layer gap. A contradiction or outdated fact often points at a stale page, or at the Corporate Context itself if the truth was never written down clearly. The failure type tells you which fix, not just that there&#39;s a problem.</li><li><strong>Verify</strong> closes the loop. After you fix the source, the page, or the context, you re-test the same frozen prompts and watch the verdict flip from fail to pass. No guarantees of lift, just the same test, run again, showing whether the fix worked.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do this week</h2>
+      <p>You don&#39;t need a platform to start. You need an hour and your real buyer questions.</p>
+      <ul class="seo-list"><li><strong>Write down 10 to 15 questions a buyer would actually ask</strong> before choosing in your category: pricing, comparisons, is X good for Y, your category definition.</li><li><strong>Ask each one in all five engines</strong> and capture the verbatim answer about you.</li><li><strong>Hold each answer against your real, current facts.</strong> Mark every dropped claim, every outdated number, every fabrication.</li><li><strong>Decide the fix per failure.</strong> A missing claim is usually a content or source-layer job. A contradiction is usually a stale page. A fabrication often traces to weak or conflicting sources the engine had to guess from.</li><li><strong>Re-test the same questions after you ship the fix.</strong> If the answer didn&#39;t change, the fix didn&#39;t reach the retrieval layer.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See where you stand</h2>
+      <p>That&#39;s the manual version of the loop. When you want it run continuously, graded against a versioned source of truth across every engine, with the receipts attached, that&#39;s what Answer Accuracy automates.</p><p>Start with your baseline. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys will show you where the five major engines mention you, which sources they cite, and where you&#39;re missing from the answers your buyers ask (the <a href="/citation-gap-audit/" target="_blank" rel="noopener noreferrer">Citation Gap Audit</a>). Answer Accuracy is in preview: if grading those answers against your own grounding truth is the problem you&#39;re trying to solve, <a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">talk to us</a> about turning it on for your organization.</p><p>The web will keep narrating your brand whether or not you&#39;re listening. The only question is whether you can see what it&#39;s saying, and prove it.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How do I check whether AI is describing my brand correctly?</h3>
+            <p>Ask the questions your buyers actually ask in each engine (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude) and compare each answer against your current, real facts. Log every claim the engine dropped, every retired price or spec it quoted, and anything it asserted that you never said. Doing this once is revealing; doing it continuously, graded against a defined source of truth, is what Answer Accuracy automates.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between AI visibility tracking and Answer Accuracy?</h3>
+            <p>Visibility tracking answers whether the engine mentions you, and how often. Answer Accuracy answers whether the engine describes you correctly. A brand can have high visibility and still be misrepresented in most of those mentions. Answer Accuracy grades each answer pass or fail against your grounding truth and, on a fail, returns the specific claim that was dropped, prohibited, fabricated, or outdated.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can AI search results really be manipulated?</h3>
+            <p>Yes, and there&#39;s peer-reviewed evidence. A May 2026 Cornell Tech paper showed that roughly 13 words added to a single user-generated page can steer which sources research agents cite across a whole cluster of related queries, and that standard filters don&#39;t reliably catch it. The live attack was demonstrated on open-source deep-research agents; the same paper showed commercial agents rely heavily on the same easily-edited sources.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is Corporate Context?</h3>
+            <p>Corporate Context is your brand&#39;s grounding truth, held by SolCrys as an authoritative, versioned document: your messaging pillars, required and prohibited claims, canonical facts, and current specs and pricing. It&#39;s set at the organization level so every workspace and every accuracy check grades against the same source of truth. When the facts change, you update it once.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which engines does Answer Accuracy cover?</h3>
+            <p>All five major answer engines: ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude. Each answer gets its own verdict per engine and per run, so you can see exactly which engine got you wrong and where.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is Answer Accuracy generally available?</h3>
+            <p>It&#39;s in preview. The underlying visibility and citation measurement is live today; you can run a free audit to see your baseline. To grade answers against your own grounding truth with Answer Accuracy, reach out and we&#39;ll enable it for your organization.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/ai-hallucination-risk-monitoring/">AI Hallucination Risk Monitoring</a></h3>
+            <p>AI hallucination risk monitoring helps brands detect inaccurate, outdated, or unsupported claims in AI-generated answers and turn them into governed correction workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-ai-describes-your-brand/">How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)</a></h3>
+            <p>AI doesn&#39;t just decide whether to cite you, it decides what you are, and describes it differently on each engine. How the description forms, why a fix takes weeks to propagate, and how to correct it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-brand-disambiguation-playbook/">When AI Confuses Your Brand With a Same-Name Company: A Disambiguation Playbook</a></h3>
+            <p>An AI engine keeps mixing your brand up with a same-name company and citing both. Here&#39;s the four-step entity-disambiguation playbook to separate them — without ever naming the other company on your own site.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-_0XNCDOf.js"></script>
+  </body>
+</html>
