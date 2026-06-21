@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] Contested vs Settled AI-Citation Queries | SolCrys</title>
+    <meta name="description" content="Volatile AI-citation queries aren&#39;t a maintenance burden. They&#39;re contested open slots no source has won yet. How to read variance as a query-selection signal." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/contested-vs-settled-ai-citation-queries/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-21" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] Contested vs Settled AI-Citation Queries | SolCrys" />
+    <meta property="og:description" content="Volatile AI-citation queries aren&#39;t a maintenance burden. They&#39;re contested open slots no source has won yet. How to read variance as a query-selection signal." />
+    <meta property="og:url" content="https://solcrys.com/contested-vs-settled-ai-citation-queries/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/contested-vs-settled-ai-citation-queries.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/contested-vs-settled-ai-citation-queries.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Contested vs Settled: Why Your Most Volatile AI Queries Are the Open Slots, Not a Maintenance Burden","item":"https://solcrys.com/contested-vs-settled-ai-citation-queries/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Contested vs Settled: Your Most Volatile AI Queries Are the Open Slots","description":"Volatile AI-citation queries aren't a maintenance burden. They're contested open slots no source has won yet. How to read variance as a query-selection signal.","dateModified":"2026-06-21","datePublished":"2026-06-21","mainEntityOfPage":"https://solcrys.com/contested-vs-settled-ai-citation-queries/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/contested-vs-settled-ai-citation-queries/","mainEntity":[{"@type":"Question","name":"Why do my AI citations change every week?","acceptedAnswer":{"@type":"Answer","text":"Part of it is normal noise and part of it is the query type. Engines are non-deterministic, models update, competitors publish, and sampling cadence adds jitter, so a citation number moves even when nothing you control changed; the mechanics are covered in our guide on why your AI visibility score moves. On top of that, some queries are contested: no source has won the canonical slot yet, so the cited set genuinely reshuffles run to run. The discipline that keeps you honest is measuring presence as a rate over weeks. In our own nine-run stability test with no content change, overall mention rate oscillated between about 4.5% and 8.9% with no trend, which shows a single week's move is usually sampling variance, not a real shift."}},{"@type":"Question","name":"Which AI queries should I target first for GEO?","acceptedAnswer":{"@type":"Answer","text":"Target the high-value queries that are contested rather than already settled. A contested query shows low or middling presence and a cited set that reshuffles run to run, which means no source has locked the slot and the position is still open. A settled query shows high, stable presence with the same one or two sources cited every run, which means the contest already ended and entering it requires dislodging a trusted incumbent. Read each query's regime over several runs, not from one reading, and prioritize the volatile high-value ones because those are the open slots. This prioritization is our interpretation, offered as something to test on your own prompt set."}},{"@type":"Question","name":"Are volatile AI-citation queries worth optimizing?","acceptedAnswer":{"@type":"Answer","text":"Often yes, and that is the reframe at the center of this method. Most teams write off a volatile high-value query as unstable and chase queries that already read steady, which quietly selects for slots someone else has already won. We read the same volatility as a selection signal: a contested slot churns precisely because the canonical position is unclaimed, which is the moment a new source can become one of the corroborating few. The caveat is to first confirm the movement is real and not sampling noise, because at around 45 responses per prompt a single mention flipping moves presence by roughly two points on its own."}},{"@type":"Question","name":"What is a contested vs settled AI query?","acceptedAnswer":{"@type":"Answer","text":"They are the two ends of a spectrum, not a hard binary. A settled query is one where a canonical source has won the slot, so the answer is stable, presence is high, and the same sources are cited every run; branded, factual, and definitional questions skew this way. A contested query is one where no source has won, so presence is low or middling and the cited set reshuffles from run to run; unbranded discovery and feature questions skew this way. Treat query type as a prior to check, not a verdict, and confirm the regime by reading the pattern across several runs rather than a single one. The split is our labeled interpretation of how citation behavior clusters."}},{"@type":"Question","name":"How do you win an unstable AI-citation query?","acceptedAnswer":{"@type":"Answer","text":"You do not win it outright; you earn your way in through a governed loop, and the engines decide. Measure the query's presence as a rate over weeks to confirm it is genuinely contested rather than just noisy. Diagnose it against the tells: low presence and a cited set that churns across runs. Execute consistent, fresh, human-approved content that gets your claim corroborated across several of the independent sources each engine samples, since engines repeat what is corroborated rather than ranking one authoritative page. Then verify on re-runs, looking for a sustained climb that survives many readings rather than a one-run blip. The idea that agreement across sources settles the slot is our working hypothesis, consistent with our landscape data but not proven by it."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>Contested vs Settled: Your Most Volatile AI Queries Are the Open Slots</h1>
+        <p class="seo-lede">AI-citation volatility is a two-regime signal: contested queries reshuffle because no source has won the canonical slot yet, while settled ones are stable because one has. The high-variance, high-value queries most teams write off are the open slots still up for grabs, and you earn in by measuring them as a rate over weeks rather than reacting to a single run.</p>
+        <p>Updated 2026-06-21</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why do my AI citations change every week?</li><li>Which AI queries should I target first for GEO?</li><li>Are volatile AI-citation queries worth optimizing?</li><li>What is a contested vs settled AI query?</li><li>How do you win an unstable AI-citation query?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>AI-citation volatility is a signal about the query, not a flaw in your tracking. Some queries reshuffle their cited sources run after run; others sit rock-stable for weeks. The volatile ones are not a maintenance burden to be quieted down. In our reading they are the open slots: queries where no source has yet won the canonical position an engine reaches for, so the answer keeps drawing from a shifting handful of candidates.</p><p>We split the spectrum into two regimes. A <strong>contested</strong> query is unbranded discovery work, the &quot;best X for Y&quot; and feature-comparison questions where the engine has no settled go-to source and the cited set churns. A <strong>settled</strong> query is branded, factual, or definitional, where one canonical source has won and the answer barely moves. The reframe that follows from this is the whole point of the page: a high-value query that looks volatile is usually a slot still up for grabs, not a write-off.</p><p>You earn your way into a contested slot by treating it as a process, not a single reading. Measure presence as a rate over weeks instead of reacting to one run. Separate ordinary sampling run-variance from genuine week-over-week drift. Then feed consistent, fresh, human-approved signals across the independent sources each engine samples, and re-measure to see whether the rate is climbing. The regime split and the settling mechanism below are our labeled interpretation of how this works. The run-variance discipline and the one rock-stable branded example are what our own measured data shows, and we keep those two kinds of claim clearly separated throughout.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why citations move at all</h2>
+      <p>Before treating variance as a selection signal, it helps to know why an AI-citation number moves even when nothing you control has changed. We will not re-derive that here. The mechanics live in <a href="/why-ai-visibility-score-moves/" target="_blank" rel="noopener noreferrer">why your AI visibility score moves</a>: engines are non-deterministic by design, models get updated, competitors publish, third-party citations shift, freshness windows turn over, and sampling cadence introduces its own jitter. A score is a statistical estimate, not a deterministic count, so some movement is normal noise.</p><p>That page draws one conclusion: the moving score is a <strong>symptom</strong>, and the diagnostic job is to ask what new content was published and which citations changed, rather than panic at the number. This page makes the opposite move on the same raw phenomenon. There, variance is something to diagnose and often to ignore. Here, variance is a <strong>selection signal</strong>: a map of which queries are still contested and therefore still winnable. Same noise, inverted use. Read the score-moves page for the rigor on what is and is not real movement; read this one for what to do with the queries that move the most.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The two regimes, and how to tell them apart</h2>
+      <p>Contested and settled are the two ends of a spectrum, not a hard binary, and most prompts sit somewhere between. The diagnostic is not a single threshold; it is a pattern you read over several runs. A settled query shows high, stable presence with a small, recurring set of cited sources. A contested query shows low or middling presence with a cited set that reshuffles run to run, often pulling in a different domain each time.</p><p>Our own data gives a clean illustration of each end. The settled example is a single branded self-lookup, the prompt &quot;is SolCrys AI a legit AEO provider?&quot;, which sits at 100% presence (45 of 45 responses across all five engines), a citation rate around 49%, and sentiment of 20 positive, 25 neutral, 0 negative. That is what a slot with a won canonical source looks like: rock-stable, because the engines already have a place to go. This is one branded prompt illustrating a settled slot. It is not a measured finding that branded or factual queries are stable as a class.</p><p>The contested end is the discovery cohort: &quot;closed loop AI visibility&quot; around 18% presence, &quot;CMS integration&quot; around 9%, &quot;cover Amazon Rufus&quot; around 7%, &quot;tracking brand visibility in ChatGPT/Perplexity&quot; around 2%, and roughly sixteen other discovery prompts at 0%. These are low and noisy, the signature of slots no source has locked. The practical tells for sorting a query yourself:</p>
+      <ul class="seo-list"><li><strong>Presence level</strong>: settled queries cluster near the top (consistently high presence); contested queries sit low or in the middle and bounce.</li><li><strong>Source stability</strong>: settled queries cite the same one or two sources every run; contested queries pull a different domain into the answer from run to run.</li><li><strong>Query type as a prior, not a rule</strong>: branded, factual, and definitional questions skew settled; unbranded &quot;best X for Y&quot; and feature questions skew contested. Treat type as a hint to check, never as the verdict.</li><li><strong>Read it over runs, not once</strong>: a single run cannot tell the two apart, because one run of a contested query can look deceptively stable by luck. The regime shows up in the pattern across several runs.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The reframe: a volatile high-value query is an open slot, not a write-off</h2>
+      <p>Here is the inversion, stated plainly as our interpretation. Most teams see a high-value query that swings between runs and conclude it is unstable, unreliable, or not worth the effort, and they redirect attention to queries that already read steady. That instinct quietly selects for slots someone else has already won, where your upside is smallest.</p><p>We read the same volatility the other way. A contested slot is churning precisely because the position is unclaimed. The engines are still shopping among candidate sources because none has earned the canonical spot. That is the moment a new source can become one of the corroborating few. A settled slot, by contrast, is stable because the contest already ended, and entering it means dislodging an incumbent that the engines have learned to trust. So variance flips from a symptom you suppress into a selection signal you act on: the volatile, high-value queries are the ones to prioritize, not the ones to write off.</p><p>This is an interpretation, not a measurement, and we want to be exact about the boundary. We are not claiming our data proves that prioritizing volatile queries produces citations. We are claiming the logic is sound and worth testing on your own prompt set: target the high-value queries that are still contested, because those are the slots still open. The disciplined way to act on that without fooling yourself is the subject of the rest of this page, and the broader &quot;design a test you cannot fool yourself with&quot; frame lives in the <a href="/testable-geo-playbook/" target="_blank" rel="noopener noreferrer">testable GEO playbook</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Run-variance vs non-stationarity: the discipline we actually own</h2>
+      <p>The reframe only works if you can tell a query that is genuinely moving from one that is merely sampling noisily. This is the part our data supports most firmly, and it is the discipline we hold ourselves to. The strongest grounded fact we have, as of the 7-day window ending 2026-06-21, is a stability test: nine consecutive runs of the same prompt set, with no content change between them, produced these overall mention rates, in percent:</p>
+      <ul class="seo-list"><li>7.95, 5.45, 5.0, 5.0, 8.86, 5.0, 4.55, 6.36, 7.05</li><li>No monotonic trend. The series oscillates inside a band and goes nowhere, even though nothing changed between runs.</li><li>At roughly n=45 responses per prompt, a single mention appearing or vanishing moves a prompt&#39;s presence by about two percentage points on its own.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What this means for the contested cohort</h3>
+        <p>Apply that to the discovery prompts above. Their run-to-run changes are small, on the order of plus or minus 1.5 to 3.2 percentage points. At n=45 per prompt, that is one mention flipping. It is sampling run-variance, not a slot being won or lost between two readings. The honest, fully grounded statement about the contested cohort is the negative one: across these runs there is no monotonic drift. We do not publish a one-mention flip as a trend, and neither should you.</p><p>The rule that falls out of this is simple. Measure presence as a rate over weeks of runs, never from a single reading and never from a two-run difference. Run-variance is the wobble you see when nothing changed; non-stationarity is a sustained move that survives many runs. Only the second is a real signal, and the nine-run series is the reason we insist on the distinction. If you want the statistics on how many runs it takes before a presence number is trustworthy, that is its own topic in <a href="/how-many-runs-until-ai-visibility-trustworthy/" target="_blank" rel="noopener noreferrer">how many runs until your AI-visibility number is trustworthy</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How a contested slot settles: per-engine corroboration</h2>
+      <p>If a contested slot can settle, what does the settling look like? Our working hypothesis, and we are labeling it a hypothesis on purpose, is that a slot settles per engine when several independent sources corroborate the same claim, giving the engine a stable place to reach. We hand the full mechanism to <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>, which makes the case that engines repeat the claim corroborated across the most independent sources rather than ranking a single authoritative page. &quot;Agreement settles the slot&quot; is the one-line version of that idea, and it is our hypothesis, not a measured result.</p><p>Our landscape data is consistent with this picture without proving it. Across the window we looked at 13,377 citations spanning 1,507 domains, with no single domain dominating: reddit.com is #1 at about 6.4%, wikipedia is #2 at about 3.6%, and nothing sits above that 6.4% ceiling. The engines also barely agree with each other. Per-engine mention rates differ sharply, with Claude strongest around 9.6% and Perplexity weakest around 4.5%, which points to low cross-engine source overlap. That is exactly what you would expect if each engine samples a different handful of sources, and a slot has to settle separately inside each one as its sampled sources start to corroborate. We say &quot;consistent with,&quot; not &quot;proven by,&quot; because nothing in this landscape snapshot demonstrates the causal step from agreement to a settled slot. It is a hypothesis the data does not contradict.</p><p>Two consequences follow from taking the per-engine view seriously. First, there is no blanket &quot;AI engines do X&quot; here; a slot can be settled in Claude and still contested in Perplexity, so you read and act per engine. Second, settling is not instant. New material has to be crawled, indexed, and corroborated, which is a process measured in days, not minutes. We say daily, not real-time, about that clock.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to earn a contested slot, governed</h2>
+      <p>Earning into a contested slot is the same governed loop SolCrys runs on everything else: measure, diagnose, execute, verify. Nothing about it is automatic, and the execute step stays human-approved. We do not claim the engine publishes for you, and we do not promise a slot; you earn your way in, and the engines decide.</p><p>The loop applied to a contested query looks like this:</p>
+      <ul class="seo-list"><li><strong>Measure the rate.</strong> Track presence for the query as a rate over weeks of runs, not from one reading. A single run cannot tell you whether a slot is contested or settled, and a two-run difference is usually just run-variance.</li><li><strong>Diagnose contested vs settled.</strong> Use the tells above: presence level, source stability across runs, and query type as a prior. Confirm the high-value queries you care about are genuinely contested (low and churning), which is what makes them open rather than already lost.</li><li><strong>Execute consistent fresh signals across sampled sources, human-approved.</strong> Because each engine samples a different handful of independent sources, the work is getting your claim corroborated across several of them over time, not perfecting one authoritative page. Every piece is reviewed and approved by a person before it ships. The corroboration mechanism is detailed in <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>.</li><li><strong>Verify on a re-run.</strong> Re-measure over subsequent runs and look for a sustained climb that survives many readings, the non-stationarity signal rather than a one-run blip. If the rate holds its rise across weeks, the slot is settling for you; if it wobbles inside its band, nothing real has moved yet.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Where owned content fits, and where it does not</h3>
+        <p>Your own domain is one corroborating source among several, not the whole game. In the category data above, solcrys.com sits inside the top 10 of roughly 1,500 cited domains, just under 2% of category citations, and is cited across all five engines. That is a meaningful position for a single domain, not a sliver, and it is also not the lever on its own. For the exact dated figure and how that owned share is measured, see <a href="/wikipedia-techradar-reddit-dominate-ai-citations/" target="_blank" rel="noopener noreferrer">Reddit, Wikipedia, and TechRadar dominate AI citations</a>, which is the canonical home for our own rank and owned-citation share. We link there rather than restating a number that moves week to week. Owned content earns the click when the engine surfaces you; the third-party corroboration is usually what earns the mention in the first place.</p><p>One more sequencing note: do not delete the contested prompts that read 0% today. A query with no presence yet is an open slot you have not entered, not a dead one. The four-state way to manage a prompt set so you keep these candidates instead of pruning them is laid out in the <a href="/aeo-prompt-set-lifecycle/" target="_blank" rel="noopener noreferrer">AEO prompt-set lifecycle</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What we don&#39;t claim</h2>
+      <p>To keep the method honest, here is the boundary of what this page does and does not assert.</p><p>The discipline below is what our data actually shows. The interpretation above it is ours, offered as a frame to test on your own prompt set, not as a proven law.</p>
+      <ul class="seo-list"><li><strong>We do not claim branded or factual queries are stable as a class.</strong> Our settled example is a single branded self-lookup at 100% presence. It illustrates what a settled slot looks like. It is one prompt, not a measured cohort, and we do not generalize the regime from n=1.</li><li><strong>We do not publish the contested cohort&#39;s small run-to-run moves as slots being won or lost.</strong> Those plus-or-minus-1-to-3-point changes are one mention flipping at n=45, which is sampling run-variance. The only clean trend statement our data supports for that cohort is the negative one: no monotonic drift.</li><li><strong>We do not claim a slot settles because sources agree.</strong> That is a hypothesis our landscape is consistent with, not a measurement. The causal step from corroboration to a settled slot is unproven, and we label it a hypothesis everywhere it appears.</li><li><strong>We did not run a study ranking many query types by citation stability.</strong> The regime framing is a logical reading of how citations behave, generalized as method. We are not implying SolCrys measured a stability ranking across query types, and there is no such study behind this page.</li><li><strong>We do not promise a slot, or claim the engine publishes for you.</strong> Contested slots are up for grabs; you earn your way in with human-approved content, and the engines decide. The settling clock is daily, not real-time, because new material must be crawled and corroborated over days.</li><li><strong>We measure per engine, not as one blob.</strong> The five engines barely overlap in the sources they cite, so a query can be settled in one and contested in another. There is no blanket &quot;AI engines do X&quot; claim here.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Start with your own contested slots</h3>
+        <p>The fastest way to see which of your high-value queries are contested open slots and which are already settled is to measure them as a rate across runs and read the variance as a selection signal. A free SolCrys audit shows where you stand across the engines and which queries are still up for grabs. It is free, no credit card. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a>.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys citation, visibility, and per-prompt measurement, workspace solcysai-aeo, 7-day window ending 2026-06-21, five engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, Claude); 22 prompts, 9 runs, 13,377 citations</a></li><li><a href="https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations" target="_blank" rel="noopener noreferrer">SolCrys 36,268-citation AEO category study — canonical owned-baseline (rank and owned-citation share)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why do my AI citations change every week?</h3>
+            <p>Part of it is normal noise and part of it is the query type. Engines are non-deterministic, models update, competitors publish, and sampling cadence adds jitter, so a citation number moves even when nothing you control changed; the mechanics are covered in our guide on why your AI visibility score moves. On top of that, some queries are contested: no source has won the canonical slot yet, so the cited set genuinely reshuffles run to run. The discipline that keeps you honest is measuring presence as a rate over weeks. In our own nine-run stability test with no content change, overall mention rate oscillated between about 4.5% and 8.9% with no trend, which shows a single week&#39;s move is usually sampling variance, not a real shift.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which AI queries should I target first for GEO?</h3>
+            <p>Target the high-value queries that are contested rather than already settled. A contested query shows low or middling presence and a cited set that reshuffles run to run, which means no source has locked the slot and the position is still open. A settled query shows high, stable presence with the same one or two sources cited every run, which means the contest already ended and entering it requires dislodging a trusted incumbent. Read each query&#39;s regime over several runs, not from one reading, and prioritize the volatile high-value ones because those are the open slots. This prioritization is our interpretation, offered as something to test on your own prompt set.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are volatile AI-citation queries worth optimizing?</h3>
+            <p>Often yes, and that is the reframe at the center of this method. Most teams write off a volatile high-value query as unstable and chase queries that already read steady, which quietly selects for slots someone else has already won. We read the same volatility as a selection signal: a contested slot churns precisely because the canonical position is unclaimed, which is the moment a new source can become one of the corroborating few. The caveat is to first confirm the movement is real and not sampling noise, because at around 45 responses per prompt a single mention flipping moves presence by roughly two points on its own.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a contested vs settled AI query?</h3>
+            <p>They are the two ends of a spectrum, not a hard binary. A settled query is one where a canonical source has won the slot, so the answer is stable, presence is high, and the same sources are cited every run; branded, factual, and definitional questions skew this way. A contested query is one where no source has won, so presence is low or middling and the cited set reshuffles from run to run; unbranded discovery and feature questions skew this way. Treat query type as a prior to check, not a verdict, and confirm the regime by reading the pattern across several runs rather than a single one. The split is our labeled interpretation of how citation behavior clusters.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do you win an unstable AI-citation query?</h3>
+            <p>You do not win it outright; you earn your way in through a governed loop, and the engines decide. Measure the query&#39;s presence as a rate over weeks to confirm it is genuinely contested rather than just noisy. Diagnose it against the tells: low presence and a cited set that churns across runs. Execute consistent, fresh, human-approved content that gets your claim corroborated across several of the independent sources each engine samples, since engines repeat what is corroborated rather than ranking one authoritative page. Then verify on re-runs, looking for a sustained climb that survives many readings rather than a one-run blip. The idea that agreement across sources settles the slot is our working hypothesis, consistent with our landscape data but not proven by it.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/why-ai-visibility-score-moves/">Why Your AI Visibility Score Moves</a></h3>
+            <p>AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/testable-geo-playbook/">Most GEO Advice Is Untestable. Here&#39;s How to Run It, and Not Fool Yourself.</a></h3>
+            <p>AI answers are non-deterministic, so a naive GEO test lies to you confidently. The four test-design rules that decide whether your AI-visibility result is signal or noise: measure a rate, test at the buyer&#39;s specificity level, test per language, and sort each cited source by the move.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-MwkqRVrR.js"></script>
+  </body>
+</html>
