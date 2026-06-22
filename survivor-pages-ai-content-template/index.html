@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Survivor Pages: Your AI-Era Content Template | SolCrys</title>
+    <meta name="description" content="In the AI-answer era your informational pages weren&#39;t penalized, they were absorbed. The pages that survived are your new content brief. One question tells you which." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/survivor-pages-ai-content-template/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Survivor Pages: Your AI-Era Content Template | SolCrys" />
+    <meta property="og:description" content="In the AI-answer era your informational pages weren&#39;t penalized, they were absorbed. The pages that survived are your new content brief. One question tells you which." />
+    <meta property="og:url" content="https://solcrys.com/survivor-pages-ai-content-template/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/survivor-pages-ai-content-template.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/survivor-pages-ai-content-template.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"The Pages You Were About to Kill Are Your New Content Template","item":"https://solcrys.com/survivor-pages-ai-content-template/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The Pages You Were About to Kill Are Your New Content Template","description":"In the AI-answer era your informational pages weren't penalized, they were absorbed. The pages that survived are your new content brief. One question tells you which.","dateModified":"2026-06-22","datePublished":"2026-06-22","mainEntityOfPage":"https://solcrys.com/survivor-pages-ai-content-template/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/survivor-pages-ai-content-template/","mainEntity":[{"@type":"Question","name":"How do I know if an AI answer box replaced my page?","acceptedAnswer":{"@type":"Answer","text":"Run one binary test: could an answer box replace the page outright — not summarize or link to it, but stand in for it so a reader who saw the box has no reason to arrive? If yes, the page existed to be the destination, and the destination is what the box became. Pages that define a term, list known steps, or recap consensus almost always fail this test. The confirming signal is in your analytics: informational pages that lost clicks without losing rankings were absorbed, not penalized."}},{"@type":"Question","name":"Should I delete my how-to pages?","acceptedAnswer":{"@type":"Answer","text":"Not reflexively. Run each through the page test. A thin how-to page that was fully absorbed and nothing links to is an archive candidate — removing it concentrates authority on pages that survive. Several overlapping how-to pages are a merge: fold them into one and add the thing the box cannot generate, such as your own result from doing it, the trade-off you hit, or the case where the standard advice fails. A how-to page that already carries first-hand data or a real decision call is a survivor — keep and deepen it."}},{"@type":"Question","name":"What does a page that gets cited by AI look like?","acceptedAnswer":{"@type":"Answer","text":"It exists to be cited, not to be the destination. Four shapes qualify: a real take (a stated position, not a hedged survey), a comparison (a side-by-side the model would otherwise have to rebuild), a decision call (a named recommendation, not 'it depends'), and first-hand data (a number you measured that exists nowhere else). First-hand data is the strongest because a model structurally cannot regenerate it and must attribute it. The common thread: the box can quote the page but cannot be the page."}},{"@type":"Question","name":"Does publishing more content help AI visibility?","acceptedAnswer":{"@type":"Answer","text":"Volume of informational pages does not buy citations. In a 7-day pull ending June 22, 2026 (5 engines, 22 prompts), AI answers drew on 10,866 citations across 1,342 domains with no single source owning even a small share, and the cited layer was dominated by takes, comparisons, and community and editorial content — not how-to pages. Our own domain sits in the top 10 of those domains yet earns citations on only about 5 of 22 tracked prompts. A large library of absorbed pages and one cited comparison page are not on the same curve; the cited layer rewards the survivor shape, prompt by prompt."}},{"@type":"Question","name":"How is this different from a normal content audit?","acceptedAnswer":{"@type":"Answer","text":"A normal audit reads low-traffic pages as failures to fix or cut. This reads them as a map: the pages the answer box absorbed tell you what to stop making, and the pages that survived tell you what to make more of. It also closes a loop instead of running once — measure the portfolio with the page test, execute the survivor template through human-approved changes, then verify re-citation on your actual prompt set, since a single run is one draw and not a result. The audit stops being a post-mortem and becomes a content pipeline."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>The Pages You Were About to Kill Are Your New Content Template</h1>
+        <p class="seo-lede">When AI answer boxes absorbed your informational traffic, they did not penalize your pages uniformly; they replaced the ones that existed to be the destination and left the ones a model has to cite, so a single binary test on each page tells you which to kill or merge and which to study as the template for everything you build next.</p>
+        <p>Updated 2026-06-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>which pages survive AI Overviews</li><li>how to know if an AI answer box replaced my page</li><li>what content gets cited by AI</li><li>should I delete how-to pages for AI search</li><li>AI-era content audit</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>The inversion in one line: your audit&#39;s worst pages are not the wound, they are the map</h2>
+      <p>Open the content audit. The pages bleeding traffic are not a random sample of what you publish — they are a specific, legible class, and that legibility is the whole point. The mechanics of why are settled: zero-click answer boxes absorbed the informational query, so the page that used to receive the click no longer does (the full <a href="/organic-traffic-died-ai-overviews-recovery/" target="_blank" rel="noopener noreferrer">recovery playbook for that</a> covers the mechanics). Treat that as covered and move on, because re-litigating it is the trap.</p><p>The non-obvious move is to read the audit as an inversion rather than a verdict. The pages that collapsed were not penalized for quality; they were absorbed because they did a job the box now does itself. The pages that held were not lucky; they did a job the box cannot do. That is a reallocation of attention, not a punishment — which means the grim half of your audit is not a list of failures to mourn. It is a brief. The losers tell you what to stop making. The survivors tell you, line by line, what to make more of.</p><p>So the rest of this page is not about saving the absorbed pages. It is about reading the survivors as a template, and turning the audit itself into the first step of a loop you run on a schedule rather than a one-time cleanup.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The one-question page test: could an AI answer box replace this page outright?</h2>
+      <p>Run every informational page through a single binary question: could an AI answer box replace this page outright? Not summarize it, not link to it — replace it, so that a reader who got the box would have no reason to arrive.</p><p>A yes means the page exists to be the destination. It defines a term, lists the steps, states the formula, recaps the well-known. All of that is exactly what the box now generates on demand from a hundred other pages that said the same thing. The page was the destination, and the destination is what the box already became. A yes is not a quality judgment; some of these pages are well written. It is a redundancy judgment.</p><p>A no means the page contains something the box cannot stand in for: a position it would have to attribute, a comparison it would have to reproduce, a number only you measured, a judgment call a model will not make on its own behalf. The box can quote this page, but it cannot be this page. That asymmetry — citable but not replaceable — is the entire survivor signal, and the test is binary on purpose so it generates a build list, not just a kill list.</p><p>The test is posed to produce, not only to prune. Each no is a worked example of a page worth more of. Each yes is either a candidate for the merge pile or a prompt: what would it take to turn this destination page into a page the box has to cite?</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Kill, merge, build: a page-portfolio triage</h2>
+      <p>Point the keep / rewrite / archive / add muscle at pages, not prompts. The output of the one-question test sorts cleanly into four moves, and the discipline is to act on the whole portfolio rather than chase one URL.</p><p>The yeses split between archive and merge. A thin, fully-absorbed definition page that nothing links to is an archive: removing it concentrates authority on the pages that survive. Three overlapping how-to pages that each got absorbed are a merge: fold them into one page that adds the thing the box cannot generate — your own result from doing it, the trade-off you hit, the case where the standard advice fails.</p><p>The noes are the template, not the to-do list. Before you write a single new brief, study them. What do your surviving pages share — a stated take, a side-by-side, a decision recommendation, a dataset? That shared shape is the brief for everything in the add column. You are not inventing a new content strategy; you are reverse-engineering the one your own survivors already prove.</p>
+      
+      <table>
+              <thead><tr><th>Page-test result</th><th>Move</th><th>Why</th></tr></thead>
+              <tbody><tr><td>Yes — thin, absorbed, unlinked</td><td>Archive</td><td>The box replaced it; removing it concentrates authority on pages that survive.</td></tr><tr><td>Yes — several overlapping absorbed pages</td><td>Merge</td><td>Fold into one page and add what the box cannot generate (your result, the trade-off, the failure case).</td></tr><tr><td>No — a take, comparison, decision call, or first-hand data</td><td>Keep and deepen</td><td>This is a survivor; sharpen the citable element and keep it current.</td></tr><tr><td>Gap — a no-shaped page you have not built</td><td>Build</td><td>Use the survivors as the template; brief the page the box has to cite, not the one it replaced.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why the survivors survive: they exist to be cited, not to be the destination</h2>
+      <p>The pages that held a line through the answer-box transition share one property: they exist to be cited, not to be the destination. A model assembles its answer from sources, and it reaches for a source when the source supplies something the model cannot generate from consensus alone.</p><p>Four things qualify. A real take — a stated position with a point of view, not a hedged survey of all views. A comparison — a side-by-side the model would otherwise have to reconstruct, which is expensive enough that citing yours is easier. A decision call — an actual recommendation, the named choice rather than &#39;it depends.&#39; And first-hand data — a number you measured that exists nowhere else, so the model cannot regenerate it and must attribute it. Our breakdown of <a href="/how-to-write-content-that-gets-cited-by-ai/" target="_blank" rel="noopener noreferrer">how to build each of these into a page</a> on purpose walks through all four.</p><p>First-hand data is the strongest of the four because it is the one a model structurally cannot fake. A take can be paraphrased; a comparison can be re-derived; but a measurement only you ran has no substitute in the training distribution, so attribution is the only honest path to it. This is why <a href="/production-is-cheap-trust-is-scarce/" target="_blank" rel="noopener noreferrer">production is cheap and trust is scarce</a> holds in the answer era: when generation is free, the scarce input is the thing that had to be observed rather than written, and that is what survives.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The proof it is rank-9-hard, not automatic</h2>
+      <p>Survivor pages get cited; they are not handed citations. The live citation landscape makes that concrete, and it should be read as a diagnostic of how the cited layer is composed — not as causal proof that any one page move buys a citation.</p><p>In a 7-day pull ending June 22, 2026 (5 engines, 22 prompts), AI answers drew on 10,866 citations spread over 1,342 distinct domains. No single domain owned even a small slice of that pool — the most-cited source sat near six percent and the field fell away fast from there. The cited layer is dominated by exactly the survivor shapes: UGC and editorial and comparison content. The two most-cited domains were a community forum and a reference encyclopedia; the next tier was competitor blogs. Owned content across all brands was the thinnest slice of the pool.</p><p>Our own domain is a clean worked example of how hard this is. solcrys.com sits in the top 10 of those ~1,300 cited domains — just under two percent of all citations, which is high for one domain — yet it earns those citations on only about 5 of our 22 tracked prompts. A heavy publisher with a large library of informational pages still converts citations on a handful of prompts, not most of them. For the exact dated figures behind this, the canonical breakdowns are <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">the owned-vs-earned baseline</a> and <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">the measurement methodology</a>; <a href="/what-gets-cited-geo-study/" target="_blank" rel="noopener noreferrer">the GEO study of what gets cited</a> covers the experimental side of the same question.</p><p>The lesson is blunt: volume of informational pages does not buy citations. A thousand absorbed how-to pages and one cited comparison page are not on the same curve. The cited layer rewards the survivor shape, and it does so unevenly, prompt by prompt — which is why <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">citation is consensus, not authority</a> frames it as something earned against a contested field rather than granted by output.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Turn the audit into the loop: measure, execute, verify</h2>
+      <p>The one-question test is not a one-time cleanup; it is the measure step of a loop you run on a schedule. The audit measures which pages the box replaced and which it has to cite. The survivor template is what you execute against — new pages and merged pages built in the shape your survivors already prove. And the verify step is the part most teams skip: re-check citation on your actual prompt set after the work ships.</p><p>Verify matters because a single reading lies. Across seven consecutive daily runs of the same prompt set, our own overall mention rate swung from roughly 5 percent to nearly 9 and back below 5 with no trend — one run is one draw, not a result. A page that looks newly cited on Monday may simply have caught a favorable run. The honest signal is whether it holds citation across runs, on the prompts you care about, which is why the prompt set is a maintained asset rather than a fixed list — see <a href="/aeo-prompt-set-lifecycle/" target="_blank" rel="noopener noreferrer">the AEO prompt-set lifecycle</a>.</p><p>Closed, the loop is the discipline: measure the portfolio with the page test, execute the survivor template through governed, human-approved changes, verify re-citation on the prompt set, then read the next audit as the next brief. Run it once and you get a snapshot; run it on a schedule and the audit stops being a post-mortem and becomes a content pipeline.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The takeaway: brief the pages the box has to cite</h2>
+      <p>Stop briefing the pages the box replaced. Every additional definition page, step list, or term explainer is a page you are building to be absorbed — work the answer box will happily do for free, sourced from everyone but you.</p><p>Brief the pages it has to cite instead. Take a position. Run the comparison. Make the call. Publish the number only you measured. Those are the survivors, and your own audit already named them for you — the worst pages are the map to the best ones.</p><p>SolCrys runs that loop as governed AEO execution: measure which pages got absorbed, diagnose the survivor shapes worth scaling, execute the template through human-approved changes, and verify re-citation on your prompt set rather than trusting a single run. You can start with the measure step — point it at your prompts and see which of your pages the box has to cite — free, no credit card, at app.solcrys.com/audit. Start Free.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys citation, visibility, and per-prompt measurement, workspace solcysai-aeo, 7-day window ending 2026-06-22, five engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, Claude); 22 prompts, 7 runs, 10,866 citations</a></li><li><a href="https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations" target="_blank" rel="noopener noreferrer">SolCrys 36,268-citation AEO category study — canonical owned-baseline (rank and owned-citation share)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How do I know if an AI answer box replaced my page?</h3>
+            <p>Run one binary test: could an answer box replace the page outright — not summarize or link to it, but stand in for it so a reader who saw the box has no reason to arrive? If yes, the page existed to be the destination, and the destination is what the box became. Pages that define a term, list known steps, or recap consensus almost always fail this test. The confirming signal is in your analytics: informational pages that lost clicks without losing rankings were absorbed, not penalized.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I delete my how-to pages?</h3>
+            <p>Not reflexively. Run each through the page test. A thin how-to page that was fully absorbed and nothing links to is an archive candidate — removing it concentrates authority on pages that survive. Several overlapping how-to pages are a merge: fold them into one and add the thing the box cannot generate, such as your own result from doing it, the trade-off you hit, or the case where the standard advice fails. A how-to page that already carries first-hand data or a real decision call is a survivor — keep and deepen it.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What does a page that gets cited by AI look like?</h3>
+            <p>It exists to be cited, not to be the destination. Four shapes qualify: a real take (a stated position, not a hedged survey), a comparison (a side-by-side the model would otherwise have to rebuild), a decision call (a named recommendation, not &#39;it depends&#39;), and first-hand data (a number you measured that exists nowhere else). First-hand data is the strongest because a model structurally cannot regenerate it and must attribute it. The common thread: the box can quote the page but cannot be the page.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does publishing more content help AI visibility?</h3>
+            <p>Volume of informational pages does not buy citations. In a 7-day pull ending June 22, 2026 (5 engines, 22 prompts), AI answers drew on 10,866 citations across 1,342 domains with no single source owning even a small share, and the cited layer was dominated by takes, comparisons, and community and editorial content — not how-to pages. Our own domain sits in the top 10 of those domains yet earns citations on only about 5 of 22 tracked prompts. A large library of absorbed pages and one cited comparison page are not on the same curve; the cited layer rewards the survivor shape, prompt by prompt.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How is this different from a normal content audit?</h3>
+            <p>A normal audit reads low-traffic pages as failures to fix or cut. This reads them as a map: the pages the answer box absorbed tell you what to stop making, and the pages that survived tell you what to make more of. It also closes a loop instead of running once — measure the portfolio with the page test, execute the survivor template through human-approved changes, then verify re-citation on your actual prompt set, since a single run is one draw and not a result. The audit stops being a post-mortem and becomes a content pipeline.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/organic-traffic-died-ai-overviews-recovery/">SaaS Organic Traffic Died in 2026? The AI Overviews Diagnostic and Recovery Playbook.</a></h3>
+            <p>Informational traffic falling off a cliff in 2026 is real and measurable - Seer found a 61% organic CTR drop on queries with an AI Overview. Here is the 3-minute Search Console diagnostic, an honest verdict on what is not coming back, and the recovery path the data actually supports.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-write-content-that-gets-cited-by-ai/">How to Write Content That Gets Cited by AI Search (2026 Craft Guide)</a></h3>
+            <p>A craft-focused guide to writing content AI engines actually cite. 9 content patterns with before/after examples, engine-by-engine preferences, and what 17,551 citations reveal.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/production-is-cheap-trust-is-scarce/">Production Is Cheap. Trust Is Scarce.</a></h3>
+            <p>AI made producing brand content nearly free, but made being cited, recommended, and trusted by AI engines radically more scarce and concentrated. A field note from SolCrys Co-Founder &amp; CPO Eason Wang on what changes when production stops being the marketing bottleneck — and what the new substrate is.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DwkBpRII.js"></script>
+  </body>
+</html>

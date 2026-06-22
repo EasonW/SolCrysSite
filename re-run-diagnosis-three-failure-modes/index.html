@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Why You&#39;re Not Cited in AI Search: 3 Failure Modes a Re-Run Tells Apart | SolCrys</title>
+    <meta name="description" content="A prompt re-run sorts a citation failure into one of three modes - Absent, Mis-described, or Out-competed - and each routes to a different AEO fix." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/re-run-diagnosis-three-failure-modes/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Why You&#39;re Not Cited in AI Search: 3 Failure Modes a Re-Run Tells Apart | SolCrys" />
+    <meta property="og:description" content="A prompt re-run sorts a citation failure into one of three modes - Absent, Mis-described, or Out-competed - and each routes to a different AEO fix." />
+    <meta property="og:url" content="https://solcrys.com/re-run-diagnosis-three-failure-modes/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/re-run-diagnosis-three-failure-modes.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/re-run-diagnosis-three-failure-modes.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Why You're Not Cited in AI Search: the Three Failure Modes a Prompt Re-Run Tells Apart (and the Fix for Each)","item":"https://solcrys.com/re-run-diagnosis-three-failure-modes/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why you're not cited in AI search: the three failure modes a prompt re-run tells apart","description":"A prompt re-run sorts a citation failure into one of three modes - Absent, Mis-described, or Out-competed - and each routes to a different AEO fix.","dateModified":"2026-06-22","datePublished":"2026-06-22","mainEntityOfPage":"https://solcrys.com/re-run-diagnosis-three-failure-modes/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/re-run-diagnosis-three-failure-modes/","mainEntity":[{"@type":"Question","name":"Why am I not cited in AI search?","acceptedAnswer":{"@type":"Answer","text":"Because one of three distinct things is broken, and a prompt re-run is how you tell them apart. Either you are Absent (no source the engine trusts corroborates you on that topic), Mis-described (you are named but the framing is flat or stale, fed by a specific source), or Out-competed (a competitor is named as the primary pick because they out-corroborate you). Each routes to a different fix, so the first step is diagnosis, not writing more content. In a 7-day window ending 2026-06-22, 17 of 22 buyer prompts sat at 0% presence - a textbook Absent signature pointing to a missing-source problem rather than a content one."}},{"@type":"Question","name":"How many times should I re-run my prompts before I believe a change?","acceptedAnswer":{"@type":"Answer","text":"More than once, because a single run is one sampled draw and will move on its own. In 7 consecutive daily runs of an identical prompt set, the overall mention rate swung between 4.5% and 8.9% with no trend and nothing shipped between runs - that range is engine sampling, not progress. Acting on a single-run spike means chasing noise. For the specific number of runs needed to separate signal from sampling, see the guide on how many runs until your AI visibility is trustworthy."}},{"@type":"Question","name":"My brand shows up on Gemini but not ChatGPT - why?","acceptedAnswer":{"@type":"Answer","text":"Because different engines read different sources, so a description or presence gap is usually per-engine, not a property of your brand. In one 7-day window, for the same brand, the framing ran positive on Gemini and Google AI Overviews but came back flat and neutral on ChatGPT and Perplexity. That points to a source ChatGPT pulled that carries weak phrasing - which means you fix the description at that source, not on your homepage, which the engine may never have read. Always diagnose per engine; never average them into one verdict."}},{"@type":"Question","name":"Is an AI visibility score enough?","acceptedAnswer":{"@type":"Answer","text":"No. A score tells you something changed but not which of the three failure modes caused it, and the three modes each need a completely different fix. A score can also wander on its own from run-to-run sampling - the same prompt set swung roughly 4.5% to 8.9% across 7 daily runs with no real change underneath. A re-run is most valuable as a diagnostic that classifies each weak result, not as a single number on a dashboard. The score is the measure step; the diagnosis is what tells you what to do next."}},{"@type":"Question","name":"How is this different from a one-time self-audit?","acceptedAnswer":{"@type":"Answer","text":"A one-time self-audit is a single draw, and AI answers are sampled, so one snapshot cannot tell a real gap from sampling noise. The re-run approach treats diagnosis as a repeated instrument: run the buyer-prompt set, classify each weak result into Absent, Mis-described, or Out-competed, ship the mode's fix under human approval, then re-run to verify it held. It is the Diagnose and Verify steps of a measure-diagnose-execute-verify loop rather than a one-off score - which is why a single audit can mislead you and a repeated re-run does not."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>Why you&#39;re not cited in AI search: the three failure modes a prompt re-run tells apart</h1>
+        <p class="seo-lede">A re-run of your buyer-prompt set is a diagnostic rather than a scoreboard, and its one job is to sort each result into exactly one of three mutually exclusive failure modes - Absent, Mis-described, or Out-competed - because each routes to a completely different fix, and you only trust that diagnosis once you have re-run enough to rule out run-to-run sampling noise.</p>
+        <p>Updated 2026-06-22</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why am I not cited in AI search?</li><li>How many times should I re-run my AI prompts before believing a change?</li><li>Why does my brand show up on Gemini but not ChatGPT?</li><li>How do you diagnose an AI citation gap?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer: a re-run answers one question</h2>
+      <p>If you are not cited in AI search, the useful first move is not to write more content. It is to find out which of three things is actually broken, because each one has a different fix and they do not overlap.</p><p>A re-run of your buyer-prompt set - the same prompts, asked again across the same engines - exists to sort each result into exactly one of three mutually exclusive failure modes. Mode 1 is Absent: the answer never names you, so the problem is that no source the engine trusts corroborates you on that topic. Mode 2 is Mis-described: the answer names you but describes you flatly, with stale or thin framing, which traces back to a specific source feeding weak phrasing. Mode 3 is Out-competed: the answer names a competitor as the primary recommendation instead of you, which means they out-corroborate you in the sources that engine reads. The triage table below maps each mode to what you see in the answer, the root cause, and the lever that fixes it.</p>
+      
+      <table>
+              <thead><tr><th>Failure mode</th><th>What you see in the answer</th><th>Root cause</th><th>The lever</th></tr></thead>
+              <tbody><tr><td>Absent</td><td>Your brand is never named on the prompt; 0% presence across runs</td><td>No source the engine trusts corroborates you on that topic</td><td>Third-party corroboration: earn mentions in the sources that already get cited</td></tr><tr><td>Mis-described</td><td>You are named, but the framing is flat, neutral, stale, or thin</td><td>A specific source feeds weak or outdated phrasing the engine repeats</td><td>Fix the description at that source, not the homepage</td></tr><tr><td>Out-competed</td><td>A competitor is named as the primary pick; you appear lower or not at all</td><td>The competitor out-corroborates you in the sources that engine reads</td><td>Read which sources cite them - that is your coverage map - then close the gap</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Re-running is a diagnostic, not a scoreboard</h2>
+      <p>Most teams treat a prompt check the way they treat a rank tracker: a single number that goes up or down. That framing wastes the most valuable thing a re-run produces, which is not a score but a classification.</p><p>SolCrys runs a four-step loop: measure, then diagnose, then execute, then verify. Measure captures what the engines actually said. Diagnose - the step this article is about - reads that capture and assigns each weak result to one of the three failure modes. Execute ships the fix the mode calls for, under human approval. Verify re-runs the same prompt set to confirm the fix moved the answer and was not just sampling noise.</p><p>The reason the three modes matter is that they are mutually exclusive. A result is Absent, or Mis-described, or Out-competed - not two at once on the same prompt. That exclusivity is what makes the diagnosis actionable: once you know the mode, you know the lever, and you stop spending effort on the wrong one. Writing a better homepage does nothing for an Absent result, and earning more third-party mentions does nothing for a result that is already named but described badly.</p><p>These three modes are a routing layer, not a competing taxonomy. They collapse the finer-grained <a href="/answer-gap-content-brief/" target="_blank" rel="noopener noreferrer">five answer-gap types</a> into the smallest set of buckets that each point to a different first action.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Mode 1 - Absent: nobody trusted enough corroborates you</h2>
+      <p>The clearest signal in the data is absence. In a 7-day window ending 2026-06-22 for the SolCrys workspace (22 buyer and discovery prompts, 5 engines, 7 daily runs), 17 of the 22 prompts sat at 0% presence - the brand was never named at all. Category-defining prompts like &quot;best generative engine optimization tools for B2B marketing teams&quot; returned 0 of 35 responses with a mention. Same for &quot;which tools measure share of voice in AI search&quot; (0 of 35) and &quot;top AEO tools for content teams 2026&quot; (0 of 35).</p><p>Only 5 of the 22 prompts produced any presence, and the pattern inside those 5 is the tell. The branded prompt &quot;is SolCrys AI a legit AEO provider?&quot; hit 100% presence (35 of 35) - the engines will happily confirm you exist when the question already contains your name. But the unbranded discovery prompts, the ones a real buyer would ask, hovered near zero: roughly 14% on one closed-loop query (5 of 35), about 6% on a CMS-integration prompt (2 of 35), and around 3% on one ChatGPT/Perplexity tracking prompt (1 of 35).</p><p>That shape - near-total presence on your own name, near-total absence on the category - is the signature of a missing-source problem, not a content problem. The engine has nothing to draw on because no source it trusts mentions you in that context. The fix is third-party corroboration: earn genuine, value-first mentions in the kinds of sources the engine already cites, so there is something to retrieve when the buyer prompt fires.</p><p>Confirm the mode before acting on it: a result that reads as Absent on one run but flips to present on the next is sampling noise, not a stable gap, which is why the re-run discipline below comes before any fix. To route this fix, start with <a href="/how-to-build-a-source-layer-strategy/" target="_blank" rel="noopener noreferrer">how to build a source-layer strategy</a> and the breakdown of <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, and community sources for AI</a>. For the exact, dated figure on how much of the citation pool your own domain holds, see the <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">visibility measurement methodology</a> rather than a number that moves week to week.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Mode 2 - Mis-described: a source is feeding flat phrasing</h2>
+      <p>The second mode is harder to spot because the brand is present. The answer names you - it just describes you in a flat, neutral, or thin way that does not move a buyer. This is a description-quality gap, and it is almost always per-engine, because different engines read different sources.</p><p>In that same window, for the same brand, the framing polarity split cleanly by engine. Gemini ran strongly positive (8 of 8 sampled answers positive), Google AI Overviews leaned positive, and Claude leaned positive. But on ChatGPT every sampled answer came back neutral, with none positive, and Perplexity was the same - neutral across the board, none positive. Sample sizes here are small (roughly 7 to 12 answers per engine), so the right read is the direction, not a precise average: positive on Gemini and Google AIO, flat on ChatGPT and Perplexity.</p><p>Two clarifications matter. First, this is a measure of framing polarity and provenance - description quality - not a claim that a specific wrong or stale fact was caught in the answer string. The measurement exposes polarity, not the literal sentence. Second, because the gap is per-engine, the fix is per-source: a flat ChatGPT description traces to whatever source ChatGPT pulled, and you fix the phrasing at that source, not on your homepage, which ChatGPT may never have read.</p><p>The wrong move here is to rewrite the homepage and re-run, because the homepage was never the input. The right move is to identify the source feeding the flat framing for that engine and improve the description there. To route this fix, work through <a href="/how-ai-describes-your-brand/" target="_blank" rel="noopener noreferrer">how AI describes your brand</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Mode 3 - Out-competed: a competitor owns the slot</h2>
+      <p>The third mode is the most uncomfortable: you are present, the description is fine, but a competitor is named as the primary recommendation and you are not. This is not a content-quality problem on your page. It means the competitor out-corroborates you in the sources that engine reads.</p><p>In that same window, one competitor was the primary recommendation in a large majority of answers while SolCrys was primary in only a low-single-digit share, sitting at rank 16 of 17 on share of voice. The gap is large, and it is not random - it is built on coverage. The primary-rate itself drifts run to run, so for the exact, dated figure see the <a href="/visibility-measurement-methodology/" target="_blank" rel="noopener noreferrer">visibility measurement methodology</a> rather than a number that has already moved over time.</p><p>The diagnostic value of this mode is that the competitor&#39;s citation map is your to-do list. Reading where they get cited shows you the exact sources you are missing. In the citation source map for that window, the competitor&#39;s domain tryprofound.com is the #4 most-cited domain (244 citations) while solcrys.com is #9 (196). That is the literal map of where they appear and you do not, and it tells you which doors to knock on.</p><p>To route this fix, start with how to <a href="/track-where-competitors-get-cited-in-ai/" target="_blank" rel="noopener noreferrer">track where competitors get cited in AI</a> and run a <a href="/citation-gap-audit/" target="_blank" rel="noopener noreferrer">citation gap audit</a> to turn their coverage map into your own source-acquisition list. If a buyer prompt is actively returning a rival as the answer, the <a href="/chatgpt-recommends-competitor-self-audit/" target="_blank" rel="noopener noreferrer">ChatGPT-recommends-a-competitor self-audit</a> walks the same diagnosis end to end.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The discipline half: re-run enough to know a change is real</h2>
+      <p>A diagnosis is only as trustworthy as the number of runs behind it. One run is one draw from a distribution, and AI answers are sampled, so the same prompt set will return different results on different days even when nothing about your brand or the web has changed.</p><p>How much movement is just noise? In that same window, 7 consecutive daily runs of an identical prompt set produced an overall mention rate that swung 5.0, 8.9, 5.0, 4.5, 6.4, 7.0, and 4.5 percent - with no monotonic trend. Nothing was shipped between those runs. The swing is the engine sampling, not progress or decline. If you had acted on the 8.9 spike, you would have been chasing a draw.</p><p>This is why diagnosis precedes any fix, and why verification re-runs rather than checking once. A single-run jump after you ship a fix proves nothing on its own; you confirm a change is real only when the prompt set moves and stays moved across enough runs to separate signal from sampling. For how many runs that takes, see <a href="/how-many-runs-until-ai-visibility-trustworthy/" target="_blank" rel="noopener noreferrer">how many runs until your AI visibility is trustworthy</a>, and for why the underlying score wanders even on a stable brand, see <a href="/why-ai-visibility-score-moves/" target="_blank" rel="noopener noreferrer">why your AI visibility score moves</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>From diagnosis to fix: the routing table</h2>
+      <p>The whole point of sorting a result into one of three modes is that each mode hands you a different lever and a different SolCrys surface to execute it. The table below is the hub: find your mode, take the lever, ship the fix under human approval.</p><p>This is the Diagnose step. Execute and Verify close the loop - and Execute stays governed and human-approved, with no guaranteed citation or lift attached to any single fix. A re-run tells you what is broken and re-running again tells you whether the fix held; it does not promise that any one action will land you in the answer.</p>
+      
+      <table>
+              <thead><tr><th>Mode</th><th>Lever</th><th>SolCrys surface that executes it</th></tr></thead>
+              <tbody><tr><td>Absent</td><td>Earn third-party corroboration in already-cited sources</td><td>Source-layer strategy + owned/earned/community source mapping</td></tr><tr><td>Mis-described</td><td>Fix the flat phrasing at the per-engine source</td><td>Per-engine description and sentiment diagnosis</td></tr><tr><td>Out-competed</td><td>Read the competitor&#39;s citation map, close the coverage gap</td><td>Competitor citation tracking + citation gap audit</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Why three modes, not five</h3>
+        <p>These three modes deliberately collapse the <a href="/answer-gap-content-brief/" target="_blank" rel="noopener noreferrer">five answer-gap types</a> into the smallest set that each routes to a different first action - they are a triage layer on top of that taxonomy, not a replacement for it. Diagnose down to the mode to pick the lever; use the finer gap types when you write the brief.</p><p>Diagnosis is one half of the work. To see your own three-mode split on your own buyer prompts, run a free audit - free, no credit card - at app.solcrys.com/audit.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://solcrys.com/visibility-measurement-methodology" target="_blank" rel="noopener noreferrer">SolCrys citation, visibility, and per-prompt measurement, workspace solcysai-aeo, 7-day window ending 2026-06-22, five engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, Claude); 22 prompts, 7 runs, 10,866 citations</a></li><li><a href="https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations" target="_blank" rel="noopener noreferrer">SolCrys 36,268-citation AEO category study — canonical owned-baseline (rank and owned-citation share)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why am I not cited in AI search?</h3>
+            <p>Because one of three distinct things is broken, and a prompt re-run is how you tell them apart. Either you are Absent (no source the engine trusts corroborates you on that topic), Mis-described (you are named but the framing is flat or stale, fed by a specific source), or Out-competed (a competitor is named as the primary pick because they out-corroborate you). Each routes to a different fix, so the first step is diagnosis, not writing more content. In a 7-day window ending 2026-06-22, 17 of 22 buyer prompts sat at 0% presence - a textbook Absent signature pointing to a missing-source problem rather than a content one.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many times should I re-run my prompts before I believe a change?</h3>
+            <p>More than once, because a single run is one sampled draw and will move on its own. In 7 consecutive daily runs of an identical prompt set, the overall mention rate swung between 4.5% and 8.9% with no trend and nothing shipped between runs - that range is engine sampling, not progress. Acting on a single-run spike means chasing noise. For the specific number of runs needed to separate signal from sampling, see the guide on how many runs until your AI visibility is trustworthy.</p>
+          </article>
+          <article class="seo-card">
+            <h3>My brand shows up on Gemini but not ChatGPT - why?</h3>
+            <p>Because different engines read different sources, so a description or presence gap is usually per-engine, not a property of your brand. In one 7-day window, for the same brand, the framing ran positive on Gemini and Google AI Overviews but came back flat and neutral on ChatGPT and Perplexity. That points to a source ChatGPT pulled that carries weak phrasing - which means you fix the description at that source, not on your homepage, which the engine may never have read. Always diagnose per engine; never average them into one verdict.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is an AI visibility score enough?</h3>
+            <p>No. A score tells you something changed but not which of the three failure modes caused it, and the three modes each need a completely different fix. A score can also wander on its own from run-to-run sampling - the same prompt set swung roughly 4.5% to 8.9% across 7 daily runs with no real change underneath. A re-run is most valuable as a diagnostic that classifies each weak result, not as a single number on a dashboard. The score is the measure step; the diagnosis is what tells you what to do next.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How is this different from a one-time self-audit?</h3>
+            <p>A one-time self-audit is a single draw, and AI answers are sampled, so one snapshot cannot tell a real gap from sampling noise. The re-run approach treats diagnosis as a repeated instrument: run the buyer-prompt set, classify each weak result into Absent, Mis-described, or Out-competed, ship the mode&#39;s fix under human approval, then re-run to verify it held. It is the Diagnose and Verify steps of a measure-diagnose-execute-verify loop rather than a one-off score - which is why a single audit can mislead you and a repeated re-run does not.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/track-where-competitors-get-cited-in-ai/">How to Track Where Your Competitors Get Cited in AI Search (2026)</a></h3>
+            <p>A 4-step playbook for tracking which competitors AI engines cite — competitive share of voice, citation source maps, and replacement rate. Real SolCrys data.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/answer-gap-content-brief/">The Answer Gap Is the New Content Brief</a></h3>
+            <p>Learn what an AI answer gap is, why it matters for AEO, and how marketing teams can turn weak AI answers into practical content briefs.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DwkBpRII.js"></script>
+  </body>
+</html>
