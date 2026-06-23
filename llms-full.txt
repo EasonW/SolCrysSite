@@ -1219,13 +1219,26 @@ First-hand data is the strongest of the four because it is the one a model struc
 
 
 
-### The proof it is rank-9-hard, not automatic
+### Why it is hard, not automatic: a worked example in three failure modes
 
-Survivor pages get cited; they are not handed citations. The live citation landscape makes that concrete, and it should be read as a diagnostic of how the cited layer is composed — not as causal proof that any one page move buys a citation.
+Survivor pages get cited; they are not handed citations. The cleanest way to see how hard it is — and how unevenly citations land — is to walk one illustrative example through the three ways a page can fail to earn the citation it deserves. Picture a mid-market cloud data-warehouse vendor: a real product with real docs, sitting in a category whose answer boxes are owned by the well-known leaders. The pattern below is a teaching example, not a measured readout, but it mirrors what the cited layer actually looks like.
 
-In a 7-day pull ending June 22, 2026 (5 engines, 22 prompts), AI answers drew on 10,866 citations spread over 1,342 distinct domains. No single domain owned even a small slice of that pool — the most-cited source sat near six percent and the field fell away fast from there. The cited layer is dominated by exactly the survivor shapes: UGC and editorial and comparison content. The two most-cited domains were a community forum and a reference encyclopedia; the next tier was competitor blogs. Owned content across all brands was the thinnest slice of the pool.
+Mode one is absent. Ask an engine an unbranded buyer prompt — 'best data warehouse for real-time analytics,' 'cheapest cloud data warehouse for a startup,' 'best warehouse for a small data team' — and the answer reaches for the names everyone reaches for: Snowflake, Databricks, BigQuery, Redshift. The mid-market vendor is simply never named on the large majority of those unbranded prompts. Not ranked low — absent. Its informational pages exist, but they exist to be the destination, so the box generated the answer from the consensus pages and never had to cite them.
 
-Our own domain is a clean worked example of how hard this is. solcrys.com sits in the top 10 of those ~1,300 cited domains — just under two percent of all citations, which is high for one domain — yet it earns those citations on only about 5 of our 22 tracked prompts. A heavy publisher with a large library of informational pages still converts citations on a handful of prompts, not most of them. For the exact dated figures behind this, the canonical breakdowns are [the owned-vs-earned baseline](/owned-earned-community-sources-ai/) and [the measurement methodology](/visibility-measurement-methodology/); [the GEO study of what gets cited](/what-gets-cited-geo-study/) covers the experimental side of the same question.
+Mode two is mis-described. On a narrower comparison prompt — 'Snowflake vs [the vendor] for streaming' — the vendor does get named, because a head-to-head is a shape the model has to attribute. But the description is unstable: one engine renders it flat and generic the same week another renders it accurately and positive. That instability is the tell. The page that anchors the comparison is thin enough that each engine reconstructs the vendor differently, instead of one citable side-by-side pinning the description down.
+
+Mode three is out-competed. On the prompts where the vendor does appear, a leader is the primary recommendation and the vendor sits near the bottom of the share of voice. The fix is not to shout louder; it is to read which sources the engine cited when it recommended the leader. Those cited sources — the community threads, the editorial comparisons, the decision-call posts — are the survivor shapes the box reached for. They are the template. You out-compete by building the page the box has to cite, in the shape it already rewards, not by adding another page it can absorb.
+
+
+
+
+### What the cited layer is actually made of
+
+Step back from any single brand and look at the composition of the cited layer itself, because that is what the failure modes are reacting to. In a category like cloud data warehousing, AI answers do not draw their sources from one dominant site. Citations spread across a long tail of domains, and no single source owns a large share of the pool — the most-cited source holds a sliver and the field falls away fast from there.
+
+The shapes that dominate that pool are exactly the survivor shapes: community forums where practitioners argue trade-offs, reference and editorial pages, and head-to-head comparison content. Competitor and category blogs sit a tier down, and thin owned how-to pages — across every brand — are the thinnest slice of all. That is the structural reason volume does not buy citations: the box is not assembling answers from definition pages, it is assembling them from the take-comparison-decision-data layer.
+
+For the dated, measured breakdowns of this pattern, the canonical references are [the owned-vs-earned baseline](/owned-earned-community-sources-ai/) and [the measurement methodology](/visibility-measurement-methodology/); [the GEO study of what gets cited](/what-gets-cited-geo-study/) covers the experimental side of the same question.
 
 The lesson is blunt: volume of informational pages does not buy citations. A thousand absorbed how-to pages and one cited comparison page are not on the same curve. The cited layer rewards the survivor shape, and it does so unevenly, prompt by prompt — which is why [citation is consensus, not authority](/ai-citations-consensus-not-authority/) frames it as something earned against a contested field rather than granted by output.
 
@@ -1236,7 +1249,7 @@ The lesson is blunt: volume of informational pages does not buy citations. A tho
 
 The one-question test is not a one-time cleanup; it is the measure step of a loop you run on a schedule. The audit measures which pages the box replaced and which it has to cite. The survivor template is what you execute against — new pages and merged pages built in the shape your survivors already prove. And the verify step is the part most teams skip: re-check citation on your actual prompt set after the work ships.
 
-Verify matters because a single reading lies. Across seven consecutive daily runs of the same prompt set, our own overall mention rate swung from roughly 5 percent to nearly 9 and back below 5 with no trend — one run is one draw, not a result. A page that looks newly cited on Monday may simply have caught a favorable run. The honest signal is whether it holds citation across runs, on the prompts you care about, which is why the prompt set is a maintained asset rather than a fixed list — see [the AEO prompt-set lifecycle](/aeo-prompt-set-lifecycle/).
+Verify matters because a single reading lies. Run the same prompt set on consecutive days and a brand's overall mention rate can swing several points up and back down with no real trend — one run is one draw, not a result. A page that looks newly cited on Monday may simply have caught a favorable run. The honest signal is whether it holds citation across runs, on the prompts you care about, which is why the prompt set is a maintained asset rather than a fixed list — see [the AEO prompt-set lifecycle](/aeo-prompt-set-lifecycle/).
 
 Closed, the loop is the discipline: measure the portfolio with the page test, execute the survivor template through governed, human-approved changes, verify re-citation on the prompt set, then read the next audit as the next brief. Run it once and you get a snapshot; run it on a schedule and the audit stops being a post-mortem and becomes a content pipeline.
 
@@ -1257,8 +1270,7 @@ SolCrys runs that loop as governed AEO execution: measure which pages got absorb
 
 ### Sources
 
-- [SolCrys citation, visibility, and per-prompt measurement, workspace solcysai-aeo, 7-day window ending 2026-06-22, five engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, Claude); 22 prompts, 7 runs, 10,866 citations](https://solcrys.com/visibility-measurement-methodology)
-- [SolCrys 36,268-citation AEO category study — canonical owned-baseline (rank and owned-citation share)](https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations)
+- [SolCrys citation, visibility, and per-prompt measurement, workspace solcysai-aeo, 7-day window ending 2026-06-22, five engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, Claude)](https://solcrys.com/visibility-measurement-methodology)
 
 ### FAQ
 
@@ -1272,7 +1284,7 @@ Q: What does a page that gets cited by AI look like?
 A: It exists to be cited, not to be the destination. Four shapes qualify: a real take (a stated position, not a hedged survey), a comparison (a side-by-side the model would otherwise have to rebuild), a decision call (a named recommendation, not 'it depends'), and first-hand data (a number you measured that exists nowhere else). First-hand data is the strongest because a model structurally cannot regenerate it and must attribute it. The common thread: the box can quote the page but cannot be the page.
 
 Q: Does publishing more content help AI visibility?
-A: Volume of informational pages does not buy citations. In a 7-day pull ending June 22, 2026 (5 engines, 22 prompts), AI answers drew on 10,866 citations across 1,342 domains with no single source owning even a small share, and the cited layer was dominated by takes, comparisons, and community and editorial content — not how-to pages. Our own domain sits in the top 10 of those domains yet earns citations on only about 5 of 22 tracked prompts. A large library of absorbed pages and one cited comparison page are not on the same curve; the cited layer rewards the survivor shape, prompt by prompt.
+A: Volume of informational pages does not buy citations. Picture a crowded category like cloud data warehousing: AI answers draw on a long tail of domains with no single source owning a large share, and the cited layer is dominated by takes, comparisons, and community and editorial content — not how-to pages. A mid-market vendor with a large library of informational pages is often never named on the unbranded buyer prompts at all, while the named leaders get the primary recommendation. A large library of absorbed pages and one cited comparison page are not on the same curve; the cited layer rewards the survivor shape, prompt by prompt.
 
 Q: How is this different from a normal content audit?
 A: A normal audit reads low-traffic pages as failures to fix or cut. This reads them as a map: the pages the answer box absorbed tell you what to stop making, and the pages that survived tell you what to make more of. It also closes a loop instead of running once — measure the portfolio with the page test, execute the survivor template through human-approved changes, then verify re-citation on your actual prompt set, since a single run is one draw and not a result. The audit stops being a post-mortem and becomes a content pipeline.
@@ -1956,7 +1968,7 @@ To make the signals concrete, here is what they show for our own brand over a re
 - **Per engine, not blended.** Mentions ranged from 9.5% on Claude (our strongest) down to 4.5% on Perplexity (our weakest). A blended average would have hidden a roughly 2x gap, so track each engine separately.
 - **Sentiment, not just presence.** In the same window Gemini and Google AI Overviews described us positively (average sentiment near 1.0), while ChatGPT was almost entirely neutral (around 0.07). Same brand, same week, very different framing — presence alone misses it.
 - **Citation versus mention.** Answers in our category drew on more than 13,000 citations across roughly 1,500 domains; our owned pages were just under 2% of them (in the top 10). Mentions show awareness inside the answer; citations show the engine is using your content as evidence.
-- **Share of voice tells you if you are gaining.** Against 16 other tracked brands we sat 16th of 17 by share of voice, while the category leader appeared in roughly 65% of answers. Your own rate in isolation flatters you; the relative position is the honest read.
+- **Share of voice tells you if you are gaining.** A brand can look healthy in isolation and still sit near the bottom of a tracked competitor set while the category leader appears in the majority of answers. Your own rate in isolation flatters you; the relative position is the honest read.
 
 
 
@@ -14094,7 +14106,7 @@ We're SolCrys. We sell into agencies, so treat this as a vendor-biased compariso
 
 Most "best AEO tools" lists treat agencies as a footnote at the bottom of a B2B in-house buyer guide. That under-serves the actual agency buyer for three reasons:
 
-If you want SolCrys's broader B2B buyer-side comparison (10 vendors, single-brand framing), that lives in our [B2B AEO buyer guide](/best-aeo-tools-for-b2b-marketing-teams-2026/). This article is the agency-portfolio cut. One related editorial disclosure: we have 0% AI-engine presence today on the exact prompt this article targets, so we're writing it both as a buyer guide and as our own attempt to be cited on a query where we currently aren't.
+If you want SolCrys's broader B2B buyer-side comparison (10 vendors, single-brand framing), that lives in our [B2B AEO buyer guide](/best-aeo-tools-for-b2b-marketing-teams-2026/). This article is the agency-portfolio cut.
 
 
 - **The buying criteria are different.** An in-house team optimizes for depth on one brand. An agency optimizes for unit economics across a portfolio — per-client cost, onboarding speed, white-label reporting, billing isolation.
@@ -19232,7 +19244,7 @@ A re-run of your buyer-prompt set - the same prompts, asked again across the sam
 
 Failure mode | What you see in the answer | Root cause | The lever
 --- | --- | --- | ---
-Absent | Your brand is never named on the prompt; 0% presence across runs | No source the engine trusts corroborates you on that topic | Third-party corroboration: earn mentions in the sources that already get cited
+Absent | Your brand is never named on the prompt; no presence across runs | No source the engine trusts corroborates you on that topic | Third-party corroboration: earn mentions in the sources that already get cited
 Mis-described | You are named, but the framing is flat, neutral, stale, or thin | A specific source feeds weak or outdated phrasing the engine repeats | Fix the description at that source, not the homepage
 Out-competed | A competitor is named as the primary pick; you appear lower or not at all | The competitor out-corroborates you in the sources that engine reads | Read which sources cite them - that is your coverage map - then close the gap
 
@@ -19247,18 +19259,20 @@ The reason the three modes matter is that they are mutually exclusive. A result 
 
 These three modes are a routing layer, not a competing taxonomy. They collapse the finer-grained [five answer-gap types](/answer-gap-content-brief/) into the smallest set of buckets that each point to a different first action.
 
+To make each mode concrete, picture a single illustrative vendor running this diagnosis: a mid-market cloud data-warehouse company, well-known to a handful of data teams but not a category leader, tracking a buyer-prompt set across the five engines. The walk-throughs below are a teaching example, not measured results - but they show exactly what each mode looks like when it lands on a real prompt.
+
 
 
 
 ### Mode 1 - Absent: nobody trusted enough corroborates you
 
-The clearest signal in the data is absence. In a 7-day window ending 2026-06-22 for the SolCrys workspace (22 buyer and discovery prompts, 5 engines, 7 daily runs), 17 of the 22 prompts sat at 0% presence - the brand was never named at all. Category-defining prompts like "best generative engine optimization tools for B2B marketing teams" returned 0 of 35 responses with a mention. Same for "which tools measure share of voice in AI search" (0 of 35) and "top AEO tools for content teams 2026" (0 of 35).
+The clearest signal in the data is absence. Picture our illustrative mid-market warehouse vendor running the unbranded discovery prompts a real buyer would ask - "best data warehouse for real-time analytics", "best cloud data warehouse for a small data team", "cheapest cloud data warehouse for a startup". Across runs, on those category-defining prompts, the vendor is simply never named. The answers come back full of the obvious leaders and the vendor does not appear at all.
 
-Only 5 of the 22 prompts produced any presence, and the pattern inside those 5 is the tell. The branded prompt "is SolCrys AI a legit AEO provider?" hit 100% presence (35 of 35) - the engines will happily confirm you exist when the question already contains your name. But the unbranded discovery prompts, the ones a real buyer would ask, hovered near zero: roughly 14% on one closed-loop query (5 of 35), about 6% on a CMS-integration prompt (2 of 35), and around 3% on one ChatGPT/Perplexity tracking prompt (1 of 35).
+Now watch what flips when the prompt already contains the brand. A branded check like "is [vendor] a legitimate cloud data warehouse?" comes back present on essentially every run - the engines will happily confirm you exist when the question hands them your name. But the unbranded discovery prompts, the ones that actually drive a buyer's shortlist, stay at or near zero presence the whole way through.
 
-That shape - near-total presence on your own name, near-total absence on the category - is the signature of a missing-source problem, not a content problem. The engine has nothing to draw on because no source it trusts mentions you in that context. The fix is third-party corroboration: earn genuine, value-first mentions in the kinds of sources the engine already cites, so there is something to retrieve when the buyer prompt fires.
+That shape - near-total presence on your own name, near-total absence on the category - is the signature of a missing-source problem, not a content problem. The engine has nothing to draw on because no source it trusts mentions the vendor in that context. The fix is third-party corroboration: earn genuine, value-first mentions in the kinds of sources the engine already cites - the community, editorial, and comparison content that no single brand owns a large share of - so there is something to retrieve when the buyer prompt fires.
 
-Confirm the mode before acting on it: a result that reads as Absent on one run but flips to present on the next is sampling noise, not a stable gap, which is why the re-run discipline below comes before any fix. To route this fix, start with [how to build a source-layer strategy](/how-to-build-a-source-layer-strategy/) and the breakdown of [owned, earned, and community sources for AI](/owned-earned-community-sources-ai/). For the exact, dated figure on how much of the citation pool your own domain holds, see the [visibility measurement methodology](/visibility-measurement-methodology/) rather than a number that moves week to week.
+Confirm the mode before acting on it: a result that reads as Absent on one run but flips to present on the next is sampling noise, not a stable gap, which is why the re-run discipline below comes before any fix. To route this fix, start with [how to build a source-layer strategy](/how-to-build-a-source-layer-strategy/) and the breakdown of [owned, earned, and community sources for AI](/owned-earned-community-sources-ai/). For how much of the citation pool your own domain actually holds in a real account, see the [visibility measurement methodology](/visibility-measurement-methodology/) rather than a number that moves week to week.
 
 
 
@@ -19267,9 +19281,9 @@ Confirm the mode before acting on it: a result that reads as Absent on one run b
 
 The second mode is harder to spot because the brand is present. The answer names you - it just describes you in a flat, neutral, or thin way that does not move a buyer. This is a description-quality gap, and it is almost always per-engine, because different engines read different sources.
 
-In that same window, for the same brand, the framing polarity split cleanly by engine. Gemini ran strongly positive (8 of 8 sampled answers positive), Google AI Overviews leaned positive, and Claude leaned positive. But on ChatGPT every sampled answer came back neutral, with none positive, and Perplexity was the same - neutral across the board, none positive. Sample sizes here are small (roughly 7 to 12 answers per engine), so the right read is the direction, not a precise average: positive on Gemini and Google AIO, flat on ChatGPT and Perplexity.
+Stay with the illustrative warehouse vendor, but switch to a comparison prompt where it does get named - something like "Snowflake vs [vendor] for streaming". In the same week, the framing splits cleanly by engine. On one engine the vendor comes back positively - described as a credible, capable choice for streaming workloads. On another engine, the same week, the same comparison, the vendor is named but described flatly: present, neutral, thin, nothing that would move a buyer off the leader. Read the direction, not a precise average: positive on one engine, flat on another, with no change to the brand in between.
 
-Two clarifications matter. First, this is a measure of framing polarity and provenance - description quality - not a claim that a specific wrong or stale fact was caught in the answer string. The measurement exposes polarity, not the literal sentence. Second, because the gap is per-engine, the fix is per-source: a flat ChatGPT description traces to whatever source ChatGPT pulled, and you fix the phrasing at that source, not on your homepage, which ChatGPT may never have read.
+Two clarifications matter. First, this is a measure of framing polarity and provenance - description quality - not a claim that a specific wrong or stale fact was caught in the answer string. The measurement exposes polarity, not the literal sentence. Second, because the gap is per-engine, the fix is per-source: a flat description on one engine traces to whatever source that engine pulled, and you fix the phrasing at that source, not on your homepage, which the engine may never have read.
 
 The wrong move here is to rewrite the homepage and re-run, because the homepage was never the input. The right move is to identify the source feeding the flat framing for that engine and improve the description there. To route this fix, work through [how AI describes your brand](/how-ai-describes-your-brand/).
 
@@ -19280,9 +19294,9 @@ The wrong move here is to rewrite the homepage and re-run, because the homepage 
 
 The third mode is the most uncomfortable: you are present, the description is fine, but a competitor is named as the primary recommendation and you are not. This is not a content-quality problem on your page. It means the competitor out-corroborates you in the sources that engine reads.
 
-In that same window, one competitor was the primary recommendation in a large majority of answers while SolCrys was primary in only a low-single-digit share, sitting at rank 16 of 17 on share of voice. The gap is large, and it is not random - it is built on coverage. The primary-rate itself drifts run to run, so for the exact, dated figure see the [visibility measurement methodology](/visibility-measurement-methodology/) rather than a number that has already moved over time.
+Back to the illustrative vendor, now on a prompt like "best data warehouse for real-time analytics". A category leader - Snowflake, say, or Databricks - is named as the primary recommendation in the large majority of answers, while the mid-market vendor, when it appears at all, sits near the bottom of the share of voice. The gap is large, and it is not random - it is built on coverage. The primary-rate itself drifts run to run, so the right read is the shape: leader on top, vendor near the floor, consistently across the set.
 
-The diagnostic value of this mode is that the competitor's citation map is your to-do list. Reading where they get cited shows you the exact sources you are missing. In the citation source map for that window, the competitor's domain tryprofound.com is the #4 most-cited domain (244 citations) while solcrys.com is #9 (196). That is the literal map of where they appear and you do not, and it tells you which doors to knock on.
+The diagnostic value of this mode is that the leader's citation map is your to-do list. Reading where the leader gets cited shows you the exact sources you are missing - the comparison roundups, the editorial explainers, the community threads that named them and not you. That is the literal map of where they appear and you do not, and it tells you which doors to knock on. Note that no single source owns a large share of those citations; the cited layer is community, editorial, and comparison content, so the work is breadth of corroboration, not one big placement.
 
 To route this fix, start with how to [track where competitors get cited in AI](/track-where-competitors-get-cited-in-ai/) and run a [citation gap audit](/citation-gap-audit/) to turn their coverage map into your own source-acquisition list. If a buyer prompt is actively returning a rival as the answer, the [ChatGPT-recommends-a-competitor self-audit](/chatgpt-recommends-competitor-self-audit/) walks the same diagnosis end to end.
 
@@ -19293,7 +19307,7 @@ To route this fix, start with how to [track where competitors get cited in AI](/
 
 A diagnosis is only as trustworthy as the number of runs behind it. One run is one draw from a distribution, and AI answers are sampled, so the same prompt set will return different results on different days even when nothing about your brand or the web has changed.
 
-How much movement is just noise? In that same window, 7 consecutive daily runs of an identical prompt set produced an overall mention rate that swung 5.0, 8.9, 5.0, 4.5, 6.4, 7.0, and 4.5 percent - with no monotonic trend. Nothing was shipped between those runs. The swing is the engine sampling, not progress or decline. If you had acted on the 8.9 spike, you would have been chasing a draw.
+Picture the warehouse vendor running its identical prompt set on several consecutive days with nothing shipped in between. The overall mention rate still wanders day to day - up one morning, down the next, with no real trend underneath. That movement is the engine sampling, not progress or decline. If you had acted on the highest day as if it were a win, you would have been chasing a draw.
 
 This is why diagnosis precedes any fix, and why verification re-runs rather than checking once. A single-run jump after you ship a fix proves nothing on its own; you confirm a change is real only when the prompt set moves and stays moved across enough runs to separate signal from sampling. For how many runs that takes, see [how many runs until your AI visibility is trustworthy](/how-many-runs-until-ai-visibility-trustworthy/), and for why the underlying score wanders even on a stable brand, see [why your AI visibility score moves](/why-ai-visibility-score-moves/).
 
@@ -19324,22 +19338,21 @@ Diagnosis is one half of the work. To see your own three-mode split on your own 
 
 ### Sources
 
-- [SolCrys citation, visibility, and per-prompt measurement, workspace solcysai-aeo, 7-day window ending 2026-06-22, five engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, Claude); 22 prompts, 7 runs, 10,866 citations](https://solcrys.com/visibility-measurement-methodology)
-- [SolCrys 36,268-citation AEO category study — canonical owned-baseline (rank and owned-citation share)](https://solcrys.com/wikipedia-techradar-reddit-dominate-ai-citations)
+- [SolCrys citation, visibility, and per-prompt measurement, workspace solcysai-aeo, 7-day window ending 2026-06-22, five engines (ChatGPT, Perplexity, Google AI Overviews, Gemini, Claude)](https://solcrys.com/visibility-measurement-methodology)
 
 ### FAQ
 
 Q: Why am I not cited in AI search?
-A: Because one of three distinct things is broken, and a prompt re-run is how you tell them apart. Either you are Absent (no source the engine trusts corroborates you on that topic), Mis-described (you are named but the framing is flat or stale, fed by a specific source), or Out-competed (a competitor is named as the primary pick because they out-corroborate you). Each routes to a different fix, so the first step is diagnosis, not writing more content. In a 7-day window ending 2026-06-22, 17 of 22 buyer prompts sat at 0% presence - a textbook Absent signature pointing to a missing-source problem rather than a content one.
+A: Because one of three distinct things is broken, and a prompt re-run is how you tell them apart. Either you are Absent (no source the engine trusts corroborates you on that topic), Mis-described (you are named but the framing is flat or stale, fed by a specific source), or Out-competed (a competitor is named as the primary pick because they out-corroborate you). Each routes to a different fix, so the first step is diagnosis, not writing more content. Picture a mid-market cloud data-warehouse vendor that is never named on unbranded prompts like "best data warehouse for real-time analytics" yet is confirmed instantly on a branded "is [vendor] legit?" check - that split is the textbook Absent signature, pointing to a missing-source problem rather than a content one.
 
 Q: How many times should I re-run my prompts before I believe a change?
-A: More than once, because a single run is one sampled draw and will move on its own. In 7 consecutive daily runs of an identical prompt set, the overall mention rate swung between 4.5% and 8.9% with no trend and nothing shipped between runs - that range is engine sampling, not progress. Acting on a single-run spike means chasing noise. For the specific number of runs needed to separate signal from sampling, see the guide on how many runs until your AI visibility is trustworthy.
+A: More than once, because a single run is one sampled draw and will move on its own. Run an identical prompt set on several consecutive days with nothing shipped in between and the overall mention rate still wanders up and down with no real trend - that movement is engine sampling, not progress. Acting on a single-run spike means chasing noise. For the specific number of runs needed to separate signal from sampling, see the guide on how many runs until your AI visibility is trustworthy.
 
 Q: My brand shows up on Gemini but not ChatGPT - why?
-A: Because different engines read different sources, so a description or presence gap is usually per-engine, not a property of your brand. In one 7-day window, for the same brand, the framing ran positive on Gemini and Google AI Overviews but came back flat and neutral on ChatGPT and Perplexity. That points to a source ChatGPT pulled that carries weak phrasing - which means you fix the description at that source, not on your homepage, which the engine may never have read. Always diagnose per engine; never average them into one verdict.
+A: Because different engines read different sources, so a description or presence gap is usually per-engine, not a property of your brand. Picture a comparison prompt like "Snowflake vs [vendor] for streaming": in the same week, one engine can describe the vendor positively as a credible streaming choice while another names it but describes it flatly and neutrally. That points to a source the flat engine pulled that carries weak phrasing - which means you fix the description at that source, not on your homepage, which the engine may never have read. Always diagnose per engine; never average them into one verdict.
 
 Q: Is an AI visibility score enough?
-A: No. A score tells you something changed but not which of the three failure modes caused it, and the three modes each need a completely different fix. A score can also wander on its own from run-to-run sampling - the same prompt set swung roughly 4.5% to 8.9% across 7 daily runs with no real change underneath. A re-run is most valuable as a diagnostic that classifies each weak result, not as a single number on a dashboard. The score is the measure step; the diagnosis is what tells you what to do next.
+A: No. A score tells you something changed but not which of the three failure modes caused it, and the three modes each need a completely different fix. A score can also wander on its own from run-to-run sampling - an identical prompt set will swing day to day with nothing shipped underneath. A re-run is most valuable as a diagnostic that classifies each weak result, not as a single number on a dashboard. The score is the measure step; the diagnosis is what tells you what to do next.
 
 Q: How is this different from a one-time self-audit?
 A: A one-time self-audit is a single draw, and AI answers are sampled, so one snapshot cannot tell a real gap from sampling noise. The re-run approach treats diagnosis as a repeated instrument: run the buyer-prompt set, classify each weak result into Absent, Mis-described, or Out-competed, ship the mode's fix under human approval, then re-run to verify it held. It is the Diagnose and Verify steps of a measure-diagnose-execute-verify loop rather than a one-off score - which is why a single audit can mislead you and a repeated re-run does not.
