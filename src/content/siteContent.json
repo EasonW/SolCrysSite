@@ -11985,6 +11985,200 @@
       ]
     },
     {
+      "slug": "aeo-web-traffic-attribution",
+      "title": "What AEO Does to Your Web Traffic",
+      "metaTitle": "What AEO Does to Web Traffic and How to Attribute It | SolCrys",
+      "description": "Most traffic from AI recommendations arrives as branded search, not a referral click, so analytics undercount AEO. What it does to web traffic, why the visits are higher-quality, and how to attribute it to pipeline.",
+      "h1": "What AEO Actually Does to Your Web Traffic — and Why Your Analytics Underreport It",
+      "summary": "Answer Engine Optimization works on top of SEO, not instead of it, and its effect on web traffic is real but hard to see: most of the traffic an AI recommendation generates does not arrive as a referral click from ChatGPT or Perplexity. It arrives days later as a branded search or a direct visit, which last-click analytics file under organic or direct rather than AI. Two June 2026 datasets make this concrete. Google's new Search Console gen-AI reports show how often your pages appear inside AI Overviews and AI Mode, and Similarweb's downstream-impact study shows recommended brands were 2.5x more likely to get a visit within 7 days, that 55.9% of that traffic came via branded search, and that AI-influenced visitors spent roughly twice as long on site. This guide explains how SEO and AEO compound, why AEO traffic hides as branded search (the branded-search bridge), why the visits are higher-quality, and how to attribute them to pipeline with a multi-source measurement stack.",
+      "category": "Attribution & ROI",
+      "ogImage": "/og/aeo-web-traffic-attribution.png",
+      "ogEyebrow": "Attribution & ROI",
+      "ogTitleParts": [
+        "AI traffic hides as",
+        "branded search."
+      ],
+      "updated": "2026-06-23",
+      "primaryKeyword": "AEO web traffic attribution",
+      "aeoTargets": [
+        "How do SEO and AEO work together?",
+        "What does AEO do to web traffic?",
+        "How do you attribute AI search to pipeline or revenue?",
+        "Why doesn't AI search traffic show up in my analytics?",
+        "Is traffic from AI recommendations higher quality than organic search?"
+      ],
+      "relatedSlugs": [
+        "aeo-vs-seo",
+        "aeo-roi-business-case",
+        "aeo-actions-to-revenue",
+        "organic-traffic-died-ai-overviews-recovery",
+        "ai-referred-shoppers-retail-aeo",
+        "is-ai-visibility-a-vanity-metric"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "AEO works on top of SEO, not instead of it, and its effect on web traffic is real but structurally hard to see: most of the traffic an AI recommendation generates does not arrive as a referral click from ChatGPT or Perplexity. It arrives a few days later as a branded search or a direct visit — and your last-click analytics file it under 'organic' or 'direct,' not 'AI.'",
+            "Two datasets published in June 2026 make this concrete. Google's new Search Console gen-AI reports now show how often your pages appear inside AI Overviews and AI Mode. Similarweb's downstream-impact study shows that brands recommended by ChatGPT were 2.5x more likely to get a site visit within 7 days, that 55.9% of that traffic came through branded search, and that AI-influenced visitors spent roughly twice as long on site.",
+            "The practical consequence: if you measure AEO by counting AI referral clicks, you will conclude it does almost nothing, because the channel hides itself. The metric that actually moves is branded-search lift and the quality of the visits behind it."
+          ]
+        },
+        {
+          "heading": "The two June 2026 datasets that change the conversation",
+          "body": [
+            "For two years the honest answer to 'what does AI search do to our traffic?' was 'we can see we're cited, but we can't see what it's worth.' Two releases in June 2026 closed part of that gap from opposite ends.",
+            "Google's [Search Console gen-AI performance reports](https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports), announced June 3, 2026, give site owners a dedicated view of impressions inside generative AI features on Search — AI Overviews and AI Mode — plus Discover, broken out by page, country, device, and date. This is the first time the appearance side of AI visibility is measurable in a tool every marketing team already has. The important caveat, which Google states plainly: click data is not included in the current version, and the rollout started with a subset of UK site owners. So Search Console tells you that you showed up in an AI answer. It does not yet tell you whether anyone clicked.",
+            "Similarweb's study 'The Downstream Impact of AI Visibility' attacks the other half — what happens after the answer. Rather than modeled estimates or survey recall, it follows real user journeys through panel-based clickstream data across three verticals (Finance, Travel, and Beauty) over six months, watching what users did in the 7 days after ChatGPT recommended a brand. Three findings stand out ([Search Engine Journal summary](https://www.searchenginejournal.com/ai-recommended-brands-saw-2-5x-more-site-visits-similarweb/580241/); [ppc.land analysis](https://ppc.land/your-analytics-are-lying-similarweb-traces-ai-recommendations-to-real-traffic/)):"
+          ],
+          "bullets": [
+            "Brands that appeared in a ChatGPT recommendation were 2.5x more likely to get a website visit within 7 days than brands that were not recommended.",
+            "55.9% of those visits arrived via branded search — the user looked the brand up by name after the AI mentioned it.",
+            "AI-influenced visitors averaged 12.0 pages and 11.8 minutes on site, versus 6.5 pages and 5.6 minutes for non-AI-influenced visitors — roughly 1.8x the pages and 2.1x the time."
+          ]
+        },
+        {
+          "heading": "SEO and AEO are one system, not two budgets",
+          "body": [
+            "Before the measurement argument, the strategic one, because they are connected. The framing we hold to — and the one Google's own [AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) supports — is that AEO is an operating layer on top of SEO foundations, not a replacement for them. We make the full case in [AEO vs SEO](/aeo-vs-seo/); the short version is that AI surfaces do not run on a separate web. Google's AI Overviews and AI Mode use the Search index, core ranking systems, and query fan-out, so they inherit your SEO signals. ChatGPT and Perplexity run their own retrieval, but they retrieve from pages that have to be crawlable, fast, and authoritative — the same properties SEO has always rewarded.",
+            "The Similarweb data turns that abstract 'they're complementary' into a mechanism you can point at. When an AI recommends you, the dominant downstream action is a branded search. A branded search returns a SERP — and what the user finds there, and whether they click through to you instead of a competitor's comparison page, is an SEO outcome. AEO created the demand; SEO captures it. Cut either one and the chain breaks: strong SEO with no AEO means you never enter the AI's consideration set; strong AEO with weak branded-SERP control means you generate the search and then lose the click. This is why moving all of your SEO budget into AEO is the wrong reading of the AI shift, and why the [organic-traffic-collapse playbook](/organic-traffic-died-ai-overviews-recovery/) frames the fix as rebalancing toward decision and branded queries rather than abandoning search."
+          ]
+        },
+        {
+          "heading": "What AEO does to traffic: the branded-search bridge",
+          "body": [
+            "Here is the model the data supports, stated as a sequence: an AI recommendation (an impression) leads to a branded search or direct visit days later, which becomes a high-intent session, which becomes pipeline.",
+            "The middle step is the one that breaks attribution. Because more than half of AI-driven visits arrive as a branded search and the rest skew toward direct, your analytics attribute the visit to 'organic — branded' or 'direct,' not to the AI that caused it. The AI engine is the cause; the branded search is the carrier. This is the through-line of both June datasets: Google shows the impression, Similarweb shows the payoff arrives as a branded search days later, and neither is an 'AI referral click' you can read off a channel report. We call this the branded-search bridge, and it is the single most useful thing to understand about AEO's traffic impact, because it explains why two true statements coexist: 'our AI citations are up' and 'I see no AI referral traffic in GA4.' Both are true at once. The traffic is there; it is wearing a different channel's clothes.",
+            "For a B2B, considered-purchase company this dynamic is, if anything, stronger than in the consumer verticals Similarweb measured. A buyer evaluating GPU cloud capacity, a security platform, or a data warehouse does not click a link inside ChatGPT and buy. They ask the AI to shortlist vendors, get three names, and then — over the following days — search those names, read the vendors' own sites, and route to a demo or a sales conversation. The AI did the shortlisting. The branded search and the site visit are where intent becomes measurable. Treating that visit as 'direct traffic of unknown origin' understates exactly the part of the funnel AEO influences most."
+          ]
+        },
+        {
+          "heading": "The quality of AI-influenced visits",
+          "body": [
+            "The branded-search bridge would matter less if the resulting visits were low-intent. They are the opposite. The Similarweb engagement gap — roughly 1.8x the pages and 2.1x the time on site — is what you would expect from a visitor the AI has already pre-qualified. They did not stumble in from a broad keyword; they arrived because an answer engine named them a fit for a specific need, then actively searched for the brand. They show up further down the funnel, with more context, and they behave like it.",
+            "The named study is consumer (Finance, Travel, and Beauty), but the per-visit-quality and branded-search mechanics are channel properties, not vertical quirks, which is why the same pattern shows up in retail. Shopify's Q1 2026 storefront data found AI-referred sessions converting roughly 50% higher than organic search with 14% higher order values — the commerce-side version of the same pre-qualified-visitor effect, covered in [AI-referred shoppers convert ~50% higher](/ai-referred-shoppers-retail-aeo/).",
+            "The takeaway for a metric a web team can actually pull per page: session duration and pages-per-session, segmented for the AI-influenced cohort, are a legitimate quality signal, not a vanity stat. If your AI-influenced cohort spends about twice as long per visit as your organic baseline, that is evidence the channel delivers better-qualified attention — and it is defensible to a CFO in a way 'we got cited 40 times' is not.",
+            "Similarweb's engagement figures (2026; panel clickstream over six months):"
+          ],
+          "table": {
+            "headers": [
+              "Metric",
+              "AI-influenced visitor",
+              "Non-AI-influenced visitor",
+              "Delta"
+            ],
+            "rows": [
+              [
+                "Pages per visit",
+                "12.0",
+                "6.5",
+                "~1.8x"
+              ],
+              [
+                "Time on site",
+                "11.8 min",
+                "5.6 min",
+                "~2.1x"
+              ],
+              [
+                "Visit within 7 days of recommendation",
+                "2.5x baseline",
+                "baseline",
+                "2.5x"
+              ],
+              [
+                "Share of that traffic via branded search",
+                "55.9%",
+                "—",
+                "—"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "How to actually attribute it",
+          "body": [
+            "You cannot wait for a clean AI referral number — Google's own reports do not yet provide clicks, and the branded-search bridge means a clean single-channel number may never exist. Attribution here is a stack of imperfect-but-converging methods, not one perfect metric. This is the operating model behind our [AEO ROI business case](/aeo-roi-business-case/) and the [actions-to-revenue](/aeo-actions-to-revenue/) playbook; the summary version is in the table below.",
+            "The logic of the stack, top to bottom: Search Console tells you your presence inside AI answers is rising; branded-search lift tells you that presence is translating into demand; engagement quality tells you the demand is high-intent; and the survey and cohort layers connect it to pipeline. No single row is proof; together they are a defensible case — and notably, the first two rows now use data sources that did not exist a year ago. If you want the version that frames AI visibility as a leading indicator a CEO will trust rather than a vanity metric, see [is AI visibility a vanity metric](/is-ai-visibility-a-vanity-metric/)."
+          ],
+          "table": {
+            "headers": [
+              "Layer",
+              "What it measures",
+              "Where it comes from",
+              "Honest limitation"
+            ],
+            "rows": [
+              [
+                "AI impressions",
+                "How often your URLs appear in AI Overviews and AI Mode",
+                "Google Search Console gen-AI reports (June 2026)",
+                "Impressions only, no clicks yet; gradual rollout"
+              ],
+              [
+                "Branded-search lift",
+                "Rise in branded queries and direct visits as AEO presence grows",
+                "GSC branded-query segment, GA4 direct and branded-organic",
+                "Correlational; needs a baseline window and ideally a control"
+              ],
+              [
+                "Engagement quality",
+                "Time on site and pages-per-session for the AI-influenced cohort",
+                "GA4 cohort vs control; clickstream panels",
+                "The AI-influenced cohort is inferred, not platform-labeled"
+              ],
+              [
+                "Pipeline attribution",
+                "AEO-influenced visits to demo, contact, or closed revenue",
+                "How-did-you-hear survey, self-reported attribution, cohort comparison, prompt-set recovery",
+                "Last-click misfiles it as direct/branded; needs multiple methods to triangulate"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "What this means for how you resource the two",
+          "body": [
+            "Three operating conclusions for a B2B team."
+          ],
+          "bullets": [
+            "**Do not defund SEO to fund AEO.** The branded-search bridge means AEO generates the searches SEO has to capture. They compound; defunding one caps the other. The rebalance is at the margin — toward decision-stage and branded-query control, and toward earning the third-party citations AI engines retrieve — not a wholesale switch.",
+            "**Instrument the bridge before you scale the spend.** Set a branded-search and direct-traffic baseline now, turn on the Search Console gen-AI report the moment it reaches your account, and stand up an AI-influenced cohort in GA4. Without the baseline you cannot show the lift later, and the lift is the number that survives a CFO's scrutiny.",
+            "**Report quality, not just presence.** Pair every 'we appear in N AI answers' slide with the engagement-quality delta for the AI-influenced cohort and the branded-search trend. Presence is the input; branded-search lift and high-intent visits are the outcome."
+          ]
+        },
+        {
+          "heading": "How SolCrys measures this for you",
+          "body": [
+            "SolCrys runs a closed loop — Measure, Diagnose, Execute, Verify — and the front of that chain is what grounds the attribution stack above. We Measure where you appear and get recommended across engines, on the prompts your buyers actually run, so the impression half of the stack reflects your real buyer language rather than whatever a single tool happens to sample. We Diagnose why a competitor is recommended where you are not, and brief the fix. Execute is governed and human-approved — the drafts are reviewable and your team ships the change, never an AI publishing on its own. Then we Verify by re-running the same frozen prompt set after the fix ships, to confirm the answer actually moved.",
+            "Where we are honest about scope: SolCrys measures and diagnoses AI presence and recommendation, and maps it to the branded-search and engagement signals above. The downstream pipeline attribution — connecting an AI-influenced visit to a closed deal — lives in your analytics, your survey instrument, and your CRM. We give you the AEO-side inputs and the method; your RevOps team closes the loop to revenue. We do not claim a guaranteed lift, and we do not claim to see inside your CRM."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Why doesn't traffic from AI recommendations show up in my analytics?",
+          "answer": "Because most of it does not arrive as a referral click. Similarweb's 2026 clickstream study found 55.9% of post-recommendation visits arrived via branded search — the user searched the brand by name days after the AI mentioned it — with the rest skewing to direct. Last-click analytics attribute those to 'organic — branded' or 'direct,' not to the AI that caused them, so a referral-only view of AEO badly undercounts it."
+        },
+        {
+          "question": "How do SEO and AEO work together?",
+          "answer": "AEO is an operating layer on top of SEO foundations. Google's AI Overviews and AI Mode use the Search index and core ranking systems, so they inherit SEO signals; ChatGPT and Perplexity retrieve from crawlable, authoritative pages. And because AI recommendations mostly convert into branded searches, SEO is what captures the demand AEO creates. Cut SEO and you generate searches you then lose; cut AEO and you never enter the AI's shortlist. See [AEO vs SEO](/aeo-vs-seo/)."
+        },
+        {
+          "question": "Is traffic from AI recommendations actually higher quality?",
+          "answer": "The 2026 evidence says yes. Similarweb found AI-influenced visitors averaged about 1.8x the pages and 2.1x the time on site of other visitors, consistent with a visitor the AI has pre-qualified. On the commerce side, Shopify's Q1 2026 data showed AI-referred sessions converting roughly 50% higher than organic with 14% higher order values. The mechanism — a better-qualified visitor who actively searched you out — is channel-level, not specific to those verticals."
+        },
+        {
+          "question": "What can Google Search Console now show me about AI traffic?",
+          "answer": "As of its June 3, 2026 announcement, Search Console's gen-AI performance reports show impressions inside AI Overviews, AI Mode, and Discover, broken out by page, country, device, and date. Click data is not included in the current version, and it rolled out first to a subset of UK site owners. So it confirms you appeared in an AI answer; it does not yet tell you whether anyone clicked — which is why branded-search lift remains the key downstream signal."
+        },
+        {
+          "question": "How do you attribute AI search to pipeline or revenue?",
+          "answer": "With a stack of converging methods rather than one metric: AI impressions (Search Console), branded-search and direct lift against a baseline (GSC and GA4), engagement quality for the AI-influenced cohort, and survey-plus-cohort attribution into the CRM. No single layer is proof; together they make a defensible case. The full model is in the [AEO ROI business case](/aeo-roi-business-case/) and [AEO actions to revenue](/aeo-actions-to-revenue/) guides."
+        }
+      ]
+    },
+    {
       "slug": "aeo-actions-to-revenue",
       "title": "AEO Actions to Revenue",
       "metaTitle": "From Visibility to Pipeline: Tying AEO Actions to Revenue Events | SolCrys",
