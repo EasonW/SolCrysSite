@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Why Grounding Depth Decides Whether AI Gets Your Brand Right | SolCrys</title>
+    <meta name="description" content="AI answer accuracy about your brand is only as good as the truth you grade against. A thin baseline context catches crude contradictions; a deep, cited, current source of truth catches drift — and the claims a shallow context is silent about." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/grounding-depth-ai-brand-accuracy/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-23" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Why Grounding Depth Decides Whether AI Gets Your Brand Right | SolCrys" />
+    <meta property="og:description" content="AI answer accuracy about your brand is only as good as the truth you grade against. A thin baseline context catches crude contradictions; a deep, cited, current source of truth catches drift — and the claims a shallow context is silent about." />
+    <meta property="og:url" content="https://solcrys.com/grounding-depth-ai-brand-accuracy/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/grounding-depth-ai-brand-accuracy.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/grounding-depth-ai-brand-accuracy.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Why Grounding Depth Decides Whether AI Gets Your Brand Right","item":"https://solcrys.com/grounding-depth-ai-brand-accuracy/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why Grounding Depth Decides Whether AI Gets Your Brand Right","description":"AI answer accuracy about your brand is only as good as the truth you grade against. A thin baseline context catches crude contradictions; a deep, cited, current source of truth catches drift — and the claims a shallow context is silent about.","dateModified":"2026-06-23","datePublished":"2026-06-23","mainEntityOfPage":"https://solcrys.com/grounding-depth-ai-brand-accuracy/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/grounding-depth-ai-brand-accuracy/","mainEntity":[{"@type":"Question","name":"What makes AI describe a brand accurately?","acceptedAnswer":{"@type":"Answer","text":"A source of truth deep enough to grade against. AI answer accuracy is measured by comparing what the engine says to a defined version of what's true about your brand. The deeper, more cited, and more current that truth is, the more of \"accurate\" is actually in scope. A masthead-only baseline catches flat contradictions but stays silent on subtler mischaracterizations — and silence reads as permission, not as a violation."}},{"@type":"Question","name":"Why does a thin baseline context miss so many errors?","acceptedAnswer":{"@type":"Answer","text":"Because an accuracy check can only fire on claims your grounding truth has an opinion about. If the context never captured a differentiator as a required claim, the engine omitting it isn't a flaggable failure. If the context never named a positioning as off-limits, the engine applying it passes. The context's silence becomes the engine's permission to be wrong."}},{"@type":"Question","name":"What is a source of truth for AI answers?","acceptedAnswer":{"@type":"Answer","text":"It's the authoritative, versioned record of what's true about your brand that every accuracy verdict is graded against. SolCrys holds it as Corporate Context — your messaging pillars, required and prohibited claims, canonical facts, and current specs and pricing — set at the organization level so every workspace and every check grades against the same truth."}},{"@type":"Question","name":"Can an accuracy check catch a claim my context never wrote down?","acceptedAnswer":{"@type":"Answer","text":"No — and that's the central limit. A check compares an answer to a defined truth. Where the truth is undefined, there's nothing to compare against, so there's nothing to fail. The fix isn't a stricter grader; it's deepening the context so the silent claim becomes a checkable assertion."}},{"@type":"Question","name":"Is Answer Accuracy generally available?","acceptedAnswer":{"@type":"Answer","text":"It's in preview. The underlying visibility and citation measurement is live today — you can run a free audit (free, no credit card) to see your baseline. To grade answers against your own grounding truth with Answer Accuracy, reach out and we'll enable it for your organization."}},{"@type":"Question","name":"Do I have to write my Corporate Context myself?","acceptedAnswer":{"@type":"Answer","text":"No. On every plan, SolCrys auto-generates a baseline Corporate Context for you from your brand's public footprint — you start with a grounding truth, not a blank textbox — and starting there is the right move: even an auto-generated first pass naming your required and prohibited claims catches failures a masthead-only check can't. For enterprises where the truth is too large or fast-moving to keep deep and current by hand, SolCrys offers a managed Corporate Context as a managed-service engagement: we take that baseline deeper — broader research, claim-by-claim verification, the ability to feed it more of your own documents, and ongoing maintenance. It's a service we deliver, not an automated agent."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Risk Monitoring</p>
+        <h1>Why Grounding Depth Decides Whether AI Gets Your Brand Right</h1>
+        <p class="seo-lede">Whether an AI engine describes your brand accurately depends on something most teams never measure: how deep, cited, and current the truth you grade against is. A thin, auto-generated baseline catches crude contradictions but stays silent on everything it never captured — and in an accuracy check, silence reads as permission, not a violation. Depth is the variable that decides how much an engine can get wrong about you and still pass.</p>
+        <p>Updated 2026-06-23</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What makes AI describe a brand accurately?</li><li>What is a source of truth for AI answers?</li><li>Why does AI get my brand facts wrong?</li><li>How deep does a brand context need to be for AI accuracy?</li><li>Can an accuracy check catch a claim my context never recorded?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Whether an AI engine describes your brand accurately is a function of one thing most teams never think to measure: how deep, cited, and current the truth you grade against is. Grading AI answers is only as good as the source of truth behind the grade. A thin, auto-generated baseline catches the crude contradictions — a retired price, a flatly wrong category. But it goes silent on everything it never captured. And in an accuracy check, <strong>silence is not prohibition</strong>: a check cannot flag a claim your grounding truth never made an assertion about. The shallower your truth, the more an engine can be confidently wrong about you and still &quot;pass.&quot; Depth is the variable. This piece explains why.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Accuracy is graded against a truth — so the truth is the bottleneck</h2>
+      <p>Start from the mechanism. To know whether an AI answer about your brand is right, you compare it against something you&#39;ve defined as right. That &quot;something&quot; — your <strong>source of truth for AI answers</strong> — is what every accuracy verdict is measured against. SolCrys holds it as <strong>Corporate Context</strong>: a versioned, organization-level record of your messaging pillars, the claims that must appear, the claims that must never appear, your canonical facts, and your current specs and pricing.</p><p>The grade is downstream of the truth. So the quality of every verdict is capped by the quality of the Corporate Context behind it. Get the grounding shallow and you get a strict-looking check that is, in practice, lenient — it waves through anything it has no opinion about. Get it deep and the same check becomes demanding in exactly the places that move deals.</p><p>This is the part teams underestimate. They treat the brand context as a one-time baseline and &quot;grade the answers&quot; as the real work. It&#39;s the reverse. The grading is mechanical. The depth, citation, and currency of the truth is the work — and it&#39;s where accuracy is won or lost.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a thin context catches — and what it can&#39;t</h2>
+      <p>Picture an <strong>illustrative</strong> mid-market data-warehouse brand (illustrative scenario only — invented, not a SolCrys customer). A thin baseline context captures the masthead facts: &quot;We&#39;re a cloud data warehouse. We&#39;re priced per terabyte. We&#39;re faster than legacy on-prem systems.&quot; Then they grade what ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude say about them.</p><p>A thin context like that will catch the obvious breaks:</p>
+      
+      <table>
+              <thead><tr><th>What a thin context catches</th><th>Why it&#39;s easy</th></tr></thead>
+              <tbody><tr><td><strong>Flat contradiction</strong></td><td>The answer says &quot;priced per query&quot; when the context says &quot;per terabyte.&quot; The two statements collide, so the check fires.</td></tr><tr><td><strong>Retired fact</strong></td><td>The answer quotes a price the context marks as old. The contradiction is explicit.</td></tr><tr><td><strong>Wrong category</strong></td><td>The answer calls them a BI dashboard tool. The context asserts &quot;data warehouse&quot;; the conflict is direct.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The failures a thin context is blind to</h2>
+      <p>These are real and worth catching. But notice what they share: each is a <strong>head-on collision</strong> between the answer and a claim the context actually captured. The check works because there&#39;s something on both sides to compare.</p><p>Now the failures a thin context is blind to:</p>
+      <ul class="seo-list"><li>An engine says the illustrative brand &quot;has limited support for semi-structured data.&quot; The context never mentioned semi-structured data at all. There&#39;s no claim to contradict, so the check stays silent — even though that line is steering buyers away on a capability the brand actually leads on.</li><li>An engine positions them as &quot;a cheaper alternative to the category leaders, best for smaller teams.&quot; The context never staked out a positioning beyond &quot;faster than on-prem.&quot; Nothing to violate. The downsizing slips through.</li><li>An engine omits the one differentiator the brand spent two years earning — because the context listed it as a feature, not as a <strong>required claim</strong> the answer must contain. A missing-required-claim check can only fire on claims you marked as required. List it as background and its absence is invisible.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;Silence is not prohibition&quot; — the rule that explains the gap</h2>
+      <p>None of these are exotic. They&#39;re the everyday ways AI gets a brand subtly, expensively wrong — and a shallow grounding truth passes every one of them. The brand looks &quot;accurate&quot; on the dashboard and is being mischaracterized in the answers.</p><p>Here is the principle underneath all three blind spots, stated plainly: <strong>an accuracy check can only evaluate claims your grounding truth has an opinion about. Silence in your context is read as permission, not as a violation.</strong></p><p>This is not a flaw in how grading works; it&#39;s a property of what grading <strong>is</strong>. A check compares an answer to a defined truth. Where the truth is undefined, there is nothing to compare against, so there is nothing to fail. An omission your context never anticipated, a positioning you never claimed, a capability you never asserted — the engine can get all of these wrong, and a context that&#39;s silent on them will return a clean pass.</p><p>Which means accuracy coverage is bounded by context coverage. Every claim a buyer cares about that your grounding truth doesn&#39;t address is a claim AI can get wrong for free. The fix is not a stricter grader. It&#39;s a <strong>deeper truth</strong> — one that has written down the differentiators as required claims, the off-limits positionings as prohibited claims, the capability boundaries as canonical facts. Depth is what converts silence into a checkable assertion.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The three properties that make grounding truth load-bearing</h2>
+      <p>Not all depth is equal. A grounding truth earns the accuracy it produces along three axes — <strong>deep, cited, and current</strong>.</p><p><strong>Deep.</strong> The context covers the claims buyers actually weigh, not just the masthead facts. The masthead — name, category, headline price — is the easy 20% and the part a thin baseline already gets. The load-bearing 80% is the differentiators that must appear, the positionings that must never be applied to you, the capability boundaries, the comparison framing against named competitors. Depth is what turns a &quot;silence pass&quot; into a real verdict. The <a href="/corporate-context-ai-marketing/" target="_blank" rel="noopener noreferrer">Corporate Context layer</a> is structured for exactly this — required claims, prohibited claims, evidence, competitive rules — so the check has something to grade against where it would otherwise be silent.</p><p><strong>Cited.</strong> Each claim in the truth is tied to evidence the brand can stand behind. This matters for two reasons. First, an unsourced &quot;fact&quot; in your own context is just an assertion, and when an engine contradicts it you can&#39;t tell whether the engine is wrong or your context is. Second, the same evidence that grounds the verdict is what your owned and earned content needs to make the claim retrievable in the first place. A claim you can&#39;t cite is a claim you can&#39;t defend — to a procurement reviewer, to a legal team, or to the retrieval layer the engines pull from.</p><p><strong>Current.</strong> The truth tracks the brand as it changes. A price you retired last quarter, a claim you can now make because a certification cleared, a competitor framing that shifted — if the context lags reality, the check grades against a stale truth and either misses real failures or flags false ones. Currency is the difference between a source of truth and a fossil. This is the axis that decays silently: a context that was deep and cited on the day it was written goes wrong a little every week it isn&#39;t maintained.</p><p>A grounding truth that is deep but uncited can&#39;t defend its verdicts. One that is deep and cited but stale grades against yesterday&#39;s brand. All three properties have to hold at once, which is precisely why a static baseline — accurate the day it&#39;s generated, untouched after — is the most common reason accuracy checks underperform.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where this fits: Measure → Diagnose → Execute → Verify</h2>
+      <p>SolCrys runs on one loop — <strong>Measure → Diagnose → Execute → Verify</strong> — and grounding depth is the input quality that determines how much each stage is worth.</p>
+      <ul class="seo-list"><li><strong>Measure</strong> stops at &quot;are you mentioned?&quot; without a truth to grade against. With a deep, cited, current Corporate Context, Measure becomes &quot;are you mentioned <strong>correctly</strong>?&quot; — and the depth of the context sets how much of &quot;correctly&quot; is even in scope.</li><li><strong>Diagnose</strong> is where depth pays off most. A failure type — missing required claim, prohibited claim, contradicts grounding, unsupported claim, outdated info — only exists if the context defined the claim, the prohibition, or the canonical fact in the first place. A richer truth produces a richer diagnosis; a thin one produces a thin one, because there&#39;s less to diagnose against.</li><li><strong>Execute</strong> is the governed, human-approved work of fixing the source, the page, or the context itself — when Diagnose reveals the &quot;truth&quot; was never written down clearly, the fix is to deepen the context, not just to publish.</li><li><strong>Verify</strong> closes the loop: re-test the same frozen prompts and watch the verdict flip from fail to pass. No promise of lift — the same test, run again, showing whether the fix reached the retrieval layer. Verify is only as meaningful as the truth it re-tests against, which routes you straight back to depth.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Answer Accuracy grades against your truth — so deepen the truth</h2>
+      <p>The loop doesn&#39;t change. What changes is how much signal flows through it, and that&#39;s set by the grounding truth at the front.</p><p><a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">Answer Accuracy</a> is the SolCrys feature, now <strong>in preview</strong>, that grades every AI answer about your brand pass or fail against your Corporate Context across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude — and on a fail, returns the receipts: the exact claim dropped, the prohibited or fabricated claim asserted, the engine and run, and why. On a fail the evidence isn&#39;t optional; the data model won&#39;t let a &quot;fail&quot; exist without the specific deviating claim attached. That&#39;s what makes the verdict trustworthy rather than a vibe.</p><p>But re-read everything above and the dependency is clear: the receipts are only as complete as the truth they&#39;re checked against. Answer Accuracy is the grader. Corporate Context is the bar. The grader is sharp; the bar is what you control.</p><p>On every plan, SolCrys <strong>auto-generates</strong> your Corporate Context — it builds a baseline source of truth from your brand&#39;s public footprint, so you start with a grounding truth rather than a blank slate. For many teams that baseline is enough to start, and it&#39;s the right place to begin: even an auto-generated first pass that names your required and prohibited claims catches failures a masthead-only check never could.</p><p>For enterprises where the truth is too large, too contested, or too fast-moving to keep deep and current by hand, SolCrys offers a <strong>managed Corporate Context</strong> as a managed-service engagement: we take that baseline deeper — broader research, claim-by-claim verification against sources, the ability to feed it more of your own documents and content, and continuous maintenance — so the depth, citation, and currency hold over time, which is what keeps the accuracy verdicts honest as the brand and the category move. This is a service we deliver, not an automated agent you switch on. The principle it operationalizes is the one this whole piece argues: accuracy is downstream of the truth, so someone has to keep the truth deep.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do this week</h2>
+      <p>You don&#39;t need a platform to test the principle. You need your real buyer questions and an honest look at your own source of truth.</p>
+      <ul class="seo-list"><li><strong>Write down 10–15 questions a buyer would actually ask</strong> before choosing in your category — pricing, comparisons, &quot;is X good for Y,&quot; your category definition.</li><li><strong>Ask each in all five engines</strong> and capture the verbatim answer about you.</li><li><strong>For every wrong or off line in those answers, check your context.</strong> Did your grounding truth even <strong>have</strong> an opinion on that claim? The ones it was silent on are your coverage gaps — the failures no grader could have caught.</li><li><strong>Promote the silent gaps into the context.</strong> Turn the differentiator you assumed was obvious into a <strong>required claim</strong>. Turn the positioning you&#39;d never accept into a <strong>prohibited claim</strong>. Turn the capability boundary into a <strong>canonical fact</strong>.</li><li><strong>Re-ask after you&#39;ve deepened the truth and shipped the fix.</strong> If the answer didn&#39;t change, the fix didn&#39;t reach the retrieval layer.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See where you stand</h2>
+      <p>That&#39;s the manual version of converting silence into a checkable assertion. Doing it once is revealing; doing it continuously, graded against a versioned source of truth across every engine, with the receipts attached, is what Answer Accuracy automates — and what a managed Corporate Context keeps deep.</p><p>Start with your baseline. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys will show you where the five major engines mention you, which sources they cite, and where you&#39;re missing from the answers your buyers ask. Answer Accuracy is in preview — and if keeping a source of truth deep, cited, and current is the part you don&#39;t have time to own by hand, <a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">talk to sales</a> about a managed Corporate Context for your organization.</p><p>The engines will keep describing your brand whether or not your truth is deep enough to grade them. The only question is how much they can get wrong before anything fires.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What makes AI describe a brand accurately?</h3>
+            <p>A source of truth deep enough to grade against. AI answer accuracy is measured by comparing what the engine says to a defined version of what&#39;s true about your brand. The deeper, more cited, and more current that truth is, the more of &quot;accurate&quot; is actually in scope. A masthead-only baseline catches flat contradictions but stays silent on subtler mischaracterizations — and silence reads as permission, not as a violation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does a thin baseline context miss so many errors?</h3>
+            <p>Because an accuracy check can only fire on claims your grounding truth has an opinion about. If the context never captured a differentiator as a required claim, the engine omitting it isn&#39;t a flaggable failure. If the context never named a positioning as off-limits, the engine applying it passes. The context&#39;s silence becomes the engine&#39;s permission to be wrong.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a source of truth for AI answers?</h3>
+            <p>It&#39;s the authoritative, versioned record of what&#39;s true about your brand that every accuracy verdict is graded against. SolCrys holds it as Corporate Context — your messaging pillars, required and prohibited claims, canonical facts, and current specs and pricing — set at the organization level so every workspace and every check grades against the same truth.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can an accuracy check catch a claim my context never wrote down?</h3>
+            <p>No — and that&#39;s the central limit. A check compares an answer to a defined truth. Where the truth is undefined, there&#39;s nothing to compare against, so there&#39;s nothing to fail. The fix isn&#39;t a stricter grader; it&#39;s deepening the context so the silent claim becomes a checkable assertion.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is Answer Accuracy generally available?</h3>
+            <p>It&#39;s in preview. The underlying visibility and citation measurement is live today — you can run a free audit (free, no credit card) to see your baseline. To grade answers against your own grounding truth with Answer Accuracy, reach out and we&#39;ll enable it for your organization.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I have to write my Corporate Context myself?</h3>
+            <p>No. On every plan, SolCrys auto-generates a baseline Corporate Context for you from your brand&#39;s public footprint — you start with a grounding truth, not a blank textbox — and starting there is the right move: even an auto-generated first pass naming your required and prohibited claims catches failures a masthead-only check can&#39;t. For enterprises where the truth is too large or fast-moving to keep deep and current by hand, SolCrys offers a managed Corporate Context as a managed-service engagement: we take that baseline deeper — broader research, claim-by-claim verification, the ability to feed it more of your own documents, and ongoing maintenance. It&#39;s a service we deliver, not an automated agent.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/corporate-context-ai-marketing/">Corporate Context Is the New CMS</a></h3>
+            <p>Corporate Context gives AI marketing agents the brand facts, claims, guardrails, and evidence they need to execute safely across AEO workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/ai-hallucination-risk-monitoring/">AI Hallucination Risk Monitoring</a></h3>
+            <p>AI hallucination risk monitoring helps brands detect inaccurate, outdated, or unsupported claims in AI-generated answers and turn them into governed correction workflows.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-62ebPVQH.js"></script>
+  </body>
+</html>
