@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Managed Corporate Context: When an Auto-Generated Baseline Isn&#39;t Enough | SolCrys</title>
+    <meta name="description" content="SolCrys auto-generates a baseline Corporate Context on every plan — the right start. For multi-brand, multi-region, and regulated companies, the source of truth grounding AI answers has to go deeper — broadly researched, claim-by-claim verified, and kept current. That&#39;s Managed Corporate Context." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/managed-corporate-context/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-23" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Managed Corporate Context: When an Auto-Generated Baseline Isn&#39;t Enough | SolCrys" />
+    <meta property="og:description" content="SolCrys auto-generates a baseline Corporate Context on every plan — the right start. For multi-brand, multi-region, and regulated companies, the source of truth grounding AI answers has to go deeper — broadly researched, claim-by-claim verified, and kept current. That&#39;s Managed Corporate Context." />
+    <meta property="og:url" content="https://solcrys.com/managed-corporate-context/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/managed-corporate-context.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/managed-corporate-context.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Managed Corporate Context: When an Auto-Generated Baseline Isn't Enough","item":"https://solcrys.com/managed-corporate-context/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Managed Corporate Context: When an Auto-Generated Baseline Isn't Enough","description":"SolCrys auto-generates a baseline Corporate Context on every plan — the right start. For multi-brand, multi-region, and regulated companies, the source of truth grounding AI answers has to go deeper — broadly researched, claim-by-claim verified, and kept current. That's Managed Corporate Context.","dateModified":"2026-06-23","datePublished":"2026-06-23","mainEntityOfPage":"https://solcrys.com/managed-corporate-context/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/managed-corporate-context/","mainEntity":[{"@type":"Question","name":"What is Managed Corporate Context?","acceptedAnswer":{"@type":"Answer","text":"It's a deeper version of your brand's source of truth, delivered by SolCrys as a managed-service engagement at the enterprise tier. On every plan SolCrys auto-generates a baseline Corporate Context from your brand's public footprint; Managed takes that baseline deeper — broader research coverage, the ability to feed it more of your own documents and content, claim-by-claim verification against citable evidence, and ongoing maintenance so the context stays current. SolCrys's team does that research, verification, and upkeep on your behalf."}},{"@type":"Question","name":"Is an auto-generated baseline Corporate Context enough to ground AI answers?","acceptedAnswer":{"@type":"Answer","text":"For a single-brand, single-market company with low regulatory exposure and a team that keeps it current, often yes — a thin-but-honest context you actually maintain beats a deep one nobody owns. It stops being enough when complexity creates gaps a baseline built from the public footprint can't keep up with: multiple brands, multiple regions where facts diverge, or regulated claims where \"we believe it's true\" isn't a defensible standard. Those are the cases Managed is built for."}},{"@type":"Question","name":"How is Managed different from the baseline — is it just a paid version?","acceptedAnswer":{"@type":"Answer","text":"It's a depth ladder, not a paywall on the same thing. Both are real Corporate Contexts that ground the same downstream work. Managed goes further on three axes — coverage (researched beyond the public footprint, and fed with more of your own documents and content), verification (each material claim paired with citable evidence), and freshness (maintained on an ongoing cadence) — and moves the deeper research and maintenance burden off your team onto SolCrys's. The auto-generated baseline is the right stopping point for many companies; Managed is for the ones where the edges, the evidence, and the drift are where the risk lives."}},{"@type":"Question","name":"Is Managed Corporate Context an automated agent that builds my context from my docs?","acceptedAnswer":{"@type":"Answer","text":"No, and we won't claim it is. Today it's delivered by SolCrys's team — people doing the research, verification, and maintenance as a service. Richer automation of parts of that work is on our roadmap, but what you can engage now is the managed outcome, not a self-serve \"upload your docs and an agent builds it\" product."}},{"@type":"Question","name":"How does Managed Corporate Context relate to Answer Accuracy?","acceptedAnswer":{"@type":"Answer","text":"Answer Accuracy (in preview) grades each AI answer about your brand pass or fail against your Corporate Context across five engines. It's only as trustworthy as the truth it grades against. A deeper, verified, current Corporate Context is what makes those verdicts meaningful — and what makes a \"fail\" point at a real, fixable gap instead of a hole in your own source of truth."}},{"@type":"Question","name":"Do we have to start over to upgrade from the baseline to Managed?","acceptedAnswer":{"@type":"Answer","text":"No. It's held as a versioned, organization-level Corporate Context, so deepening it upgrades the same source of truth in place. Every workspace, every run, and every Answer Accuracy grade inherits the deeper version automatically — you upgrade the truth, and everything grounded on it gets more accurate at once."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>Managed Corporate Context: When an Auto-Generated Baseline Isn&#39;t Enough</h1>
+        <p class="seo-lede">On every plan, SolCrys auto-generates a baseline Corporate Context from your brand&#39;s public footprint — an honest, useful place to start. But for multi-brand, multi-region, or regulated companies, a baseline drawn from the public footprint has gaps the engines find. Managed Corporate Context is a managed-service engagement where SolCrys&#39;s team takes that baseline deeper — broader research coverage, claim-by-claim verification against citable evidence, and ongoing maintenance — so the source of truth your AI answers are graded against stays authoritative as the brand and market move.</p>
+        <p>Updated 2026-06-23</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is Managed Corporate Context?</li><li>Is an auto-generated baseline Corporate Context enough to ground AI answers?</li><li>How do enterprises keep their AI source of truth current?</li><li>Who maintains the brand facts AI engines grade against?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p><a href="/corporate-context-ai-marketing/" target="_blank" rel="noopener noreferrer">Corporate Context</a> is your brand&#39;s source of truth — the structured set of approved facts, claims, proof, and guardrails that grounds every AI-facing action and that <a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">Answer Accuracy</a> grades each AI answer against. On every plan, SolCrys <strong>auto-generates</strong> this for you — call it the baseline Corporate Context — building a source of truth from your brand&#39;s public footprint, so you start with a grounding truth, not a blank textbox. For a single-brand, single-market company that baseline may be all you ever need. It captures what&#39;s already visible about you: your positioning, your core facts, your prohibited claims.</p><p>But for multi-brand, multi-region, or regulated companies, a baseline built from the public footprint has gaps — and answer engines find them. The source of truth those companies need is deeper: broadly researched beyond what&#39;s public, verified claim by claim against citable evidence, fed with more of your own documents and content, and kept current as the market and the brand move. Building and maintaining that depth is a real, ongoing job. <strong>Managed Corporate Context</strong> is how SolCrys does that job for you — a managed-service engagement where our team takes the baseline deeper, then researches, verifies, and maintains your source of truth so it stays authoritative as the thing the engines are graded against.</p><p>This is a depth ladder, not a paywall. The auto-generated baseline is honest and useful. Managed is what you reach for when the cost of a wrong answer is high enough that a baseline drawn from your public footprint stops being enough.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A source of truth is only as good as its depth</h2>
+      <p>Everything downstream of Corporate Context inherits its quality. When an AEO agent drafts a correction, it pulls from the context. When Answer Accuracy decides whether ChatGPT described you correctly, it grades against the context. When you re-test a prompt to confirm a fix landed, the verdict is only as trustworthy as the truth it&#39;s checked against.</p><p>So the question that matters isn&#39;t &quot;do you have a Corporate Context.&quot; It&#39;s &quot;is your Corporate Context deep enough to be right.&quot; A baseline auto-generated from your public footprint answers the obvious questions well. It tends to be thin in exactly the places that get a brand into trouble:</p>
+      <ul class="seo-list"><li><strong>The claims the public footprint never surfaced.</strong> The certification a regional team earned last quarter. The pricing that changed in one market but not another. The feature that shipped but never made it onto the site.</li><li><strong>The claims that are true but unsupported.</strong> The differentiator is real and the baseline says so. But there&#39;s no citable source attached — so when an engine asks &quot;according to what,&quot; there&#39;s nothing to point to, and the claim doesn&#39;t travel.</li><li><strong>The claims that drifted.</strong> Positioning the brand retired 18 months ago still lingers in old public pages the baseline was drawn from. The context is internally consistent and externally stale.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Depth is the variable that separates a baseline from a source of truth</h2>
+      <p>None of these are failures of effort. They&#39;re the natural limits of a baseline auto-generated from what&#39;s publicly visible, on one day. Depth is the variable that separates a baseline from a source of truth you&#39;d stake an AI answer on. We unpack that variable on its own in <a href="/grounding-depth-ai-brand-accuracy/" target="_blank" rel="noopener noreferrer">Grounding Depth: Why Some AI Answers Land Right and Others Don&#39;t</a> — this piece is about who does the work of getting there.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Baseline vs Managed: a depth ladder, not a put-down</h2>
+      <p>Both are real Corporate Contexts. Both ground the same downstream work. The difference is three dimensions of depth — coverage, verification, and freshness — and who carries the load on each.</p>
+      
+      <table>
+              <thead><tr><th>Dimension</th><th>Baseline (auto-generated, every plan)</th><th>Managed (SolCrys-delivered)</th></tr></thead>
+              <tbody><tr><td><strong>Coverage</strong></td><td>What your public footprint surfaces — strong on the obvious, thin on the edges (new regions, retired claims, recent certifications)</td><td>Researched broadly beyond the public footprint, and fed with more of your own documents and content, so the context covers the claims and questions your buyers actually surface, not just what&#39;s visible</td></tr><tr><td><strong>Verification</strong></td><td>Claims captured as they appear in public sources; evidence attached where the footprint happened to provide it</td><td>Claim by claim, each material assertion paired with a citable source — so &quot;according to what&quot; has an answer</td></tr><tr><td><strong>Freshness</strong></td><td>The baseline as generated, until something prompts a refresh — it can quietly go stale</td><td>Maintained on an ongoing cadence as the market and the brand change, so the source of truth doesn&#39;t quietly go stale</td></tr><tr><td><strong>Who carries it</strong></td><td>SolCrys auto-generates it; keeping it current is on your team, on top of their day jobs</td><td>SolCrys&#39;s team does the deeper research, verification, and upkeep as a managed-service engagement</td></tr><tr><td><strong>Best fit</strong></td><td>Single brand, single market, low regulatory exposure, a team with time to maintain it</td><td>Multi-brand, multi-region, regulated, or any brand where a wrong AI answer is expensive</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Managed isn&#39;t a different thing — it&#39;s the same truth, taken further</h2>
+      <p>Read the table left to right and the ladder is obvious: Managed isn&#39;t a different <strong>thing</strong>, it&#39;s the same source of truth taken further on the three axes that decide whether it&#39;s right — and with the deeper research and maintenance burden moved off your team and onto ours.</p><p>The Baseline column is not a strawman. For a lot of companies it&#39;s genuinely the correct stopping point, and a thin-but-honest context that your team actually keeps current beats a deep one nobody owns. The case for Managed is specific: it&#39;s for the companies where the edges, the evidence, and the drift are exactly where the risk lives.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>When the baseline stops being enough</h2>
+      <p>Three patterns push a company up the ladder. None of them is about effort — they&#39;re about structural complexity that an auto-generated baseline can&#39;t keep up with.</p><p><strong>Multi-brand.</strong> A house of brands has a source-of-truth problem multiplied by the number of brands, plus the cross-contamination risk between them. A baseline drawn from each brand&#39;s public footprint tends to be deep on the flagship and thin everywhere else — and &quot;thin everywhere else&quot; is where engines invent.</p><p><strong>Multi-region.</strong> Facts that are true in one market are wrong in another: pricing, availability, regulatory status, even the product name. A single baseline flattens that into one &quot;truth&quot; that&#39;s correct somewhere and wrong somewhere else. Depth here means the context carries the regional distinctions, and someone keeps them current as each market moves independently.</p><p><strong>Regulated.</strong> When a claim is a compliance event, &quot;we believe it&#39;s true&quot; is not a defensible standard. Every material claim needs its evidence attached, the prohibited claims need to be exhaustive rather than the few the team thought of, and the whole thing needs to stay current as rules and approvals change. This is precisely the claim-by-claim verification and ongoing-maintenance work that&#39;s hard to sustain as a side project.</p><p><strong>Illustrative scenario only.</strong> A multi-region medical-device maker&#39;s baseline Corporate Context is auto-generated from its US-facing public footprint. It&#39;s accurate for the US. But in the EU one product is cleared for a narrower indication, and a claim that&#39;s approved in the US is prohibited there. Buyers in Germany ask an AI engine about the device; the engine, grounded on nothing region-aware, repeats the US claim. Nobody wrote the EU distinction down because no single internal team held both pictures at once. A Managed Corporate Context would have researched the regional split, attached the clearance evidence to each market&#39;s claim set, and flagged the cross-region prohibition — before a buyer ever met the wrong answer. (Illustrative; not a SolCrys customer.)</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys delivers Managed Corporate Context</h2>
+      <p>Managed Corporate Context is a managed-service engagement at the enterprise tier, not a button you toggle on. SolCrys&#39;s team does the work and hands you back a source of truth you can stand behind. In practice that means three things our team does, on your behalf, on an ongoing basis:</p>
+      <ul class="seo-list"><li><strong>Research the coverage.</strong> We go beyond the public footprint the baseline was generated from — your live properties, the questions your buyers actually ask the engines, the places your claims already appear or fail to — and we fold in more of your own documents and content, so the context covers the real surface area, not just what was publicly visible when the baseline was generated.</li><li><strong>Verify the claims.</strong> We pair material claims with citable evidence, claim by claim, so each assertion has a &quot;according to what&quot; and the prohibited-claims list is exhaustive rather than approximate. On the regulated side, this is the difference between a baseline and a defensible source of truth.</li><li><strong>Maintain the freshness.</strong> We keep the context current as your brand and market change — new claims earned, old ones retired, regional facts that move independently — so the source of truth the engines are graded against doesn&#39;t quietly drift out of date.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What Managed is — and what it isn&#39;t</h2>
+      <p>To be straight about what this is: today, this is delivered by people — SolCrys&#39;s team doing research, verification, and upkeep as a service, not an automated agent you point at your docs. Richer automation of parts of this work is on our roadmap, but we won&#39;t describe an unbuilt &quot;deep-research agent&quot; or &quot;watched-source monitoring&quot; as if you can buy it now. What you can buy now is the outcome: a deeper, verified, maintained Corporate Context, delivered as a managed engagement.</p><p>The output plugs into the same place the auto-generated baseline does. It&#39;s held as a versioned, organization-level Corporate Context — set once for the whole organization, shared across every workspace and every run — so the moment Managed deepens your source of truth, every downstream action and every Answer Accuracy grade inherits the deeper version. You don&#39;t migrate anything. You upgrade the truth, and everything grounded on it gets more accurate at once.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where it sits in the loop</h2>
+      <p>SolCrys runs on one loop — <strong>Measure → Diagnose → Execute → Verify</strong> — and Corporate Context is the ground the whole loop stands on. Deepening it from the auto-generated baseline to Managed sharpens every step:</p>
+      <ul class="seo-list"><li><strong>Measure</strong> asks not just &quot;are you mentioned&quot; but &quot;are you mentioned correctly&quot; — and &quot;correctly&quot; is defined by your Corporate Context. A deeper, verified context means the bar you&#39;re measured against is the real one, not a thin one that lets wrong answers pass as fine.</li><li><strong>Diagnose</strong> points you at the fix. When an answer fails, the failure type tells you whether the problem is a content gap, a stale page — or the Corporate Context itself, if the &quot;truth&quot; was never captured clearly or completely. Managed closes the last gap: it&#39;s hard to diagnose against a source of truth that has holes in it.</li><li><strong>Execute</strong> drafts the correction, governed and human-approved, grounded in the context. A deeper context means the draft has more approved facts and attached evidence to pull from, so it defends the claim instead of merely asserting it.</li><li><strong>Verify</strong> re-tests the same frozen prompts to confirm the fix moved the answer. The verdict is only as trustworthy as the truth it&#39;s graded against — which is the whole argument for investing in the depth of that truth.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why depth is upstream of everything</h2>
+      <p>A wrong source of truth doesn&#39;t just fail to help. It launders bad facts through a system you trust. That&#39;s why depth is upstream of everything: the loop can only be as good as the ground it stands on.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Start where you are</h2>
+      <p>If you don&#39;t yet know what the engines say about you, start there — free. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude mention you, which sources they cite, and where you&#39;re missing from the answers your buyers ask. That snapshot is what tells you whether the auto-generated baseline Corporate Context is closing the gaps — or whether the gaps are exactly the deep, verified, kept-current kind.</p><p>If you&#39;re a multi-brand, multi-region, or regulated company and the cost of a wrong answer is high, <a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">talk to sales</a> about Managed Corporate Context. We&#39;ll scope what researching, verifying, and maintaining your source of truth actually involves for your brand — and where it pays off.</p><p>The engines will keep narrating your brand from whatever ground they can find. Managed Corporate Context is about making sure the ground they should be standing on is the deepest, most accurate version of your truth — and that someone is keeping it that way.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is Managed Corporate Context?</h3>
+            <p>It&#39;s a deeper version of your brand&#39;s source of truth, delivered by SolCrys as a managed-service engagement at the enterprise tier. On every plan SolCrys auto-generates a baseline Corporate Context from your brand&#39;s public footprint; Managed takes that baseline deeper — broader research coverage, the ability to feed it more of your own documents and content, claim-by-claim verification against citable evidence, and ongoing maintenance so the context stays current. SolCrys&#39;s team does that research, verification, and upkeep on your behalf.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is an auto-generated baseline Corporate Context enough to ground AI answers?</h3>
+            <p>For a single-brand, single-market company with low regulatory exposure and a team that keeps it current, often yes — a thin-but-honest context you actually maintain beats a deep one nobody owns. It stops being enough when complexity creates gaps a baseline built from the public footprint can&#39;t keep up with: multiple brands, multiple regions where facts diverge, or regulated claims where &quot;we believe it&#39;s true&quot; isn&#39;t a defensible standard. Those are the cases Managed is built for.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How is Managed different from the baseline — is it just a paid version?</h3>
+            <p>It&#39;s a depth ladder, not a paywall on the same thing. Both are real Corporate Contexts that ground the same downstream work. Managed goes further on three axes — coverage (researched beyond the public footprint, and fed with more of your own documents and content), verification (each material claim paired with citable evidence), and freshness (maintained on an ongoing cadence) — and moves the deeper research and maintenance burden off your team onto SolCrys&#39;s. The auto-generated baseline is the right stopping point for many companies; Managed is for the ones where the edges, the evidence, and the drift are where the risk lives.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is Managed Corporate Context an automated agent that builds my context from my docs?</h3>
+            <p>No, and we won&#39;t claim it is. Today it&#39;s delivered by SolCrys&#39;s team — people doing the research, verification, and maintenance as a service. Richer automation of parts of that work is on our roadmap, but what you can engage now is the managed outcome, not a self-serve &quot;upload your docs and an agent builds it&quot; product.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does Managed Corporate Context relate to Answer Accuracy?</h3>
+            <p>Answer Accuracy (in preview) grades each AI answer about your brand pass or fail against your Corporate Context across five engines. It&#39;s only as trustworthy as the truth it grades against. A deeper, verified, current Corporate Context is what makes those verdicts meaningful — and what makes a &quot;fail&quot; point at a real, fixable gap instead of a hole in your own source of truth.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do we have to start over to upgrade from the baseline to Managed?</h3>
+            <p>No. It&#39;s held as a versioned, organization-level Corporate Context, so deepening it upgrades the same source of truth in place. Every workspace, every run, and every Answer Accuracy grade inherits the deeper version automatically — you upgrade the truth, and everything grounded on it gets more accurate at once.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/corporate-context-ai-marketing/">Corporate Context Is the New CMS</a></h3>
+            <p>Corporate Context gives AI marketing agents the brand facts, claims, guardrails, and evidence they need to execute safely across AEO workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/grounding-depth-ai-brand-accuracy/">Why Grounding Depth Decides Whether AI Gets Your Brand Right</a></h3>
+            <p>AI answer accuracy about your brand is only as good as the truth you grade against. A thin baseline context catches crude contradictions; a deep, cited, current source of truth catches drift — and the claims a shallow context is silent about.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-D1_I6Gdz.js"></script>
+  </body>
+</html>

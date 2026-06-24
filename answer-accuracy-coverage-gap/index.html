@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>You Can&#39;t Grade What Your Context Is Silent About: The Answer-Accuracy Coverage Gap | SolCrys</title>
+    <meta name="description" content="An accuracy check can only catch deviations from what your source of truth records — and only on the questions you grade. Here are the two coverage gaps that turn &#39;all green&#39; into false reassurance, and how to close them." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/answer-accuracy-coverage-gap/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-23" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="You Can&#39;t Grade What Your Context Is Silent About: The Answer-Accuracy Coverage Gap | SolCrys" />
+    <meta property="og:description" content="An accuracy check can only catch deviations from what your source of truth records — and only on the questions you grade. Here are the two coverage gaps that turn &#39;all green&#39; into false reassurance, and how to close them." />
+    <meta property="og:url" content="https://solcrys.com/answer-accuracy-coverage-gap/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/answer-accuracy-coverage-gap.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/answer-accuracy-coverage-gap.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"You Can't Grade What Your Context Is Silent About: The Answer-Accuracy Coverage Gap","item":"https://solcrys.com/answer-accuracy-coverage-gap/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"You Can't Grade What Your Context Is Silent About: The Answer-Accuracy Coverage Gap","description":"An accuracy check can only catch deviations from what your source of truth records — and only on the questions you grade. Here are the two coverage gaps that turn 'all green' into false reassurance, and how to close them.","dateModified":"2026-06-23","datePublished":"2026-06-23","mainEntityOfPage":"https://solcrys.com/answer-accuracy-coverage-gap/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/answer-accuracy-coverage-gap/","mainEntity":[{"@type":"Question","name":"How many AI prompts should I monitor for accuracy?","acceptedAnswer":{"@type":"Answer","text":"There's no universal number — the right answer is \"enough of the questions that actually move your deals, expanding over time.\" Start by ranking the 10–15 questions a buyer asks before choosing in your category by how costly it is to be wrong on each, and grade the top of that list first, deliberately including the comparison and use-case-fit prompts where you're most likely to be misrepresented. Then widen coverage as your buyers' language and your market shift. Grading a handful and ignoring the rest leaves the ungraded questions as blind spots where an engine can be wrong about you and you'd never know."}},{"@type":"Question","name":"Why does my AI brand monitoring show all green when the answers are actually wrong?","acceptedAnswer":{"@type":"Answer","text":"Usually one of two reasons. Either you're only grading a few questions and the wrong answers live on questions you never checked (a breadth gap), or your source of truth is too thin to catch the error (a depth gap). An accuracy check can only flag a deviation from something your grounding truth actually records — if your context never recorded that a claim is required or prohibited, a wrong-by-omission or fabricated answer passes. A thin context produces falsely reassuring \"all green.\""}},{"@type":"Question","name":"What does \"silence is not prohibition\" mean?","acceptedAnswer":{"@type":"Answer","text":"It means an accuracy check won't catch a false claim just because the claim is false — it only catches claims your source of truth explicitly marked as prohibited, or required claims your truth says must appear. If your Corporate Context is silent on a fact (you never recorded that you don't hold a certain certification, say), an engine asserting it sails through as a pass. The check has no rule to fire against silence. The fix is a more complete source of truth."}},{"@type":"Question","name":"Does a deeper source of truth make accuracy checks fail more often?","acceptedAnswer":{"@type":"Answer","text":"Yes, and that's the point. A deeper, more complete grounding truth gives the check more rules to test against, so it catches more — meaning more answers can fail. A thin context passes nearly everything, which feels reassuring but is the check failing to do its job. The difficulty of passing is a feature: a green report only means something when the truth behind it is complete enough to catch the ways you can be wrong."}},{"@type":"Question","name":"What's the difference between this and AI visibility tracking?","acceptedAnswer":{"@type":"Answer","text":"Visibility tracking answers \"does the engine mention me, and how often.\" This is about whether the answers are correct, and about the two ways a correctness check can still mislead you: grading too few questions (breadth) or grading against too thin a truth (depth). A single visibility number — or even a single accuracy percentage — hides both, because it never tells you of-which-questions, against-which-truth. The honest metric always carries its denominators: these questions, this version of the truth, these engines, this date."}},{"@type":"Question","name":"Is Answer Accuracy generally available?","acceptedAnswer":{"@type":"Answer","text":"It's in preview. The underlying visibility and citation measurement is live today — you can run a free audit (free, no credit card) to see your baseline. To grade answers against your own grounding truth with Answer Accuracy, and to have SolCrys build out a deeper managed Corporate Context so the grades rest on a complete source of truth, reach out and we'll enable it for your organization."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Risk Monitoring</p>
+        <h1>You Can&#39;t Grade What Your Context Is Silent About: The Answer-Accuracy Coverage Gap</h1>
+        <p class="seo-lede">Grading whether AI answers describe your brand correctly is the right move — but a clean &#39;all green&#39; report can lie to you in two ways. Breadth: any buyer question you don&#39;t grade is a blind spot where an engine can be wrong about you and you&#39;ll never know. Depth: even on a question you do grade, an accuracy check can only catch deviations from what your source of truth actually says, so a wrong-by-omission answer passes against a thin context. The discipline is to grade the questions that move deals first, widen coverage over time, and invest in the depth of your grounding truth so the grades mean something.</p>
+        <p>Updated 2026-06-23</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How many AI prompts should I monitor for accuracy?</li><li>Why does my AI brand monitoring show all green when answers are wrong?</li><li>What are the blind spots in AI brand accuracy checks?</li><li>Which buyer questions should I grade first?</li><li>Can an accuracy check miss a wrong answer?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Grading whether AI answers describe your brand correctly is the right move — but a clean &quot;all green&quot; report can lie to you in two ways. First, breadth: buyers ask dozens of questions, and any question you don&#39;t grade is a blind spot where an engine can be wrong about you and you&#39;ll never know. Second, depth: even on a question you do grade, an accuracy check can only catch deviations from what your source of truth actually <strong>says</strong>. If your grounding truth never captured a required or prohibited claim, the check has nothing to compare against, and a wrong-by-omission answer passes. The discipline, then, is to grade the questions that move deals first, widen coverage over time, and invest in the depth of your grounding truth so the grades mean something.</p><p>This is the gap on the other side of <a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">Answer Accuracy</a> — SolCrys&#39;s feature, now in preview, that grades AI answers against your own <a href="/managed-corporate-context/" target="_blank" rel="noopener noreferrer">Corporate Context</a>. The feature is only as good as the questions you point it at and the truth you ground it in. This piece is about both.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;All green&quot; is a claim about coverage, not about correctness</h2>
+      <p>When an accuracy dashboard shows every graded answer passing, it is tempting to read that as &quot;AI is getting us right.&quot; It isn&#39;t saying that. It&#39;s saying: <strong>of the questions we checked, against the facts recorded in our source of truth, nothing deviated.</strong> Those two qualifiers — which questions, which facts — are the entire story. A green board with thin coverage and a thin source of truth is the most dangerous report you can hand a CMO, because it converts an unmeasured risk into false confidence.</p><p>There are two distinct coverage gaps, and they fail in different directions. One is about <strong>breadth</strong> — how many of your buyers&#39; real questions you actually grade. The other is about <strong>depth</strong> — how completely your source of truth describes what a correct answer must and must not contain. You can have perfect breadth and still pass wrong answers if your context is thin; you can have a deep, airtight context and still miss disasters if you only grade three questions. Both have to be closed.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Gap 1: Breadth — the questions you never graded are the ones that hurt</h2>
+      <p>A real buyer doesn&#39;t ask one question before choosing in your category. They ask a cluster: what does this company do, how does it compare to the alternatives, what does it cost, is it any good for my use case, is it secure, who already uses it, what&#39;s the catch. Each of those is a separate prompt, answered separately, on each engine. Grade five of them and leave the rest, and you&#39;ve inspected maybe a tenth of the surface where an engine forms an opinion about you.</p><p>The ungraded questions are not safe by default. They&#39;re simply unmeasured. An engine can quote a retired price on the pricing question, invent a compliance certification on the security question, or recommend a competitor by name on the comparison question — and your accuracy report, which only watched the five questions you chose, stays green the whole time. The blind spot isn&#39;t a known risk you&#39;ve accepted; it&#39;s a risk you can&#39;t see, which is worse, because you can&#39;t triage what you can&#39;t observe.</p><p><strong>Illustrative scenario only.</strong> Picture a mid-market data-warehouse vendor — call it Northwind — that grades the three questions its team cares about most: &quot;what is Northwind,&quot; &quot;is Northwind reliable,&quot; and &quot;Northwind vs Snowflake.&quot; All three pass. Meanwhile the question that actually decides deals in its segment — &quot;best data warehouse for regulated healthcare data&quot; — never gets graded, and on that prompt the engines describe Northwind as consumer-grade and route the buyer to Snowflake and Databricks. Northwind&#39;s dashboard is green. Northwind is losing the deal inside an answer it never inspected. The numbers here are invented to illustrate the mechanism, not a measured result.</p><p>The fix for the breadth gap is not &quot;grade everything&quot; — that&#39;s both impractical and, on the lowest-stakes long-tail questions, not worth the effort. The fix is to <strong>grade the questions that move deals first, then widen coverage deliberately over time.</strong> Three rules make that concrete:</p>
+      <ul class="seo-list"><li><strong>Rank by stakes, not by volume.</strong> The question a buyer asks right before they choose — pricing, the head-to-head comparison, the &quot;is it good for my exact use case&quot; — is worth more than a high-traffic definitional question you&#39;ll always pass. Start where being wrong is most expensive.</li><li><strong>Include the questions where you&#39;re most likely to be misrepresented</strong>, not just the ones you&#39;re confident you win. A comparison prompt and a &quot;what are the limitations of X&quot; prompt are where dropped claims and competitor substitution live. Coverage that only watches your safe questions is coverage theater.</li><li><strong>Treat the prompt set as a living thing.</strong> Buyer language shifts, new comparisons emerge, you launch into a new segment. Coverage that was right last quarter has holes this quarter. Widening the graded set is ongoing work, not a one-time setup.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Breadth is a coverage decision you make on purpose</h2>
+      <p>This is the same discipline behind a <a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">Golden Prompt Set</a>: choose the prompts that actually represent your buyers&#39; decision, freeze them so re-tests are comparable, and grow the set as the market moves. Breadth is a coverage decision you make on purpose — or a blind spot you inherit by default.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Gap 2: Depth — silence is not prohibition</h2>
+      <p>The breadth gap is the obvious one. The depth gap is the one that quietly invalidates a green report even when your coverage is wide, and it&#39;s worth slowing down for.</p><p>An accuracy check works by comparison. It holds the engine&#39;s answer against your source of truth and flags where they diverge: a claim your truth says must appear but didn&#39;t (a dropped claim), a claim your truth says must never appear but did (a prohibited or fabricated claim), a fact that contradicts your canonical record. That&#39;s a powerful mechanism — but notice its hard limit. <strong>It can only catch a deviation from something your source of truth actually records.</strong> Where your grounding truth is silent, there&#39;s nothing to compare against, so there&#39;s nothing to catch.</p><p>This is the trap, stated plainly: <strong>silence is not prohibition.</strong> If your Corporate Context never recorded that you do <strong>not</strong> hold a particular certification, and an engine confidently claims you do, the check has no prohibited-claim rule to fire — your truth never said the claim was forbidden, so the fabrication sails through as a pass. If your context never recorded that a specific differentiator <strong>must</strong> appear in any fair description of you, the check can&#39;t flag its absence as a dropped claim — it isn&#39;t required by anything the context records. The answer is wrong by omission or by fabrication, and the grade is green, because the grade is only as complete as the truth behind it.</p><p>A thin context produces <strong>falsely reassuring &quot;all green.&quot;</strong> The shallower your source of truth, the fewer rules the check has to test against, the easier it is to pass — and the more passing means nothing. This is the precise inverse of how it should feel. A deep, complete grounding truth makes the check <strong>harder</strong> to pass, because there&#39;s more it can catch; that difficulty is the check doing its job. An empty context passes everything, perfectly, and tells you nothing.</p><p><strong>Illustrative scenario only.</strong> Stay with Northwind. Its Corporate Context lists the product name, the founding year, and two headline features. Every graded answer passes. But the context never captured that Northwind is <strong>not</strong> SOC 2 Type II certified yet, never recorded that its real differentiator is sub-second query latency, and never marked a competitor&#39;s trademarked feature name as a prohibited claim. So when an engine asserts Northwind is &quot;SOC 2 certified&quot; (it isn&#39;t), describes it as &quot;comparable on latency to legacy tools&quot; (it&#39;s faster), and attributes a competitor&#39;s branded capability to it, all three answers pass the accuracy check — because Northwind&#39;s truth was silent on all three. Green board, three material errors live in the answers buyers read. Again, invented to show the mechanism.</p><p>The fix for the depth gap is a <strong>deeper, more complete source of truth</strong> — one that doesn&#39;t just say what you are, but explicitly records what must be claimed, what must never be claimed, what&#39;s been retired, and where the easy-to-confuse edges are (the competitor whose features get attributed to you, the certification you don&#39;t yet hold, the price you stopped offering). The work is unglamorous and it is the whole game: an accuracy check grades against your truth, so the quality of your truth is the ceiling on the quality of every grade. We go deep on this in the parallel piece on <a href="/grounding-depth-ai-brand-accuracy/" target="_blank" rel="noopener noreferrer">grounding depth</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How the two gaps compound</h2>
+      <p>Breadth and depth aren&#39;t independent — they multiply. Coverage of your brand inside AI answers is roughly the graded questions times the completeness of the truth you grade them against. Widen the questions but keep the context thin, and you&#39;ve inspected more answers with a check that can&#39;t catch much. Deepen the context but grade only three questions, and you&#39;ve built a precise instrument and pointed it at a sliver of the surface. A green report is only meaningful when both factors are high: enough of the questions that matter, graded against a truth complete enough to catch the ways an answer can be wrong.</p><p>This is why a single &quot;AI visibility&quot; number — or even a single accuracy percentage — flatters you by hiding both factors. It tells you a proportion passed without telling you of-what, against-what. The honest version of the metric always carries its denominators: <strong>these</strong> questions, against <strong>this</strong> version of the truth, on <strong>these</strong> engines, as of <strong>this</strong> date.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where this fits: Measure → Diagnose → Execute → Verify</h2>
+      <p>SolCrys runs on one loop — <strong>Measure → Diagnose → Execute → Verify</strong> — and both coverage gaps map onto it.</p>
+      <ul class="seo-list"><li><strong>Measure</strong> is where breadth lives. Measuring &quot;are we mentioned correctly?&quot; is only as wide as the prompt set you measure. Expanding to the highest-stakes buyer questions <strong>is</strong> widening Measure.</li><li><strong>Diagnose</strong> is where depth lives. When an answer fails, the failure type — a dropped required claim, a prohibited claim asserted, a contradiction of a canonical fact — points at the fix. But Diagnose can only name a failure your Corporate Context defined. A silent context produces no diagnoses, not because nothing&#39;s wrong, but because nothing was specified to check. Deepening the context is what gives Diagnose something to find.</li><li><strong>Execute</strong> is the content, source-layer, or page fix the diagnosis points to — governed and human-approved, never auto-published.</li><li><strong>Verify</strong> re-tests the same frozen prompts after the fix and shows whether the verdict flipped from fail to pass. No promise of lift — just the same test, run again, proving whether the fix reached the answer.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The loop tightens both gaps over time</h2>
+      <p>The loop tightens both gaps over time: each cycle is a chance to widen the graded questions and to write down one more thing your context was silent about.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do this week</h2>
+      <p>You don&#39;t need a platform to find your blind spots. You need an hour, your real buyer questions, and an honest look at your source of truth.</p>
+      <ul class="seo-list"><li><strong>List the 10–15 questions a buyer actually asks before choosing</strong> in your category — and rank them by how much it costs you to be wrong on each. Grade the top of that list first.</li><li><strong>Deliberately include the questions you&#39;re afraid of</strong> — the head-to-head comparison, the &quot;limitations of X,&quot; the use-case fit for your hardest segment — not just the ones you expect to win.</li><li><strong>Ask each in all five engines</strong> (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude) and hold the answer against your real, current facts.</li><li><strong>Write down what&#39;s missing from your source of truth.</strong> Every time an answer is wrong in a way your context never anticipated, that&#39;s a gap in your truth, not just in the answer. Record the required claim, the prohibited claim, the retired fact, the easy-to-confuse edge. That single list is the start of a deeper context.</li><li><strong>Re-test after you fix the source or the page.</strong> If the answer didn&#39;t move, the fix didn&#39;t reach the retrieval layer.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>From manual to continuous</h2>
+      <p>That&#39;s the manual version. Done continuously — graded across every engine against a versioned source of truth, with the failing claim attached — it&#39;s what Answer Accuracy is built to do. For organizations that want the source of truth itself built out properly, SolCrys can deliver a deeper, <a href="/managed-corporate-context/" target="_blank" rel="noopener noreferrer">managed Corporate Context</a> as a managed service, so the grades rest on a truth that&#39;s actually complete.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See where you stand</h2>
+      <p>Start with your baseline. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys will show you where the five major engines mention you, which sources they cite, and where you&#39;re missing from the answers your buyers ask. Answer Accuracy is in preview — if grading those answers against your own grounding truth, on the questions that move your deals, is the problem you&#39;re solving, <a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">talk to sales</a> about turning it on for your organization, with a managed Corporate Context if you want the truth built out for you.</p><p>A green report should mean you&#39;re getting it right. It only does when you&#39;ve graded the questions that matter, against a truth deep enough to catch the ways you can be wrong. Coverage is the difference.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How many AI prompts should I monitor for accuracy?</h3>
+            <p>There&#39;s no universal number — the right answer is &quot;enough of the questions that actually move your deals, expanding over time.&quot; Start by ranking the 10–15 questions a buyer asks before choosing in your category by how costly it is to be wrong on each, and grade the top of that list first, deliberately including the comparison and use-case-fit prompts where you&#39;re most likely to be misrepresented. Then widen coverage as your buyers&#39; language and your market shift. Grading a handful and ignoring the rest leaves the ungraded questions as blind spots where an engine can be wrong about you and you&#39;d never know.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does my AI brand monitoring show all green when the answers are actually wrong?</h3>
+            <p>Usually one of two reasons. Either you&#39;re only grading a few questions and the wrong answers live on questions you never checked (a breadth gap), or your source of truth is too thin to catch the error (a depth gap). An accuracy check can only flag a deviation from something your grounding truth actually records — if your context never recorded that a claim is required or prohibited, a wrong-by-omission or fabricated answer passes. A thin context produces falsely reassuring &quot;all green.&quot;</p>
+          </article>
+          <article class="seo-card">
+            <h3>What does &quot;silence is not prohibition&quot; mean?</h3>
+            <p>It means an accuracy check won&#39;t catch a false claim just because the claim is false — it only catches claims your source of truth explicitly marked as prohibited, or required claims your truth says must appear. If your Corporate Context is silent on a fact (you never recorded that you don&#39;t hold a certain certification, say), an engine asserting it sails through as a pass. The check has no rule to fire against silence. The fix is a more complete source of truth.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does a deeper source of truth make accuracy checks fail more often?</h3>
+            <p>Yes, and that&#39;s the point. A deeper, more complete grounding truth gives the check more rules to test against, so it catches more — meaning more answers can fail. A thin context passes nearly everything, which feels reassuring but is the check failing to do its job. The difficulty of passing is a feature: a green report only means something when the truth behind it is complete enough to catch the ways you can be wrong.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between this and AI visibility tracking?</h3>
+            <p>Visibility tracking answers &quot;does the engine mention me, and how often.&quot; This is about whether the answers are correct, and about the two ways a correctness check can still mislead you: grading too few questions (breadth) or grading against too thin a truth (depth). A single visibility number — or even a single accuracy percentage — hides both, because it never tells you of-which-questions, against-which-truth. The honest metric always carries its denominators: these questions, this version of the truth, these engines, this date.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is Answer Accuracy generally available?</h3>
+            <p>It&#39;s in preview. The underlying visibility and citation measurement is live today — you can run a free audit (free, no credit card) to see your baseline. To grade answers against your own grounding truth with Answer Accuracy, and to have SolCrys build out a deeper managed Corporate Context so the grades rest on a complete source of truth, reach out and we&#39;ll enable it for your organization.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/grounding-depth-ai-brand-accuracy/">Why Grounding Depth Decides Whether AI Gets Your Brand Right</a></h3>
+            <p>AI answer accuracy about your brand is only as good as the truth you grade against. A thin baseline context catches crude contradictions; a deep, cited, current source of truth catches drift — and the claims a shallow context is silent about.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/managed-corporate-context/">Managed Corporate Context: When an Auto-Generated Baseline Isn&#39;t Enough</a></h3>
+            <p>SolCrys auto-generates a baseline Corporate Context on every plan — the right start. For multi-brand, multi-region, and regulated companies, the source of truth grounding AI answers has to go deeper — broadly researched, claim-by-claim verified, and kept current. That&#39;s Managed Corporate Context.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-D1_I6Gdz.js"></script>
+  </body>
+</html>
