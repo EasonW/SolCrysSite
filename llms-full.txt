@@ -2,6 +2,149 @@
 
 SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.
 
+## Schema Markup for AI Search: What Structured Data Actually Does (and Where It Stops)
+
+Schema markup, the structured data you add as JSON-LD, is one of the most over-promised tactics in AI search. The honest version is narrower and more useful: schema buys comprehension, not trust. It hands the engine a clean, machine-readable statement of what your page is and what facts it asserts, so the model parses you correctly instead of reconstructing your details from flattened prose and guessing. That is real and worth doing. What it does not do is get you cited, ranked, or believed, because an AI answer is assembled by corroborating across the sources the engine trusts, and your own markup is a claim you make about yourself, not a verdict the model has to accept. Anyone can put Organization schema on any page, so schema is a claim, not a passport. This guide covers what structured data genuinely does for AI search, the three claims to stop making (there is no special AI-only schema, no FAQ-schema citation quota, no fixed-percentage lift), which schema types matter for which job, and how to ship it and verify whether it actually moved the answer rather than just shipped.
+
+### Questions this guide answers
+
+- Does schema markup help with AI search and ChatGPT?
+- Is there a special schema for Google AI Overviews or AI Mode?
+- Does FAQ schema increase AI citations?
+- Which schema types matter most for AEO?
+- Can schema fix a wrong fact AI states about my brand?
+
+### Direct answer
+
+Schema markup, the structured data you add to a page as JSON-LD, helps AI search engines parse and classify your brand correctly and makes you eligible for richer treatment. On its own it does not get you cited, ranked, or trusted. The one-line version: schema buys comprehension, not trust.
+
+It is necessary on the technical side and insufficient on the trust side. An AI answer isn't read off your markup; it's assembled by corroborating across the sources the engine trusts, and your own structured data is a claim you make about yourself, not a verdict the model has to accept. Anyone can put Organization schema on any page, so the engine treats it as a claim, not a passport. This guide covers what structured data genuinely does for AI search, the three claims to stop making, which schema types matter for which job, and how to ship it so you can tell whether it moved the answer or just shipped.
+
+
+
+
+### What schema markup actually is
+
+Schema markup is a shared vocabulary (schema.org) you express in a structured format (almost always JSON-LD, a small script block in your page's head or body) that states facts about the page in a way a machine reads without guessing: this is an Organization named X, founded in year Y, with these social profiles; this is a Product with this price and this availability; this is an Article by this author published on this date.
+
+Engines have used structured data for years to power rich results, the star ratings, FAQ accordions, and product cards you see in search. The mechanism that matters for AI is simpler than the hype around it: a JSON-LD block removes ambiguity for a machine that would otherwise have to infer structure from prose. That is the whole job. Everything schema does well, and everything it can't do, follows from that one fact.
+
+
+
+
+### Why schema helps a model parse you, not trust you
+
+When an engine reads an ordinary HTML page, it flattens the prose into tokens and reconstructs the relationships probabilistically: which feature paragraph belongs to which product named three scrolls up, which of the four numbers on the page is the current price. That reconstruction is exactly where misreadings happen, the model staples the wrong spec to the wrong product, or quotes a number that was never the price. A clean JSON-LD block hands the engine a deterministic statement of those relationships, so it doesn't have to guess. For getting your facts read correctly, this is genuinely valuable.
+
+Now notice the line it doesn't cross. Schema changes whether the engine can read you correctly. It does not change whether the engine believes you over another source. The model has no way to verify that the markup is yours and true, a competitor, or a parody page, can assert the same @type and the same claims, and nothing in the markup proves whose is real. So your structured data is a claim, not a passport. The engine still decides what's true about you by corroborating across the sources it trusts, and most of those are third-party pages, not your own (see [owned, earned, and community sources](/owned-earned-community-sources-ai/)). Clean schema makes your claim legible. It doesn't make it win.
+
+
+
+
+### What schema actually does for AI search
+
+Held to what it really delivers, structured data earns its place. These are the real wins, each with its honest limit.
+
+
+
+What it does | Why it helps in AI search | The honest limit
+--- | --- | ---
+Makes you machine-readable | The engine extracts your facts deterministically instead of reconstructing them from flattened prose | Readability is not credibility; a clean wrong page is still wrong
+Disambiguates your entity | A canonical Organization node with @id and sameAs helps the engine not confuse you with a same-named company | Resolves identity, not preference; see the disambiguation playbook
+Classifies the page | Tells the engine what kind of thing it's reading (article, product, how-to) so it pulls the right chunk | Classification doesn't make the chunk worth citing
+Makes you agent-actionable | Machine-readable product, price, and availability are what an AI agent can actually transact against | Being actionable doesn't get you recommended in the first place
+
+
+### What schema does not do (the three claims to stop making)
+
+Most schema disappointment comes from believing one of three claims that don't hold. None of them survive contact with how the engines actually work.
+
+
+- **There is no special AI-only schema.** Google has stated plainly that its generative features are rooted in the same core ranking and quality systems as Search, and that there is no AI-specific structured data to add for AI Overviews or AI Mode. Anyone selling you a special schema to get cited in AI is selling a thing that doesn't exist. Use standard schema.org until the major engines document otherwise.
+- **Schema does not multiply citations by a fixed percentage.** Be skeptical of any "FAQ schema increases AI citations by N%" claim. The effect varies by query, engine, and content, and controlled checks tend to show near-zero direct citation lift from markup alone. A specific percentage with no method behind it is marketing, not measurement.
+- **Schema does not override weak content or beat the visible page.** Marking up thin content just makes thin content machine-readable. And the markup has to mirror what a visitor actually sees, FAQ schema with no visible FAQ, ratings you don't display, a price the page doesn't show, is a policy violation that engines increasingly detect and downweight. The rule is simple: schema describes the page, it does not add to it.
+
+
+
+### The schema types that matter, by job
+
+You don't need every type schema.org publishes. You need the few that map to a real job, applied where the page genuinely supports them.
+
+
+
+Type | The job it does | The trap
+--- | --- | ---
+Organization | States who you are: legalName, foundingDate, sameAs, a stable @id; the anchor for entity disambiguation | Letting it drift page to page; it should be one canonical node
+Article / BlogPosting | Classifies editorial content with author, date, headline | Thin author data; author and publisher signals are the point
+Product / Offer | States price, availability, and variants for commerce and agents | Marking up a price or rating the page doesn't visibly show
+FAQPage | Marks genuine question-and-answer blocks | Adding it to pages with no visible FAQ; that's the classic cloaking violation
+HowTo | Structures real step-by-step instructions | Forcing it onto non-procedural content
+BreadcrumbList | Exposes site structure and the page's place in it | Treating structure as a citation lever; it's hygiene
+
+
+### How to ship schema so it actually moves the answer
+
+The governed version of structured data is four steps, and the last one is the one almost everyone skips.
+
+First, keep one canonical Organization node, the same @id and the same facts across every page, so the engine resolves a single consistent entity. Second, mirror your visible content exactly, mark up only what a visitor can see, because mismatch is a downweight, not a boost. Third, validate it (a structured-data testing tool or rich-results check) so it parses cleanly. Fourth, and this is the step that separates shipping from moving, verify against the answer, not the deploy. Re-test the buyer prompts that matter after the engines re-crawl, and watch whether what they say about you actually changed (the per-engine lag is covered in [how AI describes your brand](/how-ai-describes-your-brand/)).
+
+That last step is also a diagnosis. If you ship clean schema and the answer doesn't move, the schema wasn't the lever, your gap was trust or corroboration, not parse, and more markup won't fix it. This is the Measure, Diagnose, Execute, Verify loop: schema lives in Execute, and Verify is what keeps you honest about whether it did anything. SolCrys runs the same schema checks inside its content audit, as one of several technical foundations, not as the headline lever.
+
+
+
+
+### Where schema sits in the bigger picture
+
+The cleanest way to hold it: schema gets you read correctly, content gets you worth citing, and corroboration gets you trusted. They're complementary layers, not substitutes, and reaching for the wrong one is the most common waste of effort in AEO.
+
+So diagnose before you mark up. If you're absent from the answers entirely, schema is rarely the fix, that's a source and corroboration gap, and the work is being present and consistent across the third-party sources the engine trusts (see [build a source-layer strategy](/how-to-build-a-source-layer-strategy/)). If you're present but described wrong on the specifics, or confused with another company, schema is often part of the fix, a clean Organization node and mirrored facts give the engine an unambiguous version to extract. Knowing which problem you have is the difference between markup that moves the answer and markup that just sits there (see [the three failure modes a re-run tells apart](/re-run-diagnosis-three-failure-modes/)).
+
+
+
+
+### A worked example
+
+Take a representative case, a mid-market data-warehouse vendor we'll call Northwind Data (not a real company). Buyers searching its name kept getting answers that blended it with a same-named logistics company, wrong founding year, wrong category, wrong description.
+
+Northwind ships a single canonical Organization node: legalName, foundingDate, a disambiguatingDescription, and sameAs links to its verified LinkedIn, Crunchbase, and Wikidata entries. After the engines re-crawl, the conflation stops, the parse problem is fixed, because the model now has one unambiguous identity to extract instead of two it had to guess between. That's exactly what schema is for, and it worked.
+
+What didn't change: in "best data warehouse for mid-market" answers, Northwind still wasn't recommended. That's a corroboration problem, not a parse problem. The schema disambiguated them; it didn't vouch for them. The lesson isn't that schema failed, it's that they correctly used schema for the failure it fixes (identity) and didn't expect it to fix the one it can't (preference).
+
+
+
+
+### See where you stand
+
+Structured data is worth doing, as one governed Execute lever inside the loop, not as the thing you hope gets you cited. The way to know whether it's your lever is to look at what the engines actually say about you first.
+
+[Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys shows you where the five major engines mention you, which sources they cite, and where your facts are getting read wrong, the technical content audit checks your schema among the foundations and tells you when markup is the right fix versus when the gap is trust. [Talk to us](https://app.solcrys.com/contact-sales/) if you want that run continuously across your organization.
+
+Schema makes the truth about you legible to a machine. Whether the machine repeats it still depends on the sources around you, which is the rest of the work.
+
+
+
+
+
+### FAQ
+
+Q: Does schema markup help with AI search and ChatGPT?
+A: Yes, but for a specific job: it helps the engine parse and classify your facts correctly and disambiguate your entity, so you're read accurately instead of reconstructed from flattened prose and guessed at. It does not, on its own, get you cited or recommended. Treat schema as comprehension and hygiene, not as a citation lever. Whether an answer trusts and repeats you depends on corroboration across the sources the engine pulls from, most of which aren't your own pages.
+
+Q: Is there a special schema for Google AI Overviews or AI Mode?
+A: No. Google has stated that its AI features run on the same core ranking and quality systems as Search and that there is no AI-specific structured data to add. The schema.org markup that has helped with rich results for years is the same markup that matters for AI features. Anyone recommending a special AI-only schema to get cited is selling something that doesn't exist; stick with standard schema.org until the major engines document otherwise.
+
+Q: Does FAQ schema increase AI citations?
+A: Not reliably, and be wary of any specific percentage. Effects vary by query, engine, and content, and controlled checks tend to show near-zero direct citation lift from markup alone. FAQ schema is useful when you have genuine, visible question-and-answer content, because it classifies that content cleanly. Adding FAQ schema to a page that shows no FAQ is a cloaking violation that engines detect and downweight, so it can hurt rather than help.
+
+Q: Which schema types matter most for AEO?
+A: A canonical Organization node (for who you are and entity disambiguation), Article or BlogPosting for editorial content, Product and Offer for commerce and agent-readiness, FAQPage and HowTo only where the page genuinely shows that content, and BreadcrumbList for structure. The common thread is to apply only the types the visible page supports and to keep your Organization node consistent across the whole site rather than letting it drift page to page.
+
+Q: Can schema fix a wrong fact AI states about my brand?
+A: Sometimes, and only for the right kind of wrong. If the engine is confusing you with another company or garbling your specifics because your page is ambiguous, a clean Organization node and mirrored, marked-up facts give it an unambiguous version to extract, and that often helps after a re-crawl. If the wrong fact is coming from a stale third-party source the engine trusts, schema on your own site won't override it; that's a source-correction problem, not a markup problem.
+
+Q: Will adding schema get me cited if I'm not showing up at all?
+A: Usually not. Absence from answers is almost always a corroboration and content gap, not a parse gap, the engine isn't failing to read you, it's not finding enough trusted sources that establish you for that query. Schema makes you legible once you're in the consideration set; it doesn't put you in it. If you're absent, the higher-leverage work is being present and consistent across the third-party sources the engine pulls from, with schema as hygiene alongside it.
+
 ## How to Fix a Wrong Fact in an AI Answer About Your Brand
 
 When ChatGPT or Google's AI Overview states a wrong fact about your brand, editing your homepage usually does nothing, because the engine isn't reciting your site, it's relaying a source it trusts, and that source is often a stale third-party page. There's no correction button that reliably works, so the fix is always at the source. This is the execution playbook: localize which URL fed the wrong fact by reading the citations per engine, classify the source so you pick the right fix, then either get that source corrected or outweigh it by making the correct fact present and consistent across enough trusted sources that the model's weighted average shifts. Then re-test the exact query weekly, per engine, because propagation lags and a correct fix can look like it failed for the first week, and check every engine, because each one pulled its own source and the wrong fact isn't wrong the same way everywhere.

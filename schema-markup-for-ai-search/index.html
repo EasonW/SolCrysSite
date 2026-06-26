@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Schema Markup for AI Search: What It Does (and Doesn&#39;t) | SolCrys</title>
+    <meta name="description" content="Schema markup helps AI engines parse and classify your brand, and makes you eligible for richer treatment. It does not, on its own, get you cited or trusted. The honest, complete guide to structured data for AEO: what it does, what it doesn&#39;t, which types matter, and how to ship it so it moves the answer." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/schema-markup-for-ai-search/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Schema Markup for AI Search: What It Does (and Doesn&#39;t) | SolCrys" />
+    <meta property="og:description" content="Schema markup helps AI engines parse and classify your brand, and makes you eligible for richer treatment. It does not, on its own, get you cited or trusted. The honest, complete guide to structured data for AEO: what it does, what it doesn&#39;t, which types matter, and how to ship it so it moves the answer." />
+    <meta property="og:url" content="https://solcrys.com/schema-markup-for-ai-search/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/schema-markup-for-ai-search.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/schema-markup-for-ai-search.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Schema Markup for AI Search: What Structured Data Actually Does (and Where It Stops)","item":"https://solcrys.com/schema-markup-for-ai-search/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Schema Markup for AI Search: What Structured Data Actually Does (and Where It Stops)","description":"Schema markup helps AI engines parse and classify your brand, and makes you eligible for richer treatment. It does not, on its own, get you cited or trusted. The honest, complete guide to structured data for AEO: what it does, what it doesn't, which types matter, and how to ship it so it moves the answer.","dateModified":"2026-06-26","datePublished":"2026-06-26","mainEntityOfPage":"https://solcrys.com/schema-markup-for-ai-search/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/schema-markup-for-ai-search/","mainEntity":[{"@type":"Question","name":"Does schema markup help with AI search and ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"Yes, but for a specific job: it helps the engine parse and classify your facts correctly and disambiguate your entity, so you're read accurately instead of reconstructed from flattened prose and guessed at. It does not, on its own, get you cited or recommended. Treat schema as comprehension and hygiene, not as a citation lever. Whether an answer trusts and repeats you depends on corroboration across the sources the engine pulls from, most of which aren't your own pages."}},{"@type":"Question","name":"Is there a special schema for Google AI Overviews or AI Mode?","acceptedAnswer":{"@type":"Answer","text":"No. Google has stated that its AI features run on the same core ranking and quality systems as Search and that there is no AI-specific structured data to add. The schema.org markup that has helped with rich results for years is the same markup that matters for AI features. Anyone recommending a special AI-only schema to get cited is selling something that doesn't exist; stick with standard schema.org until the major engines document otherwise."}},{"@type":"Question","name":"Does FAQ schema increase AI citations?","acceptedAnswer":{"@type":"Answer","text":"Not reliably, and be wary of any specific percentage. Effects vary by query, engine, and content, and controlled checks tend to show near-zero direct citation lift from markup alone. FAQ schema is useful when you have genuine, visible question-and-answer content, because it classifies that content cleanly. Adding FAQ schema to a page that shows no FAQ is a cloaking violation that engines detect and downweight, so it can hurt rather than help."}},{"@type":"Question","name":"Which schema types matter most for AEO?","acceptedAnswer":{"@type":"Answer","text":"A canonical Organization node (for who you are and entity disambiguation), Article or BlogPosting for editorial content, Product and Offer for commerce and agent-readiness, FAQPage and HowTo only where the page genuinely shows that content, and BreadcrumbList for structure. The common thread is to apply only the types the visible page supports and to keep your Organization node consistent across the whole site rather than letting it drift page to page."}},{"@type":"Question","name":"Can schema fix a wrong fact AI states about my brand?","acceptedAnswer":{"@type":"Answer","text":"Sometimes, and only for the right kind of wrong. If the engine is confusing you with another company or garbling your specifics because your page is ambiguous, a clean Organization node and mirrored, marked-up facts give it an unambiguous version to extract, and that often helps after a re-crawl. If the wrong fact is coming from a stale third-party source the engine trusts, schema on your own site won't override it; that's a source-correction problem, not a markup problem."}},{"@type":"Question","name":"Will adding schema get me cited if I'm not showing up at all?","acceptedAnswer":{"@type":"Answer","text":"Usually not. Absence from answers is almost always a corroboration and content gap, not a parse gap, the engine isn't failing to read you, it's not finding enough trusted sources that establish you for that query. Schema makes you legible once you're in the consideration set; it doesn't put you in it. If you're absent, the higher-leverage work is being present and consistent across the third-party sources the engine pulls from, with schema as hygiene alongside it."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>Schema Markup for AI Search: What Structured Data Actually Does (and Where It Stops)</h1>
+        <p class="seo-lede">Schema markup, the structured data you add as JSON-LD, is one of the most over-promised tactics in AI search. The honest version is narrower and more useful: schema buys comprehension, not trust. It hands the engine a clean, machine-readable statement of what your page is and what facts it asserts, so the model parses you correctly instead of reconstructing your details from flattened prose and guessing. That is real and worth doing. What it does not do is get you cited, ranked, or believed, because an AI answer is assembled by corroborating across the sources the engine trusts, and your own markup is a claim you make about yourself, not a verdict the model has to accept. Anyone can put Organization schema on any page, so schema is a claim, not a passport. This guide covers what structured data genuinely does for AI search, the three claims to stop making (there is no special AI-only schema, no FAQ-schema citation quota, no fixed-percentage lift), which schema types matter for which job, and how to ship it and verify whether it actually moved the answer rather than just shipped.</p>
+        <p>Updated 2026-06-26</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Does schema markup help with AI search and ChatGPT?</li><li>Is there a special schema for Google AI Overviews or AI Mode?</li><li>Does FAQ schema increase AI citations?</li><li>Which schema types matter most for AEO?</li><li>Can schema fix a wrong fact AI states about my brand?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Schema markup, the structured data you add to a page as JSON-LD, helps AI search engines parse and classify your brand correctly and makes you eligible for richer treatment. On its own it does not get you cited, ranked, or trusted. The one-line version: schema buys comprehension, not trust.</p><p>It is necessary on the technical side and insufficient on the trust side. An AI answer isn&#39;t read off your markup; it&#39;s assembled by corroborating across the sources the engine trusts, and your own structured data is a claim you make about yourself, not a verdict the model has to accept. Anyone can put Organization schema on any page, so the engine treats it as a claim, not a passport. This guide covers what structured data genuinely does for AI search, the three claims to stop making, which schema types matter for which job, and how to ship it so you can tell whether it moved the answer or just shipped.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What schema markup actually is</h2>
+      <p>Schema markup is a shared vocabulary (schema.org) you express in a structured format (almost always JSON-LD, a small script block in your page&#39;s head or body) that states facts about the page in a way a machine reads without guessing: this is an Organization named X, founded in year Y, with these social profiles; this is a Product with this price and this availability; this is an Article by this author published on this date.</p><p>Engines have used structured data for years to power rich results, the star ratings, FAQ accordions, and product cards you see in search. The mechanism that matters for AI is simpler than the hype around it: a JSON-LD block removes ambiguity for a machine that would otherwise have to infer structure from prose. That is the whole job. Everything schema does well, and everything it can&#39;t do, follows from that one fact.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why schema helps a model parse you, not trust you</h2>
+      <p>When an engine reads an ordinary HTML page, it flattens the prose into tokens and reconstructs the relationships probabilistically: which feature paragraph belongs to which product named three scrolls up, which of the four numbers on the page is the current price. That reconstruction is exactly where misreadings happen, the model staples the wrong spec to the wrong product, or quotes a number that was never the price. A clean JSON-LD block hands the engine a deterministic statement of those relationships, so it doesn&#39;t have to guess. For getting your facts read correctly, this is genuinely valuable.</p><p>Now notice the line it doesn&#39;t cross. Schema changes whether the engine can read you correctly. It does not change whether the engine believes you over another source. The model has no way to verify that the markup is yours and true, a competitor, or a parody page, can assert the same @type and the same claims, and nothing in the markup proves whose is real. So your structured data is a claim, not a passport. The engine still decides what&#39;s true about you by corroborating across the sources it trusts, and most of those are third-party pages, not your own (see <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, and community sources</a>). Clean schema makes your claim legible. It doesn&#39;t make it win.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What schema actually does for AI search</h2>
+      <p>Held to what it really delivers, structured data earns its place. These are the real wins, each with its honest limit.</p>
+      
+      <table>
+              <thead><tr><th>What it does</th><th>Why it helps in AI search</th><th>The honest limit</th></tr></thead>
+              <tbody><tr><td>Makes you machine-readable</td><td>The engine extracts your facts deterministically instead of reconstructing them from flattened prose</td><td>Readability is not credibility; a clean wrong page is still wrong</td></tr><tr><td>Disambiguates your entity</td><td>A canonical Organization node with @id and sameAs helps the engine not confuse you with a same-named company</td><td>Resolves identity, not preference; see the disambiguation playbook</td></tr><tr><td>Classifies the page</td><td>Tells the engine what kind of thing it&#39;s reading (article, product, how-to) so it pulls the right chunk</td><td>Classification doesn&#39;t make the chunk worth citing</td></tr><tr><td>Makes you agent-actionable</td><td>Machine-readable product, price, and availability are what an AI agent can actually transact against</td><td>Being actionable doesn&#39;t get you recommended in the first place</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What schema does not do (the three claims to stop making)</h2>
+      <p>Most schema disappointment comes from believing one of three claims that don&#39;t hold. None of them survive contact with how the engines actually work.</p>
+      <ul class="seo-list"><li><strong>There is no special AI-only schema.</strong> Google has stated plainly that its generative features are rooted in the same core ranking and quality systems as Search, and that there is no AI-specific structured data to add for AI Overviews or AI Mode. Anyone selling you a special schema to get cited in AI is selling a thing that doesn&#39;t exist. Use standard schema.org until the major engines document otherwise.</li><li><strong>Schema does not multiply citations by a fixed percentage.</strong> Be skeptical of any &quot;FAQ schema increases AI citations by N%&quot; claim. The effect varies by query, engine, and content, and controlled checks tend to show near-zero direct citation lift from markup alone. A specific percentage with no method behind it is marketing, not measurement.</li><li><strong>Schema does not override weak content or beat the visible page.</strong> Marking up thin content just makes thin content machine-readable. And the markup has to mirror what a visitor actually sees, FAQ schema with no visible FAQ, ratings you don&#39;t display, a price the page doesn&#39;t show, is a policy violation that engines increasingly detect and downweight. The rule is simple: schema describes the page, it does not add to it.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The schema types that matter, by job</h2>
+      <p>You don&#39;t need every type schema.org publishes. You need the few that map to a real job, applied where the page genuinely supports them.</p>
+      
+      <table>
+              <thead><tr><th>Type</th><th>The job it does</th><th>The trap</th></tr></thead>
+              <tbody><tr><td>Organization</td><td>States who you are: legalName, foundingDate, sameAs, a stable @id; the anchor for entity disambiguation</td><td>Letting it drift page to page; it should be one canonical node</td></tr><tr><td>Article / BlogPosting</td><td>Classifies editorial content with author, date, headline</td><td>Thin author data; author and publisher signals are the point</td></tr><tr><td>Product / Offer</td><td>States price, availability, and variants for commerce and agents</td><td>Marking up a price or rating the page doesn&#39;t visibly show</td></tr><tr><td>FAQPage</td><td>Marks genuine question-and-answer blocks</td><td>Adding it to pages with no visible FAQ; that&#39;s the classic cloaking violation</td></tr><tr><td>HowTo</td><td>Structures real step-by-step instructions</td><td>Forcing it onto non-procedural content</td></tr><tr><td>BreadcrumbList</td><td>Exposes site structure and the page&#39;s place in it</td><td>Treating structure as a citation lever; it&#39;s hygiene</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to ship schema so it actually moves the answer</h2>
+      <p>The governed version of structured data is four steps, and the last one is the one almost everyone skips.</p><p>First, keep one canonical Organization node, the same @id and the same facts across every page, so the engine resolves a single consistent entity. Second, mirror your visible content exactly, mark up only what a visitor can see, because mismatch is a downweight, not a boost. Third, validate it (a structured-data testing tool or rich-results check) so it parses cleanly. Fourth, and this is the step that separates shipping from moving, verify against the answer, not the deploy. Re-test the buyer prompts that matter after the engines re-crawl, and watch whether what they say about you actually changed (the per-engine lag is covered in <a href="/how-ai-describes-your-brand/" target="_blank" rel="noopener noreferrer">how AI describes your brand</a>).</p><p>That last step is also a diagnosis. If you ship clean schema and the answer doesn&#39;t move, the schema wasn&#39;t the lever, your gap was trust or corroboration, not parse, and more markup won&#39;t fix it. This is the Measure, Diagnose, Execute, Verify loop: schema lives in Execute, and Verify is what keeps you honest about whether it did anything. SolCrys runs the same schema checks inside its content audit, as one of several technical foundations, not as the headline lever.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where schema sits in the bigger picture</h2>
+      <p>The cleanest way to hold it: schema gets you read correctly, content gets you worth citing, and corroboration gets you trusted. They&#39;re complementary layers, not substitutes, and reaching for the wrong one is the most common waste of effort in AEO.</p><p>So diagnose before you mark up. If you&#39;re absent from the answers entirely, schema is rarely the fix, that&#39;s a source and corroboration gap, and the work is being present and consistent across the third-party sources the engine trusts (see <a href="/how-to-build-a-source-layer-strategy/" target="_blank" rel="noopener noreferrer">build a source-layer strategy</a>). If you&#39;re present but described wrong on the specifics, or confused with another company, schema is often part of the fix, a clean Organization node and mirrored facts give the engine an unambiguous version to extract. Knowing which problem you have is the difference between markup that moves the answer and markup that just sits there (see <a href="/re-run-diagnosis-three-failure-modes/" target="_blank" rel="noopener noreferrer">the three failure modes a re-run tells apart</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Take a representative case, a mid-market data-warehouse vendor we&#39;ll call Northwind Data (not a real company). Buyers searching its name kept getting answers that blended it with a same-named logistics company, wrong founding year, wrong category, wrong description.</p><p>Northwind ships a single canonical Organization node: legalName, foundingDate, a disambiguatingDescription, and sameAs links to its verified LinkedIn, Crunchbase, and Wikidata entries. After the engines re-crawl, the conflation stops, the parse problem is fixed, because the model now has one unambiguous identity to extract instead of two it had to guess between. That&#39;s exactly what schema is for, and it worked.</p><p>What didn&#39;t change: in &quot;best data warehouse for mid-market&quot; answers, Northwind still wasn&#39;t recommended. That&#39;s a corroboration problem, not a parse problem. The schema disambiguated them; it didn&#39;t vouch for them. The lesson isn&#39;t that schema failed, it&#39;s that they correctly used schema for the failure it fixes (identity) and didn&#39;t expect it to fix the one it can&#39;t (preference).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See where you stand</h2>
+      <p>Structured data is worth doing, as one governed Execute lever inside the loop, not as the thing you hope gets you cited. The way to know whether it&#39;s your lever is to look at what the engines actually say about you first.</p><p><a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where the five major engines mention you, which sources they cite, and where your facts are getting read wrong, the technical content audit checks your schema among the foundations and tells you when markup is the right fix versus when the gap is trust. <a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want that run continuously across your organization.</p><p>Schema makes the truth about you legible to a machine. Whether the machine repeats it still depends on the sources around you, which is the rest of the work.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does schema markup help with AI search and ChatGPT?</h3>
+            <p>Yes, but for a specific job: it helps the engine parse and classify your facts correctly and disambiguate your entity, so you&#39;re read accurately instead of reconstructed from flattened prose and guessed at. It does not, on its own, get you cited or recommended. Treat schema as comprehension and hygiene, not as a citation lever. Whether an answer trusts and repeats you depends on corroboration across the sources the engine pulls from, most of which aren&#39;t your own pages.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is there a special schema for Google AI Overviews or AI Mode?</h3>
+            <p>No. Google has stated that its AI features run on the same core ranking and quality systems as Search and that there is no AI-specific structured data to add. The schema.org markup that has helped with rich results for years is the same markup that matters for AI features. Anyone recommending a special AI-only schema to get cited is selling something that doesn&#39;t exist; stick with standard schema.org until the major engines document otherwise.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does FAQ schema increase AI citations?</h3>
+            <p>Not reliably, and be wary of any specific percentage. Effects vary by query, engine, and content, and controlled checks tend to show near-zero direct citation lift from markup alone. FAQ schema is useful when you have genuine, visible question-and-answer content, because it classifies that content cleanly. Adding FAQ schema to a page that shows no FAQ is a cloaking violation that engines detect and downweight, so it can hurt rather than help.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which schema types matter most for AEO?</h3>
+            <p>A canonical Organization node (for who you are and entity disambiguation), Article or BlogPosting for editorial content, Product and Offer for commerce and agent-readiness, FAQPage and HowTo only where the page genuinely shows that content, and BreadcrumbList for structure. The common thread is to apply only the types the visible page supports and to keep your Organization node consistent across the whole site rather than letting it drift page to page.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can schema fix a wrong fact AI states about my brand?</h3>
+            <p>Sometimes, and only for the right kind of wrong. If the engine is confusing you with another company or garbling your specifics because your page is ambiguous, a clean Organization node and mirrored, marked-up facts give it an unambiguous version to extract, and that often helps after a re-crawl. If the wrong fact is coming from a stale third-party source the engine trusts, schema on your own site won&#39;t override it; that&#39;s a source-correction problem, not a markup problem.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Will adding schema get me cited if I&#39;m not showing up at all?</h3>
+            <p>Usually not. Absence from answers is almost always a corroboration and content gap, not a parse gap, the engine isn&#39;t failing to read you, it&#39;s not finding enough trusted sources that establish you for that query. Schema makes you legible once you&#39;re in the consideration set; it doesn&#39;t put you in it. If you&#39;re absent, the higher-leverage work is being present and consistent across the third-party sources the engine pulls from, with schema as hygiene alongside it.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-brand-disambiguation-playbook/">When AI Confuses Your Brand With a Same-Name Company: A Disambiguation Playbook</a></h3>
+            <p>An AI engine keeps mixing your brand up with a same-name company and citing both. Here&#39;s the four-step entity-disambiguation playbook to separate them — without ever naming the other company on your own site.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-answer-readiness/">AI Crawler and Answer Readiness Checklist</a></h3>
+            <p>A practical checklist for making website content crawlable, indexable, structured, and answer-ready for AI search and answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-answer-citations/">How AI Answer Engines Choose Sources: The 7 Signals We&#39;ve Mapped</a></h3>
+            <p>AI engines like ChatGPT, Perplexity, Google AI Overviews, and Claude choose sources using overlapping but distinct signals. This guide maps the 7 signals that drive citation eligibility and the engine-specific weighting differences.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Bhe61mri.js"></script>
+  </body>
+</html>
