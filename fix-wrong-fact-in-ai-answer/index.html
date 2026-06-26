@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Fix a Wrong Fact in an AI Answer About Your Brand | SolCrys</title>
+    <meta name="description" content="An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there&#39;s no one to email. The wrong fact is a relayed source. Here&#39;s how to find it, fix it or outweigh it, and re-test until the answer flips." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/fix-wrong-fact-in-ai-answer/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Fix a Wrong Fact in an AI Answer About Your Brand | SolCrys" />
+    <meta property="og:description" content="An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there&#39;s no one to email. The wrong fact is a relayed source. Here&#39;s how to find it, fix it or outweigh it, and re-test until the answer flips." />
+    <meta property="og:url" content="https://solcrys.com/fix-wrong-fact-in-ai-answer/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/fix-wrong-fact-in-ai-answer.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/fix-wrong-fact-in-ai-answer.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CGyK2TCM.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Fix a Wrong Fact in an AI Answer About Your Brand","item":"https://solcrys.com/fix-wrong-fact-in-ai-answer/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Fix a Wrong Fact in an AI Answer About Your Brand","description":"An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there's no one to email. The wrong fact is a relayed source. Here's how to find it, fix it or outweigh it, and re-test until the answer flips.","dateModified":"2026-06-26","datePublished":"2026-06-26","mainEntityOfPage":"https://solcrys.com/fix-wrong-fact-in-ai-answer/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/fix-wrong-fact-in-ai-answer/","mainEntity":[{"@type":"Question","name":"How do I find which source an AI pulled a wrong fact from?","acceptedAnswer":{"@type":"Answer","text":"Run the exact prompt that produced the wrong fact and open the citations the engine shows: inline chips and a sources list in ChatGPT, numbered sources in Perplexity, link cards beside Google's AI Overview, the sources panel in Gemini, the citation list in Claude. Map the wrong claim to the nearest cited URL. It almost always traces to one or two old pages, a comparison roundup, a stale review, an outdated listing. Screenshot and date-stamp the answer first, because it will change."}},{"@type":"Question","name":"Can I just edit my own website to fix what AI says about me?","acceptedAnswer":{"@type":"Answer","text":"Usually not on its own. The engine assembles its answer from the sources it retrieved, and for brand facts that's often a third-party page, not your homepage. Your owned page is the canonical the model reconciles against, so it matters, but it's one input in a weighted average. If several trusted pages carry the wrong fact, your corrected page can be outvoted. You have to find what's outweighing you and change or outweigh that source."}},{"@type":"Question","name":"The wrong fact is on a page I don't control. What can I do?","acceptedAnswer":{"@type":"Answer","text":"Two moves. If there's an editor you can reach, email a short, specific correction: name the wrong fact, state the right one, link your canonical page as proof. Editors fix flat errors like a wrong price. If no one controls the page, a forum thread or an archived article, you outweigh it instead: make the correct fact present and consistent across enough trusted sources that the engine's weighted average shifts. You don't delete the wrong source, you outvote it."}},{"@type":"Question","name":"Can I report a wrong AI answer to Google or ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"You can submit feedback, the feedback link on Google's AI Overviews, the thumbs-down in ChatGPT, but neither offers a guaranteed correction or a timeline, and neither lets you fix a fact that's coming from a third-party page. Treat feedback buttons as a weak signal, not the fix. The reliable lever is the source the answer pulled from."}},{"@type":"Question","name":"How long does it take to correct a wrong AI answer?","acceptedAnswer":{"@type":"Answer","text":"Days to weeks, and it varies by engine. The correction propagates on each engine's re-crawl clock, not instantly, so a correct fix can look like it failed for the first week because nothing has re-crawled yet. Live-retrieval engines climb toward the right answer over days to weeks, snapshot-leaning engines flip cleanly once they re-fetch, and Google updates on its index cadence. Re-test the exact prompt weekly and judge it on a windowed trend, not a single run."}},{"@type":"Question","name":"Why is the wrong fact different on ChatGPT than on Google?","acceptedAnswer":{"@type":"Answer","text":"Because each engine built its answer from a different source mix. ChatGPT may have pulled a stale roundup while Gemini pulled your own page and got it right, and Perplexity may carry a third version. That's why you localize the source on each engine separately and re-test each independently. A fix verified on one engine tells you nothing about the other four."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Risk Monitoring</p>
+        <h1>How to Fix a Wrong Fact in an AI Answer About Your Brand</h1>
+        <p class="seo-lede">When ChatGPT or Google&#39;s AI Overview states a wrong fact about your brand, editing your homepage usually does nothing, because the engine isn&#39;t reciting your site, it&#39;s relaying a source it trusts, and that source is often a stale third-party page. There&#39;s no correction button that reliably works, so the fix is always at the source. This is the execution playbook: localize which URL fed the wrong fact by reading the citations per engine, classify the source so you pick the right fix, then either get that source corrected or outweigh it by making the correct fact present and consistent across enough trusted sources that the model&#39;s weighted average shifts. Then re-test the exact query weekly, per engine, because propagation lags and a correct fix can look like it failed for the first week, and check every engine, because each one pulled its own source and the wrong fact isn&#39;t wrong the same way everywhere.</p>
+        <p>Updated 2026-06-26</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I fix a wrong fact an AI is telling people about my brand?</li><li>How do I correct a wrong price or feature in Google&#39;s AI Overview?</li><li>Can I report a wrong AI answer to ChatGPT or Google?</li><li>How do I find which source an AI pulled a wrong fact from?</li><li>Why didn&#39;t editing my website fix what AI says about me?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>You can&#39;t email an AI engine to correct it. There&#39;s a feedback button on Google&#39;s AI Overviews and a thumbs-down in ChatGPT, but neither comes with a guaranteed correction or a timeline, and for a fact pulled from a third-party page there&#39;s nobody on the other end at all. That feels like a dead end. It isn&#39;t, because the wrong fact didn&#39;t come from nowhere.</p><p>At answer time the engine doesn&#39;t recite your website from memory. It retrieves passages from the sources it trusts for that question and relays them. So a confident wrong fact is a faithful relay of a wrong source, and that source is usually a stale third-party page: an old comparison roundup, an outdated review, a directory nobody updated, sometimes an old version of your own site. The fix is therefore always at the source. Find which URL fed the wrong fact, then either get that source corrected or outweigh it with fresher corroborating sources, then re-test the exact query until the answer flips. The rest of this page is how to do each step.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why editing your homepage usually does nothing</h2>
+      <p>The most common first move is also the least effective: update your homepage and wait. It rarely works, because your homepage probably isn&#39;t the source the engine pulled the wrong fact from. The model assembles its answer from whatever it retrieved for that specific query, and for brand facts that is frequently a third-party page that ranks well and reads cleanly, not your own site (see <a href="/how-ai-describes-your-brand/" target="_blank" rel="noopener noreferrer">how AI describes your brand</a>).</p><p>There&#39;s a deeper reason too. The engine isn&#39;t trusting one page, it&#39;s reconciling several, and it leans on independent sources precisely because they&#39;re not you talking about yourself. Your owned pages are the canonical the model reconciles everything else against, so they matter, but they are one input into a weighted average, not an override (see <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, and community sources</a>). If three pages the engine trusts carry a wrong price and your corrected homepage carries the right one, the wrong one can still win on weight. So the work isn&#39;t to state the truth once on your own site. It&#39;s to find what&#39;s outvoting you and change the vote.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 1: Localize the source feeding the wrong fact</h2>
+      <p>You can&#39;t fix a source you haven&#39;t found, and the source is usually knowable. Most major engines will show you what they pulled from when they ran a search, though not every answer carries a citation. Run the exact prompt that produced the wrong fact, capture the verbatim answer, then open the citations and find the page the wrong claim traces to. Screenshot the answer and date-stamp it, because the answer will change and you&#39;ll want the before.</p><p>The wrong fact almost always localizes to one or two pages, and they have a signature: they&#39;re old. A comparison article from two pricing changes ago, a review written before you shipped the feature, an archived listing. Once you have the offending URL, you know what kind of fix you&#39;re running.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>Where the sources show up</th><th>What to capture</th></tr></thead>
+              <tbody><tr><td>ChatGPT (Search)</td><td>Inline citation chips and the sources list under the answer</td><td>The cited URL nearest the wrong claim, plus the verbatim sentence</td></tr><tr><td>Perplexity</td><td>Numbered sources at the top and footnotes inline</td><td>Which numbered source the wrong fact maps to</td></tr><tr><td>Google AI Overviews</td><td>The link cards and &#39;show more&#39; sources beside the overview</td><td>The page behind the card carrying the wrong fact</td></tr><tr><td>Gemini</td><td>The &#39;sources and related content&#39; panel</td><td>The cited page; if vague, re-ask &#39;what source says my price is X&#39;</td></tr><tr><td>Claude (with search)</td><td>The citation list under a searched answer</td><td>The cited URL, noting that cached answers may carry no live source</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 2: Classify the source, because the fix differs</h2>
+      <p>Not all wrong sources are fixable the same way, and pouring effort into the wrong fix path is how people conclude this is hopeless. Before you do anything, sort the offending URL into one of four buckets. Who controls it decides what you can do about it.</p>
+      
+      <table>
+              <thead><tr><th>Source type</th><th>Who controls it</th><th>Fastest fix path</th></tr></thead>
+              <tbody><tr><td>Your own page</td><td>You</td><td>Correct it directly and make the right fact the easiest thing to extract</td></tr><tr><td>Third-party editorial (roundups, reviews, news)</td><td>An editor you can reach</td><td>Email the correction; a flat factual error like a wrong price often gets fixed</td></tr><tr><td>Directory or marketplace listing</td><td>You, via a claim/edit flow</td><td>Claim the listing and update the field</td></tr><tr><td>Community (Reddit, forums, Q&amp;A)</td><td>Effectively no one</td><td>You can&#39;t edit it; outweigh it instead (Step 3b)</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 3: The fork, correct it or outweigh it</h2>
+      <p>Every fix is one of two moves, and which one you run depends entirely on whether you can edit the source you found.</p><p>3a. Correct it at the source. If the offending URL is yours, or belongs to an editor you can reach, fix it there. This is the cleanest path because you&#39;re changing the exact input the engine relayed. For third-party pages, a short, specific note works better than people expect: point at the wrong fact, state the correct one, and link your canonical page as proof. Editors fix flat factual errors, especially a wrong price, because being wrong is bad for them too.</p><p>3b. Outweigh it when you can&#39;t edit it. A lot of wrong facts live on pages you&#39;ll never control, an old forum thread, an archived article, a competitor&#39;s comparison. You don&#39;t delete those, you outvote them. Because the engine is averaging across sources, the move is to make the correct fact present, current, and consistent across enough trusted sources that the weight shifts: your own canonical page marked up cleanly, plus the third-party pages you can influence, plus any fresh earned coverage. One wrong source is not a permanent wrong answer. It&#39;s a permanent wrong answer only while it dominates the set the engine pulls from.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 4: Re-test, and don&#39;t kill the fix early</h2>
+      <p>A fix you can&#39;t see isn&#39;t done. Re-run the exact frozen prompt that produced the wrong fact, on a schedule, roughly weekly, and watch for the answer to flip. The trap here is impatience: the correction propagates on each engine&#39;s own re-crawl clock, not the moment you hit save, so a correct fix routinely looks like a failure for the first week because nothing has re-crawled yet.</p><p>Live-retrieval engines tend to climb toward the right answer chunk by chunk; snapshot-leaning engines stay wrong until they re-fetch, then flip cleanly; Google updates on its normal index cadence. The mechanics of that per-engine lag are covered in <a href="/how-ai-describes-your-brand/" target="_blank" rel="noopener noreferrer">how AI describes your brand</a>. The operational rule is simple: judge the fix on a windowed trend across a few runs, not on the first re-test, and don&#39;t ship a second change on top of the first until you&#39;ve given the first one time to land, or you won&#39;t know which one worked.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 5: Check every engine, the fix isn&#39;t uniform</h2>
+      <p>Because each engine assembled its answer from a different source mix, the wrong fact usually isn&#39;t wrong the same way everywhere, and your fix won&#39;t arrive everywhere at once. ChatGPT may have pulled the stale roundup while Gemini pulled your own page and got it right; Perplexity may carry a third version. Run the same prompt across all five engines, localize the source on each one that&#39;s wrong, and re-test each independently. A fix verified on one engine tells you nothing about the other four.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Take a representative case, a mid-market data-warehouse vendor we&#39;ll call Northwind Data (not a real company). A prospect asks ChatGPT what Northwind&#39;s entry plan costs, and the answer confidently quotes a number Northwind retired in 2024. Buyers show up to sales calls anchored to a price that no longer exists, and the real number lands like a bait-and-switch.</p><p>Step 1, Northwind runs the exact prompt and opens the citations: the wrong price traces to a 2024 pricing-comparison roundup that was accurate when it was written and never updated. Step 2, they classify it as third-party editorial, reachable. Step 3, they run both moves: they email the roundup&#39;s editor with the correct current price and a link to their pricing page (correct-at-source), and because they can&#39;t count on that landing fast, they also make sure their own pricing page states the current number cleanly and get one current directory listing and one fresh review to match it (outweigh). Step 4, they re-test the exact prompt weekly. For the first week nothing moves, because nothing has re-crawled yet. Over the following weeks ChatGPT and Perplexity begin quoting the current price; Google&#39;s AI Overview, on its slower index clock, follows later. Step 5, they confirm it on all five engines rather than trusting the first flip. The wrong fact didn&#39;t get argued away. The source feeding it got changed and outweighed, and the answer followed.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The hard part isn&#39;t fixing one fact, it&#39;s catching them</h2>
+      <p>Everything above assumes you already know about the wrong fact. In practice that&#39;s the rare case. You don&#39;t know which of the hundreds of questions a buyer might ask surfaces a wrong price, a dead feature, or a bad comparison, on which engine, until you look, and the answer changes over time, so a spot-check is a snapshot of a moving target. Catching the deviation is the part that doesn&#39;t scale by hand.</p><p>That&#39;s the job <a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">Answer Accuracy</a> automates: it grades every AI answer about your brand against a versioned source of truth across all five engines, and when an engine gets you wrong it returns the specific claim that was dropped, fabricated, or outdated, which is exactly the input Step 1 needs. The fix workflow on this page is the same either way. Continuous monitoring just means you find the wrong fact in a dashboard instead of in a lost deal.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See where you stand</h2>
+      <p>Start with your baseline. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where the five major engines mention you, which sources they cite, and where you&#39;re missing from the answers your buyers ask. Reading the cited sources is the first half of the fix workflow on this page.</p><p>Answer Accuracy, which grades those answers against your own grounding truth and flags the wrong facts for you, is in preview. If catching wrong facts before a buyer does is the problem you&#39;re solving, <a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">talk to us</a> about turning it on for your organization.</p><p>The engines will keep relaying whatever source they trust, accurate or not. You can&#39;t email them, but you can change what they read.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How do I find which source an AI pulled a wrong fact from?</h3>
+            <p>Run the exact prompt that produced the wrong fact and open the citations the engine shows: inline chips and a sources list in ChatGPT, numbered sources in Perplexity, link cards beside Google&#39;s AI Overview, the sources panel in Gemini, the citation list in Claude. Map the wrong claim to the nearest cited URL. It almost always traces to one or two old pages, a comparison roundup, a stale review, an outdated listing. Screenshot and date-stamp the answer first, because it will change.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I just edit my own website to fix what AI says about me?</h3>
+            <p>Usually not on its own. The engine assembles its answer from the sources it retrieved, and for brand facts that&#39;s often a third-party page, not your homepage. Your owned page is the canonical the model reconciles against, so it matters, but it&#39;s one input in a weighted average. If several trusted pages carry the wrong fact, your corrected page can be outvoted. You have to find what&#39;s outweighing you and change or outweigh that source.</p>
+          </article>
+          <article class="seo-card">
+            <h3>The wrong fact is on a page I don&#39;t control. What can I do?</h3>
+            <p>Two moves. If there&#39;s an editor you can reach, email a short, specific correction: name the wrong fact, state the right one, link your canonical page as proof. Editors fix flat errors like a wrong price. If no one controls the page, a forum thread or an archived article, you outweigh it instead: make the correct fact present and consistent across enough trusted sources that the engine&#39;s weighted average shifts. You don&#39;t delete the wrong source, you outvote it.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I report a wrong AI answer to Google or ChatGPT?</h3>
+            <p>You can submit feedback, the feedback link on Google&#39;s AI Overviews, the thumbs-down in ChatGPT, but neither offers a guaranteed correction or a timeline, and neither lets you fix a fact that&#39;s coming from a third-party page. Treat feedback buttons as a weak signal, not the fix. The reliable lever is the source the answer pulled from.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long does it take to correct a wrong AI answer?</h3>
+            <p>Days to weeks, and it varies by engine. The correction propagates on each engine&#39;s re-crawl clock, not instantly, so a correct fix can look like it failed for the first week because nothing has re-crawled yet. Live-retrieval engines climb toward the right answer over days to weeks, snapshot-leaning engines flip cleanly once they re-fetch, and Google updates on its index cadence. Re-test the exact prompt weekly and judge it on a windowed trend, not a single run.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why is the wrong fact different on ChatGPT than on Google?</h3>
+            <p>Because each engine built its answer from a different source mix. ChatGPT may have pulled a stale roundup while Gemini pulled your own page and got it right, and Perplexity may carry a third version. That&#39;s why you localize the source on each engine separately and re-test each independently. A fix verified on one engine tells you nothing about the other four.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-ai-describes-your-brand/">How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)</a></h3>
+            <p>AI doesn&#39;t just decide whether to cite you, it decides what you are, and describes it differently on each engine. How the description forms, why a fix takes weeks to propagate, and how to correct it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/re-run-diagnosis-three-failure-modes/">Why You&#39;re Not Cited in AI Search: the Three Failure Modes a Prompt Re-Run Tells Apart (and the Fix for Each)</a></h3>
+            <p>A prompt re-run sorts a citation failure into one of three modes - Absent, Mis-described, or Out-competed - and each routes to a different AEO fix.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-bQ0sTTkb.js"></script>
+  </body>
+</html>
