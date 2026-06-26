@@ -204,6 +204,198 @@
   ],
   "resourcePages": [
     {
+      "slug": "fix-wrong-fact-in-ai-answer",
+      "title": "How to Fix a Wrong Fact in an AI Answer About Your Brand",
+      "metaTitle": "How to Fix a Wrong Fact in an AI Answer About Your Brand | SolCrys",
+      "description": "An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there's no one to email. The wrong fact is a relayed source. Here's how to find it, fix it or outweigh it, and re-test until the answer flips.",
+      "h1": "How to Fix a Wrong Fact in an AI Answer About Your Brand",
+      "summary": "When ChatGPT or Google's AI Overview states a wrong fact about your brand, editing your homepage usually does nothing, because the engine isn't reciting your site, it's relaying a source it trusts, and that source is often a stale third-party page. There's no correction button that reliably works, so the fix is always at the source. This is the execution playbook: localize which URL fed the wrong fact by reading the citations per engine, classify the source so you pick the right fix, then either get that source corrected or outweigh it by making the correct fact present and consistent across enough trusted sources that the model's weighted average shifts. Then re-test the exact query weekly, per engine, because propagation lags and a correct fix can look like it failed for the first week, and check every engine, because each one pulled its own source and the wrong fact isn't wrong the same way everywhere.",
+      "category": "Risk Monitoring",
+      "ogImage": "/og/fix-wrong-fact-in-ai-answer.png",
+      "ogEyebrow": "Risk Monitoring",
+      "ogTitleParts": [
+        "The AI got a fact about you wrong.",
+        "Here's how to fix it at the source."
+      ],
+      "updated": "2026-06-26",
+      "primaryKeyword": "fix wrong AI answer",
+      "aeoTargets": [
+        "How do I fix a wrong fact an AI is telling people about my brand?",
+        "How do I correct a wrong price or feature in Google's AI Overview?",
+        "Can I report a wrong AI answer to ChatGPT or Google?",
+        "How do I find which source an AI pulled a wrong fact from?",
+        "Why didn't editing my website fix what AI says about me?"
+      ],
+      "relatedSlugs": [
+        "is-ai-telling-the-truth-about-your-brand",
+        "how-ai-describes-your-brand",
+        "re-run-diagnosis-three-failure-modes",
+        "ai-hallucination-risk-monitoring",
+        "owned-earned-community-sources-ai"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "You can't email an AI engine to correct it. There's a feedback button on Google's AI Overviews and a thumbs-down in ChatGPT, but neither comes with a guaranteed correction or a timeline, and for a fact pulled from a third-party page there's nobody on the other end at all. That feels like a dead end. It isn't, because the wrong fact didn't come from nowhere.",
+            "At answer time the engine doesn't recite your website from memory. It retrieves passages from the sources it trusts for that question and relays them. So a confident wrong fact is a faithful relay of a wrong source, and that source is usually a stale third-party page: an old comparison roundup, an outdated review, a directory nobody updated, sometimes an old version of your own site. The fix is therefore always at the source. Find which URL fed the wrong fact, then either get that source corrected or outweigh it with fresher corroborating sources, then re-test the exact query until the answer flips. The rest of this page is how to do each step."
+          ]
+        },
+        {
+          "heading": "Why editing your homepage usually does nothing",
+          "body": [
+            "The most common first move is also the least effective: update your homepage and wait. It rarely works, because your homepage probably isn't the source the engine pulled the wrong fact from. The model assembles its answer from whatever it retrieved for that specific query, and for brand facts that is frequently a third-party page that ranks well and reads cleanly, not your own site (see [how AI describes your brand](/how-ai-describes-your-brand/)).",
+            "There's a deeper reason too. The engine isn't trusting one page, it's reconciling several, and it leans on independent sources precisely because they're not you talking about yourself. Your owned pages are the canonical the model reconciles everything else against, so they matter, but they are one input into a weighted average, not an override (see [owned, earned, and community sources](/owned-earned-community-sources-ai/)). If three pages the engine trusts carry a wrong price and your corrected homepage carries the right one, the wrong one can still win on weight. So the work isn't to state the truth once on your own site. It's to find what's outvoting you and change the vote."
+          ]
+        },
+        {
+          "heading": "Step 1: Localize the source feeding the wrong fact",
+          "body": [
+            "You can't fix a source you haven't found, and the source is usually knowable. Most major engines will show you what they pulled from when they ran a search, though not every answer carries a citation. Run the exact prompt that produced the wrong fact, capture the verbatim answer, then open the citations and find the page the wrong claim traces to. Screenshot the answer and date-stamp it, because the answer will change and you'll want the before.",
+            "The wrong fact almost always localizes to one or two pages, and they have a signature: they're old. A comparison article from two pricing changes ago, a review written before you shipped the feature, an archived listing. Once you have the offending URL, you know what kind of fix you're running."
+          ],
+          "table": {
+            "headers": [
+              "Engine",
+              "Where the sources show up",
+              "What to capture"
+            ],
+            "rows": [
+              [
+                "ChatGPT (Search)",
+                "Inline citation chips and the sources list under the answer",
+                "The cited URL nearest the wrong claim, plus the verbatim sentence"
+              ],
+              [
+                "Perplexity",
+                "Numbered sources at the top and footnotes inline",
+                "Which numbered source the wrong fact maps to"
+              ],
+              [
+                "Google AI Overviews",
+                "The link cards and 'show more' sources beside the overview",
+                "The page behind the card carrying the wrong fact"
+              ],
+              [
+                "Gemini",
+                "The 'sources and related content' panel",
+                "The cited page; if vague, re-ask 'what source says my price is X'"
+              ],
+              [
+                "Claude (with search)",
+                "The citation list under a searched answer",
+                "The cited URL, noting that cached answers may carry no live source"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "Step 2: Classify the source, because the fix differs",
+          "body": [
+            "Not all wrong sources are fixable the same way, and pouring effort into the wrong fix path is how people conclude this is hopeless. Before you do anything, sort the offending URL into one of four buckets. Who controls it decides what you can do about it."
+          ],
+          "table": {
+            "headers": [
+              "Source type",
+              "Who controls it",
+              "Fastest fix path"
+            ],
+            "rows": [
+              [
+                "Your own page",
+                "You",
+                "Correct it directly and make the right fact the easiest thing to extract"
+              ],
+              [
+                "Third-party editorial (roundups, reviews, news)",
+                "An editor you can reach",
+                "Email the correction; a flat factual error like a wrong price often gets fixed"
+              ],
+              [
+                "Directory or marketplace listing",
+                "You, via a claim/edit flow",
+                "Claim the listing and update the field"
+              ],
+              [
+                "Community (Reddit, forums, Q&A)",
+                "Effectively no one",
+                "You can't edit it; outweigh it instead (Step 3b)"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "Step 3: The fork, correct it or outweigh it",
+          "body": [
+            "Every fix is one of two moves, and which one you run depends entirely on whether you can edit the source you found.",
+            "3a. Correct it at the source. If the offending URL is yours, or belongs to an editor you can reach, fix it there. This is the cleanest path because you're changing the exact input the engine relayed. For third-party pages, a short, specific note works better than people expect: point at the wrong fact, state the correct one, and link your canonical page as proof. Editors fix flat factual errors, especially a wrong price, because being wrong is bad for them too.",
+            "3b. Outweigh it when you can't edit it. A lot of wrong facts live on pages you'll never control, an old forum thread, an archived article, a competitor's comparison. You don't delete those, you outvote them. Because the engine is averaging across sources, the move is to make the correct fact present, current, and consistent across enough trusted sources that the weight shifts: your own canonical page marked up cleanly, plus the third-party pages you can influence, plus any fresh earned coverage. One wrong source is not a permanent wrong answer. It's a permanent wrong answer only while it dominates the set the engine pulls from."
+          ]
+        },
+        {
+          "heading": "Step 4: Re-test, and don't kill the fix early",
+          "body": [
+            "A fix you can't see isn't done. Re-run the exact frozen prompt that produced the wrong fact, on a schedule, roughly weekly, and watch for the answer to flip. The trap here is impatience: the correction propagates on each engine's own re-crawl clock, not the moment you hit save, so a correct fix routinely looks like a failure for the first week because nothing has re-crawled yet.",
+            "Live-retrieval engines tend to climb toward the right answer chunk by chunk; snapshot-leaning engines stay wrong until they re-fetch, then flip cleanly; Google updates on its normal index cadence. The mechanics of that per-engine lag are covered in [how AI describes your brand](/how-ai-describes-your-brand/). The operational rule is simple: judge the fix on a windowed trend across a few runs, not on the first re-test, and don't ship a second change on top of the first until you've given the first one time to land, or you won't know which one worked."
+          ]
+        },
+        {
+          "heading": "Step 5: Check every engine, the fix isn't uniform",
+          "body": [
+            "Because each engine assembled its answer from a different source mix, the wrong fact usually isn't wrong the same way everywhere, and your fix won't arrive everywhere at once. ChatGPT may have pulled the stale roundup while Gemini pulled your own page and got it right; Perplexity may carry a third version. Run the same prompt across all five engines, localize the source on each one that's wrong, and re-test each independently. A fix verified on one engine tells you nothing about the other four."
+          ]
+        },
+        {
+          "heading": "A worked example",
+          "body": [
+            "Take a representative case, a mid-market data-warehouse vendor we'll call Northwind Data (not a real company). A prospect asks ChatGPT what Northwind's entry plan costs, and the answer confidently quotes a number Northwind retired in 2024. Buyers show up to sales calls anchored to a price that no longer exists, and the real number lands like a bait-and-switch.",
+            "Step 1, Northwind runs the exact prompt and opens the citations: the wrong price traces to a 2024 pricing-comparison roundup that was accurate when it was written and never updated. Step 2, they classify it as third-party editorial, reachable. Step 3, they run both moves: they email the roundup's editor with the correct current price and a link to their pricing page (correct-at-source), and because they can't count on that landing fast, they also make sure their own pricing page states the current number cleanly and get one current directory listing and one fresh review to match it (outweigh). Step 4, they re-test the exact prompt weekly. For the first week nothing moves, because nothing has re-crawled yet. Over the following weeks ChatGPT and Perplexity begin quoting the current price; Google's AI Overview, on its slower index clock, follows later. Step 5, they confirm it on all five engines rather than trusting the first flip. The wrong fact didn't get argued away. The source feeding it got changed and outweighed, and the answer followed."
+          ]
+        },
+        {
+          "heading": "The hard part isn't fixing one fact, it's catching them",
+          "body": [
+            "Everything above assumes you already know about the wrong fact. In practice that's the rare case. You don't know which of the hundreds of questions a buyer might ask surfaces a wrong price, a dead feature, or a bad comparison, on which engine, until you look, and the answer changes over time, so a spot-check is a snapshot of a moving target. Catching the deviation is the part that doesn't scale by hand.",
+            "That's the job [Answer Accuracy](/is-ai-telling-the-truth-about-your-brand/) automates: it grades every AI answer about your brand against a versioned source of truth across all five engines, and when an engine gets you wrong it returns the specific claim that was dropped, fabricated, or outdated, which is exactly the input Step 1 needs. The fix workflow on this page is the same either way. Continuous monitoring just means you find the wrong fact in a dashboard instead of in a lost deal."
+          ]
+        },
+        {
+          "heading": "See where you stand",
+          "body": [
+            "Start with your baseline. [Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys shows you where the five major engines mention you, which sources they cite, and where you're missing from the answers your buyers ask. Reading the cited sources is the first half of the fix workflow on this page.",
+            "Answer Accuracy, which grades those answers against your own grounding truth and flags the wrong facts for you, is in preview. If catching wrong facts before a buyer does is the problem you're solving, [talk to us](https://app.solcrys.com/contact-sales/) about turning it on for your organization.",
+            "The engines will keep relaying whatever source they trust, accurate or not. You can't email them, but you can change what they read."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How do I find which source an AI pulled a wrong fact from?",
+          "answer": "Run the exact prompt that produced the wrong fact and open the citations the engine shows: inline chips and a sources list in ChatGPT, numbered sources in Perplexity, link cards beside Google's AI Overview, the sources panel in Gemini, the citation list in Claude. Map the wrong claim to the nearest cited URL. It almost always traces to one or two old pages, a comparison roundup, a stale review, an outdated listing. Screenshot and date-stamp the answer first, because it will change."
+        },
+        {
+          "question": "Can I just edit my own website to fix what AI says about me?",
+          "answer": "Usually not on its own. The engine assembles its answer from the sources it retrieved, and for brand facts that's often a third-party page, not your homepage. Your owned page is the canonical the model reconciles against, so it matters, but it's one input in a weighted average. If several trusted pages carry the wrong fact, your corrected page can be outvoted. You have to find what's outweighing you and change or outweigh that source."
+        },
+        {
+          "question": "The wrong fact is on a page I don't control. What can I do?",
+          "answer": "Two moves. If there's an editor you can reach, email a short, specific correction: name the wrong fact, state the right one, link your canonical page as proof. Editors fix flat errors like a wrong price. If no one controls the page, a forum thread or an archived article, you outweigh it instead: make the correct fact present and consistent across enough trusted sources that the engine's weighted average shifts. You don't delete the wrong source, you outvote it."
+        },
+        {
+          "question": "Can I report a wrong AI answer to Google or ChatGPT?",
+          "answer": "You can submit feedback, the feedback link on Google's AI Overviews, the thumbs-down in ChatGPT, but neither offers a guaranteed correction or a timeline, and neither lets you fix a fact that's coming from a third-party page. Treat feedback buttons as a weak signal, not the fix. The reliable lever is the source the answer pulled from."
+        },
+        {
+          "question": "How long does it take to correct a wrong AI answer?",
+          "answer": "Days to weeks, and it varies by engine. The correction propagates on each engine's re-crawl clock, not instantly, so a correct fix can look like it failed for the first week because nothing has re-crawled yet. Live-retrieval engines climb toward the right answer over days to weeks, snapshot-leaning engines flip cleanly once they re-fetch, and Google updates on its index cadence. Re-test the exact prompt weekly and judge it on a windowed trend, not a single run."
+        },
+        {
+          "question": "Why is the wrong fact different on ChatGPT than on Google?",
+          "answer": "Because each engine built its answer from a different source mix. ChatGPT may have pulled a stale roundup while Gemini pulled your own page and got it right, and Perplexity may carry a third version. That's why you localize the source on each engine separately and re-test each independently. A fix verified on one engine tells you nothing about the other four."
+        }
+      ]
+    },
+    {
       "slug": "is-ai-telling-the-truth-about-your-brand",
       "title": "When AI Describes Your Brand, Is It Telling the Truth?",
       "metaTitle": "When AI Describes Your Brand, Is It Telling the Truth? | SolCrys",
