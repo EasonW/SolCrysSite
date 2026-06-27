@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import CustomerQuoteCarousel, { type CustomerQuote } from "@/components/CustomerQuoteCarousel";
+import LogoMarquee from "./LogoMarquee";
 
 const WYZE_TEAL = "#00D4B4";
 const NEXTSILICON_INDIGO = "#5700FF";
@@ -95,14 +96,6 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
   },
 ];
 
-const LOGO_ITEMS = [
-  { label: "UiPath", color: UIPATH_ORANGE, image: "/customers/uipath-logo.svg", className: "h-7" },
-  { label: "NextSilicon", color: NEXTSILICON_INDIGO, image: "/customers/nextsilicon-logo.svg", className: "h-4 md:h-5 invert dark:invert-0" },
-  { label: "Wyze", color: WYZE_TEAL, image: "/customers/wyze-logo.png" },
-  { label: "ClearlyKept", color: CLEARLYKEPT_AMBER, image: "/customers/clearlykept-logo.png", className: "h-5 md:h-6 dark:brightness-0 dark:invert" },
-  { label: "BOBOYM", color: BOBOYM_ORANGE },
-];
-
 const CustomerTestimonialSection = () => {
   return (
     <section className="relative py-20 md:py-28 section-fade overflow-hidden">
@@ -136,32 +129,14 @@ const CustomerTestimonialSection = () => {
           </a>
         </div>
 
-        {/* Logo wall — secondary trust signal, kept subtle */}
+        {/* Logo wall — the full customer set as a seamless marquee. This is the
+            page's single moving logo strip, placed below the hero copy and the
+            quote carousel so the motion never competes with primary messaging. */}
         <div className="mt-10 pt-6 border-t border-border/20">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 md:gap-x-10">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60">
-              Trusted by
-            </span>
-            {LOGO_ITEMS.map((logo) =>
-              logo.image ? (
-                <img
-                  key={logo.label}
-                  src={logo.image}
-                  alt={logo.label}
-                  className={`${logo.className ?? "h-5 md:h-6"} w-auto opacity-50 hover:opacity-80 transition-opacity`}
-                  loading="lazy"
-                />
-              ) : (
-                <span
-                  key={logo.label}
-                  className="font-heading text-lg md:text-xl font-semibold tracking-tight opacity-50 hover:opacity-80 transition-opacity"
-                  style={{ color: logo.color }}
-                >
-                  {logo.label}
-                </span>
-              )
-            )}
-          </div>
+          <p className="mb-5 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60">
+            Trusted by
+          </p>
+          <LogoMarquee />
         </div>
       </div>
     </section>

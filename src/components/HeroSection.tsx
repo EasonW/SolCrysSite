@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import AnnouncementBanner from "./AnnouncementBanner";
+import { FEATURED_LOGOS } from "./customerLogos";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import siteContent from "@/content/siteContent.json";
 
@@ -60,16 +61,33 @@ const HeroSection = () => {
           </Button>
         </div>
 
-        {/* Trust Bar — customer logos. Engine names already appear in the
-            subhead; the logos give buyers a faster credibility signal. */}
+        {/* Trust Bar — a calm STATIC strip of the most recognizable customers.
+            Motion is deliberately kept out of the hero message zone so the
+            scrolling logo wall doesn't compete with the headline/CTA for
+            attention; the full set scrolls lower down ([[LogoMarquee]] in the
+            Customer Stories section). Logo list lives in [[customerLogos]]. */}
         <div className="mt-12 border-t border-white/5 pt-7 sm:mt-16 sm:pt-8">
           <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Trusted by</p>
-          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 md:gap-x-12 opacity-70 hover:opacity-100 transition-opacity duration-500">
-            <img src="/customers/uipath-logo.svg" alt="UiPath" className="h-7 w-auto" loading="lazy" />
-            <img src="/customers/nextsilicon-logo.svg" alt="NextSilicon" className="h-4 md:h-5 w-auto invert dark:invert-0" loading="lazy" />
-            <img src="/customers/wyze-logo.png" alt="Wyze" className="h-5 md:h-6 w-auto" loading="lazy" />
-            <img src="/customers/clearlykept-logo.png" alt="ClearlyKept" className="h-5 md:h-6 w-auto dark:brightness-0 dark:invert" loading="lazy" />
-            <span className="font-heading text-lg md:text-xl font-semibold tracking-tight" style={{ color: "#FB923C" }}>BOBOYM</span>
+          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 md:gap-x-10 opacity-70 hover:opacity-100 transition-opacity duration-500">
+            {FEATURED_LOGOS.map((logo) =>
+              logo.image ? (
+                <img
+                  key={logo.label}
+                  src={logo.image}
+                  alt={logo.label}
+                  className={`${logo.className ?? "h-5 md:h-6"} w-auto`}
+                  loading="lazy"
+                />
+              ) : (
+                <span
+                  key={logo.label}
+                  className="font-heading text-lg md:text-xl font-semibold tracking-tight"
+                  style={{ color: logo.color }}
+                >
+                  {logo.label}
+                </span>
+              )
+            )}
           </div>
         </div>
       </div>

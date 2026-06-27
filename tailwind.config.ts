@@ -151,6 +151,14 @@ export default {
   				'50%': {
   					opacity: '1'
   				}
+  			},
+  			'marquee': {
+  				from: {
+  					transform: 'translateX(0)'
+  				},
+  				to: {
+  					transform: 'translateX(-50%)'
+  				}
   			}
   		},
   		animation: {
@@ -161,7 +169,8 @@ export default {
   			'fade-up-delay-2': 'fade-up 0.8s ease-out 0.3s forwards',
   			'fade-up-delay-3': 'fade-up 0.8s ease-out 0.45s forwards',
   			'fade-in': 'fade-in 1s ease-out forwards',
-  			'pulse-glow': 'pulse-glow 3s ease-in-out infinite'
+  			'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+  			'marquee': 'marquee 40s linear infinite'
   		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
