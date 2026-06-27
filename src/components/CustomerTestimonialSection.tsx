@@ -131,11 +131,10 @@ const CustomerTestimonialSection = () => {
 
         {/* Logo wall — the full customer set as a seamless marquee. This is the
             page's single moving logo strip, placed below the hero copy and the
-            quote carousel so the motion never competes with primary messaging. */}
-        <div className="mt-10 pt-6 border-t border-border/20">
-          <p className="mb-5 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60">
-            Trusted by
-          </p>
+            quote carousel so the motion never competes with primary messaging.
+            No label here: the "Customer Stories" kicker + H2 + case-studies link
+            above already frame it, and it avoids a second "Trusted by". */}
+        <div className="mt-10 pt-8 border-t border-border/20">
           <LogoMarquee />
         </div>
       </div>
