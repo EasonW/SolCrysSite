@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AI Cites an Incentive Map, Not a Neutral Web | SolCrys</title>
+    <meta name="description" content="AI leans on third-party sources to decide what&#39;s true about your brand, but those sources aren&#39;t neutral. Each one carries an incentive that predicts the way it bends the truth about you. How to read the source set behind your AI answers as an incentive map, and win the sources whose incentive aligns with you." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-source-incentive-map/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-27" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AI Cites an Incentive Map, Not a Neutral Web | SolCrys" />
+    <meta property="og:description" content="AI leans on third-party sources to decide what&#39;s true about your brand, but those sources aren&#39;t neutral. Each one carries an incentive that predicts the way it bends the truth about you. How to read the source set behind your AI answers as an incentive map, and win the sources whose incentive aligns with you." />
+    <meta property="og:url" content="https://solcrys.com/ai-source-incentive-map/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-source-incentive-map.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-source-incentive-map.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AI Doesn't Cite a Neutral Web. It Cites an Incentive Map.","item":"https://solcrys.com/ai-source-incentive-map/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AI Doesn't Cite a Neutral Web. It Cites an Incentive Map.","description":"AI leans on third-party sources to decide what's true about your brand, but those sources aren't neutral. Each one carries an incentive that predicts the way it bends the truth about you. How to read the source set behind your AI answers as an incentive map, and win the sources whose incentive aligns with you.","dateModified":"2026-06-27","datePublished":"2026-06-27","mainEntityOfPage":"https://solcrys.com/ai-source-incentive-map/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-source-incentive-map/","mainEntity":[{"@type":"Question","name":"Why does AI trust third-party sources more than my own website?","acceptedAnswer":{"@type":"Answer","text":"Because independent corroboration is harder to fake than self-description. The model weights a claim that comes from somewhere other than you more heavily, on the assumption that you're the most biased source about yourself. The catch is that it can't see the incentives behind those third-party sources, so it treats a margin-driven retailer comparison or a commission-ranked roundup as if it were neutral. Third-party raises trust with the model; it doesn't mean the source is actually independent."}},{"@type":"Question","name":"Does that mean I should get listed on every roundup and review site?","acceptedAnswer":{"@type":"Answer","text":"No. Being everywhere is the wrong goal, because not every source is winnable or worth winning. A roundup that ranks by affiliate commission will rank you to serve its own payout no matter what, and the model tends to discount obviously-incentivized sources anyway. The better move is to map sources by incentive, capture the ones whose incentive aligns with the truth about you, and out-corroborate the misaligned ones by making sure enough higher-trust sources carry the accurate version."}},{"@type":"Question","name":"Which sources does AI trust most?","acceptedAnswer":{"@type":"Answer","text":"Generally the ones that are hardest to buy, because unbuyability is what makes them credible: genuine community discussion (Reddit, forums), Wikipedia, and independent editorial or analyst coverage tend to carry more weight than a brand's own marked-up page. That's the paradox, the highest-trust sources are the least controllable. You can't place your way onto them; you earn them by being genuinely worth citing, and you win the buyable sources cleanly enough that they corroborate the same story."}},{"@type":"Question","name":"A competitor is winning AI answers because of a paid or affiliate roundup. What can I do?","acceptedAnswer":{"@type":"Answer","text":"Don't try to capture the roundup, its incentive is fixed and the model will discount it over time. Out-corroborate it instead. Get your real, differentiated facts correct on higher-trust, lower-incentive sources, a neutral analyst page, genuine community threads, your own unambiguous page, so that the weighted consensus across the sources the model trusts moves toward the accurate version. You beat a misaligned source by outnumbering it on the nodes the model trusts most, not by joining it."}},{"@type":"Question","name":"How do I find which sources are shaping my AI answers?","acceptedAnswer":{"@type":"Answer","text":"Run the buyer questions that matter in each engine and, for every answer, read the cited sources, the engines surface them. Then classify each source by its incentive and note which ones are carrying you accurately versus bending you, and why. That source-by-incentive read is the diagnosis: it tells you which sources to capture (the aligned ones getting you wrong) and which to out-corroborate (the misaligned ones you can't win). Doing it once is revealing; doing it continuously is what a source-layer monitoring program automates."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>AI Doesn&#39;t Cite a Neutral Web. It Cites an Incentive Map.</h1>
+        <p class="seo-lede">When an AI engine recommends a brand it leans on third-party sources more than the brand&#39;s own site, and the usual conclusion is to go earn more third-party mentions. That&#39;s the wrong lesson, because it treats the sources the model trusts as a neutral, interchangeable web. They aren&#39;t. Each source carries an incentive that predicts which way it will bend the truth about you before you read a word of it: a retailer is accurate on spec but skews comparisons toward its own margin, an affiliate roundup skews toward whoever pays the highest commission, a community forum is the hardest source to buy and so the highest-trust and least controllable. So &#39;third-party&#39; does not mean &#39;independent&#39;, and the model weights all of them without any view into their incentives. The work isn&#39;t to be on more sources. It&#39;s to read the source set behind your AI answers as an incentive map, capture the sources whose incentive aligns with the truth about you, and out-corroborate the ones whose incentive cuts against you on the sources the model trusts most.</p>
+        <p>Updated 2026-06-27</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why does AI trust third-party sources more than my own website?</li><li>Are the sources AI cites neutral or biased?</li><li>Which sources does AI trust most when recommending a brand?</li><li>A competitor is winning AI answers because of a paid roundup. What can I do?</li><li>How do I find which sources are shaping my AI answers?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>When an AI engine recommends a brand, it leans on third-party sources more than the brand&#39;s own site. The usual conclusion is to go earn more third-party mentions. That&#39;s the wrong lesson, because it treats the sources the model trusts as a neutral, interchangeable web. They aren&#39;t.</p><p>Each source the model pulls from carries an incentive, and that incentive predicts the direction it will bend the truth about you before you even read it. A retailer is accurate on price and spec but skews comparisons toward its own margin. An affiliate roundup skews toward whoever pays the highest commission, not whoever is best. A community forum is the hardest source to buy, which makes it the highest-trust input the model has and the one you can least control. So the work isn&#39;t to be on more sources. It&#39;s to read the source set behind your AI answers as an incentive map: capture the sources whose incentive aligns with the truth about you, and out-corroborate the ones whose incentive cuts against you on the sources the model trusts most.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;Third-party&quot; does not mean &quot;independent&quot;</h2>
+      <p>The reason engines lean on third-party sources is sound. They weight independent mentions higher precisely because they aren&#39;t you talking about yourself, the corroboration mechanism covered in <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>.</p><p>But there&#39;s a hidden assumption in how most people act on that: that &quot;third-party&quot; and &quot;independent&quot; are the same thing. They aren&#39;t. A page that isn&#39;t yours still has an agenda. The retailer wants the sale. The roundup wants the affiliate click. The review platform wants engagement and recency. None of them is a neutral arbiter of the truth about your brand; they&#39;re parties with incentives, and the model weights their claims without any view into those incentives. It cannot tell a genuinely independent assessment from a margin-driven one. That blind spot is the whole opportunity.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Reading the map: incentive predicts bias direction</h2>
+      <p>Once you stop treating sources as interchangeable, the set behind any AI answer becomes legible. The incentive behind each source type tells you which way it bends, before you read a word of it, and how much you can do about it.</p>
+      
+      <table>
+              <thead><tr><th>Source type</th><th>What it&#39;s incentivized to do</th><th>Which way it bends</th><th>How controllable</th></tr></thead>
+              <tbody><tr><td>Your own site</td><td>Sell you on yourself</td><td>Maximally favorable, and the model trusts it least</td><td>Fully, but discounted as self-interested</td></tr><tr><td>Retailer / marketplace</td><td>Close the sale</td><td>Accurate on price and spec, skews comparisons to its margin</td><td>Partly, via feeds and listings</td></tr><tr><td>Affiliate roundup / &quot;best X&quot; list</td><td>Earn the commission</td><td>Toward whoever converts or pays most, not who&#39;s best</td><td>Rarely, and the model discounts the obvious ones</td></tr><tr><td>Review platform (G2, Trustpilot)</td><td>Engagement and recency</td><td>Toward whoever is active and recently reviewed</td><td>Partly, by earning genuine reviews</td></tr><tr><td>Editorial / analyst</td><td>Access and a good story</td><td>Toward relationships and narrative fit</td><td>Slowly, via PR and relationships</td></tr><tr><td>Community (Reddit, forums)</td><td>Authentic discussion</td><td>Hard to buy, so high-trust and volatile</td><td>Barely, you earn it or you don&#39;t</td></tr><tr><td>Wikipedia</td><td>Enforced neutrality</td><td>Toward verifiable consensus, notability-gated</td><td>Barely, it&#39;s rules-bound</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The strategic response: capture or out-corroborate</h2>
+      <p>The map turns a vague &quot;earn more mentions&quot; into two specific moves, and which one applies depends entirely on a source&#39;s incentive.</p><p>Where a source&#39;s incentive aligns with the truth about you, capture it. Get on it, get the facts right, make it easy to cite. Where a source&#39;s incentive cuts against you, an affiliate page paid to favor a competitor, a roundup that ranks by commission, don&#39;t waste effort trying to capture it. You usually can&#39;t, and even if you could, the model tends to discount a claim that obviously serves the source. Instead, out-corroborate it: make sure enough aligned, higher-trust sources carry the correct version that the weighted consensus moves your way regardless of the one misaligned source.</p><p>You don&#39;t win the incentive map by owning every node. You win it by owning the nodes whose incentive lines up with the truth, and outnumbering the ones that don&#39;t on the nodes the model trusts most.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The paradox of the unbuyable source</h2>
+      <p>There&#39;s an uncomfortable inversion built into this. The sources the model trusts most are the ones you can least control, precisely because they&#39;re hard to buy. A community thread or a Wikipedia paragraph carries more weight with the model than your own marked-up page, and there is no content-placement budget that buys either cleanly.</p><p>That&#39;s not a flaw in the plan, it&#39;s the point. Their unbuyability is exactly why the model trusts them. So the highest-leverage sources are earned, not placed, and any strategy that assumes you can simply publish your way onto every node the model trusts will fail on the nodes that matter most. The move is to be genuinely worth citing on the unbuyable sources, and to win the buyable ones cleanly enough that they corroborate the same story rather than contradict it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to read your own incentive map</h2>
+      <p>You don&#39;t need a platform to start. You need to read the sources behind your own answers.</p><p>Ask the buyer questions that matter in each engine, and for every answer, list the sources it cited. Then, for each source, ask one question: what is this source incentivized to do? Mark which sources are carrying the right version of you and which are bending it, and note the incentive behind each bend. Now you can act. Capture the aligned sources that are getting you wrong, usually a fixable comprehension or freshness gap. For the misaligned ones, identify the higher-trust sources that could out-corroborate them. This is the same Measure, Diagnose, Execute, Verify loop applied to the source layer: the incentive map is the diagnosis that tells you which execute move each source actually needs.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where this sits</h2>
+      <p>This is one layer above the corroboration thesis. <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">Consensus, not authority</a> tells you that AI decides what&#39;s true about you by agreement across sources, not by any single authority. The incentive map tells you which agreement to chase, because not all corroboration is equally winnable or equally trusted.</p><p>It also sits alongside the <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, and community source layers</a> and a <a href="/how-to-build-a-source-layer-strategy/" target="_blank" rel="noopener noreferrer">source-layer strategy</a>: those classify sources by who controls them, which is the right cut for sequencing. The incentive map classifies them by what they want, which is the more useful cut when you&#39;re deciding where a misrepresentation is coming from and whether you can do anything about it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Take a representative case, a mid-market data-warehouse vendor we&#39;ll call Northwind Data (not a real company). In &quot;best data warehouse for X&quot; answers, the engines kept recommending a competitor and citing an affiliate-driven roundup that ranked vendors by referral commission, where Northwind paid nothing and sat near the bottom.</p><p>Northwind&#39;s instinct was to get onto that roundup. The incentive map said don&#39;t bother: the roundup is paid to rank by commission, so even if Northwind got listed it would be ranked to serve the roundup, not the reader, and the model would eventually discount an obviously-incentivized source anyway. Instead they out-corroborated it. They got their real differentiators correct on a neutral analyst page, earned a few genuine community threads where users compared the options on merit, and made their own page unambiguous. Over the following weeks the answers shifted, not because they captured the misaligned source, but because enough aligned, higher-trust sources carried the accurate version that the consensus moved. They stopped fighting the node they couldn&#39;t win and outnumbered it on the nodes they could.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See your own incentive map</h2>
+      <p>Start with the raw material: where the engines mention you and which sources they cite. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you both, which is the input for reading the map. Classifying those sources by incentive, and deciding capture versus out-corroborate, is the diagnosis the rest of the loop runs on.</p><p><a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want it run continuously across your organization, so the map stays current as the sources behind your answers shift.</p><p>The web the model reads was never neutral. The brands that win in AI answers are the ones who stop treating it as if it were.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why does AI trust third-party sources more than my own website?</h3>
+            <p>Because independent corroboration is harder to fake than self-description. The model weights a claim that comes from somewhere other than you more heavily, on the assumption that you&#39;re the most biased source about yourself. The catch is that it can&#39;t see the incentives behind those third-party sources, so it treats a margin-driven retailer comparison or a commission-ranked roundup as if it were neutral. Third-party raises trust with the model; it doesn&#39;t mean the source is actually independent.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does that mean I should get listed on every roundup and review site?</h3>
+            <p>No. Being everywhere is the wrong goal, because not every source is winnable or worth winning. A roundup that ranks by affiliate commission will rank you to serve its own payout no matter what, and the model tends to discount obviously-incentivized sources anyway. The better move is to map sources by incentive, capture the ones whose incentive aligns with the truth about you, and out-corroborate the misaligned ones by making sure enough higher-trust sources carry the accurate version.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which sources does AI trust most?</h3>
+            <p>Generally the ones that are hardest to buy, because unbuyability is what makes them credible: genuine community discussion (Reddit, forums), Wikipedia, and independent editorial or analyst coverage tend to carry more weight than a brand&#39;s own marked-up page. That&#39;s the paradox, the highest-trust sources are the least controllable. You can&#39;t place your way onto them; you earn them by being genuinely worth citing, and you win the buyable sources cleanly enough that they corroborate the same story.</p>
+          </article>
+          <article class="seo-card">
+            <h3>A competitor is winning AI answers because of a paid or affiliate roundup. What can I do?</h3>
+            <p>Don&#39;t try to capture the roundup, its incentive is fixed and the model will discount it over time. Out-corroborate it instead. Get your real, differentiated facts correct on higher-trust, lower-incentive sources, a neutral analyst page, genuine community threads, your own unambiguous page, so that the weighted consensus across the sources the model trusts moves toward the accurate version. You beat a misaligned source by outnumbering it on the nodes the model trusts most, not by joining it.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I find which sources are shaping my AI answers?</h3>
+            <p>Run the buyer questions that matter in each engine and, for every answer, read the cited sources, the engines surface them. Then classify each source by its incentive and note which ones are carrying you accurately versus bending you, and why. That source-by-incentive read is the diagnosis: it tells you which sources to capture (the aligned ones getting you wrong) and which to out-corroborate (the misaligned ones you can&#39;t win). Doing it once is revealing; doing it continuously is what a source-layer monitoring program automates.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-community-sources-ai/">Owned, Earned, and Community Sources in AI Answers: A 3-Layer Strategy</a></h3>
+            <p>AI engines cite three source layers — owned (your site), earned (PR/editorial), and community (Reddit/G2/forums). In our own data, owned is only ~1.6% of citations yet still a top-10 source. Why third parties get you into the answer, why your own site still matters, and how to balance the three.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-build-a-source-layer-strategy/">How to Build a Source-Layer Strategy for AEO (2026)</a></h3>
+            <p>A strategic playbook for building the three source layers that AI engines actually cite: owned, earned, and community. Includes sequencing, costs, and an ethics line.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-COxZZ7lx.js"></script>
+  </body>
+</html>
