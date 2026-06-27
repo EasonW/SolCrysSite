@@ -31,7 +31,6 @@ export const CUSTOMER_LOGOS: CustomerLogo[] = [
   { label: "Wyze", image: "/customers/wyze-logo.png", className: "h-5 md:h-6", color: "#00D4B4", featured: true },
   { label: "ClearlyKept", image: "/customers/clearlykept-logo.png", className: "h-5 md:h-6 dark:brightness-0 dark:invert", color: "#F59E0B", featured: true },
   { label: "Verbatim", image: "/customers/verbatim-logo.svg", className: "h-5 md:h-6 dark:brightness-0 dark:invert", color: "#FF4040", featured: true },
-  { label: "Huron", image: "/customers/huron-logo.svg", className: "h-5 md:h-6 dark:brightness-0 dark:invert", color: "#2D0A20", featured: true },
   { label: "Headley Media", image: "/customers/headley-logo.png", className: "h-6 md:h-7 dark:brightness-0 dark:invert", color: "#14517D" },
   { label: "Acorn Stairlifts", image: "/customers/acorn-logo.png", className: "h-6 md:h-7 dark:brightness-0 dark:invert", color: "#8B0030" },
   { label: "CLW Group", image: "/customers/clw-logo.png", className: "h-6 md:h-7 dark:brightness-0 dark:invert", color: "#D81E06" },
