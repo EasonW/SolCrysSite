@@ -204,6 +204,183 @@
   ],
   "resourcePages": [
     {
+      "slug": "ai-citation-variance-spend-decision",
+      "title": "Contested, Settling, or Decaying? Turn AI-Citation Variance Into a Spend Decision",
+      "metaTitle": "Reading AI-Citation Variance as a Spend Decision | SolCrys",
+      "description": "The contested-vs-settled signal tells you which AI queries are winnable. This is how to act on it: measure the noise floor per query, classify each query's phase, route each phase to a different move, and avoid the trap that wrecks the whole thing, mistaking a query that's dying for one you're losing.",
+      "h1": "Contested, Settling, or Decaying? Turn AI-Citation Variance Into a Spend Decision",
+      "summary": "Knowing that a volatile AI query is a contested open slot is half the work. The other half is turning that signal into a where-to-spend decision, and doing it without getting fooled. The discipline is four moves: measure the noise floor per query rather than with one global threshold, because a settled query barely moves and a contested one reshuffles a lot with nothing changing; classify each query into a phase from its variance and share trend, live contested, settling toward you, or settling away; route each phase to a different move, double down, defend, or reconsider; and before you spend to defend a falling query, check demand, because a query you're losing to a competitor and a query nobody asks anymore look identical on a citation-share chart and call for opposite moves. The query that's being absorbed, answered so completely by the AI that fewer people ask it, is the one teams keep paying to defend when the right move is to walk away.",
+      "category": "Measurement",
+      "ogImage": "/og/ai-citation-variance-spend-decision.png",
+      "ogEyebrow": "Measurement",
+      "ogTitleParts": [
+        "AI-citation variance isn't noise.",
+        "It's telling you where to spend."
+      ],
+      "updated": "2026-06-28",
+      "primaryKeyword": "AI citation variance",
+      "aeoTargets": [
+        "How do I decide which AI queries to spend on?",
+        "How do I tell a query I'm losing from a query nobody asks anymore?",
+        "Should I use one significance threshold for all my AI-visibility queries?",
+        "What does it mean when an AI query's variance suddenly drops?",
+        "How do I turn AI-citation volatility into a prioritization decision?"
+      ],
+      "relatedSlugs": [
+        "contested-vs-settled-ai-citation-queries",
+        "how-many-runs-until-ai-visibility-trustworthy",
+        "why-ai-visibility-score-moves",
+        "ai-citations-consensus-not-authority",
+        "re-run-diagnosis-three-failure-modes"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "The contested-vs-settled distinction tells you which AI queries are winnable: a high-variance, high-value query is a [contested open slot](/contested-vs-settled-ai-citation-queries/), still up for grabs. This page is the next step, how to turn that signal into a spend decision.",
+            "Four moves. Measure the noise floor per query, not with one global threshold. Classify each query into a phase from its variance and share trend. Route each phase to a different move. And before you spend to defend a query whose share is falling, check demand, because a query you're losing to a competitor and a query nobody asks anymore look identical on a citation-share chart and call for opposite moves. The query that's quietly being absorbed, answered so completely by the AI that fewer people ask it, is the one teams keep paying to defend when the right move is to walk away."
+          ]
+        },
+        {
+          "heading": "First, the noise floor is per-query, not global",
+          "body": [
+            "Before you can act on a query's movement you have to know what 'movement' even means for that query, and it is not the same number across your set, because the two regimes the [contested-vs-settled split](/contested-vs-settled-ai-citation-queries/) describes carry very different floors. A settled query, one clear answer everyone's converged on, barely moves run to run: low floor. A contested query, several plausible answers and thin consensus, reshuffles a lot with nothing changing: high floor.",
+            "So a single global significance threshold lies to you in both directions. Set it where contested queries live and you'll miss real movement on the settled ones; set it where settled queries live and you'll flag pure noise on the contested ones as if it were a win. The fix is to measure the floor per query, or per cluster of similar queries, the way you'd establish a baseline before reading any instrument. The mechanics of how many runs that takes are in [how many runs until your number is trustworthy](/how-many-runs-until-ai-visibility-trustworthy/); the point here is that the floor is a property of each query, not of your dashboard."
+          ]
+        },
+        {
+          "heading": "The per-query floor is a map of which battles are winnable",
+          "body": [
+            "Once you have the floor per query, the same data that filters noise also prioritizes your work. Sort your queries by two axes: how contested they are, and whether you're already winning them.",
+            "A contested query you're not yet in is an open slot with the door still open, that's your attack surface, and it's where spending actually moves the needle. A query that's settled against you is a hard, slow fight you win only with a structural change, a new corroborating source, a genuinely better-cited asset, not another content refresh, because a content refresh rarely shifts a query that's already converged on someone else. So you deprioritize those, or escalate them deliberately rather than drip effort into them. The per-query floor stops being a noise filter and becomes a roadmap: it tells you which battles are open, which are won, and which aren't worth fighting with the tools you have."
+          ]
+        },
+        {
+          "heading": "Three phases, three different moves",
+          "body": [
+            "Every tracked query is in one of three phases, readable from two trends: how its run-to-run variance is moving, and which way its share is going. Each phase calls for a different move, and treating them the same is how budget gets wasted.",
+            "One useful property makes this actionable early: variance tends to collapse before share fully settles, so a query whose run-to-run swing is shrinking is an early signal, often a couple of weeks ahead, that the slot is closing. That's your window to act while you still can."
+          ],
+          "table": {
+            "headers": [
+              "Phase",
+              "What the signal looks like",
+              "The move"
+            ],
+            "rows": [
+              [
+                "Live contested",
+                "High run-to-run variance, share swinging, no source has won the slot",
+                "Double down. The window is open and you can still take it; this is where spend converts"
+              ],
+              [
+                "Settling toward you",
+                "Variance collapsing, your share climbing and holding",
+                "Shift to defense. Maintain presence, stop over-investing; the slot is closing your way"
+              ],
+              [
+                "Settling away from you",
+                "Variance collapsing, your share falling",
+                "Don't react yet. Check demand first, then fight structurally or walk away"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "The trap: a query you're losing and a query that's dying look identical",
+          "body": [
+            "The third phase is where teams burn money, because two completely different situations produce the same chart. Your citation share is falling and the variance is collapsing. That can mean a competitor has won the slot, a contest you lost. Or it can mean the query itself is dying: the AI now answers it so completely, or buyer behavior has moved on, that fewer people ask it at all. The pie is shrinking, and your falling share is just the query disappearing under you.",
+            "Same downward line, opposite correct move. If you're losing a live contest, the slot still exists and is worth a structural fight if the query matters. If the query is being absorbed, there is nothing left to win, and every dollar spent defending it is wasted. So before you treat a falling query as a loss to recover, check whether the query is still being asked. The disambiguating signal is demand, not share."
+          ],
+          "table": {
+            "headers": [
+              "What you see",
+              "You're losing a live contest",
+              "The query is being absorbed"
+            ],
+            "rows": [
+              [
+                "Citation-share trend",
+                "Falling",
+                "Falling"
+              ],
+              [
+                "Run-to-run variance",
+                "Collapsing",
+                "Collapsing"
+              ],
+              [
+                "Total query demand",
+                "Flat or growing, people still ask it",
+                "Shrinking, fewer ask as the AI answers it fully"
+              ],
+              [
+                "Right move",
+                "Fight, but only with a structural source change",
+                "Walk away, reallocate to an open slot"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "An honest caveat on the demand signal",
+          "body": [
+            "The demand check is the load-bearing piece, so be honest about its limits. AI-query volume isn't directly observable the way search volume is; you're inferring it from proxies, search-volume tools, your own prompt tracker, assistant-side trends, so treat the demand trend as directional, not precise. A large, sustained move is real; a small wobble might be noise in the proxy itself. The goal isn't a perfect demand number, it's enough signal to tell 'people still ask this' from 'this query is fading,' which is all the decision needs."
+          ]
+        },
+        {
+          "heading": "Putting it together: the allocation loop",
+          "body": [
+            "The whole thing is one pass, run on a cadence rather than reacted to per run. Freeze your buyer prompt set and measure each query as a rate over weeks. Establish the noise floor per query. Classify each query's phase from its variance and share trends. On the falling ones, check demand before deciding anything. Then route: double down on the live-contested slots you can still take, defend the ones settling your way, structurally fight or abandon the ones settling away depending on whether demand is still there.",
+            "This is the Measure, Diagnose, Execute, Verify loop with variance as the diagnosis. The variance you were tempted to smooth away is the input that tells you where to spend, and the demand check is what keeps you from spending on a query that no longer exists."
+          ]
+        },
+        {
+          "heading": "A worked example",
+          "body": [
+            "Take a representative case, an analytics vendor we'll call Northwind Data (not a real company). Two of its tracked queries were both falling and both going quiet, variance collapsing on each, and the instinct was to pour content into defending both.",
+            "The demand check split them. On the first query, buyers were still asking it constantly; the falling share was a competitor winning the slot, a real contest, so Northwind escalated it deliberately, earning a couple of strong third-party sources rather than refreshing its own page. On the second, demand had quietly dried up: the engines now answered that question completely inside the response, and the absolute number of times it came up had been sliding for weeks. There was no slot left to win. Northwind stopped spending on it and moved the budget to a live-contested query it could actually take. One falling chart, two opposite decisions, and the demand signal was the only thing that told them apart."
+          ]
+        },
+        {
+          "heading": "What we don't claim",
+          "body": [
+            "Phases aren't always clean; some queries sit ambiguously between contested and settling, and you read the trend, not a single run. You can't force a contested query to settle in your favor, you can only make the accurate, well-corroborated version the easiest one for the engines to converge on (see [AI cites consensus, not authority](/ai-citations-consensus-not-authority/)). And the demand signal is a proxy, not a meter. The claim here is narrower and more useful than a forecast: read as trends rather than points, variance and demand together tell you which queries to spend on and which to leave, which is exactly the decision a single visibility number can't inform."
+          ]
+        },
+        {
+          "heading": "See it on your own queries",
+          "body": [
+            "Start with the raw material: your buyer queries measured as a rate across engines, with the cited sources behind each. [Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys shows you where you stand and which sources are shaping each answer. The per-query floor, the phase classification, and the demand check are the diagnosis that turns that measurement into a spend decision.",
+            "[Talk to us](https://app.solcrys.com/contact-sales/) if you want it run continuously, so the phases update on a cadence and the falling queries get the demand check before anyone spends to defend them.",
+            "The variance was never the problem to smooth away. It's the part of the signal that tells you where the next dollar should go."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How do I tell a query I'm losing from a query nobody asks anymore?",
+          "answer": "Check demand, not share. Both situations produce the same falling citation-share chart with collapsing variance, so share alone can't tell them apart. The disambiguating signal is whether the query is still being asked: if total demand is flat or growing, you're losing a live contest worth a structural fight; if demand is shrinking because the AI now answers the question completely, the query is being absorbed and there's nothing left to win, so reallocate."
+        },
+        {
+          "question": "Should I use one significance threshold for all my AI-visibility queries?",
+          "answer": "No. The noise floor is a property of each query, not your dashboard. Settled queries barely move run to run (low floor); contested queries reshuffle a lot with nothing changing (high floor). A single global threshold misses real movement on settled queries and flags pure noise as a win on contested ones. Measure the floor per query, or per cluster of similar queries, and judge each query's movement against its own floor."
+        },
+        {
+          "question": "What does it mean when a query's variance suddenly drops?",
+          "answer": "It usually means the slot is closing. Run-to-run variance tends to collapse before share fully settles, so shrinking variance is an early signal, often a couple of weeks ahead, that a query is settling, toward you or away from you. Read it with the share trend: variance collapsing while your share climbs means it's settling your way (defend it); variance collapsing while your share falls means it's settling away (check demand, then fight structurally or walk away)."
+        },
+        {
+          "question": "Which AI queries should I spend on first?",
+          "answer": "The contested queries you're not yet winning. A contested query is an open slot where consensus hasn't formed, so spending can still move it; a query already settled against you is a slow, structural fight that more content rarely shifts. Sort your set by how contested each query is and whether you're already in the answer, and put effort into the open, winnable slots before the won or lost ones."
+        },
+        {
+          "question": "Can I force a contested query to settle in my favor?",
+          "answer": "Not directly. You can't make the engines converge on you on demand; you can only make the accurate, well-corroborated version of you the easiest one for them to settle on, by getting the right facts consistent across the independent sources they trust. Settling is something you earn by improving the evidence, then verify by re-testing the same frozen query over weeks, not a switch you flip."
+        }
+      ]
+    },
+    {
       "slug": "ai-source-incentive-map",
       "title": "AI Doesn't Cite a Neutral Web. It Cites an Incentive Map.",
       "metaTitle": "AI Cites an Incentive Map, Not a Neutral Web | SolCrys",
