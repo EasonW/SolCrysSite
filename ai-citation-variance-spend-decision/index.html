@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Reading AI-Citation Variance as a Spend Decision | SolCrys</title>
+    <meta name="description" content="The contested-vs-settled signal tells you which AI queries are winnable. This is how to act on it: measure the noise floor per query, classify each query&#39;s phase, route each phase to a different move, and avoid the trap that wrecks the whole thing, mistaking a query that&#39;s dying for one you&#39;re losing." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-citation-variance-spend-decision/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-06-28" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Reading AI-Citation Variance as a Spend Decision | SolCrys" />
+    <meta property="og:description" content="The contested-vs-settled signal tells you which AI queries are winnable. This is how to act on it: measure the noise floor per query, classify each query&#39;s phase, route each phase to a different move, and avoid the trap that wrecks the whole thing, mistaking a query that&#39;s dying for one you&#39;re losing." />
+    <meta property="og:url" content="https://solcrys.com/ai-citation-variance-spend-decision/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-citation-variance-spend-decision.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-citation-variance-spend-decision.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Contested, Settling, or Decaying? Turn AI-Citation Variance Into a Spend Decision","item":"https://solcrys.com/ai-citation-variance-spend-decision/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Contested, Settling, or Decaying? Turn AI-Citation Variance Into a Spend Decision","description":"The contested-vs-settled signal tells you which AI queries are winnable. This is how to act on it: measure the noise floor per query, classify each query's phase, route each phase to a different move, and avoid the trap that wrecks the whole thing, mistaking a query that's dying for one you're losing.","dateModified":"2026-06-28","datePublished":"2026-06-28","mainEntityOfPage":"https://solcrys.com/ai-citation-variance-spend-decision/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-citation-variance-spend-decision/","mainEntity":[{"@type":"Question","name":"How do I tell a query I'm losing from a query nobody asks anymore?","acceptedAnswer":{"@type":"Answer","text":"Check demand, not share. Both situations produce the same falling citation-share chart with collapsing variance, so share alone can't tell them apart. The disambiguating signal is whether the query is still being asked: if total demand is flat or growing, you're losing a live contest worth a structural fight; if demand is shrinking because the AI now answers the question completely, the query is being absorbed and there's nothing left to win, so reallocate."}},{"@type":"Question","name":"Should I use one significance threshold for all my AI-visibility queries?","acceptedAnswer":{"@type":"Answer","text":"No. The noise floor is a property of each query, not your dashboard. Settled queries barely move run to run (low floor); contested queries reshuffle a lot with nothing changing (high floor). A single global threshold misses real movement on settled queries and flags pure noise as a win on contested ones. Measure the floor per query, or per cluster of similar queries, and judge each query's movement against its own floor."}},{"@type":"Question","name":"What does it mean when a query's variance suddenly drops?","acceptedAnswer":{"@type":"Answer","text":"It usually means the slot is closing. Run-to-run variance tends to collapse before share fully settles, so shrinking variance is an early signal, often a couple of weeks ahead, that a query is settling, toward you or away from you. Read it with the share trend: variance collapsing while your share climbs means it's settling your way (defend it); variance collapsing while your share falls means it's settling away (check demand, then fight structurally or walk away)."}},{"@type":"Question","name":"Which AI queries should I spend on first?","acceptedAnswer":{"@type":"Answer","text":"The contested queries you're not yet winning. A contested query is an open slot where consensus hasn't formed, so spending can still move it; a query already settled against you is a slow, structural fight that more content rarely shifts. Sort your set by how contested each query is and whether you're already in the answer, and put effort into the open, winnable slots before the won or lost ones."}},{"@type":"Question","name":"Can I force a contested query to settle in my favor?","acceptedAnswer":{"@type":"Answer","text":"Not directly. You can't make the engines converge on you on demand; you can only make the accurate, well-corroborated version of you the easiest one for them to settle on, by getting the right facts consistent across the independent sources they trust. Settling is something you earn by improving the evidence, then verify by re-testing the same frozen query over weeks, not a switch you flip."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>Contested, Settling, or Decaying? Turn AI-Citation Variance Into a Spend Decision</h1>
+        <p class="seo-lede">Knowing that a volatile AI query is a contested open slot is half the work. The other half is turning that signal into a where-to-spend decision, and doing it without getting fooled. The discipline is four moves: measure the noise floor per query rather than with one global threshold, because a settled query barely moves and a contested one reshuffles a lot with nothing changing; classify each query into a phase from its variance and share trend, live contested, settling toward you, or settling away; route each phase to a different move, double down, defend, or reconsider; and before you spend to defend a falling query, check demand, because a query you&#39;re losing to a competitor and a query nobody asks anymore look identical on a citation-share chart and call for opposite moves. The query that&#39;s being absorbed, answered so completely by the AI that fewer people ask it, is the one teams keep paying to defend when the right move is to walk away.</p>
+        <p>Updated 2026-06-28</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I decide which AI queries to spend on?</li><li>How do I tell a query I&#39;m losing from a query nobody asks anymore?</li><li>Should I use one significance threshold for all my AI-visibility queries?</li><li>What does it mean when an AI query&#39;s variance suddenly drops?</li><li>How do I turn AI-citation volatility into a prioritization decision?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>The contested-vs-settled distinction tells you which AI queries are winnable: a high-variance, high-value query is a <a href="/contested-vs-settled-ai-citation-queries/" target="_blank" rel="noopener noreferrer">contested open slot</a>, still up for grabs. This page is the next step, how to turn that signal into a spend decision.</p><p>Four moves. Measure the noise floor per query, not with one global threshold. Classify each query into a phase from its variance and share trend. Route each phase to a different move. And before you spend to defend a query whose share is falling, check demand, because a query you&#39;re losing to a competitor and a query nobody asks anymore look identical on a citation-share chart and call for opposite moves. The query that&#39;s quietly being absorbed, answered so completely by the AI that fewer people ask it, is the one teams keep paying to defend when the right move is to walk away.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>First, the noise floor is per-query, not global</h2>
+      <p>Before you can act on a query&#39;s movement you have to know what &#39;movement&#39; even means for that query, and it is not the same number across your set, because the two regimes the <a href="/contested-vs-settled-ai-citation-queries/" target="_blank" rel="noopener noreferrer">contested-vs-settled split</a> describes carry very different floors. A settled query, one clear answer everyone&#39;s converged on, barely moves run to run: low floor. A contested query, several plausible answers and thin consensus, reshuffles a lot with nothing changing: high floor.</p><p>So a single global significance threshold lies to you in both directions. Set it where contested queries live and you&#39;ll miss real movement on the settled ones; set it where settled queries live and you&#39;ll flag pure noise on the contested ones as if it were a win. The fix is to measure the floor per query, or per cluster of similar queries, the way you&#39;d establish a baseline before reading any instrument. The mechanics of how many runs that takes are in <a href="/how-many-runs-until-ai-visibility-trustworthy/" target="_blank" rel="noopener noreferrer">how many runs until your number is trustworthy</a>; the point here is that the floor is a property of each query, not of your dashboard.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The per-query floor is a map of which battles are winnable</h2>
+      <p>Once you have the floor per query, the same data that filters noise also prioritizes your work. Sort your queries by two axes: how contested they are, and whether you&#39;re already winning them.</p><p>A contested query you&#39;re not yet in is an open slot with the door still open, that&#39;s your attack surface, and it&#39;s where spending actually moves the needle. A query that&#39;s settled against you is a hard, slow fight you win only with a structural change, a new corroborating source, a genuinely better-cited asset, not another content refresh, because a content refresh rarely shifts a query that&#39;s already converged on someone else. So you deprioritize those, or escalate them deliberately rather than drip effort into them. The per-query floor stops being a noise filter and becomes a roadmap: it tells you which battles are open, which are won, and which aren&#39;t worth fighting with the tools you have.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Three phases, three different moves</h2>
+      <p>Every tracked query is in one of three phases, readable from two trends: how its run-to-run variance is moving, and which way its share is going. Each phase calls for a different move, and treating them the same is how budget gets wasted.</p><p>One useful property makes this actionable early: variance tends to collapse before share fully settles, so a query whose run-to-run swing is shrinking is an early signal, often a couple of weeks ahead, that the slot is closing. That&#39;s your window to act while you still can.</p>
+      
+      <table>
+              <thead><tr><th>Phase</th><th>What the signal looks like</th><th>The move</th></tr></thead>
+              <tbody><tr><td>Live contested</td><td>High run-to-run variance, share swinging, no source has won the slot</td><td>Double down. The window is open and you can still take it; this is where spend converts</td></tr><tr><td>Settling toward you</td><td>Variance collapsing, your share climbing and holding</td><td>Shift to defense. Maintain presence, stop over-investing; the slot is closing your way</td></tr><tr><td>Settling away from you</td><td>Variance collapsing, your share falling</td><td>Don&#39;t react yet. Check demand first, then fight structurally or walk away</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The trap: a query you&#39;re losing and a query that&#39;s dying look identical</h2>
+      <p>The third phase is where teams burn money, because two completely different situations produce the same chart. Your citation share is falling and the variance is collapsing. That can mean a competitor has won the slot, a contest you lost. Or it can mean the query itself is dying: the AI now answers it so completely, or buyer behavior has moved on, that fewer people ask it at all. The pie is shrinking, and your falling share is just the query disappearing under you.</p><p>Same downward line, opposite correct move. If you&#39;re losing a live contest, the slot still exists and is worth a structural fight if the query matters. If the query is being absorbed, there is nothing left to win, and every dollar spent defending it is wasted. So before you treat a falling query as a loss to recover, check whether the query is still being asked. The disambiguating signal is demand, not share.</p>
+      
+      <table>
+              <thead><tr><th>What you see</th><th>You&#39;re losing a live contest</th><th>The query is being absorbed</th></tr></thead>
+              <tbody><tr><td>Citation-share trend</td><td>Falling</td><td>Falling</td></tr><tr><td>Run-to-run variance</td><td>Collapsing</td><td>Collapsing</td></tr><tr><td>Total query demand</td><td>Flat or growing, people still ask it</td><td>Shrinking, fewer ask as the AI answers it fully</td></tr><tr><td>Right move</td><td>Fight, but only with a structural source change</td><td>Walk away, reallocate to an open slot</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>An honest caveat on the demand signal</h2>
+      <p>The demand check is the load-bearing piece, so be honest about its limits. AI-query volume isn&#39;t directly observable the way search volume is; you&#39;re inferring it from proxies, search-volume tools, your own prompt tracker, assistant-side trends, so treat the demand trend as directional, not precise. A large, sustained move is real; a small wobble might be noise in the proxy itself. The goal isn&#39;t a perfect demand number, it&#39;s enough signal to tell &#39;people still ask this&#39; from &#39;this query is fading,&#39; which is all the decision needs.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Putting it together: the allocation loop</h2>
+      <p>The whole thing is one pass, run on a cadence rather than reacted to per run. Freeze your buyer prompt set and measure each query as a rate over weeks. Establish the noise floor per query. Classify each query&#39;s phase from its variance and share trends. On the falling ones, check demand before deciding anything. Then route: double down on the live-contested slots you can still take, defend the ones settling your way, structurally fight or abandon the ones settling away depending on whether demand is still there.</p><p>This is the Measure, Diagnose, Execute, Verify loop with variance as the diagnosis. The variance you were tempted to smooth away is the input that tells you where to spend, and the demand check is what keeps you from spending on a query that no longer exists.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Take a representative case, an analytics vendor we&#39;ll call Northwind Data (not a real company). Two of its tracked queries were both falling and both going quiet, variance collapsing on each, and the instinct was to pour content into defending both.</p><p>The demand check split them. On the first query, buyers were still asking it constantly; the falling share was a competitor winning the slot, a real contest, so Northwind escalated it deliberately, earning a couple of strong third-party sources rather than refreshing its own page. On the second, demand had quietly dried up: the engines now answered that question completely inside the response, and the absolute number of times it came up had been sliding for weeks. There was no slot left to win. Northwind stopped spending on it and moved the budget to a live-contested query it could actually take. One falling chart, two opposite decisions, and the demand signal was the only thing that told them apart.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What we don&#39;t claim</h2>
+      <p>Phases aren&#39;t always clean; some queries sit ambiguously between contested and settling, and you read the trend, not a single run. You can&#39;t force a contested query to settle in your favor, you can only make the accurate, well-corroborated version the easiest one for the engines to converge on (see <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>). And the demand signal is a proxy, not a meter. The claim here is narrower and more useful than a forecast: read as trends rather than points, variance and demand together tell you which queries to spend on and which to leave, which is exactly the decision a single visibility number can&#39;t inform.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See it on your own queries</h2>
+      <p>Start with the raw material: your buyer queries measured as a rate across engines, with the cited sources behind each. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where you stand and which sources are shaping each answer. The per-query floor, the phase classification, and the demand check are the diagnosis that turns that measurement into a spend decision.</p><p><a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want it run continuously, so the phases update on a cadence and the falling queries get the demand check before anyone spends to defend them.</p><p>The variance was never the problem to smooth away. It&#39;s the part of the signal that tells you where the next dollar should go.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How do I tell a query I&#39;m losing from a query nobody asks anymore?</h3>
+            <p>Check demand, not share. Both situations produce the same falling citation-share chart with collapsing variance, so share alone can&#39;t tell them apart. The disambiguating signal is whether the query is still being asked: if total demand is flat or growing, you&#39;re losing a live contest worth a structural fight; if demand is shrinking because the AI now answers the question completely, the query is being absorbed and there&#39;s nothing left to win, so reallocate.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I use one significance threshold for all my AI-visibility queries?</h3>
+            <p>No. The noise floor is a property of each query, not your dashboard. Settled queries barely move run to run (low floor); contested queries reshuffle a lot with nothing changing (high floor). A single global threshold misses real movement on settled queries and flags pure noise as a win on contested ones. Measure the floor per query, or per cluster of similar queries, and judge each query&#39;s movement against its own floor.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What does it mean when a query&#39;s variance suddenly drops?</h3>
+            <p>It usually means the slot is closing. Run-to-run variance tends to collapse before share fully settles, so shrinking variance is an early signal, often a couple of weeks ahead, that a query is settling, toward you or away from you. Read it with the share trend: variance collapsing while your share climbs means it&#39;s settling your way (defend it); variance collapsing while your share falls means it&#39;s settling away (check demand, then fight structurally or walk away).</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which AI queries should I spend on first?</h3>
+            <p>The contested queries you&#39;re not yet winning. A contested query is an open slot where consensus hasn&#39;t formed, so spending can still move it; a query already settled against you is a slow, structural fight that more content rarely shifts. Sort your set by how contested each query is and whether you&#39;re already in the answer, and put effort into the open, winnable slots before the won or lost ones.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I force a contested query to settle in my favor?</h3>
+            <p>Not directly. You can&#39;t make the engines converge on you on demand; you can only make the accurate, well-corroborated version of you the easiest one for them to settle on, by getting the right facts consistent across the independent sources they trust. Settling is something you earn by improving the evidence, then verify by re-testing the same frozen query over weeks, not a switch you flip.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/contested-vs-settled-ai-citation-queries/">Contested vs Settled: Why Your Most Volatile AI Queries Are the Open Slots, Not a Maintenance Burden</a></h3>
+            <p>Volatile AI-citation queries aren&#39;t a maintenance burden. They&#39;re contested open slots no source has won yet. How to read variance as a query-selection signal.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/why-ai-visibility-score-moves/">Why Your AI Visibility Score Moves</a></h3>
+            <p>AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-gy_Q2Prq.js"></script>
+  </body>
+</html>
