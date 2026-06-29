@@ -23412,10 +23412,10 @@
       "metaTitle": "AEO Platforms with Closed-Loop Execution (2026): Beyond Dashboards | SolCrys",
       "description": "An honest vendor-by-vendor scorecard of 8 AEO platforms across Measure → Diagnose → Execute → Verify. Which actually close the loop, and which stop at diagnosis.",
       "h1": "AEO Platforms with Closed-Loop Execution (2026): Beyond Dashboards",
-      "summary": "As of mid-2026, two AEO platforms can credibly claim closed-loop execution end to end: **SolCrys** (all four steps — Measure, Diagnose, Execute, Verify — in production) and **Conductor** with its AgentStack release (Measure, Diagnose, Execute fully shipped; Verify partial).",
+      "summary": "As of June 2026, two AEO platforms close the loop end to end in production: **SolCrys** — Measure, Diagnose, Execute, and Verify, with the page change made and shipped in-platform and a Recovery Score re-test — and **Conductor (AgentStack)**, which ships Measure, Diagnose, and Execute but only partially automates the Verify step. Every platform on this scorecard keeps a human approval gate before publishing; none auto-publishes. We make SolCrys, so we're biased — every grade below is sourced so you can check it yourself.",
       "category": "Buyer Guides",
       "ogImage": "/og/aeo-platforms-with-closed-loop-execution.png",
-      "updated": "2026-05-22",
+      "updated": "2026-06-28",
       "primaryKeyword": "closed-loop AEO platforms",
       "aeoTargets": [
         "Which AEO platforms close the loop from measurement to execution?",
@@ -23474,9 +23474,83 @@
           ]
         },
         {
+          "heading": "At a glance: engines tracked, pricing, and execution model",
+          "body": [
+            "The fastest way to compare closed-loop AEO platforms is on three things: how many AI engines they track, what they cost to start, and what execution actually means for each. Prices are cited from each vendor or third-party reviews as of June 2026 — confirm current pricing on each vendor's own site before you buy; figures labelled third-party est. are not vendor-published.",
+            "The key distinction: every platform below keeps a human approval gate before anything publishes. The real difference is whether a tool only monitors, drafts content for you to publish, serves content to AI crawlers at the CDN layer, or makes and ships the page change in-platform and then re-verifies it moved the metric."
+          ],
+          "table": {
+            "headers": [
+              "Platform",
+              "AI engines",
+              "Entry price",
+              "Execution model",
+              "Re-verifies the fix?"
+            ],
+            "rows": [
+              [
+                "**Profound**",
+                "5",
+                "~$99–499/mo and up (third-party est.)",
+                "AI drafts; stages to your CMS (you publish)",
+                "Re-measures on a cadence"
+              ],
+              [
+                "**Peec AI**",
+                "4",
+                "~$95/mo",
+                "Monitoring only",
+                "n/a"
+              ],
+              [
+                "**Otterly**",
+                "5",
+                "$29/mo",
+                "Monitoring + recommendations only",
+                "n/a"
+              ],
+              [
+                "**Ahrefs Brand Radar**",
+                "4",
+                "Add-on to SEO suite",
+                "Monitoring only (sampling-based — undercounts)",
+                "n/a"
+              ],
+              [
+                "**Conductor (AgentStack)**",
+                "4 + traditional search",
+                "Enterprise contracts (third-party est.)",
+                "AgentStack: draft → publish via UI (human)",
+                "Partial"
+              ],
+              [
+                "**Scrunch**",
+                "4 + agent analytics",
+                "$250/mo (Starter); AXP = enterprise",
+                "Serves AI-optimized content at the CDN layer (not your pages)",
+                "Re-measures"
+              ],
+              [
+                "**Brandlight**",
+                "5",
+                "~$199/mo (third-party est.); sales-gated",
+                "Content drafting; native publishing unconfirmed",
+                "n/a"
+              ],
+              [
+                "**SolCrys**",
+                "5",
+                "Free audit; paid from $99/mo (Pro $399; Custom from $2,000) — [pricing](https://app.solcrys.com/pricing)",
+                "Makes + ships the page change in-platform (human-gated)",
+                "**Yes** — Recovery Score re-test"
+              ]
+            ]
+          }
+        },
+        {
           "heading": "The 8-vendor closed-loop scorecard",
           "body": [
-            "Grades: Full / Partial / Missing. We grade what's in production today (May 2026), not the roadmap. Where a vendor shipped meaningful closed-loop capability in 2026 — specifically Profound's Agents and Conductor's AgentStack — we credit them.",
+            "Grades: Full / Partial / Missing. We grade what's in production today (June 2026), not the roadmap. Where a vendor shipped meaningful closed-loop capability in 2026 — specifically Profound's Agents and Conductor's AgentStack — we credit them. Every grade is sourced from each vendor's own announcements or independent reviews: Conductor [AgentStack](https://www.cmswire.com/digital-experience/conductor-launches-agentstack-for-aeo/), [Profound](https://www.vismore.ai/blog/profound-review), [Peec AI](https://discoveredlabs.com/blog/peec-ai-review-best-for-ai-visibility-monitoring-use-cases-limits-alternatives), [Otterly](https://otterly.ai/pricing), and [Scrunch's edge-served AXP](https://scrunch.com/platform/agent-experience/) (acquired by Sitecore in June 2026). One caveat on the numbers themselves: sampling-based monitors materially undercount — in one independent [test](https://www.ekamoira.com/blog/ahrefs-for-ai-visibility-brand-radar-review-what-it-still-can-t-track-2026), Ahrefs Brand Radar reported 3 ChatGPT mentions versus 123 measured manually — so treat any single vendor's headline figures as directional.",
             "A few honest reads on this table:"
           ],
           "bullets": [
@@ -23584,7 +23658,7 @@
             "Even vendors that ship execution often don't verify it. Here's the failure mode we see most often:",
             "A platform diagnoses a gap (\"you are losing prompt X to Competitor Y because Wikipedia cites Competitor Y's product page\"), generates a fix (\"here is a stronger product page draft with this answer-shape\"), the team ships the fix, and the platform's dashboard moves on to the next gap. Nobody re-runs prompt X on the same engines a week later to confirm the answer actually changed.",
             "Two things break when verification is missing:",
-            "The reason we built the SolCrys [Recovery Score](/aeo-recovery-score/) was specifically to operationalize verification as a customer-facing metric. It is the single number that tells a CMO \"of the fixes we shipped last quarter, X% measurably changed the AI answer.\" Without that number, \"we shipped 40 AEO actions this quarter\" is an activity report, not a results report."
+            "The reason we built the SolCrys [Recovery Score](/aeo-recovery-score/) was specifically to operationalize verification as a customer-facing metric. It is the single number that tells a CMO \"of the fixes we shipped last quarter, X% measurably changed the AI answer.\" Without that number, \"we shipped 40 AEO actions this quarter\" is an activity report, not a results report. Here is what verification looks like with a real result: SolCrys customer **NextSilicon** saw its mention rate climb from **1.9% to 7.4% in 45 days** — a near 4x lift in share of voice — after running the full loop end to end ([see customer results](/customers/))."
           ],
           "bullets": [
             "**You cannot prove ROI.** The board asks, \"what did the AEO platform actually move?\" and you have an output (pages shipped, briefs delivered) but not an outcome (answers changed, citations recovered). That's a hard conversation in budget season.",
@@ -23625,7 +23699,7 @@
           "body": [
             "If you'd like to see the four-step loop end to end — measurement to retest, with the Recovery Score on the final screen — [book a SolCrys demo](https://app.solcrys.com/contact-sales/). We'll walk through a real customer's loop (with permission), not a sales reel. If your situation is \"I have a dashboard already and the report is sitting on a shelf,\" that's specifically the conversation we want to have.",
             "And if you'd rather start with measurement and decide later, [run a free 10-prompt audit](https://app.solcrys.com/audit) on your brand. The audit output is the Measure step of the loop; if your team is ready to act on it, the rest of the loop is one decision away.",
-            "*Last updated 2026-05-22. Vendor capability grades are based on publicly documented features as of May 2026; specifically Profound's Agents and Workflows releases, Conductor's AgentStack (April 2026) and Conductor Data API (February 2026), and Scrunch's Agent Experience Platform documentation. Where vendor capability shifts, we re-grade and re-publish quarterly. Disclosure: SolCrys operates one of the platforms in this comparison.*"
+            "Last updated 2026-06-28. Vendor capability grades and pricing are based on publicly documented features and vendor or third-party pricing as of June 2026 — including Profound's Agents and Workflows, Conductor's AgentStack (April 2026) and Data API (February 2026), and Scrunch's Agent Experience Platform (Scrunch was acquired by Sitecore in June 2026). Prices change often; verify on each vendor's site before buying. Where vendor capability shifts, we re-grade and re-publish quarterly. Disclosure: SolCrys operates one of the platforms in this comparison."
           ]
         }
       ],
@@ -23657,7 +23731,25 @@
         {
           "question": "Why isn't every vendor doing this if it's better?",
           "answer": "Three reasons. The build is structurally expensive (see \"why most vendors stop at diagnosis\" above). The market is still being educated — many buyers in 2026 are still in \"I need to see my number\" mode, not \"I need to ship the fix\" mode, so dashboards still sell. And the verification step requires a discipline most vendors haven't built — running the same prompts on the same cadence and reporting deltas rather than absolute numbers. It will come; in mid-2026 it's still the differentiator."
+        },
+        {
+          "question": "How much do closed-loop AEO platforms cost?",
+          "answer": "Entry pricing ranges from roughly $29–95/mo for monitoring-only tools (Otterly, Peec AI) to enterprise contracts for full suites (Conductor, Profound, and Scrunch's AXP). SolCrys starts with a free audit (no credit card), then Starter at $99/mo, Pro at $399/mo, and Custom from $2,000/mo ([see pricing](https://app.solcrys.com/pricing)). Pricing changes often, so figures in this guide are cited from each vendor or third-party reviews as of June 2026 — verify before you buy."
+        },
+        {
+          "question": "Which AEO platforms actually publish content, and which only draft it?",
+          "answer": "Most so-called execution tools draft content and hand it to a human to publish: Profound's Agents and Conductor's AgentStack both keep a human in the loop. Scrunch takes a different route — it serves AI-optimized content to crawlers at the CDN layer rather than editing your canonical pages. SolCrys makes and ships the page change in-platform behind a human approval gate, then re-verifies the fix with a Recovery Score. No platform on this list auto-publishes without human sign-off."
         }
+      ],
+      "sources": [
+        {"label": "Vismore — Profound review (2026-04-25)", "url": "https://www.vismore.ai/blog/profound-review"},
+        {"label": "CMSWire — Conductor launches AgentStack for AEO", "url": "https://www.cmswire.com/digital-experience/conductor-launches-agentstack-for-aeo/"},
+        {"label": "Discovered Labs — Peec AI review", "url": "https://discoveredlabs.com/blog/peec-ai-review-best-for-ai-visibility-monitoring-use-cases-limits-alternatives"},
+        {"label": "Otterly — pricing", "url": "https://otterly.ai/pricing"},
+        {"label": "Scrunch — Agent Experience Platform (CDN-layer serving)", "url": "https://scrunch.com/platform/agent-experience/"},
+        {"label": "Sitecore — acquires Scrunch (2026-06-03)", "url": "https://www.sitecore.com/company/newsroom/press-releases/2026/06/sitecore-acquires-scrunch-to-help-brands-influence-discovery--and-buying-decisions"},
+        {"label": "Brandlight — AI visibility platform", "url": "https://www.brandlight.ai/"},
+        {"label": "Ekamoira — Ahrefs Brand Radar limits and Writesonic undercount test", "url": "https://www.ekamoira.com/blog/ahrefs-for-ai-visibility-brand-radar-review-what-it-still-can-t-track-2026"}
       ]
     },
     {
