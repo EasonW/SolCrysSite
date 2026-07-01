@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AI Recommendation Score: Mentioned vs Recommended | SolCrys</title>
+    <meta name="description" content="AI can name your brand and recommend a rival in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you across ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, plots you against every competitor, and shows the verbatim line behind every point." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-recommendation-score/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-01" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AI Recommendation Score: Mentioned vs Recommended | SolCrys" />
+    <meta property="og:description" content="AI can name your brand and recommend a rival in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you across ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, plots you against every competitor, and shows the verbatim line behind every point." />
+    <meta property="og:url" content="https://solcrys.com/ai-recommendation-score/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-recommendation-score.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-recommendation-score.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AI Recommendation Score","item":"https://solcrys.com/ai-recommendation-score/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AI mentioned you. Did it recommend you?","description":"AI can name your brand and recommend a rival in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you across ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, plots you against every competitor, and shows the verbatim line behind every point.","dateModified":"2026-07-01","datePublished":"2026-07-01","mainEntityOfPage":"https://solcrys.com/ai-recommendation-score/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-recommendation-score/","mainEntity":[{"@type":"Question","name":"Does AI recommend my brand or just mention it?","acceptedAnswer":{"@type":"Answer","text":"Those are two different things. An answer engine can name your brand and still recommend a competitor in the next sentence. The Recommendation Score separates them: it grades every AI answer 0-100 on how favorably it positions you when you appear, so you can see whether a mention was an endorsement, a neutral listing, or a setup for a rival."}},{"@type":"Question","name":"What's the difference between mention rate and the Recommendation Score?","acceptedAnswer":{"@type":"Answer","text":"Mention rate counts presence: did the answer name you? The Recommendation Score measures preference: when it named you, did it make you the default pick, a hedged maybe, or talk the buyer out of you? A brand can lead on mentions and still lose the buyer inside the same answer."}},{"@type":"Question","name":"How does SolCrys score how favorably AI describes my brand?","acceptedAnswer":{"@type":"Answer","text":"It reads each answer and scores your brand from a transparent set of factors: a baseline for being mentioned in scope, points up for praise, recommendation, being the default pick and prominent placement, and points down for caveats, concerns and disrecommendations. A flat \"avoid\" caps the score low. Every point, up or down, is tied to a verbatim line from the answer."}},{"@type":"Question","name":"Which AI engines does the Recommendation Score cover?","acceptedAnswer":{"@type":"Answer","text":"ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, on your own buyer prompts. Because it runs per engine, you can see where you own the recommendation and where you barely register, a difference a single blended number would hide."}},{"@type":"Question","name":"Can I see why my Recommendation Score is what it is?","acceptedAnswer":{"@type":"Answer","text":"Yes. The headline is a position on a map of visibility versus recommendation, with every competitor plotted alongside you. Open any prompt and you see, answer by answer, which engines recommended you, which recommended a rival, and the exact sentence behind each call, so the number points straight at the work."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>AI mentioned you. Did it recommend you?</h1>
+        <p class="seo-lede">Mention rate tells you an AI answer named your brand. It can&#39;t tell you whether the answer recommended you or recommended a competitor in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you, plots you against every competitor on one map, and ties every point to a verbatim line from the answer.</p>
+        <p>Updated 2026-07-01</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Does AI recommend my brand or just mention it?</li><li>How do I measure how favorably AI describes my brand?</li><li>What&#39;s the difference between being mentioned and being recommended by AI?</li><li>How do I score AI recommendations across ChatGPT, Gemini, and Perplexity?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Most AI-visibility tools answer one question: did the engine name you? The question that actually moves deals is harder. When the answer named you, did it recommend you, or did it recommend a competitor in the next sentence? Being in the answer is not the same as being the choice.</p><p>The Recommendation Score grades every AI answer on a 0-100 scale for how favorably it positions your brand: not just whether you appear, but whether you&#39;re the default pick, a hedged maybe, or named-and-then-talked-out-of. It runs across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, on the prompts your buyers actually ask. It plots you and every competitor on a single map. And every point, up or down, is tied to a verbatim line from the answer itself. Not a vibe. A score you can audit against what the model literally said.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Mention rate measures presence. It can&#39;t measure preference.</h2>
+      <p>Share of voice and mention rate were the first metrics AEO tools shipped, because presence is the easy thing to count. But a brand can be everywhere in the answer and still lose the buyer:</p>
+      <ul class="seo-list"><li>It&#39;s named once, as an afterthought, while a rival gets the recommendation.</li><li>It&#39;s listed in a roundup but never called a good fit.</li><li>It&#39;s described with vague or stale positioning that undersells it.</li><li>It&#39;s named and then warned against: &quot;powerful, but the setup is a headache.&quot;</li><li>It&#39;s flagged with a real concern: &quot;limited independent validation.&quot;</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Named is not chosen</h2>
+      <p>In every one of those cases, mention rate scores a win. The buyer reads a loss. That gap, between named and chosen, is the whole game in answer engines, because the model isn&#39;t returning ten blue links for the buyer to judge. It&#39;s doing the judging, out loud, and handing over a verdict.</p><p>We&#39;ve written before about <a href="/ai-share-of-recommendation/" target="_blank" rel="noopener noreferrer">AI Share of Recommendation</a> as the metric beyond share of voice. The Recommendation Score is how SolCrys now puts a number on it, per answer.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A recommendation isn&#39;t yes or no. It&#39;s a position on a scale.</h2>
+      <p>The instinct is to track recommendation as a rate: out of 60 prompts, how many recommended you? That binary undercounts reality, because &quot;recommended&quot; hides a wide spread. Consider how an engine can position the same brand:</p>
+      <ul class="seo-list"><li><strong>Named, neutral.</strong> You&#39;re in the list, described factually, no endorsement either way.</li><li><strong>Praised.</strong> The answer says something good about you, but stops short of a pick.</li><li><strong>Recommended.</strong> A clear, confident &quot;this is a strong option for X.&quot;</li><li><strong>The default pick.</strong> The answer opens with you, calls you the best or the obvious choice, and everyone else is the alternative.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What the score actually measures</h2>
+      <p>And the same spread runs in the other direction: a caveat (&quot;steep learning curve&quot;), a real concern (&quot;limited independent validation&quot;), or a flat disrecommendation (&quot;I wouldn&#39;t build on it&quot;). A yes/no rate flattens all of that into one bit. A score keeps the shape. It builds up, and down, from a transparent set of factors:</p>
+      <ul class="seo-list"><li><strong>You start from the middle of the scale</strong> for being mentioned and in scope. A bare, neutral mention sits at the midpoint, not the top.</li><li><strong>The score climbs</strong> the more strongly the answer endorses you (praise, then recommendation, then default pick) and the more prominently you&#39;re placed: named first and in the summary beats buried at the bottom of a list.</li><li><strong>The score falls</strong> for caveats, concerns, and disrecommendations, weighted by how damaging they are.</li><li><strong>A flat &quot;avoid&quot; overrides everything.</strong> A brand that&#39;s well-placed and praised but that the answer ultimately tells the buyer to avoid cannot net a favorable score. The endorsement doesn&#39;t get to cancel out the rejection.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to read the score, per answer</h2>
+      <p>Read the result as six plain tiers, so no one has to decode a grade:</p>
+      
+      <table>
+              <thead><tr><th>Tier</th><th>What the answer did</th></tr></thead>
+              <tbody><tr><td>Excellent</td><td>The answer&#39;s top or default pick. You own the recommendation.</td></tr><tr><td>Good</td><td>Clearly recommended and prominent. A confident yes, maybe one caveat.</td></tr><tr><td>Average</td><td>In the mix but not the default. A bare, neutral mention lands here, mid-scale.</td></tr><tr><td>Poor</td><td>Net-negative. Concerns dominate, or you&#39;re placed at the bottom.</td></tr><tr><td>Critical</td><td>Actively warned against or &quot;not ready.&quot; A reputation or readiness problem.</td></tr><tr><td>Not mentioned</td><td>Absent on a prompt where you should appear. You&#39;re not in the conversation.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>On a neutral category: a buyer asks an engine, &quot;What&#39;s the best project-management tool for a small remote design team?&quot; The answer names three. The first, which it opens with and calls &quot;the best fit for design-led teams,&quot; scores <strong>Excellent</strong>. The second, recommended but only in passing after the winner, lands in <strong>Good</strong>: solid, but it isn&#39;t the pick. The third is named, then flagged: &quot;powerful, but overkill and pricey for a small team.&quot; That caveat drags it into <strong>Poor</strong>.</p><p>Three brands, all &quot;mentioned,&quot; three completely different outcomes. Mention rate would have scored all three identically.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Every point comes with the receipt</h2>
+      <p>This is the part most AI-visibility scores skip. They hand you a number out of a black box, a &quot;visibility index,&quot; a &quot;brand score,&quot; and ask you to trust the methodology you can&#39;t see. When the number moves, you can&#39;t tell whether the model changed its mind about you or the tool changed its math.</p><p>The Recommendation Score is built the opposite way. Every favorability point and every penalty is grounded in a verbatim quote from the answer. If you got credit for being recommended, the score shows you the exact sentence that recommended you. If you lost points for a concern, it shows you the line that raised it. No grounded line, no points: a claim the score can&#39;t quote, it won&#39;t count. That single rule is what kills the &quot;everyone looks neutral&quot; fog that makes most sentiment tools useless. A brand only earns favorability it can prove the answer actually gave it.</p><p>For a CMO, that&#39;s the difference between a dashboard you defend in a board meeting and one you quietly stop trusting. &quot;Our score dropped four points&quot; is a shrug. &quot;Three of our five answers stopped calling us the best fit and started hedging, here are the exact sentences&quot; is a meeting agenda.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>One map: how often AI names you, and how well it treats you when it does</h2>
+      <p>Presence and preference are two different axes, so SolCrys plots them as two different axes, and puts every brand in your category on the same chart. Across the bottom: visibility, how often AI mentions you at all. Up the side: recommendation, how favorably it positions you when it does. Where you land tells you which problem you actually have, because the four corners are four completely different situations:</p>
+      <ul class="seo-list"><li><strong>Seen and backed.</strong> AI names you and recommends you. You&#39;re the answer. The work here is defending the position.</li><li><strong>Backed but rarely seen.</strong> When the engine finds you, it likes you, but it doesn&#39;t find you often. Your problem isn&#39;t persuasion, it&#39;s reach: more sources, more coverage, more of the prompts.</li><li><strong>Seen but not backed.</strong> Named everywhere and chosen nowhere. You&#39;re in the room and losing the pick, usually a brand-grounding or content problem, not a visibility one. This is the corner mention rate hides completely: it scores you as a winner while the buyer walks.</li><li><strong>Neither.</strong> You&#39;re not in the conversation. The loudest signal on the board.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The map shows where. The prompt shows why.</h2>
+      <p>Because your competitors are on the same map, one look shows the gap between you and the leader, and exactly who holds the corner you want. A rival parked in &quot;seen and backed&quot; while you sit in &quot;seen but not backed&quot; isn&#39;t beating you on exposure; it&#39;s beating you on the verdict. That&#39;s a different fight, and now you can see it.</p><p>But a position on a map is a diagnosis, not an explanation. So every point on the chart opens up. Click into any prompt and you see, answer by answer: which engines recommended you, which recommended a competitor, and the exact sentence behind each call, the line that endorsed you, the line that raised the concern, the line that handed the pick to a rival. That&#39;s the difference between a metric and an instruction: &quot;you&#39;re losing the recommendation on comparison prompts&quot; is a direction; &quot;on these three answers the engine calls the competitor &#39;the more established choice&#39; and never names your differentiator, here are the quotes&quot; is the work, already located.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>One answer is noise. The pattern is the signal.</h2>
+      <p>Ask the same question twice and a model can answer it two different ways. So a single answer&#39;s score is never the headline; the distribution across many answers is.</p><p>The headline Recommendation Score is the average across every answer we run for a prompt set, counting the answers where you&#39;re absent as a zero. That&#39;s deliberate. It means the number rewards showing up <strong>and</strong> being favored consistently: winning one lucky answer while you&#39;re invisible in the other nine doesn&#39;t earn you a high score. A brand mentioned in two of ten answers can&#39;t hide behind the two; the eight zeros are part of the truth.</p><p>Underneath the headline, the full spread is on the leaderboard: your best answer to your worst when you <strong>are</strong> mentioned, your typical result, and the overall average with the absences folded in. The gap between &quot;typical when mentioned&quot; and &quot;overall&quot; is exactly how much your invisibility is costing you. And because it runs per engine, you can see that you own the recommendation in one engine and barely register in another, a difference no blended number would show you.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Head-to-head: the gap is the result</h2>
+      <p>When a buyer asks &quot;Brand A vs Brand B,&quot; the engine writes a verdict. The Recommendation Score reads it as one: both brands get scored on the same answer, so the gap between your score and your rival&#39;s is the head-to-head result. A &quot;Good&quot; 68 still loses to a competitor&#39;s &quot;Excellent&quot; 91 on the same answer, and now you can see the size of the gap, not just who got named. <a href="/track-where-competitors-get-cited-in-ai/" target="_blank" rel="noopener noreferrer">Tracking where competitors get cited</a> tells you they&#39;re in the room; the score gap tells you they&#39;re winning it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>From score to action</h2>
+      <p>A score that just sits there is a vanity metric. The point of grading every answer is that a low score is also a diagnosis:</p>
+      <ul class="seo-list"><li><strong>Average because you&#39;re not the default?</strong> The answer likes you but reaches for someone else first. Strengthen the proof for the exact use case the prompt is about.</li><li><strong>Average because you&#39;re placed last?</strong> A prominence problem: the engine mentions you but never surfaces you early, usually a source and content-coverage gap.</li><li><strong>Critical?</strong> Something in the model&#39;s grounding is actively working against you: a concern it keeps repeating, a disrecommendation reason. That&#39;s the highest-priority fix, and it&#39;s usually a brand-accuracy problem before it&#39;s a content one. When the answer isn&#39;t unfavorable but simply <strong>wrong</strong> about you, that&#39;s a different instrument, see <a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">whether AI is telling the truth about your brand</a>.</li><li><strong>Not mentioned (0)?</strong> The loudest signal of all. You&#39;re not losing the recommendation; you&#39;re not in the conversation. Start with <a href="/how-to-track-ai-share-of-voice/" target="_blank" rel="noopener noreferrer">tracking your AI share of voice</a> to see where the gaps are.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The bottom line</h2>
+      <p>That&#39;s the SolCrys loop: measure the score, diagnose which factor is dragging it, execute the content and source fixes, and verify the score recovered on the next run. The number isn&#39;t the deliverable. The movement is.</p><p>Mention rate was the right metric for the era when AI answers were a novelty. Now they&#39;re the shortlist. The question is no longer whether the machine knows you exist; it&#39;s whether, when a buyer asks, the machine recommends you, hedges on you, or talks the buyer out of you. Being cited is the first step; being recommended is the goal. The Recommendation Score puts that on a 0-100 scale, per answer, per engine, with every competitor on the same map and the receipt behind every point.</p><p>See how AI scores your brand. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does AI recommend my brand or just mention it?</h3>
+            <p>Those are two different things. An answer engine can name your brand and still recommend a competitor in the next sentence. The Recommendation Score separates them: it grades every AI answer 0-100 on how favorably it positions you when you appear, so you can see whether a mention was an endorsement, a neutral listing, or a setup for a rival.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between mention rate and the Recommendation Score?</h3>
+            <p>Mention rate counts presence: did the answer name you? The Recommendation Score measures preference: when it named you, did it make you the default pick, a hedged maybe, or talk the buyer out of you? A brand can lead on mentions and still lose the buyer inside the same answer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does SolCrys score how favorably AI describes my brand?</h3>
+            <p>It reads each answer and scores your brand from a transparent set of factors: a baseline for being mentioned in scope, points up for praise, recommendation, being the default pick and prominent placement, and points down for caveats, concerns and disrecommendations. A flat &quot;avoid&quot; caps the score low. Every point, up or down, is tied to a verbatim line from the answer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which AI engines does the Recommendation Score cover?</h3>
+            <p>ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, on your own buyer prompts. Because it runs per engine, you can see where you own the recommendation and where you barely register, a difference a single blended number would hide.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I see why my Recommendation Score is what it is?</h3>
+            <p>Yes. The headline is a position on a map of visibility versus recommendation, with every competitor plotted alongside you. Open any prompt and you see, answer by answer, which engines recommended you, which recommended a rival, and the exact sentence behind each call, so the number points straight at the work.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/track-where-competitors-get-cited-in-ai/">How to Track Where Your Competitors Get Cited in AI Search (2026)</a></h3>
+            <p>A 4-step playbook for tracking which competitors AI engines cite — competitive share of voice, citation source maps, and replacement rate. Real SolCrys data.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Ba89cd-a.js"></script>
+  </body>
+</html>

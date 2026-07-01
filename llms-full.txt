@@ -20707,3 +20707,185 @@ A: Not by itself. Maps ranking and AI citation are two separate games. Maps is g
 
 Q: How do I optimize 'near me' searches for AI?
 A: Model city and neighborhood, not radius. Language models rewrite "near me" into an explicit city, and geo-precision is still coarse — one test put Google AI Mode results 4.9 miles out versus 0.3 miles on Maps (Birdeye). Build your prompt sets and pages around explicit city/neighborhood phrasing.
+
+## AI Recommendation Score
+
+Mention rate tells you an AI answer named your brand. It can't tell you whether the answer recommended you or recommended a competitor in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you, plots you against every competitor on one map, and ties every point to a verbatim line from the answer.
+
+### Questions this guide answers
+
+- Does AI recommend my brand or just mention it?
+- How do I measure how favorably AI describes my brand?
+- What's the difference between being mentioned and being recommended by AI?
+- How do I score AI recommendations across ChatGPT, Gemini, and Perplexity?
+
+### Direct answer
+
+Most AI-visibility tools answer one question: did the engine name you? The question that actually moves deals is harder. When the answer named you, did it recommend you, or did it recommend a competitor in the next sentence? Being in the answer is not the same as being the choice.
+
+The Recommendation Score grades every AI answer on a 0-100 scale for how favorably it positions your brand: not just whether you appear, but whether you're the default pick, a hedged maybe, or named-and-then-talked-out-of. It runs across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, on the prompts your buyers actually ask. It plots you and every competitor on a single map. And every point, up or down, is tied to a verbatim line from the answer itself. Not a vibe. A score you can audit against what the model literally said.
+
+
+
+
+### Mention rate measures presence. It can't measure preference.
+
+Share of voice and mention rate were the first metrics AEO tools shipped, because presence is the easy thing to count. But a brand can be everywhere in the answer and still lose the buyer:
+
+
+- It's named once, as an afterthought, while a rival gets the recommendation.
+- It's listed in a roundup but never called a good fit.
+- It's described with vague or stale positioning that undersells it.
+- It's named and then warned against: "powerful, but the setup is a headache."
+- It's flagged with a real concern: "limited independent validation."
+
+
+
+### Named is not chosen
+
+In every one of those cases, mention rate scores a win. The buyer reads a loss. That gap, between named and chosen, is the whole game in answer engines, because the model isn't returning ten blue links for the buyer to judge. It's doing the judging, out loud, and handing over a verdict.
+
+We've written before about [AI Share of Recommendation](/ai-share-of-recommendation/) as the metric beyond share of voice. The Recommendation Score is how SolCrys now puts a number on it, per answer.
+
+
+
+
+### A recommendation isn't yes or no. It's a position on a scale.
+
+The instinct is to track recommendation as a rate: out of 60 prompts, how many recommended you? That binary undercounts reality, because "recommended" hides a wide spread. Consider how an engine can position the same brand:
+
+
+- **Named, neutral.** You're in the list, described factually, no endorsement either way.
+- **Praised.** The answer says something good about you, but stops short of a pick.
+- **Recommended.** A clear, confident "this is a strong option for X."
+- **The default pick.** The answer opens with you, calls you the best or the obvious choice, and everyone else is the alternative.
+
+
+
+### What the score actually measures
+
+And the same spread runs in the other direction: a caveat ("steep learning curve"), a real concern ("limited independent validation"), or a flat disrecommendation ("I wouldn't build on it"). A yes/no rate flattens all of that into one bit. A score keeps the shape. It builds up, and down, from a transparent set of factors:
+
+
+- **You start from the middle of the scale** for being mentioned and in scope. A bare, neutral mention sits at the midpoint, not the top.
+- **The score climbs** the more strongly the answer endorses you (praise, then recommendation, then default pick) and the more prominently you're placed: named first and in the summary beats buried at the bottom of a list.
+- **The score falls** for caveats, concerns, and disrecommendations, weighted by how damaging they are.
+- **A flat "avoid" overrides everything.** A brand that's well-placed and praised but that the answer ultimately tells the buyer to avoid cannot net a favorable score. The endorsement doesn't get to cancel out the rejection.
+
+
+
+### How to read the score, per answer
+
+Read the result as six plain tiers, so no one has to decode a grade:
+
+
+
+Tier | What the answer did
+--- | ---
+Excellent | The answer's top or default pick. You own the recommendation.
+Good | Clearly recommended and prominent. A confident yes, maybe one caveat.
+Average | In the mix but not the default. A bare, neutral mention lands here, mid-scale.
+Poor | Net-negative. Concerns dominate, or you're placed at the bottom.
+Critical | Actively warned against or "not ready." A reputation or readiness problem.
+Not mentioned | Absent on a prompt where you should appear. You're not in the conversation.
+
+
+### A worked example
+
+On a neutral category: a buyer asks an engine, "What's the best project-management tool for a small remote design team?" The answer names three. The first, which it opens with and calls "the best fit for design-led teams," scores **Excellent**. The second, recommended but only in passing after the winner, lands in **Good**: solid, but it isn't the pick. The third is named, then flagged: "powerful, but overkill and pricey for a small team." That caveat drags it into **Poor**.
+
+Three brands, all "mentioned," three completely different outcomes. Mention rate would have scored all three identically.
+
+
+
+
+### Every point comes with the receipt
+
+This is the part most AI-visibility scores skip. They hand you a number out of a black box, a "visibility index," a "brand score," and ask you to trust the methodology you can't see. When the number moves, you can't tell whether the model changed its mind about you or the tool changed its math.
+
+The Recommendation Score is built the opposite way. Every favorability point and every penalty is grounded in a verbatim quote from the answer. If you got credit for being recommended, the score shows you the exact sentence that recommended you. If you lost points for a concern, it shows you the line that raised it. No grounded line, no points: a claim the score can't quote, it won't count. That single rule is what kills the "everyone looks neutral" fog that makes most sentiment tools useless. A brand only earns favorability it can prove the answer actually gave it.
+
+For a CMO, that's the difference between a dashboard you defend in a board meeting and one you quietly stop trusting. "Our score dropped four points" is a shrug. "Three of our five answers stopped calling us the best fit and started hedging, here are the exact sentences" is a meeting agenda.
+
+
+
+
+### One map: how often AI names you, and how well it treats you when it does
+
+Presence and preference are two different axes, so SolCrys plots them as two different axes, and puts every brand in your category on the same chart. Across the bottom: visibility, how often AI mentions you at all. Up the side: recommendation, how favorably it positions you when it does. Where you land tells you which problem you actually have, because the four corners are four completely different situations:
+
+
+- **Seen and backed.** AI names you and recommends you. You're the answer. The work here is defending the position.
+- **Backed but rarely seen.** When the engine finds you, it likes you, but it doesn't find you often. Your problem isn't persuasion, it's reach: more sources, more coverage, more of the prompts.
+- **Seen but not backed.** Named everywhere and chosen nowhere. You're in the room and losing the pick, usually a brand-grounding or content problem, not a visibility one. This is the corner mention rate hides completely: it scores you as a winner while the buyer walks.
+- **Neither.** You're not in the conversation. The loudest signal on the board.
+
+
+
+### The map shows where. The prompt shows why.
+
+Because your competitors are on the same map, one look shows the gap between you and the leader, and exactly who holds the corner you want. A rival parked in "seen and backed" while you sit in "seen but not backed" isn't beating you on exposure; it's beating you on the verdict. That's a different fight, and now you can see it.
+
+But a position on a map is a diagnosis, not an explanation. So every point on the chart opens up. Click into any prompt and you see, answer by answer: which engines recommended you, which recommended a competitor, and the exact sentence behind each call, the line that endorsed you, the line that raised the concern, the line that handed the pick to a rival. That's the difference between a metric and an instruction: "you're losing the recommendation on comparison prompts" is a direction; "on these three answers the engine calls the competitor 'the more established choice' and never names your differentiator, here are the quotes" is the work, already located.
+
+
+
+
+### One answer is noise. The pattern is the signal.
+
+Ask the same question twice and a model can answer it two different ways. So a single answer's score is never the headline; the distribution across many answers is.
+
+The headline Recommendation Score is the average across every answer we run for a prompt set, counting the answers where you're absent as a zero. That's deliberate. It means the number rewards showing up **and** being favored consistently: winning one lucky answer while you're invisible in the other nine doesn't earn you a high score. A brand mentioned in two of ten answers can't hide behind the two; the eight zeros are part of the truth.
+
+Underneath the headline, the full spread is on the leaderboard: your best answer to your worst when you **are** mentioned, your typical result, and the overall average with the absences folded in. The gap between "typical when mentioned" and "overall" is exactly how much your invisibility is costing you. And because it runs per engine, you can see that you own the recommendation in one engine and barely register in another, a difference no blended number would show you.
+
+
+
+
+### Head-to-head: the gap is the result
+
+When a buyer asks "Brand A vs Brand B," the engine writes a verdict. The Recommendation Score reads it as one: both brands get scored on the same answer, so the gap between your score and your rival's is the head-to-head result. A "Good" 68 still loses to a competitor's "Excellent" 91 on the same answer, and now you can see the size of the gap, not just who got named. [Tracking where competitors get cited](/track-where-competitors-get-cited-in-ai/) tells you they're in the room; the score gap tells you they're winning it.
+
+
+
+
+### From score to action
+
+A score that just sits there is a vanity metric. The point of grading every answer is that a low score is also a diagnosis:
+
+
+- **Average because you're not the default?** The answer likes you but reaches for someone else first. Strengthen the proof for the exact use case the prompt is about.
+- **Average because you're placed last?** A prominence problem: the engine mentions you but never surfaces you early, usually a source and content-coverage gap.
+- **Critical?** Something in the model's grounding is actively working against you: a concern it keeps repeating, a disrecommendation reason. That's the highest-priority fix, and it's usually a brand-accuracy problem before it's a content one. When the answer isn't unfavorable but simply **wrong** about you, that's a different instrument, see [whether AI is telling the truth about your brand](/is-ai-telling-the-truth-about-your-brand/).
+- **Not mentioned (0)?** The loudest signal of all. You're not losing the recommendation; you're not in the conversation. Start with [tracking your AI share of voice](/how-to-track-ai-share-of-voice/) to see where the gaps are.
+
+
+
+### The bottom line
+
+That's the SolCrys loop: measure the score, diagnose which factor is dragging it, execute the content and source fixes, and verify the score recovered on the next run. The number isn't the deliverable. The movement is.
+
+Mention rate was the right metric for the era when AI answers were a novelty. Now they're the shortlist. The question is no longer whether the machine knows you exist; it's whether, when a buyer asks, the machine recommends you, hedges on you, or talks the buyer out of you. Being cited is the first step; being recommended is the goal. The Recommendation Score puts that on a 0-100 scale, per answer, per engine, with every competitor on the same map and the receipt behind every point.
+
+See how AI scores your brand. [Start Free](https://app.solcrys.com/audit).
+
+
+
+
+
+### FAQ
+
+Q: Does AI recommend my brand or just mention it?
+A: Those are two different things. An answer engine can name your brand and still recommend a competitor in the next sentence. The Recommendation Score separates them: it grades every AI answer 0-100 on how favorably it positions you when you appear, so you can see whether a mention was an endorsement, a neutral listing, or a setup for a rival.
+
+Q: What's the difference between mention rate and the Recommendation Score?
+A: Mention rate counts presence: did the answer name you? The Recommendation Score measures preference: when it named you, did it make you the default pick, a hedged maybe, or talk the buyer out of you? A brand can lead on mentions and still lose the buyer inside the same answer.
+
+Q: How does SolCrys score how favorably AI describes my brand?
+A: It reads each answer and scores your brand from a transparent set of factors: a baseline for being mentioned in scope, points up for praise, recommendation, being the default pick and prominent placement, and points down for caveats, concerns and disrecommendations. A flat "avoid" caps the score low. Every point, up or down, is tied to a verbatim line from the answer.
+
+Q: Which AI engines does the Recommendation Score cover?
+A: ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, on your own buyer prompts. Because it runs per engine, you can see where you own the recommendation and where you barely register, a difference a single blended number would hide.
+
+Q: Can I see why my Recommendation Score is what it is?
+A: Yes. The headline is a position on a map of visibility versus recommendation, with every competitor plotted alongside you. Open any prompt and you see, answer by answer, which engines recommended you, which recommended a rival, and the exact sentence behind each call, so the number points straight at the work.
