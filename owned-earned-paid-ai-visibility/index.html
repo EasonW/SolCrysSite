@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Owned, Earned, Paid: Your Media Mix for AI Visibility | SolCrys</title>
+    <meta name="description" content="The owned/earned/paid split you use for marketing maps onto AI visibility with one twist: the hierarchy flips. In an AI answer, trust runs inverse to control, the sources you own are trusted least, the independent ones you can&#39;t buy are trusted most. A map of each layer and where to focus." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/owned-earned-paid-ai-visibility/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-02" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Owned, Earned, Paid: Your Media Mix for AI Visibility | SolCrys" />
+    <meta property="og:description" content="The owned/earned/paid split you use for marketing maps onto AI visibility with one twist: the hierarchy flips. In an AI answer, trust runs inverse to control, the sources you own are trusted least, the independent ones you can&#39;t buy are trusted most. A map of each layer and where to focus." />
+    <meta property="og:url" content="https://solcrys.com/owned-earned-paid-ai-visibility/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/owned-earned-paid-ai-visibility.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/owned-earned-paid-ai-visibility.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Owned, Earned, Paid: How Your Media Mix Maps to AI Visibility (and Why the Hierarchy Flips)","item":"https://solcrys.com/owned-earned-paid-ai-visibility/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Owned, Earned, Paid: How Your Media Mix Maps to AI Visibility (and Why the Hierarchy Flips)","description":"The owned/earned/paid split you use for marketing maps onto AI visibility with one twist: the hierarchy flips. In an AI answer, trust runs inverse to control, the sources you own are trusted least, the independent ones you can't buy are trusted most. A map of each layer and where to focus.","dateModified":"2026-07-02","datePublished":"2026-07-02","mainEntityOfPage":"https://solcrys.com/owned-earned-paid-ai-visibility/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/owned-earned-paid-ai-visibility/","mainEntity":[{"@type":"Question","name":"How do owned, earned, and paid media affect AI search differently?","acceptedAnswer":{"@type":"Answer","text":"They differ by how much the model trusts them, and that ranking is roughly the reverse of how much you control them. Owned content (your site) is fully in your control but trusted least, because it's a self-claim. Earned coverage (independent journalists or analysts) is trusted most, because you didn't control it. Paid placements sit in the middle, discounted as paid but inheriting the trust of the domain they run on. All three are readable by the model; they just carry very different weight."}},{"@type":"Question","name":"Which media type does AI trust most?","acceptedAnswer":{"@type":"Answer","text":"Independent, hard-to-buy sources: genuine earned media, real customer voice, and community discussion. The model weights a claim higher the less it looks like you made it, because independent corroboration is harder to fake than self-description. That's why your own website, the thing you control most, is trusted least, and a journalist or a real customer saying the same thing moves the answer far more."}},{"@type":"Question","name":"Should I invest in my own website or third-party sources for AI visibility?","acceptedAnswer":{"@type":"Answer","text":"Both, but for different jobs. Your own site is the canonical the model reconciles other sources against, so it has to be clear and correct, that's table stakes. But it won't win a recommendation on its own, because the model discounts self-claims. The lever that moves whether you get recommended is third-party corroboration: earned coverage, customer case studies, community. Fix owned, then put the working budget into the independent layer."}},{"@type":"Question","name":"Do paid placements work for AI search?","acceptedAnswer":{"@type":"Answer","text":"Yes, conditionally. A sponsored article moves AI answers only when it runs on a domain the model already cites for your category and reads as genuine editorial rather than an ad. Then it's a durable corroboration asset that keeps working after the campaign ends. On the wrong domain or in an ad tone, it's reach the model ignores. It sits in the middle of the trust hierarchy, weaker than earned, stronger than your own page."}},{"@type":"Question","name":"Where should I focus my budget for AI visibility?","acceptedAnswer":{"@type":"Answer","text":"On the influenceable-independent middle: paid placements on domains the model already cites, customer-voice case studies aimed at the queries you win, and earning community mentions. Get your owned content correct as a floor, treat genuine earned media as the high-value prize you set up for, and spend the working budget where the model's trust and your ability to influence overlap. The first step is finding which sources the model already cites for your category, so you know where that overlap is."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>Owned, Earned, Paid: How Your Media Mix Maps to AI Visibility (and Why the Hierarchy Flips)</h1>
+        <p class="seo-lede">The owned, earned, and paid split you already use for marketing maps cleanly onto AI visibility, with one crucial twist: the hierarchy flips. Traditional media planning optimizes for reach and control, you value a channel by how many people it reaches and how much you control the message. An AI answer is formed differently. When a buyer asks an assistant, the model assembles the answer by corroborating across the sources it trusts, and it weights independent sources higher precisely because they aren&#39;t you talking about yourself. So AI trust runs inverse to control: the sources you own most (your own site) are trusted least, because they&#39;re self-claims, the independent voices you can&#39;t buy at all (journalists, analysts, real customers, community) are trusted most, and paid placements sit in the middle on both. The channel you&#39;d spend the most on for reach is not the one the model believes. This page maps each layer, owned, earned, paid, and the independent voices under them, to how AI actually weights it, and points you to the deep-dive for each.</p>
+        <p>Updated 2026-07-02</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do owned, earned, and paid media affect AI search differently?</li><li>Which media type does AI trust most?</li><li>Should I invest in my own website or third-party sources for AI visibility?</li><li>Do paid placements work for AI search?</li><li>Where should I focus my budget for AI visibility?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>The owned, earned, and paid split you use for marketing maps cleanly onto AI visibility, with one crucial twist: the hierarchy flips. Traditionally you value a channel by reach and control, how many people it reaches and how much you shape the message. An AI answer is formed differently.</p><p>When a buyer asks an assistant, the model assembles the answer by corroborating across the sources it trusts, and it weights independent sources higher precisely because they aren&#39;t you. So AI trust runs inverse to control: the sources you own most are trusted least (they&#39;re self-claims), the independent voices you can&#39;t buy are trusted most, and paid sits in the middle. The channel you&#39;d spend the most on for reach is not the one the model believes. Here&#39;s the map, and where each layer&#39;s deep-dive lives.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why the hierarchy flips</h2>
+      <p>It comes down to one fact about how AI answers form: the retrieval-based engines, ChatGPT, Perplexity, Gemini&#39;s grounding, build them by corroboration, not reach. The model decides what&#39;s true about you by seeing which sources agree, and it discounts anything that comes from you because you&#39;re the most biased witness about yourself (see <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>).</p><p>That single mechanic flips the media hierarchy on its head. Reach measures how many people a channel puts your message in front of. AI trust measures how much the model believes the message because of where it sits, and belief tracks independence, which is the opposite of control. Your owned site is total control and near-zero independent trust. Earned coverage is zero control and maximum trust. Everything else falls between. So you can&#39;t plan your AI-visibility mix the way you plan a reach campaign, the rankings run opposite.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The media mix, ranked by AI trust</h2>
+      <p>Order the channels by how much you control them and the AI-trust ranking falls out backwards, which is the whole point. Each row links to its deep-dive.</p>
+      
+      <table>
+              <thead><tr><th>Channel</th><th>Your control</th><th>AI-trust weight</th><th>Can the model read it?</th></tr></thead>
+              <tbody><tr><td>Owned, your own site</td><td>Full</td><td>Lowest, it reads as a self-claim</td><td>Yes</td></tr><tr><td>Paid, sponsored articles</td><td>Medium</td><td>Middle, discounted as paid, but inherits the domain&#39;s trust</td><td>Yes</td></tr><tr><td>Earned, PR, journalists, analysts</td><td>Low</td><td>Highest, it&#39;s independent</td><td>Yes</td></tr><tr><td>Customer voice and community</td><td>Lowest</td><td>High, independent and hard to buy</td><td>Yes</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Owned: read, but trusted least</h2>
+      <p>Your website is the one source the model trusts least about you, because it&#39;s a self-claim, and no amount of polish changes that. Owned content is still necessary, it&#39;s the canonical the model reconciles everything else against, so it has to be clear and correct. But it will not win a recommendation on its own. If you&#39;re pouring budget into your own pages and wondering why the AI still names a competitor, this is why: you&#39;re optimizing the layer the model discounts. Owned is table stakes, not the lever.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Earned: the highest-trust layer</h2>
+      <p>Independent coverage, a journalist or analyst choosing to write about you, is the source the model weights most, precisely because you didn&#39;t control it. It&#39;s also more measurable than it looks: a media hit is a discrete, dated event, which makes it the cleanest before/after in AEO. The catch is you don&#39;t control whether or when it happens. The full playbook for earning and measuring it is in <a href="/aeo-for-pr/" target="_blank" rel="noopener noreferrer">AEO for PR</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Paid: the controllable middle</h2>
+      <p>Paid placements, sponsored articles on trusted publications, are the layer you can control and deploy on demand, which is why they&#39;re useful, but the model discounts them as paid, so they sit in the middle on trust. They work only under two conditions: the domain is one the model already cites for your category, and the content reads as editorial rather than an ad. Done right, a sponsored article is a durable corroboration asset, not impressions. The details are in <a href="/do-sponsored-articles-move-ai-answers/" target="_blank" rel="noopener noreferrer">do sponsored articles move AI answers</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The independent voices you don&#39;t buy</h2>
+      <p>Under earned sit the two highest-trust, hardest-to-control sources: real customers and community. The model trusts them most because they&#39;re the hardest to fake. You can&#39;t buy them, but you&#39;re not helpless either. Customer case studies are the version of earned you can start manufacturing today, by publishing the conclusions your happy customers already reached, in their words (see <a href="/your-best-proof-is-private/" target="_blank" rel="noopener noreferrer">your best proof is private</a>). Community sources, Reddit, G2, forums, you influence by being genuinely worth talking about, not by placing content (see <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, and community sources</a>). This is the layer most brands under-invest in precisely because it&#39;s the one they can&#39;t just buy.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to allocate for AI</h2>
+      <p>The planning rule inverts too. For reach, you spend where you get the most eyeballs per dollar. For AI visibility, you spend where the model&#39;s trust and your ability to influence actually overlap.</p><p>That rules out the two extremes as your main bet. Pure owned is full control but the model discounts it, so it&#39;s a floor, not a strategy. Pure earned is maximum trust but you can&#39;t reliably summon it. The productive middle is the influenceable-independent layer: paid placements on domains the model already cites, customer-voice case studies aimed at the queries you win, and being worth citing in community. Get owned correct as your canonical, treat earned as the high-value prize you set up for, and put the working budget into the middle, where you can actually move the answer.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where to start</h2>
+      <p>Every one of these decisions runs on the same input: which sources the model already cites when someone asks your category&#39;s question. That tells you which domains are worth a paid placement, which outlets are worth pitching, and whether your own claims are even making it into the answer. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where the engines mention you, which sources they cite, and how they describe you, the map you need before you allocate a dollar.</p><p><a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want it run continuously across the mix, so you can see which layer is actually moving the answer.</p><p>Plan your AI-visibility mix by trust, not reach, and the budget goes to very different places than a traditional media plan would send it.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How do owned, earned, and paid media affect AI search differently?</h3>
+            <p>They differ by how much the model trusts them, and that ranking is roughly the reverse of how much you control them. Owned content (your site) is fully in your control but trusted least, because it&#39;s a self-claim. Earned coverage (independent journalists or analysts) is trusted most, because you didn&#39;t control it. Paid placements sit in the middle, discounted as paid but inheriting the trust of the domain they run on. All three are readable by the model; they just carry very different weight.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which media type does AI trust most?</h3>
+            <p>Independent, hard-to-buy sources: genuine earned media, real customer voice, and community discussion. The model weights a claim higher the less it looks like you made it, because independent corroboration is harder to fake than self-description. That&#39;s why your own website, the thing you control most, is trusted least, and a journalist or a real customer saying the same thing moves the answer far more.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I invest in my own website or third-party sources for AI visibility?</h3>
+            <p>Both, but for different jobs. Your own site is the canonical the model reconciles other sources against, so it has to be clear and correct, that&#39;s table stakes. But it won&#39;t win a recommendation on its own, because the model discounts self-claims. The lever that moves whether you get recommended is third-party corroboration: earned coverage, customer case studies, community. Fix owned, then put the working budget into the independent layer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do paid placements work for AI search?</h3>
+            <p>Yes, conditionally. A sponsored article moves AI answers only when it runs on a domain the model already cites for your category and reads as genuine editorial rather than an ad. Then it&#39;s a durable corroboration asset that keeps working after the campaign ends. On the wrong domain or in an ad tone, it&#39;s reach the model ignores. It sits in the middle of the trust hierarchy, weaker than earned, stronger than your own page.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Where should I focus my budget for AI visibility?</h3>
+            <p>On the influenceable-independent middle: paid placements on domains the model already cites, customer-voice case studies aimed at the queries you win, and earning community mentions. Get your owned content correct as a floor, treat genuine earned media as the high-value prize you set up for, and spend the working budget where the model&#39;s trust and your ability to influence overlap. The first step is finding which sources the model already cites for your category, so you know where that overlap is.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-for-pr/">AEO for PR: How to Prove Your Earned Media Actually Moved the AI Answer</a></h3>
+            <p>Earned media is the single most powerful AEO lever a brand has, because it&#39;s the corroboration layer AI trusts, but PR measurement wasn&#39;t built to see it. How comms teams measure whether a campaign, announcement, or media hit actually changed what AI says, with a clean before/after.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/do-sponsored-articles-move-ai-answers/">Do Sponsored Articles Move AI Answers? What Paid Placements on TechTarget, Forbes &amp; CIO Actually Buy You</a></h3>
+            <p>A sponsored article on TechTarget, Forbes, or CIO.com can change what AI says about you, but not the way a paid-media plan assumes. It works only when the domain is one the model already cites and the content reads as editorial, not an ad. Then it&#39;s a corroboration asset, not impressions. How to tell the difference, and measure it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/your-best-proof-is-private/">Your Best Proof Is Trapped in Private AI Chats. Here&#39;s How to Make It Public.</a></h3>
+            <p>There&#39;s a specific reason your &#39;why we&#39;re the best&#39; page does nothing in AI answers, and why a great specialist product stays invisible: the model discounts what you say about yourself, and your real proof happens in private chats and emails it can&#39;t read. How to move the private conclusion your customers already reached into public, in their words.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CH-qzPZO.js"></script>
+  </body>
+</html>
