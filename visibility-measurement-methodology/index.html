@@ -94,6 +94,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
     <meta name="author" content="SolCrys" />
     <meta name="date" content="2026-05-10" />
     <meta name="theme-color" content="#000000" />
@@ -102,7 +103,9 @@
     <meta property="og:title" content="How SolCrys Measures AI Visibility - Real-User Fidelity | SolCrys" />
     <meta property="og:description" content="How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable." />
     <meta property="og:url" content="https://solcrys.com/visibility-measurement-methodology/" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-05-08" />
+    <meta property="article:modified_time" content="2026-05-10" />
     <meta property="og:image" content="https://solcrys.com/og/visibility-measurement-methodology.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/visibility-measurement-methodology.png" />
@@ -142,7 +145,7 @@
     <!-- analytics:end -->
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AI Visibility Measurement Methodology","item":"https://solcrys.com/visibility-measurement-methodology/"}]}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How we measure AI visibility - real-user fidelity, not API approximations","description":"How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.","dateModified":"2026-05-10","datePublished":"2026-05-10","mainEntityOfPage":"https://solcrys.com/visibility-measurement-methodology/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How we measure AI visibility - real-user fidelity, not API approximations","description":"How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.","dateModified":"2026-05-10","datePublished":"2026-05-08","mainEntityOfPage":"https://solcrys.com/visibility-measurement-methodology/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/visibility-measurement-methodology/","mainEntity":[{"@type":"Question","name":"How is consumer-surface capture different from just calling an API?","acceptedAnswer":{"@type":"Answer","text":"A consumer chat or SERP surface is not always a thin shell over a public API. It may use a different default model, enable different tools, or render follow-up suggestions and other UI details the API never returns. Where rendered or SERP capture is technically reliable, we tag it separately from API-based response capture."}},{"@type":"Question","name":"Why don't you just use the engine's API for everything? It is cheaper.","acceptedAnswer":{"@type":"Answer","text":"Cheaper to operate, but API data does not always match what consumer users see. For Google AI Overviews specifically, no public API exists. For consumer chat surfaces, the API and consumer product can return materially different answers to the same prompt. We preserve capture-method metadata so customers understand what was measured."}},{"@type":"Question","name":"How do you handle the fact that AI engines give different answers each time?","acceptedAnswer":{"@type":"Answer","text":"By repeated capture and rolling aggregation. Daily priority-prompt refreshes feed into rolling 7-day and 30-day aggregates so trend lines reflect repeated measurement rather than per-snapshot variance. We are explicit about sample-size limits and label single snapshots as such rather than reporting them as trend movements. We don't currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart."}},{"@type":"Question","name":"What happens when an engine changes its default model?","acceptedAnswer":{"@type":"Answer","text":"We monitor provider announcements and model deprecations on an ongoing basis, with internal alerting for default-model changes. When a configured model or surface changes materially, we update tracking as soon as the change is verified and disclose the change so customers can interpret any trend-line discontinuities."}},{"@type":"Question","name":"Can I verify a specific result myself?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every data point is traceable to the exact prompt, engine, available model or surface signal, and timestamp. Open any tracked prompt, select a snapshot, and you can see the full response we captured. To verify, copy the prompt text and submit it on the engine yourself within a short time window. The response should match in substance, allowing for the engines' known non-determinism."}},{"@type":"Question","name":"Is consumer-surface capture allowed under the engines' Terms of Service?","acceptedAnswer":{"@type":"Answer","text":"Our capture follows access patterns each provider supports for the relevant surface and scope. We monitor provider terms and adjust our methods accordingly. For enterprise customers with strict compliance requirements, we can provide documentation of the access methods used per engine under NDA."}},{"@type":"Question","name":"How is this methodology different from 'AI visibility' tools that just ping public APIs?","acceptedAnswer":{"@type":"Answer","text":"API-only trackers measure what a developer would get back from a generic API call. SERP, rendered-surface, and retail-assistant snapshots answer different questions where supported. SolCrys tags capture method and engine scope so customers know what each data point represents."}}]}</script>
   </head>
   <body>
@@ -170,7 +173,8 @@
         <p class="seo-kicker">How SolCrys Works</p>
         <h1>How we measure AI visibility - real-user fidelity, not API approximations</h1>
         <p class="seo-lede">We measure AI visibility by running tracked prompts against the engines included in your plan and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews / AI Mode, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates, so we build sample sizes that turn noisy single-snapshot reads into trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we&#39;d rather show our work and let you challenge it.</p>
-        <p>Updated 2026-05-10</p>
+        
+        <p>Published <time datetime="2026-05-08">2026-05-08</time> · Updated <time datetime="2026-05-10">2026-05-10</time></p>
       </header>
       
       <section class="seo-section">
@@ -306,6 +310,21 @@
             <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
             <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
           </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-brand-visibility-monitoring/">AI Brand Visibility Monitoring</a></h3>
+            <p>A practical guide to measuring brand mentions, citations, sentiment, and competitive position across AI answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/ai-hallucination-risk-monitoring/">AI Hallucination Risk Monitoring</a></h3>
+            <p>AI hallucination risk monitoring helps brands detect inaccurate, outdated, or unsupported claims in AI-generated answers and turn them into governed correction workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/solcrys-content-audit-report/">What a SolCrys Content Audit Looks Like</a></h3>
+            <p>The exact sections of a SolCrys content audit, what each one is measuring, and what&#39;s explicitly NOT in scope. Read this before you request a Free Audit so you know what to expect.</p>
+          </article>
         </div>
       </section>
       
@@ -325,6 +344,7 @@
         <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
+          <a href="/compare/">Compare</a>
           <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
           <a href="https://app.solcrys.com/pricing">Pricing</a>
           <a href="/news/">News</a>
@@ -334,6 +354,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-CteeE4_f.js"></script>
+    <script type="module" crossorigin src="/assets/index-CevDC4ye.js"></script>
   </body>
 </html>
