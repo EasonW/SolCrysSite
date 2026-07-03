@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Your Best Proof Is Trapped in Private AI Chats | SolCrys</title>
+    <meta name="description" content="There&#39;s a specific reason your &#39;why we&#39;re the best&#39; page does nothing in AI answers, and why a great specialist product stays invisible: the model discounts what you say about yourself, and your real proof happens in private chats and emails it can&#39;t read. How to move the private conclusion your customers already reached into public, in their words." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/your-best-proof-is-private/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-02" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Your Best Proof Is Trapped in Private AI Chats | SolCrys" />
+    <meta property="og:description" content="There&#39;s a specific reason your &#39;why we&#39;re the best&#39; page does nothing in AI answers, and why a great specialist product stays invisible: the model discounts what you say about yourself, and your real proof happens in private chats and emails it can&#39;t read. How to move the private conclusion your customers already reached into public, in their words." />
+    <meta property="og:url" content="https://solcrys.com/your-best-proof-is-private/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/your-best-proof-is-private.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/your-best-proof-is-private.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Your Best Proof Is Trapped in Private AI Chats. Here's How to Make It Public.","item":"https://solcrys.com/your-best-proof-is-private/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your Best Proof Is Trapped in Private AI Chats. Here's How to Make It Public.","description":"There's a specific reason your 'why we're the best' page does nothing in AI answers, and why a great specialist product stays invisible: the model discounts what you say about yourself, and your real proof happens in private chats and emails it can't read. How to move the private conclusion your customers already reached into public, in their words.","dateModified":"2026-07-02","datePublished":"2026-07-02","mainEntityOfPage":"https://solcrys.com/your-best-proof-is-private/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/your-best-proof-is-private/","mainEntity":[{"@type":"Question","name":"Why doesn't my \"why we're the best\" page get me recommended by AI?","acceptedAnswer":{"@type":"Answer","text":"Because the model trusts it least. AI decides what's true about you by corroborating across independent sources, and it weights those higher than your own pages precisely because you're the most biased witness about yourself. A well-written self-claim is still a self-claim. What moves the answer is the same claim coming from somewhere that isn't you, a customer, a third party, an independent review, which the model reads as evidence rather than marketing."}},{"@type":"Question","name":"How do I get AI to recommend my specialized product?","acceptedAnswer":{"@type":"Answer","text":"Make the private conclusions your happy customers already reached public, in their words, aimed at the specific questions where you genuinely win. A specialist usually already wins the buyers who ask the narrow question, but those wins happen in private chats and calls the model can't read. Publishing them as customer-voice case studies gives the model quotable, independent evidence for the exact query, which is what an AI recommendation is built from."}},{"@type":"Question","name":"Do customer case studies help with AI search?","acceptedAnswer":{"@type":"Answer","text":"Yes, more than most owned content, if they're written in the customer's voice and pointed at a specific query. A case study in a customer's words is the private conclusion made public, and it corroborates in a way your own page can't, because it isn't you making the claim. A generic case study in your marketing voice helps far less, it reads to the model like another self-claim."}},{"@type":"Question","name":"Should I target every query with customer evidence?","acceptedAnswer":{"@type":"Answer","text":"No. The generic \"best X\" queries are usually settled toward the popular defaults, and customer evidence won't move a query that's already converged on someone else. Aim it at the contested queries, the narrow, specific questions where the models disagree or name different options run to run. That's where consensus hasn't formed and a specialist can still become the best-corroborated answer, so that's where the evidence pays off."}},{"@type":"Question","name":"Isn't publishing customer quotes just manufacturing reviews?","acceptedAnswer":{"@type":"Answer","text":"No, and the difference matters. You're capturing conclusions your customers already reached and told you privately, then publishing them with their approval and in their words. That's transcription, not fabrication. Manufacturing reviews, buying them, writing fake ones, or mass-producing near-identical praise, is both dishonest and self-defeating, because engines weight consistency and a burst of suspiciously similar testimonials reads as manipulation."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>Your Best Proof Is Trapped in Private AI Chats. Here&#39;s How to Make It Public.</h1>
+        <p class="seo-lede">There&#39;s a specific reason your &#39;why we&#39;re the best&#39; page does nothing in AI answers, and it&#39;s the same reason a genuinely great specialist product stays invisible: the model discounts anything you say about yourself, and your actual proof happens in private. A savvy buyer asks a narrow question, gets pointed to you, loves the result, and the whole win, plus the evidence of the win, vanishes into a chat log or an email thread the model will never read. Your best evidence exists, it just isn&#39;t public. It&#39;s a survivorship problem, the corroboration layer only sees what got written down, so any market where the good decisions happen privately, which is most expert and specialist buying, is under-represented against markets where people post their choices. The specialist isn&#39;t losing on quality, it&#39;s losing because its buyers are the type who don&#39;t write it up. The fix isn&#39;t a louder claim, it&#39;s moving the private conclusion your customers already reached into a public place the model can read, in their words, a customer-voice case study is literally the private chat made public, and it corroborates in a way your own page never will. Point it at the contested queries where consensus hasn&#39;t formed, because that&#39;s where a specialist can still become the best-corroborated answer.</p>
+        <p>Updated 2026-07-02</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why doesn&#39;t my &#39;why we&#39;re the best&#39; page get me recommended by AI?</li><li>How do I get AI to recommend my specialized product?</li><li>Do customer case studies help with AI search?</li><li>Should I target every query with customer evidence?</li><li>Isn&#39;t publishing customer quotes just manufacturing reviews?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>There&#39;s a specific reason your &quot;why we&#39;re the best&quot; page does nothing in AI answers, and it&#39;s the same reason a genuinely great specialist product stays invisible: the model discounts anything you say about yourself, and your actual proof, the buyers who found you and loved you, happens in private.</p><p>A savvy buyer asks the AI a narrow question, gets pointed to you, gets a great outcome, and the whole win, plus the evidence of the win, vanishes into a chat log or an email thread the model will never read. So your best evidence exists, it just isn&#39;t public. The fix isn&#39;t to make a louder claim, it&#39;s to move the private conclusion your customers already reached into a public place the model can read, in their words.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The silent-evidence problem</h2>
+      <p>When someone asks an AI which tool or vendor to use, the buyers who ask the narrow, specific question, the ones with real constraints, tend to find the right specialist and get exactly what they needed. But that exchange is private. It never becomes a public sentence the next model trains on, or the current one retrieves.</p><p>So the specialist keeps quietly winning the buyers who already know how to dig, and stays invisible to everyone who doesn&#39;t, because its wins happen where the record never reads. It&#39;s a survivorship problem: the corroboration layer only sees what got written down, so any market where the good decisions happen privately, which is most expert and specialist buying, is systematically under-represented against markets where people post their choices. The specialist isn&#39;t losing on quality. It&#39;s losing because its buyers are the type who don&#39;t write it up.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why &quot;why we&#39;re the best&quot; pages don&#39;t move AI</h2>
+      <p>The model decides what&#39;s true about you by corroborating across the sources it trusts, and it weights independent sources higher precisely because they aren&#39;t you (see <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>). Your own page, however well-written, is the single source the model trusts least about you, because you&#39;re the most biased witness.</p><p>That splits the thing you&#39;re competing on into two competitions that feel like one. &quot;Best product&quot; is judged by you and a handful of experts, and it doesn&#39;t decide the AI answer. &quot;Best-corroborated answer&quot; is decided by the public record, and it does. The model isn&#39;t judging quality, it&#39;s surfacing whatever the public record already said, most of which was written by someone other than your happiest customer. You can be genuinely best and lose the second competition without ever knowing why.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where your proof lives, and whether the model can read it</h2>
+      <p>Lay out where your evidence actually sits, and the problem is obvious: the strongest proof you have is in the two places the model can&#39;t see, and the place it can see is the one it trusts least.</p>
+      
+      <table>
+              <thead><tr><th>Where the win happens</th><th>Can the model read it?</th><th>How the model weights it</th></tr></thead>
+              <tbody><tr><td>A private AI chat</td><td>No</td><td>Invisible</td></tr><tr><td>An email or a sales call</td><td>No</td><td>Invisible</td></tr><tr><td>Your own &quot;why we&#39;re the best&quot; page</td><td>Yes</td><td>Discounted, it&#39;s a self-claim</td></tr><tr><td>A customer-voice case study, review, or third-party mention</td><td>Yes</td><td>Weighted, it&#39;s independent</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The fix: publish the private conclusion, in the customer&#39;s words</h2>
+      <p>You&#39;re not inventing a claim, you&#39;re transcribing one the market already makes in private. Take the conclusions your happy customers already reached, and told you on a call, in an email, in a chat, and get them into public in the customer&#39;s own words. The highest-leverage version isn&#39;t you writing the comparison, it&#39;s a customer-voice case study, because a case study in a customer&#39;s words is literally the private chat made public, and it corroborates in a way your own page can&#39;t, since it isn&#39;t you making the claim.</p><p>This is the same job PR does with earned media, a trusted third party saying the thing so the model reads it as independent evidence (see <a href="/aeo-for-pr/" target="_blank" rel="noopener noreferrer">AEO for PR</a>). A customer case study is the version of that you can start on today, without waiting for a journalist.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Point it at the contested queries, not the settled ones</h2>
+      <p>Don&#39;t spread this across every query, most of it would be wasted. The generic &quot;best X&quot; query is usually settled toward the popular defaults, and no amount of customer evidence moves a query that&#39;s already converged on someone else. The narrow, specific queries, the ones where the models disagree, hedge, or name different options from one run to the next, are contested: consensus hasn&#39;t formed, and that&#39;s exactly where a specialist can still become the best-corroborated answer (see <a href="/contested-vs-settled-ai-citation-queries/" target="_blank" rel="noopener noreferrer">contested vs settled</a>).</p><p>So aim your customer-voice evidence at the specific questions where you genuinely win, phrased the way a buyer would ask them. Write the narrow comparison the savvy buyer would have written if they&#39;d bothered, the one they instead concluded privately and moved on.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to actually do it</h2>
+      <p>The private conclusions already exist, this is a capture-and-publish job, not a manufacturing one.</p>
+      <ul class="seo-list"><li><strong>Find the narrow-fit customers who already got the outcome.</strong> They&#39;re in your inbox and your call notes, the ones who said some version of &quot;you were the only one that handled our specific thing.&quot;</li><li><strong>Capture the sentence they already said, or interview them for it.</strong> You&#39;re not asking them to invent praise, you&#39;re recording a conclusion they already reached and told you.</li><li><strong>Draft it in their words, not your marketing voice, and publish under their name where you can.</strong> A writeup that reads like the customer wrote it corroborates; one that reads like you wrote it is back to being a self-claim.</li><li><strong>Point each one at a specific contested query.</strong> One case study that nails &quot;best X for [constraint]&quot; beats five generic ones, because it gives the model quotable evidence for an exact question.</li><li><strong>Measure the settle.</strong> Re-run the contested query over a few weeks. The tell that it worked isn&#39;t a clean jump, it&#39;s the run-to-run variance collapsing toward you as the query settles in your favor.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What not to do</h2>
+      <p>The whole move depends on the evidence being real. Don&#39;t fabricate reviews, don&#39;t put words in a customer&#39;s mouth, and don&#39;t mass-produce near-identical praise, engines weight consistency across sources, so a burst of suspiciously similar testimonials reads as manipulation and can cost you more than the silence did. You&#39;re surfacing a conclusion the market already reached, not manufacturing one. And if the private wins don&#39;t actually exist, no amount of published evidence fixes that. That&#39;s a product problem, and it&#39;s the one problem this can&#39;t solve.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Take a representative case, a specialist data-pipeline vendor we&#39;ll call Northwind (not a real company). It kept winning the buyers who asked the narrow question, &quot;best pipeline tool for [a specific constraint],&quot; but on those exact queries ChatGPT and Perplexity named the popular default and never mentioned it.</p><p>Its happiest customers had all told the founder the same thing on calls: Northwind was the only option that handled their specific constraint. None of that was anywhere public. The founder interviewed three of them and published each as a short case study in the customer&#39;s own words, each pointed at the exact narrow question those buyers had asked. Over the following weeks, those queries started naming Northwind, not because it out-marketed the default, but because the private conclusion its customers had already reached finally existed somewhere the model could read.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See which of your queries are still winnable</h2>
+      <p>The first step is knowing which queries are contested (winnable with evidence) versus settled (not worth the effort), and whether the public record has any of your customers&#39; language in it at all. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where the engines mention you, which sources they cite, and how they describe you, so you can tell the winnable questions from the lost ones before you spend a single case study on them.</p><p><a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want it run continuously, so you can watch a contested query settle after you publish the evidence.</p><p>Your customers already concluded you were the best answer to a specific question. The only thing missing is a public copy of that conclusion, in a place the model can read.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why doesn&#39;t my &quot;why we&#39;re the best&quot; page get me recommended by AI?</h3>
+            <p>Because the model trusts it least. AI decides what&#39;s true about you by corroborating across independent sources, and it weights those higher than your own pages precisely because you&#39;re the most biased witness about yourself. A well-written self-claim is still a self-claim. What moves the answer is the same claim coming from somewhere that isn&#39;t you, a customer, a third party, an independent review, which the model reads as evidence rather than marketing.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I get AI to recommend my specialized product?</h3>
+            <p>Make the private conclusions your happy customers already reached public, in their words, aimed at the specific questions where you genuinely win. A specialist usually already wins the buyers who ask the narrow question, but those wins happen in private chats and calls the model can&#39;t read. Publishing them as customer-voice case studies gives the model quotable, independent evidence for the exact query, which is what an AI recommendation is built from.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do customer case studies help with AI search?</h3>
+            <p>Yes, more than most owned content, if they&#39;re written in the customer&#39;s voice and pointed at a specific query. A case study in a customer&#39;s words is the private conclusion made public, and it corroborates in a way your own page can&#39;t, because it isn&#39;t you making the claim. A generic case study in your marketing voice helps far less, it reads to the model like another self-claim.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I target every query with customer evidence?</h3>
+            <p>No. The generic &quot;best X&quot; queries are usually settled toward the popular defaults, and customer evidence won&#39;t move a query that&#39;s already converged on someone else. Aim it at the contested queries, the narrow, specific questions where the models disagree or name different options run to run. That&#39;s where consensus hasn&#39;t formed and a specialist can still become the best-corroborated answer, so that&#39;s where the evidence pays off.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Isn&#39;t publishing customer quotes just manufacturing reviews?</h3>
+            <p>No, and the difference matters. You&#39;re capturing conclusions your customers already reached and told you privately, then publishing them with their approval and in their words. That&#39;s transcription, not fabrication. Manufacturing reviews, buying them, writing fake ones, or mass-producing near-identical praise, is both dishonest and self-defeating, because engines weight consistency and a burst of suspiciously similar testimonials reads as manipulation.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/contested-vs-settled-ai-citation-queries/">Contested vs Settled: Why Your Most Volatile AI Queries Are the Open Slots, Not a Maintenance Burden</a></h3>
+            <p>Volatile AI-citation queries aren&#39;t a maintenance burden. They&#39;re contested open slots no source has won yet. How to read variance as a query-selection signal.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/aeo-for-pr/">AEO for PR: How to Prove Your Earned Media Actually Moved the AI Answer</a></h3>
+            <p>Earned media is the single most powerful AEO lever a brand has, because it&#39;s the corroboration layer AI trusts, but PR measurement wasn&#39;t built to see it. How comms teams measure whether a campaign, announcement, or media hit actually changed what AI says, with a clean before/after.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BfsVd5tT.js"></script>
+  </body>
+</html>
