@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AEO for PR: Measuring Earned Media&#39;s Impact on AI Search | SolCrys</title>
+    <meta name="description" content="Earned media is the single most powerful AEO lever a brand has, because it&#39;s the corroboration layer AI trusts, but PR measurement wasn&#39;t built to see it. How comms teams measure whether a campaign, announcement, or media hit actually changed what AI says, with a clean before/after." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-for-pr/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-02" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO for PR: Measuring Earned Media&#39;s Impact on AI Search | SolCrys" />
+    <meta property="og:description" content="Earned media is the single most powerful AEO lever a brand has, because it&#39;s the corroboration layer AI trusts, but PR measurement wasn&#39;t built to see it. How comms teams measure whether a campaign, announcement, or media hit actually changed what AI says, with a clean before/after." />
+    <meta property="og:url" content="https://solcrys.com/aeo-for-pr/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/aeo-for-pr.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/aeo-for-pr.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AEO for PR: How to Prove Your Earned Media Actually Moved the AI Answer","item":"https://solcrys.com/aeo-for-pr/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AEO for PR: How to Prove Your Earned Media Actually Moved the AI Answer","description":"Earned media is the single most powerful AEO lever a brand has, because it's the corroboration layer AI trusts, but PR measurement wasn't built to see it. How comms teams measure whether a campaign, announcement, or media hit actually changed what AI says, with a clean before/after.","dateModified":"2026-07-02","datePublished":"2026-07-02","mainEntityOfPage":"https://solcrys.com/aeo-for-pr/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-for-pr/","mainEntity":[{"@type":"Question","name":"Does PR or earned media actually affect AI search visibility?","acceptedAnswer":{"@type":"Answer","text":"Yes, more than almost anything you do on your own site. AI assembles its answers by corroborating across the sources it trusts, and it weights independent third-party coverage higher than your own pages precisely because it isn't the brand talking about itself. That is exactly what earned media is, which makes PR one of the highest-leverage ways to change what an AI answer says about you. The catch is that PR's usual metrics, impressions and reach, don't show that effect."}},{"@type":"Question","name":"How do I measure the impact of a PR campaign on ChatGPT and Perplexity?","acceptedAnswer":{"@type":"Answer","text":"Run a before/after, which a dated media hit makes unusually clean. Freeze the buyer prompts the coverage is relevant to, baseline your share of voice on them for a couple of weeks before the hit, then watch whether the specific claims the coverage made start appearing in the answers. Read it as a rate over weeks (answers are noisy), allow a week or two of crawl-and-index lag before expecting movement, and measure the queries the coverage addressed rather than your overall visibility."}},{"@type":"Question","name":"What should a PR team report about AI visibility?","acceptedAnswer":{"@type":"Answer","text":"Not a single AI-visibility score, executives distrust it and should. Report the buyer prompts where your share of voice moved after the hit, the specific claims from the coverage that now appear in AI answers, and the honest caveat that this is a leading indicator with a lag. The line that lands is that the coverage changed what the model says about you when a buyer asks, not just how many people saw it."}},{"@type":"Question","name":"Why is a PR hit easier to measure in AI search than content?","acceptedAnswer":{"@type":"Answer","text":"Because it's a discrete, dated event. Content is diffuse, you publish a page and it slowly and maybe helps, with no clean line between the change and the result. A media hit gives you a clear before, a clear intervention, and a clear after, all timestamped, which is the cleanest natural experiment AEO offers. Most AEO measurement struggles with attribution; a dated hit largely solves it."}},{"@type":"Question","name":"Which earned media moves AI answers the most?","acceptedAnswer":{"@type":"Answer","text":"The outlets the model already trusts and sees corroborated elsewhere. Not all coverage is equal, a placement in a source the model weights heavily moves an answer more than a higher-reach placement in one it doesn't. So the highest-leverage PR for AEO targets the sources the engines actually pull from for your category, and states the specific claim you want the model to repeat, rather than chasing raw impressions."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>AEO for PR: How to Prove Your Earned Media Actually Moved the AI Answer</h1>
+        <p class="seo-lede">For a PR or comms team, the measurement question that matters is no longer &quot;did we get coverage,&quot; it&#39;s &quot;did the coverage change what AI says about us.&quot; And that&#39;s measurable, more measurable than most content, because a media hit is a discrete, dateable event that gives you a clean before and after. Earned media is arguably the highest-leverage AEO work a brand can do, because AI decides what to recommend by corroborating across the sources it trusts, and it weights independent third-party coverage higher than your own site precisely because it isn&#39;t you talking about yourself. That is the definition of earned media, so PR isn&#39;t adjacent to AEO, it&#39;s close to the core of it. The catch is that PR measurement was built for impressions and reach, not for &quot;did the model change its mind.&quot; The fix is a before/after: freeze the buyer prompts the coverage is relevant to, baseline your share of voice for a couple of weeks before the hit, then watch whether the specific claims the coverage made start appearing in the answers, read as a rate over weeks and allowing for the crawl-and-index lag, and measured on the queries the coverage addressed rather than your visibility overall.</p>
+        <p>Updated 2026-07-02</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Does PR or earned media affect AI search visibility?</li><li>How do I measure the impact of a PR campaign on ChatGPT and Perplexity?</li><li>What should a PR team report about AI visibility?</li><li>Why is a PR hit easier to measure in AI search than content?</li><li>Which earned media moves AI answers the most?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>For a PR or comms team, the measurement question that matters is no longer &quot;did we get coverage,&quot; it&#39;s &quot;did the coverage change what AI says about us.&quot; That is measurable, and it&#39;s more measurable than most content, because a media hit is a discrete, dateable event: you get a clean before and a clean after.</p><p>Earned media is arguably the highest-leverage AEO work a brand can do. AI decides what to recommend by corroborating across the sources it trusts, and it weights independent third-party coverage higher than your own site precisely because it isn&#39;t you talking about yourself (see <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>). That is the definition of earned media. The problem was never leverage, it&#39;s that PR measurement was built for impressions and reach, not for &quot;did the model change its mind.&quot; Here&#39;s how to measure the thing that now matters.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why earned media is your strongest AEO lever</h2>
+      <p>Start with the reframe, because it changes what PR is worth. When a buyer asks an assistant &quot;who&#39;s best at X,&quot; the model doesn&#39;t read your website and repeat it. It assembles an answer from the sources it trusts, and the ones it trusts most are the independent third parties, because they aren&#39;t the brand talking about itself. A trade outlet, an analyst note, a respected journalist saying something about you is exactly the kind of evidence that moves an AI answer, in a way your own &quot;why we&#39;re the best&quot; page never will, the model discounts that page as a self-claim.</p><p>So PR isn&#39;t adjacent to AEO. Earned coverage IS the corroboration layer, which makes it close to the core of how AI recommendations are formed (see <a href="/owned-earned-community-sources-ai/" target="_blank" rel="noopener noreferrer">owned, earned, and community sources</a>). The uncomfortable flip side is that a great campaign that doesn&#39;t change what the model says didn&#39;t fully land, and until recently PR had no way to see that either way.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why a PR hit is more measurable than content</h2>
+      <p>Most AEO measurement struggles with attribution, because content is diffuse. You publish a page and it slowly, maybe, helps, with no clean line between the change and the result. A media hit is the opposite: a specific piece of coverage with a date. That hands you the cleanest natural experiment AEO offers, a clear before, a clear intervention, and a clear after, timestamped.</p><p>That&#39;s the opportunity comms teams are sitting on and not using. The event PR is organized around, the hit, the announcement, the campaign launch, is precisely the kind of dated intervention you can run a real before/after against. The method for doing that honestly is the same one that keeps any AEO experiment from lying to you (see <a href="/testable-geo-playbook/" target="_blank" rel="noopener noreferrer">the testable GEO playbook</a>); the rest of this page applies it to a PR event.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The framework: measuring a hit</h2>
+      <p>Five steps turn a media hit into a measurable result instead of a slide of impressions.</p>
+      <ul class="seo-list"><li><strong>Freeze the buyer prompts the coverage is relevant to.</strong> Not vanity prompts, the questions your buyers actually ask where you&#39;d want the model to now mention you or say the thing the coverage said. If the feature was about your speed, the prompts are the ones where speed decides the pick.</li><li><strong>Baseline before the hit.</strong> Run that set for a couple of weeks before the coverage lands, to get your share of voice and a read on how much the answers move on their own. One pre-hit run is not a baseline, it&#39;s a single noisy draw.</li><li><strong>Watch the specific claims, not a single score.</strong> The causal fingerprint isn&#39;t &quot;our visibility number went up,&quot; it&#39;s &quot;the specific thing the coverage said started appearing in the answers.&quot; If a trade outlet called you the fastest to deploy, watch whether &quot;fast&quot; enters how the model describes you. That&#39;s the hit working.</li><li><strong>Read it as a rate, and expect a lag.</strong> The coverage has to be crawled and indexed before it can move an answer, so weeks one and two may show nothing even in the success case. And the answers are noisy, so a single post-hit run tells you little. Judge it over weeks.</li><li><strong>Measure the queries the coverage addressed, not your overall visibility.</strong> Earned media moves the specific ground it covered, not your whole footprint. Averaging across everything dilutes the signal until it disappears.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What actually shows the AI impact</h2>
+      <p>The metrics PR reports today mostly can&#39;t see the AI effect. Here&#39;s the swap.</p>
+      
+      <table>
+              <thead><tr><th>What PR usually reports</th><th>What actually shows the AI impact</th></tr></thead>
+              <tbody><tr><td>Impressions and reach</td><td>Share of voice on the buyer prompts the coverage addressed</td></tr><tr><td>Number of placements</td><td>Whether the coverage&#39;s specific claims appear in AI answers</td></tr><tr><td>Sentiment of the article</td><td>Whether the model&#39;s description of you shifted toward the coverage&#39;s framing</td></tr><tr><td>A single AI-visibility score</td><td>Claim-level movement, read as a rate over weeks</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to report to a PR stakeholder</h2>
+      <p>Don&#39;t hand a CMO or a client a single AI-visibility number, they&#39;ll rightly distrust it, and they should (see <a href="/is-ai-visibility-a-vanity-metric/" target="_blank" rel="noopener noreferrer">is AI visibility a vanity metric</a>). Report three things: the buyer prompts where your share of voice moved after the hit, the specific claims from the coverage that now show up in AI answers, and the honest caveat that this is a leading indicator with a lag, not a same-week revenue line.</p><p>The framing that lands with an executive is simple: the coverage didn&#39;t just reach people, it changed what the machine says about us when a buyer asks. That&#39;s a sentence a PR team could never say before, and it reframes earned media from an awareness cost into a measurable input to how buyers get recommended.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The honest version</h2>
+      <p>A few caveats keep this credible. Attribution is never perfectly clean, the model saw a great deal that week besides your hit, which is exactly why you watch the specific claims and the specific queries rather than a blended score. The demand for the query has to exist, a hit on a question nobody asks moves nothing you&#39;ll be able to see. And not all earned media is equal: the model leans on the outlets it already trusts and corroborates elsewhere, so a placement in a source the model doesn&#39;t weight moves less than its raw reach suggests (reading your earned sources by how much the model actually trusts them is its own exercise, see <a href="/ai-source-incentive-map/" target="_blank" rel="noopener noreferrer">the incentive map</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Take a representative case, the comms team at a data-infrastructure vendor we&#39;ll call Northwind (not a real company). They landed a trade-press feature that called them the fastest in their category to deploy. The old report would have been the 40,000 impressions.</p><p>Instead, two weeks before the feature ran, they&#39;d frozen 25 buyer prompts, including several where deployment speed decides the pick, and baselined them. Pre-hit, the engines never mentioned speed for Northwind. About three weeks after the feature, allowing for the index lag, &quot;quick to deploy&quot; and &quot;fast setup&quot; started appearing in how ChatGPT and Perplexity described them, but only on the queries the feature actually addressed, their overall visibility barely moved. The report to the CMO wasn&#39;t &quot;we got coverage.&quot; It was &quot;the model now tells buyers we&#39;re fast to deploy on the questions where that matters, and here&#39;s the before and after.&quot;</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See your pre-campaign baseline</h2>
+      <p>The measurement only works if you capture the before. Start by seeing what the engines say about you on your buyer prompts today, that&#39;s your baseline for the next hit. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where the five major engines mention you, which sources they cite, and how they describe you, so you have a real &quot;before&quot; to measure a campaign against.</p><p><a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want it run continuously through campaigns, tracking the specific claims and the specific prompts a hit was meant to move.</p><p>Earned media was always about a trusted third party changing what an audience believes about you. The audience is just the model now, and for the first time you can measure whether it worked.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does PR or earned media actually affect AI search visibility?</h3>
+            <p>Yes, more than almost anything you do on your own site. AI assembles its answers by corroborating across the sources it trusts, and it weights independent third-party coverage higher than your own pages precisely because it isn&#39;t the brand talking about itself. That is exactly what earned media is, which makes PR one of the highest-leverage ways to change what an AI answer says about you. The catch is that PR&#39;s usual metrics, impressions and reach, don&#39;t show that effect.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I measure the impact of a PR campaign on ChatGPT and Perplexity?</h3>
+            <p>Run a before/after, which a dated media hit makes unusually clean. Freeze the buyer prompts the coverage is relevant to, baseline your share of voice on them for a couple of weeks before the hit, then watch whether the specific claims the coverage made start appearing in the answers. Read it as a rate over weeks (answers are noisy), allow a week or two of crawl-and-index lag before expecting movement, and measure the queries the coverage addressed rather than your overall visibility.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What should a PR team report about AI visibility?</h3>
+            <p>Not a single AI-visibility score, executives distrust it and should. Report the buyer prompts where your share of voice moved after the hit, the specific claims from the coverage that now appear in AI answers, and the honest caveat that this is a leading indicator with a lag. The line that lands is that the coverage changed what the model says about you when a buyer asks, not just how many people saw it.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why is a PR hit easier to measure in AI search than content?</h3>
+            <p>Because it&#39;s a discrete, dated event. Content is diffuse, you publish a page and it slowly and maybe helps, with no clean line between the change and the result. A media hit gives you a clear before, a clear intervention, and a clear after, all timestamped, which is the cleanest natural experiment AEO offers. Most AEO measurement struggles with attribution; a dated hit largely solves it.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which earned media moves AI answers the most?</h3>
+            <p>The outlets the model already trusts and sees corroborated elsewhere. Not all coverage is equal, a placement in a source the model weights heavily moves an answer more than a higher-reach placement in one it doesn&#39;t. So the highest-leverage PR for AEO targets the sources the engines actually pull from for your category, and states the specific claim you want the model to repeat, rather than chasing raw impressions.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-community-sources-ai/">Owned, Earned, and Community Sources in AI Answers: A 3-Layer Strategy</a></h3>
+            <p>AI engines cite three source layers — owned (your site), earned (PR/editorial), and community (Reddit/G2/forums). In our own data, owned is only ~1.6% of citations yet still a top-10 source. Why third parties get you into the answer, why your own site still matters, and how to balance the three.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/testable-geo-playbook/">Most GEO Advice Is Untestable. Here&#39;s How to Run It, and Not Fool Yourself.</a></h3>
+            <p>AI answers are non-deterministic, so a naive GEO test lies to you confidently. The four test-design rules that decide whether your AI-visibility result is signal or noise: measure a rate, test at the buyer&#39;s specificity level, test per language, and sort each cited source by the move.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-D188Ppss.js"></script>
+  </body>
+</html>
