@@ -43,3 +43,15 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist # 把编译后的 dist 文件夹推送到 gh-pages 分支
+
+      # IndexNow ping (Bing/Yandex/Naver/Seznam; Google ignores it). The key
+      # is deliberately committed in plain text: IndexNow validates ownership
+      # by fetching https://solcrys.com/<KEY>.txt, so the key is public by
+      # protocol design — it is not a secret. Key file lives in public/.
+      # The ping is best-effort: continue-on-error so an IndexNow outage
+      # never fails a deploy.
+      - name: Ping IndexNow
+        continue-on-error: true
+        env:
+          INDEXNOW_KEY: b6c29c8c26d1917dc4b2c74f74b84906
+        run: node scripts/ping-indexnow.mjs

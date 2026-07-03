@@ -37,6 +37,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..", "..");
 const SITE_JSON = join(REPO_ROOT, "src", "content", "siteContent.json");
 const NEWS_JSON = join(REPO_ROOT, "src", "content", "newsroom.json");
+const PULSE_JSON = join(REPO_ROOT, "src", "content", "promptPulse.json");
 const TEMPLATE = join(__dirname, "template.html");
 const OUT_DIR = join(REPO_ROOT, "public", "og");
 const TMP_DIR = join(__dirname, ".tmp");
@@ -171,20 +172,88 @@ function deriveSlugFromOgImage(ogImage) {
 function collectTargets() {
   const site = JSON.parse(readFileSync(SITE_JSON, "utf8"));
   const news = JSON.parse(readFileSync(NEWS_JSON, "utf8"));
+  const promptPulse = JSON.parse(readFileSync(PULSE_JSON, "utf8"));
 
   const targets = [];
 
-  // Homepage-style entry (site root)
-  if (site.ogImage) {
+  // Homepage card — declared at home.ogImage in siteContent.json (the
+  // legacy `site.ogImage` read pointed at a key that never existed, so
+  // the homepage silently shipped on the fallback card).
+  if (site.home?.ogImage) {
     targets.push({
       source: "site",
-      slug: deriveSlugFromOgImage(site.ogImage) ?? "home",
+      slug: deriveSlugFromOgImage(site.home.ogImage) ?? "home",
       entry: {
-        title: site.title ?? "SolCrys",
-        description: site.description,
-        category: "AI Visibility Intelligence",
+        title: site.home.title,
+        description: site.home.description,
+        category: "Governed AEO Execution",
         updated: null,
-        ...site,
+      },
+    });
+  }
+
+  // Static hub pages — routes prerendered by scripts/prerender.mjs that
+  // have no siteContent entry of their own. Slugs must match the
+  // `/og/<slug>.png` paths passed to renderLayout there.
+  const staticHubs = [
+    {
+      slug: "about",
+      title: "The team behind SolCrys",
+      description: "Built by search, growth, data, and product operators to connect AI visibility measurement with evidence-backed content action.",
+      category: "About SolCrys",
+    },
+    {
+      slug: "customers",
+      title: "How leading brands show up in AI answers",
+      description: "Customer stories from NextSilicon, Wyze, UiPath and more — measurable visibility, accuracy, and trust across AI engines.",
+      category: "Customer Stories",
+    },
+    {
+      slug: "customers-nextsilicon",
+      title: "NextSilicon: 4x share of voice in 45 days",
+      description: "How a challenger in HPC & AI infrastructure closed the AI visibility gap with entrenched incumbents.",
+      category: "Case Study",
+    },
+    {
+      slug: "resources",
+      title: "Practical guides for AI search visibility",
+      description: "The SolCrys AEO resource hub: measurement, citations, engine-specific optimization, and buyer guides.",
+      category: "AEO Resource Hub",
+    },
+    {
+      slug: "compare",
+      title: "How SolCrys compares",
+      description: "Side-by-side comparisons against Profound, Peec AI, Otterly, AirOps, HubSpot AEO, Semrush, and Ahrefs Brand Radar.",
+      category: "Competitor Comparisons",
+    },
+    {
+      slug: "news",
+      title: "SolCrys Newsroom",
+      description: "Press releases, founder notes, and announcements from SolCrys.",
+      category: "Newsroom",
+    },
+    {
+      slug: "prompt-pulse",
+      title: "What your market is asking AI",
+      description: "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries. Updated monthly.",
+      category: "Prompt Pulse",
+    },
+  ];
+  for (const hub of staticHubs) {
+    targets.push({ source: "static", slug: hub.slug, entry: hub });
+  }
+
+  // Prompt Pulse verticals — slugs match `/og/prompt-pulse-<slug>.png`
+  // in prerender.mjs.
+  for (const v of promptPulse.verticals ?? []) {
+    targets.push({
+      source: "pulse",
+      slug: `prompt-pulse-${v.slug}`,
+      entry: {
+        title: `${v.short}: what buyers ask AI`,
+        description: `${v.stats?.prompts ?? ""} real buyer prompts ${v.short} teams should track in AI answers, rated by demand tier and trend.`,
+        category: "Prompt Pulse",
+        updated: v.updated,
       },
     });
   }

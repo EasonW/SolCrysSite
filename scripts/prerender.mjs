@@ -184,6 +184,7 @@ function footerHtml() {
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
+          <a href="/compare/">Compare</a>
           <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
           <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
           <a href="/news/">News</a>
@@ -206,7 +207,7 @@ function ctaHtml() {
     </section>`;
 }
 
-function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false, ogImage, lastModified }) {
+function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false, ogImage, lastModified, ogType = "website", publishedTime }) {
   const canonical = canonicalUrl(routePath);
   const pageOgImage = ogImage ? resolveOgImage(ogImage) : defaultOgImage;
   const dateMeta = lastModified || site.updated || generatedAt;
@@ -308,6 +309,7 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="${escapeAttr(site.name)} — AEO guides and news" href="/feed.xml" />
     <meta name="author" content="${escapeAttr(site.name)}" />
     <meta name="date" content="${escapeAttr(dateMeta)}" />
     <meta name="theme-color" content="#000000" />
@@ -316,7 +318,9 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <meta property="og:title" content="${escapeAttr(title)}" />
     <meta property="og:description" content="${escapeAttr(description)}" />
     <meta property="og:url" content="${escapeAttr(canonical)}" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="${escapeAttr(ogType)}" />
+    ${ogType === "article" && publishedTime ? `<meta property="article:published_time" content="${escapeAttr(publishedTime)}" />` : ""}
+    ${ogType === "article" && lastModified ? `<meta property="article:modified_time" content="${escapeAttr(lastModified)}" />` : ""}
     <meta property="og:image" content="${escapeAttr(pageOgImage)}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="${escapeAttr(pageOgImage)}" />
@@ -534,6 +538,46 @@ function webPageSchema({ routePath, title, description, ogImage }) {
   };
 }
 
+// Homepage customer quotes — crawler-facing mirror of the SPA carousel in
+// src/components/CustomerTestimonialSection.tsx (CUSTOMER_QUOTES). Keep in
+// sync when quotes change there.
+const HOME_CUSTOMER_QUOTES = [
+  ["Maria Voloh", "Sr. Director, Global Digital Marketing, UiPath", "https://www.linkedin.com/in/mariavoloh/", "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines."],
+  ["Brandon Draeger", "VP of Marketing, NextSilicon", "https://www.linkedin.com/in/brandondraeger/", "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. SolCrys is informing how we think about marketing performance across product launches, campaigns, and major events."],
+  ["Yun Zhang", "CEO, Wyze", "https://www.linkedin.com/in/yun-zhang-1441933", "SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust. We're excited to work with the SolCrys team as they build toward the future of brand discovery and agentic commerce."],
+  ["Michelle Frees", "Head of Amazon, Wyze", "https://www.linkedin.com/in/michellewangfrees/", "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible."],
+  ["Garrett Astler", "Co-founder, ClearlyKept", "https://www.linkedin.com/in/ACoAAAzCAM8B_4zaQelFta2ZX-vhiQRMG2QBCYg", "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, and draft content for our website is exactly what we need."],
+  ["Jed Li", "Founder, BOBOYM", null, "SolCrys gave us a much clearer view of the potential for our store across emerging AI shopping channels — Amazon Rufus, Alexa for Shopping, and other AI engines. For the first time, we can see where our products show up, where we are missing, and what needs to improve."],
+  ["Toni Iafrate", "Chief Communications Officer (company name withheld)", null, "What stood out to me about SolCrys is that it goes beyond just showing data. Most tools stop at dashboards and metrics, but SolCrys helps teams understand what the data means and what actions to take next."]
+];
+
+// Homepage "why AEO" problem cards — mirror of src/components/ProblemSection.tsx.
+const HOME_PROBLEMS = [
+  ["Discovery is moving into answers", "If buyers can't retrieve, cite, or recommend you in AI, the shortlist is set before they reach your site."],
+  ["Reports aren't actions", "Most AEO tools surface gaps and leave the fix to humans. Screenshots pile up; pages don't change."],
+  ["Brand facts drift across answers", "Outdated AI claims compound across engines until they become the default narrative."]
+];
+
+// Cross-vertical rising/new prompts — mirror of risingAcrossVerticals() in
+// src/lib/promptPulse.ts (strongest risers per vertical, round-robined).
+function homeRisingPrompts(limit = 4, perVertical = 2) {
+  const RISING = new Set(["Rising", "New"]);
+  const groups = promptPulse.verticals.map((v) =>
+    (v.prompts || [])
+      .filter((p) => RISING.has(p.trend.label))
+      .map((p) => ({ ...p, vShort: v.short, vSlug: v.slug }))
+      .sort((a, b) => ppTrendSort(b.trend) - ppTrendSort(a.trend))
+      .slice(0, perVertical)
+  );
+  const out = [];
+  for (let i = 0; i < perVertical && out.length < limit; i++) {
+    for (const g of groups) {
+      if (g[i] && out.length < limit) out.push(g[i]);
+    }
+  }
+  return out;
+}
+
 function homeHtml() {
   const announcementPost = featuredAnnouncement;
   const announcement = announcementPost
@@ -582,6 +626,33 @@ function homeHtml() {
       <h2>Free ChatGPT visibility tracker</h2>
       <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews / AI Mode, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
     </section>
+    <section id="customers" class="seo-container seo-section">
+      <h2>Trusted across enterprise software, AI infrastructure, and consumer brands</h2>
+      ${HOME_CUSTOMER_QUOTES
+        .map(
+          ([name, role, linkedin, quote]) => `
+      <article class="seo-card">
+        <p class="seo-kicker">${linkedin ? `<a href="${escapeAttr(linkedin)}" rel="noopener">${escapeHtml(name)}</a>` : escapeHtml(name)} — ${escapeHtml(role)}</p>
+        <blockquote><p>“${escapeHtml(quote)}”</p></blockquote>
+      </article>`
+        )
+        .join("")}
+      <p><a href="/customers/">Read the full case studies →</a></p>
+    </section>
+    <section id="problem" class="seo-container seo-section">
+      <h2>AI search now decides what buyers see — before they click</h2>
+      <div class="seo-grid">
+        ${HOME_PROBLEMS
+          .map(
+            ([title, description]) => `
+        <article class="seo-card">
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(description)}</p>
+        </article>`
+          )
+          .join("")}
+      </div>
+    </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers turn AI visibility into governed execution</h2>
       <div class="seo-grid">
@@ -611,6 +682,10 @@ function homeHtml() {
           .join("")}
       </div>
     </section>
+    <section id="mcp" class="seo-container seo-section">
+      <h2>Your AEO workspace, readable by AI agents</h2>
+      <p>9 MCP tools + 4 open-source Skills. Plug SolCrys into Claude, ChatGPT, Cursor, and JetBrains. Read <a href="/why-we-bet-on-mcp/">why we bet on MCP</a>, the <a href="/solcrys-mcp-and-skills/">full MCP &amp; Skills reference</a>, or the <a href="https://github.com/SolCrysAI/SolCrys-AEO-Skills" rel="noopener">open-source Skills repo on GitHub</a>.</p>
+    </section>
     <section class="seo-container seo-section">
       <h2>AEO resources</h2>
       <p>A curated entry point — full library at <a href="/resources/">resources</a>. Measurement methodology and source notes live at <a href="/visibility-measurement-methodology/">visibility measurement methodology</a>.</p>
@@ -629,6 +704,21 @@ function homeHtml() {
           .join("")}
       </div>
     </section>
+    <section id="prompt-pulse" class="seo-container seo-section">
+      <h2>Prompt Pulse: see what your market is asking AI</h2>
+      <p>The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — across ${promptPulse.verticals.length} industries, ranked by demand and showing what's heating up. Refreshed monthly. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
+      <div class="seo-grid">
+        ${homeRisingPrompts(4)
+          .map(
+            (p) => `
+        <article class="seo-card">
+          <p class="seo-kicker">${escapeHtml(p.vShort)} · ${escapeHtml(ppTrend(p.trend))}</p>
+          <p><a href="/prompt-pulse/${escapeAttr(p.vSlug)}/">${escapeHtml(p.prompt)}</a></p>
+        </article>`
+          )
+          .join("")}
+      </div>
+    </section>
     <section class="seo-container seo-section">
       <h2>FAQ</h2>
       ${home.faqs
@@ -640,6 +730,10 @@ function homeHtml() {
         </article>`
         )
         .join("")}
+    </section>
+    <section id="recognition" class="seo-container seo-section">
+      <h2>SolCrys joins the NVIDIA Inception Program</h2>
+      <p>NVIDIA Inception supports AI startups with platform access, technical expertise, and ecosystem connections. For SolCrys customers, that means continued investment in the AI infrastructure behind prompt-level AEO measurement, citation tracking, and answer-accuracy monitoring. <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">About the NVIDIA Inception Program</a>.</p>
     </section>
     <div class="seo-container">${ctaHtml()}</div>
   </main>
@@ -790,6 +884,14 @@ function nextSiliconCaseStudyHtml() {
 </div>`;
 }
 
+// Founders' Notes — crawler-facing mirror of the section in
+// src/pages/AboutUs.tsx (founderNotes): published resource pages authored
+// by a founder, newest first.
+const FOUNDER_NAMES = new Set(founders.map(([name]) => name));
+const founderNotePages = publishedResourcePages
+  .filter((p) => p.author && FOUNDER_NAMES.has(p.author.name))
+  .sort((a, b) => (b.updated || "").localeCompare(a.updated || ""));
+
 function aboutHtml() {
   return `
 <div class="seo-prerender">
@@ -835,6 +937,22 @@ function aboutHtml() {
             .join("")}
         </tbody>
       </table>
+    </section>
+    <section id="founders-notes" class="seo-container seo-section">
+      <h2>Founders' Notes</h2>
+      <p>What the founding team is thinking about, in their own words — long-form essays from Gwen, Eason, and Jia on AEO strategy, measurement, and the engineering behind the platform.</p>
+      <div class="seo-grid">
+        ${founderNotePages
+          .map(
+            (note) => `
+        <article class="seo-card">
+          <p class="seo-kicker">${escapeHtml(note.author.name)} — ${escapeHtml(note.author.role || "")}</p>
+          <h3><a href="/${escapeAttr(note.slug)}/">${escapeHtml(note.title)}</a></h3>
+          <p>${escapeHtml(note.description)}</p>
+        </article>`
+          )
+          .join("")}
+      </div>
     </section>
     <section class="seo-container seo-section">
       <h2>Advisors</h2>
@@ -1190,8 +1308,11 @@ function relatedGuidesHtml(page) {
   const explicit = Array.isArray(page.relatedSlugs)
     ? page.relatedSlugs.map((slug) => resourceBySlug.get(slug)).filter(Boolean).filter((p) => !isDraft(p))
     : [];
+  // Explicit relatedSlugs render in full — they are the internal-linking
+  // surface that keeps pages from being orphans, so capping them silently
+  // drops declared links. The no-declaration fallback stays capped at 3.
   const related = explicit.length > 0
-    ? explicit.slice(0, 3)
+    ? explicit
     : publishedResourcePages.filter((p) => p.slug !== page.slug).slice(0, 3);
   if (related.length === 0) return "";
   return `
@@ -1248,6 +1369,25 @@ function draftBannerHtml() {
 </div>`;
 }
 
+// Visible byline for human-authored pages. The SPA renders its own byline
+// (src/pages/ResourcePage.tsx); this is the crawler-facing equivalent so
+// Person authorship is visible in static HTML, not only in JSON-LD.
+function bylineHtml(page) {
+  if (!page.author || !page.author.name) return "";
+  const name = page.author.linkedin
+    ? `<a href="${escapeAttr(page.author.linkedin)}" rel="noopener">${escapeHtml(page.author.name)}</a>`
+    : escapeHtml(page.author.name);
+  const role = page.author.role ? `, ${escapeHtml(page.author.role)}` : "";
+  return `<p>By ${name}${role}</p>`;
+}
+
+function pageDatesHtml(page) {
+  const published = page.published && page.published !== page.updated
+    ? `Published <time datetime="${escapeAttr(page.published)}">${escapeHtml(page.published)}</time> · `
+    : "";
+  return `<p>${published}Updated <time datetime="${escapeAttr(page.updated)}">${escapeHtml(page.updated)}</time></p>`;
+}
+
 function resourcePageHtml(page) {
   return `
 <div class="seo-prerender">
@@ -1258,7 +1398,8 @@ function resourcePageHtml(page) {
         <p class="seo-kicker">${escapeHtml(page.category)}</p>
         <h1>${escapeHtml(page.h1)}</h1>
         <p class="seo-lede">${renderInlineHtml(page.summary)}</p>
-        <p>Updated ${escapeHtml(page.updated)}</p>
+        ${bylineHtml(page)}
+        ${pageDatesHtml(page)}
       </header>
       ${aeoTargetsHtml(page)}
       ${page.sections.map(sectionHtml).join("")}
@@ -1371,6 +1512,7 @@ writePage(
   renderLayout({
     routePath: "/about/",
     title: "About SolCrys - AI Search and AEO Team",
+    ogImage: "/og/about.png",
     description: "Meet the SolCrys founding team and learn why the company is building an AEO platform for AI-driven discovery.",
     body: aboutHtml(),
     schemas: [
@@ -1413,6 +1555,7 @@ writePage(
   renderLayout({
     routePath: "/customers/",
     title: "Customer Stories | SolCrys",
+    ogImage: "/og/customers.png",
     description: "How leading brands — including UiPath, NextSilicon, and Wyze — use SolCrys to show up in AI answers. NextSilicon lifted its mention rate from 1.9% to 7.4% in 45 days.",
     body: customersHtml(),
     schemas: [
@@ -1474,6 +1617,7 @@ writePage(
   renderLayout({
     routePath: "/customers/nextsilicon/",
     title: "NextSilicon Case Study: 1.9% → 7.4% Mention Rate in 45 Days | SolCrys",
+    ogImage: "/og/customers-nextsilicon.png",
     description: "How NextSilicon, a high-performance computing pioneer, used SolCrys to quadruple its share of voice in HPC and AI — mention rate climbed from 1.9% to 7.4% in 45 days.",
     body: nextSiliconCaseStudyHtml(),
     schemas: [
@@ -1548,6 +1692,7 @@ writePage(
   renderLayout({
     routePath: "/resources/",
     title: "AEO Resources for AI Search Visibility | SolCrys",
+    ogImage: "/og/resources.png",
     description: "Guides on Answer Engine Optimization, AI brand visibility, ChatGPT brand mentions, AI share of voice, and hallucination risk monitoring.",
     body: resourcesHtml(),
     schemas: [
@@ -1562,6 +1707,79 @@ writePage(
         name: "SolCrys AEO Resource Hub",
         url: canonicalUrl("/resources/"),
         hasPart: publishedResourcePages.map((page) => ({
+          "@type": "WebPage",
+          name: page.title,
+          url: canonicalUrl(`/${page.slug}/`)
+        }))
+      }
+    ]
+  })
+);
+
+// ---- /compare/ hub ----
+// Crawlable parent for the Competitor Comparisons cluster: the individual
+// comparison pages live at nested /compare/<slug>/ paths, so without this
+// page the /compare/ directory URL itself 404s and the cluster has no hub
+// to concentrate inbound links. Mirrored in the SPA at src/pages/Compare.tsx
+// — keep the two in sync.
+const comparePages = publishedResourcePages.filter(
+  (page) => page.category === "Competitor Comparisons"
+);
+const COMPARE_HUB_TITLE = "Compare SolCrys vs. AEO & AI visibility platforms | SolCrys";
+const COMPARE_HUB_DESCRIPTION =
+  "Side-by-side comparisons of SolCrys against Profound, Peec AI, Otterly, AirOps, HubSpot AEO, Semrush, and Ahrefs Brand Radar — scope, pricing model, and where each tool fits.";
+
+function compareHubHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">Competitor Comparisons</p>
+      <h1>How SolCrys compares.</h1>
+      <p class="seo-lede">Honest, criteria-based comparisons against the AEO and AI visibility platforms buyers evaluate most often. Each page covers measurement scope, execution depth, pricing model, and the cases where the other tool is the better fit.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <div class="seo-grid">
+        ${comparePages
+          .map(
+            (page) => `
+          <article class="seo-card">
+            <p class="seo-kicker">${escapeHtml(page.category)}</p>
+            <h3><a href="/${escapeAttr(page.slug)}/">${escapeHtml(page.title)}</a></h3>
+            <p>${escapeHtml(page.description)}</p>
+          </article>`
+          )
+          .join("")}
+      </div>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+writePage(
+  "compare/index.html",
+  renderLayout({
+    routePath: "/compare/",
+    title: COMPARE_HUB_TITLE,
+    ogImage: "/og/compare.png",
+    description: COMPARE_HUB_DESCRIPTION,
+    body: compareHubHtml(),
+    lastModified: site.updated,
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Compare", path: "/compare/" }
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Compare SolCrys vs. AEO & AI visibility platforms",
+        url: canonicalUrl("/compare/"),
+        hasPart: comparePages.map((page) => ({
           "@type": "WebPage",
           name: page.title,
           url: canonicalUrl(`/${page.slug}/`)
@@ -1700,6 +1918,7 @@ writePage(
   renderLayout({
     routePath: "/prompt-pulse/",
     title: "Prompt Pulse — what your market is asking AI | SolCrys",
+    ogImage: "/og/prompt-pulse.png",
     description:
       "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries, ranked by demand and what's rising. Updated monthly.",
     lastModified: promptPulse.updated,
@@ -1733,6 +1952,7 @@ for (const v of promptPulse.verticals) {
       routePath,
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
       description: `The real questions ${v.short} buyers ask AI engines, rated by demand tier and trend. Free, updated monthly.`,
+      ogImage: `/og/prompt-pulse-${v.slug}.png`,
       lastModified: v.updated,
       body: promptPulseVerticalBody(v),
       schemas: [
@@ -1749,6 +1969,24 @@ for (const v of promptPulse.verticals) {
   );
 }
 
+// Article author: a Person (with LinkedIn sameAs) when the page carries a
+// human byline, otherwise the Organization. Person authorship is an E-E-A-T
+// signal — the byline must also be visible in the prerendered body (see
+// bylineHtml in resourcePageHtml), not just in JSON-LD.
+function articleAuthorSchema(page) {
+  if (page.author && page.author.name) {
+    const person = {
+      "@type": "Person",
+      name: page.author.name
+    };
+    if (page.author.role) person.jobTitle = page.author.role;
+    if (page.author.linkedin) person.sameAs = [page.author.linkedin];
+    person.worksFor = { "@type": "Organization", name: site.name, url: site.url };
+    return person;
+  }
+  return { "@type": "Organization", name: site.name };
+}
+
 for (const page of resourcePages) {
   const routePath = `/${page.slug}/`;
   const draft = isDraft(page);
@@ -1761,6 +1999,8 @@ for (const page of resourcePages) {
       body: (draft ? draftBannerHtml() : "") + resourcePageHtml(page),
       ogImage: page.ogImage,
       lastModified: page.updated,
+      ogType: "article",
+      publishedTime: page.published || page.updated,
       noindex: draft,
       schemas: [
         organizationSchema,
@@ -1775,12 +2015,9 @@ for (const page of resourcePages) {
           headline: page.h1,
           description: page.description,
           dateModified: page.updated,
-          datePublished: page.updated,
+          datePublished: page.published || page.updated,
           mainEntityOfPage: canonicalUrl(routePath),
-          author: {
-            "@type": "Organization",
-            name: site.name
-          },
+          author: articleAuthorSchema(page),
           publisher: {
             "@type": "Organization",
             name: site.name,
@@ -1801,6 +2038,7 @@ writePage(
   renderLayout({
     routePath: "/news/",
     title: "Newsroom | SolCrys",
+    ogImage: "/og/news.png",
     description:
       "Press releases, founder notes, and announcements from SolCrys — the AEO operating system for brands in AI search.",
     body: newsIndexHtml(),
@@ -1856,6 +2094,9 @@ for (const post of newsPosts) {
       title: post.metaTitle,
       description: post.description,
       body: newsArticleHtml(post),
+      ogImage: post.ogImage,
+      ogType: "article",
+      publishedTime: post.datePublished || post.date,
       lastModified: post.updated || post.date,
       schemas: [
         organizationSchema,
@@ -2326,6 +2567,7 @@ const sitemapUrls = [
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
+  { path: "/compare/", lastmod: site.updated || generatedAt },
   { path: "/free-chatgpt-visibility-tracker/", lastmod: site.updated || generatedAt },
   { path: "/free-aeo-audit/", lastmod: site.updated || generatedAt },
   { path: "/prompt-pulse/", lastmod: promptPulse.updated },
@@ -2372,6 +2614,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
+- [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
 - [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising. Updated ${promptPulse.updated}.${promptPulse.verticals
   .map(
     (v) => `\n  - [${v.short}](${site.url}/prompt-pulse/${v.slug}/): ${v.stats.prompts} buyer prompts ${v.short} teams should track in AI answers.`
@@ -2423,6 +2666,61 @@ ${page.faqs.map((faq) => `Q: ${faq.question}\nA: ${faq.answer}`).join("\n\n")}`
   .join("\n\n")}
 `;
 writePage("llms-full.txt", llmsFullTxt);
+
+// ---- RSS feed ----
+// One combined feed for resource guides + news, newest first. Kept
+// deterministic (no `new Date()` for "now"): lastBuildDate is the newest
+// item's date, so the feed only changes when content does.
+function rfc822(isoDate) {
+  // Content dates are date-only (YYYY-MM-DD); pin to noon UTC so the
+  // rendered date is stable regardless of build timezone.
+  return new Date(`${isoDate}T12:00:00Z`).toUTCString();
+}
+
+const feedItems = [
+  ...publishedResourcePages.map((page) => ({
+    title: page.title,
+    link: canonicalUrl(`/${page.slug}/`),
+    description: page.description,
+    date: page.published || page.updated,
+    category: page.category
+  })),
+  ...newsPosts.map((post) => ({
+    title: post.title,
+    link: canonicalUrl(`/news/${post.slug}/`),
+    description: post.dek || post.description,
+    date: post.datePublished || post.date,
+    category: "News"
+  }))
+]
+  .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
+  .slice(0, 30);
+
+const feedXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${xmlEscape(site.name)} — AEO guides and news</title>
+    <link>${xmlEscape(site.url)}/</link>
+    <description>${xmlEscape(site.description)}</description>
+    <language>en-us</language>
+    <lastBuildDate>${xmlEscape(rfc822(feedItems[0]?.date || generatedAt))}</lastBuildDate>
+    <atom:link href="${xmlEscape(`${site.url}/feed.xml`)}" rel="self" type="application/rss+xml" />
+${feedItems
+  .map(
+    (item) => `    <item>
+      <title>${xmlEscape(item.title)}</title>
+      <link>${xmlEscape(item.link)}</link>
+      <guid isPermaLink="true">${xmlEscape(item.link)}</guid>
+      <description>${xmlEscape(item.description)}</description>
+      <category>${xmlEscape(item.category)}</category>
+      <pubDate>${xmlEscape(rfc822(item.date))}</pubDate>
+    </item>`
+  )
+  .join("\n")}
+  </channel>
+</rss>
+`;
+writePage("feed.xml", feedXml);
 
 const legacyStyles = path.join(rootDir, "styles.css");
 if (fs.existsSync(legacyStyles)) {

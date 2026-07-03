@@ -175,9 +175,12 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
           .filter((item): item is ResourcePageData => Boolean(item))
           .filter((item) => (item as { status?: string }).status !== "draft")
       : [];
+  // Explicit relatedSlugs render in full — they are the internal-linking
+  // surface that keeps pages from being orphans, so capping them silently
+  // drops declared links. The no-declaration fallback stays capped at 3.
   const related =
     explicitRelated.length > 0
-      ? explicitRelated.slice(0, 3)
+      ? explicitRelated
       : siteContent.resourcePages
           .filter((item) => item.slug !== page.slug)
           .filter((item) => (item as { status?: string }).status !== "draft")
@@ -266,7 +269,9 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
               ) : null}
               <span className="flex items-center gap-2">
                 <CalendarDays className="h-4 w-4" />
-                Updated {page.updated}
+                {"published" in page && page.published && page.published !== page.updated
+                  ? `Published ${page.published} · Updated ${page.updated}`
+                  : `Updated ${page.updated}`}
               </span>
             </div>
           </header>

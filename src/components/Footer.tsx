@@ -24,6 +24,7 @@ const resourcesLinks = [
   { href: "/prompt-pulse/", label: "Prompt Pulse" },
   { href: "/free-chatgpt-visibility-tracker/", label: "Free ChatGPT Tracker" },
   { href: "/resources/", label: "All guides" },
+  { href: "/compare/", label: "Compare SolCrys" },
   { href: "/optimize-for-chatgpt-search/", label: "ChatGPT" },
   { href: "/optimize-for-gemini/", label: "Gemini" },
   { href: "/optimize-for-perplexity/", label: "Perplexity" },

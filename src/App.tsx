@@ -8,6 +8,7 @@ import NextSiliconCaseStudy from "./pages/NextSiliconCaseStudy";
 import NotFound from "./pages/NotFound";
 import Resources from "./pages/Resources";
 import ResourcePage from "./pages/ResourcePage";
+import Compare from "./pages/Compare";
 import PromptPulseHub from "./pages/PromptPulseHub";
 import PromptPulseVertical from "./pages/PromptPulseVertical";
 import FreeTrackerPage from "./pages/FreeTrackerPage";
@@ -43,6 +44,8 @@ const App = () => (
         <Route path="/free-aeo-audit/" element={<FreeAeoAuditPage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/" element={<Resources />} />
+        <Route path="/compare" element={<Compare />} />
+        <Route path="/compare/" element={<Compare />} />
         <Route path="/prompt-pulse" element={<PromptPulseHub />} />
         <Route path="/prompt-pulse/" element={<PromptPulseHub />} />
         <Route path="/prompt-pulse/:vertical" element={<PromptPulseVertical />} />
