@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>E-E-A-T for AI Search: The New Location of the Four Signals | SolCrys</title>
+    <meta name="description" content="E-E-A-T isn&#39;t dead in AI search, it moved. The four qualities still decide whether AI recommends you, but they&#39;re no longer signaled on your own page, they&#39;re established across the sources the model trusts. How each of experience, expertise, authoritativeness, and trust relocates for AEO." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/e-e-a-t-for-ai-search/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-03" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="E-E-A-T for AI Search: The New Location of the Four Signals | SolCrys" />
+    <meta property="og:description" content="E-E-A-T isn&#39;t dead in AI search, it moved. The four qualities still decide whether AI recommends you, but they&#39;re no longer signaled on your own page, they&#39;re established across the sources the model trusts. How each of experience, expertise, authoritativeness, and trust relocates for AEO." />
+    <meta property="og:url" content="https://solcrys.com/e-e-a-t-for-ai-search/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://solcrys.com/og/e-e-a-t-for-ai-search.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/e-e-a-t-for-ai-search.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"The New E-E-A-T: Where Experience, Expertise, Authority & Trust Actually Live in AI Search","item":"https://solcrys.com/e-e-a-t-for-ai-search/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The New E-E-A-T: Where Experience, Expertise, Authority & Trust Actually Live in AI Search","description":"E-E-A-T isn't dead in AI search, it moved. The four qualities still decide whether AI recommends you, but they're no longer signaled on your own page, they're established across the sources the model trusts. How each of experience, expertise, authoritativeness, and trust relocates for AEO.","dateModified":"2026-07-03","datePublished":"2026-07-03","mainEntityOfPage":"https://solcrys.com/e-e-a-t-for-ai-search/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/e-e-a-t-for-ai-search/","mainEntity":[{"@type":"Question","name":"Does E-E-A-T matter for AI search and ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"The qualities it names do, though not as a rubric the assistants run. E-E-A-T is Google's framework, and it carries over directly to Google's AI surfaces because they use core Search ranking. ChatGPT, Perplexity, and Claude don't check an E-E-A-T score, but they're trying to infer the same four things, experience, expertise, authority, trust, when they decide who to recommend, and they infer them from what independent sources say about you rather than from your own page."}},{"@type":"Question","name":"Is E-E-A-T dead now that AI search is here?","acceptedAnswer":{"@type":"Answer","text":"No, it relocated. The four qualities still decide whether an AI recommends you, but they're no longer established on your own page through author bios and credentials. They're established across the sources the model trusts: real customer voice for experience, expert sources citing you for expertise, cross-source consensus for authority, and consistent accurate facts for trust. Same framework, different address, off your page and onto the source layer."}},{"@type":"Question","name":"How do I build E-E-A-T for AEO?","acceptedAnswer":{"@type":"Answer","text":"Work the source layer, letter by letter. Experience: get your customers' real outcomes published in their words. Expertise: earn citations from the sources the model treats as expert in your category. Authoritativeness: build consensus across independent sources rather than chasing domain authority. Trustworthiness: make sure your key facts, price, features, positioning, are stated consistently everywhere the model reads. Keep your own pages clean as a floor, but expect the movement to come from off-site."}},{"@type":"Question","name":"Do author bios and credentials help with AI citations?","acceptedAnswer":{"@type":"Answer","text":"Marginally, and less than most people think. An author bio or credentials on your own page is a self-claim, which the model trusts least because you're the biased witness. They're worth having as hygiene, and they help on Google's index-based AI surfaces, but they don't establish expertise to a standalone assistant. What establishes it is being cited and echoed by sources the model already treats as expert. Credentials the world repeats about you count; credentials you list about yourself count for little."}},{"@type":"Question","name":"Which matters more for AI, domain authority or brand mentions?","acceptedAnswer":{"@type":"Answer","text":"Brand mentions, by a wide margin. Domain authority is a backlink-derived score, and AI answers aren't formed by counting backlinks, they're formed by corroborating what independent sources say about you. A brand mentioned consistently and accurately across the sources the model trusts can get cited with modest domain authority, while a high-authority site nobody talks about stays invisible. Authority for AI is consensus across sources, not a single domain's score."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>The New E-E-A-T: Where Experience, Expertise, Authority &amp; Trust Actually Live in AI Search</h1>
+        <p class="seo-lede">E-E-A-T isn&#39;t dead in AI search, it moved. The four qualities Google&#39;s rubric names, experience, expertise, authoritativeness, and trustworthiness, still decide whether an AI recommends you. What changed is where they&#39;re established. In classic SEO you signaled E-E-A-T on your own page: an author bio, credentials, an about page, a policies footer. For AI answers those on-page signals barely move the needle, because the model decides what&#39;s true about you by corroborating across the sources it trusts, not by reading your credentials, and it discounts anything you say about yourself. So E-E-A-T came off your page and onto the source layer, the four qualities are now proven by what independent sources say about you, not by what you claim. Experience becomes real customers describing the outcome; expertise becomes being cited by sources the model treats as expert; authoritativeness becomes consensus across independent sources rather than domain authority; trustworthiness becomes the accuracy and consistency of what&#39;s said about you everywhere. One honest caveat: E-E-A-T is Google&#39;s rubric, so for Google&#39;s own AI surfaces the classic signals still carry over, the standalone assistants don&#39;t run an E-E-A-T checklist at all, they simply infer the same four qualities from corroboration.</p>
+        <p>Updated 2026-07-03</p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Does E-E-A-T matter for AI search and ChatGPT?</li><li>Is E-E-A-T dead now that AI search is here?</li><li>How do I build E-E-A-T for AEO?</li><li>Do author bios and credentials help with AI citations?</li><li>Which matters more for AI, domain authority or brand mentions?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>E-E-A-T isn&#39;t dead in AI search, it moved. The four qualities Google&#39;s rubric names, experience, expertise, authoritativeness, and trustworthiness, still decide whether an AI recommends you. What changed is where they&#39;re established.</p><p>In classic SEO you signaled E-E-A-T on your own page: an author bio, listed credentials, an about page, a policies footer. For AI answers, those on-page signals barely move the needle, because the model decides what&#39;s true about you by corroborating across the sources it trusts, not by reading your credentials, and it discounts anything you say about yourself (see <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>). So E-E-A-T came off your page and onto the source layer. The four qualities are now proven by what independent sources say about you, not by what you claim. Same framework, new address.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A quick honesty note on the framework</h2>
+      <p>E-E-A-T is Google&#39;s concept, from its Search Quality guidelines, so strictly speaking it&#39;s a Google rubric, not an AI-wide standard. Google&#39;s own AI features, AI Overviews and AI Mode, run on the same core Search ranking, so classic E-E-A-T signals carry over there (see <a href="/optimize-for-google-ai-overviews-ai-mode/" target="_blank" rel="noopener noreferrer">how to optimize for Google AI Overviews</a>). ChatGPT, Perplexity, and Claude don&#39;t run an E-E-A-T checklist at all.</p><p>But the four things the acronym names, has this brand actually done the thing, does it know the thing, do others treat it as the authority, can it be trusted, are exactly what those models are trying to infer when they decide who to recommend. They just infer them from corroboration across sources instead of from a rubric. So E-E-A-T is still the right mental model, as long as you remember the four qualities are now judged by the web about you, not claimed by you.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>E-E-A-T, then and now</h2>
+      <p>The single shift explains all four letters: in SEO, E-E-A-T was largely things you could add to your own site; in AEO, every one relocates to the source layer, because the model trusts you least about yourself. Here&#39;s where each moved.</p>
+      
+      <table>
+              <thead><tr><th>Signal</th><th>Old SEO location, on your page</th><th>New AEO location, across sources</th></tr></thead>
+              <tbody><tr><td>Experience</td><td>Author bio, first-person &quot;we tested this&quot;</td><td>Real customers describing the outcome, in their words</td></tr><tr><td>Expertise</td><td>Credentials, author schema, degrees listed</td><td>Being cited and echoed by sources the model treats as expert</td></tr><tr><td>Authoritativeness</td><td>Domain authority, backlink count</td><td>Consensus across independent sources, not a single authority</td></tr><tr><td>Trustworthiness</td><td>HTTPS, privacy policy, on-page reviews</td><td>Accuracy and consistency of what&#39;s said about you everywhere</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Experience, now</h2>
+      <p>In SEO, experience was something you asserted, an author bio saying you&#39;d done this for years. An AI can&#39;t verify your bio and discounts it as a self-claim. What it can read is other people describing the experience of using you: a customer saying it solved their specific problem, a reviewer describing the actual outcome. That&#39;s the version of experience that survives, because it&#39;s independent. So the move isn&#39;t a better bio, it&#39;s getting the experience your customers already had into public, in their words (see <a href="/your-best-proof-is-private/" target="_blank" rel="noopener noreferrer">your best proof is private</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Expertise, now</h2>
+      <p>Credentials on your own page tell the model you claim expertise; they don&#39;t establish it. Expertise gets established when the sources the model treats as knowledgeable, trade publications, documentation, respected communities, cite or echo you on the specific topic. Being the source those sources reference is expertise the model can actually see. Which sources it treats as expert for your category is knowable, and worth mapping before you invest (see <a href="/how-to-build-a-source-layer-strategy/" target="_blank" rel="noopener noreferrer">building a source-layer strategy</a> and <a href="/ai-source-incentive-map/" target="_blank" rel="noopener noreferrer">the incentive map</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Authoritativeness, now</h2>
+      <p>This is the letter that changed most, and the one most people still optimize the old way. Authoritativeness used to mean domain authority and backlink count. For AI, authority is corroboration: the model treats you as authoritative when enough independent sources agree about you, not when one high-authority page asserts it. Chasing domain authority for AI citations is optimizing the wrong number, and it&#39;s one of the most common ways good brands stay invisible. This letter has its own deep-dive, because it&#39;s the one that trips up the most experienced SEOs (see <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Trustworthiness, now</h2>
+      <p>Trust in SEO was on-page hygiene: HTTPS, a privacy policy, visible reviews. For AI, trust is whether what&#39;s said about you is accurate and consistent across sources. A model that finds your price, your feature set, or your positioning described three different ways across the web has a trust problem with you, and it tends to show up as hedging, wrong facts in the answer, or a competitor recommended instead. Trust is now a cross-source accuracy question, not a page-security one (see <a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">is AI telling the truth about your brand</a> and <a href="/fix-wrong-fact-in-ai-answer/" target="_blank" rel="noopener noreferrer">how to fix a wrong fact in an AI answer</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What this changes about your work</h2>
+      <p>The practical upshot is that most E-E-A-T effort still goes into the one place it no longer pays: your own site. Author boxes, credential pages, and trust badges are table stakes now, not levers, because the model discounts self-claims. That doesn&#39;t mean skip them, an ambiguous or thin owned page still hurts, it means stop expecting them to move the answer.</p><p>The leverage moved to the source layer, and it splits cleanly by letter: customer voice for experience, being cited by expert sources for expertise, cross-source consensus for authority, and accuracy and consistency for trust. Get your own pages clean and unambiguous as a floor, then put the real work where the four signals now live, off your own property and across the sources the model reads.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See where you stand on the four</h2>
+      <p>The useful starting question isn&#39;t &quot;is my E-E-A-T good,&quot; it&#39;s &quot;does the model even have independent experience, expertise, consensus, and accuracy about me to work with.&quot; <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you where the engines mention you, which sources they cite, and how they describe you, which tells you which of the four letters you&#39;re actually failing, and where.</p><p><a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want it run continuously, so you can watch the source-layer signals build as you do the work.</p><p>E-E-A-T was never really about your credentials. It was always about whether the world treats you as experienced, expert, authoritative, and trustworthy. AI just made that literal.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does E-E-A-T matter for AI search and ChatGPT?</h3>
+            <p>The qualities it names do, though not as a rubric the assistants run. E-E-A-T is Google&#39;s framework, and it carries over directly to Google&#39;s AI surfaces because they use core Search ranking. ChatGPT, Perplexity, and Claude don&#39;t check an E-E-A-T score, but they&#39;re trying to infer the same four things, experience, expertise, authority, trust, when they decide who to recommend, and they infer them from what independent sources say about you rather than from your own page.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is E-E-A-T dead now that AI search is here?</h3>
+            <p>No, it relocated. The four qualities still decide whether an AI recommends you, but they&#39;re no longer established on your own page through author bios and credentials. They&#39;re established across the sources the model trusts: real customer voice for experience, expert sources citing you for expertise, cross-source consensus for authority, and consistent accurate facts for trust. Same framework, different address, off your page and onto the source layer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I build E-E-A-T for AEO?</h3>
+            <p>Work the source layer, letter by letter. Experience: get your customers&#39; real outcomes published in their words. Expertise: earn citations from the sources the model treats as expert in your category. Authoritativeness: build consensus across independent sources rather than chasing domain authority. Trustworthiness: make sure your key facts, price, features, positioning, are stated consistently everywhere the model reads. Keep your own pages clean as a floor, but expect the movement to come from off-site.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do author bios and credentials help with AI citations?</h3>
+            <p>Marginally, and less than most people think. An author bio or credentials on your own page is a self-claim, which the model trusts least because you&#39;re the biased witness. They&#39;re worth having as hygiene, and they help on Google&#39;s index-based AI surfaces, but they don&#39;t establish expertise to a standalone assistant. What establishes it is being cited and echoed by sources the model already treats as expert. Credentials the world repeats about you count; credentials you list about yourself count for little.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which matters more for AI, domain authority or brand mentions?</h3>
+            <p>Brand mentions, by a wide margin. Domain authority is a backlink-derived score, and AI answers aren&#39;t formed by counting backlinks, they&#39;re formed by corroborating what independent sources say about you. A brand mentioned consistently and accurately across the sources the model trusts can get cited with modest domain authority, while a high-authority site nobody talks about stays invisible. Authority for AI is consensus across sources, not a single domain&#39;s score.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/your-best-proof-is-private/">Your Best Proof Is Trapped in Private AI Chats. Here&#39;s How to Make It Public.</a></h3>
+            <p>There&#39;s a specific reason your &#39;why we&#39;re the best&#39; page does nothing in AI answers, and why a great specialist product stays invisible: the model discounts what you say about yourself, and your real proof happens in private chats and emails it can&#39;t read. How to move the private conclusion your customers already reached into public, in their words.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-build-a-source-layer-strategy/">How to Build a Source-Layer Strategy for AEO (2026)</a></h3>
+            <p>A strategic playbook for building the three source layers that AI engines actually cite: owned, earned, and community. Includes sequencing, costs, and an ethics line.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CteeE4_f.js"></script>
+  </body>
+</html>
