@@ -88,8 +88,7 @@ const Footer = () => {
               <img src="/logo-dark.png" alt="SolCrys Logo" className="h-10 w-auto hidden dark:block" />
             </a>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
-              The AI visibility platform for brands that need to be found, cited,
-              and recommended by AI answer engines.
+              Turn AI answer gaps into governed marketing execution.
             </p>
           </div>
 
