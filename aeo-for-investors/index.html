@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AEO for Investors: Diligence Starts with an AI Answer | SolCrys</title>
+    <meta name="description" content="Investors now run market maps, competitor scans, and first-pass diligence through ChatGPT, Perplexity, and Copilot. If AI doesn&#39;t know your startup exists, or describes it wrong, you can be screened out before the first meeting. How to audit and fix what answer engines say about your company before you raise." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/aeo-for-investors/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-06" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO for Investors: Diligence Starts with an AI Answer | SolCrys" />
+    <meta property="og:description" content="Investors now run market maps, competitor scans, and first-pass diligence through ChatGPT, Perplexity, and Copilot. If AI doesn&#39;t know your startup exists, or describes it wrong, you can be screened out before the first meeting. How to audit and fix what answer engines say about your company before you raise." />
+    <meta property="og:url" content="https://solcrys.com/aeo-for-investors/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-06" />
+    <meta property="article:modified_time" content="2026-07-06" />
+    <meta property="og:image" content="https://solcrys.com/og/aeo-for-investors.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/aeo-for-investors.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"AEO for Investors: Diligence Now Starts with an AI Answer","item":"https://solcrys.com/aeo-for-investors/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your next investor's first impression is an AI answer.","description":"Investors now run market maps, competitor scans, and first-pass diligence through ChatGPT, Perplexity, and Copilot. If AI doesn't know your startup exists, or describes it wrong, you can be screened out before the first meeting. How to audit and fix what answer engines say about your company before you raise.","dateModified":"2026-07-06","datePublished":"2026-07-06","mainEntityOfPage":"https://solcrys.com/aeo-for-investors/","author":{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO, SolCrys","sameAs":["https://www.linkedin.com/in/eason-wang/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-for-investors/","mainEntity":[{"@type":"Question","name":"Do investors actually use AI chatbots for due diligence?","acceptedAnswer":{"@type":"Answer","text":"Direct \"we screened you via ChatGPT\" disclosures are rare, but the adoption data is not ambiguous: Affinity's survey of nearly 300 private-capital dealmakers found 85% use AI to automate daily work, with deal-sourcing research among the most common uses. Market mapping, competitor scans, and company-credibility checks are exactly the tasks assistants are good at, and they happen before any meeting is booked."}},{"@type":"Question","name":"How can I see which AI questions my website is being used to answer?","acceptedAnswer":{"@type":"Answer","text":"Bing Webmaster Tools' AI Performance report (public preview since February 2026) shows the grounding queries Microsoft Copilot and partner integrations used your pages to answer, plus citations by page, intent, and topic. It is currently the only first-party report of its kind from a major platform; for other engines you have to measure from the outside by running prompt sets and tracking answers over time."}},{"@type":"Question","name":"Can an early-stage startup realistically change what AI says about it before a raise?","acceptedAnswer":{"@type":"Answer","text":"Yes, with honest caveats. Entity-level fixes (disambiguation, a consistent machine-readable company definition, current canonical pages) often show up in retrieval-time engines within weeks. Deeper problems, like being absent from the third-party sources engines trust for your category, take longer because the fix is upstream. Start the audit months before the raise, not days."}},{"@type":"Question","name":"Is this just PR with a new name?","acceptedAnswer":{"@type":"Answer","text":"They overlap but solve different problems. PR earns coverage; AEO makes your facts retrievable, consistent, and corroborated so answer engines assemble them correctly. Great press that engines never retrieve does not change the answer, and perfect on-site facts without third-party corroboration often lose to a competitor the engine sees validated elsewhere. You need the loop: measure, diagnose, execute, verify."}},{"@type":"Question","name":"What if AI confuses my startup with a similarly named company?","acceptedAnswer":{"@type":"Answer","text":"Namesake confusion is one of the most damaging diligence failures, because someone else's incidents or mediocre reviews get attributed to you. The fix is entity disambiguation: structured data with sameAs links, a distinct and consistently used name form, and explicit differentiation on the pages engines retrieve. Our disambiguation playbook covers the full checklist."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Your next investor&#39;s first impression is an AI answer.</h1>
+        <p class="seo-lede">Investors now run the first pass of market research through AI assistants. Market maps, competitor scans, and &quot;is this company legitimate&quot; checks happen in ChatGPT, Perplexity, and Copilot before anyone opens your deck. That makes fundraising readiness an Answer Engine Optimization problem: if AI doesn&#39;t know your startup exists, describes it incorrectly, or maps you into the wrong category, you can be screened out without ever learning a screen happened. This guide covers what investor-side AI research looks like in the data, the five ways startups lose it, a six-prompt self-audit to run before a raise, and how to fix what answer engines say about your company.</p>
+        <p>By <a href="https://www.linkedin.com/in/eason-wang/" rel="noopener">Eason Wang</a>, Co-Founder &amp; CPO, SolCrys</p>
+        <p>Updated <time datetime="2026-07-06">2026-07-06</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Do investors use AI like ChatGPT for due diligence?</li><li>What do investors see when they ask AI about my startup?</li><li>How do I check what AI says about my company before fundraising?</li><li>Can a startup change how AI describes it before a raise?</li><li>What is AEO for fundraising?</li><li>How do VCs build market maps with AI?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>The screen happens before the meeting</h2>
+      <p>An investor evaluating a space rarely starts with your website. They start with a question: map the vendors in this category, who competes with the company I just met, is this team credible. Increasingly, that question goes to an AI assistant, not to a search results page or an analyst report.</p><p>The adoption data backs this up. In <a href="https://www.affinity.co/blog/ai-in-venture-capital" target="_blank" rel="noopener noreferrer">Affinity&#39;s survey of nearly 300 private-capital dealmakers</a>, <strong>85% said they use AI to automate parts of their daily work</strong>, up from 76% a year earlier, and deal-sourcing research is among the most common uses. Funds also deploy the same enterprise assistants as everyone else: an associate with Copilot in their workflow is one prompt away from a machine-generated market map of your category.</p><p>Here is the asymmetry that should worry founders: when an AI answer leaves you out, nothing notifies you. There is no bounce report, no lost-deal debrief, no &quot;we passed because...&quot; email. The deck simply never gets requested. A pitch meeting gives you a room to fix a misconception. The AI screen gives you nothing.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>You can now watch this happening: grounding queries</h2>
+      <p>Until recently, &quot;investors research through AI&quot; was an inference. Now there is a first-party evidence surface. Microsoft&#39;s Bing Webmaster Tools shipped an <a href="https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview" target="_blank" rel="noopener noreferrer">AI Performance report</a> (public preview February 2026, <a href="https://blogs.bing.com/search/June-2026/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare" target="_blank" rel="noopener noreferrer">expanded in June 2026</a> with intents, topics, and citation share) that shows the <strong>grounding queries</strong>: the actual questions Microsoft Copilot and partner integrations used your pages to answer.</p><p>When we read our own report in early July 2026, the dominant pattern was not shopping-style questions. It was analyst-style research: long multi-vendor comparison strings (&quot;vendor A vs vendor B vs vendor C vs vendor D&quot;), category-mapping questions, requests framed around strategic reporting, several in German and Spanish. Queries shaped like someone building a market map, not someone picking a tool for Tuesday.</p><p>We can&#39;t see who typed them, and Bing labels the report a sample. But the shape of the demand is hard to miss: professional research, the kind analysts and investors do for a living, is flowing through answer engines. For the first time, a platform will show you your side of it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Five ways startups lose the AI diligence screen</h2>
+      <p>In practice, the failures cluster into five patterns. Each one reads differently to the investor on the other side of the answer, and each has a different first fix.</p>
+      
+      <table>
+              <thead><tr><th>Failure mode</th><th>What the investor sees</th><th>First fix</th></tr></thead>
+              <tbody><tr><td><strong>Absent</strong></td><td>&quot;Map the market&quot; returns your competitors. You are not in the answer at all.</td><td>Category-defining content on your own domain, plus presence on the third-party sources engines already cite for your category.</td></tr><tr><td><strong>Miscategorized</strong></td><td>You are described as an adjacent thing: an agency instead of a platform, a feature instead of a company.</td><td>One consistent, machine-readable definition of what you are, repeated verbatim across your site, LinkedIn, and directories.</td></tr><tr><td><strong>Stale</strong></td><td>Old pricing, a retired product name, positioning from two pivots ago.</td><td>Update and re-date the canonical pages engines retrieve; stale answers usually trace to stale sources.</td></tr><tr><td><strong>Confused with a namesake</strong></td><td>Your funding, reviews, or incidents blended with a similarly named company.</td><td>Entity disambiguation: structured data, sameAs links, and distinct naming. See the <a href="/ai-brand-disambiguation-playbook/" target="_blank" rel="noopener noreferrer">disambiguation playbook</a>.</td></tr><tr><td><strong>A footnote</strong></td><td>Mentioned last, with a hedge, while two competitors get the recommendation.</td><td>Corroboration depth: being described well by sources the engine trusts more than it trusts you.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The six-prompt self-audit to run before a raise</h2>
+      <p>You can baseline this in half an hour, with no tools. Open two or three engines your investors actually use (ChatGPT, Perplexity, Copilot, Gemini) and ask, verbatim:</p>
+      <ul class="seo-list"><li><strong>&quot;What does [your company] do?&quot;</strong> Is the description current, accurate, and in language you would use?</li><li><strong>&quot;Who are [your company]&#39;s main competitors?&quot;</strong> Right map? Right tier? Anyone missing or wrongly included?</li><li><strong>&quot;Is [your company] a legitimate company?&quot;</strong> Investors ask trust questions bluntly. So should you.</li><li><strong>&quot;Map the top companies in [your category].&quot;</strong> Do you exist in the answer at all, and where?</li><li><strong>&quot;[Your company] vs [your best-known competitor].&quot;</strong> How does the head-to-head read to someone with no context?</li><li><strong>&quot;Would you recommend [your company] for [your core use case]?&quot;</strong> Being mentioned and being recommended are different outcomes.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Read the results like a skeptic, not like a founder</h2>
+      <p>Two cautions before you act on what you see. First, one run is not a baseline: the same prompt returns different answers across runs and engines, so ask each question a few times before concluding anything. We wrote up <a href="/how-many-runs-until-ai-visibility-trustworthy/" target="_blank" rel="noopener noreferrer">how many runs it takes before an AI-visibility number means anything</a> if you want the statistics.</p><p>Second, grade the answer against facts, not vibes. The useful question is not &quot;do I like this answer&quot; but &quot;which failure mode is this&quot;: absent, miscategorized, stale, confused, or a footnote. That classification tells you what to fix first.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Fixing it: the same mechanics, a different audience</h2>
+      <p>The good news is that investor-facing AEO is not a separate discipline. The same loop that improves how AI answers buyer questions improves how it answers diligence questions: <strong>measure</strong> what engines currently say, <strong>diagnose</strong> which failure mode you are in, <strong>execute</strong> the fix, and <strong>verify</strong> by re-asking the same prompts after the change ships.</p><p>The execution layer is where most founders under-invest. Answer engines assemble company descriptions at retrieval time from sources they trust: your own site (make the facts machine-readable, current, and consistently worded), and third-party corroboration (LinkedIn, press, analyst mentions, comparison pages). A brand that only ever describes itself is asking the engine to take its word for it; <a href="/e-e-a-t-for-ai-search/" target="_blank" rel="noopener noreferrer">where experience, expertise, authority, and trust actually live in AI search</a> has changed, and the corroboration layer now does most of the lifting.</p><p>Be honest about timescales. Retrieval-time engines can pick up a fixed page in days to weeks; answers grounded in stale third-party sources take longer, because the fix is upstream of you. If a raise is six months out, the audit belongs in this month&#39;s plan, not the week before the roadshow. And if AI is actively describing your company incorrectly, treat it as a live risk: <a href="/is-ai-telling-the-truth-about-your-brand/" target="_blank" rel="noopener noreferrer">is AI telling the truth about your brand</a> covers how to grade answer accuracy systematically.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>If you are the investor</h2>
+      <p>The lens works in reverse, too. Funds are brands in AI answers: &quot;best seed funds for developer tools&quot; is a real query, and founders increasingly ask it before deciding whose term sheet to prioritize.</p><p>There is also a portfolio-support angle. The same six-prompt audit, run for each portfolio company, surfaces which ones are invisible or misdescribed in the channel their buyers and their next-round investors now use for research. It is one of the cheaper pieces of value-add a platform team can ship in an afternoon.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview" target="_blank" rel="noopener noreferrer">Bing Webmaster Blog — Introducing AI Performance in Bing Webmaster Tools (public preview, 2026-02)</a></li><li><a href="https://blogs.bing.com/search/June-2026/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare" target="_blank" rel="noopener noreferrer">Bing Search Blog — New AI Visibility Insights: Intents, Topics, Citation Share, Compare (2026-06)</a></li><li><a href="https://searchengineland.com/bing-webmaster-tools-ai-performance-report-468751" target="_blank" rel="noopener noreferrer">Search Engine Land — Bing Webmaster Tools officially adds AI Performance report</a></li><li><a href="https://www.affinity.co/blog/ai-in-venture-capital" target="_blank" rel="noopener noreferrer">Affinity — AI in venture capital (survey of ~300 private-capital dealmakers)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Do investors actually use AI chatbots for due diligence?</h3>
+            <p>Direct &quot;we screened you via ChatGPT&quot; disclosures are rare, but the adoption data is not ambiguous: Affinity&#39;s survey of nearly 300 private-capital dealmakers found 85% use AI to automate daily work, with deal-sourcing research among the most common uses. Market mapping, competitor scans, and company-credibility checks are exactly the tasks assistants are good at, and they happen before any meeting is booked.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How can I see which AI questions my website is being used to answer?</h3>
+            <p>Bing Webmaster Tools&#39; AI Performance report (public preview since February 2026) shows the grounding queries Microsoft Copilot and partner integrations used your pages to answer, plus citations by page, intent, and topic. It is currently the only first-party report of its kind from a major platform; for other engines you have to measure from the outside by running prompt sets and tracking answers over time.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can an early-stage startup realistically change what AI says about it before a raise?</h3>
+            <p>Yes, with honest caveats. Entity-level fixes (disambiguation, a consistent machine-readable company definition, current canonical pages) often show up in retrieval-time engines within weeks. Deeper problems, like being absent from the third-party sources engines trust for your category, take longer because the fix is upstream. Start the audit months before the raise, not days.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is this just PR with a new name?</h3>
+            <p>They overlap but solve different problems. PR earns coverage; AEO makes your facts retrievable, consistent, and corroborated so answer engines assemble them correctly. Great press that engines never retrieve does not change the answer, and perfect on-site facts without third-party corroboration often lose to a competitor the engine sees validated elsewhere. You need the loop: measure, diagnose, execute, verify.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if AI confuses my startup with a similarly named company?</h3>
+            <p>Namesake confusion is one of the most damaging diligence failures, because someone else&#39;s incidents or mediocre reviews get attributed to you. The fix is entity disambiguation: structured data with sameAs links, a distinct and consistently used name form, and explicit differentiation on the pages engines retrieve. Our disambiguation playbook covers the full checklist.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-ai-describes-your-brand/">How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)</a></h3>
+            <p>AI doesn&#39;t just decide whether to cite you, it decides what you are, and describes it differently on each engine. How the description forms, why a fix takes weeks to propagate, and how to correct it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-brand-disambiguation-playbook/">When AI Confuses Your Brand With a Same-Name Company: A Disambiguation Playbook</a></h3>
+            <p>An AI engine keeps mixing your brand up with a same-name company and citing both. Here&#39;s the four-step entity-disambiguation playbook to separate them — without ever naming the other company on your own site.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/agent-readiness-third-audience/">Your Website Has a Third Audience Now — Agents</a></h3>
+            <p>AI agents are a third audience for your website — alongside humans and search crawlers. Eason Wang on what changes for product UX when agents see what humans can&#39;t, and miss what humans take for granted.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/e-e-a-t-for-ai-search/">The New E-E-A-T: Where Experience, Expertise, Authority &amp; Trust Actually Live in AI Search</a></h3>
+            <p>E-E-A-T isn&#39;t dead in AI search, it moved. The four qualities still decide whether AI recommends you, but they&#39;re no longer signaled on your own page, they&#39;re established across the sources the model trusts. How each of experience, expertise, authoritativeness, and trust relocates for AEO.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-9zpdPVfr.js"></script>
+  </body>
+</html>
