@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>The AI Citation Window: Why AEO Is a First-Mover Game | SolCrys</title>
+    <meta name="description" content="The sources an AI trusts for a category narrow over time toward two or three brands. While that pool is still open, getting cited is cheap; once it freezes around incumbents, displacing an anchor costs far more. So AEO has a first-mover dynamic, and the strategic question isn&#39;t only what to do, it&#39;s whether your category&#39;s citation window is still open." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-citation-first-mover-window/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-05" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="The AI Citation Window: Why AEO Is a First-Mover Game | SolCrys" />
+    <meta property="og:description" content="The sources an AI trusts for a category narrow over time toward two or three brands. While that pool is still open, getting cited is cheap; once it freezes around incumbents, displacing an anchor costs far more. So AEO has a first-mover dynamic, and the strategic question isn&#39;t only what to do, it&#39;s whether your category&#39;s citation window is still open." />
+    <meta property="og:url" content="https://solcrys.com/ai-citation-first-mover-window/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-05" />
+    <meta property="article:modified_time" content="2026-07-05" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-citation-first-mover-window.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-citation-first-mover-window.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CeHJOMA_.css">
+    <!-- analytics:start -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
+        if (isDev) return;
+
+        // Google tag (gtag.js)
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // Cross-domain linker added 2026-05-26 — stitches GA client_id
+        // across solcrys.com <-> app.solcrys.com so a visitor moving
+        // from a marketing page through the audit funnel is ONE user
+        // in GA reports, not two. Dashboard side (app.solcrys.com)
+        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
+        window.gtag('config', 'G-E3VGGM7P1G', {
+          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
+        });
+
+        // Microsoft Clarity
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
+      })();
+    </script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"The AI Citation Window Is Closing: Why AEO Timing Beats Tactics","item":"https://solcrys.com/ai-citation-first-mover-window/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The AI Citation Window Is Closing: Why AEO Timing Beats Tactics","description":"The sources an AI trusts for a category narrow over time toward two or three brands. While that pool is still open, getting cited is cheap; once it freezes around incumbents, displacing an anchor costs far more. So AEO has a first-mover dynamic, and the strategic question isn't only what to do, it's whether your category's citation window is still open.","dateModified":"2026-07-05","datePublished":"2026-07-05","mainEntityOfPage":"https://solcrys.com/ai-citation-first-mover-window/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-citation-first-mover-window/","mainEntity":[{"@type":"Question","name":"Is it too late to start AEO if competitors are already cited?","acceptedAnswer":{"@type":"Answer","text":"It depends entirely on the question, not the category as a whole. For your mainstream, high-level query the pool may already have frozen around a few incumbents, and entering there is a displacement fight. But most categories have emerging sub-questions where no consensus has formed yet, and those windows are still open and cheap to enter. So it's rarely too late everywhere at once, the move is to find the questions that haven't settled and start there rather than fighting the one that has."}},{"@type":"Question","name":"How do I know if my category's AI citation window is still open?","acceptedAnswer":{"@type":"Answer","text":"Ask your buyers' questions across the engines several times each and watch the variance. If the same two or three names come back on every run, the pool has frozen and that query is settled. If the names bounce run to run, the pool is still contested and open. High variance, which usually reads as a problem, is the tell that the window is still open and nobody owns it yet."}},{"@type":"Question","name":"Why does getting cited by AI early cost less than later?","acceptedAnswer":{"@type":"Answer","text":"Because AI answers run on corroboration, and corroboration compounds. Early, before a category settles, the model has no fixed answer and a small amount of agreement across a few sources can put you in it. Later, an incumbent is backed by an agreeing set of sources that reinforce each other, so a newcomer has to outweigh the whole set, not add one voice. The cost isn't linear, it climbs as the consensus deepens."}},{"@type":"Question","name":"What is a citation anchor in AEO?","acceptedAnswer":{"@type":"Answer","text":"A citation anchor is one of the specific recurring sources an AI keeps pulling from when it names a brand for a query, often the same two or three: a roundup, a comparison page that still ranks, a well-engaged community thread. Anchors aren't equal in durability. A long-standing editorial placement is hard to displace; a community thread is volatile and can be replaced in weeks. The practical move is to triage by replaceability rather than trying to beat every anchor at once."}},{"@type":"Question","name":"Does high citation variance mean my measurement is broken?","acceptedAnswer":{"@type":"Answer","text":"Usually not. Some run-to-run variance is inherent because these answers are non-deterministic, but sustained high variance on a query is a real signal, not noise: it means the category hasn't settled and no source pool owns that answer yet. Read that as opportunity rather than error. The queries where the names keep changing are the open windows; the ones where the same names return every time are the frozen ones."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>The AI Citation Window Is Closing: Why AEO Timing Beats Tactics</h1>
+        <p class="seo-lede">Most AEO advice is about what to do. The more important question is often when. The pool of sources an AI trusts for a given category doesn&#39;t stay open forever. Over time it tends to narrow toward a small canonical set, usually two or three brands that keep getting cited across the same anchors. While that pool is still forming, getting into it is cheap, a few well-placed sources can put you in the answer. Once it settles around incumbents, displacing one costs far more, because you&#39;re no longer adding a source, you&#39;re trying to outweigh an entrenched set that every model already agrees on. That asymmetry gives AEO a first-mover dynamic. And you can read where your category sits: ask the buyer questions across engines several times each and watch the variance. Same two or three names every run means the pool has frozen; names that bounce run to run mean it&#39;s still open. High citation variance, which usually reads as a measurement problem, is actually the signal that the window is open, and the categories where you feel behind because no one dominates yet are exactly the ones worth moving on first.</p>
+        
+        <p>Updated <time datetime="2026-07-05">2026-07-05</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Is it too late to start AEO if competitors are already cited?</li><li>How do I know if my category&#39;s AI citation window is still open?</li><li>Why does getting cited by AI early cost less than later?</li><li>What is a citation anchor in AEO?</li><li>Does high citation variance mean my measurement is broken?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Most AEO advice is about what to do. The more important question is often when. The sources an AI trusts for a given category don&#39;t stay open forever. Over time the pool a model pulls from tends to narrow toward a small canonical set, usually two or three brands that keep getting cited across the same handful of sources.</p><p>While that pool is still forming, getting into it is cheap: a few well-placed sources can put you in the answer. Once it settles around incumbents, displacing one costs far more, because you&#39;re no longer adding a source, you&#39;re trying to outweigh an entrenched set that every model already agrees on. So AEO has a first-mover dynamic. The strategic question isn&#39;t only &quot;how do I get cited,&quot; it&#39;s &quot;is my category&#39;s citation window still open, and how fast is it closing.&quot;</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why the pool narrows over time</h2>
+      <p>An AI answer isn&#39;t assembled from the whole web. It&#39;s assembled from the few sources the model trusts for that specific query, and trust here is corroboration: the model leans on sources that agree with each other and keep getting surfaced (see <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>). That sets up a rich-get-richer loop. Once a brand is cited by two or three durable sources, it becomes the safe answer, which gets it mentioned more, which produces more sources, which deepens the consensus.</p><p>Early, before that loop starts, the model has no settled answer and is genuinely looking, so a small amount of corroboration goes a long way. Late, the loop is self-reinforcing, and a newcomer has to overcome not one source but an agreeing set. That asymmetry is the whole reason timing matters.</p><p>It isn&#39;t permanent, which is worth saying plainly. A window can reopen when a category gets redefined, a new engine rises with a different source diet, or a major event resets what everyone cites. But absent one of those resets, the default direction is toward narrowing, not opening.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to tell if your window is still open</h2>
+      <p>You can actually read where a category sits. Ask the questions your buyers ask across the engines, several times each, and watch whether the variance is sustained across runs, not just the normal run-to-run noise. If the same two or three names come back every run, the pool has frozen: that category is settled and expensive to enter. If the names bounce around run to run, the pool is still contested and open, and nobody owns it yet.</p><p>This flips how most people read the data. High citation variance usually feels like a problem or a measurement bug, but it&#39;s actually the signal that the window is open (see <a href="/contested-vs-settled-ai-citation-queries/" target="_blank" rel="noopener noreferrer">contested vs settled queries</a> and <a href="/ai-citation-variance-spend-decision/" target="_blank" rel="noopener noreferrer">when variance is worth spending on</a>). The categories where you feel behind because no one dominates yet are exactly the ones worth moving on first.</p>
+      
+      <table>
+              <thead><tr><th></th><th>Window still open</th><th>Window closed</th></tr></thead>
+              <tbody><tr><td>What you see across runs</td><td>Names bounce run to run (high variance)</td><td>Same 2-3 names every run (settled)</td></tr><tr><td>Cost to get cited</td><td>Low, a few sources can tip it</td><td>High, you must outweigh an agreeing set</td></tr><tr><td>Right move</td><td>Move now, plant the anchors yourself</td><td>Displace one replaceable anchor, or pick a different query</td></tr><tr><td>The trap</td><td>&quot;No one dominates, so why bother&quot;</td><td>&quot;They&#39;re everywhere, so it&#39;s hopeless&quot;</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Inside the window, work the anchors</h2>
+      <p>Being early doesn&#39;t mean publishing more. It means getting into the specific sources that become the category&#39;s anchors. When a competitor keeps getting named, trace it back and you&#39;ll usually find the same two or three sources doing the work: a roundup, a comparison page that still ranks, a community thread (see <a href="/track-where-competitors-get-cited-in-ai/" target="_blank" rel="noopener noreferrer">how to track where competitors get cited</a> for the mechanics of finding them).</p><p>The point this page adds is that those anchors have a lifecycle, and they aren&#39;t equal. They have different half-lives. A long-standing editorial placement is baked in, you&#39;re not moving it fast. A community thread is volatile, and a fresher, more engaged one can displace it in weeks. So don&#39;t try to beat every anchor. Triage: find the one that&#39;s actually replaceable and put your effort there. In an open category you&#39;re planting the durable anchors yourself; in a closing one you&#39;re picking off the movable ones.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A worked example</h2>
+      <p>Say a challenger data-warehouse brand, call it Northwind, wants to be the AI&#39;s answer in its category. For the mainstream query, &quot;best data warehouse,&quot; the pool froze years ago around the two or three obvious leaders. Entering there means outweighing a decade of agreeing sources, a multi-quarter fight with an uncertain payoff.</p><p>But for an emerging sub-question, say a newer workload the category is just starting to ask about, no consensus exists yet and the engines are still guessing. That&#39;s the open window. A handful of the right sources on that one specific question can make Northwind the default answer before anyone else notices the question matters, and by the time the leaders do, Northwind is the incumbent anchor they&#39;d have to displace. Same market, two completely different costs, decided almost entirely by which window it played.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What this changes about your AEO plan</h2>
+      <p>The practical shift is to sequence by window, not by effort. Take your buyer questions and sort them: which are already frozen (settled, the same names every run) and which are still open (contested, high variance). Spend first on the open ones, because that&#39;s where a unit of work buys the most, and where being early makes you the incumbent instead of the challenger.</p><p>The frozen questions aren&#39;t off-limits, but they&#39;re a displacement fight, so go in knowing the cost and only for the anchors that are actually movable. The common mistake is spreading effort evenly across both, which overpays on the frozen queries and underinvests in the open ones that are quietly closing while you wait.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>See which of your questions are still open</h2>
+      <p>The starting point is seeing which of your category&#39;s questions are open and which have frozen. <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you, per question and per engine, whether the same names keep coming back or the pool is still moving, which is what tells you where your window is still open.</p><p><a href="https://app.solcrys.com/contact-sales/" target="_blank" rel="noopener noreferrer">Talk to us</a> if you want it tracked continuously, because a window closing is exactly the kind of change you want to catch early rather than discover after it&#39;s shut.</p><p>AEO isn&#39;t only a question of what you publish. It&#39;s a question of timing, and the categories still deciding their answer are the ones where a little work now is worth a lot later.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is it too late to start AEO if competitors are already cited?</h3>
+            <p>It depends entirely on the question, not the category as a whole. For your mainstream, high-level query the pool may already have frozen around a few incumbents, and entering there is a displacement fight. But most categories have emerging sub-questions where no consensus has formed yet, and those windows are still open and cheap to enter. So it&#39;s rarely too late everywhere at once, the move is to find the questions that haven&#39;t settled and start there rather than fighting the one that has.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I know if my category&#39;s AI citation window is still open?</h3>
+            <p>Ask your buyers&#39; questions across the engines several times each and watch the variance. If the same two or three names come back on every run, the pool has frozen and that query is settled. If the names bounce run to run, the pool is still contested and open. High variance, which usually reads as a problem, is the tell that the window is still open and nobody owns it yet.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does getting cited by AI early cost less than later?</h3>
+            <p>Because AI answers run on corroboration, and corroboration compounds. Early, before a category settles, the model has no fixed answer and a small amount of agreement across a few sources can put you in it. Later, an incumbent is backed by an agreeing set of sources that reinforce each other, so a newcomer has to outweigh the whole set, not add one voice. The cost isn&#39;t linear, it climbs as the consensus deepens.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a citation anchor in AEO?</h3>
+            <p>A citation anchor is one of the specific recurring sources an AI keeps pulling from when it names a brand for a query, often the same two or three: a roundup, a comparison page that still ranks, a well-engaged community thread. Anchors aren&#39;t equal in durability. A long-standing editorial placement is hard to displace; a community thread is volatile and can be replaced in weeks. The practical move is to triage by replaceability rather than trying to beat every anchor at once.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does high citation variance mean my measurement is broken?</h3>
+            <p>Usually not. Some run-to-run variance is inherent because these answers are non-deterministic, but sustained high variance on a query is a real signal, not noise: it means the category hasn&#39;t settled and no source pool owns that answer yet. Read that as opportunity rather than error. The queries where the names keep changing are the open windows; the ones where the same names return every time are the frozen ones.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/track-where-competitors-get-cited-in-ai/">How to Track Where Your Competitors Get Cited in AI Search (2026)</a></h3>
+            <p>A 4-step playbook for tracking which competitors AI engines cite — competitive share of voice, citation source maps, and replacement rate. Real SolCrys data.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/contested-vs-settled-ai-citation-queries/">Contested vs Settled: Why Your Most Volatile AI Queries Are the Open Slots, Not a Maintenance Burden</a></h3>
+            <p>Volatile AI-citation queries aren&#39;t a maintenance burden. They&#39;re contested open slots no source has won yet. How to read variance as a query-selection signal.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-citation-variance-spend-decision/">Contested, Settling, or Decaying? Turn AI-Citation Variance Into a Spend Decision</a></h3>
+            <p>The contested-vs-settled signal tells you which AI queries are winnable. This is how to act on it: measure the noise floor per query, classify each query&#39;s phase, route each phase to a different move, and avoid the trap that wrecks the whole thing, mistaking a query that&#39;s dying for one you&#39;re losing.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-build-a-source-layer-strategy/">How to Build a Source-Layer Strategy for AEO (2026)</a></h3>
+            <p>A strategic playbook for building the three source layers that AI engines actually cite: owned, earned, and community. Includes sequencing, costs, and an ethics line.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free AI visibility audit</p>
+        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
+        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
+        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BSH7FrNa.js"></script>
+  </body>
+</html>
