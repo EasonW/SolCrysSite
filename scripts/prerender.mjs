@@ -544,6 +544,7 @@ function webPageSchema({ routePath, title, description, ogImage }) {
 const HOME_CUSTOMER_QUOTES = [
   ["Maria Voloh", "Sr. Director, Global Digital Marketing, UiPath", "https://www.linkedin.com/in/mariavoloh/", "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines."],
   ["Brandon Draeger", "VP of Marketing, NextSilicon", "https://www.linkedin.com/in/brandondraeger/", "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. SolCrys is informing how we think about marketing performance across product launches, campaigns, and major events."],
+  ["Kari Newhouse", "Head of Digital, TechArena", "https://www.linkedin.com/in/kari-newhouse/", "SolCrys AI has been the tool we rely on to advise our own customers — it consistently uncovers opportunities we wouldn't have found ourselves. It hasn't just improved our AI visibility; it's helped us explain why AI is becoming the new buying interface. We use many tools, but we've never worked with a vendor as invested in our success as SolCrys."],
   ["Yun Zhang", "CEO, Wyze", "https://www.linkedin.com/in/yun-zhang-1441933", "SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust. We're excited to work with the SolCrys team as they build toward the future of brand discovery and agentic commerce."],
   ["Michelle Frees", "Head of Amazon, Wyze", "https://www.linkedin.com/in/michellewangfrees/", "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible."],
   ["Garrett Astler", "Co-founder, ClearlyKept", "https://www.linkedin.com/in/ACoAAAzCAM8B_4zaQelFta2ZX-vhiQRMG2QBCYg", "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, and draft content for our website is exactly what we need."],
@@ -801,6 +802,12 @@ function customersHtml() {
         <p class="seo-kicker"><a href="https://www.linkedin.com/in/mariavoloh/" rel="noopener">Maria Voloh</a> — Sr. Director, Global Digital Marketing, UiPath</p>
         <blockquote>
           <p>“We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/kari-newhouse/" rel="noopener">Kari Newhouse</a> — Head of Digital, TechArena</p>
+        <blockquote>
+          <p>“SolCrys AI has been the tool we rely on to advise our own customers. It consistently uncovers opportunities and business ideas we wouldn't have found ourselves. Beyond the product, the team continuously ships new features and goes above and beyond to ensure our success. SolCrys hasn't just helped us improve our AI visibility; it has also helped us explain why AI is becoming the new buying interface and why customers are increasingly turning to AI to discover solutions. We use many tools, but we've never worked with a vendor that's as invested in our success as SolCrys.”</p>
         </blockquote>
       </article>
       <article class="seo-card">
@@ -1607,6 +1614,13 @@ writePage(
         itemReviewed: organizationSchema,
         author: { "@type": "Person", name: "Maria Voloh", jobTitle: "Sr. Director, Global Digital Marketing, UiPath" },
         reviewBody: "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Kari Newhouse", jobTitle: "Head of Digital, TechArena" },
+        reviewBody: "SolCrys AI has been the tool we rely on to advise our own customers. It consistently uncovers opportunities and business ideas we wouldn't have found ourselves. Beyond the product, the team continuously ships new features and goes above and beyond to ensure our success. SolCrys hasn't just helped us improve our AI visibility; it has also helped us explain why AI is becoming the new buying interface and why customers are increasingly turning to AI to discover solutions. We use many tools, but we've never worked with a vendor that's as invested in our success as SolCrys."
       }
     ]
   })

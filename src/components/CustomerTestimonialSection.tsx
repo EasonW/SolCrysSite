@@ -7,6 +7,7 @@ const NEXTSILICON_INDIGO = "#5700FF";
 const CLEARLYKEPT_AMBER = "#F59E0B";
 const BOBOYM_ORANGE = "#FB923C";
 const UIPATH_ORANGE = "#FA4616";
+const TECHARENA_CYAN = "#00C4D3";
 
 const BOBOYM_AMAZON_STORE =
   "https://www.amazon.com/BOBOYM-20-Inch-Expandable-Suitcase-360%C2%B0Rolling/dp/B0FXWHWTXN/";
@@ -35,6 +36,18 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     quote:
       "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. SolCrys is informing how we think about marketing performance across product launches, campaigns, and major events.",
     attribution: { type: "linkedin", href: "https://www.linkedin.com/in/brandondraeger/" },
+  },
+  {
+    name: "Kari Newhouse",
+    role: "Head of Digital",
+    company: "TechArena",
+    photoUrl: "/customers/kari-newhouse.jpg",
+    companyLogoUrl: "/customers/techarena-logo.svg",
+    companyLogoClassName: "h-4 md:h-5 dark:brightness-0 dark:invert",
+    accent: TECHARENA_CYAN,
+    quote:
+      "SolCrys AI has been the tool we rely on to advise our own customers — it consistently uncovers opportunities we wouldn't have found ourselves. It hasn't just improved our AI visibility; it's helped us explain why AI is becoming the new buying interface. We use many tools, but we've never worked with a vendor as invested in our success as SolCrys.",
+    attribution: { type: "linkedin", href: "https://www.linkedin.com/in/kari-newhouse/" },
   },
   {
     name: "Yun Zhang",

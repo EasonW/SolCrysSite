@@ -18,6 +18,7 @@ import {
 const WYZE_TEAL = "#00D4B4";
 const NEXTSILICON_INDIGO = "#5700FF";
 const UIPATH_ORANGE = "#FA4616";
+const TECHARENA_CYAN = "#00C4D3";
 
 const LINKEDIN = {
   brandon: "https://www.linkedin.com/in/brandondraeger/",
@@ -26,6 +27,7 @@ const LINKEDIN = {
   toni: "https://www.linkedin.com/in/tiafrate/",
   garrett: "https://www.linkedin.com/in/ACoAAAzCAM8B_4zaQelFta2ZX-vhiQRMG2QBCYg",
   maria: "https://www.linkedin.com/in/mariavoloh/",
+  kari: "https://www.linkedin.com/in/kari-newhouse/",
 } as const;
 
 const BOBOYM_AMAZON_STORE =
@@ -76,6 +78,9 @@ const toniQuote =
 
 const mariaQuote =
   "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines.";
+
+const kariQuote =
+  "SolCrys AI has been the tool we rely on to advise our own customers. It consistently uncovers opportunities and business ideas we wouldn't have found ourselves. Beyond the product, the team continuously ships new features and goes above and beyond to ensure our success. SolCrys hasn't just helped us improve our AI visibility; it has also helped us explain why AI is becoming the new buying interface and why customers are increasingly turning to AI to discover solutions. We use many tools, but we've never worked with a vendor that's as invested in our success as SolCrys.";
 
 const garrettQuote =
   "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, integrate with GitHub, and draft content for our website is exactly what we need.";
@@ -637,6 +642,61 @@ const CustomerStories = () => {
                   </div>
                   <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground">
                     {mariaQuote}
+                  </blockquote>
+                </div>
+              </div>
+            </article>
+
+            {/* Kari Newhouse — TechArena */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
+              <div
+                className="absolute inset-x-0 top-0 h-px"
+                style={{
+                  background: `linear-gradient(to right, transparent, ${TECHARENA_CYAN}, transparent)`,
+                }}
+              />
+              <div className="grid md:grid-cols-[auto_1fr] gap-0">
+                <div className="flex md:flex-col items-center md:justify-center gap-4 p-8 md:p-10 md:w-[280px] border-b md:border-b-0 md:border-r border-border/40 bg-muted/20">
+                  <div
+                    className="h-20 w-20 md:h-24 md:w-24 rounded-full overflow-hidden border-2 shrink-0"
+                    style={{ borderColor: `${TECHARENA_CYAN}55` }}
+                  >
+                    <img
+                      src="/customers/kari-newhouse.jpg"
+                      alt="Kari Newhouse"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="md:mt-5 md:text-center md:flex md:flex-col md:items-center">
+                    <p className="font-heading text-base font-semibold text-foreground">
+                      Kari Newhouse
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      Head of Digital
+                    </p>
+                    <img
+                      src="/customers/techarena-logo.svg"
+                      alt="TechArena"
+                      className="mt-3 h-5 w-auto dark:brightness-0 dark:invert"
+                      loading="lazy"
+                    />
+                    <div className="mt-3">
+                      <LinkedInLink href={LINKEDIN.kari} name="Kari Newhouse" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-8 md:p-12 flex flex-col justify-center">
+                  <div
+                    aria-hidden
+                    className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none"
+                    style={{ color: TECHARENA_CYAN, opacity: 0.45 }}
+                  >
+                    “
+                  </div>
+                  <blockquote className="font-heading text-lg md:text-xl lg:text-2xl leading-snug md:leading-[1.4] text-foreground">
+                    {kariQuote}
                   </blockquote>
                 </div>
               </div>

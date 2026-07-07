@@ -34,6 +34,7 @@ export const CUSTOMER_LOGOS: CustomerLogo[] = [
   { label: "Headley Media", image: "/customers/headley-logo.png", className: "h-6 md:h-7 dark:brightness-0 dark:invert", color: "#14517D" },
   { label: "Acorn Stairlifts", image: "/customers/acorn-logo.png", className: "h-6 md:h-7 dark:brightness-0 dark:invert", color: "#8B0030" },
   { label: "CLW Group", image: "/customers/clw-logo.png", className: "h-6 md:h-7 dark:brightness-0 dark:invert", color: "#D81E06" },
+  { label: "TechArena", image: "/customers/techarena-logo.svg", className: "h-4 md:h-5 dark:brightness-0 dark:invert", color: "#00C4D3" },
   { label: "BOBOYM", color: "#FB923C" },
 ];
 
