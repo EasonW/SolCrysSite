@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/aeo-platforms-that-integrate-with-cms.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/aeo-platforms-that-integrate-with-cms.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-BreZmNdl.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-CbUMqRO3.css">
     <!-- analytics:start -->
     <script>
       (function () {
@@ -217,7 +217,7 @@
     </section>
     <section class="seo-section">
       <h2>MCP and Skills — a different integration paradigm</h2>
-      <p>SolCrys ships two native bidirectional paths today — WordPress and headless CMS (Sanity, Contentful) via webhook — and we have a different architectural bet for the rest of the CMS surface. We don&#39;t plan to ship six bespoke connectors.</p><p>The traditional vendor approach is <strong>&quot;we build a connector for CMS X.&quot;</strong> Each connector is a custom engineering project, each one ships on its own roadmap, each one breaks when the CMS changes its API. That model is why most vendors in the matrix above have only one or two real integrations — building and maintaining ten is a full engineering team.</p><p>Our bet was to expose AEO data through a <strong>Model Context Protocol (MCP) server</strong> and ship our agent workflows as open-source <a href="/solcrys-mcp-and-skills/" target="_blank" rel="noopener noreferrer">SolCrys Skills</a>. MCP is Anthropic&#39;s open protocol for letting AI agents — Claude, ChatGPT custom GPTs, Cursor, LangChain pipelines — read structured data from any compliant server. The SolCrys MCP server exposes citations, prompts, deep-analysis recommendations, content audits, and the task queue as agent-readable tools.</p><p>That changes the integration question from &quot;did SolCrys build a Webflow connector?&quot; to <strong>&quot;can any agent read SolCrys data and write to my CMS?&quot;</strong> The answer for every modern CMS with an API is yes — and the agent doing the writing can be one we shipped, one your team built, or one a partner shipped. The full rationale for that architectural choice is in our founder note on <a href="/why-we-bet-on-mcp/" target="_blank" rel="noopener noreferrer">why we bet on MCP early</a>.</p><p>The practical consequence is that &quot;CMS integration&quot; in the SolCrys model has two layers. The native layer is what we ship — WordPress and headless-CMS webhook publish + re-test, with native connectors for additional CMSes on the roadmap. The agent layer is what MCP unlocks — your own agent (Claude, ChatGPT custom GPT, Cursor, LangChain pipeline, or a Skill we ship) reads SolCrys evidence and recommendations through MCP, then performs the CMS write itself through whatever connector your stack supports. We ship four production Skills that wire common patterns end-to-end; teams that want a different workflow can build one in an afternoon. The SolCrys MCP server itself is read-mostly — it exposes data and recommendations, plus one narrow task-status write; it does not publish content or push changes to your CMS.</p><p>This isn&#39;t a claim that every team should use MCP for CMS work. If you have a single CMS and you want a one-click connector, the right answer might be Profound&#39;s Agent feature into WordPress, or Conductor&#39;s connector if you&#39;re already on their stack. MCP is the right paradigm when you have a heterogeneous content surface (a marketing site on Webflow, a blog on WordPress, product pages on Shopify, and a docs site on a static generator), when you have an engineering team that wants to compose its own workflows, or when you&#39;re an agency operating across 20 client CMSs and bespoke connectors don&#39;t scale.</p>
+      <p>SolCrys ships two native bidirectional paths today — WordPress and headless CMS (Sanity, Contentful) via webhook — and we have a different architectural bet for the rest of the CMS surface. We don&#39;t plan to ship six bespoke connectors.</p><p>The traditional vendor approach is <strong>&quot;we build a connector for CMS X.&quot;</strong> Each connector is a custom engineering project, each one ships on its own roadmap, each one breaks when the CMS changes its API. That model is why most vendors in the matrix above have only one or two real integrations — building and maintaining ten is a full engineering team.</p><p>Our bet was to expose AEO data through a <strong>Model Context Protocol (MCP) server</strong> and ship our agent workflows as open-source <a href="/solcrys-mcp-and-skills/" target="_blank" rel="noopener noreferrer">SolCrys Skills</a>. MCP is Anthropic&#39;s open protocol for letting AI agents — Claude, ChatGPT custom GPTs, Cursor, LangChain pipelines — read structured data from any compliant server. The SolCrys MCP server exposes citations, prompts, deep-analysis recommendations, content audits, and the task queue as agent-readable tools.</p><p>That changes the integration question from &quot;did SolCrys build a Webflow connector?&quot; to <strong>&quot;can any agent read SolCrys data and write to my CMS?&quot;</strong> The answer for every modern CMS with an API is yes — and the agent doing the writing can be one we shipped, one your team built, or one a partner shipped. The full rationale for that architectural choice is in our founder note on <a href="/why-we-bet-on-mcp/" target="_blank" rel="noopener noreferrer">why we bet on MCP early</a>.</p><p>The practical consequence is that &quot;CMS integration&quot; in the SolCrys model has two layers. The native layer is what we ship — WordPress and headless-CMS webhook publish + re-test, with native connectors for additional CMSes on the roadmap. The agent layer is what MCP unlocks — your own agent (Claude, ChatGPT custom GPT, Cursor, LangChain pipeline, or a Skill we ship) reads SolCrys evidence and recommendations through MCP, then performs the CMS write itself through whatever connector your stack supports. We ship six production Skills that wire common patterns end-to-end; teams that want a different workflow can build one in an afternoon. The SolCrys MCP server itself is read-mostly — it exposes data and recommendations, plus one narrow task-status write; it does not publish content or push changes to your CMS.</p><p>This isn&#39;t a claim that every team should use MCP for CMS work. If you have a single CMS and you want a one-click connector, the right answer might be Profound&#39;s Agent feature into WordPress, or Conductor&#39;s connector if you&#39;re already on their stack. MCP is the right paradigm when you have a heterogeneous content surface (a marketing site on Webflow, a blog on WordPress, product pages on Shopify, and a docs site on a static generator), when you have an engineering team that wants to compose its own workflows, or when you&#39;re an agency operating across 20 client CMSs and bespoke connectors don&#39;t scale.</p>
       
       
       
@@ -289,7 +289,7 @@
           <article class="seo-card">
             <p class="seo-kicker">MCP &amp; Skills</p>
             <h3><a href="/solcrys-mcp-and-skills/">SolCrys MCP and Skills: tools, install, and the workflows that chain them</a></h3>
-            <p>A practical reference for the SolCrys MCP server and the four open-source AEO Skills. Nine tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
+            <p>A practical reference for the SolCrys MCP server and the six open-source AEO Skills. All 14 tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
           </article>
           <article class="seo-card">
             <p class="seo-kicker">MCP &amp; Skills</p>
@@ -311,10 +311,10 @@
       
     <section class="seo-section">
       <div class="seo-card">
-        <p class="seo-kicker">Free AI visibility audit</p>
-        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
-        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
-        <p><a href="https://app.solcrys.com/audit">Get a free audit</a></p>
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
       </div>
     </section>
     </article>
@@ -335,6 +335,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-RZG_5flc.js"></script>
+    <script type="module" crossorigin src="/assets/index-BsPnyJC4.js"></script>
   </body>
 </html>
