@@ -600,12 +600,12 @@ function homeHtml() {
         ${home.proofPoints.map((point) => `<li class="seo-card">${escapeHtml(point)}</li>`).join("")}
       </ul>
       <figure style="margin-top: 2rem;">
-        <figcaption><strong>The SolCrys Loop</strong> — operational snapshot of one customer workspace. Numbers reflect actual state, not aggregate marketing claims.</figcaption>
+        <figcaption><strong>The SolCrys Loop</strong> — illustrative example of one workspace. Numbers are directional, not aggregate marketing claims.</figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
           <li><strong>Step 01 · Measure.</strong> 20 prompts tracked across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans.</li>
           <li><strong>Step 02 · Diagnose.</strong> 3 gaps detected, classified as absence, citation, accuracy, comparison, or action gap.</li>
           <li><strong>Step 03 · Execute.</strong> 1 action queued — brand-safe drafts via Corporate Context, routed for human review.</li>
-          <li><strong>Step 04 · Verify.</strong> +5pp citation rate after re-testing the same prompt set. Loop continues.</li>
+          <li><strong>Step 04 · Verify.</strong> Re-test the same prompt set to track visibility and recommendation movement after the action ships. Loop continues.</li>
         </ol>
       </figure>
     </section>
@@ -617,10 +617,10 @@ function homeHtml() {
       <h2>The SolCrys Loop: measure, diagnose, execute, verify</h2>
       <p>SolCrys closes the loop on AI search visibility. Each shipped action is tied to the same prompt set so teams can see which fixes actually changed the answer.</p>
       <ol class="seo-list">
-        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, sentiment, and answer accuracy in one place.</li>
+        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, recommendation, and answer accuracy in one place.</li>
         <li><strong>Diagnose the answer gap.</strong> Classify each weak answer as an absence, citation, accuracy, comparison, or action gap. Map each gap to the page or source most likely to fix it.</li>
         <li><strong>Execute with Corporate Context.</strong> SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.</li>
-        <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track citation rate, answer accuracy, and recommendation share to prove which fixes actually moved the answer.</li>
+        <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
       </ol>
     </section>
     <section id="free-tracker" class="seo-container seo-section">
@@ -853,7 +853,7 @@ function nextSiliconCaseStudyHtml() {
       <h2>The SolCrys approach</h2>
       <p>NextSilicon onboarded to SolCrys in March 2026. Within days, SolCrys completed a full audit of their content, benchmarked their performance against key competitors, and surfaced critical gaps impacting their visibility. From there, the platform generated a continuously updated optimization roadmap across:</p>
       <ul class="seo-list">
-        <li><strong>Prompt building.</strong> Developing prompt sets across answer engines to measure prompt-level AI visibility, citation, sentiment, and recommendation share.</li>
+        <li><strong>Prompt building.</strong> Developing prompt sets across answer engines to measure prompt-level AI visibility, recommendation share, citation, and answer accuracy.</li>
         <li><strong>Content optimization.</strong> Auditing webpages, identifying topic clusters, strengthening factual density, refining comparison framing, and recommending high-impact claims.</li>
         <li><strong>Metadata intelligence.</strong> Applying and validating schema, structured data, and AI engine-optimized descriptions at scale.</li>
         <li><strong>Authority mapping.</strong> Pinpointing high-value citation sources and PR opportunities aligned to category relevance.</li>
@@ -914,7 +914,7 @@ function aboutHtml() {
       <h2>Our story</h2>
       <p>Our background sits at the intersection of SEO, search intent, product discovery, and data-driven growth. AI-generated answers add a new distribution layer to that work: a brand can perform well in traditional search, yet still be absent, uncited, or misrepresented inside the answer a buyer sees first.</p>
       <p>Marketing teams now need to know which prompts matter, which sources AI systems cite, how competitors are framed, and how to establish topical authority across AI-visible sources.</p>
-      <p>SolCrys was built to connect AI visibility measurement with practical content action. The platform helps teams monitor mentions, citations, share of voice, sentiment, and answer accuracy, then translate those findings into page updates, publisher and analyst content briefs, FAQ improvements, and user-generated content (UGC) strategies.</p>
+      <p>SolCrys was built to connect AI visibility measurement with practical content action. The platform helps teams monitor mentions, citations, share of voice, recommendation, and answer accuracy, then translate those findings into page updates, publisher and analyst content briefs, FAQ improvements, and user-generated content (UGC) strategies.</p>
       <p>Our focus is straightforward: help brands sharpen their content strategy so their content is easier for answer engines to retrieve, trust, cite, and summarize.</p>
     </section>
     <section class="seo-container seo-section">
@@ -978,6 +978,7 @@ function aboutHtml() {
       </div>
       <p><a href="/news/raejeanne-skillern-strategic-advisor/">Read the announcement of Raejeanne Skillern joining SolCrys as Strategic Advisor →</a></p>
     </section>
+    <div class="seo-container">${ctaHtml()}</div>
   </main>
   ${footerHtml()}
 </div>`;

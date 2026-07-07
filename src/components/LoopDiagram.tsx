@@ -26,7 +26,7 @@ const nodes: LoopNode[] = [
     step: "01",
     label: "Measure",
     metric: "20 prompts",
-    description: "Across ChatGPT, Gemini, Google AI surfaces, and Perplexity on eligible plans.",
+    description: "Across ChatGPT, Gemini, Google AI surfaces, Perplexity, and Claude on eligible plans.",
     icon: BarChart3,
     color: "hsl(var(--brand-accent))",
   },
@@ -49,8 +49,8 @@ const nodes: LoopNode[] = [
   {
     step: "04",
     label: "Verify",
-    metric: "+5pp citation rate",
-    description: "Re-tested against the same prompt set after the action shipped.",
+    metric: "Recommendation ↑",
+    description: "Re-run the same prompt set after the fix ships — track visibility and recommendation movement, not just citations.",
     icon: CheckCircle2,
     color: "hsl(var(--brand-accent))",
   },
@@ -175,7 +175,7 @@ const LoopDiagram = () => {
       </div>
 
       <p className="mt-6 text-center text-xs text-muted-foreground/60 leading-relaxed">
-        Snapshot of one customer workspace. Numbers reflect operational state, not aggregate marketing claims.
+        Illustrative example of one workspace — directional, not aggregate marketing claims.
       </p>
     </div>
   );

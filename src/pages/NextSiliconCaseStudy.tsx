@@ -29,7 +29,7 @@ const approachPillars = [
     Icon: Target,
     title: "Prompt building",
     body:
-      "Prompt sets developed across answer engines to measure prompt-level AI visibility, citation share, sentiment, and recommendation rate.",
+      "Prompt sets developed across answer engines to measure prompt-level AI visibility, recommendation rate, citation share, and answer accuracy.",
   },
   {
     Icon: FileText,

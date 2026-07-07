@@ -3,6 +3,8 @@ import Navbar from "@/components/Navbar";
 import siteContent from "@/content/siteContent.json";
 import { ArrowRight } from "lucide-react";
 import { useEffect } from "react";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { APP_PRICING_URL } from "@/lib/pricing-url";
 
 // Hub for the Competitor Comparisons cluster. The individual comparison
 // pages live at /compare/<slug>/ (nested resourcePage slugs); this page
@@ -62,6 +64,35 @@ const Compare = () => {
                 </span>
               </a>
             ))}
+          </div>
+
+          {/* Closing CTA — comparison readers are high-intent (mid-evaluation).
+              Give them a self-serve door to test SolCrys on their own data
+              plus the pricing path, instead of ending on a link grid. */}
+          <div className="mt-16 rounded-2xl border border-[hsl(var(--brand-accent)/0.2)] bg-card/40 backdrop-blur-sm p-10 md:p-14 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+              Compare us on your own data.
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-8">
+              Run a free ChatGPT visibility read on your domain, then see how SolCrys
+              measures, diagnoses, and verifies — not just scores.
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a
+                href={AUDIT_URL}
+                onClick={() => trackAuditClick("compare_cta")}
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--action))] px-6 py-3 text-base font-medium text-[hsl(var(--action-foreground))] hover:bg-[hsl(var(--action-hover))] transition-colors"
+              >
+                Start Free
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href={APP_PRICING_URL}
+                className="inline-flex items-center justify-center rounded-md border border-border/60 px-6 py-3 text-base font-medium text-foreground hover:bg-accent/40 transition-colors"
+              >
+                See pricing
+              </a>
+            </div>
           </div>
         </section>
       </main>

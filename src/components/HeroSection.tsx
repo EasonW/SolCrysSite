@@ -35,6 +35,13 @@ const HeroSection = () => {
           <AnnouncementBanner />
         </div>
 
+        {/* Category eyebrow — tells cold traffic what SolCrys *is* (a product
+            category) before the thesis headline states what it *does*. Mirrors
+            the prerendered `seo-kicker` so the SPA and crawler HTML stay aligned. */}
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[hsl(var(--brand-accent))] opacity-0 animate-fade-up-delay-1">
+          {siteContent.home.eyebrow}
+        </p>
+
         {/* Headline — the thesis (SolCrys's core positioning pillar). */}
         <h1 className="mx-auto mb-6 max-w-[18rem] text-[clamp(2.05rem,8.8vw,3rem)] font-bold leading-[1.08] tracking-tight opacity-0 animate-fade-up-delay-1 sm:max-w-3xl sm:text-5xl md:max-w-5xl md:text-6xl lg:text-7xl">
           {heroTitleLead} <br className="hidden md:block" />

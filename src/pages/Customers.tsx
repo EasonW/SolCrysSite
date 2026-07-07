@@ -93,7 +93,7 @@ const nextSiliconApproach = [
     Icon: Target,
     title: "Prompt building & benchmarking",
     body:
-      "Prompt sets across answer engines measure prompt-level visibility, citation share, sentiment, and recommendation rate against key competitors.",
+      "Prompt sets across answer engines measure prompt-level visibility, recommendation rate, citation share, and answer accuracy against key competitors.",
   },
   {
     Icon: Workflow,

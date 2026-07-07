@@ -8,6 +8,8 @@ export type AuditSurface =
   | "hero"
   | "navbar"
   | "cta_section"
+  | "about_cta"
+  | "compare_cta"
   | "customers"
   | "customers-nextsilicon"
   | "pricing"

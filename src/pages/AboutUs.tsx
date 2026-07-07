@@ -7,6 +7,8 @@ import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
 import siteContent from "@/content/siteContent.json";
 import { ArrowRight, CalendarDays } from "lucide-react";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { APP_PRICING_URL } from "@/lib/pricing-url";
 
 const FOUNDER_NAMES = new Set(["Gwen Chen", "Eason Wang", "Jia Chang"]);
 
@@ -110,8 +112,8 @@ const AboutUs = () => {
             </p>
             <p>
               SolCrys was built to connect AI visibility measurement with practical content
-              action. The platform helps teams monitor mentions, citations, share of voice,
-              sentiment, and answer accuracy, then translate those findings into page updates,
+              action. The platform helps teams monitor mentions, citations, recommendation,
+              share of voice, and answer accuracy, then translate those findings into page updates,
               publisher and analyst content briefs, FAQ improvements, and user-generated content
               (UGC) strategies.
             </p>
@@ -286,6 +288,39 @@ const AboutUs = () => {
                 — the layer of AEO that has to scale as answer engines and the
                 prompts buyers ask continue to multiply.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Glow divider */}
+        <div className="glow-line w-full" />
+
+        {/* Closing CTA — About was previously a conversion dead-end. Give
+            readers a self-serve door (Start Free) plus the pricing path. */}
+        <section className="max-w-4xl mx-auto px-6 py-24">
+          <div className="fade-in-scroll rounded-2xl border border-[hsl(var(--brand-accent)/0.2)] bg-card/40 backdrop-blur-sm p-10 md:p-14 text-center">
+            <h2 className="font-heading text-2xl md:text-3xl text-foreground mb-4">
+              See where AI answers skip your brand — then govern the fix.
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-8">
+              Start free with a ChatGPT visibility read, then scale into multi-engine
+              tracking and governed execution when you are ready.
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a
+                href={AUDIT_URL}
+                onClick={() => trackAuditClick("about_cta")}
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--action))] px-6 py-3 text-base font-medium text-[hsl(var(--action-foreground))] hover:bg-[hsl(var(--action-hover))] transition-colors"
+              >
+                Start Free
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href={APP_PRICING_URL}
+                className="inline-flex items-center justify-center rounded-md border border-border/60 px-6 py-3 text-base font-medium text-foreground hover:bg-accent/40 transition-colors"
+              >
+                See pricing
+              </a>
             </div>
           </div>
         </section>

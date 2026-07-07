@@ -1,7 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import EarlyAccessDialog from "@/components/EarlyAccessDialog";
 
+/**
+ * Closing CTA — reclaims the brand thesis (governed execution) rather than
+ * narrowing the whole page back down to the free ChatGPT tracker. Two paths:
+ * self-serve (Start Free → in-app audit funnel) and sales-led (Talk to a
+ * founder → EarlyAccessDialog), since the enterprise buyers in the customer
+ * wall need an explicit sales door, not just the floating widget.
+ */
 const CTASection = () => {
   return (
     <section className="relative py-24 md:py-32 section-fade overflow-hidden">
@@ -19,22 +27,29 @@ const CTASection = () => {
               Free · No credit card
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              See where ChatGPT names competitors before your brand.
+              Turn AI answer gaps into governed marketing execution.
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Run a free ChatGPT visibility check for buyer prompts, competitor
-              mentions, and source gaps. Add daily multi-engine tracking
-              when you are ready.
+              Start free with a ChatGPT visibility read, then add multi-engine
+              tracking, Corporate Context governance, and the action-to-result
+              loop when you are ready.
             </p>
-            <Button asChild variant="hero" size="lg" className="text-base px-8 py-6">
-              <a
-                href={AUDIT_URL}
-                onClick={() => trackAuditClick("cta_section")}
-              >
-                Track ChatGPT Visibility, Free
-                <ArrowRight className="ml-1" />
-              </a>
-            </Button>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button asChild variant="hero" size="lg" className="text-base px-8 py-6">
+                <a
+                  href={AUDIT_URL}
+                  onClick={() => trackAuditClick("cta_section")}
+                >
+                  Start Free
+                  <ArrowRight className="ml-1" />
+                </a>
+              </Button>
+              <EarlyAccessDialog mode="founder" surface="cta_section">
+                <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
+                  Talk to a founder
+                </Button>
+              </EarlyAccessDialog>
+            </div>
           </div>
         </div>
       </div>

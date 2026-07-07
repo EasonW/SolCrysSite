@@ -1,5 +1,4 @@
 import siteContent from "@/content/siteContent.json";
-import reportImage from "@/assets/report.png";
 import {
   Activity,
   BarChart3,
@@ -68,36 +67,22 @@ const PlatformLayersSection = () => {
           })}
         </div>
 
-        {/* Action-to-Result reporting visual — anchors the 4th layer */}
-        <div className="rounded-xl border border-border/30 bg-card/30 backdrop-blur-sm p-6 md:p-8">
-          <div className="grid lg:grid-cols-[1fr_2fr] gap-6 items-center">
-            <div>
-              <p className="text-xs uppercase tracking-wider text-[hsl(var(--brand-accent))] mb-2 font-medium">
-                Action-to-result report
-              </p>
-              <h3 className="font-display text-xl md:text-2xl font-semibold mb-3 tracking-tight">
-                See which shipped fix moved the answer.
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Every action ships against the same prompt set, so the report links
-                each page or source update to its citation, accuracy, and
-                recommendation impact.
-              </p>
-            </div>
-            <div className="rounded-lg overflow-hidden border border-white/10 bg-white/5">
-              <div className="h-7 border-b border-white/5 bg-white/5 flex items-center px-3 gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-red-500/30" />
-                <div className="w-2 h-2 rounded-full bg-[hsl(var(--brand-accent)/0.3)]" />
-                <div className="w-2 h-2 rounded-full bg-green-500/30" />
-              </div>
-              <img
-                src={reportImage}
-                alt="SolCrys action-to-result report showing AI mentions, citations, and recommendation share over time"
-                className="w-full h-auto object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
+        {/* Action-to-Result reporting band — anchors the 4th layer. (No mock
+            product screenshot: the report visual drifted from the copy and led
+            on a retired Sentiment tile; when the real report UI is
+            screenshot-ready it can return here with neutral example data.) */}
+        <div className="rounded-xl border border-border/30 bg-card/30 backdrop-blur-sm p-6 md:p-8 text-center md:text-left">
+          <p className="text-xs uppercase tracking-wider text-[hsl(var(--brand-accent))] mb-2 font-medium">
+            Action-to-result report
+          </p>
+          <h3 className="font-display text-xl md:text-2xl font-semibold mb-3 tracking-tight">
+            See which shipped fix moved the answer.
+          </h3>
+          <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl mx-auto md:mx-0">
+            Every action ships against the same prompt set, so the report ties each
+            page or source update to its recommendation, visibility, and accuracy
+            impact — not just a citation count.
+          </p>
         </div>
       </div>
     </section>
