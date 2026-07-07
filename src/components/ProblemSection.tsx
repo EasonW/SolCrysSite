@@ -1,5 +1,8 @@
 import { AlertTriangle, Eye, ShieldAlert } from "lucide-react";
 
+// Card order tells the why-now story in sequence: the shift (discovery moved
+// into answers) → the risk (facts drift) → the market gap (tools stop at
+// reports) — which the next section, the Loop, answers directly.
 const problems = [
   {
     icon: Eye,
@@ -9,17 +12,17 @@ const problems = [
     glow: "hsl(var(--brand-accent) / 0.08)",
   },
   {
-    icon: AlertTriangle,
-    title: "Reports aren't actions",
-    description:
-      "Most AEO tools surface gaps and leave the fix to humans. Screenshots pile up; pages don't change.",
-    glow: "hsl(var(--brand-accent) / 0.08)",
-  },
-  {
     icon: ShieldAlert,
     title: "Brand facts drift across answers",
     description:
       "Outdated AI claims compound across engines until they become the default narrative.",
+    glow: "hsl(var(--brand-accent) / 0.08)",
+  },
+  {
+    icon: AlertTriangle,
+    title: "Reports aren't actions",
+    description:
+      "Most AEO tools surface gaps and leave the fix to humans. Screenshots pile up; pages don't change.",
     glow: "hsl(var(--brand-accent) / 0.08)",
   },
 ];
@@ -42,7 +45,7 @@ const ProblemSection = () => {
             AI search now decides what buyers see — before they click.
           </h2>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            <dfn className="not-italic text-foreground font-medium">Answer Engine Optimization (AEO)</dfn> makes brand facts, proof, and pages easy for AI systems to retrieve, cite, and summarize.
+            <dfn className="not-italic text-foreground font-medium">Answer Engine Optimization (AEO)</dfn> makes brand facts, proof, and pages easy for AI systems to retrieve, cite, and recommend.
           </p>
         </div>
 

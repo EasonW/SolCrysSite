@@ -51,8 +51,13 @@ const newsPosts = (newsroomContent.posts || []).slice().sort((a, b) => {
   if (a.date === b.date) return 0;
   return a.date < b.date ? 1 : -1;
 });
+// Pinned to the evergreen free-tools article so SPA (AnnouncementBanner.tsx)
+// and prerender surface the same destination — this is a standing entry
+// point to the two free tools, not a rotating "New" announcement.
 const featuredAnnouncement =
-  newsPosts.find((post) => post.kind === "press-release") || newsPosts[0];
+  newsPosts.find(
+    (post) => post.slug === "why-prompt-pulse-and-the-chatgpt-tracker-are-free",
+  ) || newsPosts[0];
 const newsKindLabels = newsroomContent.kindLabels || {};
 const personPhotoMap = {
   "Raejeanne Skillern": "/news/raejeanne-skillern.png",
@@ -195,14 +200,16 @@ function footerHtml() {
     </footer>`;
 }
 
+// Shared closing CTA — mirrors the SPA CTASection (thesis H2 + "Start Free"
+// entry label). Keep the two in sync.
 function ctaHtml() {
   return `
     <section class="seo-section">
       <div class="seo-card">
-        <p class="seo-kicker">Free AI visibility audit</p>
-        <h2>Find out where your brand is missing, miscited, or misrepresented.</h2>
-        <p>SolCrys maps high-intent prompts to mentions, citations, answer accuracy, and content gaps so your team can prioritize the next pages to ship.</p>
-        <p><a href="${escapeAttr(AUDIT_URL)}">Get a free audit</a></p>
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="${escapeAttr(AUDIT_URL)}">Start Free</a></p>
       </div>
     </section>`;
 }
@@ -553,10 +560,12 @@ const HOME_CUSTOMER_QUOTES = [
 ];
 
 // Homepage "why AEO" problem cards — mirror of src/components/ProblemSection.tsx.
+// Card order mirrors ProblemSection.tsx: the shift → the risk → the market
+// gap (which the Loop section answers next).
 const HOME_PROBLEMS = [
   ["Discovery is moving into answers", "If buyers can't retrieve, cite, or recommend you in AI, the shortlist is set before they reach your site."],
-  ["Reports aren't actions", "Most AEO tools surface gaps and leave the fix to humans. Screenshots pile up; pages don't change."],
-  ["Brand facts drift across answers", "Outdated AI claims compound across engines until they become the default narrative."]
+  ["Brand facts drift across answers", "Outdated AI claims compound across engines until they become the default narrative."],
+  ["Reports aren't actions", "Most AEO tools surface gaps and leave the fix to humans. Screenshots pile up; pages don't change."]
 ];
 
 // Cross-vertical rising/new prompts — mirror of risingAcrossVerticals() in
@@ -584,7 +593,7 @@ function homeHtml() {
   const announcement = announcementPost
     ? `
     <section class="seo-container" style="padding: 1.5rem 0 0;">
-      <p style="margin: 0; font-size: 0.9rem;"><a href="/news/${escapeAttr(announcementPost.slug)}/">New: ${escapeHtml(announcementPost.title)} →</a></p>
+      <p style="margin: 0; font-size: 0.9rem;"><a href="/news/${escapeAttr(announcementPost.slug)}/">${escapeHtml(announcementPost.title)} →</a></p>
     </section>`
     : "";
   return `
@@ -599,19 +608,21 @@ function homeHtml() {
       <ul class="seo-grid" aria-label="SolCrys proof points">
         ${home.proofPoints.map((point) => `<li class="seo-card">${escapeHtml(point)}</li>`).join("")}
       </ul>
-      <figure style="margin-top: 2rem;">
-        <figcaption><strong>The SolCrys Loop</strong> — illustrative example of one workspace. Numbers are directional, not aggregate marketing claims.</figcaption>
-        <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Step 01 · Measure.</strong> 20 prompts tracked across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans.</li>
-          <li><strong>Step 02 · Diagnose.</strong> 3 gaps detected, classified as absence, citation, accuracy, comparison, or action gap.</li>
-          <li><strong>Step 03 · Execute.</strong> 1 action queued — brand-safe drafts via Corporate Context, routed for human review.</li>
-          <li><strong>Step 04 · Verify.</strong> Re-test the same prompt set to track visibility and recommendation movement after the action ships. Loop continues.</li>
-        </ol>
-      </figure>
     </section>
-    <section id="aeo" class="seo-container seo-section">
-      <h2>What Answer Engine Optimization means</h2>
-      <p><dfn>Answer Engine Optimization (AEO)</dfn> is the practice of making brand facts, proof, and pages easier for AI systems to retrieve, trust, cite, and summarize. SolCrys connects prompt-level measurement with crawlable, evidence-backed content strategy.</p>
+    <section id="problem" class="seo-container seo-section">
+      <h2>AI search now decides what buyers see — before they click</h2>
+      <p><dfn>Answer Engine Optimization (AEO)</dfn> makes brand facts, proof, and pages easy for AI systems to retrieve, cite, and recommend. SolCrys connects prompt-level measurement with crawlable, evidence-backed content strategy.</p>
+      <div class="seo-grid">
+        ${HOME_PROBLEMS
+          .map(
+            ([title, description]) => `
+        <article class="seo-card">
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(description)}</p>
+        </article>`
+          )
+          .join("")}
+      </div>
     </section>
     <section id="loop" class="seo-container seo-section">
       <h2>The SolCrys Loop: measure, diagnose, execute, verify</h2>
@@ -622,10 +633,33 @@ function homeHtml() {
         <li><strong>Execute with Corporate Context.</strong> SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.</li>
         <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
       </ol>
+      <figure style="margin-top: 2rem;">
+        <figcaption><strong>The SolCrys Loop</strong> — illustrative example of one workspace. Numbers are directional, not aggregate marketing claims.</figcaption>
+        <ol class="seo-list" style="margin-top: 1rem;">
+          <li><strong>Step 01 · Measure.</strong> 60 prompts tracked — any 4 of ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude (a Pro-plan example).</li>
+          <li><strong>Step 02 · Diagnose.</strong> 3 gaps detected, classified as absence, citation, accuracy, comparison, or action gap.</li>
+          <li><strong>Step 03 · Execute.</strong> 1 action queued — drafts grounded in Corporate Context (your approved facts, claims, and guardrails), routed for human review.</li>
+          <li><strong>Step 04 · Verify.</strong> Re-test the same prompt set to track visibility and recommendation movement after the action ships. Loop continues.</li>
+        </ol>
+      </figure>
     </section>
     <section id="free-tracker" class="seo-container seo-section">
       <h2>Free ChatGPT visibility tracker</h2>
       <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews / AI Mode, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
+    </section>
+    <section id="features" class="seo-container seo-section">
+      <h2>Four layers, one closed loop — from AI visibility to governed execution</h2>
+      <div class="seo-grid">
+        ${home.platformLayers
+          .map(
+            (layer) => `
+          <article class="seo-card">
+            <h3>${escapeHtml(layer.title)}</h3>
+            <p>${escapeHtml(layer.description)}</p>
+          </article>`
+          )
+          .join("")}
+      </div>
     </section>
     <section id="customers" class="seo-container seo-section">
       <h2>Trusted across enterprise software, AI infrastructure, and consumer brands</h2>
@@ -639,34 +673,7 @@ function homeHtml() {
         )
         .join("")}
       <p><a href="/customers/">Read the full case studies →</a></p>
-    </section>
-    <section id="problem" class="seo-container seo-section">
-      <h2>AI search now decides what buyers see — before they click</h2>
-      <div class="seo-grid">
-        ${HOME_PROBLEMS
-          .map(
-            ([title, description]) => `
-        <article class="seo-card">
-          <h3>${escapeHtml(title)}</h3>
-          <p>${escapeHtml(description)}</p>
-        </article>`
-          )
-          .join("")}
-      </div>
-    </section>
-    <section id="features" class="seo-container seo-section">
-      <h2>Four layers turn AI visibility into governed execution</h2>
-      <div class="seo-grid">
-        ${home.platformLayers
-          .map(
-            (layer) => `
-          <article class="seo-card">
-            <h3>${escapeHtml(layer.title)}</h3>
-            <p>${escapeHtml(layer.description)}</p>
-          </article>`
-          )
-          .join("")}
-      </div>
+      <p>Member of the <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">NVIDIA Inception Program</a> — supporting the AI infrastructure behind prompt-level AEO measurement, recommendation and visibility tracking, and answer-accuracy monitoring.</p>
     </section>
     <section id="solutions" class="seo-container seo-section">
       <h2>Built for the teams that own AI visibility</h2>
@@ -685,11 +692,26 @@ function homeHtml() {
     </section>
     <section id="mcp" class="seo-container seo-section">
       <h2>Your AEO workspace, readable by AI agents</h2>
-      <p>9 MCP tools + 4 open-source Skills. Plug SolCrys into Claude, ChatGPT, Cursor, and JetBrains. Read <a href="/why-we-bet-on-mcp/">why we bet on MCP</a>, the <a href="/solcrys-mcp-and-skills/">full MCP &amp; Skills reference</a>, or the <a href="https://github.com/SolCrysAI/SolCrys-AEO-Skills" rel="noopener">open-source Skills repo on GitHub</a>.</p>
+      <p>${home.mcpStats.tools} MCP tools + ${home.mcpStats.skills} open-source Skills. Plug SolCrys into Claude, ChatGPT, Cursor, and JetBrains. Read <a href="/why-we-bet-on-mcp/">why we bet on MCP</a>, the <a href="/solcrys-mcp-and-skills/">full MCP &amp; Skills reference</a>, or the <a href="https://github.com/SolCrysAI/SolCrys-AEO-Skills" rel="noopener">open-source Skills repo on GitHub</a>.</p>
+    </section>
+    <section id="prompt-pulse" class="seo-container seo-section">
+      <h2>Prompt Pulse: see what your market is asking AI</h2>
+      <p>Demand data — a different lens from visibility tracking: the real questions buyers ask AI, sourced from ChatGPT, Perplexity, and Google AI Overviews signals across ${promptPulse.verticals.length} industries. Ranked by demand, refreshed monthly. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
+      <div class="seo-grid">
+        ${homeRisingPrompts(4)
+          .map(
+            (p) => `
+        <article class="seo-card">
+          <p class="seo-kicker">${escapeHtml(p.vShort)} · ${escapeHtml(ppTrend(p.trend))}</p>
+          <p><a href="/prompt-pulse/${escapeAttr(p.vSlug)}/">${escapeHtml(p.prompt)}</a></p>
+        </article>`
+          )
+          .join("")}
+      </div>
     </section>
     <section class="seo-container seo-section">
-      <h2>AEO resources</h2>
-      <p>A curated entry point — full library at <a href="/resources/">resources</a>. Measurement methodology and source notes live at <a href="/visibility-measurement-methodology/">visibility measurement methodology</a>.</p>
+      <h2>Guides built around the questions marketing teams need to measure</h2>
+      <p>The AEO Resource Hub — a curated entry point; full library at <a href="/resources/">resources</a>. Measurement methodology and source notes live at <a href="/visibility-measurement-methodology/">visibility measurement methodology</a>.</p>
       <div class="seo-grid">
         ${HOMEPAGE_RESOURCE_SLUGS
           .map((slug) => resourcePages.find((p) => p.slug === slug))
@@ -705,21 +727,6 @@ function homeHtml() {
           .join("")}
       </div>
     </section>
-    <section id="prompt-pulse" class="seo-container seo-section">
-      <h2>Prompt Pulse: see what your market is asking AI</h2>
-      <p>The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — across ${promptPulse.verticals.length} industries, ranked by demand and showing what's heating up. Refreshed monthly. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
-      <div class="seo-grid">
-        ${homeRisingPrompts(4)
-          .map(
-            (p) => `
-        <article class="seo-card">
-          <p class="seo-kicker">${escapeHtml(p.vShort)} · ${escapeHtml(ppTrend(p.trend))}</p>
-          <p><a href="/prompt-pulse/${escapeAttr(p.vSlug)}/">${escapeHtml(p.prompt)}</a></p>
-        </article>`
-          )
-          .join("")}
-      </div>
-    </section>
     <section class="seo-container seo-section">
       <h2>FAQ</h2>
       ${home.faqs
@@ -731,10 +738,6 @@ function homeHtml() {
         </article>`
         )
         .join("")}
-    </section>
-    <section id="recognition" class="seo-container seo-section">
-      <h2>SolCrys joins the NVIDIA Inception Program</h2>
-      <p>NVIDIA Inception supports AI startups with platform access, technical expertise, and ecosystem connections. For SolCrys customers, that means continued investment in the AI infrastructure behind prompt-level AEO measurement, citation tracking, and answer-accuracy monitoring. <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">About the NVIDIA Inception Program</a>.</p>
     </section>
     <div class="seo-container">${ctaHtml()}</div>
   </main>

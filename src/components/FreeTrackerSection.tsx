@@ -55,13 +55,10 @@ const FreeTrackerSection = () => {
             See if ChatGPT recommends your brand — then fix it, free
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-            Most free AI-visibility tools hand you a score and stop. This is
-            your free way into the SolCrys Loop: enter your domain to see where
-            ChatGPT mentions, cites, or skips you — or names a competitor
-            instead — then a free audit in the same workspace hands you the
-            exact change to ship, the schema block, the heading rewrite. You
-            leave with a fix, not homework. About 5 minutes to your first read,
-            no credit card.
+            Enter your domain to see where ChatGPT mentions, cites, or skips
+            you — and who it recommends instead. Then a free audit in the same
+            workspace hands you the exact fix to ship. About 5 minutes, no
+            credit card.
           </p>
 
           <form

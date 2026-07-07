@@ -1,4 +1,9 @@
 import { ArrowRight, Github } from "lucide-react";
+import siteContent from "@/content/siteContent.json";
+
+// Tool/Skill counts are single-sourced from siteContent.home.mcpStats so the
+// homepage and the /solcrys-mcp-and-skills reference can't drift apart.
+const { tools: MCP_TOOL_COUNT, skills: SKILL_COUNT } = siteContent.home.mcpStats;
 
 const MCPSkillsSection = () => {
   return (
@@ -17,7 +22,7 @@ const MCPSkillsSection = () => {
           Your AEO workspace, readable by AI agents.
         </h2>
         <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-          9 MCP tools + 4 open-source Skills. Plug SolCrys into Claude, ChatGPT, Cursor, and JetBrains.
+          {MCP_TOOL_COUNT} MCP tools + {SKILL_COUNT} open-source Skills. Plug SolCrys into Claude, ChatGPT, Cursor, and JetBrains.
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-3">

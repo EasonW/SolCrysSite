@@ -26,8 +26,9 @@ const PromptPulseSection = () => {
               See what your market is asking AI.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — across{" "}
-              {industries} industries, ranked by demand and showing what's heating up. Refreshed monthly.
+              Demand data — a different lens from visibility tracking: the real questions buyers
+              ask AI, sourced from ChatGPT, Perplexity, and Google AI Overviews signals across{" "}
+              {industries} industries. Ranked by demand, refreshed monthly.
             </p>
           </div>
           <a

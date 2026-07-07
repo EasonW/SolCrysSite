@@ -34,24 +34,12 @@ const SolutionsSection = () => {
                 style={{ backgroundColor: `${solution.color.replace(")", " / 0.12)")}` }}
               />
               <div className="relative">
-                <div className="flex items-center justify-between mb-4">
-                  <h3
-                    className="font-display text-xl font-semibold tracking-tight transition-colors"
-                    style={{ color: "hsl(var(--foreground))" }}
-                  >
-                    {solution.title}
-                  </h3>
-                  <span
-                    className="text-[10px] uppercase tracking-wider font-medium px-2 py-1 rounded-full border whitespace-nowrap"
-                    style={{
-                      color: solution.color,
-                      borderColor: `${solution.color.replace(")", " / 0.3)")}`,
-                      backgroundColor: `${solution.color.replace(")", " / 0.08)")}`,
-                    }}
-                  >
-                    For
-                  </span>
-                </div>
+                <h3
+                  className="font-display text-xl font-semibold tracking-tight transition-colors mb-4"
+                  style={{ color: "hsl(var(--foreground))" }}
+                >
+                  {solution.title}
+                </h3>
                 <p className="text-xs text-muted-foreground/80 mb-3 uppercase tracking-wider">
                   {solution.audience}
                 </p>
