@@ -27,11 +27,10 @@ const SolutionsSection = () => {
               key={solution.title}
               href={solution.anchor}
               className="group relative rounded-xl p-7 border border-border/30 bg-card/40 backdrop-blur-sm hover:-translate-y-1 transition-all duration-500 overflow-hidden block"
-              style={{ borderColor: undefined }}
             >
               <div
                 className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ backgroundColor: `${solution.color.replace(")", " / 0.12)")}` }}
+                style={{ backgroundColor: "hsl(var(--brand-accent) / 0.12)" }}
               />
               <div className="relative">
                 <h3
@@ -48,7 +47,7 @@ const SolutionsSection = () => {
                 </p>
                 <span
                   className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
-                  style={{ color: solution.color }}
+                  style={{ color: "hsl(var(--brand-accent))" }}
                 >
                   Read the playbook
                   <ArrowRight className="h-4 w-4" />
