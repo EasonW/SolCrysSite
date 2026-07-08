@@ -197,6 +197,9 @@ function footerHtml() {
           <a href="/terms.html">Terms</a>
         </nav>
       </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
     </footer>`;
 }
 
@@ -673,7 +676,6 @@ function homeHtml() {
         )
         .join("")}
       <p><a href="/customers/">Read the full case studies →</a></p>
-      <p>Member of the <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">NVIDIA Inception Program</a> — supporting the AI infrastructure behind prompt-level AEO measurement, recommendation and visibility tracking, and answer-accuracy monitoring.</p>
     </section>
     <section id="solutions" class="seo-container seo-section">
       <h2>Built for the teams that own AI visibility</h2>

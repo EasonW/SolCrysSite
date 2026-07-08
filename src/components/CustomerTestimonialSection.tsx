@@ -156,34 +156,6 @@ const CustomerTestimonialSection = () => {
         <div className="mt-10 pt-8 border-t border-border/20">
           <LogoMarquee />
         </div>
-
-        {/* NVIDIA Inception — slim recognition strip. Was a full-width section
-            of its own; a program badge is a trust signal, not a chapter of the
-            story, so it lives inside the proof zone. Badge stays on white per
-            NVIDIA brand guidelines. */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left">
-          <a
-            href="https://www.nvidia.com/en-us/startups/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="NVIDIA Inception Program member page"
-            className="shrink-0 rounded-lg bg-white px-3 py-2 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
-          >
-            <img
-              src="/nvidia-inception-badge.jpg"
-              alt="Member of NVIDIA Inception Program"
-              width={140}
-              height={70}
-              loading="lazy"
-              className="h-auto w-[140px] max-w-full block"
-            />
-          </a>
-          <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
-            Member of the NVIDIA Inception Program — supporting the AI
-            infrastructure behind prompt-level AEO measurement, recommendation
-            and visibility tracking, and answer-accuracy monitoring.
-          </p>
-        </div>
       </div>
     </section>
   );

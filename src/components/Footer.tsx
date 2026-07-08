@@ -90,6 +90,25 @@ const Footer = () => {
             <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
               Turn AI answer gaps into governed marketing execution.
             </p>
+            {/* NVIDIA Inception badge — a program/credibility signal, housed in
+                the footer trust row rather than crowding the testimonial section.
+                Badge stays on white per NVIDIA brand guidelines. */}
+            <a
+              href="https://www.nvidia.com/en-us/startups/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Member of the NVIDIA Inception Program"
+              className="mt-5 inline-block rounded-md bg-white p-2 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+            >
+              <img
+                src="/nvidia-inception-badge.jpg"
+                alt="Member of NVIDIA Inception Program"
+                width={120}
+                height={60}
+                loading="lazy"
+                className="h-auto w-[120px] block"
+              />
+            </a>
           </div>
 
           <FooterColumn heading="Product" links={productLinks} />

@@ -31,7 +31,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 container mx-auto w-full max-w-5xl min-w-0 px-4 text-center sm:px-6">
         {/* Announcement */}
-        <div className="mx-auto mb-7 w-full max-w-[min(100%,48rem)] opacity-0 animate-fade-up sm:mb-8">
+        <div className="mx-auto mb-6 w-full max-w-[min(100%,48rem)] opacity-0 animate-fade-up sm:mb-7">
           <AnnouncementBanner />
         </div>
 
@@ -49,7 +49,7 @@ const HeroSection = () => {
         </h1>
 
         {/* Subheadline */}
-        <p className="mx-auto mb-10 max-w-[19rem] text-base leading-relaxed text-muted-foreground opacity-0 animate-fade-up-delay-2 sm:max-w-3xl sm:text-lg md:text-xl">
+        <p className="mx-auto mb-8 max-w-[19rem] text-base leading-relaxed text-muted-foreground opacity-0 animate-fade-up-delay-2 sm:max-w-2xl sm:text-lg md:text-xl">
           {siteContent.home.description}
         </p>
 
@@ -73,9 +73,9 @@ const HeroSection = () => {
             scrolling logo wall doesn't compete with the headline/CTA for
             attention; the full set scrolls lower down ([[LogoMarquee]] in the
             Customer Stories section). Logo list lives in [[customerLogos]]. */}
-        <div className="mt-12 border-t border-white/5 pt-7 sm:mt-16 sm:pt-8">
-          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">Trusted by</p>
-          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 md:gap-x-10 opacity-70 hover:opacity-100 transition-opacity duration-500">
+        <div className="mt-10 border-t border-white/5 pt-6 sm:mt-12 sm:pt-7">
+          <p className="text-[11px] text-muted-foreground/70 mb-4 uppercase tracking-widest font-medium">Trusted by</p>
+          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 md:gap-x-10 opacity-60 hover:opacity-100 transition-opacity duration-500">
             {FEATURED_LOGOS.map((logo) =>
               logo.image ? (
                 <img
