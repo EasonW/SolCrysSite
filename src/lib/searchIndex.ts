@@ -3,11 +3,9 @@ import siteContent from "@/content/siteContent.json";
 
 // Client-side resource search.
 //
-// siteContent.json is already imported into the main bundle (App, Navbar,
-// Resources all import it), so the full corpus is present client-side. Rather
-// than ship a duplicate static index file, we build a MiniSearch index in
-// memory from the already-loaded data, lazily on first query and cached for
-// the rest of the session. ~100 published guides tokenize in single-digit ms.
+// This module is dynamically imported with SearchCommand, so the full corpus
+// and MiniSearch stay out of the initial route bundle. The index itself is
+// still built lazily on first query and cached for the rest of the session.
 //
 // Drafts (status === "draft") are excluded to mirror the /resources hub,
 // sitemap, and llms files — they stay reachable by direct URL only.

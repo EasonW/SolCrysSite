@@ -1,67 +1,54 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Fragment } from "react";
+import { lazy, Suspense } from "react";
 import { Toaster as Sonner } from "sonner";
-import Index from "./pages/Index";
-import AboutUs from "./pages/AboutUs";
-import Customers from "./pages/Customers";
-import NextSiliconCaseStudy from "./pages/NextSiliconCaseStudy";
-import NotFound from "./pages/NotFound";
-import Resources from "./pages/Resources";
-import ResourcePage from "./pages/ResourcePage";
-import Compare from "./pages/Compare";
-import PromptPulseHub from "./pages/PromptPulseHub";
-import PromptPulseVertical from "./pages/PromptPulseVertical";
-import FreeTrackerPage from "./pages/FreeTrackerPage";
-import FreeAeoAuditPage from "./pages/FreeAeoAuditPage";
-// Phase E: /pricing is canonical-hosted at app.solcrys.com/pricing.
-// The SPA route now renders a redirect bridge that handles warm-cache
-// client-side navigations (the static prerendered HTML handles cold
-// loads via meta-refresh).
-import PricingRedirect from "./components/PricingRedirect";
-import News from "./pages/News";
-import NewsArticle from "./pages/NewsArticle";
 import ContactFloatingButton from "./components/ContactFloatingButton";
-import siteContent from "@/content/siteContent.json";
+
+const Index = lazy(() => import("./pages/Index"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const Customers = lazy(() => import("./pages/Customers"));
+const NextSiliconCaseStudy = lazy(() => import("./pages/NextSiliconCaseStudy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Resources = lazy(() => import("./pages/Resources"));
+const ResourcePage = lazy(() => import("./pages/ResourcePage"));
+const Compare = lazy(() => import("./pages/Compare"));
+const PromptPulseHub = lazy(() => import("./pages/PromptPulseHub"));
+const PromptPulseVertical = lazy(() => import("./pages/PromptPulseVertical"));
+const FreeTrackerPage = lazy(() => import("./pages/FreeTrackerPage"));
+const FreeAeoAuditPage = lazy(() => import("./pages/FreeAeoAuditPage"));
+const PricingRedirect = lazy(() => import("./components/PricingRedirect"));
+const News = lazy(() => import("./pages/News"));
+const NewsArticle = lazy(() => import("./pages/NewsArticle"));
+
+const RouteFallback = () => (
+  <div className="flex min-h-screen items-center justify-center" role="status" aria-label="Loading page">
+    <span className="h-6 w-6 animate-spin rounded-full border-2 border-muted border-t-foreground motion-reduce:animate-none" />
+  </div>
+);
 
 const App = () => (
   <>
     <Sonner richColors position="top-right" />
     <BrowserRouter>
       <ContactFloatingButton />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/about/" element={<AboutUs />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/customers/" element={<Customers />} />
-        <Route path="/customers/nextsilicon" element={<NextSiliconCaseStudy />} />
-        <Route path="/customers/nextsilicon/" element={<NextSiliconCaseStudy />} />
-        <Route path="/pricing" element={<PricingRedirect />} />
-        <Route path="/pricing/" element={<PricingRedirect />} />
-        <Route path="/free-chatgpt-visibility-tracker" element={<FreeTrackerPage />} />
-        <Route path="/free-chatgpt-visibility-tracker/" element={<FreeTrackerPage />} />
-        <Route path="/free-aeo-audit" element={<FreeAeoAuditPage />} />
-        <Route path="/free-aeo-audit/" element={<FreeAeoAuditPage />} />
-        <Route path="/resources" element={<Resources />} />
-        <Route path="/resources/" element={<Resources />} />
-        <Route path="/compare" element={<Compare />} />
-        <Route path="/compare/" element={<Compare />} />
-        <Route path="/prompt-pulse" element={<PromptPulseHub />} />
-        <Route path="/prompt-pulse/" element={<PromptPulseHub />} />
-        <Route path="/prompt-pulse/:vertical" element={<PromptPulseVertical />} />
-        <Route path="/prompt-pulse/:vertical/" element={<PromptPulseVertical />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/news/" element={<News />} />
-        <Route path="/news/:slug" element={<NewsArticle />} />
-        <Route path="/news/:slug/" element={<NewsArticle />} />
-        {siteContent.resourcePages.map((page) => (
-          <Fragment key={page.slug}>
-            <Route path={`/${page.slug}`} element={<ResourcePage slug={page.slug} />} />
-            <Route path={`/${page.slug}/`} element={<ResourcePage slug={page.slug} />} />
-          </Fragment>
-        ))}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/customers/nextsilicon" element={<NextSiliconCaseStudy />} />
+          <Route path="/pricing" element={<PricingRedirect />} />
+          <Route path="/free-chatgpt-visibility-tracker" element={<FreeTrackerPage />} />
+          <Route path="/free-aeo-audit" element={<FreeAeoAuditPage />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/compare" element={<Compare />} />
+          <Route path="/prompt-pulse" element={<PromptPulseHub />} />
+          <Route path="/prompt-pulse/:vertical" element={<PromptPulseVertical />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:slug" element={<NewsArticle />} />
+          <Route path="/:slug" element={<ResourcePage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   </>
 );

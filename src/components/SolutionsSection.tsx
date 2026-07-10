@@ -1,8 +1,8 @@
-import siteContent from "@/content/siteContent.json";
+import homeContent from "@/content/homeContent.json";
 import { ArrowRight } from "lucide-react";
 
 const SolutionsSection = () => {
-  const { solutions } = siteContent.home;
+  const { solutions } = homeContent.home;
 
   return (
     <section

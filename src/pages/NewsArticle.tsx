@@ -12,6 +12,8 @@ import NotFound from "./NotFound";
 
 type NewsPost = (typeof newsroom.posts)[number];
 type BodyBlock = NewsPost["body"][number];
+type MediaContact = { name: string; email: string };
+type ShareLinks = { linkedin?: string };
 
 // Maps a person's display name → image asset path. Existing hero
 // images live under public/news/ (RJ); founder photos are Vite imports
@@ -194,6 +196,10 @@ const NewsArticle = ({ slug: configuredSlug }: NewsArticleProps) => {
 
   const isPressRelease = post.kind === "press-release";
   const author = "author" in post && post.author ? post.author : null;
+  const mediaContact =
+    "mediaContact" in post ? (post.mediaContact as MediaContact | undefined) : undefined;
+  const shareLinks =
+    "shareLinks" in post ? (post.shareLinks as ShareLinks | undefined) : undefined;
 
   return (
     <div className="min-h-screen bg-background">
@@ -284,29 +290,29 @@ const NewsArticle = ({ slug: configuredSlug }: NewsArticleProps) => {
 
           <div className="prose-content">{post.body.map(renderBlock)}</div>
 
-          {isPressRelease && "mediaContact" in post && post.mediaContact ? (
+          {isPressRelease && mediaContact ? (
             <section className="mt-12 rounded-xl border border-border/40 bg-card/40 p-6">
               <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground mb-3">
                 Media Contact
               </p>
               <p className="text-sm text-foreground">
-                <span className="font-medium">{post.mediaContact.name}</span> ·{" "}
+                <span className="font-medium">{mediaContact.name}</span> ·{" "}
                 <a
-                  href={`mailto:${post.mediaContact.email}`}
+                  href={`mailto:${mediaContact.email}`}
                   className="text-[hsl(var(--brand-accent))] hover:underline"
                 >
-                  {post.mediaContact.email}
+                  {mediaContact.email}
                 </a>
               </p>
             </section>
           ) : null}
 
-          {"shareLinks" in post && post.shareLinks ? (
+          {shareLinks ? (
             <div className="mt-10 flex items-center gap-3 text-sm text-muted-foreground">
               <span>Share:</span>
-              {post.shareLinks.linkedin ? (
+              {shareLinks.linkedin ? (
                 <a
-                  href={post.shareLinks.linkedin}
+                  href={shareLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors"

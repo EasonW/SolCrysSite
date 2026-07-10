@@ -1,4 +1,4 @@
-import siteContent from "@/content/siteContent.json";
+import homeContent from "@/content/homeContent.json";
 import {
   Activity,
   BarChart3,
@@ -15,7 +15,7 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 const PlatformLayersSection = () => {
-  const { platformLayers } = siteContent.home;
+  const { platformLayers } = homeContent.home;
 
   return (
     <section

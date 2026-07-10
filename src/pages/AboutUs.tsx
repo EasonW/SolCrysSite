@@ -12,10 +12,30 @@ import { APP_PRICING_URL } from "@/lib/pricing-url";
 
 const FOUNDER_NAMES = new Set(["Gwen Chen", "Eason Wang", "Jia Chang"]);
 
-const founderNotes = siteContent.resourcePages
-  .filter((p: any) => p.status !== "draft")
-  .filter((p: any) => p.author && FOUNDER_NAMES.has(p.author.name))
-  .sort((a: any, b: any) => (b.updated || "").localeCompare(a.updated || ""));
+interface ResourceAuthor {
+  name: string;
+  role?: string;
+  photoUrl?: string;
+}
+
+interface ResourceSummary {
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  updated?: string;
+  status?: string;
+  author?: ResourceAuthor;
+}
+
+type FounderNote = ResourceSummary & { author: ResourceAuthor };
+
+const founderNotes = (siteContent.resourcePages as unknown as ResourceSummary[])
+  .filter(
+    (page): page is FounderNote =>
+      page.status !== "draft" && Boolean(page.author && FOUNDER_NAMES.has(page.author.name)),
+  )
+  .sort((a, b) => (b.updated || "").localeCompare(a.updated || ""));
 
 const advisors = [
   {
@@ -165,7 +185,7 @@ const AboutUs = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-              {founderNotes.map((note: any) => (
+              {founderNotes.map((note) => (
                 <a
                   key={note.slug}
                   href={`/${note.slug}/`}

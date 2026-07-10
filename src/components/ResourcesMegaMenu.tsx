@@ -1,7 +1,6 @@
 import { Activity, ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RESOURCES_COLUMNS } from "./resourcesMenuData";
-import siteContent from "@/content/siteContent.json";
 
 interface ResourcesMegaMenuProps {
   onItemClick?: () => void;
@@ -114,7 +113,7 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
                 All resources
               </p>
               <p className="text-sm font-medium text-foreground">
-                Browse all {siteContent.resourcePages.filter((p) => (p as { status?: string }).status !== "draft").length} guides
+                Browse every AEO guide
               </p>
             </div>
           </div>

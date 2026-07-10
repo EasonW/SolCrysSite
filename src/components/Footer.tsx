@@ -122,9 +122,16 @@ const Footer = () => {
           <p className="text-xs text-muted-foreground">
             © 2026 SolCrys. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground">
-            Built for the AEO era.
-          </p>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <button
+              type="button"
+              data-consent-preferences
+              className="hover:text-foreground underline underline-offset-4 transition-colors"
+            >
+              Analytics preferences
+            </button>
+            <span>Built for the AEO era.</span>
+          </div>
         </div>
       </div>
     </footer>

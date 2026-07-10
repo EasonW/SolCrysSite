@@ -18,24 +18,27 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 使用较新的 Node.js 版本
+          node-version: '20.19.0'
           cache: 'npm'
           
       - name: Install dependencies
         run: npm ci # 比 npm install 更稳定，基于 package-lock.json 安装
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
         
       - name: Build project
-        # Lead-intake routing — see src/lib/lead-intake.ts.
-        # DUAL_WRITE=1 runs Stage 1 (mirroring to Formspree for audit). Once
-        # we've reconciled lead counts between the two for ~1 week, set
-        # DUAL_WRITE to "0" or delete it to fully cut over.
-        #
-        # If geo-platform's lead-intake is down (or migration 132 not yet
-        # applied), submitLeadIntake() automatically falls back to Formspree
-        # — no user-visible failure. See src/lib/lead-intake.ts.
+        # Lead intake writes to geo-platform. Formspree remains a failure-only
+        # fallback in src/lib/lead-intake.ts; migration-period dual write is off.
         env:
           VITE_LEAD_INTAKE_URL: https://app.solcrys.com/api/lead-intake
-          VITE_LEAD_INTAKE_DUAL_WRITE: "1"
+          VITE_LEAD_INTAKE_DUAL_WRITE: "0"
         run: npm run build # 这会运行我们刚刚配置的带有 404.html 的编译脚本
         
       - name: Deploy to GitHub Pages

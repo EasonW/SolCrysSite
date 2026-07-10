@@ -7,6 +7,14 @@ export function useScrollReveal() {
     const elements = containerRef.current?.querySelectorAll(".fade-in-scroll");
     if (!elements) return;
 
+    if (
+      !window.IntersectionObserver ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      elements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

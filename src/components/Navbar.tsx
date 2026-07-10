@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "./ThemeToggle";
 import { ArrowRight, BookOpen, ChevronDown, Menu, Search, X } from "lucide-react";
 import ResourcesMegaMenu from "./ResourcesMegaMenu";
-import SearchCommand from "./SearchCommand";
 import SolutionsMegaMenu from "./SolutionsMegaMenu";
 import {
   RESOURCES_COLUMNS,
@@ -12,11 +11,8 @@ import {
 import { SOLUTIONS_MENU_ITEMS } from "./solutionsMenuData";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { APP_PRICING_URL } from "@/lib/pricing-url";
-import siteContent from "@/content/siteContent.json";
 
-const publishedResourceCount = siteContent.resourcePages.filter(
-  (p) => (p as { status?: string }).status !== "draft"
-).length;
+const SearchCommand = lazy(() => import("./SearchCommand"));
 
 // Single source of truth for the top-row order. Flat anchors/routes
 // only — dropdowns (Solutions / Resources / Company) are rendered
@@ -390,7 +386,7 @@ const Navbar = () => {
                         All resources
                       </p>
                       <p className="text-sm font-medium text-foreground">
-                        Browse all {publishedResourceCount} guides
+                        Browse every AEO guide
                       </p>
                     </div>
                   </div>
@@ -446,7 +442,11 @@ const Navbar = () => {
         </div>
       ) : null}
 
-      <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
+      {searchOpen ? (
+        <Suspense fallback={null}>
+          <SearchCommand open onOpenChange={setSearchOpen} />
+        </Suspense>
+      ) : null}
     </nav>
   );
 };

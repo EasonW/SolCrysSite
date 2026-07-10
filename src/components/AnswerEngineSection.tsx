@@ -1,4 +1,4 @@
-import siteContent from "@/content/siteContent.json";
+import homeContent from "@/content/homeContent.json";
 import { BrainCircuit, FileCheck2, Radar } from "lucide-react";
 
 const icons = [Radar, BrainCircuit, FileCheck2];
@@ -10,7 +10,7 @@ const AnswerEngineSection = () => {
       <div className="container mx-auto px-6 max-w-5xl relative">
         <div className="max-w-3xl mb-14">
           <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
-            {siteContent.home.eyebrow}
+            {homeContent.home.eyebrow}
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5">
             Build pages AI systems can retrieve, trust, cite, and summarize.
@@ -24,7 +24,7 @@ const AnswerEngineSection = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {siteContent.home.answerBlocks.map((block, index) => {
+          {homeContent.home.answerBlocks.map((block, index) => {
             const Icon = icons[index] ?? Radar;
             return (
               <article

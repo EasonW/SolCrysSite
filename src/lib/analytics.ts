@@ -7,6 +7,12 @@ declare global {
 export type AuditSurface =
   | "hero"
   | "navbar"
+  | "navbar_mobile"
+  | "home_tracker_section"
+  | "free_aeo_audit_lp"
+  | "free_aeo_audit_lp_footer"
+  | "free_tracker_lp"
+  | "free_tracker_lp_footer"
   | "cta_section"
   | "about_cta"
   | "compare_cta"

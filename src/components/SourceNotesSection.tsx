@@ -1,4 +1,4 @@
-import siteContent from "@/content/siteContent.json";
+import homeContent from "@/content/homeContent.json";
 import { ExternalLink } from "lucide-react";
 
 const SourceNotesSection = () => {
@@ -20,7 +20,7 @@ const SourceNotesSection = () => {
               </p>
             </div>
             <div className="grid gap-4">
-              {siteContent.home.sourceNotes.map((source) => (
+              {homeContent.home.sourceNotes.map((source) => (
                 <a
                   key={source.url}
                   href={source.url}
@@ -38,8 +38,8 @@ const SourceNotesSection = () => {
             </div>
           </div>
           <p className="mt-6 text-xs text-muted-foreground">
-            Maintained by {siteContent.site.maintainer}. Last updated{" "}
-            <time dateTime={siteContent.site.updated}>{siteContent.site.updated}</time>.
+            Maintained by {homeContent.site.maintainer}. Last updated{" "}
+            <time dateTime={homeContent.site.updated}>{homeContent.site.updated}</time>.
           </p>
         </div>
       </div>

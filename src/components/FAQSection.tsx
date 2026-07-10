@@ -1,4 +1,4 @@
-import siteContent from "@/content/siteContent.json";
+import homeContent from "@/content/homeContent.json";
 
 const FAQSection = () => {
   return (
@@ -14,7 +14,7 @@ const FAQSection = () => {
         </div>
 
         <div className="grid gap-4">
-          {siteContent.home.faqs.map((item) => (
+          {homeContent.home.faqs.map((item) => (
             <article key={item.question} className="rounded-xl border border-border/30 bg-card/40 backdrop-blur-sm p-6">
               <h3 className="font-display text-lg font-semibold mb-3">{item.question}</h3>
               <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{item.answer}</p>

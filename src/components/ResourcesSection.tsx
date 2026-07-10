@@ -1,4 +1,4 @@
-import siteContent from "@/content/siteContent.json";
+import homeContent from "@/content/homeContent.json";
 import { ArrowRight } from "lucide-react";
 
 // Explicit curation — three pages spanning TOFU (AEO 101) → MOFU
@@ -13,7 +13,7 @@ const HOMEPAGE_RESOURCE_SLUGS = [
 
 const ResourcesSection = () => {
   const featured = HOMEPAGE_RESOURCE_SLUGS
-    .map((slug) => siteContent.resourcePages.find((p) => p.slug === slug))
+    .map((slug) => homeContent.featuredResourcePages.find((p) => p.slug === slug))
     .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (

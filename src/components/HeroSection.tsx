@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import AnnouncementBanner from "./AnnouncementBanner";
 import { FEATURED_LOGOS } from "./customerLogos";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
-import siteContent from "@/content/siteContent.json";
+import homeContent from "@/content/homeContent.json";
 
 /**
  * Homepage hero — leads with SolCrys's #1 messaging pillar (the thesis:
@@ -14,7 +14,7 @@ import siteContent from "@/content/siteContent.json";
  */
 const HeroSection = () => {
   const heroTitleHighlight = "governed marketing execution.";
-  const heroTitleLead = siteContent.home.title
+  const heroTitleLead = homeContent.home.title
     .replace(heroTitleHighlight, "")
     .trim();
 
@@ -39,7 +39,7 @@ const HeroSection = () => {
             category) before the thesis headline states what it *does*. Mirrors
             the prerendered `seo-kicker` so the SPA and crawler HTML stay aligned. */}
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[hsl(var(--brand-accent))] opacity-0 animate-fade-up-delay-1">
-          {siteContent.home.eyebrow}
+          {homeContent.home.eyebrow}
         </p>
 
         {/* Headline — the thesis (SolCrys's core positioning pillar). */}
@@ -50,7 +50,7 @@ const HeroSection = () => {
 
         {/* Subheadline */}
         <p className="mx-auto mb-8 max-w-[19rem] text-base leading-relaxed text-muted-foreground opacity-0 animate-fade-up-delay-2 sm:max-w-2xl sm:text-lg md:text-xl">
-          {siteContent.home.description}
+          {homeContent.home.description}
         </p>
 
         {/* Primary CTAs — Get Started (free tier) + jump to the Loop. The
