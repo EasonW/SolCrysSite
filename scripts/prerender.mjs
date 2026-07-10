@@ -67,7 +67,10 @@ const generatedAt = "2026-05-04";
 
 const distIndexPath = path.join(distDir, "index.html");
 const distIndex = fs.readFileSync(distIndexPath, "utf8");
-const stylesheetTags = [...distIndex.matchAll(/<link[^>]+rel="stylesheet"[^>]*>/g)].map((match) => match[0]).join("\n    ");
+const stylesheetTags = [...distIndex.matchAll(/<link[^>]+rel="stylesheet"[^>]*>/g)]
+  .map((match) => match[0])
+  .filter((tag) => !tag.includes("/analytics-consent.css"))
+  .join("\n    ");
 const scriptTags = [...distIndex.matchAll(/<script[^>]+type="module"[^>]*><\/script>/g)].map((match) => match[0]).join("\n    ");
 const analyticsMatch = distIndex.match(/<!--\s*analytics:start\s*-->[\s\S]*?<!--\s*analytics:end\s*-->/);
 const analyticsTags = analyticsMatch ? analyticsMatch[0] : "";
