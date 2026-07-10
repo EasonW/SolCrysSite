@@ -109,39 +109,11 @@
     <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-WfLT0LxU.css">
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <link rel="stylesheet" crossorigin href="/assets/index-RH2GjHCb.css">
     <!-- analytics:start -->
-    <script>
-      (function () {
-        var h = window.location.hostname;
-        var isDev = h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '::1' || h.endsWith('.local');
-        if (isDev) return;
-
-        // Google tag (gtag.js)
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-E3VGGM7P1G';
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { window.dataLayer.push(arguments); };
-        window.gtag('js', new Date());
-        // Cross-domain linker added 2026-05-26 — stitches GA client_id
-        // across solcrys.com <-> app.solcrys.com so a visitor moving
-        // from a marketing page through the audit funnel is ONE user
-        // in GA reports, not two. Dashboard side (app.solcrys.com)
-        // ships the matching config in components/analytics/AnalyticsScripts.tsx.
-        window.gtag('config', 'G-E3VGGM7P1G', {
-          linker: { domains: ['solcrys.com', 'app.solcrys.com'] }
-        });
-
-        // Microsoft Clarity
-        (function (c, l, a, r, i, t, y) {
-          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
-          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
-          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, 'clarity', 'script', 'wm2vxbdu8k');
-      })();
-    </script>
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
     <!-- analytics:end -->
     
   </head>
