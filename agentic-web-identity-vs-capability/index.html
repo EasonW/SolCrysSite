@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] The Agentic Web: Identity, Capability, and the Layer That Comes First | SolCrys</title>
+    <meta name="description" content="The agentic web is splitting into an identity layer and a capability layer. Neither fires until an answer engine chooses your brand first. Here is the order of operations, and why AEO is the precondition for both." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/agentic-web-identity-vs-capability/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-13" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] The Agentic Web: Identity, Capability, and the Layer That Comes First | SolCrys" />
+    <meta property="og:description" content="The agentic web is splitting into an identity layer and a capability layer. Neither fires until an answer engine chooses your brand first. Here is the order of operations, and why AEO is the precondition for both." />
+    <meta property="og:url" content="https://solcrys.com/agentic-web-identity-vs-capability/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-13" />
+    <meta property="article:modified_time" content="2026-07-13" />
+    <meta property="og:image" content="https://solcrys.com/og/agentic-web-identity-vs-capability.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/agentic-web-identity-vs-capability.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-RH2GjHCb.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Identity and Capability: The Agentic Web Still Runs on Being Chosen","item":"https://solcrys.com/agentic-web-identity-vs-capability/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The agent can't use your cash register if it never picks your store.","description":"The agentic web is splitting into an identity layer and a capability layer. Neither fires until an answer engine chooses your brand first. Here is the order of operations, and why AEO is the precondition for both.","dateModified":"2026-07-13","datePublished":"2026-07-13","mainEntityOfPage":"https://solcrys.com/agentic-web-identity-vs-capability/","author":{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO, SolCrys","sameAs":["https://www.linkedin.com/in/gwenchenx/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/agentic-web-identity-vs-capability/","mainEntity":[{"@type":"Question","name":"What is the difference between the identity layer and the capability layer on the agentic web?","acceptedAnswer":{"@type":"Answer","text":"Identity is the layer that tells an AI model who you are, through structured, self-authored descriptions of your brand. Capability is the layer that lets an agent take an action on your site, such as searching inventory or completing a booking. Both matter, but both assume an answer engine already routed a user to you. The layer that decides that, whether an engine names and cites your brand at all, is Answer Engine Optimization, and it comes before either."}},{"@type":"Question","name":"Should I add an llms.txt file to my site?","acceptedAnswer":{"@type":"Answer","text":"It does no harm to publish an accurate, self-authored identity file, and it is worth auditing whatever your plugins already generate so it does not drift from your real positioning. But treat it as a hedge, not a strategy. No major AI system has confirmed it reads these files, so the outcome is unmeasurable today. Spend the larger share of effort on the layer you can measure: whether answer engines actually name and cite your brand."}},{"@type":"Question","name":"Does AEO still matter if agents complete tasks instead of humans browsing?","acceptedAnswer":{"@type":"Answer","text":"It matters more. When an agent handles the visit, it first has to choose which brand to route the user to, and it makes that choice from what answer engines say. If the engines do not name you, the agent never reaches your site to use its capability layer at all. Being chosen is the precondition for every downstream action."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>The agent can&#39;t use your cash register if it never picks your store.</h1>
+        <p class="seo-lede">The agentic web is splitting into two layers: identity, which tells a model who you are, and capability, which lets an agent complete a task on your site. Both matter. But both assume an answer engine already routed a user to you. The layer that decides that, whether an engine names and cites your brand at all, comes first. And it is the one you can measure today.</p>
+        <p>By <a href="https://www.linkedin.com/in/gwenchenx/" rel="noopener">Gwen Chen</a>, Co-Founder &amp; CEO, SolCrys</p>
+        <p>Updated <time datetime="2026-07-13">2026-07-13</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is the difference between identity and capability on the agentic web?</li><li>Does AEO still matter when AI agents complete tasks?</li><li>Should I add an llms.txt file to my website?</li><li>Why do AI agents choose one brand over another?</li><li>What comes first, being cited by AI or being usable by agents?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>The two-bet frame, and the move it skips</h2>
+      <p>A widely-shared argument this month splits the agentic web into two bets. Identity is the layer that tells a model who you are. Capability is the layer that lets an agent do something on your site: search inventory, check a price, complete a booking. The memorable version is that identity is a brochure and capability is the cash register, and the industry keeps shipping the brochure by default while the cash register waits. <a href="https://www.searchenginejournal.com/the-agentic-web-is-splitting-into-two-bets-identity-and-capability/578685/" target="_blank" rel="noopener noreferrer">The original argument</a> is worth reading in full.</p><p>The frame is useful. It is also missing the step that comes before both. An agent only reaches your capability layer if it already decided to send a user your way. It only trusts your identity layer if something upstream surfaced your brand as a credible answer. Both layers assume the agent is already at your door. Neither answers the question that decides everything: how did it get there, and why you instead of a competitor?</p><p>The direction of travel is real. Cloudflare reported that in June 2026 automated requests crossed 57.3% of web traffic against 42.7% from humans, the first time machines outnumbered people. When agents handle most of the visits, task completion matters more than brand recognition, and the original argument is right about that. The question is what has to be true before an agent ever runs the task.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The precondition neither layer names</h2>
+      <p>The layer that decides everything is the upstream choice: which brands an answer engine names, cites, and routes to when a buyer asks a question. That choice determines whether the other two layers ever fire. You can wire the most elegant callable tool on the web, but if ChatGPT, Gemini, and Perplexity never put you in the answer, no agent ever calls it.</p><p>This is Answer Engine Optimization, and it is not the same as being cited. An engine can mention you without recommending you, and a recommendation is what routes the user. We covered that gap in <a href="/ai-citation-vs-recommendation/" target="_blank" rel="noopener noreferrer">Cited but Not Recommended</a>. Being chosen, named as the answer rather than buried as a footnote, is the first move, and on the agentic web it is still the move that everything else depends on.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>A file you didn&#39;t write is not a strategy</h2>
+      <p>The identity critique in the original piece deserves to be sat with. A popular identity file format is auto-generated by default on millions of sites: a file the owner did not write, that no major AI system has confirmed it reads. That is not a strategy. It is a checkbox that feels like coverage.</p><p>This is the failure mode we watch teams fall into with AI visibility in general: ship the artifact, assume the outcome, never verify. A file you did not write and cannot confirm anyone reads is indistinguishable, from the outside, from doing nothing. Treating AI visibility as a signal your team can trust, rather than a vanity number, means measuring what the engines actually do, not what a plugin defaulted on. We made that argument in full in <a href="/is-ai-visibility-a-vanity-metric/" target="_blank" rel="noopener noreferrer">Is AI Visibility a Vanity Metric?</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Three layers, in order</h2>
+      <p>There are three layers, not two, and they run in sequence. Skip the first and the other two are infrastructure for traffic you never receive.</p>
+      
+      <table>
+              <thead><tr><th>Layer</th><th>The question it answers</th><th>What it depends on</th></tr></thead>
+              <tbody><tr><td><strong>Get chosen</strong></td><td>Is this brand a credible answer worth routing a user to?</td><td>Answer Engine Optimization: earn the citation, close the corroboration gap, be present where the model looks.</td></tr><tr><td><strong>Get identified</strong></td><td>Who exactly is this brand?</td><td>Self-authored, consistent, machine-readable identity signals, as a consequence of being chosen, not a substitute for it.</td></tr><tr><td><strong>Get used</strong></td><td>What can the agent do here?</td><td>Capability standards that expose callable actions. Real, and coming, but only fires once the first two are true.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The first layer is a loop, not a push</h2>
+      <p>Getting chosen is not a one-time task; it is a loop. Measure what the engines say, diagnose which failure mode you are in, execute the fix, and verify by re-asking the same prompts after it ships. Corroboration is usually where the leverage sits: engines increasingly look for independent sources to validate a claim before repeating it, which is why <a href="/ai-citations-consensus-not-authority/" target="_blank" rel="noopener noreferrer">AI cites consensus, not authority</a>. A perfect identity file on your own domain loses to a competitor the engine sees validated across sources it already trusts.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Before you ship an agent-readiness checkbox</h2>
+      <p>Three moves, in priority order:</p>
+      <ul class="seo-list"><li><strong>Win the choice first.</strong> Track which answer engines name you, which cite you, and which competitors they cite instead. That gap is the highest-leverage work, because it decides whether the identity and capability layers ever get a chance to matter.</li><li><strong>Audit what ships in your name by default.</strong> Plugins auto-generate identity files. Find out what yours says and whether it matches how you would describe your own product. Drift on an auto-generated file is worse than no file.</li><li><strong>Verify before you assume.</strong> For any agent-readiness artifact you ship, define how you will know it worked before you ship it. If you cannot measure the outcome, you are hedging, not executing.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The bottom line</h2>
+      <p>The capability layer is real, and it is coming; the original argument is right about the direction. But the cash register only rings if the agent walked into your store. Being chosen is still the first move, and it is the one you can measure today. You can <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">run a free audit</a> to see which engines name your brand and which name your competitors instead (free, no credit card).</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.searchenginejournal.com/the-agentic-web-is-splitting-into-two-bets-identity-and-capability/578685/" target="_blank" rel="noopener noreferrer">Search Engine Journal — The Agentic Web Is Splitting Into Two Bets: Identity and Capability</a></li><li><a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare Radar — web traffic trends (automated vs. human)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is the difference between the identity layer and the capability layer on the agentic web?</h3>
+            <p>Identity is the layer that tells an AI model who you are, through structured, self-authored descriptions of your brand. Capability is the layer that lets an agent take an action on your site, such as searching inventory or completing a booking. Both matter, but both assume an answer engine already routed a user to you. The layer that decides that, whether an engine names and cites your brand at all, is Answer Engine Optimization, and it comes before either.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I add an llms.txt file to my site?</h3>
+            <p>It does no harm to publish an accurate, self-authored identity file, and it is worth auditing whatever your plugins already generate so it does not drift from your real positioning. But treat it as a hedge, not a strategy. No major AI system has confirmed it reads these files, so the outcome is unmeasurable today. Spend the larger share of effort on the layer you can measure: whether answer engines actually name and cite your brand.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does AEO still matter if agents complete tasks instead of humans browsing?</h3>
+            <p>It matters more. When an agent handles the visit, it first has to choose which brand to route the user to, and it makes that choice from what answer engines say. If the engines do not name you, the agent never reaches your site to use its capability layer at all. Being chosen is the precondition for every downstream action.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citation-vs-recommendation/">Cited but Not Recommended: Why AI Citations Are the Wrong KPI</a></h3>
+            <p>Getting cited as a source and getting recommended as the pick are two different AI-search outcomes, and they are decoupling. Why most teams track the wrong one, what a 100-query study and our own 5-engine data show, and the KPI to measure instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/is-ai-visibility-a-vanity-metric/">Is AI Visibility Tracking a Vanity Metric? How to Make It a Signal Your CEO Can Trust.</a></h3>
+            <p>Your CEO wants AI visibility on the dashboard and your gut says vanity metric. It is - if you track raw rank on vanity prompts. Here are the three conditions that turn it into a leading indicator, a CEO-ready reporting template, and an illustrative 100%-vs-0% scenario that proves the point.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>AI engines don&#39;t cite your most authoritative page. They repeat the claim corroborated across the most independent sources. The evidence, our own category data, and what to do instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-paid-ai-visibility/">Owned, Earned, Paid: How Your Media Mix Maps to AI Visibility (and Why the Hierarchy Flips)</a></h3>
+            <p>The owned/earned/paid split you use for marketing maps onto AI visibility with one twist: the hierarchy flips. In an AI answer, trust runs inverse to control, the sources you own are trusted least, the independent ones you can&#39;t buy are trusted most. A map of each layer and where to focus.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citation-first-mover-window/">The AI Citation Window Is Closing: Why AEO Timing Beats Tactics</a></h3>
+            <p>The sources an AI trusts for a category narrow over time toward two or three brands. While that pool is still open, getting cited is cheap; once it freezes around incumbents, displacing an anchor costs far more. So AEO has a first-mover dynamic, and the strategic question isn&#39;t only what to do, it&#39;s whether your category&#39;s citation window is still open.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CRXuaE1K.js"></script>
+  </body>
+</html>
