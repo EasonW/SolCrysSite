@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Closed-Won Interviews: Prove AI Influence on Pipeline | SolCrys</title>
+    <meta name="description" content="Your dashboard says branded search. Your buyers say ChatGPT. The fastest defensible way to prove AI influence on pipeline is a monthly closed-won interview — the script, the sample size, the CRM field, and the 1-in-X readout that gets AEO funded." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/prove-ai-influence-closed-won-interviews/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-07-23" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Closed-Won Interviews: Prove AI Influence on Pipeline | SolCrys" />
+    <meta property="og:description" content="Your dashboard says branded search. Your buyers say ChatGPT. The fastest defensible way to prove AI influence on pipeline is a monthly closed-won interview — the script, the sample size, the CRM field, and the 1-in-X readout that gets AEO funded." />
+    <meta property="og:url" content="https://solcrys.com/prove-ai-influence-closed-won-interviews/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-23" />
+    <meta property="article:modified_time" content="2026-07-23" />
+    <meta property="og:image" content="https://solcrys.com/og/prove-ai-influence-closed-won-interviews.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/prove-ai-influence-closed-won-interviews.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-RH2GjHCb.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Prove AI Influence with Closed-Won Interviews","item":"https://solcrys.com/prove-ai-influence-closed-won-interviews/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The closed-won interview: prove AI influence on pipeline before you buy attribution tooling","description":"Your dashboard says branded search. Your buyers say ChatGPT. The fastest defensible way to prove AI influence on pipeline is a monthly closed-won interview — the script, the sample size, the CRM field, and the 1-in-X readout that gets AEO funded.","dateModified":"2026-07-23","datePublished":"2026-07-23","mainEntityOfPage":"https://solcrys.com/prove-ai-influence-closed-won-interviews/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/prove-ai-influence-closed-won-interviews/","mainEntity":[{"@type":"Question","name":"How many closed-won interviews do I need before the number is credible?","acceptedAnswer":{"@type":"Answer","text":"Fewer than you think, if you report it honestly. Ten to fifteen interviews a month, reported as counts with verbatim quotes, is enough to change a leadership conversation — \"9 of 34 deals this quarter\" is a real, checkable claim. What builds credibility is consistency across quarters and the discipline of reporting unprompted mentions, prompted yeses, and unsures separately, not a large sample with inflated precision."}},{"@type":"Question","name":"Should I ask about AI on the signup form or in an interview?","acceptedAnswer":{"@type":"Answer","text":"Both, for different jobs. A how-did-you-hear field with an AI option gives you breadth across every conversion at low answer quality. The closed-won interview gives you depth — which tools, what they recommended, whether the buyer verified it afterward — on exactly the deals that became revenue. Ask the open question (\"where did your research start?\") before the prompted one, and log both in the CRM so the series compounds."}},{"@type":"Question","name":"What if buyers don't remember using AI during their research?","acceptedAnswer":{"@type":"Answer","text":"Some won't — recall bias compresses buying journeys, and buyers tend to credit the last conscious step, usually the Google search or the demo. That is why the interview result should be presented as a floor: the true AI-influenced share is unlikely to be lower than what buyers self-report. It is also why interviews should be paired with an exposure layer you can observe directly, by running your buyers' prompts across the engines and checking whether you are shortlisted."}},{"@type":"Question","name":"Does the closed-won interview replace attribution tooling?","acceptedAnswer":{"@type":"Answer","text":"No — it is the fastest first layer, not the last. Interviews prove AI influence exists in your closed revenue at zero tooling cost, which is usually enough to justify instrumenting the rest: AI referrer detection in analytics, a fixed prompt set tracked across engines, and branded-search correlation against your exposure timeline. The full setup is covered in the 4-method attribution stack in AEO actions to revenue."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/prompt-pulse/">Prompt Pulse</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Attribution &amp; ROI</p>
+        <h1>The closed-won interview: prove AI influence on pipeline before you buy attribution tooling</h1>
+        <p class="seo-lede">The fastest defensible way to prove AI is influencing your pipeline is not an attribution platform — it is asking a monthly sample of closed-won buyers one direct question: did you use ChatGPT, Perplexity, or another AI assistant when you started researching? This page is the operational protocol: who asks, when, the five-question script, the CRM field that makes the number compound, and the 1-in-X readout that leadership actually responds to. It also draws the honest boundary — interviews prove that AI influence exists in your closed revenue; they do not measure its magnitude. For that you pair the interview number with an exposure layer (do AI engines shortlist you on your buyers&#39; prompts) and a verification layer (does branded search move when your AI presence moves). Structured correlation across those three layers is a case a CFO can review; a single dashboard metric is not.</p>
+        
+        <p>Updated <time datetime="2026-07-23">2026-07-23</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I prove AI is influencing our pipeline?</li><li>How do I measure ChatGPT&#39;s influence on B2B buyers without attribution tooling?</li><li>Why is our branded search growing with no campaign behind it?</li><li>How do I get budget for AEO or GEO work approved?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>The fastest defensible way to prove AI influence on pipeline is to ask the buyers who already paid you. Interview a monthly sample of closed-won deals and ask one direct question: <strong>did you use ChatGPT, Perplexity, or another AI assistant when you started researching this purchase?</strong> Log the answer in your CRM, and report the result as a count — &quot;N of the X deals we closed this quarter told us their research started with an AI assistant.&quot; That sentence is a real buyer saying a real thing about a real deal, and it moves leadership in a way no dashboard chart does. It requires no new tooling, no analytics migration, and about two minutes per deal.</p><p>Be equally clear about what the interview number is not: it is evidence that AI influence exists in your closed revenue, not a measurement of its size. Buyers under-remember their own journeys, samples are small, and a closed-won-only sample has survivor bias. The interview is the conversion layer of a three-layer evidence stack — exposure (do AI engines shortlist you), verification (does branded search move with your AI presence), conversion (do real buyers confirm the AI touch). This page covers the interview protocol in full and then shows where it hands off to the other two layers.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why your dashboard cannot see this</h2>
+      <p>The buying pattern that breaks analytics looks like this: a buyer asks an AI assistant to recommend platforms in your category. The assistant builds a shortlist. The buyer picks two or three names, opens Google, and types each brand name directly. They land on your site, read, and request a demo. Your analytics records a branded organic search or a direct visit — and the quarterly report files the deal under brand awareness.</p><p>The dashboard is not wrong. It is answering the question it was built to answer. UTMs, referrer data, and session tracking all exist to record the <strong>entry channel</strong> — how the visit arrived. None of that infrastructure was designed to record the <strong>source of demand</strong> — what made the buyer type your name in the first place. When the demand source is an AI conversation that ended twenty minutes before the visit, with no click and no referrer, the influence is real and the record of it is empty. The Google search was not the discovery; it was the verification step.</p><p>This is not a niche edge case anymore. Semrush&#39;s <a href="https://www.semrush.com/news/463141-semrush-releases-expanded-2026-ai-visibility-index-analyzing-126-million-ai-search-prompts/" target="_blank" rel="noopener noreferrer">2026 AI Visibility Index</a>, built on 126 million U.S. AI search prompts, found that 45% of marketing leaders still cannot accurately measure their brand&#39;s visibility inside AI answers — and only 9% say they have tooling that tracks all the metrics they need. The influence has scaled faster than the measurement. The practical symptoms are familiar to anyone reading a 2026 marketing dashboard: branded search growth the brand campaign cannot fully explain, direct traffic rising with no launch behind it, pipeline quality improving without a traceable cause.</p><p>The consequence for anyone doing AEO work is direct: if the results of better AI visibility land in the dashboard as &quot;brand awareness,&quot; the AEO work never gets credit, and the budget conversation never starts. That is the problem the closed-won interview solves — not by fixing attribution, but by going around it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Reframe it: a new top-of-funnel channel with delayed intent</h2>
+      <p>Teams get stuck when they try to force AI influence into last-click attribution — hunting for a per-visit click path that mostly does not exist. The more productive frame is to treat AI assistants as a <strong>new top-of-funnel channel with delayed intent</strong>. The path is consistent: AI shortlist, then brand query, then high-intent action. Your job is not to attribute each individual visit; it is to prove that this path exists at scale in your category, and that your brand is on it.</p><p>Unlike television or word of mouth — older demand sources with the same measurement problem — this channel is directly inspectable at the top. You can run the buying questions your ICP actually asks across ChatGPT, Perplexity, Gemini, and Claude, and see whether you are shortlisted, how you are described, and whether you survive when the query gets more specific. That gives you two checks before you conduct a single interview: does the shortlist step exist (observable), and does branded search move in the weeks after your AI presence changes (correlational). The closed-won interview adds the third and most persuasive check: a human buyer confirming the path end to end.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The closed-won interview protocol</h2>
+      <p>The method is an AEO adaptation of standard win/loss interviewing — the discipline B2B teams have used for decades to learn why deals close. If you already run win/loss interviews, this is one added question block. If you do not, this is the two-minute version that fits inside a call you are already having.</p><p><strong>Cadence and sample.</strong> Monthly. If you close fewer than ten deals a month, ask every closed-won deal. If you close more, sample ten to fifteen — enough that the quarterly count is meaningful, few enough that it stays cheap. Consistency matters more than volume: the number becomes persuasive when it repeats across quarters, not when one month spikes.</p><p><strong>Who asks, and when.</strong> The best slot is the kickoff or onboarding call, asked by the AE or CS lead — the buyer is engaged, the relationship is warm, and the research experience is recent. The worst slot is a survey email three weeks later. Keep it conversational: this is two minutes inside a call, not a questionnaire.</p><p><strong>Question order matters.</strong> Ask the open question before the prompted one. If a buyer names ChatGPT unprompted when asked where their research started, that is a much stronger signal than a yes to a leading question — and reporting both separately keeps the number honest.</p>
+      
+      <table>
+              <thead><tr><th>Question</th><th>What it tells you</th></tr></thead>
+              <tbody><tr><td>1. &quot;When you started researching this problem, where did you look first?&quot;</td><td>Unprompted recall. If an AI assistant is named here, before you mention one, that is your strongest evidence — record it separately from prompted yeses.</td></tr><tr><td>2. &quot;Did you use ChatGPT, Perplexity, Gemini, or another AI assistant at any point while evaluating options?&quot;</td><td>The headline metric. This prompted yes/no is the number that becomes your 1-in-X readout.</td></tr><tr><td>3. &quot;Do you remember which tools it suggested?&quot;</td><td>Shortlist composition — whether you were named, and which competitors were named beside you. Feeds directly into your share-of-recommendation tracking.</td></tr><tr><td>4. &quot;Did you double-check what it said anywhere — reviews, comparison pages, our site?&quot;</td><td>Maps the verification step. This is the AI-to-branded-search bridge showing up in a real buyer&#39;s own account of their journey.</td></tr><tr><td>5. &quot;Was there anything that almost stopped you from shortlisting us?&quot;</td><td>Standard win/loss value, plus an AEO-specific catch: it surfaces cases where an AI described you inaccurately or with caveats — a perception problem that visibility metrics alone will not show.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Log it where it compounds: the CRM field</h2>
+      <p>A great interview that lives in an AE&#39;s notebook proves nothing next quarter. Add one field to the opportunity record — <strong>AI-assisted research: yes (unprompted) / yes (prompted) / no / unsure</strong> — plus a free-text line for which tools and what they recommended. Two minutes of RevOps setup turns anecdotes into a queryable series: AI-influenced share of closed-won by quarter, by segment, by deal size.</p><p>The field also future-proofs the effort. When you later add heavier attribution layers — AI referrer detection, prompt-set tracking, cohort comparison — the interview field is the ground truth you calibrate them against. Teams that skip the CRM step end up re-arguing the same budget case from scratch every quarter, with fresh anecdotes and no trend line.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 1-in-X readout</h2>
+      <p>Present the result as one sentence with a numerator, a denominator, and a time window: &quot;<strong>N of the X deals we closed this quarter told us they used an AI assistant at the start of their research.</strong>&quot; Counts, not percentages — &quot;9 of 34 deals&quot; is credible at a sample size where &quot;26.5%&quot; would invite doubt. Attach two or three anonymized verbatims: a buyer saying &quot;I asked ChatGPT for a shortlist and you were on it&quot; carries more weight in a leadership meeting than any chart.</p><p>Report unprompted and prompted yeses separately, and report the unsures — the discipline of showing what you do not know is what makes the number trustworthy to a skeptical CFO. Then present it as a floor, not a ceiling: buyers under-report their own journeys, because the last conscious step — the Google search — is what they remember. The real AI-influenced share is unlikely to be lower than what interviews surface.</p><p>An illustrative scenario, not client data: a B2B team closes around 12 deals a month and interviews each one. Over a quarter, 9 of 36 buyers say yes — several unprompted. That is a quarter of new revenue with a confirmed AI touch, established in about six weeks of asking, at zero tooling cost. Whether the next step is funding AEO as a budget line or simply instrumenting the funnel properly, the conversation has changed: the question is no longer whether AI influences your pipeline, but how much.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What interviews can and cannot prove</h2>
+      <p>Used honestly, the interview number is evidence of existence, not a measurement of magnitude. Four limitations are worth stating out loud — stating them is what makes the rest credible.</p><p><strong>Recall bias runs against you, not for you.</strong> Buyers compress their own journeys and credit the step they remember — usually the search or the demo. An AI conversation early in research is exactly the kind of touch that memory drops. This is why the interview result is a floor.</p><p><strong>Small samples want counts, not decimals.</strong> At ten to forty interviews a quarter, report &quot;6 of 28,&quot; never &quot;21.4%.&quot; Precision your sample cannot support reads as spin and undermines the whole readout.</p><p><strong>Closed-won-only sampling has survivor bias.</strong> You are measuring AI influence among buyers who chose you. If you can, run a smaller closed-lost sample with the same questions — it is also where AI mis-description problems surface, since buyers who saw you described with caveats are disproportionately in that pile.</p><p><strong>A prompted yes is weaker than an unprompted mention.</strong> Leading questions inflate. The open-then-prompted order in the script above, reported separately, is the control.</p><p>None of this weakens the case — it scopes it. The interview proves the path exists in your revenue. Proving its scale is the job of the other two layers.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where interviews fit in the full evidence stack</h2>
+      <p>The interview is the conversion layer of a three-layer stack. Each layer has a different evidence standard, and none proves causality alone — the persuasive object is the triangulation: structured correlation across independent signals, with the uncertainty made visible. That is a case a CFO can review. A single metric — from a dashboard or from interviews — is not.</p>
+      
+      <table>
+              <thead><tr><th>Layer</th><th>Question it answers</th><th>How you check it</th><th>Evidence standard</th></tr></thead>
+              <tbody><tr><td>Exposure</td><td>Do AI engines shortlist and recommend you on the prompts your buyers actually run?</td><td>A fixed prompt set, run on a regular cadence across engines, tracked over time</td><td>Directly observable</td></tr><tr><td>Verification</td><td>Do branded search and direct traffic move when your AI presence moves?</td><td>Branded-query and direct-session trends against your exposure timeline</td><td>Correlational</td></tr><tr><td>Conversion</td><td>Do real buyers confirm the AI touch on closed revenue?</td><td>Closed-won interviews plus a how-did-you-hear field on high-intent forms</td><td>Self-reported</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>The interview upgrades the survey method</h3>
+        <p>In the <a href="/aeo-actions-to-revenue/" target="_blank" rel="noopener noreferrer">4-method attribution stack</a>, survey-based attribution is the layer that recovers AI influence hidden inside direct and branded traffic — and its weakness is answer quality: a form field gets partial response rates and one-word answers. The closed-won interview is the high-fidelity version of the same method, concentrated on the visits that became revenue. Keep the form field for breadth; use the interview for depth. For the mechanics of the branded-search bridge — why AI recommendations surface as branded queries at all — see <a href="/aeo-web-traffic-attribution/" target="_blank" rel="noopener noreferrer">what AEO does to your web traffic</a>, and for the full financial model that these evidence layers feed, see the <a href="/aeo-roi-business-case/" target="_blank" rel="noopener noreferrer">AEO ROI business case</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys covers the exposure and verification inputs of the stack above. We Measure where you appear and get recommended across engines on the prompts your buyers actually run, Diagnose why a competitor is recommended where you are not, Execute governed, human-approved fixes, and then Verify by re-running the same frozen prompt set after the fix ships. That gives the interview number its upstream context: when a buyer says &quot;ChatGPT suggested you,&quot; you can show which prompts, which engines, and how that presence has moved.</p><p>Where we are honest about scope: the interviews live in your sales motion and the answers live in your CRM. SolCrys does not see inside your CRM and does not claim a guaranteed lift — we supply the exposure and verification layers and the method; your team owns the conversion layer. If you want to see the exposure layer on your own category before running a single interview, <a href="https://app.solcrys.com/audit" target="_blank" rel="noopener noreferrer">Start Free</a> (free, no credit card) and SolCrys shows you which engines shortlist your brand today and which name your competitors instead.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.semrush.com/news/463141-semrush-releases-expanded-2026-ai-visibility-index-analyzing-126-million-ai-search-prompts/" target="_blank" rel="noopener noreferrer">Semrush — 2026 AI Visibility Index (126 million U.S. AI search prompts; 45% of marketing leaders cannot accurately measure AI visibility)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How many closed-won interviews do I need before the number is credible?</h3>
+            <p>Fewer than you think, if you report it honestly. Ten to fifteen interviews a month, reported as counts with verbatim quotes, is enough to change a leadership conversation — &quot;9 of 34 deals this quarter&quot; is a real, checkable claim. What builds credibility is consistency across quarters and the discipline of reporting unprompted mentions, prompted yeses, and unsures separately, not a large sample with inflated precision.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I ask about AI on the signup form or in an interview?</h3>
+            <p>Both, for different jobs. A how-did-you-hear field with an AI option gives you breadth across every conversion at low answer quality. The closed-won interview gives you depth — which tools, what they recommended, whether the buyer verified it afterward — on exactly the deals that became revenue. Ask the open question (&quot;where did your research start?&quot;) before the prompted one, and log both in the CRM so the series compounds.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What if buyers don&#39;t remember using AI during their research?</h3>
+            <p>Some won&#39;t — recall bias compresses buying journeys, and buyers tend to credit the last conscious step, usually the Google search or the demo. That is why the interview result should be presented as a floor: the true AI-influenced share is unlikely to be lower than what buyers self-report. It is also why interviews should be paired with an exposure layer you can observe directly, by running your buyers&#39; prompts across the engines and checking whether you are shortlisted.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does the closed-won interview replace attribution tooling?</h3>
+            <p>No — it is the fastest first layer, not the last. Interviews prove AI influence exists in your closed revenue at zero tooling cost, which is usually enough to justify instrumenting the rest: AI referrer detection in analytics, a fixed prompt set tracked across engines, and branded-search correlation against your exposure timeline. The full setup is covered in the 4-method attribution stack in AEO actions to revenue.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-actions-to-revenue/">AEO Actions to Revenue</a></h3>
+            <p>Visibility metrics are not revenue. This guide is the operational playbook for tracking AEO actions through to conversion events - GA4 limits, survey-based attribution, first-party Recovery scoring, and the multi-touch attribution flow.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-web-traffic-attribution/">What AEO Does to Your Web Traffic</a></h3>
+            <p>Most traffic from AI recommendations arrives as branded search, not a referral click, so analytics undercount AEO. What it does to web traffic, why the visits are higher-quality, and how to attribute it to pipeline.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-roi-business-case/">AEO ROI Business Case</a></h3>
+            <p>A practitioner framework for estimating and reviewing AEO ROI with finance. Includes the AEO Revenue Model formula, three attribution methods, a 5-slide deck structure, and a 12-month measurement template.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-share-of-recommendation/">AI Share of Recommendation</a></h3>
+            <p>AI Share of Recommendation measures how often answer engines recommend a brand, not just whether they mention it. Learn how to track and improve it.</p>
+          </article>
+        </div>
+      </section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BmWyZhxI.js"></script>
+  </body>
+</html>
