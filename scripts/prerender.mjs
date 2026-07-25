@@ -1890,7 +1890,7 @@ function promptPulseHubBody() {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · AI demand data</p>
     <h1>See what your market is asking AI</h1>
-    <p class="seo-lede">The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by demand, and showing what's rising. Free, updated ${escapeHtml(promptPulse.updated)}, US/English.</p>
+    <p class="seo-lede">The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by demand, and showing what's rising. Free, US/English.</p>
     <section class="seo-section">
       <h2>Browse by industry</h2>
       <ul class="seo-list">${cards}</ul>

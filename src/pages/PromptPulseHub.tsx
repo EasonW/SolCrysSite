@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar";
 import Sparkline from "@/components/promptpulse/Sparkline";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import {
-  promptPulse,
   risingAcrossVerticals,
   trendArrow,
   trendColor,
@@ -39,9 +38,9 @@ const PromptPulseHub = () => {
             </h1>
             <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
               The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by
-              industry, ranked by demand, and showing what's heating up. Refreshed monthly.
+              industry, ranked by demand, and showing what's heating up.
             </p>
-            <p className="mt-3 text-sm text-muted-foreground">Updated {promptPulse.updated} · US / English</p>
+            <p className="mt-3 text-sm text-muted-foreground">US / English</p>
           </header>
 
           {/* Vertical directory — primary action: self-select your industry */}
