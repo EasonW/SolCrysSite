@@ -6,7 +6,7 @@ import gwenImg from "@/assets/gwen-chen.jpg";
 import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
 import { ArrowLeft, ArrowRight, CalendarDays, Linkedin } from "lucide-react";
-import { useEffect } from "react";
+import { Fragment, ReactNode, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 
@@ -31,6 +31,45 @@ const formatDate = (iso: string) =>
     month: "long",
     day: "numeric",
   });
+
+// Matches either a markdown link [text](url) or **bold** segment. Mirrors
+// renderInline in ResourcePage.tsx and renderInlineHtml in prerender.mjs —
+// body copy must render identically in the SPA and the prerendered HTML.
+const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*/g;
+
+const renderInline = (text: string): ReactNode => {
+  if (!text.includes("](") && !text.includes("**")) return text;
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let keyIndex = 0;
+  for (const match of text.matchAll(INLINE_TOKEN_REGEX)) {
+    const start = match.index ?? 0;
+    if (start > lastIndex) nodes.push(text.slice(lastIndex, start));
+    if (match[1] !== undefined && match[2] !== undefined) {
+      const href = match[2];
+      const external = /^https?:\/\//.test(href);
+      nodes.push(
+        <a
+          key={`lnk-${keyIndex++}`}
+          href={href}
+          {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"
+        >
+          {match[1]}
+        </a>
+      );
+    } else if (match[3] !== undefined) {
+      nodes.push(
+        <strong key={`b-${keyIndex++}`} className="font-semibold text-foreground">
+          {match[3]}
+        </strong>
+      );
+    }
+    lastIndex = start + match[0].length;
+  }
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+  return nodes.map((node, idx) => <Fragment key={`f-${idx}`}>{node}</Fragment>);
+};
 
 const renderBlock = (block: BodyBlock, index: number) => {
   switch (block.type) {
@@ -79,7 +118,7 @@ const renderBlock = (block: BodyBlock, index: number) => {
               key={item}
               className="rounded-lg border border-border/30 bg-card/40 p-4 text-base text-muted-foreground leading-relaxed"
             >
-              {item}
+              {renderInline(item)}
             </li>
           ))}
         </ul>
@@ -156,7 +195,7 @@ const renderBlock = (block: BodyBlock, index: number) => {
     default:
       return (
         <p key={index} className="text-base md:text-lg text-muted-foreground leading-relaxed mb-5">
-          {("text" in block && block.text) || ""}
+          {renderInline((("text" in block && block.text) || "") as string)}
         </p>
       );
   }

@@ -25,13 +25,14 @@ const renderInline = (text: string): ReactNode => {
       nodes.push(text.slice(lastIndex, start));
     }
     if (match[1] !== undefined && match[2] !== undefined) {
-      // Link: [text](url)
+      // Link: [text](url) — only off-site links open in a new tab.
       nodes.push(
         <a
           key={`lnk-${keyIndex++}`}
           href={match[2]}
-          target="_blank"
-          rel="noopener noreferrer"
+          {...(/^https?:\/\//.test(match[2])
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
           className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"
         >
           {match[1]}

@@ -136,8 +136,10 @@ function renderInlineHtml(value) {
     const start = match.index ?? 0;
     if (start > lastIndex) out += escapeHtml(text.slice(lastIndex, start));
     if (match[1] !== undefined && match[2] !== undefined) {
-      // Link
-      out += `<a href="${escapeAttr(match[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(match[1])}</a>`;
+      // Link — only off-site links open in a new tab.
+      const href = match[2];
+      const attrs = /^https?:\/\//.test(href) ? ` target="_blank" rel="noopener noreferrer"` : "";
+      out += `<a href="${escapeAttr(href)}"${attrs}>${escapeHtml(match[1])}</a>`;
     } else if (match[3] !== undefined) {
       // Bold
       out += `<strong>${escapeHtml(match[3])}</strong>`;
@@ -1010,11 +1012,23 @@ function newsBlockHtml(block) {
     }
     case "bullets":
       return `<ul class="seo-list">${(block.items || [])
-        .map((item) => `<li>${escapeHtml(item)}</li>`)
+        .map((item) => `<li>${renderInlineHtml(item)}</li>`)
+        .join("")}</ul>`;
+    case "cta":
+      if (!block.text || !block.href) return "";
+      return `<p><a href="${escapeAttr(block.href)}">${escapeHtml(block.text)}</a></p>`;
+    case "signatures":
+      return `<ul class="seo-list">${(block.authors || [])
+        .map(
+          (author) =>
+            `<li><strong>${escapeHtml(author.name)}</strong>${
+              author.role ? ` — ${escapeHtml(author.role)}` : ""
+            }</li>`
+        )
         .join("")}</ul>`;
     case "paragraph":
     default:
-      return `<p>${escapeHtml(block.text || "")}</p>`;
+      return `<p>${renderInlineHtml(block.text || "")}</p>`;
   }
 }
 
@@ -2136,7 +2150,11 @@ for (const post of newsPosts) {
           datePublished: post.datePublished || post.date,
           dateModified: post.updated || post.date,
           mainEntityOfPage: canonicalUrl(routePath),
-          image: personImage ? `${site.url}${personImage}` : undefined,
+          image: personImage
+            ? `${site.url}${personImage}`
+            : post.ogImage
+              ? `${site.url}${post.ogImage}`
+              : undefined,
           author: authorEntity,
           publisher: {
             "@type": "Organization",
