@@ -275,7 +275,9 @@ const NewsArticle = ({ slug: configuredSlug }: NewsArticleProps) => {
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-5">
               {post.title}
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">{post.dek}</p>
+            {post.dek ? (
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">{post.dek}</p>
+            ) : null}
 
             {author ? (
               <div className="mt-6 flex items-center gap-3 text-sm text-muted-foreground">

@@ -1052,7 +1052,7 @@ function newsIndexHtml() {
               post.date
             )}">${escapeHtml(post.date)}</time></p>
             <h2><a href="/news/${escapeAttr(post.slug)}/">${escapeHtml(post.title)}</a></h2>
-            <p>${escapeHtml(post.dek)}</p>
+            <p>${escapeHtml(post.dek || post.description)}</p>
           </article>`
           )
           .join("")}
@@ -1101,7 +1101,7 @@ function newsArticleHtml(post) {
         <article class="seo-card">
           <p class="seo-kicker">${escapeHtml(newsKindLabels[item.kind] || item.kind)}</p>
           <h3><a href="/news/${escapeAttr(item.slug)}/">${escapeHtml(item.title)}</a></h3>
-          <p>${escapeHtml(item.dek)}</p>
+          <p>${escapeHtml(item.dek || item.description)}</p>
         </article>`
           )
           .join("")}</div></section>`;
@@ -1117,7 +1117,7 @@ function newsArticleHtml(post) {
         )}">${escapeHtml(post.date)}</time></p>
         ${releaseFlag}
         <h1>${escapeHtml(post.title)}</h1>
-        <p class="seo-lede">${escapeHtml(post.dek)}</p>
+        ${post.dek ? `<p class="seo-lede">${escapeHtml(post.dek)}</p>` : ""}
         ${authorLine}
       </header>
       ${heroFigure}
@@ -2663,7 +2663,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
   .join("")}
 - [Newsroom](${site.url}/news/): Press releases and founder notes.${newsPosts
   .map(
-    (post) => `\n  - [${post.title}](${site.url}/news/${post.slug}/): ${post.dek}`
+    (post) => `\n  - [${post.title}](${site.url}/news/${post.slug}/): ${post.dek || post.description}`
   )
   .join("")}
 
