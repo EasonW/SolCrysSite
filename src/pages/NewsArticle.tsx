@@ -323,7 +323,7 @@ const NewsArticle = ({ slug: configuredSlug }: NewsArticleProps) => {
 
           {post.leadParagraph ? (
             <p className="text-lg md:text-xl text-foreground leading-relaxed mb-6 font-medium">
-              {post.leadParagraph}
+              {renderInline(post.leadParagraph)}
             </p>
           ) : null}
 

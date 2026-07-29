@@ -1121,7 +1121,7 @@ function newsArticleHtml(post) {
         ${authorLine}
       </header>
       ${heroFigure}
-      ${post.leadParagraph ? `<p><strong>${escapeHtml(post.leadParagraph)}</strong></p>` : ""}
+      ${post.leadParagraph ? `<p><strong>${renderInlineHtml(post.leadParagraph)}</strong></p>` : ""}
       ${(post.body || []).map(newsBlockHtml).join("")}
       ${mediaContact}
       ${relatedHtml}
