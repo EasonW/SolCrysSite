@@ -43,6 +43,19 @@ export const verticals = promptPulse.verticals;
 export const getVertical = (slug?: string): VerticalData | undefined =>
   verticals.find((v) => v.slug === slug);
 
+// Data vintage, not page freshness. Month granularity on purpose: "June 2026"
+// reads as the dataset's measurement window (a fact that never expires), where
+// "2026-06-01" reads as a maintenance date the reader silently grades us on.
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+export const snapshotMonth = (iso: string): string => {
+  const [y, m] = (iso || "").split("-");
+  const name = MONTHS[Number(m) - 1];
+  return name ? `${name} ${y}` : "";
+};
+
 export const ACCENT = "hsl(195 90% 55%)";
 export const GOLD = "hsl(40 85% 55%)";
 const MUTED = "hsl(0 0% 55%)";

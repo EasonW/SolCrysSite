@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PromptPulseTable from "@/components/promptpulse/PromptPulseTable";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
-import { getVertical, verticals, verticalTldr } from "@/lib/promptPulse";
+import { getVertical, snapshotMonth, verticals, verticalTldr } from "@/lib/promptPulse";
 import { ArrowRight } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -30,7 +30,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
     document.title = `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`;
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (desc) {
-      desc.content = `The real questions ${v.short} buyers ask AI engines, ranked by demand and trend. Updated monthly.`;
+      desc.content = `The real questions ${v.short} buyers ask AI engines, ranked by demand and trend.`;
     }
   }, [v]);
 
@@ -72,7 +72,6 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
                 <Stat n={v.stats.cooling} label="cooling" color="hsl(var(--brand-accent))" />
               ) : null}
               <Stat n={v.stats.decision} label="purchase-ready" color="hsl(var(--brand-accent))" />
-              <Stat n={v.updated} label="updated · monthly" />
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
               Each row is one real question buyers ask AI engines, scored by the SolCrys Prompt
@@ -141,8 +140,8 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
 
           <p className="mt-8 text-xs leading-relaxed text-muted-foreground">
             Prompt Pulse reports directional demand signals, not exact query counts. Figures are
-            SolCrys estimates and may change as models and data refresh. Snapshot {v.updated} · US /
-            English · updated monthly.
+            SolCrys estimates. Demand and trend are computed from a 12-month AI-search series;
+            dataset snapshot {snapshotMonth(v.updated)}. US / English.
           </p>
         </div>
       </main>

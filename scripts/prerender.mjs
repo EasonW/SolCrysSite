@@ -703,7 +703,7 @@ function homeHtml() {
     </section>
     <section id="prompt-pulse" class="seo-container seo-section">
       <h2>Prompt Pulse: see what your market is asking AI</h2>
-      <p>Demand data — a different lens from visibility tracking: the real questions buyers ask AI, sourced from ChatGPT, Perplexity, and Google AI Overviews signals across ${promptPulse.verticals.length} industries. Ranked by demand, refreshed monthly. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
+      <p>Demand data — a different lens from visibility tracking: the real questions buyers ask AI, sourced from ChatGPT, Perplexity, and Google AI Overviews signals across ${promptPulse.verticals.length} industries, ranked by demand. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
       <div class="seo-grid">
         ${homeRisingPrompts(4)
           .map(
@@ -1840,6 +1840,17 @@ function ppTrend(t) {
 function ppTrendSort(t) {
   return t.pct != null ? t.pct : t.label === "New" ? 999 : -999;
 }
+// Data vintage, month granularity — mirrors snapshotMonth() in
+// src/lib/promptPulse.ts. Keep the two in sync.
+const PP_MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+function ppSnapshotMonth(iso) {
+  const [y, m] = String(iso || "").split("-");
+  const name = PP_MONTHS[Number(m) - 1];
+  return name ? `${name} ${y}` : "";
+}
 function promptPulseVerticalBody(v) {
   const rows = v.prompts
     .map((p) =>
@@ -1852,7 +1863,7 @@ function promptPulseVerticalBody(v) {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · AI demand data</p>
     <h1>The prompts ${escapeHtml(v.short)} buyers ask AI</h1>
-    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. Updated ${escapeHtml(v.updated)}, US/English.</p>
+    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. US/English.</p>
     <section class="seo-section">
       <h2>Demand ranking</h2>
       <table>
@@ -1863,6 +1874,7 @@ function promptPulseVerticalBody(v) {
     <section class="seo-section">
       <h2>About this data</h2>
       <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement — distilled from the real questions buyers ask across AI answer engines and the community sources they cite. Signals are relative within each industry and directional by design. <a href="/resources/">See the methodology in our resources</a>.</p>
+      <p>Prompt Pulse reports directional demand signals, not exact query counts. Figures are SolCrys estimates. Demand and trend are computed from a 12-month AI-search series; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
     </section>
   </main>
   ${ctaHtml()}
@@ -1923,7 +1935,7 @@ function promptPulseDatasetSchema(v, routePath) {
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: `Prompt Pulse — ${v.short}: AI demand for buyer prompts`,
-    description: `The questions ${v.short} buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free, updated monthly.`,
+    description: `The questions ${v.short} buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free.`,
     url: canonicalUrl(routePath),
     isAccessibleForFree: true,
     creator: { "@type": "Organization", name: site.name, url: site.url },
@@ -1957,7 +1969,7 @@ writePage(
     title: "Prompt Pulse — what your market is asking AI | SolCrys",
     ogImage: "/og/prompt-pulse.png",
     description:
-      "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries, ranked by demand and what's rising. Updated monthly.",
+      "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries, ranked by demand and what's rising.",
     lastModified: promptPulse.updated,
     body: promptPulseHubBody(),
     schemas: [
@@ -1988,7 +2000,7 @@ for (const v of promptPulse.verticals) {
     renderLayout({
       routePath,
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
-      description: `The real questions ${v.short} buyers ask AI engines, rated by demand tier and trend. Free, updated monthly.`,
+      description: `The real questions ${v.short} buyers ask AI engines, rated by demand tier and trend. Free.`,
       ogImage: `/og/prompt-pulse-${v.slug}.png`,
       lastModified: v.updated,
       body: promptPulseVerticalBody(v),
@@ -2656,7 +2668,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
-- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising. Updated ${promptPulse.updated}.${promptPulse.verticals
+- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
   .map(
     (v) => `\n  - [${v.short}](${site.url}/prompt-pulse/${v.slug}/): ${v.stats.prompts} buyer prompts ${v.short} teams should track in AI answers.`
   )

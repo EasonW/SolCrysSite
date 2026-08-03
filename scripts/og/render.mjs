@@ -235,7 +235,7 @@ function collectTargets() {
     {
       slug: "prompt-pulse",
       title: "What your market is asking AI",
-      description: "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries. Updated monthly.",
+      description: "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries.",
       category: "Prompt Pulse",
     },
   ];
@@ -253,7 +253,8 @@ function collectTargets() {
         title: `${v.short}: what buyers ask AI`,
         description: `${v.stats?.prompts ?? ""} real buyer prompts ${v.short} teams should track in AI answers, rated by demand tier and trend.`,
         category: "Prompt Pulse",
-        updated: v.updated,
+        // No date in the byline: an OG card is cached and reshared for months,
+        // so a stamped snapshot date is the first thing to read as stale.
       },
     });
   }

@@ -18,7 +18,7 @@ const PromptPulseHub = () => {
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (desc) {
       desc.content =
-        "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and AI Overviews across industries — ranked by demand and what's rising. Updated monthly.";
+        "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and AI Overviews across industries — ranked by demand and what's rising.";
     }
   }, []);
 
