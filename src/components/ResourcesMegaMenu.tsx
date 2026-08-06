@@ -1,6 +1,5 @@
-import { Activity, ArrowRight, BookOpen } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { RESOURCES_COLUMNS } from "./resourcesMenuData";
+import { ArrowRight, BookOpen } from "lucide-react";
+import { RESOURCES_COLUMNS, RESOURCES_DO_ITEMS } from "./resourcesMenuData";
 
 interface ResourcesMegaMenuProps {
   onItemClick?: () => void;
@@ -13,9 +12,13 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
   // specificity race; mode-aware via `.dark .shadow-floating-lg`.
   return (
     <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-floating-lg p-7 md:p-8">
+      {/* READ — the 139-guide library, grouped by cluster. */}
+      <p className="text-[11px] uppercase tracking-[0.14em] font-semibold text-muted-foreground/70 mb-5">
+        Read
+      </p>
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
         {RESOURCES_COLUMNS.map((col) => (
-          <div key={col.label} className="md:col-span-3">
+          <div key={col.label} className="md:col-span-4">
             <p className="text-xs uppercase tracking-wider font-medium text-muted-foreground mb-4">
               {col.label}
             </p>
@@ -54,71 +57,59 @@ const ResourcesMegaMenu = ({ onItemClick }: ResourcesMegaMenuProps) => {
           </div>
         ))}
 
-        {/* Free Audit CTA card — theme-aware to avoid inverse-color split with the menu */}
-        <div className="md:col-span-3">
-          <div className="h-full rounded-xl border border-[hsl(var(--brand-accent)/0.35)] bg-card/40 p-5 flex flex-col">
-            <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(var(--brand-accent))] mb-2">
-              Try SolCrys
-            </p>
-            <h3 className="font-display text-base font-semibold leading-tight mb-2">
-              Free ChatGPT Visibility Tracker
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed mb-4 flex-1">
-              See whether ChatGPT mentions, cites, or skips your brand — and
-              which competitor it names instead. Free, no credit card.
-            </p>
-            <Button asChild variant="hero" size="sm" className="w-full">
-              <a href="/free-chatgpt-visibility-tracker/" onClick={onItemClick}>
-                Start Free
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-              </a>
-            </Button>
-          </div>
-        </div>
       </div>
 
-      {/* Featured: Prompt Pulse (free tool) + Browse-all CTA */}
-      <div className="mt-6 pt-6 border-t border-border/40 grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <a
-          href="/prompt-pulse/"
-          onClick={onItemClick}
-          className="group flex items-center justify-between rounded-xl border border-[hsl(var(--brand-accent)/0.35)] bg-[hsl(var(--brand-accent)/0.06)] hover:bg-[hsl(var(--brand-accent)/0.12)] transition-colors px-5 py-4"
-        >
-          <div className="flex items-center gap-3">
-            <span className="flex-none rounded-md bg-[hsl(var(--brand-accent)/0.18)] p-2">
-              <Activity className="h-4 w-4 text-[hsl(var(--brand-accent))]" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(var(--brand-accent))]">
-                Prompt Pulse
-              </p>
-              <p className="text-sm font-medium text-foreground">
-                AI demand data — what buyers ask AI, by industry
-              </p>
-            </div>
+      <a
+        href="/resources/"
+        onClick={onItemClick}
+        className="group mt-6 flex items-center justify-between rounded-xl border border-border/40 bg-card/40 hover:bg-card/70 transition-colors px-5 py-4"
+      >
+        <div className="flex items-center gap-3">
+          <span className="flex-none rounded-md bg-muted/40 p-2">
+            <BookOpen className="h-4 w-4 text-muted-foreground" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+              All resources
+            </p>
+            <p className="text-sm font-medium text-foreground">
+              Browse every AEO guide
+            </p>
           </div>
-          <ArrowRight className="h-4 w-4 text-[hsl(var(--brand-accent))] group-hover:translate-x-1 transition-transform" />
-        </a>
-        <a
-          href="/resources/"
-          onClick={onItemClick}
-          className="group flex items-center justify-between rounded-xl border border-border/40 bg-card/40 hover:bg-card/70 transition-colors px-5 py-4"
-        >
-          <div className="flex items-center gap-3">
-            <span className="flex-none rounded-md bg-muted/40 p-2">
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
-                All resources
-              </p>
-              <p className="text-sm font-medium text-foreground">
-                Browse every AEO guide
-              </p>
+        </div>
+        <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+      </a>
+
+      {/* DO — the free things you USE, as opposed to read. Rendered from
+          RESOURCES_DO_ITEMS so the mobile accordion in Navbar.tsx renders the
+          identical list from one source. */}
+      <p className="text-[11px] uppercase tracking-[0.14em] font-semibold text-muted-foreground/70 mt-8 mb-4">
+        Do — free, no credit card
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {RESOURCES_DO_ITEMS.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            onClick={onItemClick}
+            className="group flex items-center justify-between gap-3 rounded-xl border border-[hsl(var(--brand-accent)/0.35)] bg-[hsl(var(--brand-accent)/0.06)] hover:bg-[hsl(var(--brand-accent)/0.12)] transition-colors px-5 py-4"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="flex-none rounded-md bg-[hsl(var(--brand-accent)/0.18)] p-2">
+                <item.Icon className="h-4 w-4 text-[hsl(var(--brand-accent))]" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(var(--brand-accent))]">
+                  {item.title}
+                </p>
+                <p className="text-sm font-medium text-foreground leading-snug">
+                  {item.desc}
+                </p>
+              </div>
             </div>
-          </div>
-          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-        </a>
+            <ArrowRight className="h-4 w-4 flex-none text-[hsl(var(--brand-accent))] group-hover:translate-x-1 transition-transform" />
+          </a>
+        ))}
       </div>
     </div>
   );

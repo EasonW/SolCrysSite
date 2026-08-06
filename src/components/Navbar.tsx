@@ -6,6 +6,7 @@ import ResourcesMegaMenu from "./ResourcesMegaMenu";
 import SolutionsMegaMenu from "./SolutionsMegaMenu";
 import {
   RESOURCES_COLUMNS,
+  RESOURCES_DO_ITEMS,
   RESOURCES_FOOTER_LINKS,
 } from "./resourcesMenuData";
 import { SOLUTIONS_MENU_ITEMS } from "./solutionsMenuData";
@@ -174,7 +175,17 @@ const Navbar = () => {
         </div>
 
         {/* Desktop nav — order:
-            Platform · Solutions ▾ · Pricing · Customers · Resources ▾ · Company  */}
+            Platform · Solutions ▾ · Pricing · Customers · Resources ▾ · Company
+
+            Prompt Pulse was a seventh top-level link here until 2026-08. It was
+            ALSO a featured card inside the Resources mega menu, so the nav
+            carried it twice. It now lives once, in that menu's "Do" block
+            alongside the Free ChatGPT Tracker and the AEO Operator course.
+            Top-level slots are a positioning statement, not a filing cabinet —
+            demand data is an adjacent capability, not the execution claim the
+            nav should be making. Prompt Pulse keeps a site-wide crawlable
+            internal link via the Footer and the prerendered footer nav, so no
+            link equity is lost to /prompt-pulse/*. */}
         <div ref={wrapperRef} className="hidden xl:flex items-center gap-6">
           {renderFlatLink(flatNavLinks[0])}
 
@@ -187,13 +198,6 @@ const Navbar = () => {
 
           {renderFlatLink(flatNavLinks[1])}
           {renderFlatLink(flatNavLinks[2])}
-
-          <a
-            href="/prompt-pulse/"
-            className="whitespace-nowrap text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Prompt Pulse
-          </a>
 
           {renderDropdownTrigger(
             "resources",
@@ -323,13 +327,9 @@ const Navbar = () => {
               {flatNavLinks[2].label}
             </a>
 
-            <a
-              href="/prompt-pulse/"
-              onClick={closeAll}
-              className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
-            >
-              Prompt Pulse
-            </a>
+            {/* Prompt Pulse removed from top level 2026-08 — see the desktop
+                nav comment above. It now appears once, inside the Resources
+                accordion's "Do" block. */}
 
             {/* Mobile Resources accordion */}
             <MobileAccordion
@@ -392,6 +392,29 @@ const Navbar = () => {
                   </div>
                   <ArrowRight className="h-4 w-4 text-[hsl(var(--brand-accent))] group-hover:translate-x-1 transition-transform" />
                 </a>
+
+                {/* DO block — same source as the desktop mega menu
+                    (RESOURCES_DO_ITEMS) so the two cannot drift. */}
+                <div className="pt-3">
+                  <p className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground/70 mb-2">
+                    Do — free, no credit card
+                  </p>
+                  <ul className="space-y-1">
+                    {RESOURCES_DO_ITEMS.map((item) => (
+                      <li key={item.href}>
+                        <a
+                          href={item.href}
+                          onClick={closeAll}
+                          className="flex items-center gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(var(--brand-accent))] transition-colors"
+                        >
+                          <item.Icon className="h-4 w-4 text-[hsl(var(--brand-accent))] shrink-0" />
+                          <span>{item.title}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
                 {RESOURCES_FOOTER_LINKS.length > 0 ? (
                   <div className="pt-3 border-t border-border/20 space-y-1">
                     {RESOURCES_FOOTER_LINKS.map((item) => (

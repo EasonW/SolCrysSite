@@ -238,6 +238,19 @@ function collectTargets() {
       description: "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries.",
       category: "Prompt Pulse",
     },
+    {
+      slug: "learn",
+      title: "Free courses on Answer Engine Optimization",
+      description: "Self-paced, open, free to read in full — no login, no email gate. Labs run on a free SolCrys account.",
+      category: "Learn",
+    },
+    {
+      // Matches courseContent.json → courses[0].ogImage (/og/learn-aeo-operator.png).
+      slug: "learn-aeo-operator",
+      title: "AEO Operator",
+      description: "Measure, diagnose, act, verify — the whole loop, on a free account. 7 modules, 22 lessons, free to read.",
+      category: "Free Course",
+    },
   ];
   for (const hub of staticHubs) {
     targets.push({ source: "static", slug: hub.slug, entry: hub });

@@ -21,8 +21,11 @@ const productLinks = [
 ];
 
 const resourcesLinks = [
+  // Prompt Pulse must stay here: since it left the top-level nav (2026-08) the
+  // footer is its only site-wide internal link.
   { href: "/prompt-pulse/", label: "Prompt Pulse" },
   { href: "/free-chatgpt-visibility-tracker/", label: "Free ChatGPT Tracker" },
+  { href: "/learn/aeo-operator/", label: "AEO Operator course" },
   { href: "/resources/", label: "All guides" },
   { href: "/compare/", label: "Compare SolCrys" },
   { href: "/optimize-for-chatgpt-search/", label: "ChatGPT" },

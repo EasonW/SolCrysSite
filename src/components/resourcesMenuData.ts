@@ -1,7 +1,9 @@
 import {
+  Activity,
   BookOpen,
   Compass,
   ClipboardList,
+  GraduationCap,
   MessageSquare,
   Sparkles,
   Search,
@@ -140,3 +142,38 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
 // New mega-menu now renders an "All resources" full-width CTA bar directly
 // in ResourcesMegaMenu.tsx, so this array can be empty by default.
 export const RESOURCES_FOOTER_LINKS: ResourcesMenuItem[] = [];
+
+/**
+ * The "Do" block — free things you USE, as opposed to the columns above,
+ * which are things you READ.
+ *
+ * Added 2026-08. The Resources menu already mixed three asset classes
+ * (139 guides, a free tool, a free data product) under one unlabelled
+ * surface, which read as a junk drawer. Splitting it into Read / Do just
+ * makes the existing reality legible — and gives Prompt Pulse a single
+ * home now that it no longer duplicates a top-level nav slot.
+ *
+ * Shared by BOTH the desktop mega menu and the mobile accordion so the two
+ * cannot drift. The crawler-facing copy in scripts/prerender.mjs is a
+ * separate, third rendering — update it too when this list changes.
+ */
+export const RESOURCES_DO_ITEMS: ResourcesMenuItem[] = [
+  {
+    title: "Free ChatGPT Tracker",
+    desc: "See if ChatGPT mentions, cites, or skips you",
+    href: "/free-chatgpt-visibility-tracker/",
+    Icon: Gauge,
+  },
+  {
+    title: "Prompt Pulse",
+    desc: "AI demand data — what buyers ask, by industry",
+    href: "/prompt-pulse/",
+    Icon: Activity,
+  },
+  {
+    title: "AEO Operator course",
+    desc: "Free 7-module course — measure, diagnose, act, verify",
+    href: "/learn/aeo-operator/",
+    Icon: GraduationCap,
+  },
+];

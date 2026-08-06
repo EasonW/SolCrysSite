@@ -27,6 +27,7 @@ const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteC
 const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 const promptPulse = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/promptPulse.json"), "utf8"));
+const courseContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/courseContent.json"), "utf8"));
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
 
@@ -180,7 +181,6 @@ function navHtml() {
         <a href="/#solutions">Solutions</a>
         <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
         <a href="/customers/">Customers</a>
-        <a href="/prompt-pulse/">Prompt Pulse</a>
         <a href="/resources/">Resources</a>
         <a href="/about/">Company</a>
       </nav>
@@ -194,8 +194,15 @@ function footerHtml() {
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
+          <a href="/learn/">Learn</a>
           <a href="/compare/">Compare</a>
           <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
           <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
           <a href="/news/">News</a>
           <a href="/privacy.html">Privacy</a>
@@ -2611,6 +2618,391 @@ writePage(
   }),
 );
 
+// ---- /learn/ — free self-paced courses ----
+//
+// Courses live under their own /learn/ route family rather than in
+// `resourcePages` (which render at ROOT `/<slug>/`). Rationale, in short:
+// lessons carry ORDER, they need a different JSON-LD type (Course /
+// LearningResource, not WebPage + FAQPage), and 22 lesson slugs in the flat
+// root namespace would dilute the /resources/ index. See
+// GEOResearch/17_learn_course/solcrys_course_design_2026-08-05.md §5.4.
+//
+// EDITORIAL RULE, enforced by hand not by code: a lesson carries only the
+// spine (concept → product steps → lab → self-check) and links OUT to the
+// canonical resource page for depth. Lessons must never restate a resource
+// page's substance — near-duplicate content would put the course in
+// competition with the pages that actually earn citations.
+const courses = courseContent.courses || [];
+const courseLessons = (course) =>
+  course.modules.flatMap((module) =>
+    module.lessons.map((lesson) => ({ module, lesson })),
+  );
+
+function lessonRoute(course, module, lesson) {
+  return `/learn/${course.slug}/${module.slug}/${lesson.slug}/`;
+}
+
+function learnHubHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">Learn</p>
+      <h1>Free courses on Answer Engine Optimization.</h1>
+      <p class="seo-lede">Self-paced, open, and free to read in full &mdash; no login, no email gate, no paywall. The hands-on labs run on a free SolCrys account with no credit card.</p>
+      <p>We publish these openly on purpose. A platform that argues for measurable, verifiable AEO and then locks its own teaching material behind a paid tier is arguing against itself.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <div class="seo-grid">
+        ${courses
+          .map(
+            (course) => `
+          <article class="seo-card">
+            <p class="seo-kicker">Self-paced course &middot; Free</p>
+            <h3><a href="/learn/${escapeAttr(course.slug)}/">${escapeHtml(course.title)}</a></h3>
+            <p>${escapeHtml(course.tagline)}</p>
+            <p>${course.modules.length} modules &middot; ${courseLessons(course).length} lessons &middot; ~${course.estimatedMinutes} min reading &middot; ${escapeHtml(course.level)}</p>
+          </article>`,
+          )
+          .join("")}
+      </div>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+writePage(
+  "learn/index.html",
+  renderLayout({
+    routePath: "/learn/",
+    title: "Free AEO Courses — Learn Answer Engine Optimization | SolCrys",
+    ogImage: "/og/learn.png",
+    description:
+      "Free, open, self-paced courses on Answer Engine Optimization. Read in full with no login or email gate; run the labs on a free SolCrys account with no credit card.",
+    lastModified: courseContent.updated,
+    body: learnHubHtml(),
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Learn", path: "/learn/" },
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "SolCrys free AEO courses",
+        url: canonicalUrl("/learn/"),
+        hasPart: courses.map((course) => ({
+          "@type": "Course",
+          name: course.title,
+          description: course.description,
+          url: canonicalUrl(`/learn/${course.slug}/`),
+        })),
+      },
+      // NOTE: deliberately NO ItemList / course-carousel markup here. Google's
+      // course list rich result requires at least THREE courses; emitting a
+      // one-item carousel is ineligible markup, not a head start. Add it when
+      // a third course ships.
+    ],
+  }),
+);
+
+function courseHtml(course) {
+  const flat = courseLessons(course);
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <nav class="seo-container" aria-label="Breadcrumb" style="padding-top:1rem;font-size:0.9rem;">
+      <a href="/learn/">Learn</a> / <span>${escapeHtml(course.title)}</span>
+    </nav>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">Free self-paced course</p>
+      <h1>${escapeHtml(course.h1)}</h1>
+      <p class="seo-lede">${escapeHtml(course.tagline)}</p>
+      <p>~${course.estimatedMinutes} min reading &middot; ${course.modules.length} modules &middot; ${flat.length} lessons &middot; ${escapeHtml(course.level)}</p>
+      <p><a href="${escapeAttr(lessonRoute(course, flat[0].module, flat[0].lesson))}">Start the course &rarr;</a></p>
+      <p>Free to read in full &mdash; no login, no email required. Labs use a free SolCrys account, no credit card.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <p>${escapeHtml(course.summary)}</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>What you will be able to do</h2>
+      <ul class="seo-list">
+        ${course.outcomes.map((o) => `<li>${escapeHtml(o)}</li>`).join("")}
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Who it is for</h2>
+      <ul class="seo-list">
+        ${course.audience.map((a) => `<li>${escapeHtml(a)}</li>`).join("")}
+      </ul>
+      <h3>What you need</h3>
+      <ul class="seo-list">
+        ${course.requirements.map((r) => `<li>${escapeHtml(r)}</li>`).join("")}
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>${escapeHtml(course.labBudget.heading)}</h2>
+      <p>${escapeHtml(course.labBudget.intro)}</p>
+      <table>
+        <thead><tr><th>Module</th><th>What you do</th><th>Quota</th></tr></thead>
+        <tbody>${course.labBudget.rows
+          .map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`)
+          .join("")}</tbody>
+      </table>
+      <p>${escapeHtml(course.labBudget.note)}</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Syllabus</h2>
+      ${course.modules
+        .map(
+          (module) => `
+      <div class="seo-subsection">
+        <h3>${escapeHtml(module.number)} &mdash; ${escapeHtml(module.title)}</h3>
+        <p>${escapeHtml(module.blurb)}</p>
+        <ul class="seo-list">
+          ${module.lessons
+            .map(
+              (lesson) =>
+                `<li><a href="${escapeAttr(lessonRoute(course, module, lesson))}">${escapeHtml(lesson.title)}</a> &mdash; ${escapeHtml(lesson.summary)} (${lesson.minutes} min${lesson.lab ? ", includes a lab" : ""})</li>`,
+            )
+            .join("")}
+        </ul>
+      </div>`,
+        )
+        .join("")}
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Questions about the course</h2>
+      ${course.faqs
+        .map(
+          (faq) => `
+      <div class="seo-subsection">
+        <h3>${escapeHtml(faq.question)}</h3>
+        <p>${escapeHtml(faq.answer)}</p>
+      </div>`,
+        )
+        .join("")}
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+function lessonHtml(course, module, lesson, prev, next) {
+  const related = lesson.readNext
+    .map((slug) => resourceBySlug.get(slug))
+    .filter(Boolean)
+    .filter((p) => !isDraft(p));
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <nav class="seo-container" aria-label="Breadcrumb" style="padding-top:1rem;font-size:0.9rem;">
+      <a href="/learn/">Learn</a> / <a href="/learn/${escapeAttr(course.slug)}/">${escapeHtml(course.title)}</a> / <span>${escapeHtml(module.title)}</span>
+    </nav>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">${escapeHtml(module.number)} ${escapeHtml(module.title)} &middot; ${lesson.minutes} min</p>
+      <h1>${escapeHtml(lesson.title)}</h1>
+      <p class="seo-lede">${escapeHtml(lesson.summary)}</p>
+    </section>
+    ${lesson.sections
+      .map(
+        (section) => `
+    <section class="seo-container seo-section">
+      <h2>${escapeHtml(section.heading)}</h2>
+      ${section.body.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}
+      ${section.bullets ? `<ul class="seo-list">${section.bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}</ul>` : ""}
+    </section>`,
+      )
+      .join("")}
+    ${
+      lesson.product
+        ? `
+    <section class="seo-container seo-section">
+      <h2>${escapeHtml(lesson.product.heading)}</h2>
+      <ul class="seo-list">
+        ${lesson.product.steps.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
+      </ul>
+    </section>`
+        : ""
+    }
+    ${
+      lesson.lab
+        ? `
+    <section class="seo-container seo-section">
+      <h2>Lab: ${escapeHtml(lesson.lab.title)}</h2>
+      <p>${lesson.lab.requiresAccount ? "Needs a free SolCrys account (no credit card). " : ""}${escapeHtml(lesson.lab.quota)}.</p>
+      <ol class="seo-list">
+        ${lesson.lab.steps.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
+      </ol>
+      ${lesson.lab.note ? `<p>${escapeHtml(lesson.lab.note)}</p>` : ""}
+      ${lesson.lab.requiresAccount ? `<p><a href="${escapeAttr(AUDIT_URL)}">Start Free</a> &mdash; free plan, no credit card.</p>` : ""}
+    </section>`
+        : ""
+    }
+    ${
+      lesson.check.length
+        ? `
+    <section class="seo-container seo-section">
+      <h2>Check yourself</h2>
+      <ul class="seo-list">
+        ${lesson.check.map((q) => `<li>${escapeHtml(q)}</li>`).join("")}
+      </ul>
+    </section>`
+        : ""
+    }
+    ${
+      related.length
+        ? `
+    <section class="seo-container seo-section">
+      <h2>Go deeper</h2>
+      <p>This lesson is the spine. These guides are the depth.</p>
+      <div class="seo-grid">
+        ${related
+          .map(
+            (page) => `
+        <article class="seo-card">
+          <p class="seo-kicker">${escapeHtml(page.category)}</p>
+          <h3><a href="/${escapeAttr(page.slug)}/">${escapeHtml(page.title)}</a></h3>
+          <p>${escapeHtml(page.description)}</p>
+        </article>`,
+          )
+          .join("")}
+      </div>
+    </section>`
+        : ""
+    }
+    <section class="seo-container seo-section">
+      <h2>Continue</h2>
+      <ul class="seo-list">
+        ${prev ? `<li>Previous: <a href="${escapeAttr(lessonRoute(course, prev.module, prev.lesson))}">${escapeHtml(prev.lesson.title)}</a></li>` : `<li><a href="/learn/${escapeAttr(course.slug)}/">Course overview</a></li>`}
+        ${next ? `<li>Next: <a href="${escapeAttr(lessonRoute(course, next.module, next.lesson))}">${escapeHtml(next.lesson.title)}</a></li>` : `<li>Last lesson &mdash; <a href="/learn/${escapeAttr(course.slug)}/">back to the course overview</a></li>`}
+      </ul>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+const courseRoutes = [];
+for (const course of courses) {
+  const flat = courseLessons(course);
+  const courseRoute = `/learn/${course.slug}/`;
+  courseRoutes.push({ path: courseRoute, lastmod: course.updated });
+
+  writePage(
+    `learn/${course.slug}/index.html`,
+    renderLayout({
+      routePath: courseRoute,
+      title: course.metaTitle,
+      ogImage: course.ogImage,
+      description: course.description,
+      lastModified: course.updated,
+      body: courseHtml(course),
+      schemas: [
+        organizationSchema,
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Learn", path: "/learn/" },
+          { name: course.title, path: courseRoute },
+        ]),
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          name: course.title,
+          // Google truncates the course description in the rich result, but the
+          // property itself is required — keep the full text here.
+          description: course.description,
+          url: canonicalUrl(courseRoute),
+          provider: {
+            "@type": "Organization",
+            name: course.provider,
+            url: site.url,
+          },
+          inLanguage: "en",
+          isAccessibleForFree: true,
+          educationalLevel: course.level,
+          teaches: course.outcomes,
+          hasCourseInstance: {
+            "@type": "CourseInstance",
+            courseMode: "online",
+            courseWorkload: `PT${course.estimatedMinutes}M`,
+          },
+          hasPart: flat.map(({ module, lesson }) => ({
+            "@type": "LearningResource",
+            name: lesson.title,
+            description: lesson.summary,
+            url: canonicalUrl(lessonRoute(course, module, lesson)),
+          })),
+        },
+        faqSchema(course.faqs, courseRoute),
+      ],
+    }),
+  );
+
+  flat.forEach(({ module, lesson }, index) => {
+    const route = lessonRoute(course, module, lesson);
+    courseRoutes.push({ path: route, lastmod: course.updated });
+    writePage(
+      `learn/${course.slug}/${module.slug}/${lesson.slug}/index.html`,
+      renderLayout({
+        routePath: route,
+        title: `${lesson.title} — ${course.title} | SolCrys`,
+        ogImage: course.ogImage,
+        description: lesson.summary,
+        lastModified: course.updated,
+        ogType: "article",
+        publishedTime: course.published,
+        body: lessonHtml(
+          course,
+          module,
+          lesson,
+          index > 0 ? flat[index - 1] : null,
+          index < flat.length - 1 ? flat[index + 1] : null,
+        ),
+        schemas: [
+          organizationSchema,
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Learn", path: "/learn/" },
+            { name: course.title, path: courseRoute },
+            { name: lesson.title, path: route },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "LearningResource",
+            name: lesson.title,
+            description: lesson.summary,
+            url: canonicalUrl(route),
+            inLanguage: "en",
+            isAccessibleForFree: true,
+            learningResourceType: "Lesson",
+            timeRequired: `PT${lesson.minutes}M`,
+            isPartOf: {
+              "@type": "Course",
+              name: course.title,
+              url: canonicalUrl(courseRoute),
+            },
+            provider: {
+              "@type": "Organization",
+              name: course.provider,
+              url: site.url,
+            },
+          },
+        ],
+      }),
+    );
+  });
+}
+
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
@@ -2625,6 +3017,8 @@ const sitemapUrls = [
   { path: "/free-aeo-audit/", lastmod: site.updated || generatedAt },
   { path: "/prompt-pulse/", lastmod: promptPulse.updated },
   ...promptPulse.verticals.map((v) => ({ path: `/prompt-pulse/${v.slug}/`, lastmod: v.updated || promptPulse.updated })),
+  { path: "/learn/", lastmod: courseContent.updated },
+  ...courseRoutes,
   { path: "/news/", lastmod: newsLatest },
   ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
   // Drafts are excluded from sitemap (so search engines don't discover them).
@@ -2671,6 +3065,11 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
   .map(
     (v) => `\n  - [${v.short}](${site.url}/prompt-pulse/${v.slug}/): ${v.stats.prompts} buyer prompts ${v.short} teams should track in AI answers.`
+  )
+  .join("")}
+- [Learn](${site.url}/learn/): Free, open, self-paced AEO courses — readable in full with no login or email gate.${courses
+  .map(
+    (course) => `\n  - [${course.title}](${site.url}/learn/${course.slug}/): ${course.tagline} ${course.modules.length} modules, ${courseLessons(course).length} lessons, ~${course.estimatedMinutes} min. Labs run on the free tier.`,
   )
   .join("")}
 - [Newsroom](${site.url}/news/): Press releases and founder notes.${newsPosts
