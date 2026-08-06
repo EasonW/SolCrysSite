@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Reading the citations — AEO Operator | SolCrys</title>
+    <meta name="description" content="The list of sources an engine cited is the most actionable artefact you have, because it names exactly which pages you would need to be on." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/learn/aeo-operator/read/reading-citations/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-08-05" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Reading the citations — AEO Operator | SolCrys" />
+    <meta property="og:description" content="The list of sources an engine cited is the most actionable artefact you have, because it names exactly which pages you would need to be on." />
+    <meta property="og:url" content="https://solcrys.com/learn/aeo-operator/read/reading-citations/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-08-05" />
+    <meta property="article:modified_time" content="2026-08-05" />
+    <meta property="og:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Y6EynGRt.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Learn","item":"https://solcrys.com/learn/"},{"@type":"ListItem","position":3,"name":"AEO Operator","item":"https://solcrys.com/learn/aeo-operator/"},{"@type":"ListItem","position":4,"name":"Reading the citations","item":"https://solcrys.com/learn/aeo-operator/read/reading-citations/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Reading the citations","description":"The list of sources an engine cited is the most actionable artefact you have, because it names exactly which pages you would need to be on.","url":"https://solcrys.com/learn/aeo-operator/read/reading-citations/","inLanguage":"en","isAccessibleForFree":true,"learningResourceType":"Lesson","timeRequired":"PT8M","isPartOf":{"@type":"Course","name":"AEO Operator","url":"https://solcrys.com/learn/aeo-operator/"},"provider":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main>
+    <nav class="seo-container" aria-label="Breadcrumb" style="padding-top:1rem;font-size:0.9rem;">
+      <a href="/learn/">Learn</a> / <a href="/learn/aeo-operator/">AEO Operator</a> / <span>Read</span>
+    </nav>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">04 Read &middot; 8 min</p>
+      <h1>Reading the citations</h1>
+      <p class="seo-lede">The list of sources an engine cited is the most actionable artefact you have, because it names exactly which pages you would need to be on.</p>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Citations are a map of what to influence</h2>
+      <p>When an engine composes an answer about your category, it draws on specific URLs. That list is not trivia. It is a directory of the pages that currently shape what buyers are told, and therefore the concrete targets for any off-domain work.</p><p>Read them as a set, not individually. Look for the pages that recur across many prompts — those are the load-bearing sources in your category, and presence on one of them is worth more than presence on a dozen one-off mentions.</p>
+      
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Cited does not mean the page mentions you</h2>
+      <p>A subtle and important distinction: an engine can cite a page that has nothing to say about your brand. The citation tells you the engine used that page to answer the question, not that the page endorsed you.</p><p>So a page cited on a prompt you lose is a target — being covered there could change the answer. A page cited on a prompt you win, which does mention you, is an asset — worth protecting and worth understanding, because whatever it says about you is currently working.</p>
+      
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Where this lives in SolCrys</h2>
+      <ul class="seo-list">
+        <li>The citations surface lists source URLs from your responses, filterable by whether the response mentioned your brand.</li><li>The mentions-you filter is the fast way to separate assets from targets.</li><li>Sources are classified by type, which the next lesson uses.</li>
+      </ul>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Lab: Separate assets from targets</h2>
+      <p>Needs a free SolCrys account (no credit card). No quota consumed.</p>
+      <ol class="seo-list">
+        <li>List the ten most frequently cited URLs across your responses.</li><li>Mark each as an asset (mentions you favourably), a target (does not mention you but shapes a prompt you lose), or neutral.</li><li>Note which single target appears across the most prompts. That is your highest-leverage off-domain opportunity.</li>
+      </ol>
+      
+      <p><a href="https://app.solcrys.com/audit">Start Free</a> &mdash; free plan, no credit card.</p>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Check yourself</h2>
+      <ul class="seo-list">
+        <li>Which single source URL appears across the most of your prompts?</li><li>Do you have any assets — cited pages that already describe you well?</li><li>Why does a citation not imply the cited page mentions your brand?</li>
+      </ul>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Go deeper</h2>
+      <p>This lesson is the spine. These guides are the depth.</p>
+      <div class="seo-grid">
+        
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/ai-answer-citations/">How AI Answer Engines Choose Sources: The 7 Signals We&#39;ve Mapped</a></h3>
+          <p>AI engines like ChatGPT, Perplexity, Google AI Overviews, and Claude choose sources using overlapping but distinct signals. This guide maps the 7 signals that drive citation eligibility and the engine-specific weighting differences.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/citation-gap-audit/">Citation Gap Audit</a></h3>
+          <p>A 5-step framework to identify which sources AI engines cite for your competitors but not for your brand, and the recovery actions for each gap type.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/how-to-get-cited-by-chatgpt-2026/">How to Get Cited by ChatGPT (2026): A Data-Backed Guide</a></h3>
+          <p>Based on a 17,551-citation dataset across ChatGPT, Perplexity, AI Overviews, and Gemini — the source patterns that move citation rate, the content shapes that get extracted, and what doesn&#39;t work.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/what-gets-cited-geo-study/">What Gets Cited in AI Answers: Reading the New 252K-Trial GEO Study</a></h3>
+          <p>A 252,000-trial study across six LLMs ranks what makes AI answer engines cite a source. Then it anonymizes away the brand trust that decides citations in production. How to read it without over-rotating.</p>
+        </article>
+      </div>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Continue</h2>
+      <ul class="seo-list">
+        <li>Previous: <a href="/learn/aeo-operator/read/reading-visibility/">Reading presence without over-reading it</a></li>
+        <li>Next: <a href="/learn/aeo-operator/read/the-source-layer/">The source layer: owned, editorial, community</a></li>
+      </ul>
+    </section>
+    <div class="seo-container">
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section></div>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Cn11goKv.js"></script>
+  </body>
+</html>

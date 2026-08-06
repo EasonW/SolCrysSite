@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>AEO Operator: A Free Course on Running Answer Engine Optimization</title>
+    <meta name="description" content="A free, open self-paced course that teaches Answer Engine Optimization as an experimental discipline: build a prompt set, take a baseline, diagnose why AI answers skip you, ship one change, and prove whether it moved. No login to read. No email required." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/learn/aeo-operator/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-08-05" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="AEO Operator: A Free Course on Running Answer Engine Optimization" />
+    <meta property="og:description" content="A free, open self-paced course that teaches Answer Engine Optimization as an experimental discipline: build a prompt set, take a baseline, diagnose why AI answers skip you, ship one change, and prove whether it moved. No login to read. No email required." />
+    <meta property="og:url" content="https://solcrys.com/learn/aeo-operator/" />
+    <meta property="og:type" content="website" />
+    
+    
+    <meta property="og:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Y6EynGRt.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Learn","item":"https://solcrys.com/learn/"},{"@type":"ListItem","position":3,"name":"AEO Operator","item":"https://solcrys.com/learn/aeo-operator/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"AEO Operator","description":"A free, open self-paced course that teaches Answer Engine Optimization as an experimental discipline: build a prompt set, take a baseline, diagnose why AI answers skip you, ship one change, and prove whether it moved. No login to read. No email required.","url":"https://solcrys.com/learn/aeo-operator/","provider":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"inLanguage":"en","isAccessibleForFree":true,"educationalLevel":"Beginner to intermediate","teaches":["Write a prompt set that represents real buyer decisions rather than keywords","Take a defensible baseline and know how much to trust it","Separate the three distinct reasons an answer engine skips a brand","Turn one diagnosed gap into one shipped, grounded change","Decide whether a movement in your numbers is a result or noise"],"hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT170M"},"hasPart":[{"@type":"LearningResource","name":"What actually changed about search","description":"AI answer engines do not rank pages for a user to choose from. They read sources and produce one answer. That single structural difference is what makes AEO a different job from SEO.","url":"https://solcrys.com/learn/aeo-operator/orientation/what-changed/"},{"@type":"LearningResource","name":"How to use this course","description":"The course spends a fixed, small budget of free-tier quota on one honest experiment. Here is the order, and the one mistake that wastes it.","url":"https://solcrys.com/learn/aeo-operator/orientation/how-to-use-this-course/"},{"@type":"LearningResource","name":"Why context comes before measurement","description":"You cannot grade an AI answer as right or wrong without a written statement of what is true. Corporate Context is that statement, and it has to exist before the first run.","url":"https://solcrys.com/learn/aeo-operator/ground/why-context-comes-first/"},{"@type":"LearningResource","name":"Writing your Corporate Context","description":"A working structure for the document, and the test for whether each line earns its place.","url":"https://solcrys.com/learn/aeo-operator/ground/write-your-context/"},{"@type":"LearningResource","name":"Brand facts and the competitive set","description":"Naming your real competitors is a measurement decision, not a marketing one — and getting it wrong quietly corrupts every comparison you make afterwards.","url":"https://solcrys.com/learn/aeo-operator/ground/brand-facts-and-competitors/"},{"@type":"LearningResource","name":"A prompt set is not a keyword list","description":"Keywords are fragments people type. Prompts are decisions people are trying to make. Porting one into the other is the most common way teams get an AEO programme wrong from day one.","url":"https://solcrys.com/learn/aeo-operator/measure/what-a-prompt-set-is/"},{"@type":"LearningResource","name":"Choosing your ten prompts","description":"A concrete allocation, the sourcing method, and the rule that keeps your baseline comparable to your follow-up.","url":"https://solcrys.com/learn/aeo-operator/measure/choose-your-ten/"},{"@type":"LearningResource","name":"Your first run: taking a baseline","description":"What a run actually does, what the first set of numbers means, and the discipline of writing down your prediction before you look.","url":"https://solcrys.com/learn/aeo-operator/measure/your-first-run/"},{"@type":"LearningResource","name":"Reading presence without over-reading it","description":"Presence, share of voice, and how a brand can be mentioned everywhere and recommended nowhere.","url":"https://solcrys.com/learn/aeo-operator/read/reading-visibility/"},{"@type":"LearningResource","name":"Reading the citations","description":"The list of sources an engine cited is the most actionable artefact you have, because it names exactly which pages you would need to be on.","url":"https://solcrys.com/learn/aeo-operator/read/reading-citations/"},{"@type":"LearningResource","name":"The source layer: owned, editorial, community","description":"Different source types behave differently, respond to different work, and cannot substitute for each other.","url":"https://solcrys.com/learn/aeo-operator/read/the-source-layer/"},{"@type":"LearningResource","name":"The three failure modes","description":"Not retrieved, retrieved but not cited, cited but not recommended. Almost every AEO problem is one of these, and treating them as one problem is why most fixes fail.","url":"https://solcrys.com/learn/aeo-operator/diagnose/three-failure-modes/"},{"@type":"LearningResource","name":"Running a Deep Analysis","description":"You have one on the free tier. Spend it on the prompt that matters most, not the one that annoys you most.","url":"https://solcrys.com/learn/aeo-operator/diagnose/deep-analysis/"},{"@type":"LearningResource","name":"Auditing one page","description":"The page-level view: whether a specific URL is answer-ready, and what recovering the lost points actually requires.","url":"https://solcrys.com/learn/aeo-operator/diagnose/content-audit/"},{"@type":"LearningResource","name":"When presence is not the problem","description":"Two failure states that a presence metric will never show you: the engine describes you wrongly, or describes you correctly and still picks someone else.","url":"https://solcrys.com/learn/aeo-operator/diagnose/accuracy-and-recommendation/"},{"@type":"LearningResource","name":"Why you ship exactly one change","description":"Shipping five changes at once feels productive and destroys your ability to learn anything from the result.","url":"https://solcrys.com/learn/aeo-operator/act/one-change/"},{"@type":"LearningResource","name":"Fixing a page so an engine can use it","description":"For retrieval and citation failures, what actually changes an outcome — and the shortcuts that produce nothing.","url":"https://solcrys.com/learn/aeo-operator/act/fix-the-page/"},{"@type":"LearningResource","name":"When the fix is off your own site","description":"For corroboration failures, the work is on someone else's domain — which changes the timeline, the tactics, and the ethics.","url":"https://solcrys.com/learn/aeo-operator/act/earn-a-source/"},{"@type":"LearningResource","name":"Why one run proves nothing","description":"Answer engines are non-deterministic. Understanding what that does to your evidence is the core skill this course exists to teach.","url":"https://solcrys.com/learn/aeo-operator/verify/why-one-run-proves-nothing/"},{"@type":"LearningResource","name":"Your second run","description":"Re-measure against a frozen prompt set, and read the per-prompt movement rather than the headline.","url":"https://solcrys.com/learn/aeo-operator/verify/second-run/"},{"@type":"LearningResource","name":"Signal or noise: the third run","description":"The run most teams never take, and the only one that tells you whether the second one meant anything.","url":"https://solcrys.com/learn/aeo-operator/verify/signal-or-noise/"},{"@type":"LearningResource","name":"Turning this into an operating cadence","description":"What the loop looks like when it runs every month, what to report, and what to stop doing.","url":"https://solcrys.com/learn/aeo-operator/verify/operating-cadence/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/learn/aeo-operator/","mainEntity":[{"@type":"Question","name":"Is this course really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every lesson is readable in full without an account, without an email address, and without a paywall. The hands-on labs use the SolCrys free tier, which needs an account but no credit card. We built it this way on purpose: an execution platform that gates its own teaching material is arguing against itself."}},{"@type":"Question","name":"Do I need to use SolCrys to take this course?","acceptedAnswer":{"@type":"Answer","text":"No. The concepts — prompt-set design, the three failure modes, the difference between citation and recommendation, run-to-run variance — apply to any AEO stack or to a spreadsheet and a lot of patience. The labs are written against SolCrys because that is the tool we can give you free access to and describe honestly. If you use something else, the labs become a specification you can implement there."}},{"@type":"Question","name":"Is there a certificate?","acceptedAnswer":{"@type":"Answer","text":"Not yet. The first version of this course is deliberately just the material and the labs. If enough people finish it and tell us the credential would matter to them, we will add an assessment."}},{"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"About three hours of reading. But the course cannot be completed in three hours, because Module 6 requires you to wait for a content change to propagate through answer engines and then re-measure. Plan on two to four weeks of elapsed time. Any course that promises you a verified AEO result in an afternoon is teaching you to skip the verification."}},{"@type":"Question","name":"Who is this not for?","acceptedAnswer":{"@type":"Answer","text":"If you want a list of tactics to apply without measuring them, this is the wrong course — the entire spine here is measurement discipline, and roughly half the material is about not fooling yourself. If you need enterprise-scale rollout across many brands and markets, start here anyway for the concepts, then talk to us about what changes at that scale."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main>
+    <nav class="seo-container" aria-label="Breadcrumb" style="padding-top:1rem;font-size:0.9rem;">
+      <a href="/learn/">Learn</a> / <span>AEO Operator</span>
+    </nav>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">Free self-paced course</p>
+      <h1>AEO Operator</h1>
+      <p class="seo-lede">Measure, diagnose, act, verify — the whole loop, on a free account.</p>
+      <p>~170 min reading &middot; 7 modules &middot; 22 lessons &middot; Beginner to intermediate</p>
+      <p><a href="/learn/aeo-operator/orientation/what-changed/">Start the course &rarr;</a></p>
+      <p>Free to read in full &mdash; no login, no email required. Labs use a free SolCrys account, no credit card.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <p>Most AEO advice is untestable. This course teaches the opposite habit: treat every claim about AI answers as something you measure before and after. Seven modules take you from an empty workspace to a verified result — choosing the ten questions that matter, taking a baseline, separating the three reasons AI skips a brand, shipping one grounded change, and then deciding whether the number that moved is signal or noise. Every lesson is free to read without an account. Every lab runs inside the SolCrys free tier.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>What you will be able to do</h2>
+      <ul class="seo-list">
+        <li>Write a prompt set that represents real buyer decisions rather than keywords</li><li>Take a defensible baseline and know how much to trust it</li><li>Separate the three distinct reasons an answer engine skips a brand</li><li>Turn one diagnosed gap into one shipped, grounded change</li><li>Decide whether a movement in your numbers is a result or noise</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Who it is for</h2>
+      <ul class="seo-list">
+        <li>SEO and content leads whose organic traffic is being absorbed by AI answers</li><li>Product marketers who need to know how AI describes their category</li><li>Founders and growth operators doing AEO without a dedicated team</li><li>Agency strategists building an AEO service line</li>
+      </ul>
+      <h3>What you need</h3>
+      <ul class="seo-list">
+        <li>A free SolCrys account for the labs — no credit card. Reading requires nothing.</li><li>One brand or product you can make a small content change to</li><li>About three hours of reading, spread over at least two weeks because verification is slow by nature</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>What the free tier gives you, and how this course spends it</h2>
+      <p>The free tier is deliberately small: 10 tracked prompts, 3 manual ChatGPT checks a month, 1 Deep Analysis, 1 Content Audit, 1 workspace, no credit card. That is not a lot — and that is the point. A real AEO experiment needs a baseline, a change, and a confirmation. Three runs is exactly enough to do that once, honestly, and not enough to fool yourself by re-rolling until you like the number.</p>
+      <table>
+        <thead><tr><th>Module</th><th>What you do</th><th>Quota</th></tr></thead>
+        <tbody><tr><td>Module 1</td><td>Workspace + Corporate Context</td><td>No quota</td></tr><tr><td>Module 2</td><td>10 prompts, then Run 1 of 3</td><td>Run 1/3</td></tr><tr><td>Module 4</td><td>Deep Analysis + Content Audit</td><td>1 of 1 each</td></tr><tr><td>Module 5</td><td>Ship one change</td><td>No quota</td></tr><tr><td>Module 6</td><td>Run 2, then Run 3</td><td>Runs 2/3 and 3/3</td></tr></tbody>
+      </table>
+      <p>Quotas reset monthly, so Module 6 is designed to be done in the following month. That is not a workaround — it is how long a content change actually takes to propagate through answer engines.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Syllabus</h2>
+      
+      <div class="seo-subsection">
+        <h3>01 &mdash; Orientation</h3>
+        <p>What actually changed, and how to use this course without wasting your three runs.</p>
+        <ul class="seo-list">
+          <li><a href="/learn/aeo-operator/orientation/what-changed/">What actually changed about search</a> &mdash; AI answer engines do not rank pages for a user to choose from. They read sources and produce one answer. That single structural difference is what makes AEO a different job from SEO. (8 min)</li><li><a href="/learn/aeo-operator/orientation/how-to-use-this-course/">How to use this course</a> &mdash; The course spends a fixed, small budget of free-tier quota on one honest experiment. Here is the order, and the one mistake that wastes it. (5 min, includes a lab)</li>
+        </ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>02 &mdash; Ground</h3>
+        <p>Before you measure anything, write down what is true about your brand — in a form a machine can use.</p>
+        <ul class="seo-list">
+          <li><a href="/learn/aeo-operator/ground/why-context-comes-first/">Why context comes before measurement</a> &mdash; You cannot grade an AI answer as right or wrong without a written statement of what is true. Corporate Context is that statement, and it has to exist before the first run. (7 min)</li><li><a href="/learn/aeo-operator/ground/write-your-context/">Writing your Corporate Context</a> &mdash; A working structure for the document, and the test for whether each line earns its place. (10 min, includes a lab)</li><li><a href="/learn/aeo-operator/ground/brand-facts-and-competitors/">Brand facts and the competitive set</a> &mdash; Naming your real competitors is a measurement decision, not a marketing one — and getting it wrong quietly corrupts every comparison you make afterwards. (6 min, includes a lab)</li>
+        </ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>03 &mdash; Measure</h3>
+        <p>Ten questions, chosen well, and the first honest baseline.</p>
+        <ul class="seo-list">
+          <li><a href="/learn/aeo-operator/measure/what-a-prompt-set-is/">A prompt set is not a keyword list</a> &mdash; Keywords are fragments people type. Prompts are decisions people are trying to make. Porting one into the other is the most common way teams get an AEO programme wrong from day one. (8 min)</li><li><a href="/learn/aeo-operator/measure/choose-your-ten/">Choosing your ten prompts</a> &mdash; A concrete allocation, the sourcing method, and the rule that keeps your baseline comparable to your follow-up. (9 min, includes a lab)</li><li><a href="/learn/aeo-operator/measure/your-first-run/">Your first run: taking a baseline</a> &mdash; What a run actually does, what the first set of numbers means, and the discipline of writing down your prediction before you look. (8 min, includes a lab)</li>
+        </ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>04 &mdash; Read</h3>
+        <p>Turning a wall of answers into a picture of who is shaping them.</p>
+        <ul class="seo-list">
+          <li><a href="/learn/aeo-operator/read/reading-visibility/">Reading presence without over-reading it</a> &mdash; Presence, share of voice, and how a brand can be mentioned everywhere and recommended nowhere. (7 min, includes a lab)</li><li><a href="/learn/aeo-operator/read/reading-citations/">Reading the citations</a> &mdash; The list of sources an engine cited is the most actionable artefact you have, because it names exactly which pages you would need to be on. (8 min, includes a lab)</li><li><a href="/learn/aeo-operator/read/the-source-layer/">The source layer: owned, editorial, community</a> &mdash; Different source types behave differently, respond to different work, and cannot substitute for each other. (8 min, includes a lab)</li>
+        </ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>05 &mdash; Diagnose</h3>
+        <p>Three distinct reasons an engine skips you — and why the fix for each is different.</p>
+        <ul class="seo-list">
+          <li><a href="/learn/aeo-operator/diagnose/three-failure-modes/">The three failure modes</a> &mdash; Not retrieved, retrieved but not cited, cited but not recommended. Almost every AEO problem is one of these, and treating them as one problem is why most fixes fail. (9 min, includes a lab)</li><li><a href="/learn/aeo-operator/diagnose/deep-analysis/">Running a Deep Analysis</a> &mdash; You have one on the free tier. Spend it on the prompt that matters most, not the one that annoys you most. (7 min, includes a lab)</li><li><a href="/learn/aeo-operator/diagnose/content-audit/">Auditing one page</a> &mdash; The page-level view: whether a specific URL is answer-ready, and what recovering the lost points actually requires. (8 min, includes a lab)</li><li><a href="/learn/aeo-operator/diagnose/accuracy-and-recommendation/">When presence is not the problem</a> &mdash; Two failure states that a presence metric will never show you: the engine describes you wrongly, or describes you correctly and still picks someone else. (7 min)</li>
+        </ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>06 &mdash; Act</h3>
+        <p>One change, chosen to match your diagnosis, shipped in a way you can attribute later.</p>
+        <ul class="seo-list">
+          <li><a href="/learn/aeo-operator/act/one-change/">Why you ship exactly one change</a> &mdash; Shipping five changes at once feels productive and destroys your ability to learn anything from the result. (7 min, includes a lab)</li><li><a href="/learn/aeo-operator/act/fix-the-page/">Fixing a page so an engine can use it</a> &mdash; For retrieval and citation failures, what actually changes an outcome — and the shortcuts that produce nothing. (9 min, includes a lab)</li><li><a href="/learn/aeo-operator/act/earn-a-source/">When the fix is off your own site</a> &mdash; For corroboration failures, the work is on someone else&#39;s domain — which changes the timeline, the tactics, and the ethics. (8 min, includes a lab)</li>
+        </ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>07 &mdash; Verify</h3>
+        <p>The module that separates an AEO practice from a collection of opinions.</p>
+        <ul class="seo-list">
+          <li><a href="/learn/aeo-operator/verify/why-one-run-proves-nothing/">Why one run proves nothing</a> &mdash; Answer engines are non-deterministic. Understanding what that does to your evidence is the core skill this course exists to teach. (8 min)</li><li><a href="/learn/aeo-operator/verify/second-run/">Your second run</a> &mdash; Re-measure against a frozen prompt set, and read the per-prompt movement rather than the headline. (7 min, includes a lab)</li><li><a href="/learn/aeo-operator/verify/signal-or-noise/">Signal or noise: the third run</a> &mdash; The run most teams never take, and the only one that tells you whether the second one meant anything. (8 min, includes a lab)</li><li><a href="/learn/aeo-operator/verify/operating-cadence/">Turning this into an operating cadence</a> &mdash; What the loop looks like when it runs every month, what to report, and what to stop doing. (8 min, includes a lab)</li>
+        </ul>
+      </div>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Questions about the course</h2>
+      
+      <div class="seo-subsection">
+        <h3>Is this course really free?</h3>
+        <p>Yes. Every lesson is readable in full without an account, without an email address, and without a paywall. The hands-on labs use the SolCrys free tier, which needs an account but no credit card. We built it this way on purpose: an execution platform that gates its own teaching material is arguing against itself.</p>
+      </div>
+      <div class="seo-subsection">
+        <h3>Do I need to use SolCrys to take this course?</h3>
+        <p>No. The concepts — prompt-set design, the three failure modes, the difference between citation and recommendation, run-to-run variance — apply to any AEO stack or to a spreadsheet and a lot of patience. The labs are written against SolCrys because that is the tool we can give you free access to and describe honestly. If you use something else, the labs become a specification you can implement there.</p>
+      </div>
+      <div class="seo-subsection">
+        <h3>Is there a certificate?</h3>
+        <p>Not yet. The first version of this course is deliberately just the material and the labs. If enough people finish it and tell us the credential would matter to them, we will add an assessment.</p>
+      </div>
+      <div class="seo-subsection">
+        <h3>How long does it take?</h3>
+        <p>About three hours of reading. But the course cannot be completed in three hours, because Module 6 requires you to wait for a content change to propagate through answer engines and then re-measure. Plan on two to four weeks of elapsed time. Any course that promises you a verified AEO result in an afternoon is teaching you to skip the verification.</p>
+      </div>
+      <div class="seo-subsection">
+        <h3>Who is this not for?</h3>
+        <p>If you want a list of tactics to apply without measuring them, this is the wrong course — the entire spine here is measurement discipline, and roughly half the material is about not fooling yourself. If you need enterprise-scale rollout across many brands and markets, start here anyway for the concepts, then talk to us about what changes at that scale.</p>
+      </div>
+    </section>
+    <div class="seo-container">
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section></div>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Cn11goKv.js"></script>
+  </body>
+</html>

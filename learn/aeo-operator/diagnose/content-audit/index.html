@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Auditing one page — AEO Operator | SolCrys</title>
+    <meta name="description" content="The page-level view: whether a specific URL is answer-ready, and what recovering the lost points actually requires." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/learn/aeo-operator/diagnose/content-audit/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-08-05" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Auditing one page — AEO Operator | SolCrys" />
+    <meta property="og:description" content="The page-level view: whether a specific URL is answer-ready, and what recovering the lost points actually requires." />
+    <meta property="og:url" content="https://solcrys.com/learn/aeo-operator/diagnose/content-audit/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-08-05" />
+    <meta property="article:modified_time" content="2026-08-05" />
+    <meta property="og:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Y6EynGRt.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Learn","item":"https://solcrys.com/learn/"},{"@type":"ListItem","position":3,"name":"AEO Operator","item":"https://solcrys.com/learn/aeo-operator/"},{"@type":"ListItem","position":4,"name":"Auditing one page","item":"https://solcrys.com/learn/aeo-operator/diagnose/content-audit/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Auditing one page","description":"The page-level view: whether a specific URL is answer-ready, and what recovering the lost points actually requires.","url":"https://solcrys.com/learn/aeo-operator/diagnose/content-audit/","inLanguage":"en","isAccessibleForFree":true,"learningResourceType":"Lesson","timeRequired":"PT8M","isPartOf":{"@type":"Course","name":"AEO Operator","url":"https://solcrys.com/learn/aeo-operator/"},"provider":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main>
+    <nav class="seo-container" aria-label="Breadcrumb" style="padding-top:1rem;font-size:0.9rem;">
+      <a href="/learn/">Learn</a> / <a href="/learn/aeo-operator/">AEO Operator</a> / <span>Diagnose</span>
+    </nav>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">05 Diagnose &middot; 8 min</p>
+      <h1>Auditing one page</h1>
+      <p class="seo-lede">The page-level view: whether a specific URL is answer-ready, and what recovering the lost points actually requires.</p>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Page-level readiness is a separate question</h2>
+      <p>Prompt-level measurement tells you what engines say about your category. A content audit asks a narrower question about one URL: is this page structured so an engine can extract an answer from it, and is it credible enough to be worth citing.</p><p>These are graded across content quality, credibility, technical readability, and discoverability. The credibility weighting surprises people — sourced statistics, external citations, and clear authorship carry real weight, which is the page-level expression of the consensus principle from Module 1.</p>
+      
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Choosing the URL</h2>
+      <p>You have one audit. Spend it on the page that should be winning a prompt you are losing — not your homepage, which is rarely the page an engine wants for a specific question.</p><p>If your Deep Analysis pointed at a content gap, the right URL is the page that ought to cover that gap. If no such page exists, that is itself the finding, and Module 5 becomes about creating it rather than fixing something.</p>
+      
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Read the recoverable points, not the score</h2>
+      <p>The score is a summary. The useful part is the itemised list of what is missing and how many points each would recover, because that is a ranked work list with effort implied.</p><p>Work top-down and be honest about which items you can substantiate. An audit may note that sourced statistics would help; inventing a statistic to satisfy it is worse than leaving the points on the table, because a fabricated fact is exactly what accuracy monitoring exists to catch.</p>
+      
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Where this lives in SolCrys</h2>
+      <ul class="seo-list">
+        <li>Content Audit runs from the workspace audit surface against a URL you specify.</li><li>Free includes one per month. There is also a standalone free audit at app.solcrys.com/audit, which is email-gated but does not need a workspace.</li><li>The report itemises checks with recoverable points and concrete before-and-after guidance.</li>
+      </ul>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Lab: Audit the page that should be winning</h2>
+      <p>Needs a free SolCrys account (no credit card). Spends 1 of 1 Content Audit.</p>
+      <ol class="seo-list">
+        <li>Choose the URL that should be answering a prompt you are losing.</li><li>Run the audit.</li><li>Rank the findings by recoverable points against the effort to fix.</li><li>Cross off anything you cannot substantiate honestly.</li><li>Keep the top three. That is your Module 5 scope.</li>
+      </ol>
+      <p>If no page exists for the gap, note that instead — creating the page is a legitimate and often better Module 5 outcome.</p>
+      <p><a href="https://app.solcrys.com/audit">Start Free</a> &mdash; free plan, no credit card.</p>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Check yourself</h2>
+      <ul class="seo-list">
+        <li>Which page did you audit, and why that one rather than the homepage?</li><li>Which findings did you cross off because you could not substantiate them honestly?</li><li>What are the top three items you will actually ship?</li>
+      </ul>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Go deeper</h2>
+      <p>This lesson is the spine. These guides are the depth.</p>
+      <div class="seo-grid">
+        
+        <article class="seo-card">
+          <p class="seo-kicker">How SolCrys Works</p>
+          <h3><a href="/solcrys-content-audit-report/">What a SolCrys Content Audit Looks Like</a></h3>
+          <p>The exact sections of a SolCrys content audit, what each one is measuring, and what&#39;s explicitly NOT in scope. Read this before you request a Free Audit so you know what to expect.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/schema-markup-for-ai-search/">Schema Markup for AI Search: What Structured Data Actually Does (and Where It Stops)</a></h3>
+          <p>Schema markup helps AI engines parse and classify your brand, and makes you eligible for richer treatment. It does not, on its own, get you cited or trusted. The honest, complete guide to structured data for AEO: what it does, what it doesn&#39;t, which types matter, and how to ship it so it moves the answer.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/how-to-write-content-that-gets-cited-by-ai/">How to Write Content That Gets Cited by AI Search (2026 Craft Guide)</a></h3>
+          <p>A craft-focused guide to writing content AI engines actually cite. 9 content patterns with before/after examples, engine-by-engine preferences, and what 17,551 citations reveal.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Technical Readiness</p>
+          <h3><a href="/ai-crawler-answer-readiness/">AI Crawler and Answer Readiness Checklist</a></h3>
+          <p>A practical checklist for making website content crawlable, indexable, structured, and answer-ready for AI search and answer engines.</p>
+        </article>
+      </div>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Continue</h2>
+      <ul class="seo-list">
+        <li>Previous: <a href="/learn/aeo-operator/diagnose/deep-analysis/">Running a Deep Analysis</a></li>
+        <li>Next: <a href="/learn/aeo-operator/diagnose/accuracy-and-recommendation/">When presence is not the problem</a></li>
+      </ul>
+    </section>
+    <div class="seo-container">
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section></div>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Cn11goKv.js"></script>
+  </body>
+</html>

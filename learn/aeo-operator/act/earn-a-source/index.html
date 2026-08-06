@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>When the fix is off your own site — AEO Operator | SolCrys</title>
+    <meta name="description" content="For corroboration failures, the work is on someone else&#39;s domain — which changes the timeline, the tactics, and the ethics." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/learn/aeo-operator/act/earn-a-source/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-08-05" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="When the fix is off your own site — AEO Operator | SolCrys" />
+    <meta property="og:description" content="For corroboration failures, the work is on someone else&#39;s domain — which changes the timeline, the tactics, and the ethics." />
+    <meta property="og:url" content="https://solcrys.com/learn/aeo-operator/act/earn-a-source/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-08-05" />
+    <meta property="article:modified_time" content="2026-08-05" />
+    <meta property="og:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/learn-aeo-operator.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-Y6EynGRt.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Learn","item":"https://solcrys.com/learn/"},{"@type":"ListItem","position":3,"name":"AEO Operator","item":"https://solcrys.com/learn/aeo-operator/"},{"@type":"ListItem","position":4,"name":"When the fix is off your own site","item":"https://solcrys.com/learn/aeo-operator/act/earn-a-source/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"When the fix is off your own site","description":"For corroboration failures, the work is on someone else's domain — which changes the timeline, the tactics, and the ethics.","url":"https://solcrys.com/learn/aeo-operator/act/earn-a-source/","inLanguage":"en","isAccessibleForFree":true,"learningResourceType":"Lesson","timeRequired":"PT8M","isPartOf":{"@type":"Course","name":"AEO Operator","url":"https://solcrys.com/learn/aeo-operator/"},"provider":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main>
+    <nav class="seo-container" aria-label="Breadcrumb" style="padding-top:1rem;font-size:0.9rem;">
+      <a href="/learn/">Learn</a> / <a href="/learn/aeo-operator/">AEO Operator</a> / <span>Act</span>
+    </nav>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker">06 Act &middot; 8 min</p>
+      <h1>When the fix is off your own site</h1>
+      <p class="seo-lede">For corroboration failures, the work is on someone else&#39;s domain — which changes the timeline, the tactics, and the ethics.</p>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>You cannot edit your way out of a corroboration gap</h2>
+      <p>If you are cited, accurate, and still not recommended, the missing ingredient is an independent source that says what you say. No amount of work on your own site produces that.</p><p>The targets are already in your data. Module 4 asked you to identify the source URLs that recur across the prompts you lose. Those are not abstract; they are the specific pages where being covered would change the answer.</p>
+      
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Match the tactic to the layer</h2>
+      <p>Editorial coverage responds to being genuinely newsworthy or genuinely useful to that publication&#39;s audience — a real finding, a dataset, a point of view worth quoting. It is slow and it does not respond to volume.</p><p>Review and directory listings are the most mechanical option and often underrated, because they are structured, frequently recrawled, and explicitly comparative.</p><p>Community sources are the fastest-moving and the most dangerous to approach cynically. The only durable strategy is to be a useful participant. Astroturfing is detectable by humans and increasingly by platforms, and it converts a citation opportunity into a reputational liability.</p>
+      
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Expect a slower clock</h2>
+      <p>Off-domain work has a longer lag than a page edit. Publication, then crawl, then incorporation into what engines draw on. If your change this cycle is off-domain, extend your re-measurement date accordingly rather than concluding it failed at two weeks.</p><p>That is a real cost, and it is why diagnosing correctly matters. Spending a slow cycle on corroboration when your actual problem was crawler access is an expensive mistake.</p>
+      
+    </section>
+    
+    
+    <section class="seo-container seo-section">
+      <h2>Lab: Open one off-domain path</h2>
+      <p>No quota consumed.</p>
+      <ol class="seo-list">
+        <li>Take the single most-cited target URL from your Module 4 lab.</li><li>Identify what would make you legitimately includable there.</li><li>Take the first concrete step — submit the listing, send the pitch, or start participating properly in the community.</li><li>Extend your re-measurement date to reflect the slower clock.</li>
+      </ol>
+      <p>Do not attempt to manufacture community mentions. It is detectable, it is against most platform rules, and it damages the thing you are trying to build.</p>
+      
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Check yourself</h2>
+      <ul class="seo-list">
+        <li>Which specific source, if it covered you, would most change your answers?</li><li>What would legitimately make you includable there?</li><li>How much longer than a page edit should you wait before re-measuring?</li>
+      </ul>
+    </section>
+    
+    <section class="seo-container seo-section">
+      <h2>Go deeper</h2>
+      <p>This lesson is the spine. These guides are the depth.</p>
+      <div class="seo-grid">
+        
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/how-to-build-a-source-layer-strategy/">How to Build a Source-Layer Strategy for AEO (2026)</a></h3>
+          <p>A strategic playbook for building the three source layers that AI engines actually cite: owned, earned, and community. Includes sequencing, costs, and an ethics line.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/earn-llm-citations-content-source-match/">How to Earn LLM Citations Without Becoming Spam: The Content-Source Match Framework</a></h3>
+          <p>AI engines preferentially cite 5 specific content patterns. This guide breaks down the content-source match framework, the 12 examples of cited content, and the slow-burn strategy that compounds without manipulation.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/reddit-g2-community-sources-aeo/">Reddit, G2, and Forums: How to Win the Community Source Layer for AI Citations</a></h3>
+          <p>AI engines cite Reddit, G2, and niche forums disproportionately when answering buyer prompts. This guide is the practitioner playbook for earning community citations without becoming spam — with the 7 rules of native engagement.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Citation &amp; Source Influence</p>
+          <h3><a href="/are-saas-directory-submissions-worth-it-2026/">Are SaaS Directory Submissions Still Worth It in 2026?</a></h3>
+          <p>Directory submissions to G2, Capterra, and Product Hunt are worth it only where AI actually cites directories for your category. How to test before you submit, with first-party citation data and a one-week checklist.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Buyer Guides</p>
+          <h3><a href="/aeo-for-pr/">AEO for PR: How to Prove Your Earned Media Actually Moved the AI Answer</a></h3>
+          <p>Earned media is the single most powerful AEO lever a brand has, because it&#39;s the corroboration layer AI trusts, but PR measurement wasn&#39;t built to see it. How comms teams measure whether a campaign, announcement, or media hit actually changed what AI says, with a clean before/after.</p>
+        </article>
+      </div>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Continue</h2>
+      <ul class="seo-list">
+        <li>Previous: <a href="/learn/aeo-operator/act/fix-the-page/">Fixing a page so an engine can use it</a></li>
+        <li>Next: <a href="/learn/aeo-operator/verify/why-one-run-proves-nothing/">Why one run proves nothing</a></li>
+      </ul>
+    </section>
+    <div class="seo-container">
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section></div>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Cn11goKv.js"></script>
+  </body>
+</html>
