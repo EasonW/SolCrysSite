@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import AnnouncementBanner from "./AnnouncementBanner";
 import { FEATURED_LOGOS } from "./customerLogos";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import homeContent from "@/content/homeContent.json";
@@ -30,10 +29,18 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--foreground)/0.03)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
       <div className="relative z-10 container mx-auto w-full max-w-5xl min-w-0 px-4 text-center sm:px-6">
-        {/* Announcement */}
-        <div className="mx-auto mb-6 w-full max-w-[min(100%,48rem)] opacity-0 animate-fade-up sm:mb-7">
-          <AnnouncementBanner />
-        </div>
+        {/* An announcement banner sat here until 2026-08-07, pinned to the
+            "why the two free tools are free" news post. Removed, not
+            rotated, for three reasons: it placed a secondary link ABOVE the
+            thesis H1 (the homepage leads with positioning, and the free
+            tracker gets its own section further down); its destination was a
+            pricing-philosophy essay — the lowest-intent target available for
+            the page's most valuable slot; and the copy said "two free tools"
+            after the AEO Operator course made it three.
+
+            <AnnouncementBanner /> is intentionally kept in the tree so a real
+            broadcast can be mounted back here. If you do, point it at a
+            destination worth the position. */}
 
         {/* Category eyebrow — tells cold traffic what SolCrys *is* (a product
             category) before the thesis headline states what it *does*. Mirrors

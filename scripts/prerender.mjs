@@ -52,13 +52,10 @@ const newsPosts = (newsroomContent.posts || []).slice().sort((a, b) => {
   if (a.date === b.date) return 0;
   return a.date < b.date ? 1 : -1;
 });
-// Pinned to the evergreen free-tools article so SPA (AnnouncementBanner.tsx)
-// and prerender surface the same destination — this is a standing entry
-// point to the two free tools, not a rotating "New" announcement.
-const featuredAnnouncement =
-  newsPosts.find(
-    (post) => post.slug === "why-prompt-pulse-and-the-chatgpt-tracker-are-free",
-  ) || newsPosts[0];
+// The homepage announcement pin was removed 2026-08-07 — see the matching
+// comment in src/components/HeroSection.tsx for why. The post itself stays
+// published and reachable from /news/; it just no longer occupies the slot
+// above the thesis H1.
 const newsKindLabels = newsroomContent.kindLabels || {};
 const personPhotoMap = {
   "Raejeanne Skillern": "/news/raejeanne-skillern.png",
@@ -604,17 +601,9 @@ function homeRisingPrompts(limit = 4, perVertical = 2) {
 }
 
 function homeHtml() {
-  const announcementPost = featuredAnnouncement;
-  const announcement = announcementPost
-    ? `
-    <section class="seo-container" style="padding: 1.5rem 0 0;">
-      <p style="margin: 0; font-size: 0.9rem;"><a href="/news/${escapeAttr(announcementPost.slug)}/">${escapeHtml(announcementPost.title)} →</a></p>
-    </section>`
-    : "";
   return `
 <div class="seo-prerender">
   ${navHtml()}
-  ${announcement}
   <main>
     <section class="seo-container seo-hero">
       <p class="seo-kicker">${escapeHtml(home.eyebrow)}</p>
