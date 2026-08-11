@@ -17301,14 +17301,14 @@
       "metaTitle": "The Golden Prompt Set Methodology | SolCrys",
       "description": "We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here's how we build it.",
       "h1": "How we build prompt sets - the Golden Prompt Set methodology",
-      "summary": "We build a Golden Prompt Set (GPS) for every customer category by grounding on four real-world signals: intent volume across major search and marketplace surfaces, trending questions from leading public community platforms, AI query volume signals, and live follow-up questions from supported surfaces where reliable. Every prompt we hand you carries projected query volume and source provenance so you can prioritize questions your buyers actually run - not the ones marketers wish they ran. We publish this methodology in full because prompt selection is the single biggest determinant of AEO data quality. If we're tracking the wrong prompts, every chart in your dashboard is wrong - so we'd rather you evaluate how we choose before you sign than after.",
+      "summary": "We build a Golden Prompt Set (GPS) for every customer category by grounding on four real-world signals: intent volume across major search and marketplace surfaces, trending questions from leading public community platforms, AI query volume signals, and live follow-up questions from supported surfaces where reliable. Every prompt we hand you carries a prompt type, a target persona, projected query volume, and source provenance so you can prioritize questions your buyers actually run - not the ones marketers wish they ran. We publish this methodology in full because prompt selection is the single biggest determinant of AEO data quality. If we're tracking the wrong prompts, every chart in your dashboard is wrong - so we'd rather you evaluate how we choose before you sign than after.",
       "category": "How SolCrys Works",
       "alsoListIn": [
         "Prompt Intelligence"
       ],
       "ogImage": "/og/golden-prompt-set-methodology.png",
       "published": "2026-05-08",
-      "updated": "2026-05-10",
+      "updated": "2026-08-11",
       "primaryKeyword": "AI prompt set methodology",
       "aeoTargets": [
         "How does SolCrys choose which prompts to track?",
@@ -17403,51 +17403,42 @@
         {
           "heading": "What a Golden Prompt Set looks like in practice",
           "body": [
-            "The GPS candidate library for a category is usually larger than the set a workspace actively tracks. The tracked benchmark should match the customer's plan and scope: current public brand plans track 10 prompts on Free, 20 on Starter, and 60 on Pro; Agency plans track 30 prompts per client organization; Enterprise scope is confirmed during evaluation. The mix below is a design target for a generic B2B SaaS category, not a survey result. Actual mix is tuned per industry and per customer."
+            "The GPS candidate library for a category is usually larger than the set a workspace actively tracks. The tracked benchmark should match the customer's plan and scope: current public brand plans track 10 prompts on Free, 20 on Starter, and 60 on Pro; Agency plans track 30 prompts per client organization; Enterprise scope is confirmed during evaluation.",
+            "The mix is not improvised per customer. Every prompt type answers a different visibility question you can fail on independently, and our generation engine holds a locked distribution target across those types. A run that cannot fill a type honestly redistributes those slots to Discovery rather than padding the set with near-duplicate variants. The table below is the balanced mix used for ongoing workspaces. Examples use well-known public products purely for illustration - they are not taken from any customer's prompt set.",
+            "The Free AI Visibility Audit deliberately runs a different mix: 60% Discovery, 30% Feature Research, 10% Brand Accuracy, and zero Comparison prompts. A Comparison prompt names your brand inside the prompt itself, so the engine has no way to omit you. Mixing even one into an unaided-discovery audit inflates the headline number with a guaranteed appearance and quietly turns unaided measurement into aided measurement. We keep the two modes separate so the number means what the column header says it means.",
+            "We also deliberately do not generate 'alternatives to [competitor]' prompts. Anchoring a prompt on a single competitor's name measures that competitor's gravity more than your category presence, so we rewrite that intent as brand-neutral Discovery instead."
           ],
           "table": {
             "headers": [
               "Prompt type",
-              "Target mix",
-              "Illustrative example",
-              "Typical sources"
+              "Share of the working set",
+              "The visibility question it tests",
+              "Illustrative example"
             ],
             "rows": [
               [
-                "Category leadership",
-                "~20%",
-                "Who are the top CRM platforms for B2B SaaS in 2026?",
-                "Intent volume + AI query signals"
+                "Discovery",
+                "50%",
+                "Does the engine name you for the broad category question, when no brand is named in the prompt?",
+                "Best CRM for a 50-person B2B SaaS team"
+              ],
+              [
+                "Feature Research",
+                "30%",
+                "Does the engine name you for a specific persona, use case, capability, or constraint?",
+                "Which CRM handles a 6-month enterprise sales cycle?"
               ],
               [
                 "Comparison",
-                "~25%",
-                "How does HubSpot compare to Salesforce for a 50-person team?",
-                "Engine follow-ups + community signals"
+                "10%",
+                "When a buyer puts you head-to-head against a named competitor, how are you framed?",
+                "How does HubSpot compare to Salesforce for a 50-person team?"
               ],
               [
-                "Use case fit",
-                "~20%",
-                "Best CRM for SaaS with a 6-month sales cycle",
-                "Community signals + intent volume"
-              ],
-              [
-                "Risk / objection",
-                "~10%",
-                "What are the downsides of HubSpot for enterprise sales teams?",
-                "Community signals"
-              ],
-              [
-                "Implementation",
-                "~10%",
-                "How long does Salesforce implementation take for a mid-market company?",
-                "Intent volume + community"
-              ],
-              [
-                "Brand-specific",
-                "~15%",
-                "Is [your brand] worth the price?",
-                "Customer-supplied + brand mentions"
+                "Brand Accuracy",
+                "10%",
+                "When a buyer asks about you directly, are the facts and the sentiment right?",
+                "Is [your brand] worth the price?"
               ]
             ]
           }
@@ -17455,13 +17446,14 @@
         {
           "heading": "The metadata we attach to every prompt",
           "body": [
-            "Examples above use well-known public products purely for illustration. They are not taken from any specific customer's prompt set - your prompts stay private to your workspace. For every prompt in your GPS we attach metadata so you can prioritize."
+            "Your prompts stay private to your workspace. For every prompt in your GPS we attach metadata so you can filter, sort, and prioritize - and so you can audit how the prompt got there."
           ],
           "bullets": [
-            "Projected query volume - our estimate of monthly run frequency on AI engines.",
-            "Buyer journey stage - awareness, consideration, decision, or risk validation.",
-            "Engine relevance - which AI engines this prompt is most likely to appear on, based on engine-specific patterns we've observed.",
-            "Source provenance - which of the four grounding sources brought this prompt into your set, so you can audit our selection."
+            "**Projected query volume** - our estimate of monthly run frequency on AI engines, carried with the keyword evidence that backs it.",
+            "**Prompt type** - which of the four visibility questions above the prompt tests. The types are failure-mode oriented: each one is a distinct way your brand can be invisible, and you can fail one while passing the others. Type is the field our distribution targets are enforced against - we don't layer a separate journey-stage label on top of it.",
+            "**Target persona** - the buyer role the prompt is written for, such as a VP of marketing or a data center architect. Every prompt carries one, and when no specific role is cleanly inferable we set it to Generic rather than inventing a persona to look thorough. Persona is a filter and a sort column in your Prompts table and a column in your CSV export.",
+            "**Per-engine results** - once the prompt runs, each response is stored per engine, so you can see which engines surface you for that prompt and which don't. This is measured after the fact, not predicted: we don't guess engine fit at authoring time.",
+            "**Source provenance** - which of the four grounding sources brought this prompt into your set, so you can audit our selection."
           ]
         },
         {
