@@ -28,7 +28,12 @@ export type AuditSurface =
   | "floating_contact"
   | "prompt_pulse_hub"
   | "prompt_pulse_vertical"
-  | "prompt_pulse_about";
+  | "prompt_pulse_about"
+  // Resource-page CTAs (src/components/ResourceCTA.tsx) + tracked in-body
+  // links to the app (src/pages/ResourcePage.tsx renderInline).
+  | "resource_end"
+  | "resource_inline"
+  | "resource_body_link";
 
 export type PricingAudience = "brand" | "agency";
 

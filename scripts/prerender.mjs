@@ -28,6 +28,9 @@ const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/conten
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 const promptPulse = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/promptPulse.json"), "utf8"));
 const courseContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/courseContent.json"), "utf8"));
+// Resource-page CTA copy — shared with src/components/ResourceCTA.tsx so the
+// crawler HTML and the hydrated SPA carry the same calls to action.
+const resourceCta = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/resourceCta.json"), "utf8"));
 
 const { site, home, resourcePages, resourceClusters = [] } = content;
 
@@ -125,6 +128,16 @@ function escapeAttr(value) {
 
 // Matches either a markdown link [text](url) or **bold** segment.
 const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*/g;
+// Resolved at call time: AUDIT_URL is declared further down this module and
+// a module-level `new URL(AUDIT_URL)` here would hit the TDZ.
+function isAppHref(href) {
+  try {
+    return new URL(href).host === new URL(AUDIT_URL).host;
+  } catch {
+    return false;
+  }
+}
+
 function renderInlineHtml(value) {
   const text = String(value);
   if (!text.includes("](") && !text.includes("**")) return escapeHtml(text);
@@ -134,9 +147,14 @@ function renderInlineHtml(value) {
     const start = match.index ?? 0;
     if (start > lastIndex) out += escapeHtml(text.slice(lastIndex, start));
     if (match[1] !== undefined && match[2] !== undefined) {
-      // Link — only off-site links open in a new tab.
+      // Link — off-site links open in a new tab; links into the app are
+      // product CTAs and stay in-tab (mirrors src/pages/ResourcePage.tsx).
       const href = match[2];
-      const attrs = /^https?:\/\//.test(href) ? ` target="_blank" rel="noopener noreferrer"` : "";
+      const attrs = isAppHref(href)
+        ? ""
+        : /^https?:\/\//.test(href)
+          ? ` target="_blank" rel="noopener noreferrer"`
+          : "";
       out += `<a href="${escapeAttr(href)}"${attrs}>${escapeHtml(match[1])}</a>`;
     } else if (match[3] !== undefined) {
       // Bold
@@ -1386,6 +1404,36 @@ function sourcesHtml(page) {
       </section>`;
 }
 
+// Resource-page CTAs. The SPA renders <ResourceInlineCTA> after the second
+// section and <ResourceEndCTA> after FAQ / before Related guides; these are
+// the crawler-facing equivalents, built from the same JSON.
+function resolveResourceCta(category) {
+  const override = (category && resourceCta.byCategory[category]) || {};
+  return { ...resourceCta.default, ...override };
+}
+
+function resourceInlineCtaHtml(page) {
+  const copy = resolveResourceCta(page.category);
+  return `
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>${escapeHtml(copy.inline)} <a href="${escapeAttr(AUDIT_URL)}">${escapeHtml(copy.inlineLink)} &rarr;</a></p>
+    </aside>`;
+}
+
+function resourceEndCtaHtml(page) {
+  const copy = resolveResourceCta(page.category);
+  return `
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">${escapeHtml(copy.kicker)}</p>
+          <h2>${escapeHtml(copy.heading)}</h2>
+          <p>${escapeHtml(copy.body)}</p>
+          <p><a href="${escapeAttr(AUDIT_URL)}">Start Free</a></p>
+          <p>${escapeHtml(copy.footnote)}</p>
+        </div>
+      </section>`;
+}
+
 function draftBannerHtml() {
   return `
 <div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
@@ -1428,7 +1476,13 @@ function resourcePageHtml(page) {
         ${pageDatesHtml(page)}
       </header>
       ${aeoTargetsHtml(page)}
-      ${page.sections.map(sectionHtml).join("")}
+      ${page.sections
+        .map(
+          (section, index) =>
+            sectionHtml(section) +
+            (index === 1 && page.sections.length > 2 ? resourceInlineCtaHtml(page) : "")
+        )
+        .join("")}
       ${sourcesHtml(page)}
       <section class="seo-section">
         <h2>FAQ</h2>
@@ -1442,8 +1496,8 @@ function resourcePageHtml(page) {
           )
           .join("")}
       </section>
+      ${resourceEndCtaHtml(page)}
       ${relatedGuidesHtml(page)}
-      ${ctaHtml()}
     </article>
   </main>
   ${footerHtml()}

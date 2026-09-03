@@ -169,8 +169,8 @@ const Navbar = () => {
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
         <div className="flex items-center gap-2">
           <a href="/" aria-label="SolCrys home" className="inline-flex items-center">
-            <img src="/logo-light.png" alt="SolCrys Logo" className="h-10 w-auto block dark:hidden" />
-            <img src="/logo-dark.png" alt="SolCrys Logo" className="h-10 w-auto hidden dark:block" />
+            <img src="/logo-light.png" alt="SolCrys Logo" className="h-8 sm:h-10 w-auto block dark:hidden" />
+            <img src="/logo-dark.png" alt="SolCrys Logo" className="h-8 sm:h-10 w-auto hidden dark:block" />
           </a>
         </div>
 
@@ -215,7 +215,7 @@ const Navbar = () => {
             type="button"
             onClick={() => setSearchOpen(true)}
             aria-label="Search resources"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
           >
             <Search className="h-4 w-4" />
           </button>
@@ -244,8 +244,12 @@ const Navbar = () => {
           {/* Free Audit now routes directly to the in-app audit funnel
               at app.solcrys.com/audit (self-serve as of 2026-05-20).
               Previous EarlyAccessDialog modal is retained for the
-              "founder chat" sales path only (see Pricing.tsx). */}
-          <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
+              "founder chat" sales path only (see Pricing.tsx).
+              Visible at every width: phone traffic from Reddit/LinkedIn/X
+              lands on resource pages, and until 2026-09 the only phone CTA
+              was inside the hamburger panel. Search moves into that panel
+              below `sm` to make room. */}
+          <Button asChild variant="hero" size="sm" className="inline-flex">
             <a
               href={AUDIT_URL}
               onClick={() => trackAuditClick("navbar")}
@@ -432,6 +436,19 @@ const Navbar = () => {
                 ) : null}
               </div>
             </MobileAccordion>
+
+            {/* Search — header icon is hidden below `sm` to fit Start Free. */}
+            <button
+              type="button"
+              onClick={() => {
+                closeAll();
+                setSearchOpen(true);
+              }}
+              className="sm:hidden flex items-center gap-3 py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            >
+              <Search className="h-4 w-4 shrink-0" />
+              Search resources
+            </button>
 
             {/* Company — flat link, no dropdown (News moved to footer). */}
             <a

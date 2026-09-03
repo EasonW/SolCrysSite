@@ -1,6 +1,8 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { ResourceEndCTA, ResourceInlineCTA } from "@/components/ResourceCTA";
 import siteContent from "@/content/siteContent.json";
+import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { ArrowRight, ArrowUpRight, CalendarDays, HelpCircle, User } from "lucide-react";
 import { Fragment, ReactNode, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -14,6 +16,17 @@ type ResourceSubsection = { heading: string; body: string[]; bullets?: string[] 
 // Bold uses a non-greedy capture so adjacent bold spans don't merge.
 const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*/g;
 
+// In-body links to the app are product CTAs, not off-site references: keep
+// them in the same tab (referrer intact) and count them as audit opens.
+const APP_HOST = new URL(AUDIT_URL).host;
+const isAppLink = (href: string): boolean => {
+  try {
+    return new URL(href).host === APP_HOST;
+  } catch {
+    return false;
+  }
+};
+
 const renderInline = (text: string): ReactNode => {
   if (!text.includes("](") && !text.includes("**")) return text;
   const nodes: ReactNode[] = [];
@@ -25,14 +38,18 @@ const renderInline = (text: string): ReactNode => {
       nodes.push(text.slice(lastIndex, start));
     }
     if (match[1] !== undefined && match[2] !== undefined) {
-      // Link: [text](url) — only off-site links open in a new tab.
+      // Link: [text](url) — off-site links open in a new tab; links into the
+      // app stay in-tab and are tracked as a resource-page audit open.
+      const appLink = isAppLink(match[2]);
       nodes.push(
         <a
           key={`lnk-${keyIndex++}`}
           href={match[2]}
-          {...(/^https?:\/\//.test(match[2])
-            ? { target: "_blank", rel: "noopener noreferrer" }
-            : {})}
+          {...(appLink
+            ? { onClick: () => trackAuditClick("resource_body_link") }
+            : /^https?:\/\//.test(match[2])
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
           className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"
         >
           {match[1]}
@@ -295,7 +312,14 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
             </section>
           ) : null}
 
-          {page.sections.map(renderSection)}
+          {page.sections.map((section, index) => (
+            <Fragment key={section.heading}>
+              {renderSection(section)}
+              {index === 1 && page.sections.length > 2 ? (
+                <ResourceInlineCTA category={page.category} />
+              ) : null}
+            </Fragment>
+          ))}
 
           {sources.length > 0 ? (
             <section className="border-t border-border/30 py-10">
@@ -331,6 +355,8 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
               </div>
             </section>
           ) : null}
+
+          <ResourceEndCTA category={page.category} />
 
           <section className="border-t border-border/30 py-10">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Related guides</h2>
