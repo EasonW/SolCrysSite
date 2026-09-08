@@ -82,7 +82,7 @@ const HeroSection = () => {
             Customer Stories section). Logo list lives in [[customerLogos]]. */}
         <div className="mt-10 border-t border-white/5 pt-6 sm:mt-12 sm:pt-7">
           <p className="text-[11px] text-muted-foreground/70 mb-4 uppercase tracking-widest font-medium">Trusted by</p>
-          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 md:gap-x-10 opacity-60 hover:opacity-100 transition-opacity duration-500">
+          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 md:gap-x-8 opacity-60 hover:opacity-100 transition-opacity duration-500">
             {FEATURED_LOGOS.map((logo) =>
               logo.image ? (
                 <img

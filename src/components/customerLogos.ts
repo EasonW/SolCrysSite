@@ -28,6 +28,7 @@ export type CustomerLogo = {
 export const CUSTOMER_LOGOS: CustomerLogo[] = [
   { label: "UiPath", image: "/customers/uipath-logo.svg", className: "h-7", color: "#FA4616", featured: true },
   { label: "NextSilicon", image: "/customers/nextsilicon-logo.svg", className: "h-4 md:h-5 invert dark:invert-0", color: "#5700FF", featured: true },
+  { label: "Cornelis", image: "/customers/cornelis-logo.png", className: "h-9 md:h-10 dark:brightness-0 dark:invert", featured: true },
   { label: "Wyze", image: "/customers/wyze-logo.png", className: "h-5 md:h-6", color: "#00D4B4", featured: true },
   { label: "ClearlyKept", image: "/customers/clearlykept-logo.png", className: "h-5 md:h-6 dark:brightness-0 dark:invert", color: "#F59E0B", featured: true },
   { label: "Verbatim", image: "/customers/verbatim-logo.svg", className: "h-5 md:h-6 dark:brightness-0 dark:invert", color: "#FF4040", featured: true },
