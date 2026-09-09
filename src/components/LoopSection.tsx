@@ -7,37 +7,30 @@ import LoopDiagram from "./LoopDiagram";
  * History: the loop used to be a prose-card ApproachSection further down the
  * page. The 2026-05-28 scannability redesign removed that section as
  * "redundant with the LoopDiagram in the hero" and left the LoopDiagram inside
- * the hero. That over-packed the hero (pitch + form + 4-step diagram in one
- * viewport) and left the `#loop` anchor dangling. This section restores the
- * loop as its own breathing-room section directly below the hero, using the
- * LoopDiagram visual plus the named-pillar framing humans had lost. The
- * crawler-facing prerender already carries an `id="loop"` section; this keeps
- * the SPA aligned with it.
+ * the hero. That over-packed the hero, so this section restores the loop as
+ * its own breathing-room section directly below the hero. The crawler-facing
+ * prerender carries a matching `id="loop"` section; keep the two aligned.
+ *
+ * 2026-09-09: restyled after the taste review. Left-aligned header, no
+ * eyebrow, no gradient tail, no ambient blur glows; the diagram is a real
+ * ring instead of a 2×2 card grid ([[LoopDiagram]]).
  */
 const LoopSection = () => {
   return (
     <section
       id="loop"
-      className="relative scroll-mt-24 py-24 md:py-32 section-fade overflow-hidden"
+      className="relative scroll-mt-24 py-20 md:py-24 section-fade"
     >
-      {/* Ambient glows — mirror the section treatment used elsewhere on the page */}
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(var(--brand-accent)/0.04)] blur-[140px]" />
-      <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full bg-[hsl(var(--brand-accent)/0.03)] blur-[100px]" />
-
-      <div className="container mx-auto px-6 max-w-4xl relative text-center">
-        <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-3">
-          The SolCrys Loop
-        </p>
-        <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
-          Measure, diagnose, execute,{" "}
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-accent))] to-[hsl(var(--brand-accent-2))]">
-            then verify the lift.
-          </span>
-        </h2>
-        <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
-          SolCrys closes the loop on AI search visibility — each shipped action is tied
-          to the same prompt set, so you can see which fixes actually changed the answer.
-        </p>
+      <div className="container mx-auto max-w-6xl px-6">
+        <div className="max-w-[60ch]">
+          <h2 className="font-display mb-4 text-3xl font-bold tracking-tight [text-wrap:balance] md:text-4xl">
+            Measure, diagnose, execute, then verify the lift.
+          </h2>
+          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+            Each shipped action is tied to the same prompt set, so you can see
+            which fixes actually changed the answer.
+          </p>
+        </div>
         <LoopDiagram />
       </div>
     </section>

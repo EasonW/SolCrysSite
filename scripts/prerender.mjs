@@ -656,12 +656,12 @@ function homeHtml() {
         <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
       </ol>
       <figure style="margin-top: 2rem;">
-        <figcaption><strong>The SolCrys Loop</strong> — illustrative example of one workspace. Numbers are directional, not aggregate marketing claims.</figcaption>
+        <figcaption><strong>The SolCrys Loop.</strong> Illustrative example of one workspace. Directional, not an aggregate marketing claim.</figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Step 01 · Measure.</strong> 60 prompts tracked — any 4 of ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude (a Pro-plan example).</li>
-          <li><strong>Step 02 · Diagnose.</strong> 3 gaps detected, classified as absence, citation, accuracy, comparison, or action gap.</li>
-          <li><strong>Step 03 · Execute.</strong> 1 action queued — drafts grounded in Corporate Context (your approved facts, claims, and guardrails), routed for human review.</li>
-          <li><strong>Step 04 · Verify.</strong> Re-test the same prompt set to track visibility and recommendation movement after the action ships. Loop continues.</li>
+          <li><strong>Measure.</strong> Any 4 of ChatGPT, Gemini, Google AI surfaces, Perplexity, and Claude, at the prompt level. Example: 60 prompts on a Pro plan.</li>
+          <li><strong>Diagnose.</strong> Gaps classified as absence, citation, accuracy, comparison, or action gap. Example: 3 gaps detected.</li>
+          <li><strong>Execute.</strong> Drafts grounded in your Corporate Context, your approved facts, claims, and guardrails, routed for human review. Example: 1 action queued.</li>
+          <li><strong>Verify.</strong> The same prompt set re-runs after the fix ships, tracking visibility and recommendation movement, not just citations. Example: recommendation share moves.</li>
         </ol>
       </figure>
     </section>

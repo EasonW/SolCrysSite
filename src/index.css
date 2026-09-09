@@ -56,6 +56,10 @@
        whole site's accent globally. */
     --brand-accent: 172 70% 50%;
     --brand-accent-2: 165 85% 68%;
+    /* Readable accent for TEXT and thin strokes. --brand-accent (#26d9c1) is
+       1.78:1 on white, so light mode uses the deep teal (#016264, 6.9:1) and
+       dark mode keeps the bright teal. Use this for eyebrows, links, labels. */
+    --brand-accent-ink: 181 98% 20%;
     --glow-primary: var(--brand-accent);
     --glow-accent: var(--brand-accent);
     /* Brand action color (CTAs) — teal, shared with the app product UI.
@@ -107,6 +111,7 @@
     /* Brand action color (CTAs) — teal, dark mode (#0d9488 / hover #115e59) */
     --action: 175 84% 32%;
     --action-hover: 176 69% 22%;
+    --brand-accent-ink: 172 70% 50%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -342,6 +347,28 @@ html {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* The SolCrys Loop ring (LoopDiagram.tsx). Each arc draws in once on load,
+   staggered via inline animation-delay; static under reduced motion. */
+.loop-arc {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 140;
+  stroke-dashoffset: 0;
+  animation: loop-draw 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes loop-draw {
+  from { stroke-dashoffset: 140; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loop-arc {
+    animation: none;
   }
 }
 
