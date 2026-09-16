@@ -18,6 +18,7 @@ import EarlyAccessDialog from "@/components/EarlyAccessDialog";
  * Visibility rules:
  *   - Hidden on `/pricing` (already has inline "Talk to a founder" CTAs;
  *     a floating button would compete with the primary pricing CTAs).
+ *   - Hidden on `/guides` so the sales launcher does not cover document pages.
  *   - Visible everywhere else, including homepage, /resources/<slug>,
  *     /customers, /news, /about. The widget is for sales-led conversion
  *     of buyers who are not ready for the self-serve free audit funnel.
@@ -25,7 +26,7 @@ import EarlyAccessDialog from "@/components/EarlyAccessDialog";
  * Z-index: 40, one below the navbar (z-50) so it never covers the
  * fixed nav drop-shadow on scroll.
  */
-const HIDDEN_PREFIXES = ["/pricing"];
+const HIDDEN_PREFIXES = ["/pricing", "/guides"];
 
 function isHiddenPath(pathname: string): boolean {
   return HIDDEN_PREFIXES.some(

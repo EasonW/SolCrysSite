@@ -1,5 +1,6 @@
 import MiniSearch from "minisearch";
 import siteContent from "@/content/siteContent.json";
+import userGuides from "@/content/userGuides.json";
 
 // Client-side resource search.
 //
@@ -82,6 +83,17 @@ const documents = pages
     summary: page.summary ?? "",
     body: buildBody(page),
   }));
+
+documents.push(...userGuides.guides.map((guide) => ({
+  id: `guides/${guide.slug}`,
+  slug: `guides/${guide.slug}`,
+  title: guide.title,
+  description: guide.description,
+  category: "SolCrys user guides",
+  keywords: `${guide.category} documentation PDF manual ${guide.highlights.join(" ")}`,
+  summary: guide.beforeYouStart,
+  body: guide.chapters.map((chapter) => `${chapter.title} ${chapter.summary}`).join(" "),
+})));
 
 export const RESOURCE_COUNT = documents.length;
 

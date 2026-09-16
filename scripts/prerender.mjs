@@ -28,6 +28,8 @@ const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/conten
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 const promptPulse = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/promptPulse.json"), "utf8"));
 const courseContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/courseContent.json"), "utf8"));
+const userGuides = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/userGuides.json"), "utf8"));
+const userGuideText = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/userGuideText.json"), "utf8"));
 // Resource-page CTA copy — shared with src/components/ResourceCTA.tsx so the
 // crawler HTML and the hydrated SPA carry the same calls to action.
 const resourceCta = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/resourceCta.json"), "utf8"));
@@ -209,6 +211,7 @@ function footerHtml() {
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
           <a href="/learn/">Learn</a>
           <a href="/compare/">Compare</a>
           <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
@@ -1288,6 +1291,7 @@ function resourcesHtml() {
       <p class="seo-kicker">AEO Resource Hub</p>
       <h1>Practical guides for AI search visibility.</h1>
       <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic below.</p>
+      <div class="seo-card"><h2><a href="/guides/">Looking for SolCrys user guides?</a></h2><p>Set up your workspace and learn the dashboards and tools. Read online or download the PDFs.</p></div>
     </section>
     ${orderedKeys
       .map((key) => {
@@ -3046,6 +3050,97 @@ for (const course of courses) {
   });
 }
 
+// Product documentation lives separately from editorial AEO resources. The
+// manifest drives React, search, crawlable HTML, and the downloadable assets.
+function guideDocumentSchema(guide) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "DigitalDocument",
+    name: guide.title,
+    description: guide.description,
+    url: canonicalUrl(`/guides/${guide.slug}/`),
+    dateModified: userGuides.updated,
+    inLanguage: "en",
+    isAccessibleForFree: true,
+    author: { "@type": "Organization", name: "SolCrys", url: site.url },
+    encoding: {
+      "@type": "MediaObject",
+      contentUrl: canonicalUrl(guide.pdf),
+      encodingFormat: "application/pdf",
+    },
+  };
+}
+
+function guideLinksHtml(guide) {
+  return `<p><a href="${escapeAttr(guide.pdf)}" target="_blank" rel="noopener noreferrer">Open PDF (new tab)</a> &middot; <a href="${escapeAttr(guide.pdf)}" download>Download PDF</a></p>`;
+}
+
+for (const guide of userGuides.guides) {
+  const pageImages = Array.from({ length: guide.pages }, (_, i) => `/guides/${guide.slug}/page-${String(i + 1).padStart(2, "0")}.jpg`);
+  for (const asset of [guide.pdf, guide.cover, ...pageImages]) {
+    if (!fs.existsSync(path.join(distDir, asset))) throw new Error(`Missing user guide asset: ${asset}`);
+  }
+  if (!fs.readFileSync(path.join(distDir, guide.pdf)).subarray(0, 5).equals(Buffer.from("%PDF-"))) {
+    throw new Error(`Invalid user guide PDF: ${guide.pdf}`);
+  }
+  if (guide.chapters.some((chapter) => !Number.isInteger(chapter.page) || chapter.page < 1 || chapter.page > guide.pages)) {
+    throw new Error(`Invalid chapter page in user guide: ${guide.slug}`);
+  }
+  if (userGuideText[guide.slug]?.length !== guide.pages || userGuideText[guide.slug].some((text) => !text.trim())) {
+    throw new Error(`Missing page text in user guide: ${guide.slug}`);
+  }
+  const companion = userGuides.guides.find((item) => item.slug !== guide.slug);
+  writePage(`guides/${guide.slug}/index.html`, renderLayout({
+    routePath: `/guides/${guide.slug}/`,
+    title: `${guide.title} — User Guide | SolCrys`,
+    description: guide.description,
+    lastModified: userGuides.updated,
+    body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
+      <nav aria-label="Breadcrumb"><a href="/resources/">Resources</a> / <a href="/guides/">User guides</a> / <span>${escapeHtml(guide.title)}</span></nav>
+      <section class="seo-hero"><p class="seo-kicker">Guide ${escapeHtml(guide.number)} &middot; ${escapeHtml(guide.category)}</p>
+        <h1>${escapeHtml(guide.title)}</h1><p class="seo-lede">${escapeHtml(guide.description)}</p>
+        <p>PDF &middot; ${guide.pages} pages &middot; ${escapeHtml(guide.fileSize)} &middot; ${escapeHtml(userGuides.edition)}</p>${guideLinksHtml(guide)}
+        <aside class="seo-card"><strong>Before you start.</strong><p>${escapeHtml(guide.beforeYouStart)}</p></aside>
+      </section>
+      <section class="seo-section"><h2>In this guide</h2><p>Chapter links open the PDF in a new tab.</p>
+        <ol class="seo-list">${guide.chapters.map((chapter) => `<li><a href="${escapeAttr(guide.pdf)}#page=${chapter.page}" target="_blank" rel="noopener noreferrer">Page ${chapter.page}: ${escapeHtml(chapter.title)}</a><p>${escapeHtml(chapter.summary)}</p><details><summary>Read page ${chapter.page} as text</summary><p style="white-space: pre-line">${escapeHtml(userGuideText[guide.slug][chapter.page - 1])}</p></details></li>`).join("")}</ol>
+      </section>
+      <section class="seo-section"><h2>Document preview</h2><a href="${escapeAttr(guide.pdf)}"><img src="${escapeAttr(guide.cover)}" alt="First page of ${escapeAttr(guide.title)}" width="636" height="900" style="max-width: 100%; height: auto" loading="lazy"></a>${guideLinksHtml(guide)}
+        <p>Interface examples use fictional brands, people, and results. Available controls depend on your role, plan, and workspace type.</p>
+      </section>
+      <section class="seo-section"><p><a href="/guides/">All user guides</a></p>${companion ? `<p>Companion guide: <a href="/guides/${escapeAttr(companion.slug)}/">${escapeHtml(companion.title)}</a></p>` : ""}</section>
+    </main>${footerHtml()}</div>`,
+    schemas: [organizationSchema, guideDocumentSchema(guide), breadcrumbSchema([
+      { name: "Home", path: "/" }, { name: "User guides", path: "/guides/" },
+      { name: guide.title, path: `/guides/${guide.slug}/` },
+    ])],
+  }));
+}
+
+writePage("guides/index.html", renderLayout({
+  routePath: "/guides/",
+  title: "SolCrys User Guides — Workspace Setup, Dashboards and Tools",
+  description: "Practical SolCrys user guides for workspace setup, AI visibility dashboards, and AEO tools. Read chapter by chapter or download the free PDFs.",
+  lastModified: userGuides.updated,
+  body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
+    <section class="seo-hero"><p class="seo-kicker">SolCrys documentation</p><h1>Your guide to SolCrys.</h1>
+      <p class="seo-lede">From your first workspace to your weekly AEO review. Practical steps, interface examples, and answers when you need them.</p>
+      <p>Set up with guide 01. Put your results to work with guide 02. Free to read and download.</p>
+    </section><section class="seo-section"><h2>User guides</h2><p>${userGuides.guides.length} documents &middot; ${escapeHtml(userGuides.edition)} edition &middot; PDF</p>
+      <div class="seo-grid">${userGuides.guides.map((guide) => `<article class="seo-card"><p class="seo-kicker">Guide ${escapeHtml(guide.number)} &middot; ${escapeHtml(guide.category)}</p>
+        <h3><a href="/guides/${escapeAttr(guide.slug)}/">${escapeHtml(guide.title)}</a></h3><p>${escapeHtml(guide.description)}</p>
+        <ul>${guide.highlights.map((highlight) => `<li>${escapeHtml(highlight)}</li>`).join("")}</ul>
+        <p>PDF &middot; ${guide.pages} pages &middot; ${escapeHtml(guide.fileSize)}</p>
+        <p><a href="/guides/${escapeAttr(guide.slug)}/">Read guide</a></p>${guideLinksHtml(guide)}</article>`).join("")}</div>
+    </section><section class="seo-section"><h2>Keep the guide beside your workspace.</h2><p>Open a chapter, follow along in SolCrys, or save the PDF for your team. Controls may vary by role, plan, and workspace type.</p><p><a href="https://app.solcrys.com/login">Open SolCrys</a></p>
+      <h2>Looking for the bigger picture?</h2><p><a href="/resources/">Browse resources</a> or <a href="/learn/aeo-operator/">take the free AEO Operator course</a>.</p>
+    </section></main>${footerHtml()}</div>`,
+  schemas: [organizationSchema, breadcrumbSchema([{ name: "Home", path: "/" }, { name: "User guides", path: "/guides/" }]), {
+    "@context": "https://schema.org", "@type": "CollectionPage", name: "SolCrys User Guides",
+    url: canonicalUrl("/guides/"), hasPart: userGuides.guides.map(guideDocumentSchema),
+  }],
+}));
+
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
@@ -3055,6 +3150,8 @@ const sitemapUrls = [
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.
   { path: "/resources/", lastmod: site.updated || generatedAt },
+  { path: "/guides/", lastmod: userGuides.updated },
+  ...userGuides.guides.map((guide) => ({ path: `/guides/${guide.slug}/`, lastmod: userGuides.updated })),
   { path: "/compare/", lastmod: site.updated || generatedAt },
   { path: "/free-chatgpt-visibility-tracker/", lastmod: site.updated || generatedAt },
   { path: "/free-aeo-audit/", lastmod: site.updated || generatedAt },
@@ -3104,6 +3201,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
+- [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards, and tools. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
 - [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
 - [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
   .map(

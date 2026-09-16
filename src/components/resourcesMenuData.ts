@@ -12,7 +12,6 @@ import {
   Link2,
   Users,
   AlertTriangle,
-  Workflow,
   type LucideIcon,
 } from "lucide-react";
 import { categorySlug } from "@/lib/categorySlug";
@@ -43,10 +42,10 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
     label: "Foundations",
     items: [
       {
-        title: "How SolCrys Works",
-        desc: "Measure, diagnose, act, and verify",
-        href: categoryHref("How SolCrys Works"),
-        Icon: Workflow,
+        title: "User guides",
+        desc: "Workspace setup, dashboards, and tools",
+        href: "/guides/",
+        Icon: BookOpen,
       },
       {
         title: "AEO Fundamentals",
@@ -67,6 +66,10 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
         Icon: Users,
       },
     ],
+    seeAll: {
+      label: "How SolCrys works →",
+      href: categoryHref("How SolCrys Works"),
+    },
   },
   {
     label: "By AI Engine",

@@ -55,6 +55,11 @@ const Resources = () => {
             concrete follow-up actions. Browse by topic below.
           </p>
 
+          <a href="/guides/" className="mb-12 flex items-center justify-between gap-5 rounded-xl border border-[hsl(var(--brand-accent)/0.3)] bg-[hsl(var(--brand-accent)/0.05)] p-6 hover:bg-[hsl(var(--brand-accent)/0.1)] transition-colors">
+            <div><h2 className="text-lg font-semibold">Looking for SolCrys user guides?</h2><p className="mt-2 text-sm text-muted-foreground">Set up your workspace and learn the dashboards and tools. Read online or download the PDFs.</p></div>
+            <ArrowRight className="h-5 w-5 shrink-0 text-[hsl(var(--brand-accent-ink))]" aria-hidden="true" />
+          </a>
+
           {orderedKeys.map((key) => {
             const pages = grouped.get(key) ?? [];
             if (pages.length === 0) return null;

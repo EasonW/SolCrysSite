@@ -21,6 +21,8 @@ const NewsArticle = lazy(() => import("./pages/NewsArticle"));
 const LearnHub = lazy(() => import("./pages/LearnHub"));
 const CoursePage = lazy(() => import("./pages/CoursePage"));
 const LessonPage = lazy(() => import("./pages/LessonPage"));
+const UserGuides = lazy(() => import("./pages/UserGuides"));
+const UserGuide = lazy(() => import("./pages/UserGuide"));
 
 const RouteFallback = () => (
   <div className="flex min-h-screen items-center justify-center" role="status" aria-label="Loading page">
@@ -43,6 +45,8 @@ const App = () => (
           <Route path="/free-chatgpt-visibility-tracker" element={<FreeTrackerPage />} />
           <Route path="/free-aeo-audit" element={<FreeAeoAuditPage />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/guides" element={<UserGuides />} />
+          <Route path="/guides/:guideSlug" element={<UserGuide />} />
           <Route path="/compare" element={<Compare />} />
           <Route path="/prompt-pulse" element={<PromptPulseHub />} />
           <Route path="/prompt-pulse/:vertical" element={<PromptPulseVertical />} />

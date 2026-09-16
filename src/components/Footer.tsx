@@ -21,6 +21,7 @@ const productLinks = [
 ];
 
 const resourcesLinks = [
+  { href: "/guides/", label: "User guides" },
   // Prompt Pulse must stay here: since it left the top-level nav (2026-08) the
   // footer is its only site-wide internal link.
   { href: "/prompt-pulse/", label: "Prompt Pulse" },
