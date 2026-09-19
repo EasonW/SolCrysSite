@@ -41,6 +41,9 @@ const resourcesLinks = [
 
 const companyLinks = [
   { href: "/about/", label: "About" },
+  // The buyer/procurement FAQ. Footer is its ONLY site-wide internal link —
+  // it sits in no nav column, so removing this line orphans it again.
+  { href: "/faq/", label: "FAQ" },
   { href: "/news/", label: "News" },
   { href: "/customers/", label: "Customer stories" },
   { href: "https://app.solcrys.com/login", label: "Login" },

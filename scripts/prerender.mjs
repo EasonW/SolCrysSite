@@ -214,6 +214,10 @@ function footerHtml() {
           <a href="/guides/">User guides</a>
           <a href="/learn/">Learn</a>
           <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
           <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
           <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
                header nav in 2026-08 (de-duplicated into the Resources menu),
@@ -519,6 +523,15 @@ const websiteSchema = {
   }
 };
 
+// Markdown-free version of an inline string, for JSON-LD `text` fields.
+// Schema answers must read as prose, not as "[label](/slug/)" — strip the
+// link/bold syntax and keep the visible words.
+function plainInline(value) {
+  const text = String(value);
+  if (!text.includes("](") && !text.includes("**")) return text;
+  return text.replace(INLINE_TOKEN_REGEX, (_match, label, _href, bold) => label ?? bold ?? "");
+}
+
 function faqSchema(faqs, routePath) {
   return {
     "@context": "https://schema.org",
@@ -529,10 +542,88 @@ function faqSchema(faqs, routePath) {
       name: faq.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answer
+        text: plainInline(faq.answer)
       }
     }))
   };
+}
+
+// Build-time guard for pages that advertise their own question count.
+//
+// The /faq/ page shipped for four months claiming "19 questions" while
+// rendering 24, and one section's lead-in said "Five questions" above six of
+// them. Both are the same failure: a number typed by hand next to a list that
+// later grew. This recomputes every such number from the data and fails the
+// build rather than letting the page misstate itself again.
+//
+// Scope is deliberately narrow — only pages that opted into
+// `faqSchemaIncludesSubsections`, i.e. pages that ARE a FAQ.
+const COUNT_WORDS = {
+  one: 1, two: 2, three: 3, four: 4, five: 5,
+  six: 6, seven: 7, eight: 8, nine: 9, ten: 10
+};
+
+function assertSelfDeclaredCounts(page) {
+  const problems = [];
+  const questionCount =
+    page.sections.reduce((sum, section) => sum + (section.subsections?.length ?? 0), 0) +
+    (page.faqs?.length ?? 0);
+
+  for (const field of ["h1", "metaTitle", "description", "summary"]) {
+    const value = page[field];
+    if (typeof value !== "string") continue;
+    for (const [declared] of value.matchAll(/(\d+)\s+[Qq]uestions/g)) {
+      const n = Number(declared.match(/\d+/)[0]);
+      if (n !== questionCount) {
+        problems.push(`${field} says ${n} questions; the page has ${questionCount}`);
+      }
+    }
+  }
+
+  for (const section of page.sections) {
+    const actual = section.subsections?.length ?? 0;
+    if (actual === 0) continue;
+    const lead = section.body?.[0];
+    if (typeof lead !== "string") continue;
+    const match = lead.match(/^(\w+)\s+questions\b/i);
+    if (!match) continue;
+    const declared = COUNT_WORDS[match[1].toLowerCase()] ?? Number(match[1]);
+    if (declared !== actual) {
+      problems.push(
+        `section "${section.heading}" leads with "${match[1]} questions" but has ${actual}`
+      );
+    }
+  }
+
+  if (problems.length > 0) {
+    throw new Error(
+      `prerender: /${page.slug}/ misstates its own question counts:\n  - ${problems.join("\n  - ")}\n` +
+        "Fix the copy (or the sections) so the numbers match the data."
+    );
+  }
+}
+
+// Q&A entries a resource page contributes to its FAQPage schema.
+//
+// By default that is only the closing `faqs[]` block. Pages that ARE a FAQ —
+// where every subsection heading is itself a buyer question rendered with its
+// answer in the visible HTML — opt in with `faqSchemaIncludesSubsections` so
+// the body Q&As are eligible for FAQ rich results too. Without the opt-in,
+// /faq/ shipped 24 visible questions and declared 4 of them.
+//
+// Opt-in only: most resource pages use subsections as prose headings, and
+// promoting those to schema Questions would declare Q&A structure the page
+// does not actually have.
+function resourceFaqEntries(page) {
+  const closing = Array.isArray(page.faqs) ? page.faqs : [];
+  if (!page.faqSchemaIncludesSubsections) return closing;
+  assertSelfDeclaredCounts(page);
+  const fromSections = page.sections.flatMap((section) =>
+    (section.subsections ?? [])
+      .filter((sub) => sub.heading.trimEnd().endsWith("?"))
+      .map((sub) => ({ question: sub.heading, answer: sub.body.join(" ") }))
+  );
+  return [...fromSections, ...closing];
 }
 
 function breadcrumbSchema(items) {
@@ -2130,7 +2221,7 @@ for (const page of resourcePages) {
             }
           }
         },
-        faqSchema(page.faqs, routePath)
+        faqSchema(resourceFaqEntries(page), routePath)
       ]
     })
   );
