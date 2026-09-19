@@ -25,7 +25,7 @@
     "title": "Turn AI answer gaps into governed marketing execution.",
     "description": "See where ChatGPT, Gemini, Google AI, Perplexity, and Claude cite — or skip — your brand, then use your Corporate Context to ship on-brand content your team approves and verifies.",
     "mcpStats": {
-      "tools": 14,
+      "tools": 18,
       "skills": 6
     },
     "ogImage": "/og/home.png",
@@ -63,7 +63,7 @@
       },
       {
         "title": "AEO Agent",
-        "description": "Answer gaps become reviewable briefs, page drafts, and comparison sections — not just screenshots.",
+        "description": "Answer gaps become reviewable briefs, page drafts, and comparison sections your team edits and approves - not screenshots. Every draft is grounded in Corporate Context, and nothing publishes without a human release.",
         "icon": "Sparkles",
         "color": "hsl(162 52% 48%)"
       },
@@ -6896,7 +6896,7 @@
       "category": "For Agencies",
       "ogImage": "/og/aeo-for-agencies.png",
       "published": "2026-05-05",
-      "updated": "2026-05-10",
+      "updated": "2026-09-18",
       "primaryKeyword": "AEO for agencies",
       "aeoTargets": [
         "How can agencies offer AEO services?",
@@ -7013,7 +7013,8 @@
         {
           "heading": "How SolCrys helps agencies",
           "body": [
-            "SolCrys is designed as an AEO execution layer for agencies. It supports client-specific context, prompt-level measurement, answer gap diagnosis, governed agent actions, and action-to-result tracking. That lets agencies move from 'we can show you where AI mentions you' to 'we can improve how AI systems understand, cite, and recommend you, with a reviewable workflow.'"
+            "SolCrys is designed as an AEO execution layer for agencies. It supports client-specific context, prompt-level measurement, answer gap diagnosis, governed agent actions, and action-to-result tracking. That lets agencies move from 'we can show you where AI mentions you' to 'we can improve how AI systems understand, cite, and recommend you, with a reviewable workflow.'",
+            "SolCrys prices the agency motion per client organization rather than per seat: **Agency at $1,499 a month covers 10 client organizations** on ChatGPT, Gemini and Google AI Overviews / AI Mode, and **Agency Pro at $4,999 covers 25** and adds Perplexity and Claude to the selectable set. Both carry 30 tracked prompts per client organization; the analysis quotas differ (200 Deep Analyses and 50 Content Audits a month on Agency, 700 and 150 on Agency Pro). Current numbers live on [pricing](https://app.solcrys.com/pricing), which is canonical if it and this page ever disagree."
           ]
         }
       ],
@@ -21099,17 +21100,18 @@
       "slug": "inside-the-action-hub",
       "title": "Inside the Action Hub: From Gap to Verified Lift",
       "metaTitle": "Inside the SolCrys Action Hub: From Gap to Verified Lift",
-      "description": "What SolCrys actually does after the dashboard surfaces a gap. The closed-loop workflow from detection to draft to brand review to ship to re-measurement — including the failure modes.",
+      "description": "What SolCrys does after the dashboard surfaces a gap: the closed-loop workflow from detection to draft to review to ship to re-measurement, plus the task layer a team actually runs it on - owners, review handoffs, comments, checklists and reminders.",
       "h1": "Inside the Action Hub — from gap detection to verified citation lift",
       "summary": "Most AI visibility platforms stop where the dashboard ends. They tell you which prompts you're losing on, which competitors are winning, which sources are cited — and then leave the actual fixing of those gaps as homework. SolCrys's Action Hub is the part that takes over from that point: a queue of recommended actions, each tied to a specific gap, each routed through an optional drafting step grounded in your Corporate Context, each gated by a brand review you control, each measured against a 7-to-30-day Recovery Score after shipping. This guide walks through the closed loop in detail — including the failure modes the agent has, the governance step that catches mistakes, and the scope limits worth knowing before you build a workflow around it.",
       "category": "How SolCrys Works",
       "ogImage": "/og/inside-the-action-hub.png",
       "published": "2026-05-17",
-      "updated": "2026-05-17",
+      "updated": "2026-09-18",
       "primaryKeyword": "AEO action hub",
       "aeoTargets": [
-        "How does SolCrys turn AEO gaps into actions?",
         "What is the SolCrys Action Hub?",
+        "How does SolCrys turn AEO gaps into actions?",
+        "Can a team assign and review AEO tasks in SolCrys?",
         "How does an AEO action loop work?",
         "What's the difference between an AEO dashboard and an action engine?"
       ],
@@ -21124,9 +21126,10 @@
       ],
       "sections": [
         {
-          "heading": "A note on product direction",
+          "heading": "What is live today",
           "body": [
-            "Some features mentioned in this article are not yet generally available. They reflect the product direction we are actively exploring based on the operational pain we see in the market and the workflows we run ourselves. They should be read as our current product thesis, not as a guarantee of future functionality or delivery timing."
+            "The loop below is in production: gap detection, the priority-ranked queue, Corporate-Context-grounded drafting, the review gate, and re-measurement against the prompts an action targeted. So is the task layer added through August and September 2026 - owners, due dates, explicit review handoffs, comments with @mentions, checklists, reminders and archive - described in its own section further down.",
+            "Two things are still direction rather than delivery, and are called out where they appear: revenue-at-risk weighting depends on prompt-level value mapping you configure, and publishing integrations vary by stack. Nothing on this page publishes to your site by itself."
           ]
         },
         {
@@ -21147,7 +21150,8 @@
         {
           "heading": "The 6-step loop",
           "body": [
-            "Every action that flows through the Action Hub follows the same six steps. Some are visible to you (review, ship); some are visible only when you want to look (gap detection, draft generation, re-measurement); one is invisible but consequential (Corporate Context grounding)."
+            "Every action that flows through the Action Hub follows the same six steps. Some are visible to you (review, ship); some are visible only when you want to look (gap detection, draft generation, re-measurement); one is invisible but consequential (Corporate Context grounding).",
+            "One structural detail worth knowing before you trust the loop: an audit finding has exactly one tracked task, whether it was promoted when the audit ran or attached later, and the evidence behind it is snapshotted onto the task. The task keeps its evidence even after the audit run that produced it is gone - so a fix shipped in November can still be traced to the November finding, not to a re-run that no longer shows the problem."
           ],
           "subsections": [
             {
@@ -21186,6 +21190,22 @@
                 "Seven days after the action ships, SolCrys re-runs the prompts the action targeted and computes the [Recovery Score](/aeo-recovery-score/) — the percentage of the original gap that closed. The 7-day window is short enough to give you a fast feedback loop and long enough to let engines incorporate the new content; we also produce a 30-day re-measurement for slower-moving categories. Recovery Score below 50% triggers a flag on the original action card so you can decide whether to iterate or retire the approach."
               ]
             }
+          ]
+        },
+        {
+          "heading": "The task layer: running the loop as a team",
+          "body": [
+            "A loop that only one person can operate is a demo. Between August and September 2026 the Action Hub grew the parts that let a marketing team run it the way it runs everything else - without moving the work into a separate project tool, where it would lose its evidence.",
+            "An action moves through six states: **todo, in progress, in review, approved, published, completed**. Publication and completion are deliberately separate - shipping a page is not the same as closing the loop on it, and re-measurement happens between the two."
+          ],
+          "bullets": [
+            "**An owner and a due date.** Every action can be assigned and dated, so the queue is a workload rather than a list of suggestions.",
+            "**An explicit review handoff.** Requesting review names a reviewer and timestamps the request; the reviewer sees what is waiting on them specifically, not a shared pile.",
+            "**Comments with @mentions.** Discussion lives on the action, next to the gap evidence that prompted it, rather than in a thread somewhere else that loses the context by the second reply.",
+            "**Checklists.** A single action - refresh a canonical page, say - usually contains several concrete edits. Sub-items keep partial progress visible instead of a card that sits at \"in progress\" for two weeks.",
+            "**Reminders you control.** Per person, per workspace, in your own timezone: due soon, overdue, pending review, and an optional daily digest. Email is opt-in and off by default.",
+            "**Archive that is independent of status.** Clearing the board does not require pretending a task was done.",
+            "**The original recommendation is preserved.** When someone edits an action's description, what the platform proposed is kept alongside what the team decided to do - so a quarter later you can tell which outcomes came from the recommendation and which came from the edit."
           ]
         },
         {
@@ -21231,13 +21251,14 @@
             "Some AI visibility platforms have added \"task\" or \"recommendation\" tabs to their dashboards. The difference is whether the task is closed-loop or open-ended.",
             "Open-ended: the platform tells you a prompt is losing share, suggests \"create content addressing this prompt,\" and your team takes it from there. The platform never sees the work again. There is no re-measurement, no Recovery Score, no learning across actions.",
             "Closed-loop: the platform handles drafting, governance, shipping, and re-measurement as part of the same workflow. Each action has a measured outcome. Patterns that work get reinforced; patterns that don't get retired. The platform learns about your category over time, because it's seeing the full action-to-outcome chain.",
-            "Both designs are legitimate. Open-ended platforms are cheaper to build and lighter to operate; closed-loop platforms are harder to build and heavier to onboard, but produce a feedback loop that compounds over time. SolCrys is the second."
+            "Both designs are legitimate. Open-ended platforms are cheaper to build and lighter to operate; closed-loop platforms are harder to build and heavier to onboard, but produce a feedback loop that compounds over time. SolCrys is the second.",
+            "There is a third possibility worth naming, because it is where the category is heading: a task list bolted onto a dashboard, with owners and comments but no measurement behind the task and no re-measurement after it. That is a project tool wearing a dashboard's clothes. The test is not whether a platform has assignment and comments - those are table stakes and we added them late. The test is whether the task carries the evidence that created it and the measurement that closes it. Ours does; that is the whole design."
           ]
         },
         {
           "heading": "Where to look in the product",
           "body": [
-            "The Action Hub is one of the five main capabilities in the SolCrys product, alongside the visibility dashboard, prompt intelligence view, citation deep dive, and content audit. If you're in a trial workspace and want to see it: open Action Hub from the main navigation, look at the priority-ranked queue, pick a card to see the underlying gap evidence, the recommended action, and (where drafting applies) the option to generate. Every card has a drilldown to the prompt-engine-response data that triggered it."
+            "The Action Hub is where the rest of the product converges: prompt monitoring, citation analysis, content audits and Answer Accuracy all promote findings into the same queue. If you're in a trial workspace and want to see it: open Action Hub from the main navigation, look at the priority-ranked queue, pick a card to see the underlying gap evidence, the recommended action, and (where drafting applies) the option to generate. Every card has a drilldown to the prompt-engine-response data that triggered it."
           ]
         },
         {
@@ -21272,6 +21293,14 @@
         {
           "question": "Can I see Action Hub before I sign?",
           "answer": "Yes. The Free Audit produces a starter Action Hub queue from the baseline measurement — typically 5–10 priority actions you can review with the audit team. It's the most direct way to see whether the workflow fits how your team operates."
+        },
+        {
+          "question": "Can I assign Action Hub tasks to specific people and review each other's work?",
+          "answer": "Yes. An action carries an owner and a due date, and requesting review names a reviewer and timestamps the handoff, so the reviewer sees what is waiting on them rather than a shared pile. Discussion happens in comments on the action itself, with @mentions, next to the gap evidence that produced it. Reminders are per person and per workspace in your own timezone - due soon, overdue, pending review, and an optional daily digest - and email notifications are opt-in and off by default."
+        },
+        {
+          "question": "Why not just run AEO tasks in Jira, Asana, or Linear?",
+          "answer": "You can, and for pure scheduling those tools are better. What they cannot do is carry the evidence and the measurement. A SolCrys action holds the prompts and engines that produced the gap, the cited sources that beat you, the original recommendation alongside whatever the team edited it into, and the re-measurement after the fix ships. Copy that into a generic tracker and you get a title and a due date; the reason the work existed stays behind. Teams that want both usually keep scheduling where it lives and keep the evidence here."
         }
       ]
     },
@@ -22456,7 +22485,7 @@
       "category": "For Agencies",
       "ogImage": "/og/best-aeo-platforms-for-agencies-2026.png",
       "published": "2026-05-22",
-      "updated": "2026-05-22",
+      "updated": "2026-09-18",
       "primaryKeyword": "best AEO platforms for agencies",
       "aeoTargets": [
         "What is the best AEO platform for agencies?",
@@ -22682,7 +22711,8 @@
         {
           "heading": "Pricing-per-workspace economics for a typical 25-client agency",
           "body": [
-            "This is the section most agencies skip in their evaluation and then regret in their second-year renewal. We've modeled per-client cost at three scale points (5 clients, 15 clients, 25 clients) for the published agency plans of each vendor. All figures are taken from the vendor's published pricing page as of May 2026 or, where unpublished, our best estimate based on inbound conversations — those are marked \"estimated.\""
+            "This is the section most agencies skip in their evaluation and then regret in their second-year renewal. We've modeled per-client cost at three scale points (5 clients, 15 clients, 25 clients) for the published agency plans of each vendor. All figures are taken from the vendor's published pricing page as of May 2026 or, where unpublished, our best estimate based on inbound conversations — those are marked \"estimated.\"",
+            "SolCrys prices the agency motion per client organization rather than per seat: **Agency at $1,499 a month covers 10 client organizations** on ChatGPT, Gemini and Google AI Overviews / AI Mode, and **Agency Pro at $4,999 covers 25** and adds Perplexity and Claude to the selectable set. Both carry 30 tracked prompts per client organization; the analysis quotas differ (200 Deep Analyses and 50 Content Audits a month on Agency, 700 and 150 on Agency Pro). Current numbers live on [pricing](https://app.solcrys.com/pricing), which is canonical if it and this page ever disagree."
           ],
           "subsections": [
             {
@@ -31254,6 +31284,340 @@
         {
           "label": "Semrush — 2026 AI Visibility Index (126 million U.S. AI search prompts; 45% of marketing leaders cannot accurately measure AI visibility)",
           "url": "https://www.semrush.com/news/463141-semrush-releases-expanded-2026-ai-visibility-index-analyzing-126-million-ai-search-prompts/"
+        }
+      ]
+    },
+    {
+      "slug": "community-intelligence-reddit",
+      "title": "Community Intelligence: reading the communities AI engines read",
+      "metaTitle": "Community Intelligence for AEO - Reddit, measured | SolCrys",
+      "description": "How SolCrys turns citation evidence into a Reddit targeting playbook, scores threads for subject fit, drafts replies against each subreddit's own rules, and stops at the clipboard. No API-post path exists.",
+      "h1": "Community Intelligence: reading the communities AI engines read",
+      "summary": "Community Intelligence is the part of SolCrys that works on the surfaces you do not own. It starts from measurement rather than guesswork: the subreddits it targets are the ones that actually appeared in citations for your tracked prompts over the last 90 days, not the ones a keyword tool suggests. From there it scores live threads for subject fit, drafts a reply grounded in your Corporate Context, checks that draft against the specific subreddit's posting rules, and hands it to a person. **Publishing is copy-assisted and manual. There is no API-post path in the product**, which is a deliberate architectural decision rather than a roadmap gap - community credibility is the asset, and automation is how brands destroy it.",
+      "category": "Community & UGC",
+      "ogImage": "/og/community-intelligence-reddit.png",
+      "published": "2026-09-18",
+      "updated": "2026-09-18",
+      "primaryKeyword": "community intelligence AEO",
+      "aeoTargets": [
+        "What is Community Intelligence in SolCrys?",
+        "How do I find which subreddits AI engines cite for my category?",
+        "Can SolCrys post to Reddit automatically?",
+        "How do I do Reddit outreach without getting banned?",
+        "Does Reddit still matter for AI search?"
+      ],
+      "relatedSlugs": [
+        "reddit-aeo-playbook",
+        "reddit-g2-community-sources-aeo",
+        "wikipedia-techradar-reddit-dominate-ai-citations",
+        "comments-as-ai-citations",
+        "inside-the-action-hub"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "Community Intelligence is SolCrys's workflow for the community source layer. It answers four questions in order: **which communities do answer engines actually read for my category, which live threads are worth a reply, what would a credible reply say, and does that reply break the rules of the specific place it is going.**",
+            "The flow is deliberately aim-then-fire. Building the targeting playbook is fast and costs nothing, so you can see the map before you commit any scan quota. Reviewing and editing that map is a separate step. Only then does the engine scan threads and produce drafts.",
+            "What it does not do is post. There is no API-post path anywhere in the product - drafts are copied by a person into a browser. That is the design, not an unfinished feature."
+          ]
+        },
+        {
+          "heading": "Targeting comes from citation evidence, not from keywords",
+          "body": [
+            "Most Reddit advice starts with a keyword search and a list of large subreddits. That produces the communities with the most traffic, which is a different set from the communities an answer engine reaches for when someone asks a buying question about your category.",
+            "The playbook is built from your own measurement instead. For each candidate community it carries what the engines did over the last 90 days: how many citations came from it, how many of your tracked prompts it was cited on, and how often your brand was actually mentioned in the threads that got cited. A community that shows up repeatedly in citations for prompts you care about earns a place; a large subreddit that never appears does not.",
+            "You then edit the map before anything runs - include or exclude communities, add or remove the anchor queries used to find threads. The engine proposes; a person decides where the brand shows up.",
+            "One honest caveat on where that evidence now comes from: **ChatGPT stopped showing Reddit as a visible citation in August 2026**, so its contribution to this targeting signal has largely gone quiet while Google AI Overviews and Perplexity continue to cite community sources normally. The measurement behind that change, engine by engine, is in [our citation study](/wikipedia-techradar-reddit-dominate-ai-citations/)."
+          ]
+        },
+        {
+          "heading": "From thread to draft to a person",
+          "body": [
+            "Once the map is approved, the engine scans for live threads and works through three gates before anything reaches you."
+          ],
+          "subsections": [
+            {
+              "heading": "Subject fit, scored",
+              "body": [
+                "Every candidate thread is scored for how closely it matches what you can credibly speak to, on a 0-100 scale, and low scorers are dropped rather than drafted. This gate exists because the failure mode of community automation is not bad writing - it is showing up in a conversation that has nothing to do with you, which is the single fastest way to be read as spam by both moderators and regulars."
+              ]
+            },
+            {
+              "heading": "A draft grounded in Corporate Context",
+              "body": [
+                "Drafts are written against your [Corporate Context](/managed-corporate-context/) - the approved record of what is true about your company - so a reply cannot invent a capability, a customer, or a number. Community moderators are unusually good at catching vendors who overstate; the grounding layer is what keeps a helpful answer from quietly becoming a claim you cannot support."
+              ]
+            },
+            {
+              "heading": "A rules check against that specific community",
+              "body": [
+                "Subreddits do not share one rulebook. Self-promotion limits, disclosure requirements, link policies and account-age gates vary per community, and breaking one is how a brand loses a channel permanently. Each draft is checked against the rules of the place it is aimed at - deterministic checks for the mechanical constraints, plus a judging pass for the ones that require reading - and the result is attached to the draft.",
+                "The check is quota-reserved before it runs, so a provider timeout cannot silently skip it. A draft that has not been checked is not presented as if it had been."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Why the loop stops at the clipboard",
+          "body": [
+            "The obvious next feature is a publish button, and we have deliberately not built it.",
+            "Community standing is earned by an identifiable person participating over months, and it is the one AEO asset that cannot be bought back once it is spent. An automated poster is indistinguishable from the behaviour every serious community bans on sight, and the penalty lands on the brand, not on the tool. It also fails the more basic test: a reply worth posting is one a named colleague is willing to attach their name to, and that judgment cannot be delegated to a scheduler.",
+            "So the product optimises the expensive part - finding the right room, judging whether you belong in the conversation, and drafting something defensible - and leaves the thirty seconds of paste-and-send to a person who is accountable for it. Our own rules for this are published: [editorial standards](/editorial-standards/)."
+          ]
+        },
+        {
+          "heading": "What Community Intelligence is not",
+          "body": [
+            "Three boundaries worth stating plainly."
+          ],
+          "bullets": [
+            "**Not an autoposter.** No API-post path exists in the product, on any plan.",
+            "**Not a sock-puppet farm.** Drafts are written for a named person with a disclosed affiliation. The workflow assumes one real account, not a pool of them.",
+            "**Not a replacement for participation.** The engine finds the thread and drafts the answer; it cannot manufacture the standing that makes an answer land. A brand with no history in a community will be read as a brand with no history in a community."
+          ]
+        },
+        {
+          "heading": "Where this sits in the loop",
+          "body": [
+            "Community Intelligence feeds the same queue everything else does. A thread worth answering becomes an action in the [Action Hub](/inside-the-action-hub/) with an owner, and the measurement that justified it travels with it.",
+            "Reddit is the first surface because it is where the evidence pointed. The same shape - measure where engines look, judge fit, draft under governance, stop before publishing - is how we intend to approach other community surfaces."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Does SolCrys post to Reddit for me?",
+          "answer": "No, and not as a limitation of your plan - there is no API-post path in the product at all. Drafts are copied by a person into the browser. Community standing is the asset, automated posting is how brands lose it, and a reply worth publishing is one a named colleague will attach their name to."
+        },
+        {
+          "question": "How does SolCrys decide which subreddits to target?",
+          "answer": "From your own citation data rather than from keyword volume. Each candidate community carries what answer engines did with it over the last 90 days - citations produced, how many of your tracked prompts it was cited on, and how often your brand was actually mentioned in the cited threads. You review and edit that map before any scan runs."
+        },
+        {
+          "question": "Is Reddit still worth it after ChatGPT stopped citing it?",
+          "answer": "On Google AI Overviews and Perplexity, yes - their Reddit citation rates were unaffected by the August 2026 change. On ChatGPT the honest answer is that community work no longer produces a visible citation there, though the threads are still part of what engines read about you, and buyers still read them directly. The engine-by-engine measurement is in our citation study."
+        },
+        {
+          "question": "Will this get my account banned?",
+          "answer": "Nothing prevents a person from posting something that breaks a rule - the product cannot control what you paste. What it does is check each draft against the specific community's posting rules before you see it, and drop threads your brand has no credible reason to enter. The residual risk is the ordinary risk of participating in a community, which is why the workflow is built around one disclosed, named account rather than volume."
+        }
+      ]
+    },
+    {
+      "slug": "signal-weekly-market-brief",
+      "title": "Signal: a weekly market brief tied to the prompts you are losing",
+      "metaTitle": "Signal - weekly market brief bound to AEO prompts | SolCrys",
+      "description": "Signal scans your configured sources each week, ranks what changed, de-dupes against recent weeks, and binds every idea to a tracked AEO prompt - so the only ideas promoted to work are the ones aimed at a prompt you are measurably losing.",
+      "h1": "Signal: a weekly market brief tied to the prompts you are losing",
+      "summary": "Content calendars usually get filled from whatever is trending. Signal fills them from what is trending **and** measured: it scans the sources you configure plus the communities your targeting playbook already watches, ranks what changed this week, drops anything the last four briefs already covered, and binds each surviving idea to a specific tracked prompt. Each idea then carries a coverage verdict - covered, uncovered, or not yet measured - and only an idea aimed at a prompt you are demonstrably losing is promoted as high-priority work. It is the answer to the question a content team actually has on Monday morning, which is not \"what is happening\" but \"which of the things happening is worth my week.\"",
+      "category": "How SolCrys Works",
+      "ogImage": "/og/signal-weekly-market-brief.png",
+      "published": "2026-09-18",
+      "updated": "2026-09-18",
+      "primaryKeyword": "AEO content signal brief",
+      "aeoTargets": [
+        "What is SolCrys Signal?",
+        "How do I decide what AEO content to write this week?",
+        "How do I connect market news to AI visibility gaps?",
+        "What should go on an AEO content calendar?"
+      ],
+      "relatedSlugs": [
+        "inside-the-action-hub",
+        "golden-prompt-set-methodology",
+        "aeo-prompt-set-lifecycle",
+        "community-intelligence-reddit",
+        "visibility-measurement-methodology"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "Signal produces one brief per workspace per week. It reads the sources you configure - RSS feeds, sites you want watched, LinkedIn accounts - plus the communities your Reddit targeting playbook already tracks, then ranks what changed, writes each item up, and **binds every idea to a tracked AEO prompt**.",
+            "That binding is the whole point. An idea with no prompt behind it is a hunch. An idea bound to a prompt you are currently losing is a piece of work with a measurable outcome attached before anyone starts writing."
+          ]
+        },
+        {
+          "heading": "Why a trend feed is not a content plan",
+          "body": [
+            "Every marketing team already has more inputs than it can act on. The scarce thing is not awareness of what is happening; it is a defensible reason to pick one item over the other nine.",
+            "Ranking by novelty or engagement does not supply that reason - it supplies the same list your competitors are reading. Ranking by whether the topic touches a question your buyers ask an answer engine, and whether you currently lose that question, does. It also makes the decision auditable after the fact: you can say why the week was spent the way it was, and re-measure whether it worked."
+          ]
+        },
+        {
+          "heading": "How a brief is built",
+          "body": [
+            "Four steps, one scan."
+          ],
+          "subsections": [
+            {
+              "heading": "1. Read the sources you chose",
+              "body": [
+                "Sources are configured per workspace and the configuration is the feature gate - a workspace with no sources has no Signal. That is deliberate: a generic industry feed produces generic briefs, and the value comes from watching the specific publications, sites and communities that shape your category."
+              ]
+            },
+            {
+              "heading": "2. Rank, and drop what you already covered",
+              "body": [
+                "A single pass ranks the candidates and de-duplicates against the topics of the previous four briefs. Without that memory a weekly brief degenerates into the same three evergreen themes restated, which is how most automated content calendars quietly die."
+              ]
+            },
+            {
+              "heading": "3. Bind each idea to a prompt, and say what you know",
+              "body": [
+                "Each surviving item carries a topic, a short brief, a suggested angle and channel, its sources with dates, and the tracked prompt it is aimed at. The prompt binding is stored as an identifier rather than as text, and the wording is re-resolved from your prompt set on every read - so an edited or deactivated prompt cannot leave a card quietly claiming coverage that no longer exists.",
+                "Each binding carries one of three verdicts, and the distinction matters more than it looks: **covered** means your brand appeared for that prompt in the latest completed run; **uncovered** means it measurably did not; **not yet measured** means there is no completed run to judge against - a normal state for a new workspace rather than an error. Only *uncovered* is proven upside, and only *uncovered* earns a high-priority action."
+              ]
+            },
+            {
+              "heading": "4. Promote what you decide to do",
+              "body": [
+                "An idea you accept becomes an action in the [Action Hub](/inside-the-action-hub/), with the brief, the sources and the prompt binding attached. Promotion is idempotent - a reload or a second browser tab cannot file the same idea twice - and the action body is assembled server-side from the stored item rather than from whatever the page happened to be showing."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "What Signal deliberately does not do",
+          "body": [
+            "Two boundaries."
+          ],
+          "bullets": [
+            "**It does not write the content.** A brief is a decision aid with an angle and sources, not a draft. Drafting happens later in the loop, grounded in Corporate Context and reviewed by a person.",
+            "**It does not invent coverage it has not measured.** An unmeasured prompt is labelled unmeasured. The temptation to present every idea as a gap is exactly the behaviour that makes trend tools untrustworthy after the third week."
+          ]
+        },
+        {
+          "heading": "How it fits the rest of the loop",
+          "body": [
+            "Signal is the input end of the same loop everything else runs on. The prompt set it binds against is your [Golden Prompt Set](/golden-prompt-set-methodology/); the coverage verdict comes from the same measurement that drives your dashboards; the accepted idea lands in the same queue as an audit finding or a citation gap, and is re-measured the same way after it ships.",
+            "That is the reason it is built into the platform rather than sold as a separate trend tool: a market signal is only actionable when you already know which questions you lose."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How is this different from a trend or social listening tool?",
+          "answer": "A listening tool ranks by what is happening. Signal ranks by what is happening that touches a question your buyers ask AI engines - and tells you whether you currently lose that question. The output is not a list of topics but a shortlist with a measurable outcome attached to each item, which is what makes it possible to review the decision later."
+        },
+        {
+          "question": "What sources can Signal read?",
+          "answer": "RSS feeds, specific sites you want watched, and LinkedIn accounts, configured per workspace - plus the communities your Reddit targeting playbook already tracks, so the two features share one map instead of maintaining two. A workspace with no configured sources simply has no Signal; the configuration is the switch."
+        },
+        {
+          "question": "What does it mean when an idea says a prompt is 'not yet measured'?",
+          "answer": "That there is no completed measurement run to judge coverage against - normal for a new workspace, and deliberately not collapsed into 'uncovered'. Treating 'we have not measured yet' and 'we measured and lost' as the same state would let a brand-new workspace present every idea as a proven gap, which would be false."
+        },
+        {
+          "question": "Does a brief expire if I do not act on it?",
+          "answer": "It stays as the record of that week, and a rescan merges new items into the same week's brief rather than replacing it, so you can see which scan surfaced which idea. What ages is the coverage verdict - it is a snapshot of the latest completed run at scan time, so an idea you revisit a month later should be re-checked against current measurement before you treat its gap as still open."
+        }
+      ]
+    },
+    {
+      "slug": "running-an-aeo-practice-across-clients",
+      "title": "Running an AEO practice across a book of clients",
+      "metaTitle": "How to Operate AEO Across 10-25 Clients | SolCrys",
+      "description": "The weekly operating rhythm of a multi-client AEO practice: what is shared across the book, what has to be per client, where a solo operator breaks, and what the two agency tiers actually buy.",
+      "h1": "Running an AEO practice across a book of clients",
+      "summary": "Launching an AEO practice and operating one are different problems. Launching is a positioning and pricing question. Operating is a question of what you can standardise across a book of clients and what stubbornly cannot be - and the honest answer is that prompt sets, Corporate Context and the judgment calls are per client, while measurement cadence, reporting shape and the action loop are shared. This page is the operating rhythm: what happens weekly, what happens monthly, where a solo operator actually breaks, and what separates a 10-client book from a 25-client one.",
+      "category": "For Agencies",
+      "ogImage": "/og/running-an-aeo-practice-across-clients.png",
+      "published": "2026-09-18",
+      "updated": "2026-09-18",
+      "primaryKeyword": "AEO agency operations",
+      "aeoTargets": [
+        "How do agencies run AEO for multiple clients?",
+        "How many AEO clients can one person manage?",
+        "What does an agency deliver to AEO clients each month?",
+        "How much does an AEO platform cost for an agency?"
+      ],
+      "relatedSlugs": [
+        "aeo-for-agencies",
+        "best-aeo-platforms-for-agencies-2026",
+        "inside-the-action-hub",
+        "golden-prompt-set-methodology",
+        "workspace-setup-best-practices"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "A multi-client AEO practice works when you are ruthless about which parts are shared and which are not. **Shared:** measurement cadence, report structure, the action loop, the drafting patterns, and the questions you ask in every onboarding. **Per client:** the prompt set, the Corporate Context, the competitor list, the measurement market, and every judgment about what to do next.",
+            "Get that split wrong in the direction of over-standardising and you ship the same five recommendations to twelve clients, which they notice. Get it wrong in the other direction and every client becomes a bespoke project, which does not scale past about four.",
+            "SolCrys prices the agency motion per client organization rather than per seat: **Agency at $1,499 a month covers 10 client organizations** on ChatGPT, Gemini and Google AI Overviews / AI Mode, and **Agency Pro at $4,999 covers 25** and adds Perplexity and Claude to the selectable set. Both carry 30 tracked prompts per client organization; the analysis quotas differ (200 Deep Analyses and 50 Content Audits a month on Agency, 700 and 150 on Agency Pro). Current numbers live on [pricing](https://app.solcrys.com/pricing), which is canonical if it and this page ever disagree."
+          ]
+        },
+        {
+          "heading": "What has to be per client, and why",
+          "body": [
+            "Three things resist standardisation, and it is worth knowing why before you try."
+          ],
+          "bullets": [
+            "**The prompt set.** Two clients in the same category still lose different questions. A prompt set copied across a book measures the agency's assumptions rather than each client's buyers - and since prompt selection determines every chart downstream, a wrong set makes the whole engagement confidently wrong. See [how prompt sets are built](/golden-prompt-set-methodology/).",
+            "**Corporate Context.** The approved record of what is true about a company is the thing that stops drafted content inventing capabilities. It is client-specific by definition, it is the slowest part of onboarding, and it is also the part that pays back most - once it exists, drafting for that client gets fast and stays safe.",
+            "**The measurement market.** A client selling in Germany should not be measured from the United States. Market is a per-workspace setting, and changing it starts a new measurement series rather than bending the existing trend line, so it is an onboarding decision rather than an afterthought."
+          ]
+        },
+        {
+          "heading": "The weekly rhythm",
+          "body": [
+            "Across a book, the week has a shape. It is deliberately short, because the work that moves numbers is the drafting and the relationships, not the dashboard reading."
+          ],
+          "bullets": [
+            "**Scan the exceptions, not the book.** You are looking for movement outside normal engine noise, not for a number on every client. Rolling windows exist so you can ignore single-day moves; watch the 7-day view and let the 30-day view carry the story you tell the client.",
+            "**Triage into one queue.** Findings from audits, citation gaps and market signals all promote into the same action queue with an owner and a due date. One queue across the book, filtered by client, beats twelve separate to-do lists.",
+            "**Draft against context, review as a team.** Drafts are grounded in that client's Corporate Context and go through an explicit review handoff before anything ships - which is also the mechanism that lets a junior operator do the volume while a senior one keeps the standard. The mechanics are in [inside the Action Hub](/inside-the-action-hub/).",
+            "**Close what shipped.** Publication and completion are separate states for a reason: the loop closes on re-measurement, not on the day the page went live."
+          ]
+        },
+        {
+          "heading": "The monthly client deliverable",
+          "body": [
+            "The report that renews a retainer answers four questions in this order, and only the fourth is a chart.",
+            "**What changed in how AI answers describe you.** Not the score - the substance. Which questions you now win or lose, and who is being recommended instead.",
+            "**What we shipped, and what it was aimed at.** Each action tied to the gap that produced it, which is the difference between a report and an invoice with screenshots attached.",
+            "**What moved as a result.** Re-measurement on the prompts the work targeted, including the ones that did not move. A practice that only reports wins teaches clients to distrust the reporting.",
+            "**What is next, and why that and not something else.** The forward-looking half is where the retainer is actually re-sold."
+          ]
+        },
+        {
+          "heading": "Where a solo operator breaks",
+          "body": [
+            "The honest limit is not the dashboard - it is the drafting and the client conversations. Measurement scales almost for free: doubling the book doubles the runs, and nobody reads them all anyway. What does not scale is writing defensible content in a category you do not know and holding a monthly conversation where you are expected to have an opinion.",
+            "In practice a single operator can hold the measurement and triage for a sizeable book, and starts to break on drafting volume well before they break on client count. The two useful responses are to narrow the categories you accept - the second client in a vertical costs a fraction of the first - or to split the roles, with one person running measurement and triage across the book and another doing the drafting under review.",
+            "That is also the practical difference between the two agency tiers. Ten client organizations is a book one person can genuinely operate. Twenty-five is a team's book, and the tier carries the engine coverage and the analysis quota to match - roughly 28 Deep Analyses and 6 Content Audits per client organization per month, against 20 and 5 on the smaller tier."
+          ]
+        },
+        {
+          "heading": "What to standardise on day one",
+          "body": [
+            "Four templates are worth building before the third client, not after the tenth."
+          ],
+          "bullets": [
+            "**An onboarding questionnaire** that produces Corporate Context, the competitor list and the measurement market in one pass.",
+            "**A prompt-review ritual.** The set is built from category evidence, but the client has to see it and approve it - both because they know their buyers and because approval is what makes the measurement theirs rather than yours. Cadence guidance: [the prompt set lifecycle](/aeo-prompt-set-lifecycle/).",
+            "**One report template** with the four questions above, so the monthly conversation is about the answers rather than about the format.",
+            "**A definition of done** for an action that includes re-measurement. Without it, 'shipped' silently becomes the finish line and the loop never closes."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How many AEO clients can one person realistically run?",
+          "answer": "More than the dashboard suggests and fewer than the pricing implies. Measurement and triage scale well - the platform does the runs and rolling windows let you ignore normal noise. Drafting and the monthly client conversation are what cap you, and they cap you on category knowledge rather than client count. The second client in a vertical costs a fraction of the first, so a narrow book runs much larger than a scattered one."
+        },
+        {
+          "question": "What do the two agency tiers actually differ on?",
+          "answer": "Client organizations and depth, not the workflow. Agency at $1,499 a month covers 10 client organizations on ChatGPT, Gemini and Google AI Overviews / AI Mode; Agency Pro at $4,999 covers 25 and adds Perplexity and Claude to the selectable set, with roughly 28 Deep Analyses and 6 Content Audits per client organization per month against 20 and 5 on the smaller tier. Both carry 30 tracked prompts per client organization and neither meters seats. Current numbers are on the pricing page."
+        },
+        {
+          "question": "Can I reuse one prompt set across clients in the same category?",
+          "answer": "As a starting point, yes - the category evidence is the same and it saves real time. As the tracked set, no. Two competitors in one category lose different questions, and prompt selection determines every number downstream, so a shared set measures your assumptions rather than each client's buyers. Start from the category set, then replace what does not fit and have the client approve it."
+        },
+        {
+          "question": "How do I keep quality consistent when a junior operator does the volume?",
+          "answer": "Two mechanisms do most of the work. Corporate Context bounds what a draft can claim, so the floor does not depend on who wrote it. The explicit review handoff puts a named reviewer on the task before it ships, so the senior person spends their time on judgment rather than on production. The residual risk is prompt selection and the client conversation, which is why those two stay senior."
         }
       ]
     }
