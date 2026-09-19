@@ -96,7 +96,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
     <meta name="author" content="SolCrys" />
-    <meta name="date" content="2026-05-10" />
+    <meta name="date" content="2026-09-18" />
     <meta name="theme-color" content="#000000" />
     <meta property="og:site_name" content="SolCrys" />
     <meta property="og:locale" content="en_US" />
@@ -105,7 +105,7 @@
     <meta property="og:url" content="https://solcrys.com/optimize-for-claude/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-05-06" />
-    <meta property="article:modified_time" content="2026-05-10" />
+    <meta property="article:modified_time" content="2026-09-18" />
     <meta property="og:image" content="https://solcrys.com/og/optimize-for-claude.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/optimize-for-claude.png" />
@@ -116,7 +116,7 @@
     <!-- analytics:end -->
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Optimize for Claude: The Anthropic Web Search Difference","item":"https://solcrys.com/optimize-for-claude/"}]}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to optimize for Claude: the Anthropic web search difference","description":"Claude's web search has its own crawler guidance, citation behavior, and analytical query skew. This guide breaks down practical optimization moves for technical and analytical buyer prompts.","dateModified":"2026-05-10","datePublished":"2026-05-06","mainEntityOfPage":"https://solcrys.com/optimize-for-claude/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to optimize for Claude: the Anthropic web search difference","description":"Claude's web search has its own crawler guidance, citation behavior, and analytical query skew. This guide breaks down practical optimization moves for technical and analytical buyer prompts.","dateModified":"2026-09-18","datePublished":"2026-05-06","mainEntityOfPage":"https://solcrys.com/optimize-for-claude/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/optimize-for-claude/","mainEntity":[{"@type":"Question","name":"Should I block ClaudeBot for training opt-out?","acceptedAnswer":{"@type":"Answer","text":"If you want to opt out of training while preserving Claude search visibility, the cleanest pattern is to allow Claude-SearchBot and Claude-User explicitly while reviewing whether to also allow ClaudeBot. Anthropic's published guidance has evolved; review it quarterly, because the optimal robots.txt setup may change."}},{"@type":"Question","name":"Does Claude support multimodal queries (image, voice)?","acceptedAnswer":{"@type":"Answer","text":"Claude has multimodal capabilities. For image and document queries, Claude may use uploaded files plus web search. The web search component still depends on Anthropic's current retrieval and crawler behavior, so review Anthropic's guidance and validate with live tests."}},{"@type":"Question","name":"How do I know if Claude can find my page?","acceptedAnswer":{"@type":"Answer","text":"Check robots.txt against Anthropic's current crawler guidance, review server logs for Anthropic crawler activity where available, confirm the page is indexed in major search surfaces, and run live Claude prompt tests that should naturally cite the page."}},{"@type":"Question","name":"Is Claude likely to grow as fast as ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"Anthropic's Claude has grown steadily, particularly in technical and enterprise segments. Whether it overtakes ChatGPT in share is unclear. Plan for Claude to remain a meaningful but smaller share through 2027 to 2028."}},{"@type":"Question","name":"Does Claude pass referrer to my site?","acceptedAnswer":{"@type":"Answer","text":"Partial. Claude's web search citations sometimes include traceable referrer headers, but not always reliably. Add claude.ai to your GA4 referrer detection."}},{"@type":"Question","name":"How does Claude handle multilingual queries?","acceptedAnswer":{"@type":"Answer","text":"Claude's multilingual support has expanded through 2025 to 2026. Brave's index is global. For non-English queries, language-specific authoritative content performs best."}}]}</script>
   </head>
   <body>
@@ -144,7 +144,7 @@
         <h1>How to optimize for Claude: the Anthropic web search difference</h1>
         <p class="seo-lede">Claude&#39;s web search differs from ChatGPT and Perplexity in observable ways, but Anthropic does not publicly disclose every source backend or ranking weight. The safe optimization stance is to follow Anthropic&#39;s current crawler guidance, keep priority pages fetchable where you want Claude search visibility, publish structured analytical content, and validate results with live Claude prompt tests. Claude users often skew toward technical and analytical queries, which biases useful content toward depth, tradeoffs, methodology, and evidence rather than marketing prose. Optimization for Claude shares most of the unified AEO baseline with other engines and adds Claude-specific work around crawler access, recency, and analytical content density. If your brand has strong ChatGPT presence but is missing in Claude, the gap is usually either crawler access, stale pages, or content that reads as marketing rather than analysis.</p>
         
-        <p>Published <time datetime="2026-05-06">2026-05-06</time> · Updated <time datetime="2026-05-10">2026-05-10</time></p>
+        <p>Published <time datetime="2026-05-06">2026-05-06</time> · Updated <time datetime="2026-09-18">2026-09-18</time></p>
       </header>
       
       <section class="seo-section">
@@ -217,11 +217,11 @@
     </section>
     <section class="seo-section">
       <h2>How Claude differs from ChatGPT and Perplexity</h2>
-      <p>Brands strong on Reddit alone may underperform on Claude relative to ChatGPT.</p>
+      <p>Brands strong on Reddit alone underperform on Claude, and the gap is absolute rather than relative: in SolCrys measurement Claude has cited reddit.com at zero throughout 2026. Reddit sued Anthropic in June 2025 over unlicensed crawling, and the domain has not appeared in Claude&#39;s citations in our data since. Community work earns Claude visibility only indirectly, through the editorial and reference sources Claude does cite.</p>
       
       <table>
               <thead><tr><th>Dimension</th><th>Claude</th><th>ChatGPT</th><th>Perplexity</th></tr></thead>
-              <tbody><tr><td>Index source</td><td>Undisclosed web retrieval plus Anthropic crawlers</td><td>Bing plus OpenAI crawl</td><td>Own crawler</td></tr><tr><td>Recency weight</td><td>High</td><td>Medium</td><td>Very high</td></tr><tr><td>Community sources</td><td>Medium (less than ChatGPT)</td><td>Very high (Reddit)</td><td>High</td></tr><tr><td>Content style preference</td><td>Analytical, structured</td><td>Diverse</td><td>Recent, structured</td></tr><tr><td>Citation visibility</td><td>Inline with sources</td><td>Sometimes inline</td><td>Always inline</td></tr><tr><td>User skew</td><td>Technical, analytical</td><td>Mixed consumer/business</td><td>Research-driven</td></tr></tbody>
+              <tbody><tr><td>Index source</td><td>Undisclosed web retrieval plus Anthropic crawlers</td><td>Bing plus OpenAI crawl</td><td>Own crawler</td></tr><tr><td>Recency weight</td><td>High</td><td>Medium</td><td>Very high</td></tr><tr><td>Community sources</td><td>Zero for Reddit (blocked); other community sources medium</td><td>Read, not cited since Aug 2026</td><td>High</td></tr><tr><td>Content style preference</td><td>Analytical, structured</td><td>Diverse</td><td>Recent, structured</td></tr><tr><td>Citation visibility</td><td>Inline with sources</td><td>Sometimes inline</td><td>Always inline</td></tr><tr><td>User skew</td><td>Technical, analytical</td><td>Mixed consumer/business</td><td>Research-driven</td></tr></tbody>
             </table>
       
     </section>
@@ -338,6 +338,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-RYmRpYtF.js"></script>
+    <script type="module" crossorigin src="/assets/index-B5Gvt-65.js"></script>
   </body>
 </html>
