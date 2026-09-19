@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Community Intelligence for AEO - Reddit, measured | SolCrys</title>
+    <meta name="description" content="How SolCrys turns citation evidence into a Reddit targeting playbook, scores threads for subject fit, drafts replies against each subreddit&#39;s own rules, and stops at the clipboard. No API-post path exists." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/community-intelligence-reddit/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-18" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Community Intelligence for AEO - Reddit, measured | SolCrys" />
+    <meta property="og:description" content="How SolCrys turns citation evidence into a Reddit targeting playbook, scores threads for subject fit, drafts replies against each subreddit&#39;s own rules, and stops at the clipboard. No API-post path exists." />
+    <meta property="og:url" content="https://solcrys.com/community-intelligence-reddit/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-18" />
+    <meta property="article:modified_time" content="2026-09-18" />
+    <meta property="og:image" content="https://solcrys.com/og/community-intelligence-reddit.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/community-intelligence-reddit.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-3CcFivIa.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Community Intelligence: reading the communities AI engines read","item":"https://solcrys.com/community-intelligence-reddit/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Community Intelligence: reading the communities AI engines read","description":"How SolCrys turns citation evidence into a Reddit targeting playbook, scores threads for subject fit, drafts replies against each subreddit's own rules, and stops at the clipboard. No API-post path exists.","dateModified":"2026-09-18","datePublished":"2026-09-18","mainEntityOfPage":"https://solcrys.com/community-intelligence-reddit/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/community-intelligence-reddit/","mainEntity":[{"@type":"Question","name":"Does SolCrys post to Reddit for me?","acceptedAnswer":{"@type":"Answer","text":"No, and not as a limitation of your plan - there is no API-post path in the product at all. Drafts are copied by a person into the browser. Community standing is the asset, automated posting is how brands lose it, and a reply worth publishing is one a named colleague will attach their name to."}},{"@type":"Question","name":"How does SolCrys decide which subreddits to target?","acceptedAnswer":{"@type":"Answer","text":"From your own citation data rather than from keyword volume. Each candidate community carries what answer engines did with it over the last 90 days - citations produced, how many of your tracked prompts it was cited on, and how often your brand was actually mentioned in the cited threads. You review and edit that map before any scan runs."}},{"@type":"Question","name":"Is Reddit still worth it after ChatGPT stopped citing it?","acceptedAnswer":{"@type":"Answer","text":"On Google AI Overviews and Perplexity, yes - their Reddit citation rates were unaffected by the August 2026 change. On ChatGPT the honest answer is that community work no longer produces a visible citation there, though the threads are still part of what engines read about you, and buyers still read them directly. The engine-by-engine measurement is in our citation study."}},{"@type":"Question","name":"Will this get my account banned?","acceptedAnswer":{"@type":"Answer","text":"Nothing prevents a person from posting something that breaks a rule - the product cannot control what you paste. What it does is check each draft against the specific community's posting rules before you see it, and drop threads your brand has no credible reason to enter. The residual risk is the ordinary risk of participating in a community, which is why the workflow is built around one disclosed, named account rather than volume."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Community &amp; UGC</p>
+        <h1>Community Intelligence: reading the communities AI engines read</h1>
+        <p class="seo-lede">Community Intelligence is the part of SolCrys that works on the surfaces you do not own. It starts from measurement rather than guesswork: the subreddits it targets are the ones that actually appeared in citations for your tracked prompts over the last 90 days, not the ones a keyword tool suggests. From there it scores live threads for subject fit, drafts a reply grounded in your Corporate Context, checks that draft against the specific subreddit&#39;s posting rules, and hands it to a person. <strong>Publishing is copy-assisted and manual. There is no API-post path in the product</strong>, which is a deliberate architectural decision rather than a roadmap gap - community credibility is the asset, and automation is how brands destroy it.</p>
+        
+        <p>Updated <time datetime="2026-09-18">2026-09-18</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is Community Intelligence in SolCrys?</li><li>How do I find which subreddits AI engines cite for my category?</li><li>Can SolCrys post to Reddit automatically?</li><li>How do I do Reddit outreach without getting banned?</li><li>Does Reddit still matter for AI search?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Community Intelligence is SolCrys&#39;s workflow for the community source layer. It answers four questions in order: <strong>which communities do answer engines actually read for my category, which live threads are worth a reply, what would a credible reply say, and does that reply break the rules of the specific place it is going.</strong></p><p>The flow is deliberately aim-then-fire. Building the targeting playbook is fast and costs nothing, so you can see the map before you commit any scan quota. Reviewing and editing that map is a separate step. Only then does the engine scan threads and produce drafts.</p><p>What it does not do is post. There is no API-post path anywhere in the product - drafts are copied by a person into a browser. That is the design, not an unfinished feature.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Targeting comes from citation evidence, not from keywords</h2>
+      <p>Most Reddit advice starts with a keyword search and a list of large subreddits. That produces the communities with the most traffic, which is a different set from the communities an answer engine reaches for when someone asks a buying question about your category.</p><p>The playbook is built from your own measurement instead. For each candidate community it carries what the engines did over the last 90 days: how many citations came from it, how many of your tracked prompts it was cited on, and how often your brand was actually mentioned in the threads that got cited. A community that shows up repeatedly in citations for prompts you care about earns a place; a large subreddit that never appears does not.</p><p>You then edit the map before anything runs - include or exclude communities, add or remove the anchor queries used to find threads. The engine proposes; a person decides where the brand shows up.</p><p>One honest caveat on where that evidence now comes from: <strong>ChatGPT stopped showing Reddit as a visible citation in August 2026</strong>, so its contribution to this targeting signal has largely gone quiet while Google AI Overviews and Perplexity continue to cite community sources normally. The measurement behind that change, engine by engine, is in <a href="/wikipedia-techradar-reddit-dominate-ai-citations/">our citation study</a>.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>From thread to draft to a person</h2>
+      <p>Once the map is approved, the engine scans for live threads and works through three gates before anything reaches you.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Subject fit, scored</h3>
+        <p>Every candidate thread is scored for how closely it matches what you can credibly speak to, on a 0-100 scale, and low scorers are dropped rather than drafted. This gate exists because the failure mode of community automation is not bad writing - it is showing up in a conversation that has nothing to do with you, which is the single fastest way to be read as spam by both moderators and regulars.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>A draft grounded in Corporate Context</h3>
+        <p>Drafts are written against your <a href="/managed-corporate-context/">Corporate Context</a> - the approved record of what is true about your company - so a reply cannot invent a capability, a customer, or a number. Community moderators are unusually good at catching vendors who overstate; the grounding layer is what keeps a helpful answer from quietly becoming a claim you cannot support.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>A rules check against that specific community</h3>
+        <p>Subreddits do not share one rulebook. Self-promotion limits, disclosure requirements, link policies and account-age gates vary per community, and breaking one is how a brand loses a channel permanently. Each draft is checked against the rules of the place it is aimed at - deterministic checks for the mechanical constraints, plus a judging pass for the ones that require reading - and the result is attached to the draft.</p><p>The check is quota-reserved before it runs, so a provider timeout cannot silently skip it. A draft that has not been checked is not presented as if it had been.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Why the loop stops at the clipboard</h2>
+      <p>The obvious next feature is a publish button, and we have deliberately not built it.</p><p>Community standing is earned by an identifiable person participating over months, and it is the one AEO asset that cannot be bought back once it is spent. An automated poster is indistinguishable from the behaviour every serious community bans on sight, and the penalty lands on the brand, not on the tool. It also fails the more basic test: a reply worth posting is one a named colleague is willing to attach their name to, and that judgment cannot be delegated to a scheduler.</p><p>So the product optimises the expensive part - finding the right room, judging whether you belong in the conversation, and drafting something defensible - and leaves the thirty seconds of paste-and-send to a person who is accountable for it. Our own rules for this are published: <a href="/editorial-standards/">editorial standards</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What Community Intelligence is not</h2>
+      <p>Three boundaries worth stating plainly.</p>
+      <ul class="seo-list"><li><strong>Not an autoposter.</strong> No API-post path exists in the product, on any plan.</li><li><strong>Not a sock-puppet farm.</strong> Drafts are written for a named person with a disclosed affiliation. The workflow assumes one real account, not a pool of them.</li><li><strong>Not a replacement for participation.</strong> The engine finds the thread and drafts the answer; it cannot manufacture the standing that makes an answer land. A brand with no history in a community will be read as a brand with no history in a community.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where this sits in the loop</h2>
+      <p>Community Intelligence feeds the same queue everything else does. A thread worth answering becomes an action in the <a href="/inside-the-action-hub/">Action Hub</a> with an owner, and the measurement that justified it travels with it.</p><p>Reddit is the first surface because it is where the evidence pointed. The same shape - measure where engines look, judge fit, draft under governance, stop before publishing - is how we intend to approach other community surfaces.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does SolCrys post to Reddit for me?</h3>
+            <p>No, and not as a limitation of your plan - there is no API-post path in the product at all. Drafts are copied by a person into the browser. Community standing is the asset, automated posting is how brands lose it, and a reply worth publishing is one a named colleague will attach their name to.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How does SolCrys decide which subreddits to target?</h3>
+            <p>From your own citation data rather than from keyword volume. Each candidate community carries what answer engines did with it over the last 90 days - citations produced, how many of your tracked prompts it was cited on, and how often your brand was actually mentioned in the cited threads. You review and edit that map before any scan runs.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is Reddit still worth it after ChatGPT stopped citing it?</h3>
+            <p>On Google AI Overviews and Perplexity, yes - their Reddit citation rates were unaffected by the August 2026 change. On ChatGPT the honest answer is that community work no longer produces a visible citation there, though the threads are still part of what engines read about you, and buyers still read them directly. The engine-by-engine measurement is in our citation study.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Will this get my account banned?</h3>
+            <p>Nothing prevents a person from posting something that breaks a rule - the product cannot control what you paste. What it does is check each draft against the specific community&#39;s posting rules before you see it, and drop threads your brand has no credible reason to enter. The residual risk is the ordinary risk of participating in a community, which is why the workflow is built around one disclosed, named account rather than volume.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Community &amp; UGC</p>
+            <h3><a href="/reddit-aeo-playbook/">Reddit AEO Playbook</a></h3>
+            <p>A 6-step playbook for Reddit as an AEO surface - weekly cadence, thread-authoring patterns, disclosure norms, a 12-week build plan - re-underwritten after ChatGPT stopped showing Reddit citations in August 2026. What Reddit still buys you, and on which engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/reddit-g2-community-sources-aeo/">Reddit, G2, and Forums: How to Win the Community Source Layer for AI Citations</a></h3>
+            <p>AI engines read Reddit, G2 and niche forums heavily - but which engines *cite* them changed in August 2026. The practitioner playbook for earning community citations without becoming spam, with the 7 rules of native engagement and a per-engine scorecard.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/wikipedia-techradar-reddit-dominate-ai-citations/">What AI Engines Cite: A 36,268-Citation Study of the AEO Category - and What Changed in August 2026</a></h3>
+            <p>36,268 citations across 44 buyer prompts, 5 AI engines, 30 days ending 2026-06-11. Reddit, Wikipedia and TechRadar led; owned media was ~1.5%. In August 2026 ChatGPT stopped showing Reddit as a visible citation - the follow-up measurement is in section 4.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Community &amp; UGC</p>
+            <h3><a href="/comments-as-ai-citations/">Comments as AI Citations</a></h3>
+            <p>User comments under YouTube videos, blog posts, and Reddit threads can appear in AI-cited sources. This guide explains how to participate ethically in comment-layer conversations and what patterns are useful to buyers.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/inside-the-action-hub/">Inside the Action Hub: From Gap to Verified Lift</a></h3>
+            <p>What SolCrys does after the dashboard surfaces a gap: the closed-loop workflow from detection to draft to review to ship to re-measurement, plus the task layer a team actually runs it on - owners, review handoffs, comments, checklists and reminders.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BGU-lCr7.js"></script>
+  </body>
+</html>

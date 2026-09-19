@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Signal - weekly market brief bound to AEO prompts | SolCrys</title>
+    <meta name="description" content="Signal scans your configured sources each week, ranks what changed, de-dupes against recent weeks, and binds every idea to a tracked AEO prompt - so the only ideas promoted to work are the ones aimed at a prompt you are measurably losing." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/signal-weekly-market-brief/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-18" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Signal - weekly market brief bound to AEO prompts | SolCrys" />
+    <meta property="og:description" content="Signal scans your configured sources each week, ranks what changed, de-dupes against recent weeks, and binds every idea to a tracked AEO prompt - so the only ideas promoted to work are the ones aimed at a prompt you are measurably losing." />
+    <meta property="og:url" content="https://solcrys.com/signal-weekly-market-brief/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-18" />
+    <meta property="article:modified_time" content="2026-09-18" />
+    <meta property="og:image" content="https://solcrys.com/og/signal-weekly-market-brief.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/signal-weekly-market-brief.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-3CcFivIa.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Signal: a weekly market brief tied to the prompts you are losing","item":"https://solcrys.com/signal-weekly-market-brief/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Signal: a weekly market brief tied to the prompts you are losing","description":"Signal scans your configured sources each week, ranks what changed, de-dupes against recent weeks, and binds every idea to a tracked AEO prompt - so the only ideas promoted to work are the ones aimed at a prompt you are measurably losing.","dateModified":"2026-09-18","datePublished":"2026-09-18","mainEntityOfPage":"https://solcrys.com/signal-weekly-market-brief/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/signal-weekly-market-brief/","mainEntity":[{"@type":"Question","name":"How is this different from a trend or social listening tool?","acceptedAnswer":{"@type":"Answer","text":"A listening tool ranks by what is happening. Signal ranks by what is happening that touches a question your buyers ask AI engines - and tells you whether you currently lose that question. The output is not a list of topics but a shortlist with a measurable outcome attached to each item, which is what makes it possible to review the decision later."}},{"@type":"Question","name":"What sources can Signal read?","acceptedAnswer":{"@type":"Answer","text":"RSS feeds, specific sites you want watched, and LinkedIn accounts, configured per workspace - plus the communities your Reddit targeting playbook already tracks, so the two features share one map instead of maintaining two. A workspace with no configured sources simply has no Signal; the configuration is the switch."}},{"@type":"Question","name":"What does it mean when an idea says a prompt is 'not yet measured'?","acceptedAnswer":{"@type":"Answer","text":"That there is no completed measurement run to judge coverage against - normal for a new workspace, and deliberately not collapsed into 'uncovered'. Treating 'we have not measured yet' and 'we measured and lost' as the same state would let a brand-new workspace present every idea as a proven gap, which would be false."}},{"@type":"Question","name":"Does a brief expire if I do not act on it?","acceptedAnswer":{"@type":"Answer","text":"It stays as the record of that week, and a rescan merges new items into the same week's brief rather than replacing it, so you can see which scan surfaced which idea. What ages is the coverage verdict - it is a snapshot of the latest completed run at scan time, so an idea you revisit a month later should be re-checked against current measurement before you treat its gap as still open."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>Signal: a weekly market brief tied to the prompts you are losing</h1>
+        <p class="seo-lede">Content calendars usually get filled from whatever is trending. Signal fills them from what is trending <strong>and</strong> measured: it scans the sources you configure plus the communities your targeting playbook already watches, ranks what changed this week, drops anything the last four briefs already covered, and binds each surviving idea to a specific tracked prompt. Each idea then carries a coverage verdict - covered, uncovered, or not yet measured - and only an idea aimed at a prompt you are demonstrably losing is promoted as high-priority work. It is the answer to the question a content team actually has on Monday morning, which is not &quot;what is happening&quot; but &quot;which of the things happening is worth my week.&quot;</p>
+        
+        <p>Updated <time datetime="2026-09-18">2026-09-18</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is SolCrys Signal?</li><li>How do I decide what AEO content to write this week?</li><li>How do I connect market news to AI visibility gaps?</li><li>What should go on an AEO content calendar?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Signal produces one brief per workspace per week. It reads the sources you configure - RSS feeds, sites you want watched, LinkedIn accounts - plus the communities your Reddit targeting playbook already tracks, then ranks what changed, writes each item up, and <strong>binds every idea to a tracked AEO prompt</strong>.</p><p>That binding is the whole point. An idea with no prompt behind it is a hunch. An idea bound to a prompt you are currently losing is a piece of work with a measurable outcome attached before anyone starts writing.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why a trend feed is not a content plan</h2>
+      <p>Every marketing team already has more inputs than it can act on. The scarce thing is not awareness of what is happening; it is a defensible reason to pick one item over the other nine.</p><p>Ranking by novelty or engagement does not supply that reason - it supplies the same list your competitors are reading. Ranking by whether the topic touches a question your buyers ask an answer engine, and whether you currently lose that question, does. It also makes the decision auditable after the fact: you can say why the week was spent the way it was, and re-measure whether it worked.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>How a brief is built</h2>
+      <p>Four steps, one scan.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Read the sources you chose</h3>
+        <p>Sources are configured per workspace and the configuration is the feature gate - a workspace with no sources has no Signal. That is deliberate: a generic industry feed produces generic briefs, and the value comes from watching the specific publications, sites and communities that shape your category.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Rank, and drop what you already covered</h3>
+        <p>A single pass ranks the candidates and de-duplicates against the topics of the previous four briefs. Without that memory a weekly brief degenerates into the same three evergreen themes restated, which is how most automated content calendars quietly die.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Bind each idea to a prompt, and say what you know</h3>
+        <p>Each surviving item carries a topic, a short brief, a suggested angle and channel, its sources with dates, and the tracked prompt it is aimed at. The prompt binding is stored as an identifier rather than as text, and the wording is re-resolved from your prompt set on every read - so an edited or deactivated prompt cannot leave a card quietly claiming coverage that no longer exists.</p><p>Each binding carries one of three verdicts, and the distinction matters more than it looks: <strong>covered</strong> means your brand appeared for that prompt in the latest completed run; <strong>uncovered</strong> means it measurably did not; <strong>not yet measured</strong> means there is no completed run to judge against - a normal state for a new workspace rather than an error. Only *uncovered* is proven upside, and only *uncovered* earns a high-priority action.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Promote what you decide to do</h3>
+        <p>An idea you accept becomes an action in the <a href="/inside-the-action-hub/">Action Hub</a>, with the brief, the sources and the prompt binding attached. Promotion is idempotent - a reload or a second browser tab cannot file the same idea twice - and the action body is assembled server-side from the stored item rather than from whatever the page happened to be showing.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What Signal deliberately does not do</h2>
+      <p>Two boundaries.</p>
+      <ul class="seo-list"><li><strong>It does not write the content.</strong> A brief is a decision aid with an angle and sources, not a draft. Drafting happens later in the loop, grounded in Corporate Context and reviewed by a person.</li><li><strong>It does not invent coverage it has not measured.</strong> An unmeasured prompt is labelled unmeasured. The temptation to present every idea as a gap is exactly the behaviour that makes trend tools untrustworthy after the third week.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How it fits the rest of the loop</h2>
+      <p>Signal is the input end of the same loop everything else runs on. The prompt set it binds against is your <a href="/golden-prompt-set-methodology/">Golden Prompt Set</a>; the coverage verdict comes from the same measurement that drives your dashboards; the accepted idea lands in the same queue as an audit finding or a citation gap, and is re-measured the same way after it ships.</p><p>That is the reason it is built into the platform rather than sold as a separate trend tool: a market signal is only actionable when you already know which questions you lose.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How is this different from a trend or social listening tool?</h3>
+            <p>A listening tool ranks by what is happening. Signal ranks by what is happening that touches a question your buyers ask AI engines - and tells you whether you currently lose that question. The output is not a list of topics but a shortlist with a measurable outcome attached to each item, which is what makes it possible to review the decision later.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What sources can Signal read?</h3>
+            <p>RSS feeds, specific sites you want watched, and LinkedIn accounts, configured per workspace - plus the communities your Reddit targeting playbook already tracks, so the two features share one map instead of maintaining two. A workspace with no configured sources simply has no Signal; the configuration is the switch.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What does it mean when an idea says a prompt is &#39;not yet measured&#39;?</h3>
+            <p>That there is no completed measurement run to judge coverage against - normal for a new workspace, and deliberately not collapsed into &#39;uncovered&#39;. Treating &#39;we have not measured yet&#39; and &#39;we measured and lost&#39; as the same state would let a brand-new workspace present every idea as a proven gap, which would be false.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does a brief expire if I do not act on it?</h3>
+            <p>It stays as the record of that week, and a rescan merges new items into the same week&#39;s brief rather than replacing it, so you can see which scan surfaced which idea. What ages is the coverage verdict - it is a snapshot of the latest completed run at scan time, so an idea you revisit a month later should be re-checked against current measurement before you treat its gap as still open.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/inside-the-action-hub/">Inside the Action Hub: From Gap to Verified Lift</a></h3>
+            <p>What SolCrys does after the dashboard surfaces a gap: the closed-loop workflow from detection to draft to review to ship to re-measurement, plus the task layer a team actually runs it on - owners, review handoffs, comments, checklists and reminders.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here&#39;s how we build it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/aeo-prompt-set-lifecycle/">Don&#39;t delete 0-visibility prompts: a four-state lifecycle for AEO prompt sets</a></h3>
+            <p>Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that&#39;s the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Community &amp; UGC</p>
+            <h3><a href="/community-intelligence-reddit/">Community Intelligence: reading the communities AI engines read</a></h3>
+            <p>How SolCrys turns citation evidence into a Reddit targeting playbook, scores threads for subject fit, drafts replies against each subreddit&#39;s own rules, and stops at the clipboard. No API-post path exists.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BGU-lCr7.js"></script>
+  </body>
+</html>
