@@ -1126,7 +1126,6 @@ function cornelisCaseStudyHtml() {
     <section class="seo-container seo-section">
       <h2>About SolCrys AI</h2>
       <p>SolCrys helps brands improve visibility and compete in high-stakes categories. We help marketing organizations measure how often they appear in AI-generated answers, understand why, and systematically close the gap with competitors.</p>
-    <p><a href="/news/your-brand-ai-ready-one-year-of-solcrys/">Read our founder's note on year one →</a></p>
     </section>
     <div class="seo-container">${ctaHtml()}</div>
   </main>

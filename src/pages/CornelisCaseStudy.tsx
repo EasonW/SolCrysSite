@@ -632,14 +632,6 @@ const CornelisCaseStudy = () => {
             appear in AI-generated answers, understand why, and systematically
             close the gap with competitors.
           </p>
-          <a
-            href="/news/your-brand-ai-ready-one-year-of-solcrys/"
-            className="fade-in-scroll mt-6 inline-flex items-center gap-1.5 text-sm font-medium transition-opacity hover:opacity-80"
-            style={{ color: CORNELIS_PURPLE }}
-          >
-            Read our founder's note on year one
-            <ArrowRight className="h-4 w-4" />
-          </a>
         </section>
 
         {/* CTA */}
