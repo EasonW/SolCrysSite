@@ -8,6 +8,7 @@ const CLEARLYKEPT_AMBER = "#F59E0B";
 const BOBOYM_ORANGE = "#FB923C";
 const UIPATH_ORANGE = "#FA4616";
 const TECHARENA_CYAN = "#00C4D3";
+const CORNELIS_PURPLE = "#9B23E8";
 
 const BOBOYM_AMAZON_STORE =
   "https://www.amazon.com/BOBOYM-20-Inch-Expandable-Suitcase-360%C2%B0Rolling/dp/B0FXWHWTXN/";
@@ -27,14 +28,50 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
   },
   {
     name: "Brandon Draeger",
-    role: "VP of Marketing",
+    role: "Chief Marketing Officer",
+    company: "Cornelis Networks",
+    photoUrl: "/customers/brandon-draeger.jpg",
+    companyLogoUrl: "/customers/cornelis-logo.png",
+    companyLogoClassName: "h-7 md:h-8 dark:brightness-0 dark:invert",
+    accent: CORNELIS_PURPLE,
+    quote:
+      "The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.",
+    attribution: { type: "linkedin", href: "https://www.linkedin.com/in/brandondraeger/" },
+  },
+  {
+    name: "Ina Felsheim",
+    role: "Senior Director of Marketing",
+    company: "Cornelis Networks",
+    photoUrl: "/customers/ina-felsheim.jpg",
+    companyLogoUrl: "/customers/cornelis-logo.png",
+    companyLogoClassName: "h-7 md:h-8 dark:brightness-0 dark:invert",
+    accent: CORNELIS_PURPLE,
+    quote:
+      "I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner.",
+    attribution: { type: "none" },
+  },
+  {
+    name: "Nishant Lodha",
+    role: "Senior Director of Marketing",
+    company: "Cornelis Networks",
+    photoUrl: "/customers/nishant-lodha.jpg",
+    companyLogoUrl: "/customers/cornelis-logo.png",
+    companyLogoClassName: "h-7 md:h-8 dark:brightness-0 dark:invert",
+    accent: CORNELIS_PURPLE,
+    quote:
+      "The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would.",
+    attribution: { type: "none" },
+  },
+  {
+    name: "Brandon Draeger",
+    role: "then VP of Marketing",
     company: "NextSilicon",
     photoUrl: "/customers/brandon-draeger.jpg",
     companyLogoUrl: "/customers/nextsilicon-logo.svg",
     companyLogoClassName: "h-4 md:h-5 invert dark:invert-0",
     accent: NEXTSILICON_INDIGO,
     quote:
-      "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. SolCrys is informing how we think about marketing performance across product launches, campaigns, and major events.",
+      "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.",
     attribution: { type: "linkedin", href: "https://www.linkedin.com/in/brandondraeger/" },
   },
   {

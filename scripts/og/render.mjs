@@ -205,13 +205,19 @@ function collectTargets() {
     {
       slug: "customers",
       title: "How leading brands show up in AI answers",
-      description: "Customer stories from NextSilicon, Wyze, UiPath and more — measurable visibility, accuracy, and trust across AI engines.",
+      description: "Customer stories from Cornelis, NextSilicon, Wyze, UiPath and more — measurable visibility, accuracy, and trust across AI engines.",
       category: "Customer Stories",
     },
     {
       slug: "customers-nextsilicon",
       title: "NextSilicon: 4x share of voice in 45 days",
       description: "How a challenger in HPC & AI infrastructure closed the AI visibility gap with entrenched incumbents.",
+      category: "Case Study",
+    },
+    {
+      slug: "customers-cornelis",
+      title: "Cornelis: a new category, answerable in 4 weeks",
+      description: "How Cornelis made a brand-new networking category readable, quotable, and citable ahead of its AI Infra Summit launch.",
       category: "Case Study",
     },
     {

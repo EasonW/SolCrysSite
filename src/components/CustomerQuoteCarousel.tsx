@@ -4,7 +4,9 @@ import { ChevronLeft, ChevronRight, Lock, ShoppingBag, User } from "lucide-react
 type AttributionLink =
   | { type: "linkedin"; href: string }
   | { type: "amazon"; href: string }
-  | { type: "withheld" };
+  | { type: "withheld" }
+  /** Named, public attribution with no profile link on file — renders nothing. */
+  | { type: "none" };
 
 export type CustomerQuote = {
   name: string;
@@ -26,6 +28,7 @@ const LinkedInIcon = () => (
 );
 
 const AttributionPill = ({ attribution, name }: { attribution: AttributionLink; name: string }) => {
+  if (attribution.type === "none") return null;
   if (attribution.type === "withheld") {
     return (
       <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/80">

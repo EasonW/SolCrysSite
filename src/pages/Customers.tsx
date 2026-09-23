@@ -19,6 +19,7 @@ const WYZE_TEAL = "#00D4B4";
 const NEXTSILICON_INDIGO = "#5700FF";
 const UIPATH_ORANGE = "#FA4616";
 const TECHARENA_CYAN = "#00C4D3";
+const CORNELIS_PURPLE = "#9B23E8";
 
 const LINKEDIN = {
   brandon: "https://www.linkedin.com/in/brandondraeger/",
@@ -78,6 +79,15 @@ const toniQuote =
 
 const mariaQuote =
   "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines.";
+
+const cornelisBrandonQuote =
+  "The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.";
+
+const cornelisInaQuote =
+  "I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner.";
+
+const cornelisNishantQuote =
+  "The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would.";
 
 const kariQuote =
   "SolCrys AI has been the tool we rely on to advise our own customers. It consistently uncovers opportunities and business ideas we wouldn't have found ourselves. Beyond the product, the team continuously ships new features and goes above and beyond to ensure our success. SolCrys hasn't just helped us improve our AI visibility; it has also helped us explain why AI is becoming the new buying interface and why customers are increasingly turning to AI to discover solutions. We use many tools, but we've never worked with a vendor that's as invested in our success as SolCrys.";
@@ -159,10 +169,281 @@ const CustomerStories = () => {
               How leading brands use SolCrys to show up in AI answers.
             </h1>
             <p className="fade-in-scroll mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              From HPC and AI infrastructure to consumer smart home — measurable
-              visibility, accuracy, and trust across the AI engines where buyers
-              now ask, compare, and decide.
+              From HPC and AI infrastructure to AI networking and consumer
+              smart home — measurable visibility, accuracy, and trust across the
+              AI engines where buyers now ask, compare, and decide.
             </p>
+          </div>
+        </section>
+
+        <div className="glow-line w-full" />
+
+        {/* Featured customer: Cornelis */}
+        <section className="relative py-20 md:py-28">
+          <div
+            className="absolute inset-x-0 top-0 h-72 pointer-events-none"
+            style={{
+              background: `radial-gradient(circle at 50% 0%, ${CORNELIS_PURPLE}14, transparent 60%)`,
+            }}
+          />
+          <div className="container mx-auto px-6 max-w-6xl relative">
+            <div className="fade-in-scroll flex flex-col items-center mb-10">
+              <p className="section-label mb-4">Featured customer</p>
+              <img
+                src="/customers/cornelis-logo.png"
+                alt="Cornelis"
+                className="h-10 md:h-12 w-auto dark:brightness-0 dark:invert"
+                loading="lazy"
+              />
+              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                AI &amp; HPC Networking
+              </p>
+            </div>
+
+            {/* Result metric pull-out */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/60 backdrop-blur-sm overflow-hidden mb-8 md:mb-10">
+              <div
+                className="absolute inset-x-0 top-0 h-px"
+                style={{
+                  background: `linear-gradient(to right, transparent, ${CORNELIS_PURPLE}, transparent)`,
+                }}
+              />
+              <div
+                className="absolute inset-0 opacity-[0.06] pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle at 80% 50%, ${CORNELIS_PURPLE}, transparent 55%)`,
+                }}
+              />
+
+              <div className="relative grid md:grid-cols-3 gap-0">
+                <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-border/40">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+                    AI-readiness score
+                  </p>
+                  <p
+                    className="font-heading text-5xl md:text-6xl font-bold"
+                    style={{ color: CORNELIS_PURPLE }}
+                  >
+                    2×
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    On the marquee product page.
+                  </p>
+                </div>
+
+                <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-border/40">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+                    Mention rate
+                  </p>
+                  <p
+                    className="font-heading text-5xl md:text-6xl font-bold"
+                    style={{ color: CORNELIS_PURPLE }}
+                  >
+                    12×
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    On the new category prompt set.
+                  </p>
+                </div>
+
+                <div className="p-8 md:p-10">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+                    Share of voice
+                  </p>
+                  <p
+                    className="font-heading text-5xl md:text-6xl font-bold"
+                    style={{ color: CORNELIS_PURPLE }}
+                  >
+                    #2
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground inline-flex items-center gap-1.5">
+                    <TrendingUp
+                      className="h-4 w-4"
+                      style={{ color: CORNELIS_PURPLE }}
+                    />
+                    Unseating the incumbent #2
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* Primary testimonial — Brandon Draeger */}
+            <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/60 backdrop-blur-sm overflow-hidden">
+              <div
+                className="absolute inset-x-0 top-0 h-px"
+                style={{
+                  background: `linear-gradient(to right, transparent, ${CORNELIS_PURPLE}, transparent)`,
+                }}
+              />
+
+              <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-0">
+                {/* Photo column */}
+                <div className="relative bg-muted/30 overflow-hidden min-h-[360px] md:min-h-[560px]">
+                  <img
+                    src="/customers/brandon-draeger.jpg"
+                    alt="Brandon Draeger, Chief Marketing Officer at Cornelis Networks"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span
+                      className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-white"
+                      style={{ backgroundColor: CORNELIS_PURPLE }}
+                    >
+                      CMO
+                    </span>
+                  </div>
+                </div>
+
+                {/* Quote column */}
+                <div className="p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+                  <div
+                    aria-hidden
+                    className="font-heading text-7xl md:text-8xl leading-none mb-2 select-none"
+                    style={{ color: CORNELIS_PURPLE, opacity: 0.5 }}
+                  >
+                    &ldquo;
+                  </div>
+
+                  <blockquote className="font-heading text-xl md:text-2xl lg:text-[1.6rem] leading-snug md:leading-[1.35] text-foreground">
+                    {cornelisBrandonQuote}
+                  </blockquote>
+
+                  <figcaption className="mt-8 pt-6 border-t border-border/40 flex items-center gap-4">
+                    <div
+                      className="h-10 w-1 rounded-full"
+                      style={{ backgroundColor: CORNELIS_PURPLE }}
+                    />
+                    <div>
+                      <p className="font-heading text-base font-semibold text-foreground">
+                        Brandon Draeger
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Chief Marketing Officer, Cornelis Networks
+                      </p>
+                      <div className="mt-2">
+                        <LinkedInLink
+                          href={LINKEDIN.brandon}
+                          name="Brandon Draeger"
+                        />
+                      </div>
+                    </div>
+                  </figcaption>
+                </div>
+              </div>
+            </article>
+
+            {/* Same champion, two companies — state it, and link the first story */}
+            <p className="fade-in-scroll mt-6 text-sm text-muted-foreground">
+              Brandon first worked with SolCrys as VP of Marketing at
+              NextSilicon.{" "}
+              <a
+                href="/customers/nextsilicon/"
+                className="font-medium underline-offset-4 hover:underline"
+                style={{ color: CORNELIS_PURPLE }}
+              >
+                Read that story
+              </a>
+              .
+            </p>
+
+            {/* Secondary quotes — the marketing team */}
+            <div className="mt-8 md:mt-10 grid gap-6 md:grid-cols-2">
+              {[
+                {
+                  quote: cornelisInaQuote,
+                  name: "Ina Felsheim",
+                  photo: "/customers/ina-felsheim.jpg",
+                },
+                {
+                  quote: cornelisNishantQuote,
+                  name: "Nishant Lodha",
+                  photo: "/customers/nishant-lodha.jpg",
+                },
+              ].map(({ quote, name, photo }) => (
+                <article
+                  key={name}
+                  className="fade-in-scroll rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm p-8 md:p-10"
+                >
+                  <div
+                    aria-hidden
+                    className="font-heading text-5xl leading-none mb-1 select-none"
+                    style={{ color: CORNELIS_PURPLE, opacity: 0.45 }}
+                  >
+                    &ldquo;
+                  </div>
+                  <blockquote className="font-heading text-lg md:text-xl leading-snug md:leading-[1.4] text-foreground">
+                    {quote}
+                  </blockquote>
+                  <figcaption className="mt-6 flex items-center gap-3.5">
+                    <img
+                      src={photo}
+                      alt={`${name}, Senior Director of Marketing, Cornelis Networks`}
+                      className="h-11 w-11 rounded-full object-cover"
+                      loading="lazy"
+                    />
+                    <div>
+                      <p className="font-heading text-sm font-semibold text-foreground">
+                        {name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Senior Director of Marketing, Cornelis Networks
+                      </p>
+                    </div>
+                  </figcaption>
+                </article>
+              ))}
+            </div>
+
+            {/* Read full case study CTA */}
+            <div className="fade-in-scroll mt-8 md:mt-10 flex justify-center">
+              <Button
+                asChild
+                variant="hero-outline"
+                size="lg"
+                className="text-base px-8 py-6 h-auto"
+              >
+                <a href="/customers/cornelis/">
+                  Read the full Cornelis case study
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        <div className="glow-line w-full" />
+
+        {/* About Cornelis + Why it worked */}
+        <section className="max-w-6xl mx-auto px-6 py-20 md:py-24">
+          <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-12 md:gap-16">
+            <div>
+              <p className="fade-in-scroll section-label mb-4">About Cornelis</p>
+              <h2 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground mb-4">
+                Networking built for AI and HPC workloads.
+              </h2>
+              <p className="fade-in-scroll text-muted-foreground text-base md:text-lg leading-relaxed">
+                Cornelis delivers high-performance, scale-out and scale-up
+                networking that accelerates AI and HPC workloads — lossless,
+                congestion-free fabric that reduces training time, improves
+                inference, and maximizes compute utilization across commercial,
+                academic, government, and cloud environments.
+              </p>
+            </div>
+
+            <div>
+              <p className="fade-in-scroll section-label mb-4">Why it worked</p>
+              <h3 className="fade-in-scroll font-heading text-2xl md:text-3xl text-foreground mb-4">
+                One context, every surface.
+              </h3>
+              <p className="fade-in-scroll text-muted-foreground text-base md:text-lg leading-relaxed">
+                The homepage, the category page, the product page, and the booth
+                assets were all drafted from the same Cornelis Corporate Context
+                — so the web, the AI engines, and the show floor told one story
+                at three depths, and the same prompt sets that set the baseline
+                measured what every asset changed.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -248,7 +529,8 @@ const CustomerStories = () => {
               </div>
             </article>
 
-            {/* Primary testimonial — Brandon Draeger */}
+            {/* Primary testimonial — Brandon Draeger (text-only: his photo
+                 runs once on the page, with his current Cornelis role) */}
             <article className="fade-in-scroll relative rounded-3xl border border-border/40 bg-card/60 backdrop-blur-sm overflow-hidden">
               <div
                 className="absolute inset-x-0 top-0 h-px"
@@ -256,61 +538,37 @@ const CustomerStories = () => {
                   background: `linear-gradient(to right, transparent, ${NEXTSILICON_INDIGO}, transparent)`,
                 }}
               />
-
-              <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-0">
-                {/* Photo column */}
-                <div className="relative bg-muted/30 overflow-hidden min-h-[360px] md:min-h-[560px]">
-                  <img
-                    src="/customers/brandon-draeger.jpg"
-                    alt="Brandon Draeger, VP of Marketing at NextSilicon"
-                    className="absolute inset-0 h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span
-                      className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-white"
-                      style={{ backgroundColor: NEXTSILICON_INDIGO }}
-                    >
-                      VP, Marketing
-                    </span>
-                  </div>
+              <div className="p-8 md:p-12 lg:p-14">
+                <div
+                  aria-hidden
+                  className="font-heading text-5xl md:text-6xl leading-none mb-1 select-none"
+                  style={{ color: NEXTSILICON_INDIGO, opacity: 0.5 }}
+                >
+                  &ldquo;
                 </div>
-
-                {/* Quote column */}
-                <div className="p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+                <blockquote className="font-heading text-xl md:text-2xl lg:text-[1.6rem] leading-snug md:leading-[1.35] text-foreground max-w-4xl">
+                  {brandonPrimaryQuote}
+                </blockquote>
+                <figcaption className="mt-8 pt-6 border-t border-border/40 flex items-center gap-4">
                   <div
-                    aria-hidden
-                    className="font-heading text-7xl md:text-8xl leading-none mb-2 select-none"
-                    style={{ color: NEXTSILICON_INDIGO, opacity: 0.5 }}
-                  >
-                    “
-                  </div>
-
-                  <blockquote className="font-heading text-xl md:text-2xl lg:text-[1.6rem] leading-snug md:leading-[1.35] text-foreground">
-                    {brandonPrimaryQuote}
-                  </blockquote>
-
-                  <figcaption className="mt-8 pt-6 border-t border-border/40 flex items-center gap-4">
-                    <div
-                      className="h-10 w-1 rounded-full"
-                      style={{ backgroundColor: NEXTSILICON_INDIGO }}
-                    />
-                    <div>
-                      <p className="font-heading text-base font-semibold text-foreground">
-                        Brandon Draeger
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        VP of Marketing, NextSilicon
-                      </p>
-                      <div className="mt-2">
-                        <LinkedInLink
-                          href={LINKEDIN.brandon}
-                          name="Brandon Draeger"
-                        />
-                      </div>
+                    className="h-10 w-1 rounded-full"
+                    style={{ backgroundColor: NEXTSILICON_INDIGO }}
+                  />
+                  <div>
+                    <p className="font-heading text-base font-semibold text-foreground">
+                      Brandon Draeger
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      then VP of Marketing, NextSilicon
+                    </p>
+                    <div className="mt-2">
+                      <LinkedInLink
+                        href={LINKEDIN.brandon}
+                        name="Brandon Draeger"
+                      />
                     </div>
-                  </figcaption>
-                </div>
+                  </div>
+                </figcaption>
               </div>
             </article>
 
@@ -328,7 +586,7 @@ const CustomerStories = () => {
                   {brandonScienceQuote}
                 </blockquote>
                 <figcaption className="mt-6 text-sm text-muted-foreground">
-                  — Brandon Draeger, VP of Marketing, NextSilicon
+                  — Brandon Draeger, then VP of Marketing, NextSilicon
                 </figcaption>
               </div>
             </article>

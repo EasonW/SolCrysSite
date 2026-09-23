@@ -18,6 +18,7 @@ export type AuditSurface =
   | "compare_cta"
   | "customers"
   | "customers-nextsilicon"
+  | "customers-cornelis"
   | "pricing"
   | "pricing_card"
   | "pricing_cta_strip"

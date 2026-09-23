@@ -674,7 +674,10 @@ function webPageSchema({ routePath, title, description, ogImage }) {
 // sync when quotes change there.
 const HOME_CUSTOMER_QUOTES = [
   ["Maria Voloh", "Sr. Director, Global Digital Marketing, UiPath", "https://www.linkedin.com/in/mariavoloh/", "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content. We're excited to keep partnering with the SolCrys team to unlock even more of our presence across AI answer engines."],
-  ["Brandon Draeger", "VP of Marketing, NextSilicon", "https://www.linkedin.com/in/brandondraeger/", "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. SolCrys is informing how we think about marketing performance across product launches, campaigns, and major events."],
+  ["Brandon Draeger", "Chief Marketing Officer, Cornelis Networks", "https://www.linkedin.com/in/brandondraeger/", "The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced."],
+  ["Ina Felsheim", "Senior Director of Marketing, Cornelis Networks", null, "I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner."],
+  ["Nishant Lodha", "Senior Director of Marketing, Cornelis Networks", null, "The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would."],
+  ["Brandon Draeger", "then VP of Marketing, NextSilicon", "https://www.linkedin.com/in/brandondraeger/", "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events."],
   ["Kari Newhouse", "Head of Digital, TechArena", "https://www.linkedin.com/in/kari-newhouse/", "SolCrys AI has been the tool we rely on to advise our own customers — it consistently uncovers opportunities we wouldn't have found ourselves. It hasn't just improved our AI visibility; it's helped us explain why AI is becoming the new buying interface. We use many tools, but we've never worked with a vendor as invested in our success as SolCrys."],
   ["Yun Zhang", "CEO, Wyze", "https://www.linkedin.com/in/yun-zhang-1441933", "SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust. We're excited to work with the SolCrys team as they build toward the future of brand discovery and agentic commerce."],
   ["Michelle Frees", "Head of Amazon, Wyze", "https://www.linkedin.com/in/michellewangfrees/", "SolCrys AI has become a trusted growth partner for our team. What's been most impressive is how they've elevated our approach to PDP content — taking it to a level of precision and impact we hadn't thought possible."],
@@ -868,20 +871,51 @@ function customersHtml() {
     <section class="seo-container seo-hero">
       <p class="seo-kicker">Customer Stories</p>
       <h1>How leading brands use SolCrys to show up in AI answers.</h1>
-      <p class="seo-lede">From HPC and AI infrastructure to consumer smart home — measurable visibility, accuracy, and trust across the AI engines where buyers now ask, compare, and decide.</p>
+      <p class="seo-lede">From HPC and AI infrastructure to AI networking and consumer smart home — measurable visibility, accuracy, and trust across the AI engines where buyers now ask, compare, and decide.</p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Featured customer: Cornelis</h2>
+      <p><strong>Category:</strong> AI &amp; HPC networking</p>
+      <p><strong>Result:</strong> A brand-new category made answerable in four weeks ahead of the AI Infra Summit — 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2.</p>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — Chief Marketing Officer, Cornelis Networks</p>
+        <blockquote>
+          <p>“The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.”</p>
+        </blockquote>
+      </article>
+      <p><em>Brandon first worked with SolCrys as VP of Marketing at NextSilicon. <a href="/customers/nextsilicon/">Read that story →</a></em></p>
+      <article class="seo-card">
+        <p class="seo-kicker">Ina Felsheim — Senior Director of Marketing, Cornelis Networks</p>
+        <blockquote>
+          <p>“I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker">Nishant Lodha — Senior Director of Marketing, Cornelis Networks</p>
+        <blockquote>
+          <p>“The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would.”</p>
+        </blockquote>
+      </article>
+      <p><a href="/customers/cornelis/">Read the full Cornelis case study →</a></p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>About Cornelis</h2>
+      <p>Cornelis delivers high-performance, scale-out and scale-up networking that accelerates AI and HPC workloads — lossless, congestion-free fabric that reduces training time, improves inference, and maximizes compute utilization across commercial, academic, government, and cloud environments.</p>
+      <h3>Why it worked</h3>
+      <p>The homepage, the category page, the product page, and the booth assets were all drafted from the same Cornelis Corporate Context — so the web, the AI engines, and the show floor told one story at three depths, and the same prompt sets that set the baseline measured what every asset changed.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Featured customer: NextSilicon</h2>
       <p><strong>Category:</strong> High-Performance Computing &amp; AI infrastructure</p>
       <p><strong>Result:</strong> Mention rate climbed from 1.9% to 7.4% in 45 days — a near 4× lift in share of voice against entrenched HPC and AI infrastructure incumbents.</p>
       <article class="seo-card">
-        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — then VP of Marketing, NextSilicon</p>
         <blockquote>
           <p>“For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.”</p>
         </blockquote>
       </article>
       <article class="seo-card">
-        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — then VP of Marketing, NextSilicon</p>
         <blockquote>
           <p>“Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for.”</p>
         </blockquote>
@@ -982,8 +1016,9 @@ function nextSiliconCaseStudyHtml() {
     <section class="seo-container seo-section">
       <h2>The results</h2>
       <p>Within 45 days, NextSilicon's mention rate climbed from 1.9% to 7.4% — a near 4× increase in a category where incumbents have spent years building authority. The gains compounded as new content shipped and existing content was re-optimized against SolCrys' scoring framework, giving the team a measurable, repeatable engine rather than a one-off lift.</p>
+      <p><em>Brandon Draeger is now Chief Marketing Officer at Cornelis Networks, also a SolCrys customer. <a href="/customers/cornelis/">Read the Cornelis story →</a></em></p>
       <article class="seo-card">
-        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — then VP of Marketing, NextSilicon</p>
         <blockquote>
           <p>“For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.”</p>
         </blockquote>
@@ -993,7 +1028,7 @@ function nextSiliconCaseStudyHtml() {
       <h2>Why it worked</h2>
       <p>NextSilicon's results came from a system, not a one-off effort — a continuous loop of measurement, diagnosis, execution, and verification. That loop is at the core of the SolCrys platform, transforming AEO from guesswork into a structured, measurable discipline.</p>
       <article class="seo-card">
-        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — VP of Marketing, NextSilicon</p>
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — then VP of Marketing, NextSilicon</p>
         <blockquote>
           <p>“Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for.”</p>
         </blockquote>
@@ -1002,6 +1037,95 @@ function nextSiliconCaseStudyHtml() {
     <section class="seo-container seo-section">
       <h2>About SolCrys AI</h2>
       <p>SolCrys helps brands improve visibility and compete in high-stakes categories. We help marketing organizations measure how often they appear in AI-generated answers, understand why, and systematically close the gap with competitors.</p>
+    </section>
+    <div class="seo-container">${ctaHtml()}</div>
+  </main>
+  ${footerHtml()}
+</div>`;
+}
+
+
+function cornelisCaseStudyHtml() {
+  return `
+<div class="seo-prerender">
+  ${navHtml()}
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker"><a href="/customers/">← All customer stories</a></p>
+      <p class="seo-kicker">Case Study · AI &amp; HPC Networking</p>
+      <h1>How Cornelis made a brand-new category answerable — in four weeks.</h1>
+      <p class="seo-lede">Cornelis named a new networking architecture and planned to unveil it at the AI Infra Summit. SolCrys made the term answerable on the web, in AI answers, and on the show floor — in Cornelis's own words.</p>
+      <ul class="seo-grid" aria-label="Headline results">
+        <li class="seo-card"><strong>AI-readiness score:</strong> 2×. On the marquee product page.</li>
+        <li class="seo-card"><strong>Mention rate:</strong> 12×. On the new category prompt set.</li>
+        <li class="seo-card"><strong>Share of voice:</strong> #2. Unseating the incumbent #2.</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Meet the customer</h2>
+      <p>Cornelis delivers high-performance, scale-out and scale-up networking solutions that accelerate AI and HPC workloads. Cornelis technology enables lossless, congestion-free networking that reduces training time, improves inference, and maximizes compute utilization.</p>
+      <p>From foundation model training to complex climate modeling and real-time analytics, Cornelis solutions power the most demanding workloads across commercial, academic, government, and cloud environments.</p>
+      <p>With a focus on performance, scalability, and efficiency, Cornelis helps organizations achieve faster insights and greater return on infrastructure investments.</p>
+      <p><a href="https://www.cornelis.com/" rel="noopener">Learn more at cornelis.com →</a></p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The problem: a category they named, in a term the engines had never heard</h2>
+      <p>Cornelis set out to introduce a new architecture built to address a challenge facing the entire industry, and planned to unveil it at the AI Infra Summit.</p>
+      <p>Landing that message on the web, in AI answers, and in person meant getting three things right before the show:</p>
+      <ul class="seo-list">
+        <li><strong>Prompt set design.</strong> The questions buyers would actually ask about the new category.</li>
+        <li><strong>Content on the web.</strong> A redone homepage to reintroduce Cornelis to customers, plus a category page and supporting pages the engines could read, extract, and quote in Cornelis's own words.</li>
+        <li><strong>Content on the show floor.</strong> Booth assets carrying the same message, so it landed virtually and in person alike.</li>
+      </ul>
+      <p>For a term nobody had published yet, no material existed. Cornelis needed a partner that could translate deep technical concepts into content people could readily understand, and meet customers at the right time, with the right message, in the right format.</p>
+      <blockquote><p>The challenge: make a brand-new category answerable, in the company's own words.</p></blockquote>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The SolCrys solution: from insight to execution</h2>
+      <p>SolCrys measured the baseline before a word was drafted, diagnosed which dimension of AI-readiness was actually broken, and shipped five deliverables in four weeks. Each piece of content mapped to a step in the buyer's journey across the web, the AI engines, and the show floor, so the same message met them wherever they looked.</p>
+      <ul class="seo-list">
+        <li><strong>Measure visibility.</strong> A baseline measurement and prompt sets designed with the SolCrys AI Golden Prompt Set methodology. The prompt sets were built hand in hand with Cornelis's messaging and positioning, so SolCrys tracks the prompts that reflect customer voices.</li>
+        <li><strong>Diagnose gaps.</strong> Prompts where Cornelis measured zero presence became the FAQ questions and the headings on the new category page and its supporting pages.</li>
+        <li><strong>Activate the right actions.</strong> One new category page, a redone homepage as well as a product page, and show floor assets, all grounded in the Cornelis Corporate Context managed by SolCrys AI. SolCrys partnered closely with the Cornelis marketing and web development teams by delivering AI-ready copy as well as design.</li>
+        <li><strong>Verify impact.</strong> The same prompt sets re-run against the baseline, so Cornelis could see the impact of the moment, and of every asset created for it.</li>
+        <li><strong>Map assets to depth.</strong> One story told at three depths: L100–L200 on the homepage, L200 on the category page, and L300 in the reference architecture, explained through an interactive demo video at the booth, so a buyer could go as deep as they wanted without the message changing.</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The outcome: a stronger presence, and a repeatable way forward</h2>
+      <p>In four weeks, overall AI mention rate rose nearly seven percentage points, the new category prompt set moved twelvefold, and Cornelis took second place in share of voice for the first time.</p>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — Chief Marketing Officer, Cornelis Networks</p>
+        <blockquote>
+          <p>“The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker">Ina Felsheim — Senior Director of Marketing, Cornelis Networks</p>
+        <blockquote>
+          <p>“I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker">Nishant Lodha — Senior Director of Marketing, Cornelis Networks</p>
+        <blockquote>
+          <p>“The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would.”</p>
+        </blockquote>
+      </article>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Solution highlight: Active Compute Fabric</h2>
+      <p>The homepage, the category page, the reference architecture, and the show floor demo, all saying the same thing — Cornelis networking for AI and HPC workloads.</p>
+      <ul class="seo-list">
+        <li>The redone Cornelis homepage.</li>
+        <li>Active Compute Fabric category page.</li>
+        <li>Reference architecture interactive demo.</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>About SolCrys AI</h2>
+      <p>SolCrys helps brands improve visibility and compete in high-stakes categories. We help marketing organizations measure how often they appear in AI-generated answers, understand why, and systematically close the gap with competitors.</p>
+    <p><a href="/news/your-brand-ai-ready-one-year-of-solcrys/">Read our founder's note on year one →</a></p>
     </section>
     <div class="seo-container">${ctaHtml()}</div>
   </main>
@@ -1729,9 +1853,10 @@ writePage(
   "customers/index.html",
   renderLayout({
     routePath: "/customers/",
+    lastModified: "2026-09-22",
     title: "Customer Stories | SolCrys",
     ogImage: "/og/customers.png",
-    description: "How leading brands — including UiPath, NextSilicon, and Wyze — use SolCrys to show up in AI answers. NextSilicon lifted its mention rate from 1.9% to 7.4% in 45 days.",
+    description: "How leading brands — including UiPath, NextSilicon, Cornelis, and Wyze — use SolCrys to show up in AI answers. NextSilicon lifted its mention rate from 1.9% to 7.4% in 45 days; Cornelis launched a brand-new networking category in four weeks.",
     body: customersHtml(),
     schemas: [
       organizationSchema,
@@ -1744,23 +1869,37 @@ writePage(
         "@type": "WebPage",
         name: "SolCrys Customer Stories",
         url: canonicalUrl("/customers/"),
-        description: "Customer stories from brands using SolCrys for AI search visibility, accuracy, and trust — across enterprise software (UiPath), HPC and AI infrastructure (NextSilicon), and consumer (Wyze).",
+        description: "Customer stories from brands using SolCrys for AI search visibility, accuracy, and trust — across enterprise software (UiPath), HPC and AI infrastructure (NextSilicon), AI and HPC networking (Cornelis), and consumer (Wyze).",
         datePublished: site.published || generatedAt,
-        dateModified: site.updated || generatedAt
+        dateModified: "2026-09-22"
       },
       {
         "@context": "https://schema.org",
         "@type": "Review",
         itemReviewed: organizationSchema,
-        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon (at the time of this engagement)" },
         reviewBody: "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events."
       },
       {
         "@context": "https://schema.org",
         "@type": "Review",
         itemReviewed: organizationSchema,
-        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon (at the time of this engagement)" },
         reviewBody: "Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "Chief Marketing Officer, Cornelis Networks" },
+        reviewBody: "The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Ina Felsheim", jobTitle: "Senior Director of Marketing, Cornelis Networks" },
+        reviewBody: "I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner."
       },
       {
         "@context": "https://schema.org",
@@ -1846,15 +1985,90 @@ writePage(
         "@context": "https://schema.org",
         "@type": "Review",
         itemReviewed: organizationSchema,
-        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon (at the time of this engagement)" },
         reviewBody: "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events."
       },
       {
         "@context": "https://schema.org",
         "@type": "Review",
         itemReviewed: organizationSchema,
-        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon" },
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "VP of Marketing, NextSilicon (at the time of this engagement)" },
         reviewBody: "Every time we meet, SolCrys shares insights that surprise me. I'm approached by vendors all the time, but none of them treat this as a science the way SolCrys does. The guardrails and scoring frameworks they've built into the product, along with the level of insight — from citation analysis to prompt diagnosis and content gap identification — are exceptional. It's exactly what we've been looking for."
+      }
+    ]
+  })
+);
+
+
+writePage(
+  "customers/cornelis/index.html",
+  renderLayout({
+    routePath: "/customers/cornelis/",
+    lastModified: "2026-09-22",
+    title: "Cornelis Case Study: A New Category, Answerable in Four Weeks | SolCrys",
+    ogImage: "/og/customers-cornelis.png",
+    description: "How Cornelis launched a brand-new networking category at the AI Infra Summit with SolCrys — 2\u00d7 AI-readiness on the marquee product page, 12\u00d7 mention rate on the new category prompt set, and #2 share of voice.",
+    body: cornelisCaseStudyHtml(),
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Customers", path: "/customers/" },
+        { name: "Cornelis", path: "/customers/cornelis/" }
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "@id": canonicalUrl("/customers/cornelis/") + "#article",
+        headline: "How Cornelis made a brand-new category answerable — in four weeks.",
+        description: "Cornelis named a new networking architecture and unveiled it at the AI Infra Summit. SolCrys made the term answerable on the web, in AI answers, and on the show floor — 2\u00d7 AI-readiness score, 12\u00d7 mention rate on the new category prompt set, and #2 share of voice.",
+        url: canonicalUrl("/customers/cornelis/"),
+        datePublished: "2026-09-22",
+        dateModified: "2026-09-22",
+        author: {
+          "@type": "Organization",
+          name: site.maintainer || site.name,
+          url: site.url
+        },
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          logo: { "@type": "ImageObject", url: site.logo }
+        },
+        about: {
+          "@type": "Organization",
+          name: "Cornelis Networks",
+          url: "https://www.cornelis.com/"
+        },
+        keywords: [
+          "AI search visibility case study",
+          "Answer Engine Optimization case study",
+          "category creation AEO",
+          "AI infrastructure networking marketing",
+          "Active Compute Fabric",
+          "Cornelis SolCrys"
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Brandon Draeger", jobTitle: "Chief Marketing Officer, Cornelis Networks" },
+        reviewBody: "The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Ina Felsheim", jobTitle: "Senior Director of Marketing, Cornelis Networks" },
+        reviewBody: "I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: organizationSchema,
+        author: { "@type": "Person", name: "Nishant Lodha", jobTitle: "Senior Director of Marketing, Cornelis Networks" },
+        reviewBody: "The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would."
       }
     ]
   })
@@ -3235,8 +3449,9 @@ writePage("guides/index.html", renderLayout({
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
-  { path: "/customers/", lastmod: site.updated || generatedAt },
+  { path: "/customers/", lastmod: "2026-09-22" },
   { path: "/customers/nextsilicon/", lastmod: site.updated || generatedAt },
+  { path: "/customers/cornelis/", lastmod: "2026-09-22" },
   // /pricing/ removed Phase E — page is now a noindex meta-refresh bridge
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.
@@ -3288,8 +3503,9 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
 - [About](${site.url}/about/): Company story, founding team, and advisors.
-- [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring UiPath (enterprise automation software), NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days), and Wyze (consumer smart home).
+- [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring Cornelis (AI & HPC networking; a brand-new category made answerable in four weeks for its AI Infra Summit launch), NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days), UiPath (enterprise automation software), and Wyze (consumer smart home).
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
+- [Cornelis case study](${site.url}/customers/cornelis/): Full case study — how Cornelis made a brand-new networking category (Active Compute Fabric) answerable in four weeks ahead of its AI Infra Summit launch: 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2. Covers the five-step SolCrys method (measure visibility, diagnose gaps, activate actions, verify impact, map assets to depth).
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards, and tools. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}

@@ -7,6 +7,7 @@ const Index = lazy(() => import("./pages/Index"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Customers = lazy(() => import("./pages/Customers"));
 const NextSiliconCaseStudy = lazy(() => import("./pages/NextSiliconCaseStudy"));
+const CornelisCaseStudy = lazy(() => import("./pages/CornelisCaseStudy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Resources = lazy(() => import("./pages/Resources"));
 const ResourcePage = lazy(() => import("./pages/ResourcePage"));
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/about" element={<AboutUs />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/nextsilicon" element={<NextSiliconCaseStudy />} />
+          <Route path="/customers/cornelis" element={<CornelisCaseStudy />} />
           <Route path="/pricing" element={<PricingRedirect />} />
           <Route path="/free-chatgpt-visibility-tracker" element={<FreeTrackerPage />} />
           <Route path="/free-aeo-audit" element={<FreeAeoAuditPage />} />

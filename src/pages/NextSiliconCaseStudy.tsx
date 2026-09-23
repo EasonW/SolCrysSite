@@ -306,7 +306,7 @@ const NextSiliconCaseStudy = () => {
                 <div className="relative bg-muted/30 overflow-hidden min-h-[360px] md:min-h-[520px]">
                   <img
                     src="/customers/brandon-draeger.jpg"
-                    alt="Brandon Draeger, VP of Marketing at NextSilicon"
+                    alt="Brandon Draeger, then VP of Marketing at NextSilicon"
                     className="absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
                   />
@@ -343,7 +343,7 @@ const NextSiliconCaseStudy = () => {
                         Brandon Draeger
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        VP of Marketing, NextSilicon
+                        then VP of Marketing, NextSilicon
                       </p>
                       <a
                         href={LINKEDIN_BRANDON}
@@ -363,6 +363,21 @@ const NextSiliconCaseStudy = () => {
               </div>
             </article>
           </div>
+        </section>
+
+        <section className="max-w-6xl mx-auto px-6 -mt-6 md:-mt-8">
+          <p className="fade-in-scroll text-sm text-muted-foreground">
+            Brandon Draeger is now Chief Marketing Officer at Cornelis Networks,
+            also a SolCrys customer.{" "}
+            <a
+              href="/customers/cornelis/"
+              className="font-medium underline-offset-4 hover:underline"
+              style={{ color: NEXTSILICON_INDIGO }}
+            >
+              Read the Cornelis story
+            </a>
+            .
+          </p>
         </section>
 
         <div className="glow-line w-full" />
@@ -394,7 +409,7 @@ const NextSiliconCaseStudy = () => {
                 {scienceQuote}
               </blockquote>
               <figcaption className="mt-6 text-sm text-muted-foreground">
-                — Brandon Draeger, VP of Marketing, NextSilicon
+                — Brandon Draeger, then VP of Marketing, NextSilicon
               </figcaption>
             </div>
           </article>
