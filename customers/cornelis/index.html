@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Cornelis Case Study: A New Category, Answerable in Four Weeks | SolCrys</title>
+    <meta name="description" content="How Cornelis launched a brand-new networking category at the AI Infra Summit with SolCrys — 2× AI-readiness on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/customers/cornelis/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-22" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Cornelis Case Study: A New Category, Answerable in Four Weeks | SolCrys" />
+    <meta property="og:description" content="How Cornelis launched a brand-new networking category at the AI Infra Summit with SolCrys — 2× AI-readiness on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice." />
+    <meta property="og:url" content="https://solcrys.com/customers/cornelis/" />
+    <meta property="og:type" content="website" />
+    
+    
+    <meta property="og:image" content="https://solcrys.com/og/customers-cornelis.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/customers-cornelis.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BJ4wwVVx.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Customers","item":"https://solcrys.com/customers/"},{"@type":"ListItem","position":3,"name":"Cornelis","item":"https://solcrys.com/customers/cornelis/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","@id":"https://solcrys.com/customers/cornelis/#article","headline":"How Cornelis made a brand-new category answerable — in four weeks.","description":"Cornelis named a new networking architecture and unveiled it at the AI Infra Summit. SolCrys made the term answerable on the web, in AI answers, and on the show floor — 2× AI-readiness score, 12× mention rate on the new category prompt set, and #2 share of voice.","url":"https://solcrys.com/customers/cornelis/","datePublished":"2026-09-22","dateModified":"2026-09-22","author":{"@type":"Organization","name":"SolCrys Team","url":"https://solcrys.com"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}},"about":{"@type":"Organization","name":"Cornelis Networks","url":"https://www.cornelis.com/"},"keywords":["AI search visibility case study","Answer Engine Optimization case study","category creation AEO","AI infrastructure networking marketing","Active Compute Fabric","Cornelis SolCrys"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Review","itemReviewed":{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]},"author":{"@type":"Person","name":"Brandon Draeger","jobTitle":"Chief Marketing Officer, Cornelis Networks"},"reviewBody":"The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced."}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Review","itemReviewed":{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]},"author":{"@type":"Person","name":"Ina Felsheim","jobTitle":"Senior Director of Marketing, Cornelis Networks"},"reviewBody":"I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner."}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Review","itemReviewed":{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]},"author":{"@type":"Person","name":"Nishant Lodha","jobTitle":"Senior Director of Marketing, Cornelis Networks"},"reviewBody":"The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would."}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main>
+    <section class="seo-container seo-hero">
+      <p class="seo-kicker"><a href="/customers/">← All customer stories</a></p>
+      <p class="seo-kicker">Case Study · AI &amp; HPC Networking</p>
+      <h1>How Cornelis made a brand-new category answerable — in four weeks.</h1>
+      <p class="seo-lede">Cornelis named a new networking architecture and planned to unveil it at the AI Infra Summit. SolCrys made the term answerable on the web, in AI answers, and on the show floor — in Cornelis's own words.</p>
+      <ul class="seo-grid" aria-label="Headline results">
+        <li class="seo-card"><strong>AI-readiness score:</strong> 2×. On the marquee product page.</li>
+        <li class="seo-card"><strong>Mention rate:</strong> 12×. On the new category prompt set.</li>
+        <li class="seo-card"><strong>Share of voice:</strong> #2. Unseating the incumbent #2.</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Meet the customer</h2>
+      <p>Cornelis delivers high-performance, scale-out and scale-up networking solutions that accelerate AI and HPC workloads. Cornelis technology enables lossless, congestion-free networking that reduces training time, improves inference, and maximizes compute utilization.</p>
+      <p>From foundation model training to complex climate modeling and real-time analytics, Cornelis solutions power the most demanding workloads across commercial, academic, government, and cloud environments.</p>
+      <p>With a focus on performance, scalability, and efficiency, Cornelis helps organizations achieve faster insights and greater return on infrastructure investments.</p>
+      <p><a href="https://www.cornelis.com/" rel="noopener">Learn more at cornelis.com →</a></p>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The problem: a category they named, in a term the engines had never heard</h2>
+      <p>Cornelis set out to introduce a new architecture built to address a challenge facing the entire industry, and planned to unveil it at the AI Infra Summit.</p>
+      <p>Landing that message on the web, in AI answers, and in person meant getting three things right before the show:</p>
+      <ul class="seo-list">
+        <li><strong>Prompt set design.</strong> The questions buyers would actually ask about the new category.</li>
+        <li><strong>Content on the web.</strong> A redone homepage to reintroduce Cornelis to customers, plus a category page and supporting pages the engines could read, extract, and quote in Cornelis's own words.</li>
+        <li><strong>Content on the show floor.</strong> Booth assets carrying the same message, so it landed virtually and in person alike.</li>
+      </ul>
+      <p>For a term nobody had published yet, no material existed. Cornelis needed a partner that could translate deep technical concepts into content people could readily understand, and meet customers at the right time, with the right message, in the right format.</p>
+      <blockquote><p>The challenge: make a brand-new category answerable, in the company's own words.</p></blockquote>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The SolCrys solution: from insight to execution</h2>
+      <p>SolCrys measured the baseline before a word was drafted, diagnosed which dimension of AI-readiness was actually broken, and shipped five deliverables in four weeks. Each piece of content mapped to a step in the buyer's journey across the web, the AI engines, and the show floor, so the same message met them wherever they looked.</p>
+      <ul class="seo-list">
+        <li><strong>Measure visibility.</strong> A baseline measurement and prompt sets designed with the SolCrys AI Golden Prompt Set methodology. The prompt sets were built hand in hand with Cornelis's messaging and positioning, so SolCrys tracks the prompts that reflect customer voices.</li>
+        <li><strong>Diagnose gaps.</strong> Prompts where Cornelis measured zero presence became the FAQ questions and the headings on the new category page and its supporting pages.</li>
+        <li><strong>Activate the right actions.</strong> One new category page, a redone homepage as well as a product page, and show floor assets, all grounded in the Cornelis Corporate Context managed by SolCrys AI. SolCrys partnered closely with the Cornelis marketing and web development teams by delivering AI-ready copy as well as design.</li>
+        <li><strong>Verify impact.</strong> The same prompt sets re-run against the baseline, so Cornelis could see the impact of the moment, and of every asset created for it.</li>
+        <li><strong>Map assets to depth.</strong> One story told at three depths: L100–L200 on the homepage, L200 on the category page, and L300 in the reference architecture, explained through an interactive demo video at the booth, so a buyer could go as deep as they wanted without the message changing.</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>The outcome: a stronger presence, and a repeatable way forward</h2>
+      <p>In four weeks, overall AI mention rate rose nearly seven percentage points, the new category prompt set moved twelvefold, and Cornelis took second place in share of voice for the first time.</p>
+      <article class="seo-card">
+        <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — Chief Marketing Officer, Cornelis Networks</p>
+        <blockquote>
+          <p>“The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker">Ina Felsheim — Senior Director of Marketing, Cornelis Networks</p>
+        <blockquote>
+          <p>“I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner.”</p>
+        </blockquote>
+      </article>
+      <article class="seo-card">
+        <p class="seo-kicker">Nishant Lodha — Senior Director of Marketing, Cornelis Networks</p>
+        <blockquote>
+          <p>“The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would.”</p>
+        </blockquote>
+      </article>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>Solution highlight: Active Compute Fabric</h2>
+      <p>The homepage, the category page, the reference architecture, and the show floor demo, all saying the same thing — Cornelis networking for AI and HPC workloads.</p>
+      <ul class="seo-list">
+        <li>The redone Cornelis homepage.</li>
+        <li>Active Compute Fabric category page.</li>
+        <li>Reference architecture interactive demo.</li>
+      </ul>
+    </section>
+    <section class="seo-container seo-section">
+      <h2>About SolCrys AI</h2>
+      <p>SolCrys helps brands improve visibility and compete in high-stakes categories. We help marketing organizations measure how often they appear in AI-generated answers, understand why, and systematically close the gap with competitors.</p>
+    <p><a href="/news/your-brand-ai-ready-one-year-of-solcrys/">Read our founder's note on year one →</a></p>
+    </section>
+    <div class="seo-container">
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section></div>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-B5vFdlV5.js"></script>
+  </body>
+</html>
