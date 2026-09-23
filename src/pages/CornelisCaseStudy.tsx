@@ -18,6 +18,14 @@ const CORNELIS_PURPLE = "#9B23E8";
 
 const LINKEDIN_BRANDON = "https://www.linkedin.com/in/brandondraeger/";
 const CORNELIS_URL = "https://www.cornelis.com/";
+const CORNELIS_ACF_URL = "https://www.cornelis.com/technology/active-compute-fabric";
+/** The interactive built for the Cornelis booth, hosted by SolCrys. The inner
+ *  frame is embedded directly so the demo's own page chrome isn't nested here.
+ *  It is authored portrait (9:16) for the show-floor kiosk. */
+const CORNELIS_DEMO_URL =
+  "https://cms.solcrys.com/cornelis/technology/active-compute-fabric/demo";
+const CORNELIS_DEMO_EMBED_URL =
+  "https://cms.solcrys.com/cornelis/assets/active-compute-fabric-demo/interactive/index.html";
 
 const primaryQuote =
   "The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.";
@@ -90,9 +98,16 @@ const solutionSteps = [
 ];
 
 const highlightShots = [
-  { src: "/customers/cornelis/shot-0.jpg", label: "The redone Cornelis homepage" },
-  { src: "/customers/cornelis/shot-1.jpg", label: "Active Compute Fabric category page" },
-  { src: "/customers/cornelis/shot-2.jpg", label: "Reference architecture interactive demo" },
+  {
+    src: "/customers/cornelis/shot-0.jpg",
+    label: "The redone Cornelis homepage",
+    href: CORNELIS_URL,
+  },
+  {
+    src: "/customers/cornelis/shot-1.jpg",
+    label: "Active Compute Fabric category page",
+    href: CORNELIS_ACF_URL,
+  },
 ];
 
 const CornelisCaseStudy = () => {
@@ -529,7 +544,7 @@ const CornelisCaseStudy = () => {
                 Cornelis networking for AI and HPC workloads
               </p>
               <a
-                href={CORNELIS_URL}
+                href={CORNELIS_ACF_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-80"
@@ -541,11 +556,14 @@ const CornelisCaseStudy = () => {
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {highlightShots.map(({ src, label }) => (
-              <figure
+          <div className="grid gap-6 sm:grid-cols-2">
+            {highlightShots.map(({ src, label, href }) => (
+              <a
                 key={label}
-                className="fade-in-scroll overflow-hidden rounded-2xl border border-border/40 bg-card/40"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fade-in-scroll group block overflow-hidden rounded-2xl border border-border/40 bg-card/40 transition-colors hover:border-border"
               >
                 <img
                   src={src}
@@ -553,11 +571,53 @@ const CornelisCaseStudy = () => {
                   className="aspect-[4/3] w-full object-cover object-top"
                   loading="lazy"
                 />
-                <figcaption className="border-t border-border/40 px-5 py-3.5 text-sm text-muted-foreground">
+                <span className="flex items-center justify-between gap-3 border-t border-border/40 px-5 py-3.5 text-sm text-muted-foreground">
                   {label}
-                </figcaption>
-              </figure>
+                  <ArrowUpRight className="h-4 w-4 shrink-0 opacity-60 transition-opacity group-hover:opacity-100" />
+                </span>
+              </a>
             ))}
+          </div>
+
+          {/* The booth interactive, running live */}
+          <div className="mt-6 grid items-center gap-8 rounded-2xl border border-border/40 bg-card/40 p-6 md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] md:gap-12 md:p-10">
+            <div className="fade-in-scroll mx-auto w-full max-w-[320px]">
+              <div
+                className="overflow-hidden rounded-2xl border border-border/40"
+                style={{ aspectRatio: "9 / 16", backgroundColor: "#03050c" }}
+              >
+                <iframe
+                  src={CORNELIS_DEMO_EMBED_URL}
+                  title="Cornelis reference architecture — interactive demo"
+                  loading="lazy"
+                  allowFullScreen
+                  className="h-full w-full border-0"
+                />
+              </div>
+            </div>
+
+            <div className="fade-in-scroll">
+              <p className="section-label mb-3">Live from the show floor</p>
+              <h3 className="font-heading text-xl md:text-2xl text-foreground mb-4">
+                The reference architecture, explained in two minutes.
+              </h3>
+              <p className="text-muted-foreground text-base leading-relaxed mb-6">
+                This is the L300 layer of the same story — the interactive that
+                ran at the Cornelis booth, built to take a visitor from the
+                whole fabric down to a single node without the message
+                changing. It is running here exactly as it ran at the summit.
+              </p>
+              <a
+                href={CORNELIS_DEMO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-80"
+                style={{ color: CORNELIS_PURPLE }}
+              >
+                Open the full demo
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </section>
 

@@ -1117,10 +1117,11 @@ function cornelisCaseStudyHtml() {
       <h2>Solution highlight: Active Compute Fabric</h2>
       <p>The homepage, the category page, the reference architecture, and the show floor demo, all saying the same thing — Cornelis networking for AI and HPC workloads.</p>
       <ul class="seo-list">
-        <li>The redone Cornelis homepage.</li>
-        <li>Active Compute Fabric category page.</li>
-        <li>Reference architecture interactive demo.</li>
+        <li><a href="https://www.cornelis.com/" rel="noopener">The redone Cornelis homepage</a>.</li>
+        <li><a href="https://www.cornelis.com/technology/active-compute-fabric" rel="noopener">Active Compute Fabric category page</a>.</li>
+        <li><a href="https://cms.solcrys.com/cornelis/technology/active-compute-fabric/demo" rel="noopener">Reference architecture interactive demo</a> — the interactive built for the Cornelis booth, running live.</li>
       </ul>
+      <p>The demo is the L300 layer of the same story: it takes a visitor from the whole fabric down to a single node in about two minutes, without the message changing.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>About SolCrys AI</h2>
