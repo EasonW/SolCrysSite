@@ -2563,6 +2563,7 @@ const previewRoutes = [
   ["preview/editorial/index.html", "/preview/editorial/", "Style B: Editorial"],
   ["preview/technical/index.html", "/preview/technical/", "Style C: Technical lab"],
   ["preview/cinematic/index.html", "/preview/cinematic/", "Style D: Cinematic dark"],
+  ["preview/bright/index.html", "/preview/bright/", "Style E: Bright platform"],
 ];
 for (const [file, routePath, title] of previewRoutes) {
   writePage(

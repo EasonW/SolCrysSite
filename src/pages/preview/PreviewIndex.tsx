@@ -26,6 +26,12 @@ const VARIANTS = [
     refs: "Legora, Sierra, Resend",
     note: "Full-bleed Motion work as the hero, floating client card, near-black. Shows the craft first.",
   },
+  {
+    href: "/preview/bright/",
+    name: "E · Bright platform",
+    refs: "UiPath (agentic AI page)",
+    note: "Ice-blue and white bands, bold tight headlines, square buttons, sticky in-page tabs, dark mosaic results band. SolCrys colors, not UiPath's.",
+  },
 ];
 
 const PreviewIndex = () => {
@@ -37,7 +43,7 @@ const PreviewIndex = () => {
     <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[hsl(var(--brand-accent-ink))]">Internal preview</p>
     <h1 className="mb-3 text-4xl font-bold tracking-tight">Homepage style variants</h1>
     <p className="mb-10 text-muted-foreground">
-      All four use the same copy, the original Loop ring and the same Cornelis proof. Only the visual language changes.
+      All five use the same copy, the original Loop ring and the same Cornelis proof. Only the visual language changes.
     </p>
     <ul className="grid gap-4">
       {VARIANTS.map((v) => (
