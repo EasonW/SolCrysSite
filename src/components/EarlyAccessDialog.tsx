@@ -14,9 +14,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { trackEvent, type AuditSurface } from "@/lib/analytics";
-import { submitLeadIntake, type LeadFormType } from "@/lib/lead-intake";
+import { isPreviewPath, submitLeadIntake, type LeadFormType } from "@/lib/lead-intake";
 
-export type EarlyAccessMode = "audit" | "founder";
+export type EarlyAccessMode = "audit" | "founder" | "project";
 
 interface EarlyAccessDialogProps {
   children?: React.ReactNode;
@@ -70,6 +70,20 @@ const COPY: Record<EarlyAccessMode, {
     successToast: "Thanks. We'll reach out to schedule a call.",
     messagePlaceholder: "What brings you to SolCrys? Team size, AI surfaces, or biggest AEO question...",
   },
+  // Sites / Motion project inquiry (used on /preview/ pages for now). Reuses the founder_chat lead type
+  // until the intake API gets its own type and an intent field.
+  project: {
+    title: "Start a project with SolCrys",
+    description:
+      "Tell us what you're launching (a website, a booth demo, or both) and when. We'll come back with a scope and quote.",
+    submitLabel: "Send project details",
+    submitLoading: "Sending...",
+    formType: "founder_chat",
+    openEvent: "project_inquiry_open",
+    submitEvent: "project_inquiry_submit",
+    successToast: "Thanks. We'll follow up with a scope and quote.",
+    messagePlaceholder: "What are you launching, and by when? Pages, booth demo, event date...",
+  },
 };
 
 const EarlyAccessDialog = ({
@@ -93,6 +107,12 @@ const EarlyAccessDialog = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Internal design previews under /preview/ never send leads.
+    if (isPreviewPath()) {
+      toast.info("Internal preview: this form does not send anything.");
+      handleOpenChange(false);
+      return;
+    }
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);

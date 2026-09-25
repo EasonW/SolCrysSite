@@ -24,6 +24,12 @@ const CoursePage = lazy(() => import("./pages/CoursePage"));
 const LessonPage = lazy(() => import("./pages/LessonPage"));
 const UserGuides = lazy(() => import("./pages/UserGuides"));
 const UserGuide = lazy(() => import("./pages/UserGuide"));
+// Internal design previews (noindex, unlinked). See src/preview/PreviewChrome.tsx.
+const PreviewIndex = lazy(() => import("./pages/preview/PreviewIndex"));
+const PreviewHome = lazy(() => import("./pages/preview/PreviewHome"));
+const PreviewEditorial = lazy(() => import("./pages/preview/PreviewEditorial"));
+const PreviewTechnical = lazy(() => import("./pages/preview/PreviewTechnical"));
+const PreviewCinematic = lazy(() => import("./pages/preview/PreviewCinematic"));
 
 const RouteFallback = () => (
   <div className="flex min-h-screen items-center justify-center" role="status" aria-label="Loading page">
@@ -63,6 +69,11 @@ const App = () => (
             path="/learn/:courseSlug/:moduleSlug/:lessonSlug"
             element={<LessonPage />}
           />
+          <Route path="/preview" element={<PreviewIndex />} />
+          <Route path="/preview/home" element={<PreviewHome />} />
+          <Route path="/preview/editorial" element={<PreviewEditorial />} />
+          <Route path="/preview/technical" element={<PreviewTechnical />} />
+          <Route path="/preview/cinematic" element={<PreviewCinematic />} />
           <Route path="/:slug" element={<ResourcePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

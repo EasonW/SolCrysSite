@@ -6,6 +6,7 @@ declare global {
 
 export type AuditSurface =
   | "hero"
+  | "home_products"
   | "navbar"
   | "navbar_mobile"
   | "home_tracker_section"

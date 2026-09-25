@@ -40,9 +40,20 @@ const flatNavLinks = [
   { href: "/about/", label: "Company" },
 ];
 
+// /preview/ only: the proposed master-brand nav (Products + Work). The live
+// site never passes `variant`, so production navigation is unchanged.
+const previewNavLinks = [
+  { href: "#products", label: "Products" },
+  { href: APP_PRICING_URL, label: "Pricing" },
+  { href: "/customers/", label: "Customers" },
+  { href: "/about/", label: "Company" },
+  { href: "#work", label: "Work" },
+];
+
 type OpenMenu = "resources" | "solutions" | null;
 
-const Navbar = () => {
+const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) => {
+  const navLinks = variant === "preview" ? previewNavLinks : flatNavLinks;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   // Single open-menu enum so opening one dropdown auto-closes the
@@ -187,7 +198,8 @@ const Navbar = () => {
             internal link via the Footer and the prerendered footer nav, so no
             link equity is lost to /prompt-pulse/*. */}
         <div ref={wrapperRef} className="hidden xl:flex items-center gap-6">
-          {renderFlatLink(flatNavLinks[0])}
+          {renderFlatLink(navLinks[0])}
+          {navLinks[4] ? renderFlatLink(navLinks[4]) : null}
 
           {renderDropdownTrigger(
             "solutions",
@@ -196,8 +208,8 @@ const Navbar = () => {
             "wide",
           )}
 
-          {renderFlatLink(flatNavLinks[1])}
-          {renderFlatLink(flatNavLinks[2])}
+          {renderFlatLink(navLinks[1])}
+          {renderFlatLink(navLinks[2])}
 
           {renderDropdownTrigger(
             "resources",
@@ -206,7 +218,7 @@ const Navbar = () => {
             "wide",
           )}
 
-          {renderFlatLink(flatNavLinks[3])}
+          {renderFlatLink(navLinks[3])}
         </div>
 
         {/* Right cluster: search + theme toggle + mobile hamburger + Free Audit CTA */}
@@ -269,12 +281,21 @@ const Navbar = () => {
           <div className="container mx-auto px-6 py-3 flex flex-col">
             {/* Platform */}
             <a
-              href={flatNavLinks[0].href}
+              href={navLinks[0].href}
               onClick={closeAll}
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
-              {flatNavLinks[0].label}
+              {navLinks[0].label}
             </a>
+            {navLinks[4] ? (
+              <a
+                href={navLinks[4].href}
+                onClick={closeAll}
+                className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+              >
+                {navLinks[4].label}
+              </a>
+            ) : null}
 
             {/* Mobile Solutions accordion */}
             <MobileAccordion
@@ -317,18 +338,18 @@ const Navbar = () => {
 
             {/* Pricing + Customers */}
             <a
-              href={flatNavLinks[1].href}
+              href={navLinks[1].href}
               onClick={closeAll}
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
-              {flatNavLinks[1].label}
+              {navLinks[1].label}
             </a>
             <a
-              href={flatNavLinks[2].href}
+              href={navLinks[2].href}
               onClick={closeAll}
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
-              {flatNavLinks[2].label}
+              {navLinks[2].label}
             </a>
 
             {/* Prompt Pulse removed from top level 2026-08 — see the desktop
@@ -452,11 +473,11 @@ const Navbar = () => {
 
             {/* Company — flat link, no dropdown (News moved to footer). */}
             <a
-              href={flatNavLinks[3].href}
+              href={navLinks[3].href}
               onClick={closeAll}
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
-              {flatNavLinks[3].label}
+              {navLinks[3].label}
             </a>
 
             <a

@@ -2553,6 +2553,30 @@ writePage(
   })
 );
 
+// Internal design previews (/preview/*): reachable by direct URL for review
+// on the production domain, but noindex, never linked, and left out of the
+// sitemap and llms files (same rules as drafts). The SPA renders the page;
+// this shell only carries the noindex and boots the app.
+const previewRoutes = [
+  ["preview/index.html", "/preview/", "Homepage style variants"],
+  ["preview/home/index.html", "/preview/home/", "Master-brand homepage"],
+  ["preview/editorial/index.html", "/preview/editorial/", "Style B: Editorial"],
+  ["preview/technical/index.html", "/preview/technical/", "Style C: Technical lab"],
+  ["preview/cinematic/index.html", "/preview/cinematic/", "Style D: Cinematic dark"],
+];
+for (const [file, routePath, title] of previewRoutes) {
+  writePage(
+    file,
+    renderLayout({
+      routePath,
+      title: `[Preview] ${title} | SolCrys`,
+      description: "Internal design preview. Not the live site.",
+      body: `<main class="container"><p>Internal design preview. Not the live site.</p></main>`,
+      noindex: true
+    })
+  );
+}
+
 // Sitemap: per Google guidance, omit <priority> and <changefreq> (they are ignored)
 // and only set <lastmod> from real content updates, never deploy timestamps.
 const newsLatest = newsPosts[0]?.date || site.updated || generatedAt;

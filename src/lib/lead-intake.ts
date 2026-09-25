@@ -66,6 +66,11 @@ function dualWriteEnabled(): boolean {
   return import.meta.env.VITE_LEAD_INTAKE_DUAL_WRITE === "1";
 }
 
+/** True on internal design previews (/preview/*), where forms must not send. */
+export function isPreviewPath(): boolean {
+  return typeof window !== "undefined" && window.location.pathname.startsWith("/preview");
+}
+
 // ─── Internals ──────────────────────────────────────────────────────
 
 /**
@@ -211,6 +216,10 @@ async function postToFormspree(
 export async function submitLeadIntake(
   payload: LeadIntakePayload,
 ): Promise<LeadIntakeResult> {
+  // Internal design previews under /preview/ never send leads.
+  if (isPreviewPath()) {
+    return { ok: false, via: "lead-intake", error: "preview page: submissions disabled" };
+  }
   const url = leadIntakeUrl();
   if (url) {
     const primary = await postToLeadIntake(url, payload);

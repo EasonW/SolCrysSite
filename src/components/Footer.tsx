@@ -11,6 +11,16 @@
 
 import { APP_PRICING_URL } from "@/lib/pricing-url";
 
+// /preview/ only: the proposed product column and tagline.
+const previewProductLinks = [
+  { href: "#products", label: "SolCrys AEO" },
+  { href: "#products", label: "SolCrys Sites" },
+  { href: "#products", label: "SolCrys Motion" },
+  { href: "#work", label: "Work" },
+  { href: APP_PRICING_URL, label: "Pricing" },
+  { href: "/customers/", label: "Customers" },
+];
+
 const productLinks = [
   { href: "/#features", label: "Platform" },
   // Phase E: pricing moved to app.solcrys.com/pricing. See Navbar.tsx for
@@ -81,7 +91,8 @@ function FooterColumn({ heading, links }: FooterColumnProps) {
   );
 }
 
-const Footer = () => {
+const Footer = ({ variant = "default" }: { variant?: "default" | "preview" }) => {
+  const isPreview = variant === "preview";
   return (
     <footer className="border-t border-border/40 pt-14 pb-8">
       <div className="container mx-auto px-6">
@@ -95,7 +106,7 @@ const Footer = () => {
               <img src="/logo-dark.png" alt="SolCrys Logo" className="h-10 w-auto hidden dark:block" />
             </a>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
-              Turn AI answer gaps into governed marketing execution.
+              {isPreview ? "Your brand, AI ready." : "Turn AI answer gaps into governed marketing execution."}
             </p>
             {/* NVIDIA Inception badge — a program/credibility signal, housed in
                 the footer trust row rather than crowding the testimonial section.
@@ -118,7 +129,7 @@ const Footer = () => {
             </a>
           </div>
 
-          <FooterColumn heading="Product" links={productLinks} />
+          <FooterColumn heading="Product" links={isPreview ? previewProductLinks : productLinks} />
           <FooterColumn heading="Resources" links={resourcesLinks} />
           <FooterColumn heading="Company" links={companyLinks} />
           <FooterColumn heading="Legal" links={legalLinks} />
@@ -137,7 +148,7 @@ const Footer = () => {
             >
               Analytics preferences
             </button>
-            <span>Built for the AEO era.</span>
+            <span>{isPreview ? "Your brand, AI ready." : "Built for the AEO era."}</span>
           </div>
         </div>
       </div>

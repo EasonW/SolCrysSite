@@ -14,9 +14,9 @@
  * (deep teal in light mode, bright teal in dark), because --brand-accent
  * is 1.78:1 on white.
  */
-type Step = { label: string; description: string; example: string };
+export type LoopStep = { label: string; description: string; example: string };
 
-const steps: Step[] = [
+const DEFAULT_STEPS: LoopStep[] = [
   {
     label: "Measure",
     description:
@@ -60,7 +60,7 @@ const NODES: Array<{ cx: number; cy: number }> = [
   { cx: 50, cy: 170 },
 ];
 
-const LoopRing = () => (
+const LoopRing = ({ centerLines }: { centerLines: [string, string] }) => (
   <svg
     className="mx-auto w-full max-w-[460px]"
     viewBox="-70 0 480 340"
@@ -110,18 +110,29 @@ const LoopRing = () => (
       <text x="28" y="175" textAnchor="end">Verify</text>
     </g>
     <g className="font-body" style={{ fontSize: 11.5, fill: "hsl(var(--muted-foreground))" }}>
-      <text x="170" y="164" textAnchor="middle">same prompt set,</text>
-      <text x="170" y="181" textAnchor="middle">re-run after each fix</text>
+      <text x="170" y="164" textAnchor="middle">{centerLines[0]}</text>
+      <text x="170" y="181" textAnchor="middle">{centerLines[1]}</text>
     </g>
   </svg>
 );
 
-const LoopDiagram = () => {
+type LoopDiagramProps = {
+  /** Defaults to the AEO workspace copy; the master-brand homepage passes its own. */
+  steps?: LoopStep[];
+  centerLines?: [string, string];
+  footnote?: string | null;
+};
+
+const LoopDiagram = ({
+  steps = DEFAULT_STEPS,
+  centerLines = ["same prompt set,", "re-run after each fix"],
+  footnote = "Illustrative example of one workspace. Directional, not an aggregate marketing claim.",
+}: LoopDiagramProps) => {
   return (
     <div className="mt-12">
       <div className="grid gap-10 md:grid-cols-12 md:items-center">
         <div className="md:col-span-5">
-          <LoopRing />
+          <LoopRing centerLines={centerLines} />
         </div>
         <div className="grid gap-x-10 gap-y-7 sm:grid-cols-2 md:col-span-7">
           {steps.map((step) => (
@@ -130,14 +141,16 @@ const LoopDiagram = () => {
                 {step.label}
               </h3>
               <p className="leading-relaxed text-muted-foreground">{step.description}</p>
-              <span className="mt-1.5 block text-[13.5px] text-foreground/80">{step.example}</span>
+              {step.example ? (
+                <span className="mt-1.5 block text-[13.5px] text-foreground/80">{step.example}</span>
+              ) : null}
             </div>
           ))}
         </div>
       </div>
-      <p className="mt-7 text-xs leading-relaxed text-muted-foreground/70">
-        Illustrative example of one workspace. Directional, not an aggregate marketing claim.
-      </p>
+      {footnote ? (
+        <p className="mt-7 text-xs leading-relaxed text-muted-foreground/70">{footnote}</p>
+      ) : null}
     </div>
   );
 };
