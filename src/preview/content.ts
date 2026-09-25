@@ -95,7 +95,7 @@ export const LOGOS: Array<{ label: string; src: string; onLight?: string }> = [
   { label: "Cornelis", src: "/customers/cornelis-logo.png" },
   { label: "Wyze", src: "/customers/wyze-logo.png" },
   { label: "ClearlyKept", src: "/customers/clearlykept-logo.png" },
-  { label: "Verbatim", src: "/customers/verbatim-logo.svg" },
+  { label: "TechArena", src: "/customers/techarena-logo.svg" },
 ];
 
 export const FAQS = [

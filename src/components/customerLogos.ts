@@ -41,11 +41,11 @@ export const CUSTOMER_LOGOS: CustomerLogo[] = [
   { label: "Cornelis", image: "/customers/cornelis-logo.png", className: "h-9 md:h-10", featured: true },
   { label: "Wyze", image: "/customers/wyze-logo.png", className: "h-5 md:h-6", featured: true },
   { label: "ClearlyKept", image: "/customers/clearlykept-logo.png", className: "h-5 md:h-6", featured: true },
-  { label: "Verbatim", image: "/customers/verbatim-logo.svg", className: "h-5 md:h-6", featured: true },
+  { label: "Verbatim", image: "/customers/verbatim-logo.svg", className: "h-5 md:h-6" },
   { label: "Headley Media", image: "/customers/headley-logo.png", className: "h-6 md:h-7" },
   { label: "Acorn Stairlifts", image: "/customers/acorn-logo.png", className: "h-6 md:h-7" },
   { label: "CLW Group", image: "/customers/clw-logo.png", className: "h-6 md:h-7" },
-  { label: "TechArena", image: "/customers/techarena-logo.svg", className: "h-4 md:h-5" },
+  { label: "TechArena", image: "/customers/techarena-logo.svg", className: "h-4 md:h-5", featured: true },
   { label: "BOBOYM" },
 ];
 
