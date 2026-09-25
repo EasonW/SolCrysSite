@@ -3,6 +3,7 @@ import { ArrowRight, Check, Search, BarChart3, Target, Wrench } from "lucide-rea
 import { useEffect, useState, type FormEvent } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { LOGO_MONO } from "@/components/customerLogos";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { trackEvent } from "@/lib/analytics";
 
@@ -217,25 +218,25 @@ const FreeTrackerPage = () => {
                 <img
                   src="/customers/uipath-logo.svg"
                   alt="UiPath"
-                  className="h-6 md:h-7 w-auto"
+                  className={`h-6 md:h-7 w-auto ${LOGO_MONO}`}
                   loading="lazy"
                 />
                 <img
                   src="/customers/nextsilicon-logo.svg"
                   alt="NextSilicon"
-                  className="h-4 md:h-5 w-auto invert dark:invert-0"
+                  className={`h-4 md:h-5 w-auto ${LOGO_MONO}`}
                   loading="lazy"
                 />
                 <img
                   src="/customers/wyze-logo.png"
                   alt="Wyze"
-                  className="h-5 md:h-6 w-auto"
+                  className={`h-5 md:h-6 w-auto ${LOGO_MONO}`}
                   loading="lazy"
                 />
                 <img
                   src="/customers/clearlykept-logo.png"
                   alt="ClearlyKept"
-                  className="h-5 md:h-6 w-auto dark:brightness-0 dark:invert"
+                  className={`h-5 md:h-6 w-auto ${LOGO_MONO}`}
                   loading="lazy"
                 />
               </div>

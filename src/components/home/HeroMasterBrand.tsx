@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { FEATURED_LOGOS } from "@/components/customerLogos";
+import { FEATURED_LOGOS, LOGO_MONO, LOGO_MONO_TEXT } from "@/components/customerLogos";
 import EarlyAccessDialog from "@/components/EarlyAccessDialog";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 
@@ -52,21 +52,20 @@ const HeroMasterBrand = () => {
 
         <div className="mt-10 border-t border-white/5 pt-6 sm:mt-12 sm:pt-7">
           <p className="text-[11px] text-muted-foreground/70 mb-4 uppercase tracking-widest font-medium">Trusted by</p>
-          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 md:gap-x-8 opacity-60 hover:opacity-100 transition-opacity duration-500">
+          <div className="mx-auto grid max-w-2xl grid-cols-2 sm:grid-cols-3 justify-items-center lg:flex lg:max-w-none lg:flex-wrap justify-center items-center gap-x-6 gap-y-5 lg:gap-x-8 opacity-60 hover:opacity-100 transition-opacity duration-500">
             {FEATURED_LOGOS.map((logo) =>
               logo.image ? (
                 <img
                   key={logo.label}
                   src={logo.image}
                   alt={logo.label}
-                  className={`${logo.className ?? "h-5 md:h-6"} w-auto`}
+                  className={`${logo.className ?? "h-5 md:h-6"} w-auto ${LOGO_MONO}`}
                   loading="lazy"
                 />
               ) : (
                 <span
                   key={logo.label}
-                  className="font-heading text-lg md:text-xl font-semibold tracking-tight"
-                  style={{ color: logo.color }}
+                  className={`font-heading text-lg md:text-xl font-semibold tracking-tight ${LOGO_MONO_TEXT}`}
                 >
                   {logo.label}
                 </span>

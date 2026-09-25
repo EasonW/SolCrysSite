@@ -1,4 +1,4 @@
-import { CUSTOMER_LOGOS, type CustomerLogo } from "./customerLogos";
+import { CUSTOMER_LOGOS, LOGO_MONO, LOGO_MONO_TEXT, type CustomerLogo } from "./customerLogos";
 
 /**
  * Infinite, seamless horizontal logo marquee for the homepage hero trust bar.
@@ -22,14 +22,13 @@ const renderLogo = (logo: CustomerLogo, key: string) =>
       key={key}
       src={logo.image}
       alt={logo.label}
-      className={`${logo.className ?? "h-5 md:h-6"} w-auto shrink-0 opacity-70`}
+      className={`${logo.className ?? "h-5 md:h-6"} w-auto shrink-0 opacity-70 ${LOGO_MONO}`}
       loading="lazy"
     />
   ) : (
     <span
       key={key}
-      className="shrink-0 font-heading text-lg font-semibold tracking-tight opacity-70 md:text-xl"
-      style={{ color: logo.color }}
+      className={`shrink-0 font-heading text-lg font-semibold tracking-tight opacity-70 md:text-xl ${LOGO_MONO_TEXT}`}
     >
       {logo.label}
     </span>

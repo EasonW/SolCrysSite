@@ -32,7 +32,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     company: "Cornelis Networks",
     photoUrl: "/customers/brandon-draeger.jpg",
     companyLogoUrl: "/customers/cornelis-logo.png",
-    companyLogoClassName: "h-7 md:h-8 dark:brightness-0 dark:invert",
+    companyLogoClassName: "h-7 md:h-8",
     accent: CORNELIS_PURPLE,
     quote:
       "The world needs Active Compute Fabric to unlock more innovation and meet the demands of AI infrastructure. When work that would otherwise stall the GPU runs inside the fabric, customers get far more out of the accelerators they already own. SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.",
@@ -44,7 +44,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     company: "Cornelis Networks",
     photoUrl: "/customers/ina-felsheim.jpg",
     companyLogoUrl: "/customers/cornelis-logo.png",
-    companyLogoClassName: "h-7 md:h-8 dark:brightness-0 dark:invert",
+    companyLogoClassName: "h-7 md:h-8",
     accent: CORNELIS_PURPLE,
     quote:
       "I have worked with many web tools and agencies. SolCrys revamped our web experience in a remarkably short period of time, to a very high bar. I cannot think of a better product launch partner.",
@@ -56,7 +56,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     company: "Cornelis Networks",
     photoUrl: "/customers/nishant-lodha.jpg",
     companyLogoUrl: "/customers/cornelis-logo.png",
-    companyLogoClassName: "h-7 md:h-8 dark:brightness-0 dark:invert",
+    companyLogoClassName: "h-7 md:h-8",
     accent: CORNELIS_PURPLE,
     quote:
       "The interactive demo turned our reference architecture into something a visitor could grasp in two minutes at the booth. SolCrys understood the technology well enough to explain it the way our own engineers would.",
@@ -68,7 +68,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     company: "NextSilicon",
     photoUrl: "/customers/brandon-draeger.jpg",
     companyLogoUrl: "/customers/nextsilicon-logo.svg",
-    companyLogoClassName: "h-4 md:h-5 invert dark:invert-0",
+    companyLogoClassName: "h-4 md:h-5",
     accent: NEXTSILICON_INDIGO,
     quote:
       "For the first time, we have clear, system-level visibility into marketing performance — paired with a platform that continuously optimizes it. The upside is significant. SolCrys is informing how we think about marketing performance in a number of areas — we're already using it to inform content strategy across product launches, campaigns, and major events.",
@@ -80,7 +80,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     company: "TechArena",
     photoUrl: "/customers/kari-newhouse.jpg",
     companyLogoUrl: "/customers/techarena-logo.svg",
-    companyLogoClassName: "h-4 md:h-5 dark:brightness-0 dark:invert",
+    companyLogoClassName: "h-4 md:h-5",
     accent: TECHARENA_CYAN,
     quote:
       "SolCrys AI has been the tool we rely on to advise our own customers — it consistently uncovers opportunities we wouldn't have found ourselves. It hasn't just improved our AI visibility; it's helped us explain why AI is becoming the new buying interface. We use many tools, but we've never worked with a vendor as invested in our success as SolCrys.",
@@ -116,7 +116,7 @@ const CUSTOMER_QUOTES: CustomerQuote[] = [
     company: "ClearlyKept",
     photoUrl: "/customers/garrett-astler.jpg",
     companyLogoUrl: "/customers/clearlykept-logo.png",
-    companyLogoClassName: "h-5 md:h-6 dark:brightness-0 dark:invert",
+    companyLogoClassName: "h-5 md:h-6",
     accent: CLEARLYKEPT_AMBER,
     quote:
       "SolCrys' citation data is one of the most exciting features for us. It gives us clearer, more actionable insights than traditional social listening tools. As a startup owner, I'm also impressed by their MCP support — being able to quickly pull our visibility score, identify gaps, and draft content for our website is exactly what we need.",

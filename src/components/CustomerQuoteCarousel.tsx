@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Lock, ShoppingBag, User } from "lucide-react";
+import { LOGO_MONO } from "@/components/customerLogos";
 
 type AttributionLink =
   | { type: "linkedin"; href: string }
@@ -15,6 +16,7 @@ export type CustomerQuote = {
   photoUrl: string | null;
   /** Optional official company mark, preferred over the text eyebrow when set. */
   companyLogoUrl?: string;
+  /** Sizing only; the mark is always rendered one-colour via LOGO_MONO. */
   companyLogoClassName?: string;
   quote: string;
   accent?: string;
@@ -82,7 +84,7 @@ const CompanyMark = ({
         <img
           src={logoUrl}
           alt={company}
-          className={`${logoClassName ?? "h-5"} w-auto max-w-[140px]`}
+          className={`${logoClassName ?? "h-5"} w-auto max-w-[140px] ${LOGO_MONO}`}
           loading="lazy"
         />
       </div>

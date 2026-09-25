@@ -2,6 +2,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { LOGO_MONO } from "@/components/customerLogos";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -241,7 +242,7 @@ const CornelisCaseStudy = () => {
                 <img
                   src="/customers/cornelis-logo.png"
                   alt="Cornelis"
-                  className="h-8 w-auto dark:brightness-0 dark:invert"
+                  className={`h-8 w-auto ${LOGO_MONO}`}
                   loading="lazy"
                 />
               </div>

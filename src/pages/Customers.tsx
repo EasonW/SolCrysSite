@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { APP_PRICING_URL } from "@/lib/pricing-url";
+import { LOGO_MONO } from "@/components/customerLogos";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -192,7 +193,7 @@ const CustomerStories = () => {
               <img
                 src="/customers/cornelis-logo.png"
                 alt="Cornelis"
-                className="h-10 md:h-12 w-auto dark:brightness-0 dark:invert"
+                className={`h-10 md:h-12 w-auto ${LOGO_MONO}`}
                 loading="lazy"
               />
               <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -457,7 +458,7 @@ const CustomerStories = () => {
               <img
                 src="/customers/nextsilicon-logo.svg"
                 alt="NextSilicon"
-                className="h-7 md:h-8 w-auto invert dark:invert-0"
+                className={`h-7 md:h-8 w-auto ${LOGO_MONO}`}
                 loading="lazy"
               />
               <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -682,7 +683,7 @@ const CustomerStories = () => {
               <img
                 src="/customers/wyze-logo.png"
                 alt="Wyze"
-                className="h-9 md:h-10 w-auto"
+                className={`h-9 md:h-10 w-auto ${LOGO_MONO}`}
                 loading="lazy"
               />
               <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -881,7 +882,7 @@ const CustomerStories = () => {
                     <img
                       src="/customers/uipath-logo.svg"
                       alt="UiPath"
-                      className="mt-3 h-7 w-auto"
+                      className={`mt-3 h-7 w-auto ${LOGO_MONO}`}
                       loading="lazy"
                     />
                     <div className="mt-3">
@@ -936,7 +937,7 @@ const CustomerStories = () => {
                     <img
                       src="/customers/techarena-logo.svg"
                       alt="TechArena"
-                      className="mt-3 h-5 w-auto dark:brightness-0 dark:invert"
+                      className={`mt-3 h-5 w-auto ${LOGO_MONO}`}
                       loading="lazy"
                     />
                     <div className="mt-3">
