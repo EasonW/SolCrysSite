@@ -96,7 +96,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
     <meta name="author" content="SolCrys" />
-    <meta name="date" content="2026-05-17" />
+    <meta name="date" content="2026-09-26" />
     <meta name="theme-color" content="#000000" />
     <meta property="og:site_name" content="SolCrys" />
     <meta property="og:locale" content="en_US" />
@@ -105,7 +105,7 @@
     <meta property="og:url" content="https://solcrys.com/building-aeo-platform-architecture/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-05-17" />
-    <meta property="article:modified_time" content="2026-05-17" />
+    <meta property="article:modified_time" content="2026-09-26" />
     <meta property="og:image" content="https://solcrys.com/og/building-aeo-platform-architecture.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/building-aeo-platform-architecture.png" />
@@ -116,7 +116,7 @@
     <!-- analytics:end -->
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Building an AEO Platform: 6 Architectural Decisions","item":"https://solcrys.com/building-aeo-platform-architecture/"}]}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Building an AEO platform — 6 architectural decisions and what they cost us","description":"An AEO platform's measurement, action, and verification surfaces all rest on a small number of architectural choices that aren't usually published. Jia Chang on six of ours — what each tradeoff looks like, what we chose, and what we'd revisit.","dateModified":"2026-05-17","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/building-aeo-platform-architecture/","author":{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO, SolCrys","sameAs":["https://www.linkedin.com/in/jia-c/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Building an AEO platform — 6 architectural decisions and what they cost us","description":"An AEO platform's measurement, action, and verification surfaces all rest on a small number of architectural choices that aren't usually published. Jia Chang on six of ours — what each tradeoff looks like, what we chose, and what we'd revisit.","dateModified":"2026-09-26","datePublished":"2026-05-17","mainEntityOfPage":"https://solcrys.com/building-aeo-platform-architecture/","author":{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO, SolCrys","sameAs":["https://www.linkedin.com/in/jia-c/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/building-aeo-platform-architecture/","mainEntity":[{"@type":"Question","name":"Doesn't publishing this give competitors a roadmap?","acceptedAnswer":{"@type":"Answer","text":"The six decisions above are at the public-pattern layer — versioned tables vs. event logs is a category-wide tradeoff, not a SolCrys invention. The proprietary work is in the implementation details, the specific tunings, and the customer-facing surfaces we've built on top. Publishing the architectural reasoning costs us a small amount of competitive surface in exchange for credibility with technical buyers who can audit it. The trade is worth it."}},{"@type":"Question","name":"What about scale — does this architecture hold up at 10x current customer volume?","acceptedAnswer":{"@type":"Answer","text":"Most of it does. The places I'd watch are decision 2 (per-engine probe queues at higher concurrency) and decision 3 (the regex reconciliation pass becomes a larger fraction of runtime). We have planned investments in both, and I'd expect to revisit them before crossing the 5x threshold."}},{"@type":"Question","name":"How does this compare to how other AEO platforms are built?","acceptedAnswer":{"@type":"Answer","text":"Honestly, I don't know in detail. Most AEO platforms haven't published their architecture, and the public marketing surface doesn't usually disclose enough to make a comparison. The hope of publishing ours is that it raises the bar — if other platforms publish theirs, the technical-buyer evaluation gets richer for everyone, including for the platforms."}},{"@type":"Question","name":"What about the parts you didn't include?","acceptedAnswer":{"@type":"Answer","text":"Plenty — observability, on-call structure, deployment topology, the agentic-AI workflow infrastructure that runs much of the action layer, the audit-log and compliance surfaces. The six decisions above are the ones most likely to show up in a technical-buyer evaluation. If you're a customer's technical buyer and you want a deeper conversation, we'll do it under NDA."}}]}</script>
   </head>
   <body>
@@ -144,7 +144,7 @@
         <h1>Building an AEO platform — 6 architectural decisions and what they cost us</h1>
         <p class="seo-lede">AEO platforms get marketed at the PM and CMO layer. The engineering decisions underneath usually stay private — partly because they&#39;re competitive surface, partly because few customers ask, partly because writing about them is uncomfortable. This essay publishes six of SolCrys&#39;s architectural decisions: how we store prompt sets, how we probe engines, how we parse citations, how we canonicalize URLs, how we score recovery, and how we ground action recommendations in Corporate Context. Each one has a tradeoff I&#39;d defend against any competing choice, and at least three I&#39;d revisit if we were starting over. The point isn&#39;t to claim we got it right; it&#39;s to put a CTO&#39;s reasoning on the table so customers&#39; technical buyers can audit it.</p>
         <p>By <a href="https://www.linkedin.com/in/jia-c/" rel="noopener">Jia Chang</a>, Co-Founder &amp; CTO, SolCrys</p>
-        <p>Updated <time datetime="2026-05-17">2026-05-17</time></p>
+        <p>Published <time datetime="2026-05-17">2026-05-17</time> · Updated <time datetime="2026-09-26">2026-09-26</time></p>
       </header>
       
       <section class="seo-section">
@@ -257,6 +257,11 @@
         <div class="seo-grid">
           
           <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/model-upgrades-are-migrations/">Every Model Upgrade Is a Migration: The Harness Marketing Teams Need Before the Next One</a></h3>
+            <p>Model releases now land every few weeks. Jia Chang, SolCrys CTO, on running each one as a migration, with a 10-step checklist for marketing AI workflows.</p>
+          </article>
+          <article class="seo-card">
             <p class="seo-kicker">How SolCrys Works</p>
             <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
             <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
@@ -316,6 +321,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-BfpG2qrC.js"></script>
+    <script type="module" crossorigin src="/assets/index-DrrZPqmH.js"></script>
   </body>
 </html>
