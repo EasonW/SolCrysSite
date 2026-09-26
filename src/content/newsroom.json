@@ -5,6 +5,204 @@
   },
   "posts": [
     {
+      "slug": "a-year-in-view-the-facts-had-to-hold",
+      "ogImage": "/og/news-a-year-in-view-the-facts-had-to-hold.png",
+      "ogEyebrow": "A Year in View",
+      "ogTitleParts": [
+        "The models kept changing.",
+        "The facts had to hold."
+      ],
+      "ogSubtitle": "Eason Wang on what changed in AI answers, models, and our product in year one, and 5 predictions for year two.",
+      "kind": "founder-note",
+      "title": "A Year in View: The Models Kept Changing. The Facts Had to Hold.",
+      "metaTitle": "A Year in View: The Models Kept Changing. The Facts Had to Hold.",
+      "description": "Eason Wang on year one of answer engine optimization: how buyers, engines, and models changed, what we built and deleted, and 5 predictions for year two.",
+      "date": "2026-09-26",
+      "datePublished": "2026-09-26",
+      "updated": "2026-09-26",
+      "tag": "Year One",
+      "author": {
+        "name": "Eason Wang",
+        "role": "Co-Founder & CPO, SolCrys",
+        "linkedin": "https://www.linkedin.com/in/eason-wang/"
+      },
+      "relatedSlugs": [
+        "your-brand-ai-ready-one-year-of-solcrys",
+        "introducing-the-corporate-context-engine"
+      ],
+      "body": [
+        {
+          "type": "paragraph",
+          "text": "Gwen wrote about [why we started and whom we listened to](/news/your-brand-ai-ready-one-year-of-solcrys/). This note is the other half of year one: what changed underneath us. Three things moved at once over the past 12 months. Buyers moved into AI answers. The models we build on became cheaper and more capable nearly every month. And our product changed shape several times in response, sometimes by adding things and sometimes by deleting them."
+        },
+        {
+          "type": "paragraph",
+          "text": "If I had to compress the year into one sentence, it would be this: generation got cheap and models became replaceable parts, so the scarce inputs became the facts a brand can stand behind and the evidence that something actually worked. What follows is how we got there, organized around the questions customers asked us, in their words, roughly in the order they asked them."
+        },
+        {
+          "type": "heading",
+          "text": "1. “What is AI saying about us?”"
+        },
+        {
+          "type": "paragraph",
+          "text": "When we started in September 2025, buyers were already ahead of the brands they were evaluating. In Forrester's [State of Business Buying 2026](https://www.forrester.com/blogs/state-of-business-buying-2026/), 94% of business buyers said they use AI somewhere in their buying process. [G2 found](https://www.prnewswire.com/news-releases/new-g2-research-half-of-b2b-software-buyers-now-start-their-research-with-ai-chatbots-302742807.html) that 51% of B2B software buyers now start their research in an AI chatbot more often than in Google, up from 29% in April 2025. At the same time, the clicks that used to tell marketers what was happening started falling away. Chartbeat data in the [Reuters Institute's 2026 trends report](https://reutersinstitute.politics.ox.ac.uk/journalism-media-and-technology-trends-and-predictions-2026) shows Google organic referrals to news sites falling 33% worldwide and 38% in the U.S. in the year to November 2025."
+        },
+        {
+          "type": "paragraph",
+          "text": "So the first question was simple, and almost nobody could answer it: what does AI say about us? The technology to answer it arrived just in time. On September 29, 2025, Anthropic released Claude Sonnet 4.5, renamed its Claude Code SDK the Claude Agent SDK, and published an engineering essay that helped give the year its vocabulary: [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), the idea that what a model reads matters as much as how you ask it. Search-grounded model APIs made it practical to put a buyer's question to an engine, over and over, and record what came back."
+        },
+        {
+          "type": "paragraph",
+          "text": "Two lessons from those months still shape the product. The first is that answers are not stable. Ask the same question twice and you get a different list. [SparkToro's study](https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/) of 2,961 runs later put a number on it: you would wait more than 1,000 runs to see two brand lists come back in the same order. The same study concluded that visibility measured as a rate across many runs is a reasonable metric, and that a \"ranking position in AI\" is not. We had reached the same conclusion from our own data, which is why our core metrics are rates across repeated runs, not the rank in a single answer."
+        },
+        {
+          "type": "paragraph",
+          "text": "The second is that people want to use this where they already work. We built our first MCP server in October 2025, before we had an AEO product and 2 months before MCP moved into the Linux Foundation's new [Agentic AI Foundation](https://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation/). By July 2026, the protocol's main SDKs were [approaching half a billion downloads a month](https://blog.modelcontextprotocol.io/posts/2026-07-28/). MCP is now [how customers bring SolCrys into Claude, ChatGPT, and Cursor](/why-we-bet-on-mcp/), and it can act, not just read: since June, a customer's own assistant can mark an Action Hub task as published, through a separate permission they opt into."
+        },
+        {
+          "type": "heading",
+          "text": "2. “What do we do about it?”"
+        },
+        {
+          "type": "paragraph",
+          "text": "By early 2026 the category had a name. In March, Gartner published its first [Market Guide for Answer Engine Visibility Tools](https://www.gartner.com/en/documents/7559273). The name was accurate about where the market stood: the tools were built to see. In May, [Google's own guidance](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) gave Google's answer to a debate that had run all year: \"optimizing for generative AI search is optimizing for the search experience, and thus still SEO.\" For Google's AI surfaces, answer engine optimization is an operating layer on top of SEO foundations, not a replacement for them."
+        },
+        {
+          "type": "paragraph",
+          "text": "Seeing a gap is not the same as closing it, and closing it became the next question. The model side moved fastest here. In February, Claude Opus 4.6 arrived with a million-token context window in beta, and OpenAI described an internal project in which a small team [shipped about a million lines of code in 5 months without writing any of it by hand](https://openai.com/index/harness-engineering/). They called the discipline harness engineering. In April, Anthropic put the lesson in one sentence: \"[Harnesses encode assumptions that go stale as models improve](https://www.anthropic.com/engineering/managed-agents).\" The model does the work. The harness decides what it reads, what it is allowed to do, and how its work gets checked, and it has to be rebuilt as the models change."
+        },
+        {
+          "type": "paragraph",
+          "text": "That is the shape we gave the product. In May we launched SolCrys AEO as a loop, Measure → Diagnose → Execute → Verify, instead of a dashboard. Measure and Diagnose were the parts we already knew how to build. Execute had to be governed: drafts grounded in a company's approved facts, and a person approving anything before it ships. Verify turned out to be the hardest verb in the loop."
+        },
+        {
+          "type": "subheading",
+          "text": "Why we deleted our first Verify"
+        },
+        {
+          "type": "paragraph",
+          "text": "Our first verification system re-checked published pages and reported impact at 7, 14, and 30 days. The numbers looked clean. But it had no control prompts and no confidence intervals, and our internal review in May concluded that we could not defend the headline numbers. We removed it that month. What replaced it is deliberately narrower: re-run the same frozen prompt set on the same engines, re-audit the same page to see whether its score recovered, and treat any before-and-after number as an observation, not proof of cause."
+        },
+        {
+          "type": "paragraph",
+          "text": "This matters beyond our product. In July, a [survey of 45 GEO studies](https://arxiv.org/abs/2607.14035) concluded that \"no reviewed technique shows a stable, longitudinal, cross-platform causal effect.\" That doesn't mean nothing works. It means the burden of proof sits with whoever claims a result, including us. A lift shown without a sample size is a picture, not a finding."
+        },
+        {
+          "type": "subheading",
+          "text": "The harness we use on ourselves"
+        },
+        {
+          "type": "paragraph",
+          "text": "We build SolCrys the way we think marketing will increasingly run: agents do much of the work inside a harness that people design. We merged about 1,900 pull requests in our first year, and in August and September close to 9 in 10 were marked as written with a coding agent. The human work moved to specs, evaluations, and review, with a second model from a different family often reviewing alongside. The discipline we sell is the one we apply to our own code: approved context, governed execution, and honest verification."
+        },
+        {
+          "type": "heading",
+          "text": "3. “Is it right, and does it choose us?”"
+        },
+        {
+          "type": "paragraph",
+          "text": "Once teams could see how they appeared, they asked harder questions: is what AI says about us true, and does being mentioned mean being chosen? The honest answer to both: not reliably. [The same G2 survey](https://www.prnewswire.com/news-releases/new-g2-research-half-of-b2b-software-buyers-now-start-their-research-with-ai-chatbots-302742807.html) found that 64% of software buyers get inaccurate recommendations from AI chatbots often or very often. [A study of Google AI Overviews](https://arxiv.org/abs/2605.14021) by Xu, Iqbal, and Montgomery found that 11.0% of 98,020 claims were not supported by the pages cited for them. And [Lily Ray's analysis](https://searchengineland.com/google-ai-overviews-cite-self-serving-listicles-recommend-competitors-480573) of B2B software queries found that when AI Overviews cited a brand's own \"best of\" listicle, 224 of 323 times the brand itself was left out of the recommendation. Being a source and being the answer are different things."
+        },
+        {
+          "type": "paragraph",
+          "text": "Accuracy also started to look like a legal question. In May, the [Regional Court of Munich](https://the-decoder.com/landmark-german-ruling-declares-googles-ai-overviews-are-googles-own-words-and-makes-it-liable-for-false-answers/) held that Google's AI Overviews are Google's own content, not a list of third-party results, and that Google is liable for false statements in them. The ruling is not final, and Google has said it is reviewing it. The direction is still worth noticing: what an engine says about your company is starting to count as something someone said."
+        },
+        {
+          "type": "paragraph",
+          "text": "The technology change that let us answer these questions was context length. In January our knowledge pipeline still worked the old way: embed documents, retrieve the closest fragments, and hope the right fragment came back. By June, context windows were large and cheap enough that we stopped retrieving fragments of a company's truth. Answer Accuracy grades each AI answer against the company's entire Corporate Context, and it cannot mark a claim wrong without pointing to the evidence. [Recommendation Score](/ai-recommendation-score/) measures how favorably an engine endorses a brand against its competitors, and every point traces back to quoted text in the answer."
+        },
+        {
+          "type": "paragraph",
+          "text": "That is why the [Corporate Context Engine](/news/introducing-the-corporate-context-engine/) sits underneath everything we shipped after it. Engineers spent the year learning that the model matters less than what it reads. For a brand, what the model reads is its approved facts, claims, and proof. Keep those current and consistent, and every output built on them, from an AI answer to a webpage to a booth, inherits the accuracy. Let them drift, and no model upgrade will fix it."
+        },
+        {
+          "type": "heading",
+          "text": "4. What holds when the ground moves"
+        },
+        {
+          "type": "paragraph",
+          "text": "August put that to the test. In the second week of the month, ChatGPT all but stopped citing Reddit. Independent trackers, [as reported by Search Engine Journal](https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/), measured Reddit's share of ChatGPT citations falling from 3.83% to 0.52% within about a week. In our own tracking across 5 engines, the break was ChatGPT's alone: Google AI Overviews, Perplexity, and Gemini barely moved, and the citations ChatGPT dropped were replaced mostly by vendors' official sites, documentation, and government pages."
+        },
+        {
+          "type": "paragraph",
+          "text": "It had happened before. The same report notes that in September 2025, several trackers saw Reddit's share of ChatGPT citations collapse within a few weeks. Two drops in a year, on one engine, with no change in what Reddit users were writing, tell you what kind of variable this is. Which sources an engine names is decided at least as much by licensing, retrieval policy, and cost as by the quality of the content. We changed our own stance to match: we now treat Reddit as a place engines read to learn what customers think, rather than a citation to be won."
+        },
+        {
+          "type": "paragraph",
+          "text": "It also showed why measurement has to follow the surface buyers use. In our own side-by-side runs, ChatGPT's developer API and the ChatGPT app did not cite the same sources, so a team measuring only through the API sees a different citation picture from the one its buyers see. We moved more of our own measurement closer to the answers buyers actually see, with each prompt sent the way a person would type it."
+        },
+        {
+          "type": "paragraph",
+          "text": "Agentic commerce had a similar year. OpenAI launched Instant Checkout in ChatGPT in September 2025 and [phased it out in March 2026](https://www.digitalcommerce360.com/2026/03/24/openai-agentic-commerce-updates-chatgpt-walmart/), after [Walmart reported](https://searchengineland.com/walmart-chatgpt-checkout-converted-worse-472071) that purchases made inside ChatGPT converted at one-third the rate of click-outs to its own site. OpenAI [shut down its Atlas browser](https://9to5mac.com/2026/08/04/openai-explains-what-will-happen-when-chatgpt-atlas-shuts-down-this-weekend/) on August 9. And only 9% of B2B software buyers told [G2](https://company.g2.com/news/buyer-behavior-2026) they were comfortable letting an agent execute purchases, even within approved guardrails. For now, discovery increasingly happens in AI, and most decisions still close on the brand's own surface. That is a large part of why we started building webpages with customers like [Cornelis](/customers/cornelis/): the page an engine cites and the page a buyer lands on should tell the same story, in the same words."
+        },
+        {
+          "type": "paragraph",
+          "text": "The models moved just as fast. Anthropic alone shipped Claude Opus 5, Fable 5.1, and Opus 5.5 between late July and late September, and the price of its Opus tier fell from $15 per million input tokens for Opus 4.1 a year earlier to [$4 for Opus 5.5](https://www.anthropic.com/claude-opus-5-5) this week. Cheaper models are good news. But for a measurement product, every model change is a migration. When we moved to a new model generation in July, several things that had worked the day before broke. So we built the unglamorous parts: evaluation sets labeled in 2 independent blind passes with disagreements adjudicated, gates a new model has to pass before it takes over a job, and the freedom to switch providers without rewriting our code. And one rule we don't bend: we never substitute the model that queries an engine, because that would change the thing being measured."
+        },
+        {
+          "type": "paragraph",
+          "text": "[Signals](/signal-weekly-market-brief/), which we added in August to brief customers on their industry and competitors, taught us a related lesson. We first filtered candidate stories with a score threshold and a confidence floor. On one 40-candidate scan, everything worth reading scored between 29 and 36 and the noise between 2 and 8, so the ordering was right, yet the threshold threw away 3 of the top 4 items. The model's self-reported confidence ran backwards: the items worth reading averaged 60, the noise 97. We now rank instead of thresholding, and confidence is a label rather than a gate. When a model's scores are ordered but not calibrated, rank them."
+        },
+        {
+          "type": "paragraph",
+          "text": "So what holds? The layer you own: your facts, stated the same way everywhere and corroborated by sources you don't control. Citations move with policy, and models turn over every few months. A company's approved facts are the one part that should change only when someone decides to change them."
+        },
+        {
+          "type": "heading",
+          "text": "What I got right, and what I got wrong"
+        },
+        {
+          "type": "paragraph",
+          "text": "I published several positions on this site during the year. Here is how they held up."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "[Production is cheap, trust is scarce](/production-is-cheap-trust-is-scarce/): **held, and sharpened.** Generation kept getting cheaper while the answer itself became paid, contested ground: ChatGPT's ads business passed a [$1 billion annual run rate](https://digiday.com/media-buying/openais-chatgpt-ads-business-hits-1-billion-run-rate-as-europe-gets-self-serve-access/) in under 200 days.",
+            "**The same essay's figure that Wikipedia and Reddit drive more than a quarter of ChatGPT's U.S. citations: out of date.** It came from January and February 2026 data. Since August it no longer holds on ChatGPT, and the page now carries a dated correction.",
+            "[AI cites consensus, not authority](/ai-citations-consensus-not-authority/): **needs a correction.** Corroboration across independent sources still matters. But after August, ChatGPT leaned toward official pages and documentation, so on that engine a company's own canonical pages count for more than I gave them credit for. That page now carries a dated correction too.",
+            "[Most GEO advice is untestable](/testable-geo-playbook/): **held.** The variance research and the survey of 45 GEO studies point the same way: measure rates, and distrust any single before-and-after.",
+            "[A wrong description is worse than no mention](/how-ai-describes-your-brand/): **held, with higher stakes.** Most software buyers now say they often get inaccurate AI recommendations, and at least one court has treated an AI summary as the search engine's own statement.",
+            "[Agents are your website's third audience](/agent-readiness-third-audience/): **half right.** Agents already use software at scale: Honeycomb [reports](https://blog.modelcontextprotocol.io/posts/2026-07-28/) that nearly 20% of its monthly interactive queries now come from agents. They are not yet buying. The protocols survived the year; ChatGPT's in-chat checkout did not."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Five predictions for year two"
+        },
+        {
+          "type": "paragraph",
+          "text": "Here are 5 predictions I expect to be graded on. I'll come back to them next September."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "**Another source will move, and not because of quality.** At least one major engine will sharply change which sources it cites because of a licensing, retrieval, or cost decision, and independent trackers will see it within days.",
+            "**Visibility data will be free, and budgets will follow outcomes.** Google Search Console and Bing Webmaster Tools already report AI impressions and citations at no cost. The paid value in AEO will move to accuracy, recommendation, and evidence that a specific action changed a specific answer.",
+            "**Paid and organic answers will be reported separately.** With ads running in ChatGPT and in Google's AI Overviews, marketing teams will split organic answer share from sponsored placements, the way SEO and SEM split two decades ago.",
+            "**Agents will read first and buy later.** Agent visits will become a line item B2B teams report for their own sites, while purchases completed entirely inside an AI chat stay a small share of B2B buying.",
+            "**Brand context will become infrastructure.** A governed store of approved facts, claims, and proof, with versions and approvals, will become a standard part of AEO and content platforms, and buyers will ask vendors exactly how their before-and-after numbers were measured."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "For our part, year two means more of the same discipline: measure the answers buyers actually see, engine by engine; make one Corporate Context the source for every output, whether the first reader is a person or a model; let agents take on more of the execution, with a person approving what ships; and keep verification honest."
+        },
+        {
+          "type": "heading",
+          "text": "The facts have to hold"
+        },
+        {
+          "type": "paragraph",
+          "text": "Gwen ended her note with a promise: your brand, AI ready. From where I sit, that means something specific. Your brand is found, understood accurately, and chosen, by the engines and by the buyers they send. The models will keep changing every few months. Our job is to make sure the facts hold."
+        },
+        {
+          "type": "paragraph",
+          "text": "Thank you to Gwen and Jia for a year of building together, and to every customer who told us when a number didn't look right. Those conversations made the product more rigorous."
+        }
+      ]
+    },
+    {
       "slug": "your-brand-ai-ready-one-year-of-solcrys",
       "ogImage": "/og/news-your-brand-ai-ready-one-year-of-solcrys.png",
       "kind": "founder-note",
@@ -21,6 +219,7 @@
         "linkedin": "https://www.linkedin.com/in/gwenchenx/"
       },
       "relatedSlugs": [
+        "a-year-in-view-the-facts-had-to-hold",
         "introducing-the-corporate-context-engine",
         "introducing-solcrys-aeo"
       ],
