@@ -96,7 +96,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
     <meta name="author" content="SolCrys" />
-    <meta name="date" content="2026-05-19" />
+    <meta name="date" content="2026-09-26" />
     <meta name="theme-color" content="#000000" />
     <meta property="og:site_name" content="SolCrys" />
     <meta property="og:locale" content="en_US" />
@@ -105,7 +105,7 @@
     <meta property="og:url" content="https://solcrys.com/aeo-prompt-set-lifecycle/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-05-19" />
-    <meta property="article:modified_time" content="2026-05-19" />
+    <meta property="article:modified_time" content="2026-09-26" />
     <meta property="og:image" content="https://solcrys.com/og/aeo-prompt-set-lifecycle.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/aeo-prompt-set-lifecycle.png" />
@@ -116,8 +116,8 @@
     <!-- analytics:end -->
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Don't delete 0-visibility prompts: a four-state lifecycle for AEO prompt sets","item":"https://solcrys.com/aeo-prompt-set-lifecycle/"}]}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"When (and when not) to delete a prompt — a four-state lifecycle for an AEO prompt set","description":"Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that's the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it.","dateModified":"2026-05-19","datePublished":"2026-05-19","mainEntityOfPage":"https://solcrys.com/aeo-prompt-set-lifecycle/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-prompt-set-lifecycle/","mainEntity":[{"@type":"Question","name":"What happens to historical response and citation data when I archive a prompt?","acceptedAnswer":{"@type":"Answer","text":"Everything stays. SolCrys uses a soft-delete pattern: the prompt row is marked inactive and timestamped, but never physically removed. Historical responses tied to the prompt remain joined to it, so citation rate, sentiment, and trend reports continue to resolve. New runs stop generating responses for the archived prompt, which frees a slot in your plan, but the past data is fully queryable."}},{"@type":"Question","name":"If I rewrite a prompt, do I lose the measurement history of the original?","acceptedAnswer":{"@type":"Answer","text":"No. The rewrite enters the set as a new prompt with its own measurement history; the original is archived and retains its history. You can compare both versions side by side over time to see whether the rewrite genuinely outperforms before committing. Once you have enough data, ship the better-performing version permanently and archive the other."}},{"@type":"Question","name":"How many prompts should I have in an active set?","acceptedAnswer":{"@type":"Answer","text":"Most SolCrys plans set the active prompt-set size deliberately — 20 prompts on Starter, 60 on Pro, 30 per client on Agency. The constraint is a feature, not a bug: it forces discipline about which prompts truly matter. The right operating cadence is to review the set quarterly, prune prompts that fall into Archive criteria, and add new prompts only against the four legitimate triggers in this essay."}},{"@type":"Question","name":"How often should I run this lifecycle review?","acceptedAnswer":{"@type":"Answer","text":"Quarterly. AI engine behavior shifts quarter to quarter (engines reorder, new competitors enter citation surfaces, your own content moves), but reviewing more often than that produces decisions on noise rather than signal. Make the review a recurring calendar item at the start of each quarter; document each prompt's classification and reason for future continuity."}},{"@type":"Question","name":"Can I see archived prompts and their data later?","acceptedAnswer":{"@type":"Answer","text":"Yes. Archived (inactive) prompts are visible on the prompts management page in the dashboard, alongside the active set, with their full historical responses and citation data preserved. They are also fully queryable via the API. Archive is a soft-delete — the data never goes away, and you can always inspect or reactivate an archived prompt later."}}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"When (and when not) to delete a prompt — a four-state lifecycle for an AEO prompt set","description":"Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that's the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it.","dateModified":"2026-09-26","datePublished":"2026-05-19","mainEntityOfPage":"https://solcrys.com/aeo-prompt-set-lifecycle/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/aeo-prompt-set-lifecycle/","mainEntity":[{"@type":"Question","name":"What happens to historical response and citation data when I archive a prompt?","acceptedAnswer":{"@type":"Answer","text":"Everything stays. SolCrys uses a soft-delete pattern: the prompt row is marked inactive and timestamped, but never physically removed. Historical responses tied to the prompt remain joined to it, so citation rate, sentiment, and trend reports continue to resolve. New runs stop generating responses for the archived prompt, which frees a slot in your plan, but the past data is fully queryable."}},{"@type":"Question","name":"If I rewrite a prompt, do I lose the measurement history of the original?","acceptedAnswer":{"@type":"Answer","text":"No. The rewrite enters the set as a new prompt with its own measurement history; the original is archived and retains its history. You can compare both versions side by side over time to see whether the rewrite genuinely outperforms before committing. Once you have enough data, ship the better-performing version permanently and archive the other."}},{"@type":"Question","name":"How many prompts should I have in an active set?","acceptedAnswer":{"@type":"Answer","text":"Most SolCrys plans set the active prompt-set size deliberately — 20 prompts on Starter, 60 on Pro, 30 per client on Agency. The constraint is a feature, not a bug: it forces discipline about which prompts truly matter. The right operating cadence is to review the set quarterly, prune prompts that fall into Archive criteria, and add new prompts only against the four legitimate triggers in this essay."}},{"@type":"Question","name":"How often should I run this lifecycle review?","acceptedAnswer":{"@type":"Answer","text":"Quarterly. AI engine behavior shifts quarter to quarter (engines reorder, new competitors enter citation surfaces, your own content moves), but reviewing more often than that produces decisions on noise rather than signal. Make the review a recurring calendar item at the start of each quarter; document each prompt's classification and reason for future continuity."}},{"@type":"Question","name":"Can I see archived prompts and their data later?","acceptedAnswer":{"@type":"Answer","text":"Yes. Archived (inactive) prompts are visible on the prompts management page in the dashboard, alongside the active set, with their full historical responses and citation data preserved. Archive is a soft-delete — the data never goes away, and you can always inspect or reactivate an archived prompt later."}}]}</script>
   </head>
   <body>
     <div id="root">
@@ -144,7 +144,7 @@
         <h1>When (and when not) to delete a prompt — a four-state lifecycle for an AEO prompt set</h1>
         <p class="seo-lede">A common piece of advice in AEO is to delete prompts that show zero visibility across all runs. We disagree. A 0-visibility prompt with real buyer intent is the most valuable kind of gap your prompt set can surface — a citation opportunity competitors haven&#39;t blocked yet. The right operating model is a four-state lifecycle (Keep + Act, Rewrite, Archive, Add) with archival rather than hard-delete for historical data continuity. This essay walks the decision criteria, the technical implementation that preserves your measurement history, and a worked example.</p>
         
-        <p>Updated <time datetime="2026-05-19">2026-05-19</time></p>
+        <p>Published <time datetime="2026-05-19">2026-05-19</time> · Updated <time datetime="2026-09-26">2026-09-26</time></p>
       </header>
       
       <section class="seo-section">
@@ -208,8 +208,8 @@
     </section>
     <section class="seo-section">
       <h2>A worked example</h2>
-      <p>A customer comes to us with 50 prompts in their set, six months of history, and an instinct to clean up. Auditing the set we found:</p>
-      <ul class="seo-list"><li><strong>12 prompts at 0 visibility with real buyer intent + competitor citations.</strong> Classified as Keep + Act. Queued into the Action Queue as content gaps. Within 90 days, 8 of the 12 moved above 20% presence.</li><li><strong>6 prompts at 0 visibility with phrasing issues.</strong> Rewrote them to match real buyer language. Both original and rewrite kept in the set, old as archived, new as active. 4 of the 6 rewrites surfaced above the original within 60 days.</li><li><strong>5 prompts that were duplicate, stale, or off-positioning.</strong> Archived. Slots freed. Historical data preserved for trend continuity.</li><li><strong>3 new prompts added</strong> — two for a new competitor that entered the category, one for a product line that shipped during the previous quarter.</li><li>Net: prompt set size stayed at 48 (50 - 5 + 3), every change had a documented reason, and six months of measurement history remained fully queryable.</li></ul>
+      <p>Illustrative scenario: a team arrives with 50 prompts in their set, six months of history, and an instinct to clean up. A triage might find:</p>
+      <ul class="seo-list"><li><strong>12 prompts at 0 visibility with real buyer intent + competitor citations.</strong> Classified as Keep + Act. Queued into the Action Hub as content gaps, then re-measured on the same prompts after each fix ships.</li><li><strong>6 prompts at 0 visibility with phrasing issues.</strong> Rewrote them to match real buyer language. Both original and rewrite kept in the set, old as archived, new as active, so the two can be compared over time.</li><li><strong>5 prompts that were duplicate, stale, or off-positioning.</strong> Archived. Slots freed. Historical data preserved for trend continuity.</li><li><strong>3 new prompts added</strong> — two for a new competitor that entered the category, one for a product line that shipped during the previous quarter.</li><li>Net: prompt set size stayed at 48 (50 - 5 + 3), every change had a documented reason, and six months of measurement history remained fully queryable.</li></ul>
       
       
     </section>
@@ -249,7 +249,7 @@
           </article>
           <article class="seo-card">
             <h3>Can I see archived prompts and their data later?</h3>
-            <p>Yes. Archived (inactive) prompts are visible on the prompts management page in the dashboard, alongside the active set, with their full historical responses and citation data preserved. They are also fully queryable via the API. Archive is a soft-delete — the data never goes away, and you can always inspect or reactivate an archived prompt later.</p>
+            <p>Yes. Archived (inactive) prompts are visible on the prompts management page in the dashboard, alongside the active set, with their full historical responses and citation data preserved. Archive is a soft-delete — the data never goes away, and you can always inspect or reactivate an archived prompt later.</p>
           </article>
       </section>
       
@@ -290,12 +290,12 @@
           <article class="seo-card">
             <p class="seo-kicker">MCP &amp; Skills</p>
             <h3><a href="/solcrys-mcp-and-skills/">SolCrys MCP and Skills: tools, install, and the workflows that chain them</a></h3>
-            <p>A practical reference for the SolCrys MCP server and the six open-source AEO Skills. All 14 tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
+            <p>A practical reference for the SolCrys MCP server and the six open-source AEO Skills. The core tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
           </article>
           <article class="seo-card">
             <p class="seo-kicker">Prompt Intelligence</p>
-            <h3><a href="/what-buyers-ask-ai-prompt-pulse/">What Buyers Actually Ask AI: 984 Prompts Across 15 Industries</a></h3>
-            <p>We analyzed 984 real buyer questions people put to AI across 15 industries. The finding: nearly 90% are mid-to-late-funnel — buyers use AI to decide, not just to define. Inside the SolCrys Prompt Pulse dataset.</p>
+            <h3><a href="/what-buyers-ask-ai-prompt-pulse/">What Buyers Ask AI: Patterns in 1,012 Buyer-Style Questions Across 16 Industries</a></h3>
+            <p>Prompt Pulse is a curated set of 1,012 buyer-style questions across 16 industries, scored for relative AI demand. What its patterns show, and what they don&#39;t.</p>
           </article>
         </div>
       </section>
@@ -332,6 +332,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-BQwzy8Zw.js"></script>
+    <script type="module" crossorigin src="/assets/index-CJvS3VmY.js"></script>
   </body>
 </html>
