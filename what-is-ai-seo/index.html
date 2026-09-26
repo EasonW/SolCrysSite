@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>What Is AI SEO? AI SEO vs AEO vs GEO in 2026 | SolCrys</title>
+    <meta name="description" content="AI SEO, AEO, and GEO name one job: getting cited in AI answers. Where each term came from, what Google says, and why the engine matters more than the name." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/what-is-ai-seo/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="What Is AI SEO? AI SEO vs AEO vs GEO in 2026 | SolCrys" />
+    <meta property="og:description" content="AI SEO, AEO, and GEO name one job: getting cited in AI answers. Where each term came from, what Google says, and why the engine matters more than the name." />
+    <meta property="og:url" content="https://solcrys.com/what-is-ai-seo/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-26" />
+    <meta property="article:modified_time" content="2026-09-26" />
+    <meta property="og:image" content="https://solcrys.com/og/what-is-ai-seo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/what-is-ai-seo.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C8g_8rZY.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"What Is AI SEO? AI SEO vs AEO vs GEO, and What Actually Changes in 2026","item":"https://solcrys.com/what-is-ai-seo/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"What is AI SEO? AI SEO vs AEO vs GEO, and what actually changes in 2026","description":"AI SEO, AEO, and GEO name one job: getting cited in AI answers. Where each term came from, what Google says, and why the engine matters more than the name.","dateModified":"2026-09-26","datePublished":"2026-09-26","mainEntityOfPage":"https://solcrys.com/what-is-ai-seo/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/what-is-ai-seo/","mainEntity":[{"@type":"Question","name":"What is AI SEO?","acceptedAnswer":{"@type":"Answer","text":"\"AI SEO\" usually means optimizing so AI answer engines such as ChatGPT, Perplexity, Claude, Gemini, and Google's AI Overviews retrieve, cite, and accurately describe your brand. It is the same job as AEO and GEO under a more familiar name. It also has a second meaning, using AI tools to research or produce SEO content, so check which one someone means before comparing plans or prices."}},{"@type":"Question","name":"What's the difference between AEO and GEO?","acceptedAnswer":{"@type":"Answer","text":"Nothing about the work. AEO (answer engine optimization) was in use by 2018 for featured snippets and voice answers and is the term Gartner and Forrester use today. GEO (generative engine optimization) was introduced in a 2023 paper by researchers at Princeton University and IIT Delhi and is the usual term in academic research. Google's guide treats both as SEO for its own surfaces."}},{"@type":"Question","name":"Is AEO just SEO?","acceptedAnswer":{"@type":"Answer","text":"On Google's AI Overviews and AI Mode, largely yes. Google says optimizing for them \"is optimizing for the search experience, and thus still SEO,\" because they run on its Search index and ranking systems. On ChatGPT, Perplexity, and Claude, SEO is the floor but not the whole job: those engines retrieve through their own crawlers and search partners, so their citations can diverge from your Google rankings."}},{"@type":"Question","name":"Do I need AI SEO or regular SEO?","acceptedAnswer":{"@type":"Answer","text":"Most teams need both, weighted by where their buyers ask. Google's AI surfaces reward SEO foundations and non-commodity content. ChatGPT, Perplexity, and Claude also need access for each engine's search crawler and corroboration in the third-party sources those engines cite. Measure each engine separately to see which gap you actually have."}},{"@type":"Question","name":"Is using AI to write SEO content against Google's rules?","acceptedAnswer":{"@type":"Answer","text":"Not by itself. Google says generative AI can help with research and with structuring original content, and it rewards quality \"however it is produced.\" Its scaled content abuse policy targets generating many pages without adding value for users, including a page for every search or fan-out variation made to manipulate rankings or AI responses."}},{"@type":"Question","name":"Does GEO really boost visibility by up to 40%?","acceptedAnswer":{"@type":"Answer","text":"Only in the setting where it was measured. The 2023 paper's gains came from rewriting 1 of 5 sources already placed in a model's context, with GPT-3.5 Turbo writing the answer. A July 2026 survey of 45 GEO studies found those gains valid in that setting but not evidence of organic discoverability or durable traffic effects."}},{"@type":"Question","name":"Should my team say AEO or GEO?","acceptedAnswer":{"@type":"Answer","text":"Whichever your stakeholders already understand; the label changes nothing about the work. We use AEO because it names the answer we measure and avoids the production meaning of \"AI SEO.\" What matters more is naming the engine in every plan, test, and report, because the engines retrieve differently."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AEO Fundamentals</p>
+        <h1>What is AI SEO? AI SEO vs AEO vs GEO, and what actually changes in 2026</h1>
+        <p class="seo-lede">AI SEO, AEO, and GEO are three names for one job: getting a brand retrieved, cited, and described accurately in AI-generated answers. AEO is the older practitioner term, GEO comes from a 2023 research paper, and &quot;AI SEO&quot; is the market&#39;s catch-all, which also means using AI to produce SEO content. Google says optimizing for its AI features is &quot;still SEO,&quot; while ChatGPT, Perplexity, and Claude retrieve through their own pipelines, so in 2026 the engine changes the work more than the name does.</p>
+        
+        <p>Updated <time datetime="2026-09-26">2026-09-26</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is AI SEO?</li><li>What&#39;s the difference between AI SEO, AEO, and GEO?</li><li>Is AEO just SEO?</li><li>Do I need AI SEO or regular SEO?</li><li>Is using AI to write SEO content against Google&#39;s rules?</li><li>Where did the term GEO come from?</li><li>Should my team say AEO or GEO?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p><strong>AI SEO, AEO (answer engine optimization), and GEO (generative engine optimization) are three names for the same job: getting your brand retrieved, cited, and described accurately in AI-generated answers.</strong> AEO is the older practitioner term, GEO comes from a 2023 research paper, and &quot;AI SEO&quot; is the market&#39;s catch-all, which also refers to using AI to produce SEO content, a separate practice that Google treats as spam when it is used to mass-produce pages without adding value.</p><p>What changes in 2026 is the engine, not the name. Google says optimizing for its AI features is &quot;still SEO,&quot; while ChatGPT, Perplexity, and Claude retrieve through their own crawlers and search partners, so plan, measure, and verify the work engine by engine.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>AI SEO vs AEO vs GEO at a Glance</h2>
+      <p>The three terms, plus the second meaning of &quot;AI SEO&quot; that causes most of the confusion. Forrester lists two more synonyms, AI optimization and large language model optimization (LLMO); they describe the same work.</p>
+      
+      <table>
+              <thead><tr><th>Term</th><th>Where it came from</th><th>What it emphasizes</th><th>Watch out for</th></tr></thead>
+              <tbody><tr><td>AEO (answer engine optimization)</td><td>SEO practitioners, in use by early 2018 for featured snippets and voice-assistant answers</td><td>The answer itself: being the source an engine quotes, described correctly</td><td>Advice written for featured snippets, not for engines that search and synthesize</td></tr><tr><td>GEO (generative engine optimization)</td><td>A 2023 paper by researchers at Princeton University and IIT Delhi, published at KDD 2024</td><td>The generative step: how rewriting a source changes its use in a model&#39;s answer</td><td>Lab gains quoted as if they predict citations in production engines</td></tr><tr><td>AI SEO, visibility sense</td><td>Market shorthand, with no founding paper or agreed definition</td><td>Continuity with SEO: the same team and budget, extended to AI answers</td><td>The implication that SEO alone covers every engine, which is true mainly on Google&#39;s AI surfaces</td></tr><tr><td>AI SEO, production sense</td><td>AI writing and optimization tools; Google addressed AI-generated content in February 2023</td><td>Using AI to research, draft, or scale SEO content</td><td>Google&#39;s scaled content abuse policy when pages are generated at volume without adding value</td></tr></tbody>
+            </table>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Where Each Term Came From</h2>
+      <p>The origins explain why each term carries different baggage, and why a claim made under one name doesn&#39;t automatically hold under another.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>AEO: A 2018 Term for Answer Engines</h3>
+        <p>AEO predates generative AI. In February 2018, <a href="https://www.searchenginewatch.com/2018/02/07/the-rise-of-answer-engine-optimization-why-voice-search-matters/" target="_blank" rel="noopener noreferrer">Search Engine Watch</a> described voice search turning search engines into &quot;answer engines&quot; and wrote: &quot;This strategy has come to be known as AEO, or &#39;answer engine optimization&#39;.&quot; The same article said &quot;AEO is not going to replace SEO.&quot; The not-a-replacement framing is more than 8 years old.</p><p>The term returned when ChatGPT, Perplexity, and Google&#39;s AI Overviews began writing answers instead of reading out snippets, and analysts adopted it. Our <a href="/answer-engine-optimization/">AEO guide</a> covers the practice itself.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>GEO: A 2023 Paper and Its Lab Setting</h3>
+        <p>GEO was introduced in <a href="https://arxiv.org/abs/2311.09735" target="_blank" rel="noopener noreferrer">&quot;GEO: Generative Engine Optimization&quot;</a>, by Pranjal Aggarwal and colleagues at Princeton University and IIT Delhi, posted to arXiv on Nov. 16, 2023, and published at KDD 2024. It is the source of the widely quoted &quot;up to 40%&quot; visibility gain, and the setting matters more than the number.</p><p>The main engine was one the authors built. Their benchmark paired 10,000 queries with the top 5 Google results for each, and GPT-3.5 Turbo wrote every answer from only those 5 sources. The authors rewrote one source (adding quotations, statistics, or citations, for example) and measured how much of the answer drew on it. A Perplexity test used uploaded files, so the engine answered only from the supplied sources. The authors report that keyword stuffing, the old SEO habit, performed poorly.</p><p>So GEO&#39;s founding result measures what happens after a page is already in the model&#39;s context, not whether a live engine retrieves it in the first place.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>AI SEO: A Market Label With Two Meanings</h3>
+        <p>&quot;AI SEO&quot; has no founding paper. It is the name people reach for, and it is the most searched of the three by a wide margin. In <a href="https://trends.google.com/trends/explore?date=2025-09-26%202026-09-26&amp;geo=US&amp;q=ai%20seo,answer%20engine%20optimization,generative%20engine%20optimization" target="_blank" rel="noopener noreferrer">Google Trends</a> (United States, Sept. 26, 2025, to Sept. 26, 2026, pulled Sept. 26, 2026), &quot;ai seo&quot; drew more search interest than &quot;generative engine optimization&quot; and &quot;answer engine optimization&quot; across the period. Trends reports relative interest, not search volumes, and its samples shift slightly between pulls.</p><p>Part of that lead is the term doing double duty: in the same pull, its top related queries mix &quot;ai search seo&quot; with &quot;ai seo tools&quot; and &quot;ai seo software,&quot; which could mean tracking AI answers or writing with AI.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The Other AI SEO: AI-Assisted Production and Google&#39;s Spam Policy</h2>
+      <p>The second meaning of &quot;AI SEO&quot; is using AI to research, draft, or scale SEO content. That is a production question, and Google has a written position on it.</p><p>Google doesn&#39;t ban AI assistance. Its <a href="https://developers.google.com/search/docs/fundamentals/using-gen-ai-content" target="_blank" rel="noopener noreferrer">guidance on generative AI content</a> says &quot;Generative AI can be particularly useful when researching a topic, and to add structure to original content,&quot; and a <a href="https://developers.google.com/search/blog/2023/02/google-search-and-ai-content" target="_blank" rel="noopener noreferrer">February 2023 post</a> said Google rewards high-quality content &quot;however it is produced.&quot; What Google penalizes is scale without value. Its scaled content abuse policy, <a href="https://developers.google.com/search/blog/2024/03/core-update-spam-policies" target="_blank" rel="noopener noreferrer">added in March 2024</a>, lists as its first example &quot;Using generative AI tools or other similar tools to generate many pages without adding value for users.&quot;</p><p>The 2026 AI guide ties the two meanings together: creating separate content for every variation of how people might search, fan-out queries included, &quot;primarily to manipulate rankings or generative AI responses in Google Search violates Google&#39;s scaled content abuse spam policy.&quot; The same day the guide launched, May 15, 2026, Google <a href="https://developers.google.com/search/updates" target="_blank" rel="noopener noreferrer">clarified</a> that its <a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">spam policies</a> apply to generative AI responses; they now define spam to include &quot;attempting to manipulate generative AI responses in Google Search.&quot;</p><p>So when a vendor pitches &quot;AI SEO,&quot; ask which kind. Helping your team write a better page is one thing; generating a page for every prompt variation is the pattern Google describes, and one of the 7 anti-patterns in our <a href="/editorial-standards/">editorial standards</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What Google Says: For Its Surfaces, It&#39;s Still SEO</h2>
+      <p>Google&#39;s <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">guide to optimizing for generative AI features</a> (published May 15, 2026, updated July 10, 2026) answers the naming question directly: &quot;&#39;AEO&#39; stands for &#39;answer engine optimization&#39; and &#39;GEO&#39; for &#39;generative engine optimization&#39;. These are both terms you may see used to describe work specifically focused on improving visibility in AI search experiences. From Google Search&#39;s perspective, optimizing for generative AI search is optimizing for the search experience, and thus still SEO.&quot;</p><p>The reason is architectural. Google says its AI features are &quot;rooted in our core Search ranking and quality systems,&quot; using retrieval-augmented generation (RAG) over its Search index plus query fan-out, &quot;a set of concurrent, related queries generated by the model.&quot; The same guide lists what you can ignore for Google Search:</p>
+      <ul class="seo-list"><li><strong>llms.txt and other special files.</strong> Google Search ignores them; creating them &quot;will neither harm nor help your site&#39;s visibility or rankings in Google Search.&quot;</li><li><strong>Chunking.</strong> &quot;There&#39;s no requirement to break your content into tiny pieces for AI to better understand it.&quot;</li><li><strong>Special schema.</strong> &quot;There&#39;s no special schema.org markup you need to add,&quot; although structured data still helps with eligibility for rich results.</li><li><strong>AI-only rewrites.</strong> &quot;You don&#39;t need to write in a specific way just for generative AI search.&quot;</li><li><strong>Inauthentic mentions.</strong> Seeking them &quot;isn&#39;t as helpful as it might seem.&quot;</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Read the Scope Line</h3>
+        <p>Every one of those statements is scoped to Google Search. They are Google&#39;s official answer for AI Overviews and AI Mode; they don&#39;t describe ChatGPT, Perplexity, or Claude, and Google doesn&#39;t claim they do. The guide also warns that &quot;No third-party tool has access to our internal ranking or AI systems.&quot; That includes us: SolCrys, like every tool in the category, observes answers from the outside. For the budget implications, see <a href="/google-endorses-aeo-fundamentals/">what Google&#39;s guide rejected</a> and <a href="/llms-txt-not-a-strategy/">why llms.txt is not a strategy</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What Analysts Call It</h2>
+      <p>Analysts treat the terms as synonyms and settle on AEO. Forrester principal analyst Nikhil Lai <a href="https://www.forrester.com/blogs/how-to-master-answer-engine-optimization/" target="_blank" rel="noopener noreferrer">wrote on Nov. 14, 2025</a>: &quot;AEO — also known as generative engine optimization, AI optimization, and large language model optimization — is fundamentally like SEO.&quot; Ten days later he <a href="https://www.forrester.com/blogs/seos-hype-fueled-move-to-the-center-of-the-marketing-mix/" target="_blank" rel="noopener noreferrer">added a caveat and a warning</a>: &quot;AEO is significantly, but not fundamentally, different from SEO,&quot; and the point solutions popularizing the acronyms &quot;tend to exaggerate SEO and AEO&#39;s differences to carve a startup-sized hole in marketers&#39; tech stacks.&quot; SolCrys is one of those startups, so weigh our argument on this page with that in mind.</p><p>Gartner published its first <a href="https://www.gartner.com/en/documents/7559273" target="_blank" rel="noopener noreferrer">&quot;Market Guide for Answer Engine Visibility Tools&quot;</a> on March 9, 2026. Its naming separates the practice from the tools: the guide covers tools &quot;that enable effective AEO,&quot; and defines them as &quot;specialized solutions that monitor and analyze a brand&#39;s presence in generative answers and LLM-powered search results.&quot; That is the measurement half. Knowing where you stand doesn&#39;t move an answer; the work that follows does.</p><p>Analysts and Google also disagree on tactics, which matters more than the naming. The same Nov. 14 Forrester post says schema markup &quot;remains necessary&quot; to help answer engines&#39; crawlers; Google says there is no special schema for its AI features. Both can hold: Google rules out special markup for its AI features, not the standard structured data it still uses for rich results, and other engines&#39; crawlers are not bound by Google&#39;s guidance.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What Actually Changes in 2026: The Engine, Not the Name</h2>
+      <p>Each engine documents a different path from question to cited page, and that is where the work diverges. Drawn from each platform&#39;s documentation (Bing&#39;s via Search Engine Journal&#39;s reporting) and one peer-reviewed study:</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>What the documentation or research shows</th><th>What that means for the work</th></tr></thead>
+              <tbody><tr><td>Google AI Overviews and AI Mode</td><td>Google&#39;s Search index and core ranking systems, with RAG and query fan-out; &quot;no additional requirements&quot; beyond Search</td><td>SEO foundations plus non-commodity content; AEO is an operating layer on top</td></tr><tr><td>Gemini</td><td>A SIGIR 2026 study of 11,500 queries found Google Search, AI Overviews, and Gemini (2.5 Flash) retrieved substantially different sources (average Jaccard similarity below 0.2)</td><td>Don&#39;t assume a Google ranking carries over; measure Gemini separately</td></tr><tr><td>ChatGPT search</td><td>Can rewrite a question into targeted queries for third-party search providers, and ranks results on its own factors; sites must allow OAI-SearchBot to be eligible</td><td>Crawler access first, then be the clearest source for the narrower queries ChatGPT sends</td></tr><tr><td>Perplexity</td><td>PerplexityBot surfaces and links sites in search results; Perplexity-User fetches pages when a user asks</td><td>Allow both agents; answer in passages that stand on their own</td></tr><tr><td>Claude with web search</td><td>Claude-SearchBot indexes content for search quality; Claude-User fetches pages at a user&#39;s request</td><td>Anthropic says blocking either may reduce your visibility in Claude&#39;s search results</td></tr><tr><td>Microsoft Copilot</td><td>Bing&#39;s February 2026 Webmaster Guidelines name GEO and treat grounding results and citations as eligibility outcomes</td><td>Bing recommends single-topic URLs with essential information near the top</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>The Chunking Debate Is an Engine Debate</h3>
+        <p>A running 2026 argument, whether to chunk content for AI, mostly dissolves once you name the engine. Google says its systems have no chunking requirement. Practitioner Mike King, arguing from how RAG pipelines split and score passages, <a href="https://ipullrank.com/misinformation-about-chunking" target="_blank" rel="noopener noreferrer">wrote on Jan. 15, 2026</a>: &quot;Chunking and creating content for users are not mutually exclusive.&quot; Bing&#39;s guidelines, <a href="https://www.searchenginejournal.com/bing-adds-geo-to-official-guidelines-expands-ai-abuse-definitions/568442/" target="_blank" rel="noopener noreferrer">per Search Engine Journal</a>, favor single-topic pages with the essentials near the top.</p><p>Our read: write for readers, answer each question near the top of its section, and keep passages self-contained. That serves passage-level retrieval on ChatGPT, Perplexity, and Claude without a separate AI version of the page, which Google says you don&#39;t need. Then check the result per engine.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Measure Per Engine, Not One Blended Number</h3>
+        <p>Because retrieval differs, one blended &quot;AI visibility&quot; number hides the story. A brand can be cited in AI Overviews on the strength of its Google rankings and be absent from ChatGPT for the same question, or the reverse. Track each engine on the same fixed prompt set, read rates across repeated runs, and diagnose each engine separately. See our <a href="/visibility-measurement-methodology/">measurement methodology</a> and why a page can be <a href="/ranking-but-not-cited-in-ai/">ranking but not cited</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What GEO Tactics Can and Can&#39;t Prove</h2>
+      <p>The best map of the GEO evidence so far is Olivier Martinez&#39;s <a href="https://arxiv.org/abs/2607.14035" target="_blank" rel="noopener noreferrer">critical survey of 45 studies</a> from November 2023 to July 2026, posted to arXiv on July 15, 2026. On the founding paper, it concludes that the widely cited gains &quot;are valid within its experimental setting but conditional on a source already being present in a fixed context; they establish neither organic discoverability nor durable traffic effects.&quot;</p>
+      <ul class="seo-list"><li><strong>What the evidence supports:</strong> &quot;already-retrieved content can causally alter its citation or use.&quot; Once a page is in the context, rewriting it changes how much of it the answer uses.</li><li><strong>What travels best:</strong> &quot;topical relevance and context position are the most reproducible levers.&quot; Being on-topic and retrieved matters more than any rewrite trick.</li><li><strong>What doesn&#39;t travel:</strong> &quot;generic heuristics transfer poorly,&quot; &quot;competition can erode individual gains,&quot; and &quot;citation-oriented rewrites can impair retrieval.&quot;</li><li><strong>What no reviewed study has shown:</strong> a technique with a stable, long-running, cross-platform effect on whether engines find you in the first place.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Treat Tactics as Hypotheses</h3>
+        <p>Treat any GEO tactic as a hypothesis to test on your own prompt set, per engine, with repeated runs, not as a proven lever. Our <a href="/testable-geo-playbook/">testable GEO playbook</a> shows how to run that test without fooling yourself, and our read of <a href="/what-gets-cited-geo-study/">a 252,000-trial citation study</a> covers which content factors held up.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>AI SEO or Regular SEO? How to Decide</h2>
+      <p>Most teams don&#39;t have to choose; the balance depends on where buyers get their answers. <a href="/aeo-vs-seo/">AEO vs SEO</a> covers how much of your SEO carries over. These checks cover the terminology traps:</p>
+      <ul class="seo-list"><li><strong>If your buyers mostly see Google&#39;s AI Overviews and AI Mode,</strong> invest in SEO foundations and non-commodity content first. Google says that is the work.</li><li><strong>If they ask ChatGPT, Perplexity, or Claude,</strong> add what SEO doesn&#39;t cover: allow each engine&#39;s search crawler, get your claims corroborated in the third-party sources that engine cites, and make the owned page the clearest answer once it is retrieved.</li><li><strong>If a vendor sells AI SEO,</strong> ask whether they mean visibility or production, which engines they measure separately, and how they re-test after a change ships.</li><li><strong>If the plan is a page per prompt variation,</strong> stop. Google treats that as scaled content abuse on its surfaces, and we know of no engine that documents rewarding it.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys Fits: Why We Call It AEO</h2>
+      <p>We use AEO for 3 reasons. It names the unit we measure, the answer, rather than the mechanism that produces it. It is the term Gartner and Forrester use. And it doesn&#39;t collide with the production meaning of &quot;AI SEO.&quot; We use GEO when we discuss the research literature. We don&#39;t think the label decides much; the engine does.</p><p>In SolCrys the work runs as one loop, Measure → Diagnose → Execute → Verify, applied engine by engine:</p>
+      <ul class="seo-list"><li><strong>Measure.</strong> A fixed prompt set runs daily on paid plans, on the engines each plan includes, drawn from ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude. Each answer is stored with its engine, capture method, citations, and timestamp, so engines are never blended.</li><li><strong>Diagnose.</strong> Deep Analysis explains a weak answer on a specific engine: which sources it cited, which competitors it named, and what is missing. Answer Accuracy grades answers against your Corporate Context, so a wrong description surfaces alongside an absent one.</li><li><strong>Execute.</strong> Findings become <a href="/inside-the-action-hub/">Action Hub</a> tasks with the evidence attached, an owner, and a recorded review. On Google&#39;s surfaces the fix is usually SEO and content work; on ChatGPT, Perplexity, and Claude it often includes crawler access and third-party corroboration. Your team publishes the change; SolCrys never publishes to your site.</li><li><strong>Verify.</strong> The same frozen prompts re-run on the same engines, and a page fixed from a Content Audit is re-audited. Any movement is an observation you read per engine, not proof that your change caused it.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What SolCrys Doesn&#39;t Do</h3>
+        
+        <ul class="seo-list"><li>It doesn&#39;t generate pages at scale. An AI assistant connected through the SolCrys MCP server can draft content for a queued task, but your team decides what ships, one task at a time.</li><li>It doesn&#39;t replace your SEO tools. Rank tracking and link building stay there, and on Google&#39;s AI surfaces that work still does most of the lifting.</li><li>It doesn&#39;t track Microsoft Copilot, and it can&#39;t see inside any engine&#39;s ranking or retrieval systems.</li><li>It doesn&#39;t promise citations or rankings on any engine, because no one can deliver that.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>See It on Your Own Brand</h3>
+        <p>To see the per-engine view for your own brand, <a href="https://app.solcrys.com/audit">Start Free</a>: the free workspace tracks 10 prompts on ChatGPT and includes 1 Content Audit, with email verification and no credit card. For multi-engine tracking or a team rollout, <a href="https://app.solcrys.com/contact-sales/">talk to us</a>.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central, &quot;Optimizing your website for generative AI features on Google Search&quot; (published May 15, 2026; updated July 10, 2026)</a></li><li><a href="https://developers.google.com/search/blog/2026/05/a-new-resource-for-optimizing" target="_blank" rel="noopener noreferrer">Google Search Central Blog (John Mueller), &quot;A new resource for optimizing for generative AI in Google Search&quot; (May 15, 2026)</a></li><li><a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">Google Search Central, &quot;AI features and your website&quot;</a></li><li><a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">Google Search Central, &quot;Spam policies for Google web search&quot;</a></li><li><a href="https://developers.google.com/search/updates" target="_blank" rel="noopener noreferrer">Google Search Central, &quot;Latest Google Search documentation updates&quot; (May 15, 2026: new generative AI guide; spam policies clarified to apply to generative AI responses)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/using-gen-ai-content" target="_blank" rel="noopener noreferrer">Google Search Central, &quot;Google Search&#39;s guidance on using generative AI content on your website&quot;</a></li><li><a href="https://developers.google.com/search/blog/2023/02/google-search-and-ai-content" target="_blank" rel="noopener noreferrer">Google Search Central Blog, &quot;Google Search&#39;s guidance about AI-generated content&quot; (Feb. 8, 2023)</a></li><li><a href="https://developers.google.com/search/blog/2024/03/core-update-spam-policies" target="_blank" rel="noopener noreferrer">Google Search Central Blog, &quot;What web creators should know about our March 2024 core update and new spam policies&quot; (March 5, 2024)</a></li><li><a href="https://arxiv.org/abs/2311.09735" target="_blank" rel="noopener noreferrer">Aggarwal, Murahari, Rajpurohit, Kalyan, Narasimhan, and Deshpande, &quot;GEO: Generative Engine Optimization,&quot; arXiv 2311.09735 (Nov. 2023; KDD 2024)</a></li><li><a href="https://arxiv.org/abs/2607.14035" target="_blank" rel="noopener noreferrer">Martinez, &quot;Optimizing Visibility in Generative Engines: A Critical Survey of Generative Engine Optimization (2023-2026),&quot; arXiv 2607.14035 (July 15, 2026)</a></li><li><a href="https://www.forrester.com/blogs/how-to-master-answer-engine-optimization/" target="_blank" rel="noopener noreferrer">Forrester (Nikhil Lai), &quot;How To Master Answer Engine Optimization&quot; (Nov. 14, 2025)</a></li><li><a href="https://www.forrester.com/blogs/seos-hype-fueled-move-to-the-center-of-the-marketing-mix/" target="_blank" rel="noopener noreferrer">Forrester (Nikhil Lai), &quot;SEO&#39;s Hype-Fueled Move To The Center Of The Marketing Mix&quot; (Nov. 24, 2025)</a></li><li><a href="https://www.gartner.com/en/documents/7559273" target="_blank" rel="noopener noreferrer">Gartner, &quot;Market Guide for Answer Engine Visibility Tools&quot; (March 9, 2026; subscriber research)</a></li><li><a href="https://www.searchenginewatch.com/2018/02/07/the-rise-of-answer-engine-optimization-why-voice-search-matters/" target="_blank" rel="noopener noreferrer">Search Engine Watch (Rebecca Sentance), &quot;The rise of Answer Engine Optimization: Why voice search matters&quot; (Feb. 7, 2018)</a></li><li><a href="https://ipullrank.com/misinformation-about-chunking" target="_blank" rel="noopener noreferrer">Mike King, &quot;Moving from a Google-shaped Web to an Agent-shaped Web: A Refutation of Misinformation about Chunking&quot; (Jan. 15, 2026)</a></li><li><a href="https://www.searchenginejournal.com/bing-adds-geo-to-official-guidelines-expands-ai-abuse-definitions/568442/" target="_blank" rel="noopener noreferrer">Search Engine Journal (Matt G. Southern), &quot;Bing Adds GEO To Official Guidelines, Expands AI Abuse Definitions&quot; (Feb. 27, 2026)</a></li><li><a href="https://platform.openai.com/docs/bots" target="_blank" rel="noopener noreferrer">OpenAI, crawler documentation: OAI-SearchBot, ChatGPT-User, and GPTBot</a></li><li><a href="https://help.openai.com/en/articles/9237897-chatgpt-search" target="_blank" rel="noopener noreferrer">OpenAI Help Center, &quot;Searching the web with ChatGPT&quot; (search providers and OAI-SearchBot eligibility)</a></li><li><a href="https://docs.perplexity.ai/guides/bots" target="_blank" rel="noopener noreferrer">Perplexity, &quot;Perplexity Crawlers&quot; (PerplexityBot and Perplexity-User)</a></li><li><a href="https://support.claude.com/en/articles/8896518" target="_blank" rel="noopener noreferrer">Anthropic Help Center: ClaudeBot, Claude-User, and Claude-SearchBot</a></li><li><a href="https://arxiv.org/abs/2604.27790" target="_blank" rel="noopener noreferrer">Grossman et al., &quot;How Generative AI Disrupts Search: An Empirical Study of Google Search, Gemini, and AI Overviews,&quot; SIGIR 2026, arXiv 2604.27790</a></li><li><a href="https://trends.google.com/trends/explore?date=2025-09-26%202026-09-26&amp;geo=US&amp;q=ai%20seo,answer%20engine%20optimization,generative%20engine%20optimization" target="_blank" rel="noopener noreferrer">Google Trends: &quot;ai seo&quot; vs &quot;answer engine optimization&quot; vs &quot;generative engine optimization,&quot; United States, Sept. 26, 2025, to Sept. 26, 2026 (pulled Sept. 26, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is AI SEO?</h3>
+            <p>&quot;AI SEO&quot; usually means optimizing so AI answer engines such as ChatGPT, Perplexity, Claude, Gemini, and Google&#39;s AI Overviews retrieve, cite, and accurately describe your brand. It is the same job as AEO and GEO under a more familiar name. It also has a second meaning, using AI tools to research or produce SEO content, so check which one someone means before comparing plans or prices.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What&#39;s the difference between AEO and GEO?</h3>
+            <p>Nothing about the work. AEO (answer engine optimization) was in use by 2018 for featured snippets and voice answers and is the term Gartner and Forrester use today. GEO (generative engine optimization) was introduced in a 2023 paper by researchers at Princeton University and IIT Delhi and is the usual term in academic research. Google&#39;s guide treats both as SEO for its own surfaces.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is AEO just SEO?</h3>
+            <p>On Google&#39;s AI Overviews and AI Mode, largely yes. Google says optimizing for them &quot;is optimizing for the search experience, and thus still SEO,&quot; because they run on its Search index and ranking systems. On ChatGPT, Perplexity, and Claude, SEO is the floor but not the whole job: those engines retrieve through their own crawlers and search partners, so their citations can diverge from your Google rankings.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need AI SEO or regular SEO?</h3>
+            <p>Most teams need both, weighted by where their buyers ask. Google&#39;s AI surfaces reward SEO foundations and non-commodity content. ChatGPT, Perplexity, and Claude also need access for each engine&#39;s search crawler and corroboration in the third-party sources those engines cite. Measure each engine separately to see which gap you actually have.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is using AI to write SEO content against Google&#39;s rules?</h3>
+            <p>Not by itself. Google says generative AI can help with research and with structuring original content, and it rewards quality &quot;however it is produced.&quot; Its scaled content abuse policy targets generating many pages without adding value for users, including a page for every search or fan-out variation made to manipulate rankings or AI responses.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does GEO really boost visibility by up to 40%?</h3>
+            <p>Only in the setting where it was measured. The 2023 paper&#39;s gains came from rewriting 1 of 5 sources already placed in a model&#39;s context, with GPT-3.5 Turbo writing the answer. A July 2026 survey of 45 GEO studies found those gains valid in that setting but not evidence of organic discoverability or durable traffic effects.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should my team say AEO or GEO?</h3>
+            <p>Whichever your stakeholders already understand; the label changes nothing about the work. We use AEO because it names the answer we measure and avoids the production meaning of &quot;AI SEO.&quot; What matters more is naming the engine in every plan, test, and report, because the engines retrieve differently.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/answer-engine-optimization/">Answer Engine Optimization</a></h3>
+            <p>Answer Engine Optimization makes your brand a source AI engines retrieve, trust, cite, and describe correctly. The two layers it must win, what a 2026 study of 252K citations shows actually drives citations, and the measure-diagnose-execute-verify loop.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/aeo-vs-seo/">AEO vs SEO</a></h3>
+            <p>Compare SEO and Answer Engine Optimization, including goals, content formats, measurement, and the role of technical SEO in AI discovery.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/google-endorses-aeo-fundamentals/">Google Just Endorsed the Anti-Hack Side of AEO. Here&#39;s the CMO Read.</a></h3>
+            <p>Google&#39;s May 2026 generative AI optimization guide explicitly rejects the AEO/GEO hacks that have dominated vendor pitches for the last 18 months — llms.txt, AI-only schema, forced chunking, FAQ-schema citation &#39;lifts,&#39; page-per-variation production. For a CMO evaluating an AEO program or vendor in 2026, this is the most consequential piece of category-level guidance to land yet. Here&#39;s the practical translation.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/testable-geo-playbook/">Most GEO Advice Is Untestable. Here&#39;s How to Run It, and Not Fool Yourself.</a></h3>
+            <p>AI answers are non-deterministic, so a naive GEO test lies to you confidently. The four test-design rules that decide whether your AI-visibility result is signal or noise: measure a rate, test at the buyer&#39;s specificity level, test per language, and sort each cited source by the move.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/editorial-standards/">SolCrys Editorial Standards</a></h3>
+            <p>SolCrys publishes its editorial standards in full: the 5 mandatory DO&#39;s, the 7 named anti-patterns we refuse to recommend, and the pre-publication checklist every SolCrys asset runs through. We hold our content to a higher bar than the AEO category average — and we want buyers to be able to check.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/visibility-measurement-methodology/">AI Visibility Measurement Methodology</a></h3>
+            <p>How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/google-spam-policy-ai-answer-manipulation/">Google Now Calls AI-Answer Manipulation Spam. The GEO Tactics That Cross the Line—and the Ones That Just Don&#39;t Work.</a></h3>
+            <p>Google&#39;s spam policies now cover manipulating AI answers. Which GEO tactics cross the line, which are risky, which are wasted, and what holds up.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/ai-search-statistics-2026/">AI Search in 2026: A Dated Timeline and the Statistics That Hold Up (With Source, Date, and Sample)</a></h3>
+            <p>28 AI search statistics for 2026, each with source, date, and sample, plus a dated timeline of the year and the widely quoted numbers to stop using.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BfpG2qrC.js"></script>
+  </body>
+</html>

@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Landing Pages for AI-Referred Buyers: A B2B Checklist | SolCrys</title>
+    <meta name="description" content="AI answers shape the shortlist, but B2B decisions still close on your site. A 5-part checklist for the page AI-referred buyers land on, and how to measure it." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-referred-buyers-landing-page/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Landing Pages for AI-Referred Buyers: A B2B Checklist | SolCrys" />
+    <meta property="og:description" content="AI answers shape the shortlist, but B2B decisions still close on your site. A 5-part checklist for the page AI-referred buyers land on, and how to measure it." />
+    <meta property="og:url" content="https://solcrys.com/ai-referred-buyers-landing-page/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-26" />
+    <meta property="article:modified_time" content="2026-09-26" />
+    <meta property="og:image" content="https://solcrys.com/og/ai-referred-buyers-landing-page.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/ai-referred-buyers-landing-page.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C8g_8rZY.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Discover in AI, Decide on Your Site: What AI-Referred Buyers Need From the Page They Land On","item":"https://solcrys.com/ai-referred-buyers-landing-page/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Discover in AI, decide on your site: what AI-referred buyers need from the page they land on","description":"AI answers shape the shortlist, but B2B decisions still close on your site. A 5-part checklist for the page AI-referred buyers land on, and how to measure it.","dateModified":"2026-09-26","datePublished":"2026-09-26","mainEntityOfPage":"https://solcrys.com/ai-referred-buyers-landing-page/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-referred-buyers-landing-page/","mainEntity":[{"@type":"Question","name":"Do visitors from ChatGPT convert better than other traffic?","acceptedAnswer":{"@type":"Answer","text":"In US retail, recently yes: Adobe Analytics found AI-referred traffic to US retail sites converted 54% better than non-AI traffic in May 2026, after converting 38% worse in March 2025. Adobe also sells AI-search optimization products, the cohort is self-selected, and there is no comparable neutral dataset for B2B. Measure your own AI Assistant cohort in GA4 by landing page, report the sample size, and remember that the result depends partly on whether the page confirms what the answer told the visitor."}},{"@type":"Question","name":"What should a landing page do for AI-referred traffic?","acceptedAnswer":{"@type":"Answer","text":"Help a buyer who is already mid-shortlist check what the answer told them. Match the answer's framing in the first screen, state the current facts the engine gets wrong, link to an honest comparison and checkable proof, make fit and the pricing model legible, and offer a validation step next to the demo. Apply it to the pages AI actually sends visitors to, which are not always the homepage."}},{"@type":"Question","name":"Is agentic checkout replacing websites?","acceptedAnswer":{"@type":"Answer","text":"Not for B2B. OpenAI phased out Instant Checkout in March 2026 and shut down the Atlas browser on Aug. 9, 2026, and only 9% of B2B software buyers told G2 they are comfortable letting an agent execute purchases. US retail is different: Google's Universal Commerce Protocol powers checkout in AI Mode and the Gemini app for eligible US retailers, and Shopify enables it by default for eligible US stores. Even there, Google added cart transfer to a merchant site in September 2026."}},{"@type":"Question","name":"Why did OpenAI pull Instant Checkout?","acceptedAnswer":{"@type":"Answer","text":"OpenAI said on March 24, 2026 that the first version \"did not offer the level of flexibility that we aspire to provide,\" and that merchants could use their own checkout while it focused on product discovery. Walmart executive Daniel Danker had said, as reported by Search Engine Land, that purchases made inside ChatGPT converted at one-third the rate of click-outs to Walmart's own site. ChatGPT kept the discovery role; the purchase went back to the merchant."}},{"@type":"Question","name":"Should I build a separate landing page for AI traffic?","acceptedAnswer":{"@type":"Answer","text":"No. Fix the page the answer already links to. Many AI-influenced visitors arrive without an AI referrer, through a branded search or a direct visit, so a referrer-based variant misses them. Google says optimizing for its generative AI features is still SEO, with no special markup required. One accurate page serves the buyer, the crawler, and the next answer."}},{"@type":"Question","name":"Does GA4 show all AI-referred visits?","acceptedAnswer":{"@type":"Answer","text":"No. GA4's AI Assistant channel, added May 13, 2026, counts sessions whose referrer matches Google's list of assistants, such as ChatGPT, Gemini, DeepSeek, Copilot, and Grok. It excludes Google's AI Overviews and AI Mode, which stay in Organic Search, and visits without a referrer land in Direct. Treat it as a floor and pair it with Search Console's AI impressions and answer-side tracking."}},{"@type":"Question","name":"How do I know what an AI told my visitors before they arrived?","acceptedAnswer":{"@type":"Answer","text":"Run the questions your buyers ask on the engines they use, capture each answer per engine with its date and cited sources, and compare them with your current facts. Ask new customers what an AI assistant told them, too. SolCrys's Answer Accuracy automates the comparison on Pro and Custom plans, grading each answer against your Corporate Context and showing the specific claim an engine got wrong."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Attribution &amp; ROI</p>
+        <h1>Discover in AI, decide on your site: what AI-referred buyers need from the page they land on</h1>
+        <p class="seo-lede">B2B buyers increasingly discover vendors inside AI answers, but the decision still closes on the vendor&#39;s own site and in sales conversations: OpenAI phased out in-chat Instant Checkout in March 2026, and only 9% of B2B software buyers told G2 they are comfortable letting an agent execute a purchase. That makes the page an AI-referred buyer lands on a verification page, not an introduction. It has to match what the answer said, confirm or correct the engine&#39;s claims, put comparison and proof within reach, make pricing and fit legible, and offer a next step for a buyer who arrives mid-shortlist. This guide covers the evidence, the checklist, an illustrative example, and how to measure the result with GA4&#39;s AI Assistant channel without overreading it.</p>
+        
+        <p>Updated <time datetime="2026-09-26">2026-09-26</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Do visitors from ChatGPT convert better than other traffic?</li><li>What should a landing page do for AI-referred traffic?</li><li>Is agentic checkout replacing websites?</li><li>Why did OpenAI pull Instant Checkout?</li><li>Should I build a separate landing page for AI traffic?</li><li>How do I find which pages AI sends visitors to?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>AI answers increasingly decide which vendors a B2B buyer considers, but the decision still closes on the vendor&#39;s own site and in its sales conversations. OpenAI phased out in-chat Instant Checkout on March 24, 2026, and in G2&#39;s July 2026 survey only 9% of B2B software buyers were comfortable letting an agent execute purchases, even within approved guardrails.</p><p>So the page an AI-referred buyer lands on has a job the rest of your site doesn&#39;t: confirm, or correct, what the answer already told them. In practice that means 5 things: match the answer&#39;s framing, fix the claims the engine got wrong, put comparison and proof within one click, make pricing and fit legible, and offer a next step that suits a buyer who is validating a shortlist rather than meeting you for the first time.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where the purchase happens: the 2025–2026 record</h2>
+      <p>The most ambitious attempt to move buying into the chat window was phased out within 6 months, while checkout inside Google&#39;s AI surfaces keeps expanding for US retail. Read in date order, the record separates discovery from the decision.</p>
+      
+      <table>
+              <thead><tr><th>Date</th><th>What happened</th><th>What it says about where the decision closes</th></tr></thead>
+              <tbody><tr><td>Sept. 29, 2025</td><td>OpenAI and Stripe launch Instant Checkout in ChatGPT on the Agentic Commerce Protocol, starting with US Etsy merchants</td><td>The in-chat purchase bet begins</td></tr><tr><td>Jan. 11, 2026</td><td>Google announces the Universal Commerce Protocol (UCP), which it says will soon power checkout from eligible US retailers inside AI Mode and the Gemini app</td><td>Retail checkout moves into Google&#39;s AI surfaces, in the US</td></tr><tr><td>March 2026</td><td>Walmart executive Daniel Danker says purchases made inside ChatGPT converted at one-third the rate of click-outs to Walmart&#39;s site, as reported by Search Engine Land</td><td>A rare public comparison of in-chat and on-site conversion favors the site</td></tr><tr><td>March 24, 2026</td><td>OpenAI: the first version of Instant Checkout &quot;did not offer the level of flexibility that we aspire to provide,&quot; so merchants can use their own checkout while OpenAI focuses on product discovery</td><td>ChatGPT keeps discovery; the purchase returns to the merchant</td></tr><tr><td>July 22, 2026</td><td>G2&#39;s Buyer Behavior Report: 61% of B2B software buyers use or plan to use AI agents in buying; 9% are comfortable letting one execute purchases</td><td>B2B buyers want agents for research, not for the signature</td></tr><tr><td>Aug. 9, 2026</td><td>OpenAI shuts down the ChatGPT Atlas browser; agent browsing moves into the ChatGPT desktop app and a Chrome extension</td><td>Agentic browsing consolidates rather than expands</td></tr><tr><td>Sept. 16, 2026</td><td>Google says UCP &quot;already enables direct checkout for hundreds of thousands of brands and retailers,&quot; and adds &quot;cart transfer to a merchant site&quot;</td><td>Even Google&#39;s retail checkout now includes a path back to the merchant&#39;s site</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Read it by vertical</h3>
+        <p>For US retail, checkout inside Google&#39;s AI surfaces is real and growing. Shopify turns direct checkout in AI Mode and Gemini on by default for eligible stores, which must be based in the US and sell to US customers, and it is shown only to US shoppers. Retail teams should plan for both paths: our <a href="/agentic-commerce-readiness/">agentic commerce readiness</a> guide covers the in-chat side, and <a href="/ai-referred-shoppers-retail-aeo/">AI-referred shoppers</a> the on-site side.</p><p>For B2B, none of these checkout programs apply. There is no cart to transfer for an annual platform contract, a security review, or a buying group that has to agree. The durable pattern is discovery in AI and decision on your own surfaces: the site, the docs, and the sales conversation. It is the prediction we made in <a href="/news/a-year-in-view-the-facts-had-to-hold/">our year-in-review essay</a>: agents will read first and buy later.</p>
+        
+      </div>
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>What an AI-referred buyer already believes when they land</h2>
+      <p>An AI-referred buyer doesn&#39;t arrive cold. They arrive carrying the answer&#39;s summary of you: a category label, a fit claim, a price signal, and usually a competitor named in the same breath. They come to check it. Four findings explain why.</p>
+      <ul class="seo-list"><li><strong>Shortlists form before first contact.</strong> In 6sense&#39;s 2025 Buyer Experience Report (Nov. 12, 2025; 4,000+ buyers in North America, EMEA, and APAC), 94% of buying groups had ranked preferred vendors before first contact, and they bought from that early favorite 77% of the time. 6sense sells B2B go-to-market software and the release doesn&#39;t disclose question wording, so treat the figures as directional.</li><li><strong>Buyers verify what AI told them.</strong> Gartner surveyed 645 B2B buyers in August and September 2025 (published May 20, 2026): 45% used GenAI primarily to gather information on vendors and products, and 69% prefer to validate AI-generated insights with sales reps.</li><li><strong>What they carry may be wrong.</strong> In G2&#39;s April 2026 research (1,076 B2B software buyers surveyed in March), 51% start software research with an AI chatbot more often than with Google, and 64% often or very often encounter inaccurate AI chatbot recommendations.</li><li><strong>Review sites still shape the shortlist.</strong> In G2&#39;s July 2026 report (more than 1,000 B2B software buyers), review sites (38%) edged out AI chatbots (37%) as the top source shaping which vendors make a shortlist. G2 runs a review site, so weigh that one accordingly.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Many readers don&#39;t click; the ones who do are checking</h3>
+        <p>The best neutral read on click-through comes from news, not B2B: in the Reuters Institute&#39;s Digital News Report 2026 (June 16, 2026; 48 markets), 42% of people who use AI chatbots for news say they always or often click through to the original sources. That is self-reported and news-specific, a shape rather than a B2B benchmark: fewer than half routinely click, and AI-influenced buyers can also arrive later by searching your name, landing in branded organic or direct traffic (the <a href="/aeo-web-traffic-attribution/">branded-search bridge</a>).</p><p>Either way, the visitor who reaches your page is past discovery. They are checking a specific claim, comparing you with a name the answer gave them, or looking for a reason to keep you on the list. A page written to introduce the company to a stranger answers none of those.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Do AI-referred visitors convert better?</h2>
+      <p>In US retail, recently yes. In B2B, no neutral dataset has been published, so measure your own. Adobe Analytics has tracked the retail question across more than 1 trillion visits to US retail sites:</p>
+      
+      <table>
+              <thead><tr><th>Period</th><th>Adobe finding (AI-referred vs non-AI traffic)</th><th>Reported by</th></tr></thead>
+              <tbody><tr><td>March 2025</td><td>Converted 38% worse</td><td>TechCrunch, April 16, 2026</td></tr><tr><td>Holiday season 2025 (Nov. 1–Dec. 31)</td><td>Converted 31% better; AI traffic up 693% year over year</td><td>Digital Commerce 360, Jan. 13, 2026</td></tr><tr><td>March 2026</td><td>Converted 42% better; revenue per visit 37% higher</td><td>TechCrunch, April 16, 2026</td></tr><tr><td>May 2026</td><td>Converted 54% better; AI traffic up 138% year over year</td><td>Digital Commerce 360, June 17, 2026</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>How to read the retail numbers</h3>
+        <p>Adobe also sells AI-search optimization products (Adobe LLM Optimizer, and Semrush since Adobe completed that acquisition on April 28, 2026), so weigh its data accordingly. The direction flipped within a year, the cohort is self-selected because people who click out of an answer are already interested, and none of it describes B2B.</p><p>What transfers is the mechanism, not the number: a visitor who arrives after an answer has already done some comparing. Whether that shows up as a higher conversion rate on your site depends on whether the page lets them finish the check they came to make. For the full visit-quality evidence and its limits, see <a href="/aeo-web-traffic-attribution/">what AEO does to your web traffic</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The landing-page checklist for AI-referred buyers</h2>
+      <p>Five jobs, in the order a buyer mid-shortlist needs them. Apply them to the pages AI actually sends people to (covered in the next section), not only to the homepage.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Match the message the answer gave</h3>
+        <p>The first screen should confirm the buyer is in the right place, in the terms the answer used. If engines call you a log-management platform for Kubernetes teams and your hero says observability, reimagined, the visitor has to translate, and translation loses buyers who came to check a fit claim.</p>
+        <ul class="seo-list"><li>Read how each engine you care about describes you on your top buyer prompts. Note the category label, the use case, and the competitor named beside you.</li><li>Put one plain sentence near the top that says what you do and for whom, the same sentence you want engines to lift. Why that sentence matters is covered in <a href="/how-ai-describes-your-brand/">how AI describes your brand</a>.</li><li>If answers use a category term you don&#39;t, decide deliberately: adopt it on the page, or explain in one line how you differ. Ignoring it leaves the buyer to reconcile the two.</li><li>Keep one page for everyone. Don&#39;t build an AI-only variant or swap copy by referrer. Google&#39;s guidance says optimizing for its generative AI features is still SEO, with no special markup required, and many AI-influenced visitors arrive with no AI referrer at all, so a referrer-based variant misses them.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Confirm or correct what the engine claimed</h3>
+        <p>Assume some visitors arrive believing something that isn&#39;t true; 64% of G2&#39;s April respondents said inaccurate recommendations happen often or very often. The landing page is where you fix it for that visitor, and a visible, current statement is also what an engine that searches the web can pick up on its next fetch.</p>
+        <ul class="seo-list"><li>List the claims answers get wrong about you most often: a retired free tier, an old price, a missing integration, a compliance status, a deployment option.</li><li>State the current fact visibly in a sentence that stands on its own, with a date where facts change, such as &quot;Pricing updated March 2026.&quot;</li><li>State the correct fact directly. You don&#39;t need to quote the wrong version or name the engine that repeated it.</li><li>Fix the source as well. A corrected landing page corrects the visitor, not necessarily the engine; if the wrong claim comes from a third-party page, follow <a href="/fix-wrong-fact-in-ai-answer/">how to fix a wrong fact in an AI answer</a>.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Put comparison and proof within one click</h3>
+        <p>The answer that sent the buyer probably named a competitor next to you. The buyer will compare either way; the only question is whether they do it on your page or on someone else&#39;s.</p>
+        <ul class="seo-list"><li>Publish an honest comparison page for the 2 or 3 competitors answers name most often beside you, including the cases where the competitor is the better fit, and link to it from the page AI-referred visitors land on.</li><li>Put third-party proof next to the claim it supports: named customer outcomes you have permission to use, review-site profiles, and certifications with their audit dates.</li><li>Make proof checkable. A link to the case study, the review profile, or the certificate does more than a logo strip.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Make pricing and fit legible</h3>
+        <p>Fit and price are what a shortlisting buyer most needs to verify, and a contact-us button answers neither.</p>
+        <ul class="seo-list"><li>Say who the product is for and who it isn&#39;t for: team size, stack, deployment model, regions, and required integrations.</li><li>Publish the pricing model even if you don&#39;t publish prices: per seat or usage-based, annual or monthly, minimums, and what a trial includes. When your own page is silent, engines that search at answer time, such as ChatGPT Search and Perplexity, can end up describing your pricing from a third-party page.</li><li>Put requirements and limits in page text, not only in a PDF or a gated datasheet. Crawlers can&#39;t read behind the form, and neither can the buyer checking a claim.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>5. Offer a next step that fits a buyer mid-shortlist</h3>
+        <p>A visitor validating a shortlist is not always ready for a 45-minute demo, and 69% of the buyers Gartner surveyed prefer to validate AI-generated insights with sales reps.</p>
+        <ul class="seo-list"><li>Offer a short validation path next to the demo: a call with a solutions engineer, a sandbox, or the documentation for the use case the answer mentioned.</li><li>Give sales the answer&#39;s context. Add an optional form field, &quot;What did an AI assistant tell you about us?&quot;, and log the answers in your CRM; the protocol is in <a href="/prove-ai-influence-closed-won-interviews/">closed-won interviews</a>.</li><li>Keep security, compliance, and technical pages ungated at summary level, so the claims a buying group checks are readable without a sales call.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Find the pages AI actually sends people to</h2>
+      <p>Start with pages, not the channel. A click out of an answer goes to whatever URL the answer linked, which may be a comparison page, a documentation page, or pricing rather than the homepage. Three free or first-party lists, read together, give you the priority set:</p>
+      <ul class="seo-list"><li><strong>GA4&#39;s AI Assistant channel (added May 13, 2026).</strong> Filter the landing-page report to this channel. It counts sessions whose referrer matches Google&#39;s list of assistants (the help page names ChatGPT, Gemini, DeepSeek, Copilot, and Grok). It excludes Google&#39;s AI Overviews and AI Mode, which stay in Organic Search, and visits with no referrer land in Direct. Treat it as a floor.</li><li><strong>Search Console&#39;s generative AI performance report.</strong> It shows how often links to each page appeared in AI Overviews and AI Mode, with impressions only: no clicks, CTR, or queries.</li><li><strong>Answer-side tracking.</strong> The URLs engines cite on your own buyer prompts, captured over repeated runs rather than a single check.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Where the lists overlap</h3>
+        <p>Pages that appear on 2 or 3 of these lists are where AI-influenced buyers land. Fix those first. For how each free report works and what it misses, see <a href="/search-console-bing-ga4-ai-reports/">the free AI reports in Search Console, Bing, and GA4</a>; for the demand that never arrives with an AI referrer, see <a href="/aeo-web-traffic-attribution/">what AEO does to your web traffic</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Illustrative example: a pricing page that argued with the answer</h2>
+      <p>Illustrative scenario only. Brand K sells log management to mid-market engineering teams. Its web lead reads the answers on 5 engines to &quot;best log management tool for a Kubernetes team of about 50 engineers&quot; and pulls a quarter of GA4 AI Assistant sessions: about 900, with 55% landing on 3 URLs (the pricing page, a Kubernetes integration doc, and a comparison page against Brand D, the category incumbent). Demo requests from those sessions run at about half the rate of branded organic visits to the same pages. Comparing the answers with the pages explains why:</p>
+      
+      <table>
+              <thead><tr><th>What the answers said</th><th>What the landing page showed</th><th>The fix</th></tr></thead>
+              <tbody><tr><td>&quot;A cheaper alternative to Brand D with a generous free tier&quot;</td><td>Pricing page: free tier retired in March, and &quot;Contact sales&quot; on every plan above the trial</td><td>State the 14-day trial and the usage-based pricing model at the top, with the date it changed, and publish the entry plan&#39;s list price</td></tr><tr><td>&quot;Supports Kubernetes through a community plugin&quot;</td><td>Integration doc: a native operator shipped in 2025, but the title still says &quot;plugin (beta)&quot;</td><td>Retitle and date the page, with a one-sentence summary at the top: native operator, generally available since 2025</td></tr><tr><td>&quot;Good for small teams; may not scale&quot;</td><td>Comparison page: a feature grid with no evidence about scale</td><td>Add a named customer running at scale (with permission), ingest limits in page text, and the cases where Brand D is the better fit</td></tr><tr><td>No answer mentions security certifications</td><td>Security page gated behind a form</td><td>Ungate the summary: certification, audit date, and scope in page text</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>What Brand K should watch afterward</h3>
+        <p>Two things, over weeks, not days. First, whether demo requests from AI Assistant sessions on those 3 pages close the gap with branded organic visitors, reported with the session counts. Second, whether answers on the same prompts stop repeating the free-tier and plugin claims: engines that search at answer time can pick up the change as they re-fetch, while answers drawn from model memory can lag for months. Neither result proves the page caused the change, because engines shift their sources on their own. It is the pattern the checklist is built to produce, not a promise that it will.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How to tell whether the page is doing its job</h2>
+      <p>Compare the AI-referred cohort with itself over time and with other visitors to the same pages, then pair it with what buyers tell you. No single number settles it.</p>
+      <ul class="seo-list"><li><strong>The cohort.</strong> AI Assistant sessions by landing page: engaged sessions and next-step rate (demo, trial, or validation call), before and after the change. At small samples, report counts, not percentages.</li><li><strong>A comparison group.</strong> Branded organic visitors to the same URLs over the same period, since they are often the same kind of buyer arriving by a different route.</li><li><strong>The buyer&#39;s account.</strong> Ask closed-won buyers whether they checked what an AI assistant told them, and where. That question is in the <a href="/prove-ai-influence-closed-won-interviews/">closed-won interview</a> script.</li><li><strong>The answer side.</strong> Re-run the same prompts on the same engines and check whether answers still repeat the claim the page corrected.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys covers the answer side of this work and the page audit. It runs as a loop, Measure → Diagnose → Execute → Verify, and it doesn&#39;t see your analytics. Four shipped capabilities map to the checklist:</p>
+      <ul class="seo-list"><li><strong>What the engine told the buyer.</strong> Answer Accuracy grades each AI answer about your brand pass or fail against your Corporate Context, per engine, and on a fail shows the specific claim that was missing, prohibited, outdated, contradicted, or unsupported. That is the input list for step 2. It is included on Pro (up to 15 prompts) and Custom (every prompt).</li><li><strong>How the answer positioned you.</strong> The <a href="/ai-recommendation-score/">Recommendation Score</a> grades each answer 0–100 on how favorably it positions you, ties every point to a verbatim line, and shows you next to the competitors in the same answers. That tells you which comparison your landing page has to win in step 3.</li><li><strong>Whether the page carries the right claims.</strong> A <a href="/solcrys-content-audit-report/">Content Audit</a> checks a live landing page or a draft, and when Corporate Context is set it ends with a brand-alignment read: whether the page&#39;s claims match your approved facts and use your own product terms. Promote a finding to the <a href="/inside-the-action-hub/">Action Hub</a>, your team ships the change, and SolCrys re-audits the page when the task is marked published.</li><li><strong>One source of truth for both.</strong> <a href="/corporate-context-ai-marketing/">Corporate Context</a> is set once at the organization level and shared across workspaces, so the facts Answer Accuracy grades AI answers against are the same facts the Content Audit checks your page against.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Building the page, not just auditing it</h3>
+        <p>SolCrys also builds pages with customers. For Cornelis Networks we worked with its marketing and web teams and delivered copy and design for a redone homepage, a new category page, and a product page, grounded in the Corporate Context SolCrys manages for Cornelis (<a href="/customers/cornelis/">case study</a>). The principle from that work is the one this guide argues: the page an engine cites and the page a buyer lands on should tell the same story, in the same words.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What SolCrys doesn&#39;t do</h3>
+        <p>SolCrys doesn&#39;t connect to GA4, Search Console, or your CRM, so the cohort, conversion, and pipeline analysis stays in your own tools. It never edits or publishes your site; your team ships every change. Engine coverage depends on plan across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude. And a before-and-after, whether on an answer or on an audit score, is an observation, not proof that your change caused it.</p><p>To see how ChatGPT describes your brand before a buyer reads it, <a href="https://app.solcrys.com/audit">Start Free</a>: 10 ChatGPT prompts and 1 Content Audit, with email verification and no credit card. Multi-engine tracking is on paid plans and Answer Accuracy is on Pro and Custom, and if you want help building the pages themselves, <a href="https://app.solcrys.com/contact-sales/">talk to us</a>.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.digitalcommerce360.com/2026/03/24/openai-agentic-commerce-updates-chatgpt-walmart/" target="_blank" rel="noopener noreferrer">Digital Commerce 360: OpenAI phases out Instant Checkout, with OpenAI&#39;s statement (March 24, 2026)</a></li><li><a href="https://searchengineland.com/walmart-chatgpt-checkout-converted-worse-472071" target="_blank" rel="noopener noreferrer">Search Engine Land: Walmart says ChatGPT checkout converted 3x worse than its website (March 2026)</a></li><li><a href="https://stripe.com/newsroom/news/stripe-openai-instant-checkout" target="_blank" rel="noopener noreferrer">Stripe: Instant Checkout in ChatGPT and the Agentic Commerce Protocol (Sept. 29, 2025)</a></li><li><a href="https://9to5mac.com/2026/08/04/openai-explains-what-will-happen-when-chatgpt-atlas-shuts-down-this-weekend/" target="_blank" rel="noopener noreferrer">9to5Mac: what happens when ChatGPT Atlas shuts down on Aug. 9 (Aug. 4, 2026)</a></li><li><a href="https://company.g2.com/news/buyer-behavior-2026" target="_blank" rel="noopener noreferrer">G2: 2026 Buyer Behavior Report (July 22, 2026)</a></li><li><a href="https://www.prnewswire.com/news-releases/new-g2-research-half-of-b2b-software-buyers-now-start-their-research-with-ai-chatbots-302742807.html" target="_blank" rel="noopener noreferrer">G2 via PR Newswire: half of B2B software buyers now start research with AI chatbots (April 15, 2026)</a></li><li><a href="https://martechseries.com/predictive-ai/ai-platforms-machine-learning/gartner-survey-finds-69-of-b2b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights/" target="_blank" rel="noopener noreferrer">MarTech Series: Gartner survey of 645 B2B buyers on validating AI-generated insights (May 20, 2026)</a></li><li><a href="https://6sense.com/newsroom/the-timeline-for-influencing-b2b-buyers-is-shrinking-insights-from-6senses-2025-buyer-experience-report/" target="_blank" rel="noopener noreferrer">6sense: 2025 Buyer Experience Report press release (Nov. 12, 2025)</a></li><li><a href="https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026/dnr-executive-summary" target="_blank" rel="noopener noreferrer">Reuters Institute: Digital News Report 2026, executive summary (June 16, 2026)</a></li><li><a href="https://techcrunch.com/2026/04/16/ai-traffic-to-us-retailers-rose-393-in-q1-and-its-boosting-their-revenue-too/" target="_blank" rel="noopener noreferrer">TechCrunch: Adobe Analytics on AI traffic to US retailers in Q1 2026 (April 16, 2026)</a></li><li><a href="https://www.digitalcommerce360.com/2026/01/13/generative-ai-online-holiday-shopping-traffic-2025/" target="_blank" rel="noopener noreferrer">Digital Commerce 360: Adobe on generative AI traffic in 2025 holiday shopping (Jan. 13, 2026)</a></li><li><a href="https://www.digitalcommerce360.com/2026/06/17/adobe-ai-referred-traffic-to-retail-sites-doubles-in-a-year/" target="_blank" rel="noopener noreferrer">Digital Commerce 360: Adobe on AI-referred retail traffic in May 2026 (June 17, 2026)</a></li><li><a href="https://news.adobe.com/news/2026/04/adobe-completes-semrush-acquisition" target="_blank" rel="noopener noreferrer">Adobe: Adobe completes Semrush acquisition (April 28, 2026)</a></li><li><a href="https://blog.google/products/ads-commerce/agentic-commerce-ai-tools-protocol-retailers-platforms/" target="_blank" rel="noopener noreferrer">Google: new agentic commerce tools and the Universal Commerce Protocol (Jan. 11, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/shopping/google-shopping-updates-holiday-shopping/" target="_blank" rel="noopener noreferrer">Google: shopping and agentic commerce updates for the holidays (Sept. 16, 2026)</a></li><li><a href="https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts/google" target="_blank" rel="noopener noreferrer">Shopify Help Center: Google AI Mode and Gemini direct checkout</a></li><li><a href="https://support.google.com/analytics/answer/9756891" target="_blank" rel="noopener noreferrer">Google Analytics Help: default channel group, including the AI Assistant channel</a></li><li><a href="https://support.google.com/webmasters/answer/16984139" target="_blank" rel="noopener noreferrer">Google Search Console Help: Search generative AI performance report</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: guidance on optimizing for generative AI features in Search (May 2026, updated July 10, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Do visitors from ChatGPT convert better than other traffic?</h3>
+            <p>In US retail, recently yes: Adobe Analytics found AI-referred traffic to US retail sites converted 54% better than non-AI traffic in May 2026, after converting 38% worse in March 2025. Adobe also sells AI-search optimization products, the cohort is self-selected, and there is no comparable neutral dataset for B2B. Measure your own AI Assistant cohort in GA4 by landing page, report the sample size, and remember that the result depends partly on whether the page confirms what the answer told the visitor.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What should a landing page do for AI-referred traffic?</h3>
+            <p>Help a buyer who is already mid-shortlist check what the answer told them. Match the answer&#39;s framing in the first screen, state the current facts the engine gets wrong, link to an honest comparison and checkable proof, make fit and the pricing model legible, and offer a validation step next to the demo. Apply it to the pages AI actually sends visitors to, which are not always the homepage.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is agentic checkout replacing websites?</h3>
+            <p>Not for B2B. OpenAI phased out Instant Checkout in March 2026 and shut down the Atlas browser on Aug. 9, 2026, and only 9% of B2B software buyers told G2 they are comfortable letting an agent execute purchases. US retail is different: Google&#39;s Universal Commerce Protocol powers checkout in AI Mode and the Gemini app for eligible US retailers, and Shopify enables it by default for eligible US stores. Even there, Google added cart transfer to a merchant site in September 2026.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why did OpenAI pull Instant Checkout?</h3>
+            <p>OpenAI said on March 24, 2026 that the first version &quot;did not offer the level of flexibility that we aspire to provide,&quot; and that merchants could use their own checkout while it focused on product discovery. Walmart executive Daniel Danker had said, as reported by Search Engine Land, that purchases made inside ChatGPT converted at one-third the rate of click-outs to Walmart&#39;s own site. ChatGPT kept the discovery role; the purchase went back to the merchant.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I build a separate landing page for AI traffic?</h3>
+            <p>No. Fix the page the answer already links to. Many AI-influenced visitors arrive without an AI referrer, through a branded search or a direct visit, so a referrer-based variant misses them. Google says optimizing for its generative AI features is still SEO, with no special markup required. One accurate page serves the buyer, the crawler, and the next answer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does GA4 show all AI-referred visits?</h3>
+            <p>No. GA4&#39;s AI Assistant channel, added May 13, 2026, counts sessions whose referrer matches Google&#39;s list of assistants, such as ChatGPT, Gemini, DeepSeek, Copilot, and Grok. It excludes Google&#39;s AI Overviews and AI Mode, which stay in Organic Search, and visits without a referrer land in Direct. Treat it as a floor and pair it with Search Console&#39;s AI impressions and answer-side tracking.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I know what an AI told my visitors before they arrived?</h3>
+            <p>Run the questions your buyers ask on the engines they use, capture each answer per engine with its date and cited sources, and compare them with your current facts. Ask new customers what an AI assistant told them, too. SolCrys&#39;s Answer Accuracy automates the comparison on Pro and Custom plans, grading each answer against your Corporate Context and showing the specific claim an engine got wrong.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-web-traffic-attribution/">What AEO Does to Your Web Traffic</a></h3>
+            <p>AI shapes far more buying than it sends clicks, so analytics undercount AEO. What GA4, Search Console, and Bing show, what they miss, and how to attribute it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-ai-describes-your-brand/">How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)</a></h3>
+            <p>AI decides what your brand is, and each engine decides differently. How the description forms, why a fix takes weeks to show, and how to correct it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/prove-ai-influence-closed-won-interviews/">Prove AI Influence with Closed-Won Interviews</a></h3>
+            <p>Your dashboard says branded search. Your buyers say ChatGPT. The fastest defensible way to prove AI influence on pipeline is a monthly closed-won interview — the script, the sample size, the CRM field, and the 1-in-X readout that gets AEO funded.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/ai-referred-shoppers-retail-aeo/">AI-Referred Shoppers Convert ~50% Higher: What It Means for Retail AEO</a></h3>
+            <p>Shopify&#39;s Q1 2026 enterprise data shows AI-referred sessions convert nearly 50% higher than organic search, with 14% higher AOV and 55% landing on product pages. Here is how to translate that into a Retail AEO program your team can actually run.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/agentic-web-identity-vs-capability/">Identity and Capability: The Agentic Web Still Runs on Being Chosen</a></h3>
+            <p>The agentic web is splitting into an identity layer and a capability layer. Neither fires until an answer engine chooses your brand first. Here is the order of operations, and why AEO is the precondition for both.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/solcrys-content-audit-report/">What a SolCrys Content Audit Looks Like</a></h3>
+            <p>What a SolCrys Content Audit checks on one URL, how the score and recoverable points work, and how a fix is promoted, published, and re-audited.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BfpG2qrC.js"></script>
+  </body>
+</html>

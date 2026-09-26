@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Free AI Reports: Search Console, Bing, GA4, Merchant Center</title>
+    <meta name="description" content="Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/search-console-bing-ga4-ai-reports/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Free AI Reports: Search Console, Bing, GA4, Merchant Center" />
+    <meta property="og:description" content="Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps." />
+    <meta property="og:url" content="https://solcrys.com/search-console-bing-ga4-ai-reports/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-26" />
+    <meta property="article:modified_time" content="2026-09-26" />
+    <meta property="og:image" content="https://solcrys.com/og/search-console-bing-ga4-ai-reports.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/search-console-bing-ga4-ai-reports.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C8g_8rZY.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do","item":"https://solcrys.com/search-console-bing-ga4-ai-reports/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Search Console, Bing, and GA4 now report AI search. Here's what each shows, and what none of them do.","description":"Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.","dateModified":"2026-09-26","datePublished":"2026-09-26","mainEntityOfPage":"https://solcrys.com/search-console-bing-ga4-ai-reports/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/search-console-bing-ga4-ai-reports/","mainEntity":[{"@type":"Question","name":"Does Search Console show clicks from AI Overviews or AI Mode?","acceptedAnswer":{"@type":"Answer","text":"Not separately. The generative AI performance report shows impressions only, with no clicks, CTR, or queries. Clicks on links in AI Overviews and AI Mode are counted in the standard Performance report under the Web search type, blended with every other web click, and no filter separates them."}},{"@type":"Question","name":"What does the Search Console generative AI performance report show?","acceptedAnswer":{"@type":"Answer","text":"How many times links to your site were shown in Google's AI Overviews and AI Mode, grouped by page, country, date, or device. Google announced it on June 3, 2026, and says it reached all websites worldwide on Aug. 31, 2026. It counts your links, not your brand name, so an answer that names you while linking only to a review site doesn't register."}},{"@type":"Question","name":"How do I see ChatGPT traffic in GA4?","acceptedAnswer":{"@type":"Answer","text":"Open the AI Assistant default channel, added May 13, 2026, which groups sessions whose referrer matches a recognized AI assistant, including ChatGPT. OpenAI says ChatGPT adds utm_source=chatgpt.com to its referral links, so filter session source for chatgpt.com as a cross-check. Visits without a referrer land in Direct, and AI Overviews and AI Mode stay in Organic Search, so treat the channel as a floor."}},{"@type":"Question","name":"What is Bing Webmaster Tools AI Performance?","acceptedAnswer":{"@type":"Answer","text":"A free Microsoft report, in public preview since Feb. 10, 2026, that shows how often your pages are cited in Microsoft Copilot, AI-generated summaries in Bing, and select partner integrations, plus the grounding queries behind those citations. Citation Share, added June 16, 2026, shows your share of all citations for a grounding query without naming competitors. It has no click or traffic metric, and it is the free report to use for Copilot."}},{"@type":"Question","name":"Does Merchant Center show how my products appear in AI answers?","acceptedAnswer":{"@type":"Answer","text":"Yes, on Google's surfaces. AI performance insights, generally available since Sept. 16, 2026, shows your share of voice in AI Mode and AI Overviews against a competitor set Merchant Center defines, for English-language queries in Australia, Canada, India, New Zealand, and the US. It covers organic results only and one product category at a time."}},{"@type":"Question","name":"Do I still need an AEO tool if Google and Bing report AI for free?","acceptedAnswer":{"@type":"Answer","text":"Use the free reports first; they are the only first-party data on these surfaces. Whether you need more depends on the questions you have to answer. None of them shows what an answer said, whether it recommended you or a competitor, whether it was accurate, or what ChatGPT, Perplexity, or Claude said to buyers who didn't click. If those questions matter to your pipeline, you need answer-side measurement on a fixed prompt set; if they don't yet, the free reports are enough."}},{"@type":"Question","name":"Why is my Search Console generative AI report empty?","acceptedAnswer":{"@type":"Answer","text":"Google's help page points to 3 possibilities: your property may not have access yet, your site may not have enough impressions in AI features, or the site may be excluded through the Search generative AI control in Search Console's settings. Including is the default, and an excluded site receives no impressions or traffic from those features."}},{"@type":"Question","name":"Does SolCrys connect to GA4 or Search Console?","acceptedAnswer":{"@type":"Answer","text":"No. SolCrys has no GA4 or Search Console connector and doesn't read your analytics. It measures the answer side (mentions, cited URLs, Recommendation Score, and Answer Accuracy), and you join that to Search Console, Bing, and GA4 data by the cited URL in your own analysis. SolCrys also doesn't measure Copilot; Bing Webmaster Tools is the free report for it."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Attribution &amp; ROI</p>
+        <h1>Search Console, Bing, and GA4 now report AI search. Here&#39;s what each shows, and what none of them do.</h1>
+        <p class="seo-lede">Google and Microsoft now report AI search for free. Search Console counts impressions of your links in AI Overviews and AI Mode, Bing Webmaster Tools counts Copilot citations and grounding queries, GA4 groups visits from AI assistants, and Merchant Center shows product share of voice in Google&#39;s AI shopping answers. Turn on every one that applies to you, because they are first-party data you can&#39;t get anywhere else. But each one counts your own links or visits on its own surfaces, so none shows what an answer said, whether it recommended you, whether it was accurate, or what ChatGPT, Perplexity, or Claude told a buyer who never clicked.</p>
+        
+        <p>Updated <time datetime="2026-09-26">2026-09-26</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What does the Search Console generative AI report show?</li><li>Does Search Console show clicks from AI Overviews or AI Mode?</li><li>How do I see ChatGPT traffic in GA4?</li><li>What is Bing Webmaster Tools AI Performance?</li><li>What does Merchant Center AI performance insights show?</li><li>Do I need an AEO tool if Google reports AI impressions?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>The 4 free reports most teams should turn on are Search Console&#39;s generative AI performance report (impressions of your links in Google&#39;s AI Overviews and AI Mode, no clicks), Bing Webmaster Tools AI Performance (citations of your pages in Microsoft Copilot and Bing&#39;s AI summaries, no clicks), GA4&#39;s AI Assistant channel (visits that arrive with a recognized AI referrer, excluding AI Overviews and AI Mode), and Merchant Center&#39;s AI performance insights (product share of voice in AI Mode and AI Overviews, in 5 countries). Use every one that applies to you: they are the only data that comes from the platforms themselves, and they measure real users.</p><p>What none of them does is show the answer: what it said about you, whether it recommended you or a competitor, whether it was accurate, or anything ChatGPT, Perplexity, or Claude said to a buyer who didn&#39;t click. That half needs answer-side measurement on a fixed set of buyer prompts.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The free reports at a glance</h2>
+      <p>Start from the question you need answered, not from the tool. Each row below names the free report that answers it, what that report leaves out, and how to cover the gap. Dates are from each platform&#39;s own documentation, checked Sept. 26, 2026.</p>
+      
+      <table>
+              <thead><tr><th>Your question</th><th>Free report that answers it</th><th>What it does not show</th><th>How to cover the gap</th></tr></thead>
+              <tbody><tr><td>How often do my pages appear in Google AI Overviews and AI Mode?</td><td><strong>Search Console generative AI performance report</strong> (all websites since Aug. 31, 2026)</td><td>Clicks, CTR, and queries; answers that name your brand but link to someone else&#39;s page</td><td>Read it by page; for the questions and answer text behind the impressions, track AI Overviews answers on your buyer prompts</td></tr><tr><td>How many clicks did AI Overviews and AI Mode send me?</td><td><strong>Search Console Performance report</strong>, Web search type</td><td>Which clicks came from an AI feature; they are blended into Web totals</td><td>Nothing separates them; compare trends on pages with and without AI impressions</td></tr><tr><td>Which of my pages does Copilot cite, and for which queries?</td><td><strong>Bing Webmaster Tools AI Performance</strong> (public preview since Feb. 10, 2026)</td><td>Clicks and traffic; ChatGPT, Google, Perplexity, and Claude</td><td>Use it as your Copilot report; SolCrys doesn&#39;t measure Copilot</td></tr><tr><td>How much of the citation space do I win on a query?</td><td><strong>Bing Citation Share</strong> (preview since June 16, 2026)</td><td>Competitor domains, by Microsoft&#39;s design; any non-Microsoft engine</td><td>Answer-side tracking names the cited competitors on the engines it covers</td></tr><tr><td>How many visits came from ChatGPT, Gemini, Claude, and other assistants?</td><td><strong>GA4 AI Assistant channel</strong> (since May 13, 2026)</td><td>AI Overviews and AI Mode (in Organic Search); visits with no referrer (in Direct); anyone who read the answer and didn&#39;t click</td><td>Check Referral for AI domains GA4 didn&#39;t recognize; add closed-won interviews</td></tr><tr><td>How visible are my products in Google&#39;s AI shopping answers versus competitors?</td><td><strong>Merchant Center AI performance insights</strong> (generally available Sept. 16, 2026)</td><td>Paid traffic; control over the competitor set; non-English queries and markets outside the 5 countries; other engines</td><td>Outside Google, test shopping prompts on the assistants your buyers use</td></tr><tr><td>What did the answer say, did it recommend us, and was it accurate?</td><td><strong>None</strong></td><td>Every free report counts links, citations, or visits, not answer text</td><td>Capture answers on a fixed prompt set and grade them</td></tr><tr><td>What did ChatGPT, Perplexity, or Claude tell buyers who didn&#39;t click?</td><td><strong>None</strong></td><td>Analytics tools see these engines only when a visit arrives with its referrer intact</td><td>Answer-side measurement on those engines</td></tr></tbody>
+            </table>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>How to read the table</h2>
+      <p>Every free report counts something the platform can see from its own side: links to your site that it showed, citations of your pages, or sessions that reached your site. That is presence and traffic on the platform&#39;s own surfaces. It is useful, it is free, and it is real user data rather than a sample of prompts. It is not the answer.</p><p>The pattern matters more than any single row. Because the reports count your URLs and your visits, an answer that names you through a review site is invisible to them, and because each platform reports only on itself, ChatGPT, Perplexity, and Claude reach your data only as the occasional referral visit.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Search Console: the generative AI performance report</h2>
+      <p>Google <a href="https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports" target="_blank" rel="noopener noreferrer">announced the report</a> on June 3, 2026, for a subset of sites, and its <a href="https://support.google.com/webmasters/answer/16984139" target="_blank" rel="noopener noreferrer">help page</a> says it reached all websites worldwide on Aug. 31, 2026. It counts impressions, defined as &quot;how many times links to your site were shown to a user in a generative AI feature on Google Search,&quot; across AI Overviews and AI Mode. A separate version covers AI features in Discover.</p><p>You can group impressions by page, country, date, and device, and filter by 2 search types, text-based and multimodal. There is no clicks metric, no CTR, and no query dimension, so you can see which pages appeared but not which questions triggered them. Search Labs experiments are excluded, and the usual 1,000-row table limit applies.</p>
+      <ul class="seo-list"><li><strong>It counts your links, not your name.</strong> By Google&#39;s definition, an AI Overview that recommends your brand but links only to a review site records no impression for you.</li><li><strong>It has no position or prominence metric.</strong> A link at the top of an answer and a link further down each count as an impression once shown, so the report can&#39;t tell you whether you were the recommendation or a supporting source.</li><li><strong>An empty report can be a setting.</strong> Search Console&#39;s <a href="https://support.google.com/webmasters/answer/16908024" target="_blank" rel="noopener noreferrer">Search generative AI control</a>, rolled out to all websites on Aug. 31, 2026, lets a property exclude itself from AI Overviews, AI Mode, and AI features in Discover. Including is the default; an excluded site gets no impressions or traffic from those features.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>The standard Performance report still blends AI into Web</h3>
+        <p>Clicks from AI features are in Search Console, just not separately. Google&#39;s <a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">AI features documentation</a> says sites appearing in AI Overviews and AI Mode are &quot;included in the overall search traffic in Search Console,&quot; reported in the Performance report within the Web search type. Per Google&#39;s <a href="https://support.google.com/webmasters/answer/7042828" target="_blank" rel="noopener noreferrer">counting rules</a>, a click on a link in an AI Overview or in AI Mode counts as a click, all links in an AI Overview share the single position the Overview occupies, and a follow-up question in AI Mode counts as a new query.</p><p>The result: your Web clicks include AI clicks, and no filter separates them. The workable approach is comparative. Track pages with rising AI impressions against pages without them over the same window, and treat the difference as a correlation, not an attribution.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Bing Webmaster Tools: AI Performance</h2>
+      <p>Microsoft <a href="https://blogs.bing.com/webmaster/2026/2/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview/" target="_blank" rel="noopener noreferrer">launched AI Performance</a> in public preview on Feb. 10, 2026. It &quot;shows how publisher content appears across Microsoft Copilot, AI-generated summaries in Bing, and select partner integrations.&quot; The dashboard reports total citations, average cited pages per day, citation counts per URL, a trend line, and grounding queries, &quot;the key phrases the AI used when retrieving content.&quot; Microsoft notes that the grounding-query data &quot;represents a sample of overall citation activity.&quot;</p><p>On June 16, 2026, Microsoft <a href="https://blogs.bing.com/search/2026/6/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare/" target="_blank" rel="noopener noreferrer">added 4 preview features</a>: Intents and Topics, which classify and cluster grounding queries; Compare, which overlays a previous period; and Citation Share, &quot;the percentage of citations attributed to your site out of all citations shown across all sites for that same grounding query.&quot; Microsoft is explicit about the limit: Citation Share &quot;does not expose competitor domains, represent traffic share, or assign quality scores to content.&quot; No click or traffic metric appears among the ones Microsoft lists for the report.</p><p>Grounding queries make it worth opening even if Copilot isn&#39;t a priority: they show the searches the AI ran to retrieve your pages, which Search Console&#39;s AI report doesn&#39;t expose. For Copilot itself, it is the only free first-party view of citations. SolCrys doesn&#39;t measure Copilot, so this is the report we recommend for it. Microsoft doesn&#39;t name the partner integrations, so don&#39;t read it as a proxy for ChatGPT.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>GA4: the AI Assistant channel</h2>
+      <p>GA4 <a href="https://support.google.com/analytics/answer/9164320" target="_blank" rel="noopener noreferrer">added an AI Assistant default channel</a> on May 13, 2026. When a session&#39;s referrer matches a recognized AI assistant, GA4 sets the medium to ai-assistant and the campaign to (ai-assistant), and the session lands in the new channel. Google&#39;s release note names ChatGPT, Gemini, and Claude; the <a href="https://support.google.com/analytics/answer/9756891" target="_blank" rel="noopener noreferrer">channel definition</a> names ChatGPT, Gemini, DeepSeek, Copilot, and Grok. The help page doesn&#39;t publish the full list.</p><p>Four kinds of AI-influenced visits fall outside it:</p>
+      <ul class="seo-list"><li><strong>AI Overviews and AI Mode.</strong> GA4 files them under Organic Search, which it defines as &quot;including Google&#39;s AI Overviews and AI Mode.&quot;</li><li><strong>Visits without a referrer.</strong> The channel depends on the referrer. A buyer who copies your URL out of an answer, or types your name into the address bar later, arrives as Direct.</li><li><strong>Assistants GA4 doesn&#39;t recognize.</strong> They fall to other channel rules, usually Referral. Perplexity isn&#39;t named on either Google page, so check your Referral report for perplexity.ai before assuming it&#39;s covered.</li><li><strong>Everyone who read the answer and didn&#39;t click.</strong> GA4 counts arrivals, so influence without a visit never appears.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Two free cross-checks</h3>
+        <p>ChatGPT tags its outbound links: OpenAI&#39;s <a href="https://help.openai.com/en/articles/12627856-publishers-and-developers-faq" target="_blank" rel="noopener noreferrer">publisher FAQ</a> says ChatGPT &quot;automatically includes the UTM parameter utm_source=chatgpt.com in referral URLs,&quot; so filter session source for chatgpt.com as well. And Microsoft Clarity, also free, has its own <a href="https://learn.microsoft.com/en-us/clarity/insights/ai-channel-group" target="_blank" rel="noopener noreferrer">AIPlatform and PaidAIPlatform channels</a>, which list Claude, Copilot, Gemini, ChatGPT, and Perplexity, count only visits from their standalone sites, and carry the same caveat Microsoft states plainly: &quot;If the source is hidden, the traffic might appear as Direct.&quot;</p><p>Expect small numbers either way; <a href="/aeo-web-traffic-attribution/">what AEO does to your web traffic</a> covers why referral counts understate AI influence.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Merchant Center: AI performance insights</h2>
+      <p>For retailers, this is the only one of the 4 reports that compares you with a competitor set. Google <a href="https://blog.google/products-and-platforms/products/shopping/google-shopping-updates-holiday-shopping/" target="_blank" rel="noopener noreferrer">made AI performance insights generally available</a> on Sept. 16, 2026. Per the <a href="https://support.google.com/merchants/answer/17200695" target="_blank" rel="noopener noreferrer">Merchant Center help page</a>, it covers English-language queries for accounts in Australia, Canada, India, New Zealand, and the US, and lives under Analytics, then Products, then the AI performance tab.</p><p>The headline metric is your share of voice for conversational queries with shopping intent in AI Mode and AI Overviews: your AI impressions divided by the total across you and your competitor set. The report also splits queries into 3 shopping stages (Discovery, Evaluation, and Ready to buy) and lists the top terms shoppers use and popular attributes that may be missing from your product data.</p>
+      <ul class="seo-list"><li><strong>Organic only.</strong> &quot;Paid Ads traffic isn&#39;t included in this report.&quot;</li><li><strong>One product category at a time.</strong> There is no report across all categories.</li><li><strong>A competitor set you don&#39;t pick.</strong> &quot;You can&#39;t change your competitors&quot;; if none are defined, share of voice shows 100%.</li><li><strong>A few days behind.</strong> Data updates daily &quot;with a few days lag.&quot;</li><li><strong>Products on Google only.</strong> It doesn&#39;t cover services, non-Google assistants, or what the answer said about a product.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What none of them do</h2>
+      <p>Put the 4 reports side by side and the same 5 gaps remain.</p>
+      <ul class="seo-list"><li><strong>The answer itself.</strong> No report shows the text of an AI answer, so you can&#39;t see how you were described.</li><li><strong>Recommended versus mentioned.</strong> An impression or a citation says your page was shown or used. It doesn&#39;t say whether the answer told the buyer to choose you or a competitor; see <a href="/ai-recommendation-score/">AI Recommendation Score</a> for why that gap matters.</li><li><strong>Accuracy.</strong> No report says whether a claim about your pricing, integrations, or capabilities was right; see <a href="/is-ai-telling-the-truth-about-your-brand/">is AI telling the truth about your brand</a>.</li><li><strong>Mentions carried by other people&#39;s pages.</strong> When an answer names you through a review site or a comparison post, Search Console and Bing record nothing for you.</li><li><strong>Engines outside the platform.</strong> ChatGPT, Perplexity, and Claude answers reach your reports only as visits, and only when someone clicks with a referrer intact.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>The trade-off that runs the other way</h3>
+        <p>The platform reports measure real users; answer-side tracking measures a fixed, sampled set of prompts. Each is strong where the other is weak. A fixed prompt set is what lets you test a change: same questions, same engines, before and after. Real-user reports are what tell you whether the pages you changed gained impressions, citations, or visits. You need both halves.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How to run them together</h2>
+      <p>An afternoon of setup covers all 4, and the join key is the page URL.</p>
+      <ul class="seo-list"><li><strong>Search Console:</strong> open the generative AI performance report, confirm the Search generative AI control is set to include, and export impressions by page each month, since the 1,000-row table limit makes a regular export worth it.</li><li><strong>Bing Webmaster Tools:</strong> verify the site, open AI Performance, and export page-level citations and grounding queries; use Compare for period-over-period.</li><li><strong>GA4:</strong> open the AI Assistant channel, scan Referral for AI domains GA4 didn&#39;t recognize, and filter session source for chatgpt.com.</li><li><strong>Merchant Center (retail only):</strong> open the AI performance tab for each priority product category.</li><li><strong>Join on the URL:</strong> keep one sheet with one row per page: Search Console AI impressions, Bing citations, GA4 AI Assistant sessions by landing page, and the URLs answer engines cite on your buyer prompts. Pages cited everywhere but rarely visited are your click gap.</li><li><strong>Start the baseline now.</strong> These reports launched between February and September 2026, so every trend is short. Movement is only readable against a baseline you started before the change.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What the joined view shows</h3>
+        <p>Illustrative scenario only. A data-warehouse vendor&#39;s pricing-comparison page shows steady AI impressions in Search Console, a few dozen Copilot citations a month in Bing, and a trickle of AI Assistant sessions in GA4. Every free report says the page is present. Answer-side tracking on 20 buyer prompts shows why the sessions stay low: ChatGPT and Google AI Overviews cite the page, then recommend 2 larger competitors first and describe the vendor with a pricing model it retired last year. The fix is on the page and on the third-party sources the engines trust, and the free reports are how you watch whether impressions and visits follow.</p><p>For the full attribution stack, from answer-side presence to pipeline, see <a href="/aeo-actions-to-revenue/">AEO actions to revenue</a> and <a href="/prove-ai-influence-closed-won-interviews/">prove AI influence with closed-won interviews</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys measures the answer half. On a fixed set of buyer prompts, it captures the answer on ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan: the Free workspace covers ChatGPT, Starter adds Gemini and Google AI Overviews, Pro covers any 4 of the 5, and Custom covers all 5. For each answer it records whether you were mentioned; which URLs were cited, yours and everyone else&#39;s; a Recommendation Score from 0 to 100 for how favorably the answer positions you, with each point tied to quoted text; and, on Pro (up to 15 prompts) and Custom (every prompt), Answer Accuracy, which grades the answer against your Corporate Context and can&#39;t mark a claim wrong without evidence.</p><p>That feeds the Measure → Diagnose → Execute → Verify loop. A Deep Analysis explains why a competitor was recommended, a Content Audit shows what a page is missing, your team ships the change after human review (SolCrys never publishes to your site), and SolCrys re-runs the same frozen prompts on the same engines to show whether the answer moved. A before-and-after change is an observation, not proof of cause.</p><p>Where the scope ends: SolCrys has no GA4 or Search Console connector and doesn&#39;t read your analytics, so it doesn&#39;t report your impressions, sessions, or pipeline. The join is the cited URL, in a sheet you control. SolCrys doesn&#39;t measure Copilot, so use Bing Webmaster Tools for it. For product share of voice in Google&#39;s shopping answers, Merchant Center is the source. And a prompt set is a sample you choose, not a census of real queries, which is why it pairs with the platform reports rather than replacing them.</p><p>To see the answer half for your own brand, <a href="https://app.solcrys.com/audit">Start Free</a>: 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card. Multi-engine tracking is on <a href="https://app.solcrys.com/pricing">paid plans</a>, or <a href="https://app.solcrys.com/contact-sales/">talk to sales</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports" target="_blank" rel="noopener noreferrer">Google Search Central Blog: Introducing Search Generative AI performance reports in Search Console (June 3, 2026; updated for the Aug. 31, 2026 worldwide rollout)</a></li><li><a href="https://support.google.com/webmasters/answer/16984139" target="_blank" rel="noopener noreferrer">Search Console Help: Generative AI performance report (Search)</a></li><li><a href="https://support.google.com/webmasters/answer/16908024" target="_blank" rel="noopener noreferrer">Search Console Help: Search generative AI control</a></li><li><a href="https://support.google.com/webmasters/answer/7042828" target="_blank" rel="noopener noreferrer">Search Console Help: How impressions, position, and clicks are counted (AI Overviews and AI Mode)</a></li><li><a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">Google Search Central: AI features and your website</a></li><li><a href="https://support.google.com/analytics/answer/9756891" target="_blank" rel="noopener noreferrer">Google Analytics Help: Default channel group (AI Assistant and Organic Search definitions)</a></li><li><a href="https://support.google.com/analytics/answer/9164320" target="_blank" rel="noopener noreferrer">Google Analytics Help: What&#39;s new in Google Analytics (AI Assistant traffic measurement, May 13, 2026)</a></li><li><a href="https://blogs.bing.com/webmaster/2026/2/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview/" target="_blank" rel="noopener noreferrer">Microsoft Bing Blog: Introducing AI Performance in Bing Webmaster Tools Public Preview (Feb. 10, 2026)</a></li><li><a href="https://blogs.bing.com/search/2026/6/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare/" target="_blank" rel="noopener noreferrer">Microsoft Bing Blog: New AI Visibility Insights in Bing Webmaster Tools: Intents, Topics, Citation Share, Compare (June 16, 2026)</a></li><li><a href="https://support.google.com/merchants/answer/17200695" target="_blank" rel="noopener noreferrer">Google Merchant Center Help: About AI performance insights</a></li><li><a href="https://blog.google/products-and-platforms/products/shopping/google-shopping-updates-holiday-shopping/" target="_blank" rel="noopener noreferrer">Google: Retailers, get ready for AI-driven holiday shopping (Sept. 16, 2026)</a></li><li><a href="https://help.openai.com/en/articles/12627856-publishers-and-developers-faq" target="_blank" rel="noopener noreferrer">OpenAI Help Center: Publishers and Developers FAQ (utm_source=chatgpt.com)</a></li><li><a href="https://learn.microsoft.com/en-us/clarity/insights/ai-channel-group" target="_blank" rel="noopener noreferrer">Microsoft Learn: Clarity AIPlatform and PaidAIPlatform channels</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does Search Console show clicks from AI Overviews or AI Mode?</h3>
+            <p>Not separately. The generative AI performance report shows impressions only, with no clicks, CTR, or queries. Clicks on links in AI Overviews and AI Mode are counted in the standard Performance report under the Web search type, blended with every other web click, and no filter separates them.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What does the Search Console generative AI performance report show?</h3>
+            <p>How many times links to your site were shown in Google&#39;s AI Overviews and AI Mode, grouped by page, country, date, or device. Google announced it on June 3, 2026, and says it reached all websites worldwide on Aug. 31, 2026. It counts your links, not your brand name, so an answer that names you while linking only to a review site doesn&#39;t register.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I see ChatGPT traffic in GA4?</h3>
+            <p>Open the AI Assistant default channel, added May 13, 2026, which groups sessions whose referrer matches a recognized AI assistant, including ChatGPT. OpenAI says ChatGPT adds utm_source=chatgpt.com to its referral links, so filter session source for chatgpt.com as a cross-check. Visits without a referrer land in Direct, and AI Overviews and AI Mode stay in Organic Search, so treat the channel as a floor.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is Bing Webmaster Tools AI Performance?</h3>
+            <p>A free Microsoft report, in public preview since Feb. 10, 2026, that shows how often your pages are cited in Microsoft Copilot, AI-generated summaries in Bing, and select partner integrations, plus the grounding queries behind those citations. Citation Share, added June 16, 2026, shows your share of all citations for a grounding query without naming competitors. It has no click or traffic metric, and it is the free report to use for Copilot.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does Merchant Center show how my products appear in AI answers?</h3>
+            <p>Yes, on Google&#39;s surfaces. AI performance insights, generally available since Sept. 16, 2026, shows your share of voice in AI Mode and AI Overviews against a competitor set Merchant Center defines, for English-language queries in Australia, Canada, India, New Zealand, and the US. It covers organic results only and one product category at a time.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I still need an AEO tool if Google and Bing report AI for free?</h3>
+            <p>Use the free reports first; they are the only first-party data on these surfaces. Whether you need more depends on the questions you have to answer. None of them shows what an answer said, whether it recommended you or a competitor, whether it was accurate, or what ChatGPT, Perplexity, or Claude said to buyers who didn&#39;t click. If those questions matter to your pipeline, you need answer-side measurement on a fixed prompt set; if they don&#39;t yet, the free reports are enough.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why is my Search Console generative AI report empty?</h3>
+            <p>Google&#39;s help page points to 3 possibilities: your property may not have access yet, your site may not have enough impressions in AI features, or the site may be excluded through the Search generative AI control in Search Console&#39;s settings. Including is the default, and an excluded site receives no impressions or traffic from those features.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does SolCrys connect to GA4 or Search Console?</h3>
+            <p>No. SolCrys has no GA4 or Search Console connector and doesn&#39;t read your analytics. It measures the answer side (mentions, cited URLs, Recommendation Score, and Answer Accuracy), and you join that to Search Console, Bing, and GA4 data by the cited URL in your own analysis. SolCrys also doesn&#39;t measure Copilot; Bing Webmaster Tools is the free report for it.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-web-traffic-attribution/">What AEO Does to Your Web Traffic</a></h3>
+            <p>AI shapes far more buying than it sends clicks, so analytics undercount AEO. What GA4, Search Console, and Bing show, what they miss, and how to attribute it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-actions-to-revenue/">AEO Actions to Revenue</a></h3>
+            <p>Visibility metrics are not revenue. This guide is the operational playbook for tracking AEO actions through to conversion events - GA4 limits, survey-based attribution, first-party Recovery scoring, and the multi-touch attribution flow.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/prove-ai-influence-closed-won-interviews/">Prove AI Influence with Closed-Won Interviews</a></h3>
+            <p>Your dashboard says branded search. Your buyers say ChatGPT. The fastest defensible way to prove AI influence on pipeline is a monthly closed-won interview — the script, the sample size, the CRM field, and the 1-in-X readout that gets AEO funded.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/optimize-for-google-ai-overviews-ai-mode/">How to Optimize for Google AI Overviews &amp; AI Mode</a></h3>
+            <p>How Google&#39;s AI Overviews and conversational AI Mode are built from your index, the inheritance signals that decide which pages get cited, and the optimization plays that actually move position.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-recommendation-score/">AI Recommendation Score</a></h3>
+            <p>AI can name your brand and recommend a rival in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you across ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, plots you against every competitor, and shows the verbatim line behind every point.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/ai-referred-buyers-landing-page/">Discover in AI, Decide on Your Site: What AI-Referred Buyers Need From the Page They Land On</a></h3>
+            <p>AI answers shape the shortlist, but B2B decisions still close on your site. A 5-part checklist for the page AI-referred buyers land on, and how to measure it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/ai-search-statistics-2026/">AI Search in 2026: A Dated Timeline and the Statistics That Hold Up (With Source, Date, and Sample)</a></h3>
+            <p>28 AI search statistics for 2026, each with source, date, and sample, plus a dated timeline of the year and the widely quoted numbers to stop using.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BfpG2qrC.js"></script>
+  </body>
+</html>

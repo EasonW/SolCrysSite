@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] Every Model Upgrade Is a Migration: Harness Checklist | SolCrys</title>
+    <meta name="description" content="Model releases now land every few weeks. Jia Chang, SolCrys CTO, on running each one as a migration, with a 10-step checklist for marketing AI workflows." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/model-upgrades-are-migrations/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] Every Model Upgrade Is a Migration: Harness Checklist | SolCrys" />
+    <meta property="og:description" content="Model releases now land every few weeks. Jia Chang, SolCrys CTO, on running each one as a migration, with a 10-step checklist for marketing AI workflows." />
+    <meta property="og:url" content="https://solcrys.com/model-upgrades-are-migrations/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-26" />
+    <meta property="article:modified_time" content="2026-09-26" />
+    <meta property="og:image" content="https://solcrys.com/og/model-upgrades-are-migrations.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/model-upgrades-are-migrations.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C8g_8rZY.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Every Model Upgrade Is a Migration: The Harness Marketing Teams Need Before the Next One","item":"https://solcrys.com/model-upgrades-are-migrations/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Every model upgrade is a migration: the harness marketing teams need before the next one","description":"Model releases now land every few weeks. Jia Chang, SolCrys CTO, on running each one as a migration, with a 10-step checklist for marketing AI workflows.","dateModified":"2026-09-26","datePublished":"2026-09-26","mainEntityOfPage":"https://solcrys.com/model-upgrades-are-migrations/","author":{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO, SolCrys","sameAs":["https://www.linkedin.com/in/jia-c/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/model-upgrades-are-migrations/","mainEntity":[{"@type":"Question","name":"How should marketing teams handle AI model upgrades?","acceptedAnswer":{"@type":"Answer","text":"As migrations, not settings changes. Freeze a set of real examples from your own work, write gates before you test (including a hard fail on the error you can't afford), shadow the new model on live inputs before it ships anything, and keep rollback to a one-line change. Keep approved facts, output formats, and the eval set outside the model so they survive the switch."}},{"@type":"Question","name":"What is harness engineering?","acceptedAnswer":{"@type":"Answer","text":"Harness engineering is designing everything around a model that decides what it reads, what it may do, and how its work is checked: instructions, tools, context, tests, and review. OpenAI used the term in a Feb. 11, 2026, post about building software with agents, summed up as \"Humans steer. Agents execute.\" Anthropic added the maintenance warning on April 8, 2026: \"Harnesses encode assumptions that go stale as models improve.\""}},{"@type":"Question","name":"How do you test a new LLM before switching a marketing workflow to it?","acceptedAnswer":{"@type":"Answer","text":"Run it on a frozen eval set of real inputs from that workflow, graded against expected outputs written blind by 2 independent labelers and adjudicated where they disagree. Apply gates you wrote before testing, validate every output against your format contract, then run the candidate in shadow on live inputs before it replaces the current model."}},{"@type":"Question","name":"Should I pin a model version or use the latest alias?","acceptedAnswer":{"@type":"Answer","text":"Pin in production wherever the API allows it, and upgrade on purpose after the new model passes your gates. Anthropic says every Claude model ID is a pinned snapshot; OpenAI offers snapshots and also moving aliases such as chat-latest, whose underlying snapshot it says \"will be regularly updated.\" Where you can't pin, record the model name and date on every output and lean harder on the frozen eval set."}},{"@type":"Question","name":"What is a shadow run?","acceptedAnswer":{"@type":"Answer","text":"A period in which a candidate model processes the same live inputs as the current model, but only the current model's output ships. Someone reviews the differences. It catches failures your frozen eval set didn't contain, and each new case it finds should be added to the eval set."}},{"@type":"Question","name":"Why shouldn't an AEO platform change the model that queries AI engines?","acceptedAnswer":{"@type":"Answer","text":"Because that model is part of the measuring instrument. If it changes, a shift in your visibility trend could come from the new model rather than from the engine or your content. SolCrys never substitutes the model that queries an engine for that reason."}},{"@type":"Question","name":"What does \"rank, don't threshold\" mean?","acceptedAnswer":{"@type":"Answer","text":"When a model's scores put items in the right order but the numbers aren't calibrated, a fixed cutoff throws away good items and keeps weak ones, and it silently changes meaning when the model changes. Ranking the items and reviewing from the top keeps the useful part of the score, the order, without trusting its scale."}},{"@type":"Question","name":"Does SolCrys test the models in my own AI workflows?","acceptedAnswer":{"@type":"Answer","text":"No. SolCrys gates the models inside its own product and keeps its measurement instrument fixed. Through the MCP server and open-source Skills, your assistants can read your SolCrys data and Corporate Context, but evaluating and pinning the models in your own workflows stays with your team. The checklist on this page is how we would do it."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Every model upgrade is a migration: the harness marketing teams need before the next one</h1>
+        <p class="seo-lede">Model releases now arrive every few weeks, and each one changes how your prompts, Skills, and agents behave, usually without an error to warn you. This is how we run a model change at SolCrys: frozen eval sets with gold labels from 2 blind, model-run labeling passes, gates that name the costly error, a measuring model we never swap, and approved facts kept outside the model. It ends with a 10-step checklist a marketing team can run on its own AI workflows before the next release.</p>
+        <p>By <a href="https://www.linkedin.com/in/jia-c/" rel="noopener">Jia Chang</a>, Co-Founder &amp; CTO, SolCrys</p>
+        <p>Updated <time datetime="2026-09-26">2026-09-26</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How should marketing teams handle AI model upgrades?</li><li>How do you test a new LLM before switching a marketing workflow to it?</li><li>What is harness engineering?</li><li>Should I pin an LLM model version or use the latest alias?</li><li>How do you build an eval set for a marketing AI workflow?</li><li>What should I ask an AEO vendor about model changes?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Treat every model change as a migration, even a new version of a model you already use: freeze real examples from your own work, decide in advance what the new model must pass, run it alongside the old one before it ships anything, and keep switching back to a one-line change. Keep what should not change—your approved facts, output formats, and eval set—outside the model, so the model becomes the replaceable part.</p><p>The cadence makes this routine: between July 9 and Sept. 22, 2026, Anthropic, Google, and OpenAI shipped more than 10 general-purpose models, 3 of them on Sept. 22 alone, and Anthropic says Claude Sonnet 5.5 and Haiku 5.5 &quot;will follow in the coming weeks.&quot;</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why I&#39;m writing this</h2>
+      <p>Eason&#39;s <a href="/news/a-year-in-view-the-facts-had-to-hold/">year-one essay</a> described what we built as the models kept changing under the product. This note is the method behind it: what we freeze, what we gate, and what we refuse to swap. It is written for anyone who now owns a harness, whether or not they call it that: marketing-ops and AI-ops leads, technical marketers who maintain Skills and MCP connections, and CTOs deciding whether a vendor&#39;s numbers will survive its next model change.</p><p>In <a href="/action-externalization/">Action Externalization</a> I argued that when doing gets cheap, deciding gets expensive. A model upgrade is a small, recurring case of that, and my position is simple: the model is a replaceable part. Your context and your evals are not.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>The release cadence, dated</h2>
+      <p>These are the general-purpose model releases from Anthropic, Google, and OpenAI in the 11 weeks from July 9 to Sept. 22, 2026, leaving out restricted security variants, each checked against the vendor&#39;s announcement or dated coverage.</p>
+      
+      <table>
+              <thead><tr><th>Date (2026)</th><th>Lab</th><th>Release</th></tr></thead>
+              <tbody><tr><td>July 9</td><td>OpenAI</td><td><a href="https://openai.com/index/gpt-5-6/" target="_blank" rel="noopener noreferrer">GPT-5.6</a>, in 3 variants: Luna, Terra, and Sol</td></tr><tr><td>July 21</td><td>Google</td><td><a href="https://9to5google.com/2026/07/21/gemini-3-6-flash-launch/" target="_blank" rel="noopener noreferrer">Gemini 3.6 Flash and 3.5 Flash-Lite</a></td></tr><tr><td>July 24</td><td>Anthropic</td><td><a href="https://www.anthropic.com/news/claude-opus-5" target="_blank" rel="noopener noreferrer">Claude Opus 5</a></td></tr><tr><td>Aug. 13</td><td>Google</td><td><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash/" target="_blank" rel="noopener noreferrer">Gemini 3.7 Flash</a>, &quot;just three weeks after Gemini 3.6 Flash&quot;</td></tr><tr><td>Sept. 1</td><td>Anthropic</td><td><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1" target="_blank" rel="noopener noreferrer">Claude Fable 5.1</a></td></tr><tr><td>Sept. 2</td><td>Google</td><td><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/" target="_blank" rel="noopener noreferrer">Gemini 3.8 Flash</a>, &quot;our third Flash release in only six weeks&quot;</td></tr><tr><td>Sept. 3</td><td>OpenAI</td><td><a href="https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/" target="_blank" rel="noopener noreferrer">GPT-6 Astra</a></td></tr><tr><td>Sept. 22</td><td>Anthropic and OpenAI</td><td><a href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener noreferrer">Claude Opus 5.5</a> (Sonnet 5.5 and Haiku 5.5 &quot;will follow in the coming weeks&quot;); OpenAI&#39;s <a href="https://www.macrumors.com/2026/09/22/openai-gpt-6-sol-luna/" target="_blank" rel="noopener noreferrer">GPT-6 Sol and GPT-6 Luna</a></td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>What the dates mean</h3>
+        <p>Each row is a different model, not a faster copy of the last one. Staying put is not a permanent option either. Anthropic&#39;s <a href="https://platform.claude.com/docs/en/about-claude/model-deprecations" target="_blank" rel="noopener noreferrer">deprecation policy</a> says requests to retired models &quot;will fail,&quot; with at least 60 days&#39; notice for publicly released models, and Claude Opus 4.1 was retired on Aug. 5, 2026.</p><p>Capability moves on a similar clock. METR&#39;s <a href="https://metr.org/blog/2026-1-29-time-horizon-1-1/" target="_blank" rel="noopener noreferrer">Time Horizon 1.1</a> update (Jan. 29, 2026) estimates that the length of task, in human-expert time, at which frontier models succeed half the time doubled about every 131 days for models since 2023, and about every 89 days for models since 2024. METR&#39;s tasks are mostly software, machine learning, and cybersecurity, and it calls the trend &quot;somewhat sensitive to task composition,&quot; so read it as a direction, not a forecast for your copywriting. The direction is enough: whatever your workflow assumes a model cannot do has a short shelf life.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What a harness is, and why it goes stale</h2>
+      <p>A harness is everything around the model that decides what it reads, what it may do, and how its work gets checked. OpenAI&#39;s Feb. 11, 2026, post on <a href="https://openai.com/index/harness-engineering/" target="_blank" rel="noopener noreferrer">harness engineering</a> put the division of labor as &quot;Humans steer. Agents execute.&quot; and the team&#39;s primary job as &quot;to design environments, specify intent, and build feedback loops that allow Codex agents to do reliable work.&quot; Anthropic&#39;s <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">context engineering</a> essay (Sept. 29, 2025) covered the reading half: &quot;the smallest possible set of high-signal tokens that maximize the likelihood of some desired outcome.&quot;</p><p>On April 8, 2026, Anthropic named the maintenance problem: &quot;<a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener noreferrer">Harnesses encode assumptions that go stale as models improve</a>.&quot; Its example: Claude Sonnet 4.5 tended to wrap up tasks early as it sensed its context limit approaching, so Anthropic added context resets to the harness. On Claude Opus 4.5 the behavior was gone, and &quot;The resets had become dead weight.&quot;</p><p>For a marketing team, the harness is concrete: the Skill folders and system prompts, the MCP connections an assistant can call, the brand facts and examples it reads, the templates its output must fit, and the person who approves what ships. <a href="https://claude.com/blog/skills" target="_blank" rel="noopener noreferrer">Agent Skills</a> became an open standard on Dec. 18, 2025, so one Skill folder can run in several clients and meet several models. If your team built Skills or agent automations this year, you built a harness. The question is whether anyone wrote down what it assumes about the model.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What breaks when the model changes</h2>
+      <p>In my experience, a model change rarely announces itself with an error. It shows up as output that looks fine and is subtly different. I check these first:</p>
+      <ul class="seo-list"><li><strong>Format drift.</strong> A preamble appears, fields get renamed, headings shift, answers get longer, and whatever parses or templates the output downstream breaks quietly.</li><li><strong>Interface changes.</strong> Parameters get deprecated. Anthropic&#39;s documentation says that on Claude 4.7 and later models, setting temperature, top_p, or top_k to a non-default value returns a 400 error.</li><li><strong>Stale workarounds.</strong> Instructions that compensated for an old model&#39;s weakness become dead weight, and they can over-steer a model that no longer has it.</li><li><strong>Scores that change scale.</strong> Model-generated scores for lead fit, content quality, or relevance are often ordered but not calibrated. A new model&#39;s 70 is not the old model&#39;s 70, so every fixed threshold quietly changes meaning.</li><li><strong>Silent swaps.</strong> OpenAI&#39;s <a href="https://developers.openai.com/api/docs/models/chat-latest" target="_blank" rel="noopener noreferrer">chat-latest</a> alias &quot;points to the latest Instant model currently used in ChatGPT,&quot; and &quot;The underlying model snapshot will be regularly updated.&quot; Consumer apps and agent workspaces change defaults on their own schedules.</li><li><strong>Forced moves.</strong> A retired model stops answering, on the vendor&#39;s deadline, not yours.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What should change on an upgrade, and what shouldn&#39;t</h2>
+      <p>The fastest way to make upgrades boring is to decide, in writing, which layer is allowed to move.</p>
+      
+      <table>
+              <thead><tr><th>Layer</th><th>On a model upgrade</th><th>Owner</th></tr></thead>
+              <tbody><tr><td>The model</td><td>Replaceable, behind a gate you control</td><td>Workflow owner</td></tr><tr><td>Prompts, Skills, and harness code</td><td>Revised on purpose and versioned with the model they were tested on</td><td>Workflow owner</td></tr><tr><td>Output contracts: format, required fields, banned claims</td><td>Stable; changed only deliberately, with downstream users told</td><td>Workflow owner and whoever consumes the output</td></tr><tr><td>Eval set and gold labels</td><td>Frozen; grows deliberately, never edited to fit a new model</td><td>Workflow owner, plus an independent second labeler</td></tr><tr><td>Approved facts and claims</td><td>Unchanged; they change when the business changes</td><td>Product marketing, with legal for restricted claims</td></tr><tr><td>A model that measures something over time</td><td>Not swapped mid-series</td><td>Measurement owner</td></tr><tr><td>Human approval before anything is published</td><td>Unchanged</td><td>A named reviewer</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>The model is the replaceable part</h3>
+        <p>Everything below the second row is what a marketing team accumulates: the formats its systems depend on, the examples it trusts, the facts it stands behind, the instruments it reports from, and the people accountable for what ships. The top row is an input that keeps getting better and cheaper on the vendor&#39;s schedule. A team whose facts and evals live inside its prompts rebuilds both on every upgrade; a team that keeps them outside the model can take the upgrade on a Tuesday. Eason made the marketing version of this argument in <a href="/production-is-cheap-trust-is-scarce/">Production is cheap, trust is scarce</a>; this is the same idea with a test suite attached.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How we run a model change at SolCrys</h2>
+      <p>This is what we do. Eason&#39;s essay gave the outline; this is the detail behind it. None of it is exotic; the discipline is not skipping steps when a new model looks obviously better.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Gold labels we can defend</h3>
+        <p>We freeze real outputs into a fixed set, so every comparison runs on identical inputs and a result can be reproduced. The answer key comes from 2 independent labeling passes, run by strong models (on our newer sets, from 2 different model families), that follow a written guide and never see what our pipeline produced, so the gold is not anchored to the system being graded. We measure agreement between the passes with Krippendorff&#39;s alpha, and 0.67 is our release bar. When agreement falls short, the rubric is ambiguous, and we fix the guide rather than the data. Only material disagreements go to adjudication, a third model pass that sees both labels and must cite the rubric in its rationale.</p><p>We keep 2 kinds of eval apart. A regression lock tells you output changed, not whether it is right; an accuracy eval grades against the independent gold set. Gold is expensive to build, so we reserve it for numbers that drive decisions.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Gates that name the costly error</h3>
+        <p>A new model has to pass gates before it takes over a job, and a gate is not an average: it names the error the product can&#39;t afford. The eval behind Answer Accuracy hard-fails when the judge misses a clear error in an AI answer and reports false alarms without blocking, because for that feature a miss is the expensive mistake.</p><p>Two more rules keep gates honest. We grade the real thing: the production prompt, model, and parser, not a copy rewritten for the test. And we re-baseline on purpose. Updating the expected results to match whatever a new model produced is how a regression gets laundered into the baseline.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Swappable models, fixed instruments</h3>
+        <p>Model calls go through a provider-neutral layer, so moving a job to a different model or provider is a configuration change rather than a rewrite of every call site, and key structured outputs have schema contract tests, so a model that renames a field fails a test instead of breaking a report. One place is exempt from that flexibility: we never substitute the model that queries an answer engine, because that model is part of the measuring instrument, and changing it would change what is being measured.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Rank, don&#39;t threshold</h3>
+        <p>When a model&#39;s scores are ordered but not calibrated, we rank instead of cutting at a fixed number, and a model&#39;s self-reported confidence is a label, not a gate. Eason&#39;s essay has the <a href="/news/a-year-in-view-the-facts-had-to-hold/">Signals example</a>, where a fixed threshold threw away most of the best items. The general rule matters more than the example: a threshold is a calibration claim, and a new model voids it.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Facts that live outside the model</h3>
+        <p>Answer Accuracy grades each AI answer against a company&#39;s entire <a href="/corporate-context-ai-marketing/">Corporate Context</a> and cannot mark a claim wrong without pointing to the evidence. That design is what lets it survive a model change: the judge can be upgraded, and the facts it grades against do not move with it.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The checklist for your own AI workflows</h2>
+      <p>This is what I would hand a marketing team running its own agents, whether that means Skills in Claude, an agent working through your files in Claude Cowork, or an automation calling a model API. None of it requires SolCrys.</p>
+      
+      <table>
+              <thead><tr><th>Step</th><th>What to do</th><th>What it catches</th></tr></thead>
+              <tbody><tr><td>1. Inventory</td><td>List every place a model makes a decision: the Skill or tool, the model name, whether it&#39;s pinned, and the owner.</td><td>The workflow nobody knew depended on a model</td></tr><tr><td>2. Freeze an eval set</td><td>Save a few dozen real inputs per job, including ones that went wrong. Never edit them to suit a new model.</td><td>Comparisons run on flattering examples</td></tr><tr><td>3. Label blind, twice</td><td>Two people, or two strong models from different families, write expected outputs from a written guide without seeing any model&#39;s answer. Check agreement; adjudicate disagreements.</td><td>A gold set that quietly agrees with whatever you already ship</td></tr><tr><td>4. Write gates before testing</td><td>Make the costly error a hard fail, and set a floor per metric, not for the average.</td><td>An upgrade that is better on average and worse where it matters</td></tr><tr><td>5. Write output contracts</td><td>Define format, required fields, length, citation style, and banned claims; validate every output mechanically.</td><td>Format drift that breaks templates downstream</td></tr><tr><td>6. Pin the model</td><td>Call a fixed snapshot where the API allows it; otherwise record the model name and date on every output.</td><td>Silent swaps</td></tr><tr><td>7. Shadow run</td><td>Run the candidate beside the current model on live inputs for 1–2 weeks; ship only the current output and review the differences.</td><td>Failures your frozen set didn&#39;t contain</td></tr><tr><td>8. Keep rollback to one line</td><td>Version prompts and Skills with the model they were tested on, so reverting is a configuration change.</td><td>A bad upgrade that takes a week to undo</td></tr><tr><td>9. Remove dead weight</td><td>After a switch, delete workarounds the new model doesn&#39;t need, then re-run the gates.</td><td>Instructions that over-steer a better model</td></tr><tr><td>10. Don&#39;t swap the instrument</td><td>If a model measures something you report over time, don&#39;t change it mid-series; run both in parallel and re-baseline on purpose.</td><td>A trend line that moved because the ruler changed</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Pin, or at least record</h3>
+        <p>Pinning means calling a model name that won&#39;t change underneath you, and vendors handle it differently. Anthropic&#39;s <a href="https://platform.claude.com/docs/en/about-claude/models/overview" target="_blank" rel="noopener noreferrer">models overview</a> says every Claude model ID &quot;is a pinned snapshot, including the dateless IDs used from the 4.6 generation on.&quot; OpenAI says &quot;Snapshots let you lock in a specific version of the model so that performance and behavior remain consistent,&quot; and also offers aliases that move. Inside consumer apps and agent workspaces, the vendor decides which models are offered and when old ones leave the menu. That is the best argument for the frozen eval set: it works whether or not the vendor lets you hold still.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Shadow before you switch</h3>
+        <p>A frozen set catches the failures you already know about. A shadow run catches the ones you don&#39;t: the candidate processes the same live inputs as the current model, its output goes to a review queue instead of production, and someone reads the differences. Treat the diff, not the average, as the result, and add every new failure case to the eval set.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Keep a person on the write path</h3>
+        <p>Agents can now act, not just draft. Keep write permissions narrow and granted on purpose, keep a named person approving anything that ships under your brand, and expect that person to read most closely right after an upgrade.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>An illustrative migration</h2>
+      <p>Illustrative scenario only. A B2B observability company&#39;s content team runs a Skill that turns engineering release notes into a changelog entry and an FAQ update. A new model version ships, and a teammate says its drafts read better.</p><p>The frozen set holds 40 past release notes with gold entries written in 2 blind passes and adjudicated. The gates, written before anyone ran the new model: 0 dropped breaking-change notices (a hard fail), 100% valid output for the CMS template, and no more than a 5-point drop on a readability rubric.</p><p>The candidate wins on readability, drops the breaking-change notice on 3 of 40 notes, and emits a heading the CMS template rejects on 2. It fails. The team adds one line to the output contract and a schema check, and the re-run passes. A 2-week shadow run surfaces one new case, a release note with no user-facing change, which becomes item 41. The switch is one line, and so is the rollback.</p><p>The numbers are invented; the lesson isn&#39;t. &quot;Reads better&quot; was true, and it still wasn&#39;t a reason to switch.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to ask an AEO vendor about model changes</h2>
+      <p>If a vendor&#39;s product runs models on your behalf, ours included, these questions separate a governed system from a demo. Our <a href="/evaluate-aeo-platform-methodology-checklist/">methodology checklist</a> covers what happens when an answer engine changes its model; these cover the models inside the product.</p>
+      <ul class="seo-list"><li>When you change the model behind a feature, what does it have to pass first, and can you show me the gate?</li><li>Is the model that queries the answer engines ever changed? If so, how do you keep my trend line comparable?</li><li>How were your gold labels made: how many independent passes, what agreement bar, and who adjudicated?</li><li>Are your scores calibrated, or only ordered? What happens to a threshold when the model changes?</li><li>Where do my approved facts live: in prompts, or in a store the model reads?</li><li>What can an agent write through your product, who grants that permission, and who approves what ships?</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys is an AEO platform built as a Measure → Diagnose → Execute → Verify loop, and the method above keeps that loop steady while the models underneath it change. Three parts of the product map to this post:</p>
+      <ul class="seo-list"><li><strong>Corporate Context is the stable layer.</strong> Your approved facts, claims, and guardrails live at the organization level, not in prompts. Answer Accuracy grades AI answers against them, and recommendations are grounded in them rather than in a model&#39;s guesses.</li><li><strong>Measurement holds its instrument fixed.</strong> The same frozen prompt set runs on the same engines (ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, by plan), and the model that queries an engine is not substituted. The <a href="/visibility-measurement-methodology/">measurement methodology</a> covers the rest.</li><li><strong>Your agents get typed tools and open Skills.</strong> The <a href="/solcrys-mcp-and-skills/">SolCrys MCP server</a> works with Claude, ChatGPT, and Cursor, and our Skills are MIT-licensed on GitHub, so you can fork them, version them with the model you tested, and run this checklist on them. Writes are narrow and opt-in: with a permission an admin grants, an assistant can mark a task published or, where enabled, propose a Corporate Context draft that a person must approve.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What SolCrys doesn&#39;t do</h3>
+        <p>SolCrys doesn&#39;t run evals on your own agent workflows, host your eval sets, or choose which model your AI clients use. It never publishes to your site: approval in the <a href="/inside-the-action-hub/">Action Hub</a> is a recorded step, and your team ships every change through its own process. And a before-and-after movement in AI answers is an observation, not proof that your change caused it.</p><p>To see the loop on your own brand, <a href="https://app.solcrys.com/audit">Start Free</a>: a free workspace with 10 ChatGPT prompts and 1 content audit, email verification, and no credit card. To go deeper on how we gate model changes, <a href="https://app.solcrys.com/contact-sales/">talk to us</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Jia Chang is Co-Founder &amp; CTO of SolCrys. AI architect with 15+ years building production AI systems, most recently as an engineering leader at Microsoft. Connect on <a href="https://www.linkedin.com/in/jia-c/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written September 2026 as the method companion to Eason&#39;s <a href="/news/a-year-in-view-the-facts-had-to-hold/">A Year in View</a>. For the architecture underneath, see <a href="/building-aeo-platform-architecture/">6 architectural decisions</a>; for why agents reach SolCrys through MCP, see <a href="/why-we-bet-on-mcp/">why we bet on MCP early</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener noreferrer">Anthropic, &quot;Introducing Claude Opus 5.5&quot; (Sept. 22, 2026): Sonnet 5.5 and Haiku 5.5 &quot;will follow in the coming weeks&quot;</a></li><li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/" target="_blank" rel="noopener noreferrer">Google, &quot;Introducing Gemini 3.8 Flash and 3.8 Flash Cyber&quot; (Sept. 2, 2026): &quot;our third Flash release in only six weeks&quot;</a></li><li><a href="https://openai.com/index/gpt-5-6/" target="_blank" rel="noopener noreferrer">OpenAI, &quot;GPT-5.6&quot; (July 9, 2026)</a></li><li><a href="https://www.macrumors.com/2026/09/01/anthropic-claude-fable-5-1/" target="_blank" rel="noopener noreferrer">MacRumors, Anthropic introduces Claude Fable 5.1 and Mythos 5.1 (Sept. 1, 2026)</a></li><li><a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener noreferrer">Anthropic Engineering, &quot;Scaling Managed Agents: Decoupling the brain from the hands&quot; (April 8, 2026)</a></li><li><a href="https://openai.com/index/harness-engineering/" target="_blank" rel="noopener noreferrer">OpenAI, Ryan Lopopolo, &quot;Harness engineering: leveraging Codex in an agent-first world&quot; (Feb. 11, 2026)</a></li><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Anthropic Engineering, &quot;Effective context engineering for AI agents&quot; (Sept. 29, 2025)</a></li><li><a href="https://metr.org/blog/2026-1-29-time-horizon-1-1/" target="_blank" rel="noopener noreferrer">METR, &quot;Time Horizon 1.1&quot; (Jan. 29, 2026)</a></li><li><a href="https://metr.org/time-horizons/" target="_blank" rel="noopener noreferrer">METR, time horizons of frontier AI models (definition and task suite)</a></li><li><a href="https://claude.com/blog/skills" target="_blank" rel="noopener noreferrer">Anthropic, Agent Skills, published as an open standard (update of Dec. 18, 2025)</a></li><li><a href="https://platform.claude.com/docs/en/about-claude/models/overview" target="_blank" rel="noopener noreferrer">Claude Docs, Models overview: every Claude model ID is a pinned snapshot</a></li><li><a href="https://platform.claude.com/docs/en/about-claude/model-deprecations" target="_blank" rel="noopener noreferrer">Claude Docs, Model deprecations: retirement policy and parameter deprecations</a></li><li><a href="https://developers.openai.com/api/docs/models/chat-latest" target="_blank" rel="noopener noreferrer">OpenAI API docs, chat-latest: &quot;The underlying model snapshot will be regularly updated&quot;</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-5.6-sol" target="_blank" rel="noopener noreferrer">OpenAI API docs, GPT-5.6 Sol: snapshots &quot;lock in a specific version of the model&quot;</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How should marketing teams handle AI model upgrades?</h3>
+            <p>As migrations, not settings changes. Freeze a set of real examples from your own work, write gates before you test (including a hard fail on the error you can&#39;t afford), shadow the new model on live inputs before it ships anything, and keep rollback to a one-line change. Keep approved facts, output formats, and the eval set outside the model so they survive the switch.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is harness engineering?</h3>
+            <p>Harness engineering is designing everything around a model that decides what it reads, what it may do, and how its work is checked: instructions, tools, context, tests, and review. OpenAI used the term in a Feb. 11, 2026, post about building software with agents, summed up as &quot;Humans steer. Agents execute.&quot; Anthropic added the maintenance warning on April 8, 2026: &quot;Harnesses encode assumptions that go stale as models improve.&quot;</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do you test a new LLM before switching a marketing workflow to it?</h3>
+            <p>Run it on a frozen eval set of real inputs from that workflow, graded against expected outputs written blind by 2 independent labelers and adjudicated where they disagree. Apply gates you wrote before testing, validate every output against your format contract, then run the candidate in shadow on live inputs before it replaces the current model.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I pin a model version or use the latest alias?</h3>
+            <p>Pin in production wherever the API allows it, and upgrade on purpose after the new model passes your gates. Anthropic says every Claude model ID is a pinned snapshot; OpenAI offers snapshots and also moving aliases such as chat-latest, whose underlying snapshot it says &quot;will be regularly updated.&quot; Where you can&#39;t pin, record the model name and date on every output and lean harder on the frozen eval set.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a shadow run?</h3>
+            <p>A period in which a candidate model processes the same live inputs as the current model, but only the current model&#39;s output ships. Someone reviews the differences. It catches failures your frozen eval set didn&#39;t contain, and each new case it finds should be added to the eval set.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why shouldn&#39;t an AEO platform change the model that queries AI engines?</h3>
+            <p>Because that model is part of the measuring instrument. If it changes, a shift in your visibility trend could come from the new model rather than from the engine or your content. SolCrys never substitutes the model that queries an engine for that reason.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What does &quot;rank, don&#39;t threshold&quot; mean?</h3>
+            <p>When a model&#39;s scores put items in the right order but the numbers aren&#39;t calibrated, a fixed cutoff throws away good items and keeps weak ones, and it silently changes meaning when the model changes. Ranking the items and reviewing from the top keeps the useful part of the score, the order, without trusting its scale.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does SolCrys test the models in my own AI workflows?</h3>
+            <p>No. SolCrys gates the models inside its own product and keeps its measurement instrument fixed. Through the MCP server and open-source Skills, your assistants can read your SolCrys data and Corporate Context, but evaluating and pinning the models in your own workflows stays with your team. The checklist on this page is how we would do it.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/building-aeo-platform-architecture/">Building an AEO Platform: 6 Architectural Decisions</a></h3>
+            <p>An AEO platform&#39;s measurement, action, and verification surfaces all rest on a small number of architectural choices that aren&#39;t usually published. Jia Chang on six of ours — what each tradeoff looks like, what we chose, and what we&#39;d revisit.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">MCP &amp; Skills</p>
+            <h3><a href="/why-we-bet-on-mcp/">Why we bet on MCP early: agent-readiness as the new AEO surface</a></h3>
+            <p>Jia Chang, SolCrys CTO, on why we built our MCP server before customers asked for it, why we open-sourced the Skills layer on top of it, and what it signals about the next surface marketing teams need to optimize for.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">MCP &amp; Skills</p>
+            <h3><a href="/solcrys-mcp-and-skills/">SolCrys MCP and Skills: tools, install, and the workflows that chain them</a></h3>
+            <p>A practical reference for the SolCrys MCP server and the six open-source AEO Skills. The core tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/corporate-context-ai-marketing/">Corporate Context Is the New CMS</a></h3>
+            <p>Corporate Context gives AI marketing agents the brand facts, claims, guardrails, and evidence they need to execute safely across AEO workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
+            <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/action-externalization/">Action Externalization</a></h3>
+            <p>Literacy externalized thought. AI is externalizing action. Jia Chang, CTO of SolCrys, on the second great externalization in human civilization, why execution is becoming abundant, and what becomes scarce when &#39;doing&#39; is free.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/ai-search-statistics-2026/">AI Search in 2026: A Dated Timeline and the Statistics That Hold Up (With Source, Date, and Sample)</a></h3>
+            <p>28 AI search statistics for 2026, each with source, date, and sample, plus a dated timeline of the year and the widely quoted numbers to stop using.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BfpG2qrC.js"></script>
+  </body>
+</html>

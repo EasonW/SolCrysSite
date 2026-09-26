@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>[DRAFT] ChatGPT Ads Don&#39;t Buy the Answer: Budget and Report Both</title>
+    <meta name="description" content="ChatGPT ads sit below the answer; OpenAI says they don&#39;t influence it. How to budget ads beside AEO and report organic and sponsored AI visibility apart." />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href="https://solcrys.com/chatgpt-ads-sponsored-vs-organic/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="[DRAFT] ChatGPT Ads Don&#39;t Buy the Answer: Budget and Report Both" />
+    <meta property="og:description" content="ChatGPT ads sit below the answer; OpenAI says they don&#39;t influence it. How to budget ads beside AEO and report organic and sponsored AI visibility apart." />
+    <meta property="og:url" content="https://solcrys.com/chatgpt-ads-sponsored-vs-organic/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-26" />
+    <meta property="article:modified_time" content="2026-09-26" />
+    <meta property="og:image" content="https://solcrys.com/og/chatgpt-ads-sponsored-vs-organic.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/chatgpt-ads-sponsored-vs-organic.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C8g_8rZY.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"ChatGPT Ads Don't Buy the Answer: How to Budget and Report Sponsored vs. Organic AI Visibility","item":"https://solcrys.com/chatgpt-ads-sponsored-vs-organic/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ChatGPT ads don't buy the answer. Here's how to budget and report both.","description":"ChatGPT ads sit below the answer; OpenAI says they don't influence it. How to budget ads beside AEO and report organic and sponsored AI visibility apart.","dateModified":"2026-09-26","datePublished":"2026-09-26","mainEntityOfPage":"https://solcrys.com/chatgpt-ads-sponsored-vs-organic/","author":{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO, SolCrys","sameAs":["https://www.linkedin.com/in/gwenchenx/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/chatgpt-ads-sponsored-vs-organic/","mainEntity":[{"@type":"Question","name":"Do ChatGPT ads affect ChatGPT's answers?","acceptedAnswer":{"@type":"Answer","text":"OpenAI says no: \"Ads run on separate systems from our chat model, and advertisers have no ability to shape, rank, or alter ChatGPT's responses.\" Ads appear below the end of a response and are labeled as sponsored. No outsider can audit that separation directly. What you can measure is your organic answer on a fixed set of prompts over time, which is why it belongs on its own report line."}},{"@type":"Question","name":"Can you pay to be recommended by ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"Not through any program OpenAI has documented. You can pay for a sponsored unit below the answer, and OpenAI ranks eligible ads on factors including relevance and advertiser bids. OpenAI also says seeing an ad doesn't mean it endorses or recommends the advertiser. The recommendation inside the answer is earned through the sources the engine retrieves and the facts it finds about you."}},{"@type":"Question","name":"Should we buy ChatGPT ads or invest in AEO?","acceptedAnswer":{"@type":"Answer","text":"They do different jobs, so they belong in different budgets. Ads buy a labeled placement while you pay; AEO work shapes what the engine says about you, and that work can keep paying off after a campaign ends. Test ads from your paid-media budget with a spend cap and a decision date, and don't fund the test by cutting the work that earns the organic answer."}},{"@type":"Question","name":"Which AI assistants show ads?","acceptedAnswer":{"@type":"Answer","text":"As of Sept. 26, 2026: ChatGPT shows sponsored units on its Free and Go plans and in logged-out use. Google shows ads above or below AI Overviews wherever they run and inside AI Overviews in English in 12 countries, and it is testing ad formats in AI Mode. Microsoft Advertising serves ads in Copilot's responses. Anthropic has said Claude will remain ad-free."}},{"@type":"Question","name":"Who sees ads in ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"According to OpenAI's help center, ads may appear on the Free and Go plans and in logged-out use. Plus, Pro, Business, Enterprise, and Edu accounts don't get ads, and neither do accounts identified as belonging to people under 18 or Temporary Chats. Ads aren't eligible near sensitive or regulated topics such as personal health, mental health, or politics, and Free users can switch to an ad-free option with lower usage limits and reduced feature access."}},{"@type":"Question","name":"Can I see how my Google ads perform inside AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"Not separately. Google Ads says it \"currently doesn't offer segmented reporting when ads show within Search AI Overviews,\" and it reports those ads as Top Ads. You also can't target AI Overview placements directly or opt out of them. Ads inside AI Overviews are available in English in Australia, Canada, India, Indonesia, Kenya, Malaysia, New Zealand, Nigeria, Pakistan, the Philippines, Singapore, and the U.S."}},{"@type":"Question","name":"Are ChatGPT ads the same as sponsored articles?","acceptedAnswer":{"@type":"Answer","text":"No. A sponsored article is content on a third-party site that an engine can read and sometimes cite, so it can feed the organic answer when it runs on a domain the engine already trusts. A ChatGPT ad is a unit outside the answer that, by OpenAI's account, ChatGPT can't see by default. They're different instruments with different measurement; see do sponsored articles move AI answers."}},{"@type":"Question","name":"Does SolCrys track ChatGPT ads?","acceptedAnswer":{"@type":"Answer","text":"No. SolCrys measures the organic line: mention, citation, Recommendation Score, and Answer Accuracy, per engine, on your tracked prompts. Your sponsored line comes from the ad platforms' own reporting, and keeping the two sources separate is part of the point."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-draft-banner" style="background:#3a2a08;border:1px solid #b88a1a;color:#ffd97a;padding:14px 18px;margin:0 0 24px;border-radius:10px;font-size:14px;line-height:1.5;">
+  <strong style="text-transform:uppercase;letter-spacing:0.08em;font-size:12px;">Draft &mdash; internal preview</strong>
+  <br />
+  This article is not listed on /resources/, not in the sitemap, and not indexed by search engines or AI crawlers. Share the direct URL with reviewers only. Promote to publication by removing <code>"status": "draft"</code> from this page's entry in <code>siteContent.json</code>.
+</div>
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>ChatGPT ads don&#39;t buy the answer. Here&#39;s how to budget and report both.</h1>
+        <p class="seo-lede">ChatGPT ads reached a $1 billion annualized run rate in under 200 days, but what they buy is a labeled unit below the answer; OpenAI says ads do not influence the answer itself, and neither Google nor Microsoft documents a way to buy the organic recommendation in their AI answers. So the Q4 question isn&#39;t ads or AEO. Test the ads from paid media, keep funding the sources and facts that decide what the engine says about you, and report organic answer share and sponsored placements on separate lines. Claude has committed to staying ad-free, so on that engine the organic answer is the only answer.</p>
+        <p>By <a href="https://www.linkedin.com/in/gwenchenx/" rel="noopener">Gwen Chen</a>, Co-Founder &amp; CEO, SolCrys</p>
+        <p>Updated <time datetime="2026-09-26">2026-09-26</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Do ChatGPT ads affect ChatGPT&#39;s answers?</li><li>Can you pay to be recommended by ChatGPT?</li><li>Should we buy ChatGPT ads or invest in AEO?</li><li>Which AI assistants show ads?</li><li>Who sees ads in ChatGPT?</li><li>How should we report sponsored vs. organic AI visibility?</li><li>Can I see how my Google ads perform inside AI Overviews?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>No. On ChatGPT, an ad is a unit labeled as sponsored that sits below the end of a response, OpenAI says ads &quot;do not influence ChatGPT&#39;s answers,&quot; and neither Google nor Microsoft documents a way to buy the organic recommendation in their AI answers. Anthropic has said Claude will stay ad-free. So test the ads if your buyers can see them, but don&#39;t fund the test by cutting the work that earns the organic answer. Report the two on separate lines: organic answer share on one, sponsored placements on the other.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where ads run in AI answers today</h2>
+      <p>Here is what each platform owner has published as of Sept. 26, 2026. The table covers the surfaces whose owners document how their ads work; it isn&#39;t a list of every assistant.</p>
+      
+      <table>
+              <thead><tr><th>Surface</th><th>Status</th><th>Where the paid unit sits</th><th>What the owner says</th><th>Ad reporting</th></tr></thead>
+              <tbody><tr><td>ChatGPT</td><td>Test announced Jan. 16, 2026; live in the U.S. Feb. 9; available in over 40 countries by Aug. 31, per OpenAI</td><td>Below the end of a response, labeled as sponsored. Free and Go plans and logged-out use; never Plus, Pro, Business, Enterprise, or Edu</td><td>&quot;Ads do not influence ChatGPT&#39;s answers.&quot;</td><td>Aggregated views and clicks for advertisers; OpenAI points to its Pixel and Conversions API for measurement</td></tr><tr><td>Google AI Overviews</td><td>Ads above or below AI Overviews in all 200+ markets where they run; ads inside AI Overviews in English in 12 countries</td><td>Text and Shopping ads from existing campaigns, matched to the query and to the Overview&#39;s content</td><td>Ads inside an Overview must also be relevant to &quot;the content of the AI Overviews&quot;</td><td>&quot;Currently doesn&#39;t offer segmented reporting&quot;; reported as Top Ads</td></tr><tr><td>Google AI Mode</td><td>Direct Offers pilot since Jan. 11, 2026; Conversational Discovery ads and Highlighted Answers in testing since May 20</td><td>Labeled &quot;Sponsored&quot;; a Highlighted Answer can appear on an AI Mode list of recommendations</td><td>The new formats carry &quot;an independent AI explainer&quot; written by Gemini</td><td>Not described in Google&#39;s announcements</td></tr><tr><td>Microsoft Copilot</td><td>Live; eligible Microsoft Advertising campaigns are opted in automatically, with no opt-out</td><td>&quot;Displayed in Copilot&#39;s responses,&quot; built from existing campaign assets</td><td>Ads are chosen from the context of the whole conversation, not only the last prompt</td><td>&quot;Does not currently support specific metrics for ads served in Copilot&quot;</td></tr><tr><td>Claude</td><td>No ads (Anthropic, Feb. 4, 2026)</td><td>None</td><td>&quot;Claude will remain ad-free&quot;</td><td>Not applicable</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Three things the table tells a buyer</h3>
+        <p>First, every program puts a label between the paid unit and the answer. The line is thinnest in Google AI Mode, where a Highlighted Answer can sit on the recommendation list itself, marked as sponsored. That is the format I&#39;d watch most closely.</p><p>Second, what places the ad isn&#39;t what shapes the answer. When several ads are eligible, OpenAI ranks them on &quot;a combination of factors, including relevance and advertiser bids.&quot; Nothing in that sentence reaches the sources and facts that decide what the model says about you.</p><p>Third, the ad reporting is thin. Google Ads doesn&#39;t segment ads shown inside AI Overviews, and Microsoft doesn&#39;t offer Copilot-specific metrics. If you can&#39;t isolate the AI placement inside the ad platform, you can&#39;t read it off a blended visibility score either.</p>
+        
+      </div>
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Ads buy the slot, not the answer</h2>
+      <p>I have worked both sides of search marketing, SEO and SEM, and the lesson that carries over is that paid and organic are bought with different currencies. Paid is bought with bids. Organic is earned with relevance and trust. Answer engines keep that split, and ChatGPT flips the layout. On a Google results page, paid listings could sit above the organic results. In ChatGPT the answer comes first, and the ad, if one qualifies, sits below it. By the time a buyer sees your ad, the engine has already told them which vendors fit, and whether you are one of them.</p><p>OpenAI&#39;s help center is blunt about what an ad is: &quot;Ads are paid placements, and seeing an ad doesn&#39;t mean OpenAI endorses or recommends the advertiser or its products or services.&quot; The recommendation is a separate event, and it&#39;s the one buyers act on. We&#39;ve argued that <a href="/ai-citation-vs-recommendation/">being cited is not being recommended</a>. Being advertised isn&#39;t either.</p><p>One line in OpenAI&#39;s documentation matters more to me than the run rate: &quot;By default, ChatGPT can&#39;t see the ads shown to you.&quot; A buyer who wants to ask about your ad has to share it with ChatGPT, and OpenAI says advertisers don&#39;t influence what ChatGPT says about an ad that&#39;s been shared. My read is that the engine then answers the way it answers everything else, from what it knows and retrieves about you. Your organic footprint becomes the fact-check on your ad.</p><p>Google&#39;s new AI Mode formats point the same way. Google says both carry &quot;an independent AI explainer,&quot; in which its Gemini model &quot;evaluates and synthesizes information about a product or service.&quot; Google hasn&#39;t said which sources feed that explainer. My working assumption is that they are the same public facts that shape your organic answer, which means thin or outdated facts about you can follow you into the ad you paid for.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The budget call: add a line, don&#39;t raid one</h2>
+      <p>The $1 billion figure will be in a lot of Q4 decks. One note before it drives your plan: a run rate is current monthly revenue multiplied by 12, as Digiday pointed out when it reported the milestone, and it measures OpenAI&#39;s momentum, not your return. Here is how I&#39;d structure the decision.</p>
+      <ul class="seo-list"><li><strong>Fund ChatGPT ads from paid media, not from AEO or content.</strong> Treat them as a new channel test with a spend cap, the conversions you will count, and the date you will decide. That is the standard every other paid channel has to meet.</li><li><strong>Keep the organic work funded, because it compounds and the ads don&#39;t.</strong> An ad runs while you pay for it. A corrected product page, a published customer story, or accurate coverage on a source the engine already cites can keep shaping answers after the flight ends, the same logic behind <a href="/do-sponsored-articles-move-ai-answers/">sponsored articles that work</a>.</li><li><strong>Check whether your buyers can see the ads.</strong> OpenAI doesn&#39;t show ads on Plus, Pro, Business, Enterprise, or Edu accounts. If your buyers research vendors in a company ChatGPT workspace, your ads won&#39;t reach them there. The organic answer will.</li><li><strong>Check whether your category is eligible.</strong> Google doesn&#39;t show ads inside AI Overviews for sensitive verticals, including finance, healthcare, and politics, and OpenAI keeps ads away from sensitive or regulated conversations such as personal health. In those categories, the organic answer may be the only lever you have.</li><li><strong>Count the engine you can&#39;t buy.</strong> Claude has no ads, so organic is the whole game there. See <a href="/optimize-for-claude/">how to optimize for Claude</a>.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>When the ads are the right call</h3>
+        <p>I&#39;m not arguing against the ads. They are a reasonable buy when you already appear in the organic answer and want to be the obvious next click, when you have an exclusive offer for buyers who are ready to purchase (the use case Google built Direct Offers around), or when you sell to consumers and small businesses who use ChatGPT&#39;s Free and Go plans.</p><p>They are a poor buy when the goal is to cover an absence. An ad below an answer that recommends 3 competitors is a rebuttal, not a recommendation.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Illustrative scenario: the ad that scaled the wrong message</h3>
+        <p>Illustrative scenario only. A project-management software brand is named in 2 of 10 ChatGPT answers to &quot;best project-management tool for a 30-person agency&quot; over a week of repeated runs. When it is named, the answer calls its pricing &quot;enterprise-only,&quot; a plan the brand retired last year. Its ChatGPT ads, meanwhile, report a healthy click-through rate.</p><p>Scaling the ads buys more clicks from buyers who were just told the product is out of their price range. Fixing the pricing statement on the brand&#39;s own pricing page, and on the 2 comparison sites the engine cites, fixes what the engine reads when it builds the answer, whether or not a buyer ever sees an ad. Both moves are worth making. Only one of them can change the answer.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How to report it: organic and sponsored on separate lines</h2>
+      <p>Search teams learned two decades ago to report SEO and SEM on separate lines, with separate budgets, owners, and math. Answer engines need the same split now; my co-founder Eason Wang made it one of his <a href="/news/a-year-in-view-the-facts-had-to-hold/">5 predictions for year two</a>. This is the version I&#39;d bring to a monthly marketing review.</p>
+      
+      <table>
+              <thead><tr><th>Report line</th><th>The question it answers</th><th>What goes in it</th><th>Source of truth</th><th>What it can&#39;t tell you</th></tr></thead>
+              <tbody><tr><td>Organic answer share</td><td>When buyers ask, does the engine name us, cite us, recommend us, and describe us correctly?</td><td>Mention rate, citations (your pages and the third-party sources behind the answer), Recommendation Score, and Answer Accuracy, per engine</td><td>Repeated runs of a frozen set of buyer prompts on each engine</td><td>Whether anyone clicked, or what an ad did</td></tr><tr><td>Sponsored placements</td><td>What did we pay for, and what did it return?</td><td>Impressions, clicks, spend, cost per click, and conversions, per ad platform</td><td>ChatGPT Ads, Google Ads, and Microsoft Advertising reporting, plus your analytics</td><td>Whether the engine recommends you; on Google and Copilot, which results came from AI placements</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Rules that keep the lines honest</h3>
+        
+        <ul class="seo-list"><li><strong>Never add them together.</strong> A sponsored impression and an organic recommendation are different units. A blended &quot;AI visibility&quot; number hides which one moved.</li><li><strong>Tag the paid clicks.</strong> Give every ChatGPT ad landing URL its own campaign parameters, so paid clicks don&#39;t blend into organic ChatGPT referrals in your analytics.</li><li><strong>Label the Google line for what it is.</strong> Google Ads reports ads inside AI Overviews as Top Ads, with no separate segment, so report &quot;Google Search ads, including AI Overview placements,&quot; not &quot;AI Overview ads.&quot;</li><li><strong>Read the organic line as rates.</strong> Answers vary from run to run. SparkToro&#39;s January 2026 study of 2,961 runs concluded that visibility measured across repeated runs is a reasonable metric and that ranking position is not; see <a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs make a number trustworthy</a>.</li><li><strong>Report engine by engine.</strong> Claude has no paid line at all, ChatGPT has both, and Google&#39;s paid line can&#39;t isolate its AI placements. One cross-engine number averages those differences away.</li><li><strong>Keep revenue attribution out of both lines.</strong> Neither line proves pipeline on its own. For that question, ask buyers directly; <a href="/prove-ai-influence-closed-won-interviews/">closed-won interviews</a> are the fastest defensible method we know.</li></ul>
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys measures the organic line. We run your buyer prompts on ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on your plan, and report per engine: whether you&#39;re mentioned, which pages and sources are cited, your <a href="/ai-recommendation-score/">Recommendation Score</a> (how favorably each answer positions you, scored 0–100, with every point tied to quoted text), and, on Pro and Custom, <a href="/is-ai-telling-the-truth-about-your-brand/">Answer Accuracy</a> (whether the answer&#39;s claims about you match your Corporate Context, with the evidence shown for anything marked wrong).</p><p>That is the Measure → Diagnose → Execute → Verify loop applied to the answer itself. When a prompt goes the wrong way, Deep Analysis shows which sources the engine cited and which competitors it named. The <a href="/inside-the-action-hub/">Action Hub</a> turns the fix into a task your team reviews, approves, and publishes through its own process; SolCrys never publishes for you. The same prompts are re-run afterward, and a before-and-after is an observation, not proof of cause.</p><p>What SolCrys doesn&#39;t do matters here too. It doesn&#39;t buy, manage, or report ads, so your sponsored line comes from the ad platforms. It doesn&#39;t cover Microsoft Copilot, and on Google it measures AI Overviews. And it can&#39;t tell you that an ad moved an organic answer, or the other way around.</p><p>To see your organic line on ChatGPT before you set the ad budget, <a href="https://app.solcrys.com/audit">Start Free</a>: the free workspace tracks 10 ChatGPT prompts and includes 1 content audit, with email verification and no credit card. To run it across the engines your buyers use, next to your paid plan, <a href="https://app.solcrys.com/contact-sales/">talk to us</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What I&#39;d say in the budget meeting</h2>
+      <p>ChatGPT ads will be in a lot of Q4 plans, and many teams should test them. Just don&#39;t let the test be paid for by the work that decides what the engine says.</p><p>An ad buys the slot under the answer. The answer is still earned, through the sources an engine trusts and the facts you keep accurate. On Claude, on a ChatGPT Business or Enterprise seat, and in the sensitive categories where ad placements are restricted, it&#39;s the only thing working for you.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Gwen Chen is co-founder and CEO of SolCrys, an AEO platform that helps brands and agencies win discovery across major AI engines. She started her marketing career in SEO in 2007 and has since worked across SEO and SEM, product marketing, and go-to-market strategy. Connect on <a href="https://www.linkedin.com/in/gwenchenx/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://openai.com/index/our-approach-to-advertising-and-expanding-access/" target="_blank" rel="noopener noreferrer">OpenAI, &quot;Our approach to advertising and expanding access to ChatGPT&quot; (Jan. 16, 2026): ads test planned for Free and Go tiers; ads principles including answer independence</a></li><li><a href="https://openai.com/index/testing-ads-in-chatgpt/" target="_blank" rel="noopener noreferrer">OpenAI, &quot;Testing ads in ChatGPT&quot; (Feb. 9, 2026; updated Aug. 11, 2026): U.S. test for logged-in adults on Free and Go; later market expansion</a></li><li><a href="https://help.openai.com/en/articles/20001047-ads-in-chatgpt" target="_blank" rel="noopener noreferrer">OpenAI Help Center, &quot;Ads in ChatGPT&quot; (read Sept. 26, 2026): eligibility, logged-out ads, placement below responses, ad ranking, &quot;ChatGPT can&#39;t see the ads shown to you&quot;</a></li><li><a href="https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/" target="_blank" rel="noopener noreferrer">OpenAI, &quot;A milestone in expanding access to AI&quot; (Aug. 31, 2026): $1 billion annualized run rate in under 200 days, tens of thousands of advertisers, over 40 countries, CPC and outcome-optimized bidding the majority of campaigns</a></li><li><a href="https://digiday.com/media-buying/openais-chatgpt-ads-business-hits-1-billion-run-rate-as-europe-gets-self-serve-access/" target="_blank" rel="noopener noreferrer">Digiday, &quot;OpenAI&#39;s ChatGPT ads business hits $1 billion run rate as Europe gets self-serve access&quot; (Aug. 31, 2026), including how a run rate is calculated</a></li><li><a href="https://www.anthropic.com/news/claude-is-a-space-to-think" target="_blank" rel="noopener noreferrer">Anthropic, &quot;Claude is a space to think&quot; (Feb. 4, 2026): &quot;Claude will remain ad-free&quot;</a></li><li><a href="https://support.google.com/google-ads/answer/16297775" target="_blank" rel="noopener noreferrer">Google Ads Help, &quot;About ads and AI Overviews&quot; (read Sept. 26, 2026): 12 English-language markets, sensitive-vertical exclusions, no segmented reporting, reported as Top Ads</a></li><li><a href="https://blog.google/products/ads-commerce/agentic-commerce-ai-tools-protocol-retailers-platforms/" target="_blank" rel="noopener noreferrer">Google, &quot;New tech and tools for retailers to succeed in an agentic shopping era&quot; (Jan. 11, 2026): Direct Offers pilot in AI Mode</a></li><li><a href="https://blog.google/products/ads-commerce/google-marketing-live-search-ads/" target="_blank" rel="noopener noreferrer">Google, &quot;A new generation of ads for the AI era of Search&quot; (May 20, 2026): Conversational Discovery ads and Highlighted Answers in AI Mode</a></li><li><a href="https://learn.microsoft.com/en-us/advertising/msa-help/hlp_ba_conc_adsforcopilot" target="_blank" rel="noopener noreferrer">Microsoft Advertising, &quot;About ads in Copilot&quot; (read Sept. 26, 2026): automatic opt-in, no Copilot-specific metrics</a></li><li><a href="https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/" target="_blank" rel="noopener noreferrer">SparkToro, &quot;AIs are highly inconsistent when recommending brands or products&quot; (Jan. 28, 2026; 2,961 runs)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Do ChatGPT ads affect ChatGPT&#39;s answers?</h3>
+            <p>OpenAI says no: &quot;Ads run on separate systems from our chat model, and advertisers have no ability to shape, rank, or alter ChatGPT&#39;s responses.&quot; Ads appear below the end of a response and are labeled as sponsored. No outsider can audit that separation directly. What you can measure is your organic answer on a fixed set of prompts over time, which is why it belongs on its own report line.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can you pay to be recommended by ChatGPT?</h3>
+            <p>Not through any program OpenAI has documented. You can pay for a sponsored unit below the answer, and OpenAI ranks eligible ads on factors including relevance and advertiser bids. OpenAI also says seeing an ad doesn&#39;t mean it endorses or recommends the advertiser. The recommendation inside the answer is earned through the sources the engine retrieves and the facts it finds about you.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should we buy ChatGPT ads or invest in AEO?</h3>
+            <p>They do different jobs, so they belong in different budgets. Ads buy a labeled placement while you pay; AEO work shapes what the engine says about you, and that work can keep paying off after a campaign ends. Test ads from your paid-media budget with a spend cap and a decision date, and don&#39;t fund the test by cutting the work that earns the organic answer.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which AI assistants show ads?</h3>
+            <p>As of Sept. 26, 2026: ChatGPT shows sponsored units on its Free and Go plans and in logged-out use. Google shows ads above or below AI Overviews wherever they run and inside AI Overviews in English in 12 countries, and it is testing ad formats in AI Mode. Microsoft Advertising serves ads in Copilot&#39;s responses. Anthropic has said Claude will remain ad-free.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Who sees ads in ChatGPT?</h3>
+            <p>According to OpenAI&#39;s help center, ads may appear on the Free and Go plans and in logged-out use. Plus, Pro, Business, Enterprise, and Edu accounts don&#39;t get ads, and neither do accounts identified as belonging to people under 18 or Temporary Chats. Ads aren&#39;t eligible near sensitive or regulated topics such as personal health, mental health, or politics, and Free users can switch to an ad-free option with lower usage limits and reduced feature access.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can I see how my Google ads perform inside AI Overviews?</h3>
+            <p>Not separately. Google Ads says it &quot;currently doesn&#39;t offer segmented reporting when ads show within Search AI Overviews,&quot; and it reports those ads as Top Ads. You also can&#39;t target AI Overview placements directly or opt out of them. Ads inside AI Overviews are available in English in Australia, Canada, India, Indonesia, Kenya, Malaysia, New Zealand, Nigeria, Pakistan, the Philippines, Singapore, and the U.S.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are ChatGPT ads the same as sponsored articles?</h3>
+            <p>No. A sponsored article is content on a third-party site that an engine can read and sometimes cite, so it can feed the organic answer when it runs on a domain the engine already trusts. A ChatGPT ad is a unit outside the answer that, by OpenAI&#39;s account, ChatGPT can&#39;t see by default. They&#39;re different instruments with different measurement; see <a href="/do-sponsored-articles-move-ai-answers/">do sponsored articles move AI answers</a>.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does SolCrys track ChatGPT ads?</h3>
+            <p>No. SolCrys measures the organic line: mention, citation, Recommendation Score, and Answer Accuracy, per engine, on your tracked prompts. Your sponsored line comes from the ad platforms&#39; own reporting, and keeping the two sources separate is part of the point.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citation-vs-recommendation/">Cited but Not Recommended: Why AI Citations Are the Wrong KPI</a></h3>
+            <p>Getting cited as a source and getting recommended as the pick are two different AI-search outcomes, and they are decoupling. Why most teams track the wrong one, what a 100-query study and our own 5-engine data show, and the KPI to measure instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/do-sponsored-articles-move-ai-answers/">Do Sponsored Articles Move AI Answers? What Paid Placements on TechTarget, Forbes &amp; CIO Actually Buy You</a></h3>
+            <p>A sponsored article on TechTarget, Forbes, or CIO.com can change what AI says about you, but not the way a paid-media plan assumes. It works only when the domain is one the model already cites and the content reads as editorial, not an ad. Then it&#39;s a corroboration asset, not impressions. How to tell the difference, and measure it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/owned-earned-paid-ai-visibility/">Owned, Earned, Paid: How Your Media Mix Maps to AI Visibility (and Why the Hierarchy Flips)</a></h3>
+            <p>The owned/earned/paid split you use for marketing maps onto AI visibility with one twist: the hierarchy flips. In an AI answer, trust runs inverse to control, the sources you own are trusted least, the independent ones you can&#39;t buy are trusted most. A map of each layer and where to focus.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/ai-search-is-decision-layer/">AI Search Is a Decision Layer</a></h3>
+            <p>Treating AI search as &#39;another channel&#39; alongside SEO and paid undercounts its impact. AI search is a decision layer that influences buyers across all other channels. This essay explains the implication for measurement and investment.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-recommendation-score/">AI Recommendation Score</a></h3>
+            <p>AI can name your brand and recommend a rival in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you across ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, plots you against every competitor, and shows the verbatim line behind every point.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/ai-search-statistics-2026/">AI Search in 2026: A Dated Timeline and the Statistics That Hold Up (With Source, Date, and Sample)</a></h3>
+            <p>28 AI search statistics for 2026, each with source, date, and sample, plus a dated timeline of the year and the widely quoted numbers to stop using.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BfpG2qrC.js"></script>
+  </body>
+</html>

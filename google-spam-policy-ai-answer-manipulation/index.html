@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>GEO Tactics Google Now Calls Spam, and What Works | SolCrys</title>
+    <meta name="description" content="Google&#39;s spam policies now cover manipulating AI answers. Which GEO tactics cross the line, which are risky, which are wasted, and what holds up." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/google-spam-policy-ai-answer-manipulation/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="GEO Tactics Google Now Calls Spam, and What Works | SolCrys" />
+    <meta property="og:description" content="Google&#39;s spam policies now cover manipulating AI answers. Which GEO tactics cross the line, which are risky, which are wasted, and what holds up." />
+    <meta property="og:url" content="https://solcrys.com/google-spam-policy-ai-answer-manipulation/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-26" />
+    <meta property="article:modified_time" content="2026-09-26" />
+    <meta property="og:image" content="https://solcrys.com/og/google-spam-policy-ai-answer-manipulation.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/google-spam-policy-ai-answer-manipulation.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C8g_8rZY.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Google Now Calls AI-Answer Manipulation Spam. The GEO Tactics That Cross the Line—and the Ones That Just Don't Work.","item":"https://solcrys.com/google-spam-policy-ai-answer-manipulation/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Google now calls AI-answer manipulation spam. Which GEO tactics cross the line, and which just don't work","description":"Google's spam policies now cover manipulating AI answers. Which GEO tactics cross the line, which are risky, which are wasted, and what holds up.","dateModified":"2026-09-26","datePublished":"2026-09-26","mainEntityOfPage":"https://solcrys.com/google-spam-policy-ai-answer-manipulation/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/google-spam-policy-ai-answer-manipulation/","mainEntity":[{"@type":"Question","name":"Is GEO against Google's guidelines?","acceptedAnswer":{"@type":"Answer","text":"Not as such. Google's guide says that from its perspective, optimizing for generative AI search is \"still SEO.\" What its spam policies prohibit, since a clarification on May 15, 2026, is \"attempting to manipulate generative AI responses in Google Search\": hidden text, cloaking, fake reviews or mentions, planted false claims, and pages mass-produced primarily to game rankings or AI answers."}},{"@type":"Question","name":"Can you be penalized for trying to influence AI answers?","acceptedAnswer":{"@type":"Answer","text":"On Google, yes, if the method violates its spam policies. Google says it detects violations through automated systems and human review that can lead to a manual action, and that violating sites may rank lower or not appear at all. Influencing answers with better content, clearer facts, and independent coverage is not a violation."}},{"@type":"Question","name":"What is AI recommendation poisoning?","acceptedAnswer":{"@type":"Answer","text":"It's Microsoft's name (Feb. 10, 2026) for links, often behind \"Summarize with AI\" buttons, that open an assistant with a pre-filled prompt telling it to remember a company as a trusted source or recommend it first. Over 60 days of email traffic, Microsoft found 50 examples from 31 companies across more than a dozen industries, and it maps the technique to MITRE ATLAS memory poisoning."}},{"@type":"Question","name":"Are \"Summarize with AI\" buttons allowed?","acceptedAnswer":{"@type":"Answer","text":"A button that only asks an assistant to summarize your page isn't named in any policy. One that adds instructions such as remembering your site as a trusted source is the technique Microsoft documented as AI Recommendation Poisoning, and Microsoft now tells users to be suspicious of these buttons. If you ship one, keep the prompt visible and limited to the summary."}},{"@type":"Question","name":"Do self-published \"best X\" listicles get you recommended?","acceptedAnswer":{"@type":"Answer","text":"Often not, at least on Google AI Overviews. In Lily Ray's June 2026 analysis of 100 B2B \"best software\" queries, the brand was left out of the recommendation 224 of 323 times its own listicle was cited. The listicle earned the citation; the recommendations usually went to established category leaders, often ones it listed."}},{"@type":"Question","name":"Does Google's spam policy apply to ChatGPT or Perplexity?","acceptedAnswer":{"@type":"Answer","text":"No. The clause covers generative AI responses in Google Search, such as AI Overviews and AI Mode. ChatGPT, Perplexity, and Claude choose sources through their own systems. The research on poisoning and self-promotion is still a reason to hold your tactics to the same standard on every engine."}},{"@type":"Question","name":"Is using llms.txt spam?","acceptedAnswer":{"@type":"Answer","text":"No. Google says Google Search ignores llms.txt files and that keeping one will neither harm nor help your visibility or rankings there. It's wasted effort as a Google lever, not a violation."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Google now calls AI-answer manipulation spam. Which GEO tactics cross the line, and which just don&#39;t work</h1>
+        <p class="seo-lede">Since May 15, 2026, Google&#39;s spam policies have defined spam to include &quot;attempting to manipulate generative AI responses in Google Search,&quot; which puts AI Overviews and AI Mode under the same rules as rankings. Most generative engine optimization (GEO) tactics sort into 4 buckets: deception that crosses the line (hidden instructions, cloaking, fake reviews, planted claims, and &quot;Summarize with AI&quot; links that plant memory instructions), ordinary formats used in risky ways (self-ranked listicles, sponsored posts, AI-drafted pages at volume), tactics Google says it simply ignores (llms.txt, AI-only schema, chunking), and the legitimate path: SEO foundations, corroboration by independent sources, and accurate canonical facts. The clause governs Google Search only, but the research on recommendation poisoning is a reason to hold your tactics to the same standard on every engine.</p>
+        
+        <p>Updated <time datetime="2026-09-26">2026-09-26</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Is GEO against Google&#39;s guidelines?</li><li>Can you be penalized for trying to influence AI answers?</li><li>What is AI recommendation poisoning?</li><li>Are &quot;Summarize with AI&quot; buttons allowed?</li><li>Do self-published &quot;best X&quot; listicles get you recommended in AI answers?</li><li>Does Google&#39;s spam policy apply to AI Overviews and AI Mode?</li><li>Which GEO tactics does Google consider spam?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Not GEO as such, but some generative engine optimization (GEO) tactics are now spam by Google&#39;s own definition: since May 15, 2026, Google&#39;s <a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">spam policies</a> include &quot;attempting to manipulate generative AI responses in Google Search,&quot; which puts AI Overviews and AI Mode under the same rules as rankings. The line is deception, not optimization: hidden instructions, cloaking, fake reviews and mentions, planted false claims, and pages mass-produced mainly to game the answer cross it, while llms.txt files, AI-only schema, and chunking are wasted effort that Google says it ignores. The approach that doesn&#39;t depend on any engine&#39;s blind spots is the unglamorous one: SEO foundations, corroboration by independent sources, and canonical facts that are accurate everywhere you publish them. Nothing on this page is legal advice.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What Google&#39;s policy says, and when it changed</h2>
+      <p>The change is one sentence at the top of Google&#39;s spam policies: &quot;In the context of Google Search, spam refers to techniques used to deceive users or manipulate our Search systems into featuring content prominently, such as attempting to manipulate Search systems into ranking content highly or attempting to manipulate generative AI responses in Google Search.&quot;</p><p>Google&#39;s <a href="https://developers.google.com/search/updates" target="_blank" rel="noopener noreferrer">documentation changelog</a> dates the clause to May 15, 2026, the same day it published its <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">guide to optimizing for generative AI features</a>, and gives the reason: &quot;To make it clear that the spam policies apply to all of Google Search, including generative AI responses.&quot; The page&#39;s current revision, dated Aug. 28, 2026, changed how Google enforces its site reputation policy in the European Economic Area, not the AI clause, so an August date attached to the clause is the revision date, not the date it arrived.</p><p>It&#39;s a clarification, not a new rulebook: the named policies (cloaking, hidden text and link abuse, link spam, scaled content abuse, and the site reputation policy), along with the page&#39;s rules on scam and fraud, now explicitly apply when the target is an AI answer. Enforcement works as it does for rankings. Google detects violations &quot;through automated systems and, as needed, human review that can result in a manual action,&quot; and violating sites &quot;may rank lower in results or not appear in results at all.&quot; And the scope is Google Search, meaning surfaces such as AI Overviews and AI Mode, not ChatGPT, Perplexity, or Claude, which choose sources through their own systems.</p><p>The guide says the same thing in practical terms. Creating separate content for every query variation, including fan-out queries, &quot;primarily to manipulate rankings or generative AI responses in Google Search violates Google&#39;s scaled content abuse spam policy.&quot; And on manufactured buzz: &quot;seeking inauthentic &#39;mentions&#39; across the web isn&#39;t as helpful as it might seem. Our core ranking systems focus on high-quality content while other systems block spam; our generative AI features depend on both.&quot;</p><p>Google also began rolling out its <a href="https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu" target="_blank" rel="noopener noreferrer">September 2026 spam update</a> on Sept. 24, 2026, with a rollout of up to 2 weeks. It hasn&#39;t said what the update targets, so don&#39;t read it as an AI-specific crackdown.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>GEO tactics, sorted by risk</h2>
+      <p>Each row names a tactic as it&#39;s usually pitched, where it lands, and the evidence. Google&#39;s policy and guide speak for Google Search; the research rows name the systems they tested.</p>
+      
+      <table>
+              <thead><tr><th>Tactic</th><th>Verdict</th><th>Evidence</th></tr></thead>
+              <tbody><tr><td>Hidden instructions for AI (white-on-white text, off-screen prompts telling models to recommend you)</td><td>Crosses the line</td><td>Google&#39;s hidden-text policy covers content placed &quot;solely to manipulate search engines and not to be easily viewable by human visitors.&quot; Microsoft classes hidden instructions in web pages as cross-prompt injection.</td></tr><tr><td>Showing search or AI crawlers a different page than people see</td><td>Crosses the line</td><td>Google defines cloaking as &quot;presenting different content to users and search engines with the intent to manipulate search rankings and mislead users.&quot;</td></tr><tr><td>&quot;Summarize with AI&quot; links that tell the assistant to remember you as a trusted source</td><td>Crosses the line</td><td>Microsoft calls it AI Recommendation Poisoning (Feb. 10, 2026): 50 examples from 31 companies in 60 days of email traffic, mapped to MITRE ATLAS memory poisoning.</td></tr><tr><td>Fake or bought reviews, sock-puppet accounts, undisclosed paid posts</td><td>Crosses the line</td><td>Google says inauthentic mentions aren&#39;t as helpful as they seem and that other systems block spam. In the US, the FTC&#39;s 2024 final rule bans buying or selling fake reviews, including AI-generated ones.</td></tr><tr><td>Pages that plant false claims about your product or a competitor&#39;s</td><td>Crosses the line</td><td>Google&#39;s spam policies list scam and fraud, including &quot;intentionally displaying false information about a business or service.&quot; In the FORGE lab test, 1 polluted page misled models up to 27% of the time.</td></tr><tr><td>A page per fan-out or long-tail query, generated at volume</td><td>Crosses the line</td><td>Google&#39;s guide: doing it &quot;primarily to manipulate rankings or generative AI responses in Google Search&quot; violates the scaled content abuse policy.</td></tr><tr><td>Self-ranked &quot;best [category]&quot; listicles</td><td>Gray / risky</td><td>Lily Ray, 100 B2B queries in Google AI Overviews (April to June 2026): the brand was left out of the recommendation 224 of 323 times its own listicle was cited. The FTC rule bars presenting a site you control as independent reviews.</td></tr><tr><td>Sponsored articles on third-party sites</td><td>Gray / risky</td><td>Fine when labeled and the links are marked sponsored or nofollow. Google&#39;s link spam and site reputation policies cover paid links that pass ranking credit and pages placed to borrow a host site&#39;s ranking signals.</td></tr><tr><td>AI-drafted pages at volume, including &quot;agents&quot; that publish</td><td>Gray / risky</td><td>Google&#39;s first scaled content abuse example is &quot;Using generative AI tools or other similar tools to generate many pages without adding value for users.&quot; Review and added value decide the side.</td></tr><tr><td>A plain &quot;Summarize with AI&quot; button with no extra instructions</td><td>Gray / risky</td><td>Not named in any policy, but Microsoft now tells users to be suspicious of these buttons, so even a plain one carries a trust cost.</td></tr><tr><td>llms.txt or other AI text files, as a Google lever</td><td>Doesn&#39;t work (wasted, not penalized)</td><td>Google: keeping them &quot;will neither harm nor help your site&#39;s visibility or rankings in Google Search, as Google Search ignores them.&quot;</td></tr><tr><td>AI-only schema markup</td><td>Doesn&#39;t work (wasted, not penalized)</td><td>Google: &quot;there&#39;s no special schema.org markup you need to add.&quot; Standard structured data still helps with rich results.</td></tr><tr><td>Chunking pages, or rewriting them just for AI, on Google</td><td>Doesn&#39;t work (wasted, not penalized)</td><td>Google: &quot;There&#39;s no requirement to break your content into tiny pieces for AI to better understand it.&quot;</td></tr><tr><td>Generic GEO formatting recipes sold with a lift number</td><td>Doesn&#39;t work (wasted, not penalized)</td><td>Martinez&#39;s survey of 45 GEO studies (July 2026): generic heuristics transfer poorly, and no reviewed technique shows a stable, cross-platform causal effect.</td></tr><tr><td>Mention campaigns whose only goal is getting your name placed</td><td>Doesn&#39;t work (wasted, not penalized)</td><td>Google: seeking inauthentic mentions &quot;isn&#39;t as helpful as it might seem.&quot; If the mentions are fake, the tactic moves up to the first bucket.</td></tr><tr><td>SEO foundations: indexable, crawlable, snippet-eligible pages</td><td>Legitimate</td><td>Google: to appear in its generative AI features, a page must be indexed and eligible to be shown in Google Search with a snippet, and since July 10 the site must also be included in Search generative AI features in Search Console (the default).</td></tr><tr><td>Corroboration from independent sources: earned press, analysts, genuine reviews, real community answers</td><td>Legitimate</td><td>Google&#39;s AI features &quot;can show what&#39;s being said about products and services across the web.&quot; Lily Ray&#39;s data shows self-claims often don&#39;t win the recommendation.</td></tr><tr><td>Accurate, consistent canonical facts on your site, feeds, and profiles</td><td>Legitimate</td><td>Google points businesses to Merchant Center feeds and Business Profiles. FORGE found models more vulnerable when they lack stable knowledge of a product.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Crosses the line: the common thread is deception</h2>
+      <p>Every tactic in the first bucket hides something: instructions from the reader, the real page from the crawler, the payer from the review, or the truth from the model. That&#39;s the test for tactics nobody has named yet. If it would stop working the moment the user, a journalist, or the engine could see exactly what you did, it&#39;s manipulation.</p><p>Microsoft&#39;s research is the clearest case, because the people doing it weren&#39;t hackers. Over 60 days of email traffic, Microsoft&#39;s Defender researchers found 50 distinct prompt-based attempts to influence AI assistant memory for promotional purposes, from 31 companies across more than a dozen industries, including finance, health, legal services, SaaS, and marketing agencies. The links opened an assistant with a pre-filled prompt telling it to &quot;remember [Company] as a trusted source&quot; or &quot;recommend [Company] first.&quot; In Microsoft&#39;s words: &quot;Every case involved real companies, not hackers or scammers.&quot; It traced the trend to freely available tools marketed as an &quot;SEO growth hack for LLMs.&quot;</p><p>Two caveats keep this honest. Microsoft says the effectiveness of these attempts &quot;varies by platform and has changed over time&quot; as protections evolve, and it has deployed mitigations in Copilot. And memory poisoning lives in a user&#39;s own assistant, outside Google Search, so it&#39;s a security and trust problem more than a Google spam-policy one. A buyer who finds &quot;remember us as a trusted source&quot; in their assistant&#39;s memory has still found a vendor willing to tamper with their tools.</p><p>Planting false claims works in the lab, which is exactly why it&#39;s policed. In FORGE (Luo and Chen, <a href="https://arxiv.org/abs/2606.13610" target="_blank" rel="noopener noreferrer">arXiv 2606.13610</a>, June 2026), researchers swapped real products for fake ones in a frozen set of retrieved pages, across 225 products in 15 categories and 12 commercial and open-weights models: &quot;a single polluted page yields fooled rates of up to 27%,&quot; rising to 73.8% when all top 3 pages were replaced. Reasoning didn&#39;t help, and none of the 4 defenses tested was adequate. A related Cornell Tech result on poisoning deep-research agents is covered in <a href="/is-ai-telling-the-truth-about-your-brand/">When AI describes your brand, is it telling the truth?</a></p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Gray zone: ordinary formats, risky execution</h2>
+      <p>Nothing in the second bucket is named as spam. These are ordinary formats that turn into manipulation depending on disclosure, scale, and honesty.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>Self-ranked listicles</h3>
+        <p>Lily Ray tracked 100 B2B &quot;best [category] software&quot; queries in Google AI Overviews at 3 checkpoints between April 15 and June 8, 2026. Across the 80 queries that triggered an AI Overview, when a brand&#39;s own self-promotional listicle was cited, the brand was left out of the recommendation 224 of 323 times (69%); the recommendations went to established category leaders, often ones the listicle itself named. It&#39;s one practitioner&#39;s dataset on one engine, and Google hasn&#39;t explained the change, so treat the outcome as the evidence and the mechanism as unknown.</p><p>In the US, the FTC&#39;s final rule on fake reviews (announced Aug. 14, 2024) also prohibits a business from misrepresenting that a website it controls provides independent reviews of a category that includes its own products. A branded comparison page with stated criteria differs from a &quot;review site&quot; that hides its owner; ask counsel which one you have.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Sponsored placements</h3>
+        <p>Google allows paid links when they&#39;re marked with a nofollow or sponsored attribute, and its site reputation policy treats advertorial pages as fine when their purpose is to reach the publication&#39;s readers &quot;rather than hosting the content to manipulate search rankings.&quot; Labeled, integrated, and useful is on the right side; editorial-looking pages bought to borrow a domain&#39;s authority are not. What paid placements can and can&#39;t do for AI answers is covered in <a href="/do-sponsored-articles-move-ai-answers/">Do sponsored articles move AI answers?</a></p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>AI-drafted content and agents that publish</h3>
+        <p>Google doesn&#39;t object to AI-assisted writing; its scaled content abuse policy targets pages generated &quot;for the primary purpose of manipulating search rankings and not helping users.&quot; For a CMO vetting a vendor whose agent publishes at scale, ask who reviews each page before it ships, which facts it&#39;s grounded in, and how many near-identical pages it produces. More questions are in <a href="/aeo-vendor-claims-worth-verifying/">5 AEO vendor claims worth verifying</a>.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Summarize and share buttons</h3>
+        <p>A button that opens an assistant with a plain &quot;summarize this page&quot; prompt is a user-experience choice; add &quot;remember&quot; or &quot;trusted source&quot; and it becomes the tactic Microsoft documented. Even the plain version now carries a trust cost: Microsoft tells users to be suspicious of these buttons, and the hunting queries it gives security teams flag any AI-assistant link whose prompt contains words like &quot;remember,&quot; &quot;trusted,&quot; &quot;citation,&quot; or &quot;cite,&quot; so a summary prompt that also asks the assistant to cite you can trip them. If you ship one, keep the prompt visible and limited to the summary.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Wasted effort: what Google says it ignores</h2>
+      <p>The third bucket won&#39;t get you penalized. It just spends budget. Google&#39;s guide lists things &quot;you can ignore for Google Search,&quot; including llms.txt and other AI text files, special markup, chunking, and rewriting content just for AI systems. On llms.txt it&#39;s blunt: keeping one &quot;will neither harm nor help your site&#39;s visibility or rankings in Google Search, as Google Search ignores them.&quot; More in <a href="/llms-txt-not-a-strategy/">llms.txt is not a strategy</a>.</p><p>The research record says much the same about generic GEO recipes on any engine. Martinez&#39;s July 2026 survey of 45 GEO studies (<a href="https://arxiv.org/abs/2607.14035" target="_blank" rel="noopener noreferrer">arXiv 2607.14035</a>) found that the foundational paper&#39;s widely cited gains depend on a source already sitting in a fixed context, that &quot;generic heuristics transfer poorly, competition can erode individual gains, and citation-oriented rewrites can impair retrieval,&quot; and that &quot;no reviewed technique shows a stable, longitudinal, cross-platform causal effect on organic discoverability or downstream behavior.&quot;</p><p>Competition is the part vendors skip. GEO-Flag (Chu et al., <a href="https://arxiv.org/abs/2608.16824" target="_blank" rel="noopener noreferrer">arXiv 2608.16824</a>, August 2026) ran a trained detector over 10,095 pages that Google Search and Gemini grounding retrieved for 1,000 real-user queries and estimated that 8.9% were GEO-optimized, rising to 16.36% among pages modified in 2026. When a formatting trick is everywhere, it stops being an edge; what&#39;s left is the quality of what you say.</p><p>One engine distinction: on engines that retrieve passages at answer time, such as ChatGPT search, Perplexity, and Claude with web search, clear structure still helps readers and retrievers alike. That&#39;s editorial practice, not what Google means when it says you can ignore chunking.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The legitimate path: foundations, corroboration, canonical facts</h2>
+      <p>The fourth bucket survives every policy change, because nothing in it depends on the engine not noticing.</p>
+      <ul class="seo-list"><li><strong>SEO foundations.</strong> Google says a page must be indexed and eligible to be shown in Google Search with a snippet to appear in its generative AI features, and those features rely on the same core ranking systems. For Google&#39;s AI surfaces, answer engine optimization (AEO) is an operating layer on top of SEO, not a replacement. The guide&#39;s full list is in <a href="/google-endorses-aeo-fundamentals/">Google just endorsed the anti-hack side of AEO</a>.</li><li><strong>Corroboration by independent sources.</strong> Earned press, analyst coverage, genuine customer reviews, and community answers from people who say who they work for. They&#39;re slower than a listicle, and they&#39;re the signal the listicle was faking. The operating plan is in <a href="/how-to-build-a-source-layer-strategy/">how to build a source-layer strategy</a>.</li><li><strong>Accurate canonical facts.</strong> One clear statement of what you do, current pricing and specs, and the same facts in your product feeds, Business Profile, directory listings, and docs. FORGE found models more vulnerable where they lacked stable prior knowledge of the products, so a consistent public record also helps defend against someone else&#39;s version of your facts.</li><li><strong>Disclosure by default.</strong> Label sponsorships, mark paid links, and let employees answer in communities under their own names. If you&#39;d be comfortable explaining a tactic to a journalist, it&#39;s probably on the right side of the line.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to vet a GEO pitch in 5 questions</h2>
+      <p>Use these on an agency proposal, a vendor demo, or your own team&#39;s plan.</p>
+      <ul class="seo-list"><li>Would it still work if the user and the engine could see exactly what we did? If not, it belongs in the first bucket.</li><li>Does it create pages or posts at a volume no one on our team will read before they ship?</li><li>Does it rely on a file, markup, or format that Google says it ignores, sold as a Google lever?</li><li>Does the vendor claim Google data or guaranteed placement? Google&#39;s guide says &quot;No third-party tool has access to our internal ranking or AI systems,&quot; and its guidance on third-party tools adds &quot;They can&#39;t guarantee performance.&quot; That applies to every AEO vendor, SolCrys included.</li><li>Is the evidence engine-specific and dated, or is it a lift number with no methodology?</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>When the planted claim is about you</h2>
+      <p>You can&#39;t stop a competitor, an affiliate, or a stranger from publishing something false about you, and FORGE and the Cornell Tech work suggest a single page can move an answer. What you control is how fast you notice and what you do next.</p>
+      <ul class="seo-list"><li><strong>Watch the answers, not just your mentions.</strong> Ask your buyers&#39; real questions on each engine and compare the answers to your current facts. A planted claim shows up as an answer that contradicts your canonical facts, not as a drop in visibility.</li><li><strong>Trace it to the source.</strong> Open the citations and find the page carrying the claim. The step-by-step workflow is in <a href="/fix-wrong-fact-in-ai-answer/">how to fix a wrong fact in an AI answer</a>.</li><li><strong>Report spam to Google.</strong> If the source violates Google&#39;s spam policies, Google asks you to file a search quality user report, and since April 2026 its documentation says it may use those reports to take manual action.</li><li><strong>Loop in security for memory poisoning.</strong> Links that plant instructions in assistants arrive by email and on the web. Microsoft&#39;s post includes hunting queries for AI-assistant URLs whose prompts contain words like &quot;remember&quot; and &quot;trusted.&quot;</li><li><strong>Keep dated evidence.</strong> Record the prompt, engine, date, answer text, and cited source. If a claim is defamatory or costs you business, that record is what counsel will ask for first.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Caveats</h2>
+      <p>Google&#39;s policy and guide text is quoted as of Sept. 26, 2026, and Google revises both. FORGE and GEO-Flag are arXiv preprints, and FORGE is a lab setup with a frozen set of pages rather than a live engine. Lily Ray&#39;s figures cover B2B software queries in Google AI Overviews. None of this is legal advice: questions about the FTC rule, defamation, or a specific tactic belong with counsel.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys is an AEO platform built around Measure → Diagnose → Execute → Verify. We won&#39;t do anything in the first bucket for anyone, and the product routes the work it does support through your people.</p>
+      <ul class="seo-list"><li><strong>Our rules were already written down.</strong> Our <a href="/editorial-standards/">editorial standards</a>, published May 16, 2026, the day after Google&#39;s guide and spam clarification, name 7 anti-patterns we won&#39;t recommend, including inauthentic brand mentions and one page per fan-out variation. When we added the spam-policy language on Sept. 26, 2026, the 7 didn&#39;t need to change.</li><li><strong>Execute is governed and human-approved.</strong> Recommendations are grounded in your organization&#39;s Corporate Context, the brand facts SolCrys drafts from your footprint and your team reviews and refines, and our open-source Skills are written to return an outline and a fact checklist rather than invent facts when that grounding is thin. Review and approval are recorded on each task in the <a href="/inside-the-action-hub/">Action Hub</a>.</li><li><strong>SolCrys never publishes.</strong> It has no write path into your CMS; every change goes live because someone on your team shipped it. Approval in SolCrys is a recorded step, not a lock, so your own review process stays the gate.</li><li><strong>Answer Accuracy catches the downstream effect.</strong> It grades AI answers about your brand against your Corporate Context on the engines you track (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude) and returns the failing claim with its evidence, including answers that contradict your canonical facts or assert something you&#39;ve marked as prohibited. If someone else&#39;s planted claim reaches answers to prompts you track, that&#39;s where it surfaces. It&#39;s included on Pro (up to 15 prompts) and Custom.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>What SolCrys doesn&#39;t do</h3>
+        <p>SolCrys doesn&#39;t scan the web for manipulation or identify who planted a claim, it sees only the prompts and engines you track, and it can&#39;t see what a buyer&#39;s own assistant has been told to remember. For Google, it measures AI Overviews. Like every third-party tool, it has no access to Google&#39;s internal systems, and a before-and-after in SolCrys is evidence to read, not proof of cause.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>See where you stand</h3>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a> (free, no credit card, email verification) to see how ChatGPT answers 10 of your buyers&#39; prompts and which sources it cites, and to run 1 Content Audit on a key page. If catching wrong or planted claims across engines is the job, <a href="https://app.solcrys.com/contact-sales/">talk to sales</a> about Answer Accuracy.</p>
+        
+      </div>
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">Google Search Central, &quot;Spam policies for Google web search&quot; (current revision Aug. 28, 2026), including &quot;attempting to manipulate generative AI responses in Google Search&quot;</a></li><li><a href="https://developers.google.com/search/updates" target="_blank" rel="noopener noreferrer">Google Search Central, documentation updates log: &quot;Clarifying that spam policies apply to generative AI responses in Google Search&quot; (May 15, 2026) and the site reputation policy update (Aug. 28, 2026)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central, guide to optimizing for generative AI features in Search (May 15, 2026, updated July 10, 2026)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/third-party-seo" target="_blank" rel="noopener noreferrer">Google Search Central, guidance on using third-party SEO tools, services, and advice (June 5, 2026)</a></li><li><a href="https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu" target="_blank" rel="noopener noreferrer">Google Search Status Dashboard, September 2026 spam update (began Sept. 24, 2026)</a></li><li><a href="https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/" target="_blank" rel="noopener noreferrer">Microsoft Security Blog (Microsoft Defender Security Research), &quot;Manipulating AI memory for profit: The rise of AI Recommendation Poisoning&quot; (Feb. 10, 2026)</a></li><li><a href="https://lilyraynyc.substack.com/p/why-calling-yourself-the-best-could" target="_blank" rel="noopener noreferrer">Lily Ray, &quot;Why Calling Yourself the &#39;Best&#39; Could Be Helping Your Competitors Win in AI Search&quot; (June 17, 2026): 100 B2B queries in Google AI Overviews, 224 of 323</a></li><li><a href="https://searchengineland.com/google-ai-overviews-cite-self-serving-listicles-recommend-competitors-480573" target="_blank" rel="noopener noreferrer">Search Engine Land, &quot;Google AI Overviews cite self-serving listicles, but recommend competitors 69% of the time&quot; (coverage of Lily Ray&#39;s analysis)</a></li><li><a href="https://arxiv.org/abs/2606.13610" target="_blank" rel="noopener noreferrer">Luo and Chen, &quot;One Polluted Page Is Enough: Evaluating Web Content Pollution in LLM Recommenders&quot; (FORGE), arXiv 2606.13610 (June 2026)</a></li><li><a href="https://arxiv.org/abs/2608.16824" target="_blank" rel="noopener noreferrer">Chu et al., &quot;GEO-Flag: Detecting and Measuring GEO-Optimized Web Content,&quot; arXiv 2608.16824 (August 2026)</a></li><li><a href="https://arxiv.org/abs/2607.14035" target="_blank" rel="noopener noreferrer">Martinez, &quot;Optimizing Visibility in Generative Engines: A Critical Survey of Generative Engine Optimization (2023-2026),&quot; arXiv 2607.14035 (July 15, 2026)</a></li><li><a href="https://www.ftc.gov/news-events/news/press-releases/2024/08/federal-trade-commission-announces-final-rule-banning-fake-reviews-testimonials" target="_blank" rel="noopener noreferrer">Federal Trade Commission, final rule banning fake reviews and testimonials (Aug. 14, 2024)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is GEO against Google&#39;s guidelines?</h3>
+            <p>Not as such. Google&#39;s guide says that from its perspective, optimizing for generative AI search is &quot;still SEO.&quot; What its spam policies prohibit, since a clarification on May 15, 2026, is &quot;attempting to manipulate generative AI responses in Google Search&quot;: hidden text, cloaking, fake reviews or mentions, planted false claims, and pages mass-produced primarily to game rankings or AI answers.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can you be penalized for trying to influence AI answers?</h3>
+            <p>On Google, yes, if the method violates its spam policies. Google says it detects violations through automated systems and human review that can lead to a manual action, and that violating sites may rank lower or not appear at all. Influencing answers with better content, clearer facts, and independent coverage is not a violation.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is AI recommendation poisoning?</h3>
+            <p>It&#39;s Microsoft&#39;s name (Feb. 10, 2026) for links, often behind &quot;Summarize with AI&quot; buttons, that open an assistant with a pre-filled prompt telling it to remember a company as a trusted source or recommend it first. Over 60 days of email traffic, Microsoft found 50 examples from 31 companies across more than a dozen industries, and it maps the technique to MITRE ATLAS memory poisoning.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Are &quot;Summarize with AI&quot; buttons allowed?</h3>
+            <p>A button that only asks an assistant to summarize your page isn&#39;t named in any policy. One that adds instructions such as remembering your site as a trusted source is the technique Microsoft documented as AI Recommendation Poisoning, and Microsoft now tells users to be suspicious of these buttons. If you ship one, keep the prompt visible and limited to the summary.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do self-published &quot;best X&quot; listicles get you recommended?</h3>
+            <p>Often not, at least on Google AI Overviews. In Lily Ray&#39;s June 2026 analysis of 100 B2B &quot;best software&quot; queries, the brand was left out of the recommendation 224 of 323 times its own listicle was cited. The listicle earned the citation; the recommendations usually went to established category leaders, often ones it listed.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does Google&#39;s spam policy apply to ChatGPT or Perplexity?</h3>
+            <p>No. The clause covers generative AI responses in Google Search, such as AI Overviews and AI Mode. ChatGPT, Perplexity, and Claude choose sources through their own systems. The research on poisoning and self-promotion is still a reason to hold your tactics to the same standard on every engine.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is using llms.txt spam?</h3>
+            <p>No. Google says Google Search ignores llms.txt files and that keeping one will neither harm nor help your visibility or rankings there. It&#39;s wasted effort as a Google lever, not a violation.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/google-endorses-aeo-fundamentals/">Google Just Endorsed the Anti-Hack Side of AEO. Here&#39;s the CMO Read.</a></h3>
+            <p>Google&#39;s May 2026 generative AI optimization guide explicitly rejects the AEO/GEO hacks that have dominated vendor pitches for the last 18 months — llms.txt, AI-only schema, forced chunking, FAQ-schema citation &#39;lifts,&#39; page-per-variation production. For a CMO evaluating an AEO program or vendor in 2026, this is the most consequential piece of category-level guidance to land yet. Here&#39;s the practical translation.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/aeo-vendor-claims-worth-verifying/">5 AEO Vendor Claims Worth Verifying</a></h3>
+            <p>Five pitch patterns that recur across AEO vendor conversations, paired with the specific questions that test each one. What&#39;s worth verifying before signing — and how SolCrys answers the same five tests.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/editorial-standards/">SolCrys Editorial Standards</a></h3>
+            <p>SolCrys publishes its editorial standards in full: the 5 mandatory DO&#39;s, the 7 named anti-patterns we refuse to recommend, and the pre-publication checklist every SolCrys asset runs through. We hold our content to a higher bar than the AEO category average — and we want buyers to be able to check.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/do-sponsored-articles-move-ai-answers/">Do Sponsored Articles Move AI Answers? What Paid Placements on TechTarget, Forbes &amp; CIO Actually Buy You</a></h3>
+            <p>A sponsored article on TechTarget, Forbes, or CIO.com can change what AI says about you, but not the way a paid-media plan assumes. It works only when the domain is one the model already cites and the content reads as editorial, not an ad. Then it&#39;s a corroboration asset, not impressions. How to tell the difference, and measure it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/fix-wrong-fact-in-ai-answer/">How to Fix a Wrong Fact in an AI Answer About Your Brand</a></h3>
+            <p>An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there&#39;s no one to email. The wrong fact is a relayed source. Here&#39;s how to find it, fix it or outweigh it, and re-test until the answer flips.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/what-is-ai-seo/">What Is AI SEO? AI SEO vs AEO vs GEO, and What Actually Changes in 2026</a></h3>
+            <p>AI SEO, AEO, and GEO name one job: getting cited in AI answers. Where each term came from, what Google says, and why the engine matters more than the name.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BfpG2qrC.js"></script>
+  </body>
+</html>
