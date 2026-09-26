@@ -98,7 +98,7 @@ const NextSiliconCaseStudy = () => {
               Case Study · High-Performance Computing &amp; AI
             </p>
             <h1 className="fade-in-scroll font-heading text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              How NextSilicon quadrupled its share of voice in HPC &amp; AI — in 45 days.
+              How NextSilicon quadrupled its AI mention rate in HPC &amp; AI — in 45 days.
             </h1>
             <p className="fade-in-scroll mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed">
               A challenger in one of tech's most crowded categories used SolCrys
@@ -166,7 +166,7 @@ const NextSiliconCaseStudy = () => {
                     className="h-4 w-4"
                     style={{ color: NEXTSILICON_INDIGO }}
                   />
-                  Near 4× lift in share of voice
+                  Near 4× lift in mention rate
                 </p>
               </div>
             </div>

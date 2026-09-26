@@ -907,7 +907,7 @@ function customersHtml() {
     <section class="seo-container seo-section">
       <h2>Featured customer: NextSilicon</h2>
       <p><strong>Category:</strong> High-Performance Computing &amp; AI infrastructure</p>
-      <p><strong>Result:</strong> Mention rate climbed from 1.9% to 7.4% in 45 days — a near 4× lift in share of voice against entrenched HPC and AI infrastructure incumbents.</p>
+      <p><strong>Result:</strong> Mention rate climbed from 1.9% to 7.4% in 45 days — a near 4× lift against entrenched HPC and AI infrastructure incumbents.</p>
       <article class="seo-card">
         <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — then VP of Marketing, NextSilicon</p>
         <blockquote>
@@ -984,12 +984,12 @@ function nextSiliconCaseStudyHtml() {
     <section class="seo-container seo-hero">
       <p class="seo-kicker"><a href="/customers/">← All customer stories</a></p>
       <p class="seo-kicker">Case Study · High-Performance Computing &amp; AI</p>
-      <h1>How NextSilicon quadrupled its share of voice in HPC &amp; AI — in 45 days.</h1>
+      <h1>How NextSilicon quadrupled its AI mention rate in HPC &amp; AI — in 45 days.</h1>
       <p class="seo-lede">A challenger in one of tech's most crowded categories used SolCrys to close the visibility gap with incumbents.</p>
       <ul class="seo-grid" aria-label="Headline results">
         <li class="seo-card"><strong>Mention rate — before:</strong> 1.9%. Trailing entrenched HPC and AI infrastructure incumbents.</li>
         <li class="seo-card"><strong>In just:</strong> 45 days. From kickoff to a measurable, repeatable engine.</li>
-        <li class="seo-card"><strong>Mention rate — after:</strong> 7.4%. Near 4× lift in share of voice.</li>
+        <li class="seo-card"><strong>Mention rate — after:</strong> 7.4%. Near 4× lift in mention rate.</li>
       </ul>
     </section>
     <section class="seo-container seo-section">
@@ -1939,7 +1939,7 @@ writePage(
     routePath: "/customers/nextsilicon/",
     title: "NextSilicon Case Study: 1.9% → 7.4% Mention Rate in 45 Days | SolCrys",
     ogImage: "/og/customers-nextsilicon.png",
-    description: "How NextSilicon, a high-performance computing pioneer, used SolCrys to quadruple its share of voice in HPC and AI — mention rate climbed from 1.9% to 7.4% in 45 days.",
+    description: "How NextSilicon, a high-performance computing pioneer, used SolCrys to quadruple its AI mention rate in HPC and AI — climbing from 1.9% to 7.4% in 45 days.",
     body: nextSiliconCaseStudyHtml(),
     schemas: [
       organizationSchema,
@@ -1952,7 +1952,7 @@ writePage(
         "@context": "https://schema.org",
         "@type": "Article",
         "@id": canonicalUrl("/customers/nextsilicon/") + "#article",
-        headline: "How NextSilicon quadrupled its share of voice in HPC & AI — in 45 days.",
+        headline: "How NextSilicon quadrupled its AI mention rate in HPC & AI — in 45 days.",
         description: "A challenger in one of tech's most crowded categories used SolCrys to close the visibility gap with incumbents. Mention rate climbed from 1.9% to 7.4% in 45 days — a near 4× lift.",
         url: canonicalUrl("/customers/nextsilicon/"),
         datePublished: site.published || generatedAt,
@@ -3529,7 +3529,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
 - [About](${site.url}/about/): Company story, founding team, and advisors.
 - [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring Cornelis (AI & HPC networking; a brand-new category made answerable in four weeks for its AI Infra Summit launch), NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days), UiPath (enterprise automation software), and Wyze (consumer smart home).
-- [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its share of voice in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
+- [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its AI mention rate in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
 - [Cornelis case study](${site.url}/customers/cornelis/): Full case study — how Cornelis made a brand-new networking category (Active Compute Fabric) answerable in four weeks ahead of its AI Infra Summit launch: 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2. Covers the five-step SolCrys method (measure visibility, diagnose gaps, activate actions, verify impact, map assets to depth).
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
