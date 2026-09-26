@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>A Year in View: The Models Kept Changing. The Facts Had to Hold.</title>
+    <meta name="description" content="Eason Wang on year one of answer engine optimization: how buyers, engines, and models changed, what we built and deleted, and 5 predictions for year two." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/news/a-year-in-view-the-facts-had-to-hold/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-26" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="A Year in View: The Models Kept Changing. The Facts Had to Hold." />
+    <meta property="og:description" content="Eason Wang on year one of answer engine optimization: how buyers, engines, and models changed, what we built and deleted, and 5 predictions for year two." />
+    <meta property="og:url" content="https://solcrys.com/news/a-year-in-view-the-facts-had-to-hold/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-26" />
+    <meta property="article:modified_time" content="2026-09-26" />
+    <meta property="og:image" content="https://solcrys.com/og/news-a-year-in-view-the-facts-had-to-hold.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/news-a-year-in-view-the-facts-had-to-hold.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-C8g_8rZY.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Newsroom","item":"https://solcrys.com/news/"},{"@type":"ListItem","position":3,"name":"A Year in View: The Models Kept Changing. The Facts Had to Hold.","item":"https://solcrys.com/news/a-year-in-view-the-facts-had-to-hold/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A Year in View: The Models Kept Changing. The Facts Had to Hold.","description":"Eason Wang on year one of answer engine optimization: how buyers, engines, and models changed, what we built and deleted, and 5 predictions for year two.","datePublished":"2026-09-26","dateModified":"2026-09-26","mainEntityOfPage":"https://solcrys.com/news/a-year-in-view-the-facts-had-to-hold/","image":"https://solcrys.com/og/news-a-year-in-view-the-facts-had-to-hold.png","author":{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO, SolCrys","sameAs":["https://www.linkedin.com/in/eason-wang/"]},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Founder Note · <time datetime="2026-09-26">2026-09-26</time></p>
+        
+        <h1>A Year in View: The Models Kept Changing. The Facts Had to Hold.</h1>
+        
+        <p>By <strong>Eason Wang</strong>, Co-Founder &amp; CPO, SolCrys · <a href="https://www.linkedin.com/in/eason-wang/" rel="noopener">LinkedIn</a></p>
+      </header>
+      
+      
+      <p>Gwen wrote about <a href="/news/your-brand-ai-ready-one-year-of-solcrys/">why we started and whom we listened to</a>. This note is the other half of year one: what changed underneath us. Three things moved at once over the past 12 months. Buyers moved into AI answers. The models we build on became cheaper and more capable nearly every month. And our product changed shape several times in response, sometimes by adding things and sometimes by deleting them.</p><p>If I had to compress the year into one sentence, it would be this: generation got cheap and models became replaceable parts, so the scarce inputs became the facts a brand can stand behind and the evidence that something actually worked. What follows is how we got there, organized around the questions customers asked us, in their words, roughly in the order they asked them.</p><h2>1. “What is AI saying about us?”</h2><p>When we started in September 2025, buyers were already ahead of the brands they were evaluating. In Forrester&#39;s <a href="https://www.forrester.com/blogs/state-of-business-buying-2026/" target="_blank" rel="noopener noreferrer">State of Business Buying 2026</a>, 94% of business buyers said they use AI somewhere in their buying process. <a href="https://www.prnewswire.com/news-releases/new-g2-research-half-of-b2b-software-buyers-now-start-their-research-with-ai-chatbots-302742807.html" target="_blank" rel="noopener noreferrer">G2 found</a> that 51% of B2B software buyers now start their research in an AI chatbot more often than in Google, up from 29% in April 2025. At the same time, the clicks that used to tell marketers what was happening started falling away. Chartbeat data in the <a href="https://reutersinstitute.politics.ox.ac.uk/journalism-media-and-technology-trends-and-predictions-2026" target="_blank" rel="noopener noreferrer">Reuters Institute&#39;s 2026 trends report</a> shows Google organic referrals to news sites falling 33% worldwide and 38% in the U.S. in the year to November 2025.</p><p>So the first question was simple, and almost nobody could answer it: what does AI say about us? The technology to answer it arrived just in time. On September 29, 2025, Anthropic released Claude Sonnet 4.5, renamed its Claude Code SDK the Claude Agent SDK, and published an engineering essay that helped give the year its vocabulary: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">context engineering</a>, the idea that what a model reads matters as much as how you ask it. Search-grounded model APIs made it practical to put a buyer&#39;s question to an engine, over and over, and record what came back.</p><p>Two lessons from those months still shape the product. The first is that answers are not stable. Ask the same question twice and you get a different list. <a href="https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/" target="_blank" rel="noopener noreferrer">SparkToro&#39;s study</a> of 2,961 runs later put a number on it: you would wait more than 1,000 runs to see two brand lists come back in the same order. The same study concluded that visibility measured as a rate across many runs is a reasonable metric, and that a &quot;ranking position in AI&quot; is not. We had reached the same conclusion from our own data, which is why our core metrics are rates across repeated runs, not the rank in a single answer.</p><p>The second is that people want to use this where they already work. We built our first MCP server in October 2025, before we had an AEO product and 2 months before MCP moved into the Linux Foundation&#39;s new <a href="https://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation/" target="_blank" rel="noopener noreferrer">Agentic AI Foundation</a>. By July 2026, the protocol&#39;s main SDKs were <a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/" target="_blank" rel="noopener noreferrer">approaching half a billion downloads a month</a>. MCP is now <a href="/why-we-bet-on-mcp/">how customers bring SolCrys into Claude, ChatGPT, and Cursor</a>, and it can act, not just read: since June, a customer&#39;s own assistant can mark an Action Hub task as published, through a separate permission they opt into.</p><h2>2. “What do we do about it?”</h2><p>By early 2026 the category had a name. In March, Gartner published its first <a href="https://www.gartner.com/en/documents/7559273" target="_blank" rel="noopener noreferrer">Market Guide for Answer Engine Visibility Tools</a>. The name was accurate about where the market stood: the tools were built to see. In May, <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google&#39;s own guidance</a> gave Google&#39;s answer to a debate that had run all year: &quot;optimizing for generative AI search is optimizing for the search experience, and thus still SEO.&quot; For Google&#39;s AI surfaces, answer engine optimization is an operating layer on top of SEO foundations, not a replacement for them.</p><p>Seeing a gap is not the same as closing it, and closing it became the next question. The model side moved fastest here. In February, Claude Opus 4.6 arrived with a million-token context window in beta, and OpenAI described an internal project in which a small team <a href="https://openai.com/index/harness-engineering/" target="_blank" rel="noopener noreferrer">shipped about a million lines of code in 5 months without writing any of it by hand</a>. They called the discipline harness engineering. In April, Anthropic put the lesson in one sentence: &quot;<a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener noreferrer">Harnesses encode assumptions that go stale as models improve</a>.&quot; The model does the work. The harness decides what it reads, what it is allowed to do, and how its work gets checked, and it has to be rebuilt as the models change.</p><p>That is the shape we gave the product. In May we launched SolCrys AEO as a loop, Measure → Diagnose → Execute → Verify, instead of a dashboard. Measure and Diagnose were the parts we already knew how to build. Execute had to be governed: drafts grounded in a company&#39;s approved facts, and a person approving anything before it ships. Verify turned out to be the hardest verb in the loop.</p><h3>Why we deleted our first Verify</h3><p>Our first verification system re-checked published pages and reported impact at 7, 14, and 30 days. The numbers looked clean. But it had no control prompts and no confidence intervals, and our internal review in May concluded that we could not defend the headline numbers. We removed it that month. What replaced it is deliberately narrower: re-run the same frozen prompt set on the same engines, re-audit the same page to see whether its score recovered, and treat any before-and-after number as an observation, not proof of cause.</p><p>This matters beyond our product. In July, a <a href="https://arxiv.org/abs/2607.14035" target="_blank" rel="noopener noreferrer">survey of 45 GEO studies</a> concluded that &quot;no reviewed technique shows a stable, longitudinal, cross-platform causal effect.&quot; That doesn&#39;t mean nothing works. It means the burden of proof sits with whoever claims a result, including us. A lift shown without a sample size is a picture, not a finding.</p><h3>The harness we use on ourselves</h3><p>We build SolCrys the way we think marketing will increasingly run: agents do much of the work inside a harness that people design. We merged about 1,900 pull requests in our first year, and in August and September close to 9 in 10 were marked as written with a coding agent. The human work moved to specs, evaluations, and review, with a second model from a different family often reviewing alongside. The discipline we sell is the one we apply to our own code: approved context, governed execution, and honest verification.</p><h2>3. “Is it right, and does it choose us?”</h2><p>Once teams could see how they appeared, they asked harder questions: is what AI says about us true, and does being mentioned mean being chosen? The honest answer to both: not reliably. <a href="https://www.prnewswire.com/news-releases/new-g2-research-half-of-b2b-software-buyers-now-start-their-research-with-ai-chatbots-302742807.html" target="_blank" rel="noopener noreferrer">The same G2 survey</a> found that 64% of software buyers get inaccurate recommendations from AI chatbots often or very often. <a href="https://arxiv.org/abs/2605.14021" target="_blank" rel="noopener noreferrer">A study of Google AI Overviews</a> by Xu, Iqbal, and Montgomery found that 11.0% of 98,020 claims were not supported by the pages cited for them. And <a href="https://searchengineland.com/google-ai-overviews-cite-self-serving-listicles-recommend-competitors-480573" target="_blank" rel="noopener noreferrer">Lily Ray&#39;s analysis</a> of B2B software queries found that when AI Overviews cited a brand&#39;s own &quot;best of&quot; listicle, 224 of 323 times the brand itself was left out of the recommendation. Being a source and being the answer are different things.</p><p>Accuracy also started to look like a legal question. In May, the <a href="https://the-decoder.com/landmark-german-ruling-declares-googles-ai-overviews-are-googles-own-words-and-makes-it-liable-for-false-answers/" target="_blank" rel="noopener noreferrer">Regional Court of Munich</a> held that Google&#39;s AI Overviews are Google&#39;s own content, not a list of third-party results, and that Google is liable for false statements in them. The ruling is not final, and Google has said it is reviewing it. The direction is still worth noticing: what an engine says about your company is starting to count as something someone said.</p><p>The technology change that let us answer these questions was context length. In January our knowledge pipeline still worked the old way: embed documents, retrieve the closest fragments, and hope the right fragment came back. By June, context windows were large and cheap enough that we stopped retrieving fragments of a company&#39;s truth. Answer Accuracy grades each AI answer against the company&#39;s entire Corporate Context, and it cannot mark a claim wrong without pointing to the evidence. <a href="/ai-recommendation-score/">Recommendation Score</a> measures how favorably an engine endorses a brand against its competitors, and every point traces back to quoted text in the answer.</p><p>That is why the <a href="/news/introducing-the-corporate-context-engine/">Corporate Context Engine</a> sits underneath everything we shipped after it. Engineers spent the year learning that the model matters less than what it reads. For a brand, what the model reads is its approved facts, claims, and proof. Keep those current and consistent, and every output built on them, from an AI answer to a webpage to a booth, inherits the accuracy. Let them drift, and no model upgrade will fix it.</p><h2>4. What holds when the ground moves</h2><p>August put that to the test. In the second week of the month, ChatGPT all but stopped citing Reddit. Independent trackers, <a href="https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/" target="_blank" rel="noopener noreferrer">as reported by Search Engine Journal</a>, measured Reddit&#39;s share of ChatGPT citations falling from 3.83% to 0.52% within about a week. In our own tracking across 5 engines, the break was ChatGPT&#39;s alone: Google AI Overviews, Perplexity, and Gemini barely moved, and the citations ChatGPT dropped were replaced mostly by vendors&#39; official sites, documentation, and government pages.</p><p>It had happened before. The same report notes that in September 2025, several trackers saw Reddit&#39;s share of ChatGPT citations collapse within a few weeks. Two drops in a year, on one engine, with no change in what Reddit users were writing, tell you what kind of variable this is. Which sources an engine names is decided at least as much by licensing, retrieval policy, and cost as by the quality of the content. We changed our own stance to match: we now treat Reddit as a place engines read to learn what customers think, rather than a citation to be won.</p><p>It also showed why measurement has to follow the surface buyers use. In our own side-by-side runs, ChatGPT&#39;s developer API and the ChatGPT app did not cite the same sources, so a team measuring only through the API sees a different citation picture from the one its buyers see. We moved more of our own measurement closer to the answers buyers actually see, with each prompt sent the way a person would type it.</p><p>Agentic commerce had a similar year. OpenAI launched Instant Checkout in ChatGPT in September 2025 and <a href="https://www.digitalcommerce360.com/2026/03/24/openai-agentic-commerce-updates-chatgpt-walmart/" target="_blank" rel="noopener noreferrer">phased it out in March 2026</a>, after <a href="https://searchengineland.com/walmart-chatgpt-checkout-converted-worse-472071" target="_blank" rel="noopener noreferrer">Walmart reported</a> that purchases made inside ChatGPT converted at one-third the rate of click-outs to its own site. OpenAI <a href="https://9to5mac.com/2026/08/04/openai-explains-what-will-happen-when-chatgpt-atlas-shuts-down-this-weekend/" target="_blank" rel="noopener noreferrer">shut down its Atlas browser</a> on August 9. And only 9% of B2B software buyers told <a href="https://company.g2.com/news/buyer-behavior-2026" target="_blank" rel="noopener noreferrer">G2</a> they were comfortable letting an agent execute purchases, even within approved guardrails. For now, discovery increasingly happens in AI, and most decisions still close on the brand&#39;s own surface. That is a large part of why we started building webpages with customers like <a href="/customers/cornelis/">Cornelis</a>: the page an engine cites and the page a buyer lands on should tell the same story, in the same words.</p><p>The models moved just as fast. Anthropic alone shipped Claude Opus 5, Fable 5.1, and Opus 5.5 between late July and late September, and the price of its Opus tier fell from $15 per million input tokens for Opus 4.1 a year earlier to <a href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener noreferrer">$4 for Opus 5.5</a> this week. Cheaper models are good news. But for a measurement product, every model change is a migration. When we moved to a new model generation in July, several things that had worked the day before broke. So we built the unglamorous parts: evaluation sets labeled in 2 independent blind passes with disagreements adjudicated, gates a new model has to pass before it takes over a job, and the freedom to switch providers without rewriting our code. And one rule we don&#39;t bend: we never substitute the model that queries an engine, because that would change the thing being measured.</p><p><a href="/signal-weekly-market-brief/">Signals</a>, which we added in August to brief customers on their industry and competitors, taught us a related lesson. We first filtered candidate stories with a score threshold and a confidence floor. On one 40-candidate scan, everything worth reading scored between 29 and 36 and the noise between 2 and 8, so the ordering was right, yet the threshold threw away 3 of the top 4 items. The model&#39;s self-reported confidence ran backwards: the items worth reading averaged 60, the noise 97. We now rank instead of thresholding, and confidence is a label rather than a gate. When a model&#39;s scores are ordered but not calibrated, rank them.</p><p>So what holds? The layer you own: your facts, stated the same way everywhere and corroborated by sources you don&#39;t control. Citations move with policy, and models turn over every few months. A company&#39;s approved facts are the one part that should change only when someone decides to change them.</p><h2>What I got right, and what I got wrong</h2><p>I published several positions on this site during the year. Here is how they held up.</p><ul class="seo-list"><li><a href="/production-is-cheap-trust-is-scarce/">Production is cheap, trust is scarce</a>: <strong>held, and sharpened.</strong> Generation kept getting cheaper while the answer itself became paid, contested ground: ChatGPT&#39;s ads business passed a <a href="https://digiday.com/media-buying/openais-chatgpt-ads-business-hits-1-billion-run-rate-as-europe-gets-self-serve-access/" target="_blank" rel="noopener noreferrer">$1 billion annual run rate</a> in under 200 days.</li><li><strong>The same essay&#39;s figure that Wikipedia and Reddit drive more than a quarter of ChatGPT&#39;s U.S. citations: out of date.</strong> It came from January and February 2026 data. Since August it no longer holds on ChatGPT, and the page now carries a dated correction.</li><li><a href="/ai-citations-consensus-not-authority/">AI cites consensus, not authority</a>: <strong>needs a correction.</strong> Corroboration across independent sources still matters. But after August, ChatGPT leaned toward official pages and documentation, so on that engine a company&#39;s own canonical pages count for more than I gave them credit for. That page now carries a dated correction too.</li><li><a href="/testable-geo-playbook/">Most GEO advice is untestable</a>: <strong>held.</strong> The variance research and the survey of 45 GEO studies point the same way: measure rates, and distrust any single before-and-after.</li><li><a href="/how-ai-describes-your-brand/">A wrong description is worse than no mention</a>: <strong>held, with higher stakes.</strong> Most software buyers now say they often get inaccurate AI recommendations, and at least one court has treated an AI summary as the search engine&#39;s own statement.</li><li><a href="/agent-readiness-third-audience/">Agents are your website&#39;s third audience</a>: <strong>half right.</strong> Agents already use software at scale: Honeycomb <a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/" target="_blank" rel="noopener noreferrer">reports</a> that nearly 20% of its monthly interactive queries now come from agents. They are not yet buying. The protocols survived the year; ChatGPT&#39;s in-chat checkout did not.</li></ul><h2>Five predictions for year two</h2><p>Here are 5 predictions I expect to be graded on. I&#39;ll come back to them next September.</p><ul class="seo-list"><li><strong>Another source will move, and not because of quality.</strong> At least one major engine will sharply change which sources it cites because of a licensing, retrieval, or cost decision, and independent trackers will see it within days.</li><li><strong>Visibility data will be free, and budgets will follow outcomes.</strong> Google Search Console and Bing Webmaster Tools already report AI impressions and citations at no cost. The paid value in AEO will move to accuracy, recommendation, and evidence that a specific action changed a specific answer.</li><li><strong>Paid and organic answers will be reported separately.</strong> With ads running in ChatGPT and in Google&#39;s AI Overviews, marketing teams will split organic answer share from sponsored placements, the way SEO and SEM split two decades ago.</li><li><strong>Agents will read first and buy later.</strong> Agent visits will become a line item B2B teams report for their own sites, while purchases completed entirely inside an AI chat stay a small share of B2B buying.</li><li><strong>Brand context will become infrastructure.</strong> A governed store of approved facts, claims, and proof, with versions and approvals, will become a standard part of AEO and content platforms, and buyers will ask vendors exactly how their before-and-after numbers were measured.</li></ul><p>For our part, year two means more of the same discipline: measure the answers buyers actually see, engine by engine; make one Corporate Context the source for every output, whether the first reader is a person or a model; let agents take on more of the execution, with a person approving what ships; and keep verification honest.</p><h2>The facts have to hold</h2><p>Gwen ended her note with a promise: your brand, AI ready. From where I sit, that means something specific. Your brand is found, understood accurately, and chosen, by the engines and by the buyers they send. The models will keep changing every few months. Our job is to make sure the facts hold.</p><p>Thank you to Gwen and Jia for a year of building together, and to every customer who told us when a number didn&#39;t look right. Those conversations made the product more rigorous.</p>
+      
+      <section class="seo-section"><h2>Related</h2><div class="seo-grid">
+        <article class="seo-card">
+          <p class="seo-kicker">Founder Note</p>
+          <h3><a href="/news/your-brand-ai-ready-one-year-of-solcrys/">Your Brand, AI Ready: One Year of SolCrys</a></h3>
+          <p>SolCrys co-founder and CEO Gwen Chen on year one — why AI is now the first reader of your brand, and how one Corporate Context came to power AI answers, webpages, booth animation, and community engagement for the teams we work with.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Founder Note</p>
+          <h3><a href="/news/introducing-the-corporate-context-engine/">Announcing the SolCrys Corporate Context Engine</a></h3>
+          <p>Today we&#39;re introducing the SolCrys Corporate Context Engine — a living record of your company that keeps AI current as your business evolves.</p>
+        </article></div></section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BQwzy8Zw.js"></script>
+  </body>
+</html>
