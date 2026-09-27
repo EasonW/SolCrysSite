@@ -226,7 +226,7 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            aria-label="Search resources"
+            aria-label="Search solcrys.com"
             className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
           >
             <Search className="h-4 w-4" />
@@ -468,7 +468,7 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
               className="sm:hidden flex items-center gap-3 py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
               <Search className="h-4 w-4 shrink-0" />
-              Search resources
+              Search
             </button>
 
             {/* Company — flat link, no dropdown (News moved to footer). */}

@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
-  RESOURCE_COUNT,
+  DOCUMENT_COUNT,
   searchResources,
   type SearchResult,
 } from "@/lib/searchIndex";
@@ -15,7 +15,7 @@ interface SearchCommandProps {
 }
 
 /**
- * Global ⌘K command palette for resource search. Overlay-only (no route), so
+ * Global ⌘K command palette for site search. Overlay-only (no route), so
  * there's no search-results URL for crawlers to index — search stays a pure
  * client-side navigation aid while the resource pages remain the canonical,
  * prerendered, AI-citable surface.
@@ -77,7 +77,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
           inputRef.current?.focus();
         }}
       >
-        <DialogTitle className="sr-only">Search resources</DialogTitle>
+        <DialogTitle className="sr-only">Search solcrys.com</DialogTitle>
 
         <div className="flex items-center gap-3 border-b border-border/50 px-4">
           <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -86,8 +86,8 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder={`Search ${RESOURCE_COUNT} guides…`}
-            aria-label="Search resources"
+            placeholder={`Search ${DOCUMENT_COUNT} pages…`}
+            aria-label="Search solcrys.com"
             className="h-12 w-full bg-transparent pr-8 text-base outline-none placeholder:text-muted-foreground"
           />
         </div>
@@ -95,11 +95,11 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
         <div ref={listRef} className="max-h-[60vh] overflow-y-auto py-2">
           {query.trim() === "" ? (
             <p className="px-4 py-6 text-center text-sm text-muted-foreground">
-              Search across every AEO guide by title, topic, or question.
+              Search guides, pricing, customer stories, courses, and more.
             </p>
           ) : results.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-muted-foreground">
-              No guides match “{query.trim()}”.
+              Nothing matches “{query.trim()}”.
             </p>
           ) : (
             results.map((result, i) => (

@@ -95,6 +95,20 @@ for (const file of htmlFiles) {
   }
 }
 
+// 4) ⌘K search targets never appear as hrefs in the built HTML, so check the
+// hand-maintained entries in searchPages.json explicitly.
+const searchPages = JSON.parse(
+  fs.readFileSync(path.join(rootDir, "src/content/searchPages.json"), "utf8")
+).pages;
+for (const page of searchPages) {
+  const target = `/${page.slug}/`;
+  totalInternal++;
+  if (!validPaths.has(target)) {
+    if (!broken.has(target)) broken.set(target, new Set());
+    broken.get(target).add("(⌘K search)");
+  }
+}
+
 if (broken.size === 0) {
   console.log(
     `check-links: OK — ${htmlFiles.length} pages, ${totalInternal} internal links, 0 broken.`

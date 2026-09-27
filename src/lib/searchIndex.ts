@@ -1,8 +1,12 @@
 import MiniSearch from "minisearch";
 import siteContent from "@/content/siteContent.json";
 import userGuides from "@/content/userGuides.json";
+import searchPages from "@/content/searchPages.json";
 
-// Client-side resource search.
+// Client-side site search: resource pages, user guides, and every other
+// published page (pricing, hubs, customer stories, news, courses, Prompt
+// Pulse). The non-resource entries are pre-flattened into searchPages.json by
+// scripts/generate-client-content.mjs.
 //
 // This module is dynamically imported with SearchCommand, so the full corpus
 // and MiniSearch stay out of the initial route bundle. The index itself is
@@ -89,13 +93,21 @@ documents.push(...userGuides.guides.map((guide) => ({
   slug: `guides/${guide.slug}`,
   title: guide.title,
   description: guide.description,
-  category: "SolCrys user guides",
+  category: "User Guides",
   keywords: `${guide.category} documentation PDF manual ${guide.highlights.join(" ")}`,
   summary: guide.beforeYouStart,
   body: guide.chapters.map((chapter) => `${chapter.title} ${chapter.summary}`).join(" "),
 })));
 
-export const RESOURCE_COUNT = documents.length;
+documents.push(
+  ...searchPages.pages.map(({ boost: _boost, ...page }) => ({ id: page.slug, ...page })),
+);
+
+// Per-page ranking multipliers set in generate-client-content.mjs (the site's
+// navigational pages get > 1). Everything else scores at 1.
+const documentBoost = new Map(searchPages.pages.map((page) => [page.slug, page.boost]));
+
+export const DOCUMENT_COUNT = documents.length;
 
 let index: MiniSearch | null = null;
 
@@ -106,6 +118,7 @@ const getIndex = (): MiniSearch => {
       storeFields: ["slug", "title", "description", "category"],
       searchOptions: {
         boost: { title: 4, keywords: 3, description: 2, summary: 2, category: 2, body: 1 },
+        boostDocument: (id: string) => documentBoost.get(id) ?? 1,
         fuzzy: 0.2,
         prefix: true,
         // AND so multi-word queries narrow rather than widen — better
