@@ -6,7 +6,7 @@
  *     Prove it (AEO);
  *   - two actions only: Start a project (primary) and Start Free.
  * Cornelis numbers match the published case study (/customers/cornelis/).
- * Quotes are excerpts of the approved wording in CustomerTestimonialSection.
+ * Customer quotes are the full live set from CustomerTestimonialSection.
  */
 import type { LoopStep } from "@/components/LoopDiagram";
 
@@ -132,34 +132,6 @@ export const USE_CASES = {
     },
   ],
 };
-
-/** Excerpts of approved quotes, keyed by name + company. Cornelis first. */
-export const QUOTES = [
-  {
-    name: "Brandon Draeger",
-    company: "Cornelis Networks",
-    quote:
-      "SolCrys AI took a deeply technical concept and turned it into real content mapped to different technical levels, and measured the effectiveness of every piece they produced.",
-  },
-  {
-    name: "Maria Voloh",
-    company: "UiPath",
-    quote:
-      "We've been trying out SolCrys AI for a while now, and the MCP feature lets us pull visibility insights on citations, gaps, and monthly action plans — it also recommends next steps in our optimization journey. We can then turn the insights straight into content.",
-  },
-  {
-    name: "Yun Zhang",
-    company: "Wyze",
-    quote:
-      "SolCrys gives us a better understanding of how Wyze appears across AI engines and where we can improve visibility and trust.",
-  },
-  {
-    name: "Kari Newhouse",
-    company: "TechArena",
-    quote:
-      "SolCrys AI has been the tool we rely on to advise our own customers — it consistently uncovers opportunities we wouldn't have found ourselves.",
-  },
-];
 
 export const CLOSING = {
   title: "Make your brand AI ready.",

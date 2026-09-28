@@ -13,7 +13,7 @@ const CORNELIS_PURPLE = "#9B23E8";
 const BOBOYM_AMAZON_STORE =
   "https://www.amazon.com/BOBOYM-20-Inch-Expandable-Suitcase-360%C2%B0Rolling/dp/B0FXWHWTXN/";
 
-/** Exported so /preview/home-v2/ can pick excerpts without copying names, roles or photos. */
+/** Exported so /preview/home-v2/ can show the same quotes under its own heading. */
 export const CUSTOMER_QUOTES: CustomerQuote[] = [
   {
     name: "Maria Voloh",

@@ -14,7 +14,7 @@ import { APP_PRICING_URL } from "@/lib/pricing-url";
 import { PreviewRibbon, usePreviewPage } from "@/preview/PreviewChrome";
 import RotatingWord from "@/preview/RotatingWord";
 import {
-  CLOSING, HERO, LOGO_ORDER, METHOD, ONE_LINER, OVERVIEW, QUOTES, USE_CASES,
+  CLOSING, HERO, LOGO_ORDER, METHOD, ONE_LINER, OVERVIEW, USE_CASES,
 } from "@/preview/homeV2Content";
 
 /**
@@ -77,11 +77,6 @@ const FAQS = [
       "Everything SolCrys makes draws on your Corporate Context, and nothing ships without your team's approval. SolCrys AEO also flags AI answers that describe your brand inaccurately so you can correct them.",
   },
 ];
-
-const quotes = QUOTES.flatMap(({ name, company, quote }) => {
-  const base = CUSTOMER_QUOTES.find((q) => q.name === name && q.company === company);
-  return base ? [{ ...base, quote }] : [];
-});
 
 const PreviewHomeV2 = () => {
   useHashScroll();
@@ -152,7 +147,7 @@ const PreviewHomeV2 = () => {
               Read customer stories <ArrowRight className="h-4 w-4" />
             </a>
           </div>
-          <CustomerQuoteCarousel quotes={quotes} intervalMs={8000} minHeight="260px" />
+          <CustomerQuoteCarousel quotes={CUSTOMER_QUOTES} intervalMs={8000} minHeight="340px" />
         </div>
       </section>
 
