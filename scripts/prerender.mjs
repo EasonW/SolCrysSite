@@ -2564,6 +2564,7 @@ const previewRoutes = [
   ["preview/technical/index.html", "/preview/technical/", "Style C: Technical lab"],
   ["preview/cinematic/index.html", "/preview/cinematic/", "Style D: Cinematic dark"],
   ["preview/bright/index.html", "/preview/bright/", "Style E: Bright platform"],
+  ["preview/home-v2/index.html", "/preview/home-v2/", "Homepage v2"],
 ];
 for (const [file, routePath, title] of previewRoutes) {
   writePage(

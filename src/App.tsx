@@ -31,6 +31,7 @@ const PreviewEditorial = lazy(() => import("./pages/preview/PreviewEditorial"));
 const PreviewTechnical = lazy(() => import("./pages/preview/PreviewTechnical"));
 const PreviewCinematic = lazy(() => import("./pages/preview/PreviewCinematic"));
 const PreviewBright = lazy(() => import("./pages/preview/PreviewBright"));
+const PreviewHomeV2 = lazy(() => import("./pages/preview/PreviewHomeV2"));
 
 const RouteFallback = () => (
   <div className="flex min-h-screen items-center justify-center" role="status" aria-label="Loading page">
@@ -76,6 +77,7 @@ const App = () => (
           <Route path="/preview/technical" element={<PreviewTechnical />} />
           <Route path="/preview/cinematic" element={<PreviewCinematic />} />
           <Route path="/preview/bright" element={<PreviewBright />} />
+          <Route path="/preview/home-v2" element={<PreviewHomeV2 />} />
           <Route path="/:slug" element={<ResourcePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

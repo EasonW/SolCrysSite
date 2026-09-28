@@ -3,6 +3,12 @@ import { PreviewRibbon, usePreviewPage } from "@/preview/PreviewChrome";
 /** PREVIEW — index of homepage style variants. Same copy, different design. */
 const VARIANTS = [
   {
+    href: "/preview/home-v2/",
+    name: "A2 · Your brand, AI ready (minimal)",
+    refs: "Today's solcrys.com design system, copy from the Bright redline",
+    note: "Seven sections, three product lines on one Corporate Context, Start a project first. Different copy from the five below.",
+  },
+  {
     href: "/preview/home/",
     name: "A · Brand (current system)",
     refs: "Today's solcrys.com design system",

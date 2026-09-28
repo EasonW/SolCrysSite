@@ -1,4 +1,5 @@
-import { ArrowRight, Clapperboard, LayoutTemplate, Radar, Shield } from "lucide-react";
+import type { ReactNode } from "react";
+import { ArrowRight, Clapperboard, LayoutTemplate, Radar, Shield, type LucideIcon } from "lucide-react";
 import EarlyAccessDialog from "@/components/EarlyAccessDialog";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 
@@ -6,14 +7,25 @@ import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
  * PREVIEW — the three product lines under one master brand. AEO leads because
  * it is the free entry point; Sites and Motion are quoted.
  */
-const PRODUCTS = [
+type Product = {
+  name: string;
+  promise: string;
+  body: string;
+  meta?: string;
+  Icon: LucideIcon;
+  cta: "free" | "quote" | "project";
+};
+
+type Foundation = { name: string; promise?: string; body: string; href: string };
+
+const PRODUCTS: Product[] = [
   {
     name: "SolCrys AEO",
     promise: "Know how AI reads you.",
     body: "See how ChatGPT, Gemini, Google AI, Perplexity and Claude describe and cite your brand, find the gaps against your approved facts, and track every fix.",
     meta: "Monthly subscription · free to start",
     Icon: Radar,
-    cta: "free" as const,
+    cta: "free",
   },
   {
     name: "SolCrys Sites",
@@ -21,7 +33,7 @@ const PRODUCTS = [
     body: "Homepages, category and product pages with AI-ready copy and design, built from your approved facts. Hosted on our subdomain or your own domain.",
     meta: "Per project · hosting optional",
     Icon: LayoutTemplate,
-    cta: "quote" as const,
+    cta: "quote",
   },
   {
     name: "SolCrys Motion",
@@ -29,27 +41,42 @@ const PRODUCTS = [
     body: "Booth animation and interactive demos that make deep technical products clear, on the same facts as your pages and AI answers.",
     meta: "Quoted per piece",
     Icon: Clapperboard,
-    cta: "quote" as const,
+    cta: "quote",
   },
 ];
 
-const ProductsSection = () => {
+const FOUNDATION: Foundation = {
+  name: "Built on one Corporate Context.",
+  body: "Your approved facts, claims and proof, kept current, so nothing we make drifts from what is true.",
+  href: "/corporate-context-ai-marketing/",
+};
+
+type ProductsSectionProps = {
+  heading?: string;
+  intro?: ReactNode;
+  products?: Product[];
+  foundation?: Foundation;
+};
+
+/** /preview/home-v2/ passes its own copy; the defaults are the /preview/home/ page. */
+const ProductsSection = ({
+  heading = "One story, told everywhere your buyers look.",
+  intro = "Buyers ask ChatGPT, read your website and stop by your booth. Every SolCrys product starts from the same approved facts, so each stop tells the same story.",
+  products = PRODUCTS,
+  foundation = FOUNDATION,
+}: ProductsSectionProps = {}) => {
   return (
     <section id="products" className="relative scroll-mt-24 py-20 md:py-24 section-fade">
       <div className="container mx-auto max-w-6xl px-6">
         <div className="max-w-[60ch] mb-12">
           <h2 className="font-display mb-4 text-3xl font-bold tracking-tight [text-wrap:balance] md:text-4xl">
-            One story, told everywhere your buyers look.
+            {heading}
           </h2>
-          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-            Buyers ask ChatGPT, read your website and stop by your booth. Every
-            SolCrys product starts from the same approved facts, so each stop
-            tells the same story.
-          </p>
+          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">{intro}</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {PRODUCTS.map(({ name, promise, body, meta, Icon, cta }) => (
+          {products.map(({ name, promise, body, meta, Icon, cta }) => (
             <article
               key={name}
               className="flex flex-col rounded-xl border border-border/30 bg-card/40 p-7 backdrop-blur-sm transition-colors hover:border-border/60"
@@ -63,7 +90,7 @@ const ProductsSection = () => {
               <h3 className="font-display text-xl font-semibold mb-3 tracking-tight">{promise}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground md:text-base mb-6">{body}</p>
               <div className="mt-auto flex items-center justify-between gap-3 border-t border-border/20 pt-4">
-                <span className="text-xs text-muted-foreground">{meta}</span>
+                {meta ? <span className="text-xs text-muted-foreground">{meta}</span> : null}
                 {cta === "free" ? (
                   <a
                     href={AUDIT_URL}
@@ -78,7 +105,7 @@ const ProductsSection = () => {
                       type="button"
                       className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-sm font-medium text-[hsl(var(--brand-accent-ink))] hover:underline"
                     >
-                      Request a quote <ArrowRight className="h-4 w-4" />
+                      {cta === "project" ? "Start a project" : "Request a quote"} <ArrowRight className="h-4 w-4" />
                     </button>
                   </EarlyAccessDialog>
                 )}
@@ -88,14 +115,24 @@ const ProductsSection = () => {
         </div>
 
         <a
-          href="/corporate-context-ai-marketing/"
+          href={foundation.href}
           className="mt-6 flex items-start gap-4 rounded-xl border border-border/30 bg-card/30 p-5 transition-colors hover:border-border/60 md:items-center"
         >
           <Shield className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--brand-accent))] md:mt-0" />
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-            <span className="font-semibold text-foreground">Built on one Corporate Context.</span>{" "}
-            Your approved facts, claims and proof, kept current, so nothing we
-            make drifts from what is true.
+            {foundation.promise ? (
+              <>
+                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent-ink))]">
+                  {foundation.name}
+                </span>
+                <span className="font-semibold text-foreground">{foundation.promise}</span>{" "}
+              </>
+            ) : (
+              <>
+                <span className="font-semibold text-foreground">{foundation.name}</span>{" "}
+              </>
+            )}
+            {foundation.body}
           </p>
           <ArrowRight className="ml-auto hidden h-4 w-4 shrink-0 text-muted-foreground md:block" />
         </a>

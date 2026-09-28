@@ -1,31 +1,53 @@
 import { ArrowUpRight } from "lucide-react";
 import work from "@/content/work.json";
+import { AUDIT_URL } from "@/lib/audit-cta";
+
+export type WorkItem = {
+  id: string;
+  line: string;
+  client: string;
+  title: string;
+  summary: string;
+  image: string;
+  /** External URL (opens a new tab), or "app" for the free workspace. */
+  href: string;
+  quote?: string;
+  quoteBy?: string;
+};
+
+type SelectedWorkSectionProps = {
+  heading?: string;
+  intro?: string | null;
+  items?: WorkItem[];
+};
 
 /**
  * PREVIEW — selected work, read from src/content/work.json so /work/, /sites/
  * and /motion/ can share one list. Adding a project = adding one entry.
+ * /preview/home-v2/ passes its own use cases.
  */
-const SelectedWorkSection = () => {
+const SelectedWorkSection = ({
+  heading = "Selected work.",
+  intro = "Real pieces, live today. We add each project here once the client approves it.",
+  items = work.items,
+}: SelectedWorkSectionProps = {}) => {
   return (
     <section id="work" className="relative scroll-mt-24 py-20 md:py-24 section-fade">
       <div className="container mx-auto max-w-6xl px-6">
         <div className="max-w-[60ch] mb-12">
           <h2 className="font-display mb-4 text-3xl font-bold tracking-tight [text-wrap:balance] md:text-4xl">
-            Selected work.
+            {heading}
           </h2>
-          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-            Real pieces, live today. We add each project here once the client
-            approves it.
-          </p>
+          {intro ? <p className="text-base leading-relaxed text-muted-foreground md:text-lg">{intro}</p> : null}
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {work.items.map((item) => (
+          {items.map((item) => (
             <a
               key={item.id}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...(item.href === "app"
+                ? { href: AUDIT_URL }
+                : { href: item.href, target: "_blank", rel: "noopener noreferrer" })}
               className="group flex flex-col overflow-hidden rounded-xl border border-border/30 bg-card/40 transition-colors hover:border-border/60"
             >
               <div className="aspect-[4/3] overflow-hidden bg-muted">
@@ -48,7 +70,7 @@ const SelectedWorkSection = () => {
                   <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground group-hover:text-foreground" />
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
-                {"quote" in item && item.quote ? (
+                {item.quote ? (
                   <blockquote className="mt-5 border-l-2 border-[hsl(var(--brand-accent))] pl-4 text-sm leading-relaxed text-foreground/90">
                     “{item.quote}”
                     <footer className="mt-2 text-xs text-muted-foreground">{item.quoteBy}</footer>

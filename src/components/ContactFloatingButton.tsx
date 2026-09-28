@@ -26,7 +26,9 @@ import EarlyAccessDialog from "@/components/EarlyAccessDialog";
  * Z-index: 40, one below the navbar (z-50) so it never covers the
  * fixed nav drop-shadow on scroll.
  */
-const HIDDEN_PREFIXES = ["/pricing", "/guides"];
+// /preview/home-v2 puts "Start a project" in the hero and closing CTA, so a
+// third sales door would compete with it.
+const HIDDEN_PREFIXES = ["/pricing", "/guides", "/preview/home-v2"];
 
 function isHiddenPath(pathname: string): boolean {
   return HIDDEN_PREFIXES.some(
