@@ -22577,7 +22577,7 @@ A: A one-time self-audit is a single draw, and AI answers are sampled, so one sn
 
 ## Local Business AEO: Maps-Wins, AI-Invisible
 
-Ranking on Google Maps and being cited in an AI answer are two separate games. For local recommendation queries, engines assemble the answer from third-party sources — directories, reviews, editorial best-of lists — not from your website or your Maps pin. Google Business Profile is necessary but, in the leading local-search expert survey, only ~12% of the weight behind AI visibility; the recommendation is won on content, citations, and reviews, and each engine grounds local intent differently. This guide explains where local AI citations actually come from and the per-city, per-engine loop to close the gap.
+Ranking on Google Maps and being cited in an AI answer are two separate games. For local recommendation queries, engines assemble the answer from third-party sources — directories, reviews, editorial best-of lists — not from your website or your Maps pin. Google Business Profile is necessary but, in the leading local-search expert survey, only ~12% of the weight behind AI visibility; the recommendation is won on content, citations, and reviews, and each engine grounds local intent differently. This guide explains where local AI citations actually come from, the per-city, per-engine loop to close the gap, and how SolCrys runs that loop for a local business.
 
 ### Questions this guide answers
 
@@ -22586,6 +22586,7 @@ Ranking on Google Maps and being cited in an AI answer are two separate games. F
 - Is optimizing my Google Business Profile enough for AI search?
 - How do AI engines answer 'best [business] near me'?
 - Where do AI answer engines get local recommendations?
+- How do I track whether ChatGPT recommends my business in my city?
 
 ### Direct answer
 
@@ -22686,15 +22687,15 @@ Both verticals make the same point from opposite ends. Even when you have a stro
 
 ### Closing the gap: a per-city, per-engine loop
 
-Because the answer is assembled per engine and per city, the work has to be measured the same way. The method is the SolCrys loop — **Measure → Diagnose → Execute → Verify** — applied to local:
+Because the answer is assembled per engine and per city, the work has to be measured the same way. The method is a **Measure → Diagnose → Execute → Verify** loop, applied to local:
 
 
 
 Step | What it means for local
 --- | ---
 Measure | A geo-prompt set per city, run separately against each engine, using explicit city and neighborhood phrasing rather than "near me".
-Diagnose | Classify every citation by source (your own site vs OTA / directory vs review site vs Reddit) per engine, and cross-reference your Google Maps local-pack rank for the same query to see the Maps-vs-AI gap directly.
-Execute | Fix the gaps the diagnosis names — directory coverage and NAP consistency, the structured data below, and content that the cited best-of pages and directories actually draw from. Execute is governed and human-approved; the engine never publishes for you.
+Diagnose | Sort every citation by source (your own site, OTA or directory, review site, Reddit) per engine, and name the third-party pages that recommend a competitor but not you. Then check where you rank in the Google Maps pack for the same query: the difference between the two is your Maps-vs-AI gap.
+Execute | Fix the gaps the diagnosis names — directory coverage and NAP consistency, the structured data below, and content that the cited best-of pages and directories actually draw from.
 Verify | Re-run the same frozen prompt set after the change to see whether the answer moved (an observation, not proof of cause) — not whether your Maps rank moved.
 
 
@@ -22725,9 +22726,25 @@ Across verticals the single highest-leverage property is **sameAs** — linking 
 
 
 
+### How SolCrys runs the loop for a local business
+
+In SolCrys, a local business is its own workspace type. Choose **Local business** when you create a workspace and add your city, and the questions you track are asked the way people in your area ask them. It fits a business people visit or hire in one area: a dental practice, a law office, a real-estate brokerage, a restaurant, or a hotel. A business without a website can be set up from its name, service, and city.
+
+
+
+Step | What SolCrys does for a local business
+--- | ---
+Measure | Tracked prompts are anchored to your city or serving area ("best family dentist in Bellevue", "emergency dentist around Bellevue"), and "near me" is rewritten to the city. Each engine is asked with your city as the user's location. Only the prompts that check facts about your business itself stay city-neutral.
+Diagnose | Each answer shows whether you were named, where you ranked against the local competitors the engine named, and which sites it cited. A deep analysis of a prompt you lose is written for a local business: it recommends the directories, review sites, and local sources to be present on, such as Google Business Profile, Yelp, Foursquare, Tripadvisor, category directories like Avvo, Zocdoc, or OpenTable, and local press.
+Execute | Recommendations become tasks your team approves before anything ships: a directory to be listed on, a page to add or fix, a source to earn. A content audit on a local workspace also adds the listing basics: claim and complete your Google Business Profile, Foursquare, and Apple Business Connect listings. SolCrys never publishes for you.
+Verify | The same city-anchored prompts rerun on the same engines, so you can see whether the answer moved after a fix (an observation, not proof of cause). Change your city or widen your serving area and the prompt set is rewritten, with the previous set kept in version history.
+
+
 ### Where to start
 
-Start by finding out where AI engines cite you today. SolCrys's free audit shows which sources ChatGPT pulls from for your brand and where the gaps are — [Start Free](https://app.solcrys.com/audit) (free, no credit card). If you operate multiple locations or a regulated vertical like legal or hospitality and want help closing the Maps-vs-AI gap per city, [talk to us](https://app.solcrys.com/contact-sales/).
+Start with the questions your customers ask in your city. The free audit runs 10 prompts through ChatGPT on your website; confirm your business as local on the confirmation step, and those prompts are asked in your city — [Start Free](https://app.solcrys.com/audit) (free, no credit card). Paid plans add more engines, more prompts, and daily tracking.
+
+Two limits worth knowing first. A workspace tracks one location, so a business with several locations sets up one workspace per location. And SolCrys measures the AI answer, not your Maps rank, so keep checking the Maps pack alongside it. If you have no website, run several locations, or work in a vertical like legal or hospitality, [talk to us](https://app.solcrys.com/contact-sales/).
 
 
 
@@ -22759,6 +22776,9 @@ A: Not by itself. Maps ranking and AI citation are two separate games. Maps is g
 
 Q: How do I optimize 'near me' searches for AI?
 A: Model city and neighborhood, not radius. Language models rewrite "near me" into an explicit city, and geo-precision is still coarse — one test put Google AI Mode results 4.9 miles out versus 0.3 miles on Maps (Birdeye). Build your prompt sets and pages around explicit city/neighborhood phrasing.
+
+Q: Can SolCrys track AI answers for a local business?
+A: Yes. Choose Local business when you create a workspace and add your city. SolCrys anchors the tracked prompts to that city, asks each engine with your city as the user's location, and shows who gets named and which sites the answers cite. Each workspace tracks one location, and it can be set up without a website from your business name, service, and city.
 
 ## AI Recommendation Score
 
