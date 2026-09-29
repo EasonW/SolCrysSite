@@ -6,40 +6,37 @@
  * 2×2 card grid, which read as a square of boxes, not a cycle.
  *
  * Rules applied from the 2026-09-09 taste review: no "Step 01" labels (the
- * verb IS the label), no cards, one accent, no em-dashes, illustrative
- * numbers explicitly labeled as examples. The arc draw-in lives in
- * index.css (.loop-arc) and is disabled under prefers-reduced-motion.
+ * verb IS the label), no cards, one accent, no em-dashes. The homepage
+ * copy drops the illustrative numbers (2026-09-29): plain-language steps,
+ * no simulated counts. The arc draw-in lives in index.css (.loop-arc) and
+ * is disabled under prefers-reduced-motion.
  *
  * Text and strokes use --brand-accent-ink, the readable accent token
  * (deep teal in light mode, bright teal in dark), because --brand-accent
  * is 1.78:1 on white.
  */
-export type LoopStep = { label: string; description: string; example: string };
+export type LoopStep = { label: string; description: string; example?: string };
 
 const DEFAULT_STEPS: LoopStep[] = [
   {
     label: "Measure",
     description:
-      "Any 4 of ChatGPT, Gemini, Google AI surfaces, Perplexity, and Claude, at the prompt level.",
-    example: "Example: 60 prompts on a Pro plan",
+      "Run the questions your buyers ask AI and record how each engine describes you today.",
   },
   {
     label: "Diagnose",
     description:
-      "Gaps classified as absence, citation, accuracy, comparison, or action gap.",
-    example: "Example: 3 gaps detected",
+      "Find out whether your brand is absent from those answers, missing the right citations, showing up inaccurately, or losing to competitors.",
   },
   {
     label: "Execute",
     description:
       "Drafts grounded in your Corporate Context, your approved facts, claims, and guardrails, routed for human review.",
-    example: "Example: 1 action queued",
   },
   {
     label: "Verify",
     description:
-      "The same prompt set re-runs after the fix ships, tracking visibility and recommendation movement, not just citations.",
-    example: "Example: recommendation share moves",
+      "Rerun the same prompts against the baseline and feed what changed into the next round.",
   },
 ];
 
@@ -126,7 +123,7 @@ type LoopDiagramProps = {
 const LoopDiagram = ({
   steps = DEFAULT_STEPS,
   centerLines = ["same prompt set,", "re-run after each fix"],
-  footnote = "Illustrative example of one workspace. Directional, not an aggregate marketing claim.",
+  footnote = null,
 }: LoopDiagramProps) => {
   return (
     <div className="mt-12">

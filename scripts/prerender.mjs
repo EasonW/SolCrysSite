@@ -744,27 +744,32 @@ function homeHtml() {
       </div>
     </section>
     <section id="loop" class="seo-container seo-section">
-      <h2>The SolCrys Loop: measure, diagnose, execute, verify</h2>
+      <h2>See it. Fix it. Prove it.</h2>
       <p>SolCrys closes the loop on AI search visibility. Each shipped action is tied to the same prompt set so teams can see which fixes actually changed the answer.</p>
       <ol class="seo-list">
-        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, recommendation, and answer accuracy in one place.</li>
+        <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, recommendation, and answer accuracy in one place.</li>
         <li><strong>Diagnose the answer gap.</strong> Classify each weak answer as an absence, citation, accuracy, comparison, or action gap. Map each gap to the page or source most likely to fix it.</li>
         <li><strong>Execute with Corporate Context.</strong> SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.</li>
         <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
       </ol>
       <figure style="margin-top: 2rem;">
-        <figcaption><strong>The SolCrys Loop.</strong> Illustrative example of one workspace. Directional, not an aggregate marketing claim.</figcaption>
+        <figcaption><strong>The SolCrys Loop.</strong></figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Measure.</strong> Any 4 of ChatGPT, Gemini, Google AI surfaces, Perplexity, and Claude, at the prompt level. Example: 60 prompts on a Pro plan.</li>
-          <li><strong>Diagnose.</strong> Gaps classified as absence, citation, accuracy, comparison, or action gap. Example: 3 gaps detected.</li>
-          <li><strong>Execute.</strong> Drafts grounded in your Corporate Context, your approved facts, claims, and guardrails, routed for human review. Example: 1 action queued.</li>
-          <li><strong>Verify.</strong> The same prompt set re-runs after the fix ships, tracking visibility and recommendation movement, not just citations. Example: recommendation share moves.</li>
+          <li><strong>Measure.</strong> Run the questions your buyers ask AI and record how each engine describes you today.</li>
+          <li><strong>Diagnose.</strong> Find out whether your brand is absent from those answers, missing the right citations, showing up inaccurately, or losing to competitors.</li>
+          <li><strong>Execute.</strong> Drafts grounded in your Corporate Context, your approved facts, claims, and guardrails, routed for human review.</li>
+          <li><strong>Verify.</strong> Rerun the same prompts against the baseline and feed what changed into the next round.</li>
         </ol>
       </figure>
+      <article class="seo-card" style="margin-top: 2rem;">
+        <p class="seo-kicker">Cornelis Networks · In practice</p>
+        <h3>Defining a new category</h3>
+        <p>Working with Cornelis's web team, SolCrys made a brand-new category answerable, with pages AI engines can read, extract, and quote in Cornelis's own words. In four weeks, the mention rate on the new category prompt set rose 12×. <a href="/customers/cornelis/">Read the Cornelis case study</a> or <a href="https://www.cornelis.com/technology/active-compute-fabric" rel="noopener">view the Active Compute Fabric page</a>.</p>
+      </article>
     </section>
     <section id="free-tracker" class="seo-container seo-section">
       <h2>Free ChatGPT visibility tracker</h2>
-      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews / AI Mode, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
+      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
     </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers, one closed loop — from AI visibility to governed execution</h2>
@@ -779,6 +784,11 @@ function homeHtml() {
           )
           .join("")}
       </div>
+      <article class="seo-card" style="margin-top: 2rem;">
+        <p class="seo-kicker">Signals</p>
+        <h3>Staying ahead of competitors</h3>
+        <p>SolCrys monitors the news, announcements, and conversations in your space, from competitors to your market and customers, and briefs you every day. Publish your take, and AI has a reason to cite your brand. Competitive intelligence, market intelligence, content strategy, and communications, all in one place. Available when enabled for your organization. <a href="/signal-weekly-market-brief/">How Signals works</a>.</p>
+      </article>
     </section>
     <section id="customers" class="seo-container seo-section">
       <h2>Trusted across enterprise software, AI infrastructure, and consumer brands</h2>
@@ -844,6 +854,17 @@ function homeHtml() {
           )
           .join("")}
       </div>
+      <p class="seo-kicker" style="margin-top: 2rem;">Getting started</p>
+      <div class="seo-grid">
+        <article class="seo-card">
+          <h3><a href="/guides/">User guides</a></h3>
+          <p>Set up your workspace, then learn the dashboards and tools, step by step.</p>
+        </article>
+        <article class="seo-card">
+          <h3><a href="/learn/aeo-operator/">AEO Operator course</a></h3>
+          <p>Run the full loop on a free account: build a prompt set, take a baseline, ship one change, and prove whether it moved.</p>
+        </article>
+      </div>
     </section>
     <section class="seo-container seo-section">
       <h2>FAQ</h2>
@@ -852,7 +873,7 @@ function homeHtml() {
           (faq) => `
         <article class="seo-card">
           <h3>${escapeHtml(faq.question)}</h3>
-          <p>${escapeHtml(faq.answer)}</p>
+          <p>${renderInlineHtml(faq.answer)}</p>
         </article>`
         )
         .join("")}

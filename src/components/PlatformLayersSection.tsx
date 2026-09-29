@@ -1,6 +1,8 @@
 import homeContent from "@/content/homeContent.json";
+import ScreenshotFrame from "@/components/ScreenshotFrame";
 import {
   Activity,
+  ArrowRight,
   BarChart3,
   Shield,
   Sparkles,
@@ -84,6 +86,37 @@ const PlatformLayersSection = () => {
             impact — not just a citation count.
           </p>
         </div>
+
+        {/* Signals: the market brief. Not one of the four layers, so it sits
+            below them as its own row. Availability is per organization. */}
+        <article className="mt-6 grid grid-cols-1 overflow-hidden rounded-xl border border-border/30 bg-card/40 md:grid-cols-12">
+          <div className="order-2 p-6 md:order-1 md:col-span-6 md:self-center md:p-10">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent-ink))]">
+              Signals
+            </p>
+            <h3 className="font-display mb-3 text-2xl font-semibold tracking-tight">Staying ahead of competitors</h3>
+            <p className="mb-4 leading-relaxed text-muted-foreground">
+              SolCrys monitors the news, announcements, and conversations in your
+              space, from competitors to your market and customers, and briefs you
+              every day. Publish your take, and AI has a reason to cite your brand.
+              Competitive intelligence, market intelligence, content strategy, and
+              communications, all in one place.
+            </p>
+            <p className="mb-6 text-xs text-muted-foreground/80">Available when enabled for your organization.</p>
+            <a
+              href="/signal-weekly-market-brief/"
+              className="inline-flex items-center gap-1 text-sm font-medium text-[hsl(var(--brand-accent-ink))] hover:underline"
+            >
+              How Signals works <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+          <ScreenshotFrame
+            src="/work/signals-daily-brief.jpg"
+            alt="A daily brief with industry, competitor and community cards, each with a suggested response and the prompt it answers"
+            label="SolCrys · Signals · example brief"
+            className="order-1 md:order-2 md:col-span-6"
+          />
+        </article>
       </div>
     </section>
   );

@@ -11,6 +11,23 @@ const HOMEPAGE_RESOURCE_SLUGS = [
   "ai-visibility-platform-buyers-guide",
 ];
 
+// Getting-started pages for new users: product guides and the free course.
+// Neither is a resourcePage, so they are listed here rather than by slug.
+const GETTING_STARTED = [
+  {
+    href: "/guides/",
+    title: "User guides",
+    badge: "New",
+    description: "Set up your workspace, then learn the dashboards and tools, step by step.",
+  },
+  {
+    href: "/learn/aeo-operator/",
+    title: "AEO Operator course",
+    description:
+      "Run the full loop on a free account: build a prompt set, take a baseline, ship one change, and prove whether it moved.",
+  },
+];
+
 const ResourcesSection = () => {
   const featured = HOMEPAGE_RESOURCE_SLUGS
     .map((slug) => homeContent.featuredResourcePages.find((p) => p.slug === slug))
@@ -49,6 +66,27 @@ const ResourcesSection = () => {
                 {page.title}
               </h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{page.description}</p>
+            </a>
+          ))}
+        </div>
+
+        <p className="mt-12 mb-4 text-xs uppercase tracking-wider text-muted-foreground">Getting started</p>
+        <div className="grid gap-6 md:grid-cols-2">
+          {GETTING_STARTED.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="group rounded-xl border border-border/30 bg-card/40 backdrop-blur-sm p-6 transition-all duration-300 hover:border-[hsl(var(--brand-accent)/0.35)] hover:-translate-y-1"
+            >
+              <h3 className="font-display text-lg font-semibold mb-3 flex items-center gap-2 group-hover:text-[hsl(var(--brand-accent))] transition-colors">
+                {item.title}
+                {item.badge ? (
+                  <span className="rounded-full border border-[hsl(var(--brand-accent)/0.4)] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent-ink))]">
+                    {item.badge}
+                  </span>
+                ) : null}
+              </h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
             </a>
           ))}
         </div>
