@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Models Change. The Harness Compounds. | SolCrys</title>
+    <meta name="description" content="Eason Wang, SolCrys CPO, on why the model isn&#39;t the moat, bought or fine-tuned, and what compounds instead: model portfolios, scenario evals, a harness." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/models-change-harness-compounds/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-09-29" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Models Change. The Harness Compounds. | SolCrys" />
+    <meta property="og:description" content="Eason Wang, SolCrys CPO, on why the model isn&#39;t the moat, bought or fine-tuned, and what compounds instead: model portfolios, scenario evals, a harness." />
+    <meta property="og:url" content="https://solcrys.com/models-change-harness-compounds/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-29" />
+    <meta property="article:modified_time" content="2026-09-29" />
+    <meta property="og:image" content="https://solcrys.com/og/models-change-harness-compounds.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/models-change-harness-compounds.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-DRpz4HNv.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Models Change. The Harness Compounds.","item":"https://solcrys.com/models-change-harness-compounds/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Models change. The harness compounds.","description":"Eason Wang, SolCrys CPO, on why the model isn't the moat, bought or fine-tuned, and what compounds instead: model portfolios, scenario evals, a harness.","dateModified":"2026-09-29","datePublished":"2026-09-29","mainEntityOfPage":"https://solcrys.com/models-change-harness-compounds/","author":{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO, SolCrys","sameAs":["https://www.linkedin.com/in/eason-wang/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/models-change-harness-compounds/","mainEntity":[{"@type":"Question","name":"Can an AI model be a competitive moat?","acceptedAnswer":{"@type":"Answer","text":"A frontier model can't: every competitor can use the same one at the same price, usually within days of its release. A fine-tuned model can be an edge, but only while the data it learned from is better than a competitor's, and it has to be retrained as base models improve. Durable advantage comes from what the models plug into: comparable measurement history, labeled evaluation scenarios, and a harness that governs what models read, do, and ship."}},{"@type":"Question","name":"What is a portfolio of models?","acceptedAnswer":{"@type":"Answer","text":"An architecture in which every model call has a role with its own rules. At SolCrys, instruments query answer engines and change only to measure more faithfully what buyers see, on a recorded date; judges produce the verdicts behind customer-facing scores and are pinned; and workers do everything else under a quality budget measured on our own evals."}},{"@type":"Question","name":"What is a scenario-based eval?","acceptedAnswer":{"@type":"Answer","text":"An evaluation built from a real situation, such as a specific company, a specific AI answer or thread, and the engine it came from, with independently labeled answers and a gate on the error that situation can't afford. It measures whether a model is good at your job, which a general benchmark can't."}},{"@type":"Question","name":"What is a marketing harness?","acceptedAnswer":{"@type":"Answer","text":"Everything around the models that makes their output safe to use under a brand: approved facts to read, evidence requirements on every verdict, deterministic scoring, people who decide and publish what ships, and re-measurement afterward. Marketing has no compiler, so the harness has to supply the ground truth."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Strategy &amp; Positioning</p>
+        <h1>Models change. The harness compounds.</h1>
+        <p class="seo-lede">Most AI marketing products run on the same few frontier models, and whichever model a product runs, bought or fine-tuned, has to be replaced or retrained as better ones arrive. So the advantage isn&#39;t the model; it&#39;s the system that decides whether any model is good enough to run. This essay lays out the engineering logic under SolCrys: a portfolio in which every model has a role and a rule for when it may change, evals built from real marketing scenarios instead of generic benchmarks, and a harness that turns model output into governed work. It ends with what we think is defensible about that design, and what isn&#39;t.</p>
+        <p>By <a href="https://www.linkedin.com/in/eason-wang/" rel="noopener">Eason Wang</a>, Co-Founder &amp; CPO, SolCrys</p>
+        <p>Updated <time datetime="2026-09-29">2026-09-29</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Can an AI model be a competitive moat?</li><li>What is a portfolio of models in an AI product?</li><li>What is a scenario-based eval?</li><li>What is a marketing harness?</li><li>How do you keep AI visibility scores comparable when models change?</li><li>How do you tell an AI marketing platform with a harness from a wrapper?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>A frontier model can&#39;t be a moat when a competitor can call the same one tomorrow at the same price. A model you fine-tune yourself can be an edge, but only while the labeled data behind it is better than anyone else&#39;s, and that data comes from the system around the model. So what compounds is that system, the one the models plug into. At SolCrys it has three layers, and each works only because of the other two:</p>
+      <ul class="seo-list"><li><strong>A portfolio of models, organized by role.</strong> Instruments put buyers&#39; questions to the answer engines and change only to measure more faithfully what buyers see. Judges produce the verdicts behind the scores customers track over time, and are pinned. Workers do everything else and follow the price-performance curve.</li><li><strong>Scenario evals.</strong> Real marketing situations, each a specific company, a specific input, and the engine it came from, with independently labeled answers and a gate on the one error that situation can&#39;t afford.</li><li><strong>A harness for marketing.</strong> Approved facts go in, model verdicts must quote their evidence, code turns evidence into scores, the customer&#39;s own team publishes what ships, and the same instruments re-measure afterward.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>The asymmetry</h3>
+        <p>When a better model ships, the workers get better and cheaper while the instruments and judges hold still, so a customer&#39;s history stays comparable. A product built as a wrapper around one model has to rebuild on each release. A harness absorbs the release. That asymmetry is the design.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Why I&#39;m writing this</h2>
+      <p>In my <a href="/news/a-year-in-view-the-facts-had-to-hold/">year-one note</a>, I wrote that models had become replaceable parts, and that the scarce inputs had become the facts a brand can stand behind and the evidence that something worked. Jia&#39;s <a href="/model-upgrades-are-migrations/">Every Model Upgrade Is a Migration</a> then published the procedure we follow when a model changes. This essay sits above both. It explains why we built SolCrys this way, what each layer protects, and why we think the combination is defensible when no single piece of it is.</p><p>It&#39;s written for people who have to judge whether an AI marketing product will still be right a year from now: CTOs and marketing-ops leads evaluating vendors, investors asking what&#39;s defensible in a category where everyone calls the same APIs, and teams building their own agents who want to know which parts are worth the effort.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>The premise: the model is the part that turns over</h2>
+      <p>Jia&#39;s essay counts more than 10 general-purpose model releases from Anthropic, Google, and OpenAI between July 9 and Sept. 22, 2026. Prices are falling just as fast: Anthropic&#39;s Opus tier went from $15 per million input tokens for Opus 4.1 to <a href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener noreferrer">$4 for Opus 5.5</a>. Whatever a model does well today, a competitor can buy tomorrow.</p><p>That rules out the three things AI products most often present as a moat: access to a model, a clever prompt, and a good demo. Training a model of your own doesn&#39;t escape that logic; it moves it. A fine-tuned model is worth what its training data is worth, and it has to be retrained or replaced as the base models underneath it improve.</p><p>Either way, the engineering has a different job. If the models turn over every quarter, picking the best model isn&#39;t the job. The job is to build a system that can take the next model without breaking your numbers, your facts, or your customers&#39; trust.</p><p>When we inventoried our code in August, a model was called in 86 places. No single model is right for all of them, and one class of call must never be swapped to save cost or change providers.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Layer 1: a portfolio in which every model has a role</h2>
+      <p>&quot;Portfolio&quot; can sound like hedging: a little of every vendor, just in case. We mean something narrower. Every model call is assigned a role, and the rules attach to the role, not to the model.</p>
+      
+      <table>
+              <thead><tr><th>Role</th><th>What it does</th><th>When it may change</th><th>Why</th></tr></thead>
+              <tbody><tr><td>Instrument</td><td>Puts a buyer&#39;s question to an answer engine (ChatGPT, Google AI Overviews, Gemini, Perplexity, or Claude) and records the answer and its sources</td><td>Only to measure more faithfully what buyers see, never to save cost or swap providers, and always on a recorded date. The engine&#39;s own model changes on the engine&#39;s schedule, and that change is part of what we measure.</td><td>Swapping the model behind a measurement changes the measurement, not the answer buyers see</td></tr><tr><td>Judge</td><td>Produces the verdicts behind a score customers follow over time: whether an answer is accurate against the company&#39;s facts, whether a page meets the audit playbook, whether a candidate prompt belongs in the category</td><td>Pinned to an exact model version on a setting of its own; moving it is a deliberate, recorded decision with its gate report attached</td><td>A new judge can move every customer&#39;s score with nothing changed in the world</td></tr><tr><td>Worker</td><td>Everything else: extracting brands and citations, research, classification, drafting, summarizing</td><td>Through a shared registry, under a quality budget measured on our own evals</td><td>No one&#39;s trend line depends on which model extracted a citation, so workers should ride the price-performance curve</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Instruments measure what buyers get</h3>
+        <p>An answer engine is a product, not just a model, and we treat it that way. Each engine is queried through its provider&#39;s own interface, with that engine&#39;s own search and citation behavior. We decided early not to route engine calls through a multi-model gateway, because a gateway normalizes search and citations, and that would quietly change the thing we measure.</p><p>Two rules follow. The first is to send the question the way a buyer would type it. Until September, every prompt we measured on ChatGPT and Claude was wrapped in a 73-word instruction to cite every claim and prefer deep links. No buyer types that. On Sept. 14 we removed it and recorded the date, knowing some series would cite fewer sources from that day on. The second rule is to measure rates, not ranks. The same question returns different answers from run to run, so an instrument is only meaningful across repeated runs, and our core metrics are rates across runs rather than a position in one answer.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Judges hold still</h3>
+        <p>A judge is part of the ruler. If a customer&#39;s Answer Accuracy moves, it should be because an engine said something different, not because we changed who grades it. So each judge is pinned to an exact model version on its own setting, where a routine change to the rest of the fleet can&#39;t reach it, and moving one is a decision someone makes deliberately, with the gate report attached.</p><p>This is the hardest rule in the portfolio to keep. Cheaper judges keep arriving, and gating a judge is harder than gating a worker. Three things we learned from our own judge gates:</p>
+        <ul class="seo-list"><li><strong>At small sample sizes, a fail is more trustworthy than a pass.</strong> A run of agreeing verdicts proves little. One missed clear error proves a lot.</li><li><strong>An easy eval set measures easiness, not equivalence.</strong> Any two capable judges agree on obvious cases. The signal is in the cases near the line.</li><li><strong>Agreement with the incumbent is its own test.</strong> A new judge can score better against the gold set and still grade differently from the old one, and for a score with a history, grading differently is the problem.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>Workers ride the curve</h3>
+        <p>Everything else routes through one registry that both our Python and TypeScript runtimes read. Each job is assigned a tier, each tier is a ranked list of models, and the lists span more than one model family, so bringing in a new family is a registry change, not a rewrite of every call site.</p><p>Our routing policy sets the rule for workers: cost within a quality budget, meaning the cheapest model whose results on our own evals stay within 10% of the current model&#39;s, with a hard floor on output validity. When our highest-volume job, extracting brands and citations from answers, moved to a model from a second family in August, the candidate first ran against the same 200-answer gold set the incumbent was graded on. It scored higher (F1 of 0.87 against 0.83) and every output parsed. Another candidate failed on the validity floor alone: 7.5% of its outputs didn&#39;t parse.</p><p>Every routed job also keeps a fallback to a pinned model, and one switch sends the whole fleet back to direct calls.</p><p>The same door is open to a model we train ourselves. If we fine-tune one for a narrow, high-volume job, it will enter the way every other worker does: as a candidate in a tier, graded on the same gold sets, with the same fallback behind it.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Models read; code scores</h3>
+        <p>The most important rule in the portfolio isn&#39;t about which model to use. It&#39;s about where a model is allowed to decide.</p><p>Wherever a number reaches a customer, we try to limit the model to reading and quoting, and leave the scoring to code. <a href="/ai-recommendation-score/">Recommendation Score</a> works this way: a model extracts how an answer positions a brand and quotes the answer word for word, the server checks that each quote actually appears in the answer and demotes verdicts it can&#39;t ground, and a deterministic scorer, with no model call, turns that evidence into a 0–100 score. Answer Accuracy follows the same pattern. To fail an answer, the judge must quote both the company&#39;s fact and the answer&#39;s words, and code discards any failure whose quotes it can&#39;t find. Deep Analysis reports pass a validator before anyone sees them: every evidence quote must appear in the answer it cites, and a recommendation that proposes a manipulation tactic or targets a competitor&#39;s own page is dropped.</p><p>The Answer Accuracy rule came from a real miss. The judge failed a correct answer about a business&#39;s parent affiliation because the business&#39;s context didn&#39;t mention any affiliation at all. Silence isn&#39;t contradiction, but nothing enforced that until every failure needed two verbatim quotes. Silence has nothing to quote.</p><p>The payoff is structural: the less of a score a model decides, the less of it a model change can move.</p><p>The language models that read are interchangeable. The scoring is ours. Recommendation Score&#39;s scorer, the content audit&#39;s 25 deterministic checks, and our ranking and share-of-voice math are code we wrote: deterministic, versioned, and pinned by tests, so they don&#39;t change when a language model does.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Layer 2: scenario evals, not benchmarks</h2>
+      <p>Public benchmarks tell you a model got better in general. They can&#39;t tell you it got better at your job, and marketing jobs are conditional in ways benchmarks aren&#39;t. Whether a thread is about &quot;us&quot; depends on who &quot;us&quot; is. Whether an answer is accurate depends on the facts one company approved. Whether a prompt sounds like a buyer depends on the category.</p><p>So the unit we evaluate is a scenario: a specific company, a specific input (an AI answer, a page, a community thread, a candidate prompt), the engine or surface it came from, and the error that would hurt that company most. Jia&#39;s essay covers how we label them: 2 blind passes from a written guide, agreement measured against a Krippendorff&#39;s alpha bar of 0.67, disagreements adjudicated, and the production code path graded rather than a copy of it. This section is about why the scenario is the right unit. The table shows four scenarios and the error each one gates; the first three follow in detail.</p>
+      
+      <table>
+              <thead><tr><th>Scenario</th><th>The error it can&#39;t afford</th><th>How the gate is set</th></tr></thead>
+              <tbody><tr><td>A candidate buyer prompt for a category</td><td>A question that asks for a definition, or one whose answer names no brands</td><td>Scored on whether it seeks a solution and whether it drifts into &quot;what is X&quot;</td></tr><tr><td>A community thread matched to a company</td><td>Drafting a reply to a thread that only shares the company&#39;s vocabulary</td><td>Scored on subject fit, per company, at the production threshold</td></tr><tr><td>A drawback an engine raises about a brand</td><td>Erasing a real criticism, which flatters the customer</td><td>Hard fail if a single real drawback is erased or downgraded</td></tr><tr><td>An AI answer about a company, graded against its approved facts</td><td>Missing a clear error, so the customer trusts a wrong answer</td><td>Hard fail on any missed clear error; false alarms are reported, not blocking</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>The prompt set that scored 100 and found no brands</h3>
+        <p>Every workspace is measured against a <a href="/golden-prompt-set-methodology/">Golden Prompt Set</a>: the questions buyers in that category ask AI. Our first eval for it scored form: conciseness, balance across prompt types, duplicates, natural phrasing. A generated set could score 99.8 to 100 out of 100 and still contain no question whose answer would name a brand. The eval was measuring the wrong thing.</p><p>The scenario that mattered was ambiguity. One company that makes special-purpose trucks received prompts about special-purpose vehicles in finance: bankruptcy remoteness and asset securitization. The words matched; the subject didn&#39;t. So we now score prompts on the property that decides whether they&#39;re worth measuring: does the question seek a solution, the kind of question whose answer names brands, or does it slip into a definition? A reference set across 5 verticals, from AI chips to security cameras, sets the bar: at least 75% solution-seeking, and no more than 3% definitional. The classifier that scores definitional drift in the eval also runs inside the generator as a deterministic filter, so removing a definitional question lowers the score by construction rather than by hope.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>The relevance judge that learned &quot;subject, not vocabulary&quot;</h3>
+        <p>In September, a scan for an industrial HVAC software company drafted replies to threads that shared its vocabulary and nothing else, a car-buying listicle among them. We built the eval from that failure: 88 real threads, 22 from each of 4 test workspaces chosen to be as unlike each other as possible (industrial HVAC software, B2B marketing software, high-performance networking hardware, and consumer security cameras). Two blind labeling passes, from two different model families, scored each thread&#39;s subject fit from 0 to 100, under a guide whose first rule is to score the subject, never the shared words. They agreed at an alpha of 0.956.</p><p>At the production threshold, the gate cut off-topic drafts from 45 to 5, and recall on the threads actually worth a reply rose from 0.56 to 0.93. The per-company view is the point: the HVAC workspace went from 18 off-topic drafts to 1, and the camera workspace still had 4. An aggregate score would have hidden both.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>The verifier that must never flatter</h3>
+        <p>Recommendation Score subtracts for drawbacks an answer raises about a brand: a caveat, a concern, a warning. Some of what the extractor flags as a drawback isn&#39;t one, so we built a verifier to review them, and gated it before it could change anyone&#39;s score.</p><p>That makes the verifier the component that would be easiest to get wrong in the customer&#39;s favor. The simplest way to make every score look better would be a verifier that dismisses criticism generously. So its gate is lopsided on purpose: on a set of 94 drawbacks from live test audits, each labeled real or false, a verifier fails if it erases or downgrades a single real one. How many false drawbacks it removes is reported and doesn&#39;t block.</p><p>That scenario set changed two decisions. Judging drawbacks without the quoted text erased 19 of 41 real ones, so the verifier is always given the grounded quote. And when we compared models, the larger one removed more false drawbacks but erased a real concern, while the smaller one erased none. We chose the smaller one.</p><p>In a product that sells a number, the error that flatters the customer is the one to fear most.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>Every failure becomes a scenario</h3>
+        <p>These examples share a shape. Something failed in production, we wrote the failure down as a scenario with a gate, and the gate now runs before the next change to that job. When a news-source classifier presented a company&#39;s homepage teaser as a new article with an invented date, the fix shipped with an eval that refuses to release if a single major publication is mistaken for a company&#39;s own site. When the accuracy judge read silence as contradiction, the judge eval began running the same evidence check as production.</p><p>That&#39;s why I think of the eval sets as the product specification. The scenario and its gate exist before we choose a model for the job, and the unit of progress is a new scenario, not a new prompt.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>What our evals don&#39;t do yet</h3>
+        <p>Three limits, so no one mistakes this for more than it is. Most of our gold labels come from strong models following written guides, not from human annotators; blind passes and an agreement bar keep that honest, but they don&#39;t turn it into human judgment. Most of our accuracy evals are gates we run deliberately before a change ships, not checks that run on every commit, so their value depends on discipline. And some features have only a regression lock, which tells us output changed but not whether it&#39;s right.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Layer 3: a harness for marketing</h2>
+      <p>Jia defined a harness as everything around the model that decides what it reads, what it may do, and how its work gets checked. A coding harness has one advantage marketing doesn&#39;t: a compiler and a test suite that say whether the work is correct. Marketing has no compiler. &quot;Correct&quot; means consistent with facts the company approved, allowed by legal, aimed at a question buyers actually ask, and, eventually, reflected in the answer. A marketing harness has to supply that ground truth itself. Ours does it in six parts:</p>
+      
+      <table>
+              <thead><tr><th>Part</th><th>What it supplies</th><th>Where a model helps</th><th>What code or a person decides</th></tr></thead>
+              <tbody><tr><td>Facts</td><td><a href="/corporate-context-ai-marketing/">Corporate Context</a>: the organization&#39;s facts, claims, and proof, set once and shared across workspaces</td><td>Researching and drafting pages</td><td>Only active, published pages reach a model, because some of what&#39;s built on them is public. The facts change when the business changes, not when a model does</td></tr><tr><td>Questions</td><td>Golden Prompt Sets that mirror buyer research, with discovery questions written without the brand in view</td><td>Generating and reviewing candidate prompts</td><td>Scenario scores on solution-seeking and definitional drift</td></tr><tr><td>Measurement</td><td>Engines queried the way buyers query them, repeated across runs</td><td>No model; the engine is what&#39;s being measured</td><td>Rates across runs, with the capture method stored alongside each response</td></tr><tr><td>Verdicts</td><td>Mentions, rankings, favorability, accuracy against the facts</td><td>Reading answers and quoting evidence</td><td>Code verifies the quotes and computes the scores</td></tr><tr><td>Action</td><td>Recommendations and audit findings as tasks that keep their evidence, with an owner and, where a team wants it, a recorded approval</td><td>Diagnosis and recommendations; page drafting happens in your own agents, grounded in the same facts</td><td>Tasks are rebuilt server-side from the stored report, never from what a browser sends; your team publishes, and SolCrys never publishes to your site</td></tr><tr><td>Verification</td><td>The same prompts on the same engines; a re-audit of the fixed page</td><td>No model</td><td>A before-and-after is reported as an observation, not proof of cause</td></tr></tbody>
+            </table>
+      
+      <div class="seo-subsection">
+        <h3>Six rules the harness taught us</h3>
+        <p>Each of these started as a failure:</p>
+        <ul class="seo-list"><li><strong>Silence is not contradiction.</strong> A company&#39;s context is never a complete list of true facts, and <a href="/answer-accuracy-coverage-gap/">its gaps are worth finding</a> on their own. A judge that fails every claim the context doesn&#39;t mention punishes the brand for its own gaps, so every failure now needs two quotes.</li><li><strong>Measure the question as typed.</strong> Anything added to a measured prompt is something buyers never see.</li><li><strong>Keep the brand out of the room when writing discovery questions.</strong> A generator that knows whose visibility will be measured anchors on that brand, so discovery prompts are kept brand-blind, and brand-named questions are added separately and labeled as such.</li><li><strong>Rank when scores are ordered but not calibrated.</strong> In one <a href="/signal-weekly-market-brief/">Signal</a> scan, the model&#39;s scores put the right items on top, yet a fixed threshold threw away 3 of the best 4, and the model&#39;s self-reported confidence ran backward, correlating at −0.57 with relevance. We now rank, and confidence is a label, not a gate.</li><li><strong>Read the web as data, not instructions.</strong> The answers and pages our judges grade are wrapped as untrusted input, so an instruction hidden inside one is treated as content to grade, not a command to follow.</li><li><strong>Log the decision, not just the error.</strong> When an output is wrong, the first question is which rule let it through. After one bad run of our community-thread engine took a database session to explain, its logs began naming the decision at each gate: the fit verdicts, the ranked queue with each score, and every draft skipped under the threshold, with the reason. The next question took one search.</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>A person on the write path</h3>
+        <p>Agents can act now, and we let them, narrowly. Through the <a href="/solcrys-mcp-and-skills/">SolCrys MCP server</a>, a customer&#39;s own assistant can read their workspace. With separate permissions an admin opts into, it can do two things more: mark an <a href="/inside-the-action-hub/">Action Hub</a> task as published, and propose a Corporate Context page, which arrives as a draft for a person to review. Each write runs under its own database role, limited to the rows it may touch. Nothing ships under a customer&#39;s brand unless someone on their team publishes it, and SolCrys never publishes to a customer&#39;s site. In a harness, the write path is where trust is either kept or spent.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Why the three only work together</h2>
+      <p>Each layer fails on its own:</p>
+      <ul class="seo-list"><li><strong>A portfolio without scenario evals is guessing.</strong> You can&#39;t know whether the cheaper model stayed within budget, or whether a new judge grades like the old one.</li><li><strong>Scenario evals without a harness measure the wrong thing.</strong> A gold label needs a definition of right, and in marketing that definition is the company&#39;s approved facts and the error it can&#39;t afford. The harness is where both live.</li><li><strong>A harness without a portfolio freezes.</strong> A harness tied to one model encodes that model&#39;s quirks, and, as <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener noreferrer">Anthropic put it</a> in April, &quot;Harnesses encode assumptions that go stale as models improve.&quot;</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Together, they form a loop</h3>
+        <p>A new model enters as a worker candidate. Scenario evals decide whether it&#39;s admitted, and to which jobs. The instruments and judges don&#39;t move, so the customer&#39;s history stays comparable. The harness keeps the output governed, and every new failure becomes another scenario. Each model release makes the system cheaper or better, and none of them forces a rebuild.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What isn&#39;t a moat</h2>
+      <p>Some of what gets called a moat in AI products isn&#39;t one:</p>
+      <ul class="seo-list"><li><strong>Access to frontier models.</strong> Everyone has the same access, at the same price.</li><li><strong>Our prompts.</strong> They get rewritten whenever a model changes, and any competent team can write good ones.</li><li><strong>The loop.</strong> Anyone can draw Measure → Diagnose → Execute → Verify on a slide.</li><li><strong>This essay.</strong> We publish our method on purpose, and Jia published the checklist.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What compounds instead</h2>
+      <p>What compounds is different:</p>
+      <ul class="seo-list"><li><strong>Comparable history.</strong> A trend line is worth something only if the instrument changes only on purpose, on a recorded date. No one can go back and measure last spring&#39;s AI answers, so every week measured that way is a week a new entrant can&#39;t buy.</li><li><strong>Labeled scenarios.</strong> Gold labels are slow to build: 2 blind passes, measured agreement, and adjudication, per job, across categories as different as HVAC software and security cameras. They accumulate with every workspace, and they make each new model cheap to adopt, because its evaluation already exists on the day it ships. They&#39;re also the training data for any model we might fine-tune, which is where a model of our own would get its edge.</li><li><strong>Scoring logic we own.</strong> The math that turns evidence into a customer&#39;s number is ours, deterministic and versioned. A new language model can improve what feeds it; it can&#39;t change how it counts.</li><li><strong>The failure library.</strong> Each gate encodes something that went wrong in production: silence read as contradiction, prompts wrapped in instructions no buyer types, a threshold that discarded the best items, a verifier that erased real criticism when it couldn&#39;t see the quote. A team starting today would have to hit those failures before it knew to guard against them.</li><li><strong>The same discipline, applied to how we build.</strong> Coding agents do most of our implementation. The human work is specs, evals, and review, often with a second model from a different family reviewing too. The product and the company improve on the same curve.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Why publishing the method doesn&#39;t give it away</h3>
+        <p>A method is easy to copy. A history can&#39;t be backfilled. The recipe is public; the labeled scenarios, the comparable history, and the failures behind each gate accrue only with time and real workloads.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>The risks I take seriously</h2>
+      <p>Two things could undercut this, and I watch both:</p>
+      <ul class="seo-list"><li><strong>The engines can move under all of us.</strong> In August, ChatGPT all but stopped citing Reddit within about a week. Good instruments detect a shift like that quickly; they don&#39;t prevent it.</li><li><strong>A lab could ship a marketing harness of its own.</strong> I think that&#39;s likelier to arrive as a general agent platform than as a governed marketing system, for a structural reason: an engine grading its own answers isn&#39;t an independent instrument. A buyer who wants to know how 5 engines describe them needs a measurement no single engine owns.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Three questions that separate a harness from a wrapper</h2>
+      <p>Jia&#39;s essay lists 6 questions to ask a vendor about model changes. These 3 test whether there&#39;s a harness at all:</p>
+      <ul class="seo-list"><li><strong>For each score you show me, which error do you gate hardest, and why that one?</strong> A vendor with scenario evals answers right away. A wrapper answers with an accuracy average.</li><li><strong>What happens when my facts are silent on a topic?</strong> If the claim fails, the system is punishing you for your context&#39;s gaps. If the answer is &quot;the model decides,&quot; no one does.</li><li><strong>If your model provider changed tomorrow, which of my numbers would move?</strong> A good answer names which ones, and explains why the rest wouldn&#39;t.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys is an AEO platform built as a Measure → Diagnose → Execute → Verify loop, and the three layers above are how that loop stays steady while the models underneath it change. Corporate Context holds the facts. Your prompt set runs on the same engines, run after run (ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, by plan). Recommendations become tasks in the Action Hub, and the MCP server and our open Skills let your own agents work with them.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>What SolCrys doesn&#39;t do</h3>
+        <p>SolCrys doesn&#39;t publish to your site; your team ships every change through its own process. It doesn&#39;t treat a before-and-after movement in AI answers as proof that your change caused it. And not every score has an independent gold set behind it yet. Where one doesn&#39;t, we describe that eval as a regression lock, not an accuracy measurement.</p><p>To see the loop on your own brand, <a href="https://app.solcrys.com/audit">Start Free</a>: a free workspace with 10 ChatGPT prompts and 1 content audit, email verification, and no credit card. To go deeper on the architecture, <a href="https://app.solcrys.com/contact-sales/">talk to us</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Eason Wang is Co-Founder &amp; CPO of SolCrys. He holds a PhD in Machine Learning and has spent 18+ years building enterprise products, starting at Microsoft Research Asia. His current focus is agentic AI workflows and the infrastructure required to run them in production. Connect on <a href="https://www.linkedin.com/in/eason-wang/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written September 2026. For the procedure behind Layer 2, see Jia&#39;s <a href="/model-upgrades-are-migrations/">Every Model Upgrade Is a Migration</a>; for the year it came out of, see <a href="/news/a-year-in-view-the-facts-had-to-hold/">A Year in View</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener noreferrer">Anthropic, &quot;Introducing Claude Opus 5.5&quot; (Sept. 22, 2026)</a></li><li><a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener noreferrer">Anthropic Engineering, &quot;Scaling Managed Agents: Decoupling the brain from the hands&quot; (April 8, 2026): &quot;Harnesses encode assumptions that go stale as models improve.&quot;</a></li><li><a href="https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/" target="_blank" rel="noopener noreferrer">Search Engine Journal, on ChatGPT&#39;s August 2026 Reddit citation drop</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Can an AI model be a competitive moat?</h3>
+            <p>A frontier model can&#39;t: every competitor can use the same one at the same price, usually within days of its release. A fine-tuned model can be an edge, but only while the data it learned from is better than a competitor&#39;s, and it has to be retrained as base models improve. Durable advantage comes from what the models plug into: comparable measurement history, labeled evaluation scenarios, and a harness that governs what models read, do, and ship.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a portfolio of models?</h3>
+            <p>An architecture in which every model call has a role with its own rules. At SolCrys, instruments query answer engines and change only to measure more faithfully what buyers see, on a recorded date; judges produce the verdicts behind customer-facing scores and are pinned; and workers do everything else under a quality budget measured on our own evals.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a scenario-based eval?</h3>
+            <p>An evaluation built from a real situation, such as a specific company, a specific AI answer or thread, and the engine it came from, with independently labeled answers and a gate on the error that situation can&#39;t afford. It measures whether a model is good at your job, which a general benchmark can&#39;t.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a marketing harness?</h3>
+            <p>Everything around the models that makes their output safe to use under a brand: approved facts to read, evidence requirements on every verdict, deterministic scoring, people who decide and publish what ships, and re-measurement afterward. Marketing has no compiler, so the harness has to supply the ground truth.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/model-upgrades-are-migrations/">Every Model Upgrade Is a Migration: The Harness Marketing Teams Need Before the Next One</a></h3>
+            <p>Model releases now land every few weeks. Jia Chang, SolCrys CTO, on running each one as a migration, with a 10-step checklist for marketing AI workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/building-aeo-platform-architecture/">Building an AEO Platform: 6 Architectural Decisions</a></h3>
+            <p>An AEO platform&#39;s measurement, action, and verification surfaces all rest on a small number of architectural choices that aren&#39;t usually published. Jia Chang on six of ours — what each tradeoff looks like, what we chose, and what we&#39;d revisit.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/production-is-cheap-trust-is-scarce/">Production Is Cheap. Trust Is Scarce.</a></h3>
+            <p>AI made producing brand content nearly free, but made being cited, recommended, and trusted by AI engines radically more scarce and concentrated. A field note from SolCrys Co-Founder &amp; CPO Eason Wang on what changes when production stops being the marketing bottleneck — and what the new substrate is.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-recommendation-score/">AI Recommendation Score</a></h3>
+            <p>AI can name your brand and recommend a rival in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you across ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, plots you against every competitor, and shows the verbatim line behind every point.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here&#39;s how we build it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/answer-accuracy-coverage-gap/">You Can&#39;t Grade What Your Context Is Silent About: The Answer-Accuracy Coverage Gap</a></h3>
+            <p>An accuracy check can only catch deviations from what your source of truth records — and only on the questions you grade. Here are the two coverage gaps that turn &#39;all green&#39; into false reassurance, and how to close them.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/inside-the-action-hub/">Inside the Action Hub: From Finding to Re-Measured Fix</a></h3>
+            <p>How SolCrys turns a finding into owned, human-approved work: the task, the review, your team&#39;s publish, and the re-measurement that shows what changed.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">MCP &amp; Skills</p>
+            <h3><a href="/solcrys-mcp-and-skills/">SolCrys MCP and Skills: tools, install, and the workflows that chain them</a></h3>
+            <p>A practical reference for the SolCrys MCP server and the six open-source AEO Skills. The core tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
+            <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BVaiKYEz.js"></script>
+  </body>
+</html>

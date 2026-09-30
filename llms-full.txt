@@ -24937,6 +24937,294 @@ A: When a model's scores put items in the right order but the numbers aren't cal
 Q: Does SolCrys test the models in my own AI workflows?
 A: No. SolCrys gates the models inside its own product and keeps its measurement instrument fixed. Through the MCP server and open-source Skills, your assistants can read your SolCrys data and Corporate Context, but evaluating and pinning the models in your own workflows stays with your team. The checklist on this page is how we would do it.
 
+## Models Change. The Harness Compounds.
+
+Most AI marketing products run on the same few frontier models, and whichever model a product runs, bought or fine-tuned, has to be replaced or retrained as better ones arrive. So the advantage isn't the model; it's the system that decides whether any model is good enough to run. This essay lays out the engineering logic under SolCrys: a portfolio in which every model has a role and a rule for when it may change, evals built from real marketing scenarios instead of generic benchmarks, and a harness that turns model output into governed work. It ends with what we think is defensible about that design, and what isn't.
+
+### Questions this guide answers
+
+- Can an AI model be a competitive moat?
+- What is a portfolio of models in an AI product?
+- What is a scenario-based eval?
+- What is a marketing harness?
+- How do you keep AI visibility scores comparable when models change?
+- How do you tell an AI marketing platform with a harness from a wrapper?
+
+### Direct answer
+
+A frontier model can't be a moat when a competitor can call the same one tomorrow at the same price. A model you fine-tune yourself can be an edge, but only while the labeled data behind it is better than anyone else's, and that data comes from the system around the model. So what compounds is that system, the one the models plug into. At SolCrys it has three layers, and each works only because of the other two:
+
+
+- **A portfolio of models, organized by role.** Instruments put buyers' questions to the answer engines and change only to measure more faithfully what buyers see. Judges produce the verdicts behind the scores customers track over time, and are pinned. Workers do everything else and follow the price-performance curve.
+- **Scenario evals.** Real marketing situations, each a specific company, a specific input, and the engine it came from, with independently labeled answers and a gate on the one error that situation can't afford.
+- **A harness for marketing.** Approved facts go in, model verdicts must quote their evidence, code turns evidence into scores, the customer's own team publishes what ships, and the same instruments re-measure afterward.
+
+
+
+#### The asymmetry
+
+When a better model ships, the workers get better and cheaper while the instruments and judges hold still, so a customer's history stays comparable. A product built as a wrapper around one model has to rebuild on each release. A harness absorbs the release. That asymmetry is the design.
+
+### Why I'm writing this
+
+In my [year-one note](/news/a-year-in-view-the-facts-had-to-hold/), I wrote that models had become replaceable parts, and that the scarce inputs had become the facts a brand can stand behind and the evidence that something worked. Jia's [Every Model Upgrade Is a Migration](/model-upgrades-are-migrations/) then published the procedure we follow when a model changes. This essay sits above both. It explains why we built SolCrys this way, what each layer protects, and why we think the combination is defensible when no single piece of it is.
+
+It's written for people who have to judge whether an AI marketing product will still be right a year from now: CTOs and marketing-ops leads evaluating vendors, investors asking what's defensible in a category where everyone calls the same APIs, and teams building their own agents who want to know which parts are worth the effort.
+
+
+
+
+### The premise: the model is the part that turns over
+
+Jia's essay counts more than 10 general-purpose model releases from Anthropic, Google, and OpenAI between July 9 and Sept. 22, 2026. Prices are falling just as fast: Anthropic's Opus tier went from $15 per million input tokens for Opus 4.1 to [$4 for Opus 5.5](https://www.anthropic.com/claude-opus-5-5). Whatever a model does well today, a competitor can buy tomorrow.
+
+That rules out the three things AI products most often present as a moat: access to a model, a clever prompt, and a good demo. Training a model of your own doesn't escape that logic; it moves it. A fine-tuned model is worth what its training data is worth, and it has to be retrained or replaced as the base models underneath it improve.
+
+Either way, the engineering has a different job. If the models turn over every quarter, picking the best model isn't the job. The job is to build a system that can take the next model without breaking your numbers, your facts, or your customers' trust.
+
+When we inventoried our code in August, a model was called in 86 places. No single model is right for all of them, and one class of call must never be swapped to save cost or change providers.
+
+
+
+
+### Layer 1: a portfolio in which every model has a role
+
+"Portfolio" can sound like hedging: a little of every vendor, just in case. We mean something narrower. Every model call is assigned a role, and the rules attach to the role, not to the model.
+
+
+
+Role | What it does | When it may change | Why
+--- | --- | --- | ---
+Instrument | Puts a buyer's question to an answer engine (ChatGPT, Google AI Overviews, Gemini, Perplexity, or Claude) and records the answer and its sources | Only to measure more faithfully what buyers see, never to save cost or swap providers, and always on a recorded date. The engine's own model changes on the engine's schedule, and that change is part of what we measure. | Swapping the model behind a measurement changes the measurement, not the answer buyers see
+Judge | Produces the verdicts behind a score customers follow over time: whether an answer is accurate against the company's facts, whether a page meets the audit playbook, whether a candidate prompt belongs in the category | Pinned to an exact model version on a setting of its own; moving it is a deliberate, recorded decision with its gate report attached | A new judge can move every customer's score with nothing changed in the world
+Worker | Everything else: extracting brands and citations, research, classification, drafting, summarizing | Through a shared registry, under a quality budget measured on our own evals | No one's trend line depends on which model extracted a citation, so workers should ride the price-performance curve
+
+
+#### Instruments measure what buyers get
+
+An answer engine is a product, not just a model, and we treat it that way. Each engine is queried through its provider's own interface, with that engine's own search and citation behavior. We decided early not to route engine calls through a multi-model gateway, because a gateway normalizes search and citations, and that would quietly change the thing we measure.
+
+Two rules follow. The first is to send the question the way a buyer would type it. Until September, every prompt we measured on ChatGPT and Claude was wrapped in a 73-word instruction to cite every claim and prefer deep links. No buyer types that. On Sept. 14 we removed it and recorded the date, knowing some series would cite fewer sources from that day on. The second rule is to measure rates, not ranks. The same question returns different answers from run to run, so an instrument is only meaningful across repeated runs, and our core metrics are rates across runs rather than a position in one answer.
+
+#### Judges hold still
+
+A judge is part of the ruler. If a customer's Answer Accuracy moves, it should be because an engine said something different, not because we changed who grades it. So each judge is pinned to an exact model version on its own setting, where a routine change to the rest of the fleet can't reach it, and moving one is a decision someone makes deliberately, with the gate report attached.
+
+This is the hardest rule in the portfolio to keep. Cheaper judges keep arriving, and gating a judge is harder than gating a worker. Three things we learned from our own judge gates:
+
+- **At small sample sizes, a fail is more trustworthy than a pass.** A run of agreeing verdicts proves little. One missed clear error proves a lot.
+- **An easy eval set measures easiness, not equivalence.** Any two capable judges agree on obvious cases. The signal is in the cases near the line.
+- **Agreement with the incumbent is its own test.** A new judge can score better against the gold set and still grade differently from the old one, and for a score with a history, grading differently is the problem.
+
+#### Workers ride the curve
+
+Everything else routes through one registry that both our Python and TypeScript runtimes read. Each job is assigned a tier, each tier is a ranked list of models, and the lists span more than one model family, so bringing in a new family is a registry change, not a rewrite of every call site.
+
+Our routing policy sets the rule for workers: cost within a quality budget, meaning the cheapest model whose results on our own evals stay within 10% of the current model's, with a hard floor on output validity. When our highest-volume job, extracting brands and citations from answers, moved to a model from a second family in August, the candidate first ran against the same 200-answer gold set the incumbent was graded on. It scored higher (F1 of 0.87 against 0.83) and every output parsed. Another candidate failed on the validity floor alone: 7.5% of its outputs didn't parse.
+
+Every routed job also keeps a fallback to a pinned model, and one switch sends the whole fleet back to direct calls.
+
+The same door is open to a model we train ourselves. If we fine-tune one for a narrow, high-volume job, it will enter the way every other worker does: as a candidate in a tier, graded on the same gold sets, with the same fallback behind it.
+
+#### Models read; code scores
+
+The most important rule in the portfolio isn't about which model to use. It's about where a model is allowed to decide.
+
+Wherever a number reaches a customer, we try to limit the model to reading and quoting, and leave the scoring to code. [Recommendation Score](/ai-recommendation-score/) works this way: a model extracts how an answer positions a brand and quotes the answer word for word, the server checks that each quote actually appears in the answer and demotes verdicts it can't ground, and a deterministic scorer, with no model call, turns that evidence into a 0–100 score. Answer Accuracy follows the same pattern. To fail an answer, the judge must quote both the company's fact and the answer's words, and code discards any failure whose quotes it can't find. Deep Analysis reports pass a validator before anyone sees them: every evidence quote must appear in the answer it cites, and a recommendation that proposes a manipulation tactic or targets a competitor's own page is dropped.
+
+The Answer Accuracy rule came from a real miss. The judge failed a correct answer about a business's parent affiliation because the business's context didn't mention any affiliation at all. Silence isn't contradiction, but nothing enforced that until every failure needed two verbatim quotes. Silence has nothing to quote.
+
+The payoff is structural: the less of a score a model decides, the less of it a model change can move.
+
+The language models that read are interchangeable. The scoring is ours. Recommendation Score's scorer, the content audit's 25 deterministic checks, and our ranking and share-of-voice math are code we wrote: deterministic, versioned, and pinned by tests, so they don't change when a language model does.
+
+### Layer 2: scenario evals, not benchmarks
+
+Public benchmarks tell you a model got better in general. They can't tell you it got better at your job, and marketing jobs are conditional in ways benchmarks aren't. Whether a thread is about "us" depends on who "us" is. Whether an answer is accurate depends on the facts one company approved. Whether a prompt sounds like a buyer depends on the category.
+
+So the unit we evaluate is a scenario: a specific company, a specific input (an AI answer, a page, a community thread, a candidate prompt), the engine or surface it came from, and the error that would hurt that company most. Jia's essay covers how we label them: 2 blind passes from a written guide, agreement measured against a Krippendorff's alpha bar of 0.67, disagreements adjudicated, and the production code path graded rather than a copy of it. This section is about why the scenario is the right unit. The table shows four scenarios and the error each one gates; the first three follow in detail.
+
+
+
+Scenario | The error it can't afford | How the gate is set
+--- | --- | ---
+A candidate buyer prompt for a category | A question that asks for a definition, or one whose answer names no brands | Scored on whether it seeks a solution and whether it drifts into "what is X"
+A community thread matched to a company | Drafting a reply to a thread that only shares the company's vocabulary | Scored on subject fit, per company, at the production threshold
+A drawback an engine raises about a brand | Erasing a real criticism, which flatters the customer | Hard fail if a single real drawback is erased or downgraded
+An AI answer about a company, graded against its approved facts | Missing a clear error, so the customer trusts a wrong answer | Hard fail on any missed clear error; false alarms are reported, not blocking
+
+
+#### The prompt set that scored 100 and found no brands
+
+Every workspace is measured against a [Golden Prompt Set](/golden-prompt-set-methodology/): the questions buyers in that category ask AI. Our first eval for it scored form: conciseness, balance across prompt types, duplicates, natural phrasing. A generated set could score 99.8 to 100 out of 100 and still contain no question whose answer would name a brand. The eval was measuring the wrong thing.
+
+The scenario that mattered was ambiguity. One company that makes special-purpose trucks received prompts about special-purpose vehicles in finance: bankruptcy remoteness and asset securitization. The words matched; the subject didn't. So we now score prompts on the property that decides whether they're worth measuring: does the question seek a solution, the kind of question whose answer names brands, or does it slip into a definition? A reference set across 5 verticals, from AI chips to security cameras, sets the bar: at least 75% solution-seeking, and no more than 3% definitional. The classifier that scores definitional drift in the eval also runs inside the generator as a deterministic filter, so removing a definitional question lowers the score by construction rather than by hope.
+
+#### The relevance judge that learned "subject, not vocabulary"
+
+In September, a scan for an industrial HVAC software company drafted replies to threads that shared its vocabulary and nothing else, a car-buying listicle among them. We built the eval from that failure: 88 real threads, 22 from each of 4 test workspaces chosen to be as unlike each other as possible (industrial HVAC software, B2B marketing software, high-performance networking hardware, and consumer security cameras). Two blind labeling passes, from two different model families, scored each thread's subject fit from 0 to 100, under a guide whose first rule is to score the subject, never the shared words. They agreed at an alpha of 0.956.
+
+At the production threshold, the gate cut off-topic drafts from 45 to 5, and recall on the threads actually worth a reply rose from 0.56 to 0.93. The per-company view is the point: the HVAC workspace went from 18 off-topic drafts to 1, and the camera workspace still had 4. An aggregate score would have hidden both.
+
+#### The verifier that must never flatter
+
+Recommendation Score subtracts for drawbacks an answer raises about a brand: a caveat, a concern, a warning. Some of what the extractor flags as a drawback isn't one, so we built a verifier to review them, and gated it before it could change anyone's score.
+
+That makes the verifier the component that would be easiest to get wrong in the customer's favor. The simplest way to make every score look better would be a verifier that dismisses criticism generously. So its gate is lopsided on purpose: on a set of 94 drawbacks from live test audits, each labeled real or false, a verifier fails if it erases or downgrades a single real one. How many false drawbacks it removes is reported and doesn't block.
+
+That scenario set changed two decisions. Judging drawbacks without the quoted text erased 19 of 41 real ones, so the verifier is always given the grounded quote. And when we compared models, the larger one removed more false drawbacks but erased a real concern, while the smaller one erased none. We chose the smaller one.
+
+In a product that sells a number, the error that flatters the customer is the one to fear most.
+
+#### Every failure becomes a scenario
+
+These examples share a shape. Something failed in production, we wrote the failure down as a scenario with a gate, and the gate now runs before the next change to that job. When a news-source classifier presented a company's homepage teaser as a new article with an invented date, the fix shipped with an eval that refuses to release if a single major publication is mistaken for a company's own site. When the accuracy judge read silence as contradiction, the judge eval began running the same evidence check as production.
+
+That's why I think of the eval sets as the product specification. The scenario and its gate exist before we choose a model for the job, and the unit of progress is a new scenario, not a new prompt.
+
+#### What our evals don't do yet
+
+Three limits, so no one mistakes this for more than it is. Most of our gold labels come from strong models following written guides, not from human annotators; blind passes and an agreement bar keep that honest, but they don't turn it into human judgment. Most of our accuracy evals are gates we run deliberately before a change ships, not checks that run on every commit, so their value depends on discipline. And some features have only a regression lock, which tells us output changed but not whether it's right.
+
+### Layer 3: a harness for marketing
+
+Jia defined a harness as everything around the model that decides what it reads, what it may do, and how its work gets checked. A coding harness has one advantage marketing doesn't: a compiler and a test suite that say whether the work is correct. Marketing has no compiler. "Correct" means consistent with facts the company approved, allowed by legal, aimed at a question buyers actually ask, and, eventually, reflected in the answer. A marketing harness has to supply that ground truth itself. Ours does it in six parts:
+
+
+
+Part | What it supplies | Where a model helps | What code or a person decides
+--- | --- | --- | ---
+Facts | [Corporate Context](/corporate-context-ai-marketing/): the organization's facts, claims, and proof, set once and shared across workspaces | Researching and drafting pages | Only active, published pages reach a model, because some of what's built on them is public. The facts change when the business changes, not when a model does
+Questions | Golden Prompt Sets that mirror buyer research, with discovery questions written without the brand in view | Generating and reviewing candidate prompts | Scenario scores on solution-seeking and definitional drift
+Measurement | Engines queried the way buyers query them, repeated across runs | No model; the engine is what's being measured | Rates across runs, with the capture method stored alongside each response
+Verdicts | Mentions, rankings, favorability, accuracy against the facts | Reading answers and quoting evidence | Code verifies the quotes and computes the scores
+Action | Recommendations and audit findings as tasks that keep their evidence, with an owner and, where a team wants it, a recorded approval | Diagnosis and recommendations; page drafting happens in your own agents, grounded in the same facts | Tasks are rebuilt server-side from the stored report, never from what a browser sends; your team publishes, and SolCrys never publishes to your site
+Verification | The same prompts on the same engines; a re-audit of the fixed page | No model | A before-and-after is reported as an observation, not proof of cause
+
+
+#### Six rules the harness taught us
+
+Each of these started as a failure:
+
+- **Silence is not contradiction.** A company's context is never a complete list of true facts, and [its gaps are worth finding](/answer-accuracy-coverage-gap/) on their own. A judge that fails every claim the context doesn't mention punishes the brand for its own gaps, so every failure now needs two quotes.
+- **Measure the question as typed.** Anything added to a measured prompt is something buyers never see.
+- **Keep the brand out of the room when writing discovery questions.** A generator that knows whose visibility will be measured anchors on that brand, so discovery prompts are kept brand-blind, and brand-named questions are added separately and labeled as such.
+- **Rank when scores are ordered but not calibrated.** In one [Signal](/signal-weekly-market-brief/) scan, the model's scores put the right items on top, yet a fixed threshold threw away 3 of the best 4, and the model's self-reported confidence ran backward, correlating at −0.57 with relevance. We now rank, and confidence is a label, not a gate.
+- **Read the web as data, not instructions.** The answers and pages our judges grade are wrapped as untrusted input, so an instruction hidden inside one is treated as content to grade, not a command to follow.
+- **Log the decision, not just the error.** When an output is wrong, the first question is which rule let it through. After one bad run of our community-thread engine took a database session to explain, its logs began naming the decision at each gate: the fit verdicts, the ranked queue with each score, and every draft skipped under the threshold, with the reason. The next question took one search.
+
+#### A person on the write path
+
+Agents can act now, and we let them, narrowly. Through the [SolCrys MCP server](/solcrys-mcp-and-skills/), a customer's own assistant can read their workspace. With separate permissions an admin opts into, it can do two things more: mark an [Action Hub](/inside-the-action-hub/) task as published, and propose a Corporate Context page, which arrives as a draft for a person to review. Each write runs under its own database role, limited to the rows it may touch. Nothing ships under a customer's brand unless someone on their team publishes it, and SolCrys never publishes to a customer's site. In a harness, the write path is where trust is either kept or spent.
+
+### Why the three only work together
+
+Each layer fails on its own:
+
+
+- **A portfolio without scenario evals is guessing.** You can't know whether the cheaper model stayed within budget, or whether a new judge grades like the old one.
+- **Scenario evals without a harness measure the wrong thing.** A gold label needs a definition of right, and in marketing that definition is the company's approved facts and the error it can't afford. The harness is where both live.
+- **A harness without a portfolio freezes.** A harness tied to one model encodes that model's quirks, and, as [Anthropic put it](https://www.anthropic.com/engineering/managed-agents) in April, "Harnesses encode assumptions that go stale as models improve."
+
+
+
+#### Together, they form a loop
+
+A new model enters as a worker candidate. Scenario evals decide whether it's admitted, and to which jobs. The instruments and judges don't move, so the customer's history stays comparable. The harness keeps the output governed, and every new failure becomes another scenario. Each model release makes the system cheaper or better, and none of them forces a rebuild.
+
+### What isn't a moat
+
+Some of what gets called a moat in AI products isn't one:
+
+
+- **Access to frontier models.** Everyone has the same access, at the same price.
+- **Our prompts.** They get rewritten whenever a model changes, and any competent team can write good ones.
+- **The loop.** Anyone can draw Measure → Diagnose → Execute → Verify on a slide.
+- **This essay.** We publish our method on purpose, and Jia published the checklist.
+
+
+
+### What compounds instead
+
+What compounds is different:
+
+
+- **Comparable history.** A trend line is worth something only if the instrument changes only on purpose, on a recorded date. No one can go back and measure last spring's AI answers, so every week measured that way is a week a new entrant can't buy.
+- **Labeled scenarios.** Gold labels are slow to build: 2 blind passes, measured agreement, and adjudication, per job, across categories as different as HVAC software and security cameras. They accumulate with every workspace, and they make each new model cheap to adopt, because its evaluation already exists on the day it ships. They're also the training data for any model we might fine-tune, which is where a model of our own would get its edge.
+- **Scoring logic we own.** The math that turns evidence into a customer's number is ours, deterministic and versioned. A new language model can improve what feeds it; it can't change how it counts.
+- **The failure library.** Each gate encodes something that went wrong in production: silence read as contradiction, prompts wrapped in instructions no buyer types, a threshold that discarded the best items, a verifier that erased real criticism when it couldn't see the quote. A team starting today would have to hit those failures before it knew to guard against them.
+- **The same discipline, applied to how we build.** Coding agents do most of our implementation. The human work is specs, evals, and review, often with a second model from a different family reviewing too. The product and the company improve on the same curve.
+
+
+
+#### Why publishing the method doesn't give it away
+
+A method is easy to copy. A history can't be backfilled. The recipe is public; the labeled scenarios, the comparable history, and the failures behind each gate accrue only with time and real workloads.
+
+### The risks I take seriously
+
+Two things could undercut this, and I watch both:
+
+
+- **The engines can move under all of us.** In August, ChatGPT all but stopped citing Reddit within about a week. Good instruments detect a shift like that quickly; they don't prevent it.
+- **A lab could ship a marketing harness of its own.** I think that's likelier to arrive as a general agent platform than as a governed marketing system, for a structural reason: an engine grading its own answers isn't an independent instrument. A buyer who wants to know how 5 engines describe them needs a measurement no single engine owns.
+
+
+
+### Three questions that separate a harness from a wrapper
+
+Jia's essay lists 6 questions to ask a vendor about model changes. These 3 test whether there's a harness at all:
+
+
+- **For each score you show me, which error do you gate hardest, and why that one?** A vendor with scenario evals answers right away. A wrapper answers with an accuracy average.
+- **What happens when my facts are silent on a topic?** If the claim fails, the system is punishing you for your context's gaps. If the answer is "the model decides," no one does.
+- **If your model provider changed tomorrow, which of my numbers would move?** A good answer names which ones, and explains why the rest wouldn't.
+
+
+
+### How SolCrys fits
+
+SolCrys is an AEO platform built as a Measure → Diagnose → Execute → Verify loop, and the three layers above are how that loop stays steady while the models underneath it change. Corporate Context holds the facts. Your prompt set runs on the same engines, run after run (ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, by plan). Recommendations become tasks in the Action Hub, and the MCP server and our open Skills let your own agents work with them.
+
+
+
+
+#### What SolCrys doesn't do
+
+SolCrys doesn't publish to your site; your team ships every change through its own process. It doesn't treat a before-and-after movement in AI answers as proof that your change caused it. And not every score has an independent gold set behind it yet. Where one doesn't, we describe that eval as a regression lock, not an accuracy measurement.
+
+To see the loop on your own brand, [Start Free](https://app.solcrys.com/audit): a free workspace with 10 ChatGPT prompts and 1 content audit, email verification, and no credit card. To go deeper on the architecture, [talk to us](https://app.solcrys.com/contact-sales/).
+
+### About the author
+
+Eason Wang is Co-Founder & CPO of SolCrys. He holds a PhD in Machine Learning and has spent 18+ years building enterprise products, starting at Microsoft Research Asia. His current focus is agentic AI workflows and the infrastructure required to run them in production. Connect on [LinkedIn](https://www.linkedin.com/in/eason-wang/).
+
+Written September 2026. For the procedure behind Layer 2, see Jia's [Every Model Upgrade Is a Migration](/model-upgrades-are-migrations/); for the year it came out of, see [A Year in View](/news/a-year-in-view-the-facts-had-to-hold/).
+
+
+
+
+
+### Sources
+
+- [Anthropic, "Introducing Claude Opus 5.5" (Sept. 22, 2026)](https://www.anthropic.com/claude-opus-5-5)
+- [Anthropic Engineering, "Scaling Managed Agents: Decoupling the brain from the hands" (April 8, 2026): "Harnesses encode assumptions that go stale as models improve."](https://www.anthropic.com/engineering/managed-agents)
+- [Search Engine Journal, on ChatGPT's August 2026 Reddit citation drop](https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/)
+
+### FAQ
+
+Q: Can an AI model be a competitive moat?
+A: A frontier model can't: every competitor can use the same one at the same price, usually within days of its release. A fine-tuned model can be an edge, but only while the data it learned from is better than a competitor's, and it has to be retrained as base models improve. Durable advantage comes from what the models plug into: comparable measurement history, labeled evaluation scenarios, and a harness that governs what models read, do, and ship.
+
+Q: What is a portfolio of models?
+A: An architecture in which every model call has a role with its own rules. At SolCrys, instruments query answer engines and change only to measure more faithfully what buyers see, on a recorded date; judges produce the verdicts behind customer-facing scores and are pinned; and workers do everything else under a quality budget measured on our own evals.
+
+Q: What is a scenario-based eval?
+A: An evaluation built from a real situation, such as a specific company, a specific AI answer or thread, and the engine it came from, with independently labeled answers and a gate on the error that situation can't afford. It measures whether a model is good at your job, which a general benchmark can't.
+
+Q: What is a marketing harness?
+A: Everything around the models that makes their output safe to use under a brand: approved facts to read, evidence requirements on every verdict, deterministic scoring, people who decide and publish what ships, and re-measurement afterward. Marketing has no compiler, so the harness has to supply the ground truth.
+
 ## The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do
 
 Google and Microsoft now report AI search for free. Search Console counts impressions of your links in AI Overviews and AI Mode, Bing Webmaster Tools counts Copilot citations and grounding queries, GA4 groups visits from AI assistants, and Merchant Center shows product share of voice in Google's AI shopping answers. Turn on every one that applies to you, because they are first-party data you can't get anywhere else. But each one counts your own links or visits on its own surfaces, so none shows what an answer said, whether it recommended you, whether it was accurate, or what ChatGPT, Perplexity, or Claude told a buyer who never clicked.
