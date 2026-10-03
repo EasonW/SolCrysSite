@@ -210,6 +210,9 @@ function footerHtml() {
       <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
           <a href="/resources/">Resources</a>
           <a href="/guides/">User guides</a>
           <a href="/learn/">Learn</a>
@@ -761,6 +764,8 @@ function homeHtml() {
           <li><strong>Verify.</strong> Rerun the same prompts against the baseline and feed what changed into the next round.</li>
         </ol>
       </figure>
+      <h3>Need the fix built for you?</h3>
+      <p>Your team can ship from drafts in SolCrys AEO, or SolCrys can build it. <a href="/sites/">SolCrys Sites</a> writes and designs homepages, category pages, product pages and articles that AI can quote and buyers can trust. <a href="/motion/">SolCrys Motion</a> builds booth animation and interactive demos that make deeply technical products clear.</p>
       <article class="seo-card" style="margin-top: 2rem;">
         <p class="seo-kicker">Cornelis Networks · In practice</p>
         <h3>Defining a new category</h3>
@@ -1647,28 +1652,39 @@ function sourcesHtml(page) {
 // Resource-page CTAs. The SPA renders <ResourceInlineCTA> after the second
 // section and <ResourceEndCTA> after FAQ / before Related guides; these are
 // the crawler-facing equivalents, built from the same JSON.
-function resolveResourceCta(category) {
+function resolveResourceCta(category, cta) {
+  if (cta === "project") return { ...resourceCta.default, ...resourceCta.project };
   const override = (category && resourceCta.byCategory[category]) || {};
   return { ...resourceCta.default, ...override };
 }
 
+// Pages with `cta: "project"` (SolCrys Sites, SolCrys Motion) ask for a
+// project inquiry. The SPA opens the inquiry dialog; static HTML has no
+// dialog, so it links to the app's contact-sales form.
+const PROJECT_INQUIRY_URL = "https://app.solcrys.com/contact-sales/";
+const isProjectPage = (page) => page.cta === "project";
+
 function resourceInlineCtaHtml(page) {
-  const copy = resolveResourceCta(page.category);
+  const copy = resolveResourceCta(page.category, page.cta);
+  const href = isProjectPage(page) ? PROJECT_INQUIRY_URL : AUDIT_URL;
+  const label = isProjectPage(page) ? copy.kicker : "Free ChatGPT visibility check";
   return `
-    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
-      <p>${escapeHtml(copy.inline)} <a href="${escapeAttr(AUDIT_URL)}">${escapeHtml(copy.inlineLink)} &rarr;</a></p>
+    <aside class="seo-card" aria-label="${escapeAttr(label)}">
+      <p>${escapeHtml(copy.inline)} <a href="${escapeAttr(href)}">${escapeHtml(copy.inlineLink)} &rarr;</a></p>
     </aside>`;
 }
 
 function resourceEndCtaHtml(page) {
-  const copy = resolveResourceCta(page.category);
+  const copy = resolveResourceCta(page.category, page.cta);
+  const href = isProjectPage(page) ? PROJECT_INQUIRY_URL : AUDIT_URL;
+  const action = isProjectPage(page) ? "Start a project" : "Start Free";
   return `
       <section class="seo-section">
         <div class="seo-card">
           <p class="seo-kicker">${escapeHtml(copy.kicker)}</p>
           <h2>${escapeHtml(copy.heading)}</h2>
           <p>${escapeHtml(copy.body)}</p>
-          <p><a href="${escapeAttr(AUDIT_URL)}">Start Free</a></p>
+          <p><a href="${escapeAttr(href)}">${action}</a></p>
           <p>${escapeHtml(copy.footnote)}</p>
         </div>
       </section>`;
@@ -2456,6 +2472,24 @@ for (const page of resourcePages) {
             }
           }
         },
+        ...(isProjectPage(page)
+          ? [
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                name: page.serviceName || page.title,
+                serviceType: page.serviceType || page.primaryKeyword,
+                provider: {
+                  "@type": "Organization",
+                  name: site.name,
+                  url: site.url
+                },
+                areaServed: "Global",
+                description: page.description,
+                url: canonicalUrl(routePath)
+              }
+            ]
+          : []),
         faqSchema(resourceFaqEntries(page), routePath)
       ]
     })
@@ -3540,6 +3574,9 @@ writePage(
   `${JSON.stringify(sitemapUrls.map((url) => canonicalUrl(url.path)), null, 2)}\n`
 );
 
+// SolCrys Sites / SolCrys Motion: listed under Core Pages in llms.txt.
+const productPages = publishedResourcePages.filter(isProjectPage);
+
 const llmsTxt = `# ${site.name}
 
 > ${site.description}
@@ -3552,7 +3589,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [About](${site.url}/about/): Company story, founding team, and advisors.
 - [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring Cornelis (AI & HPC networking; a brand-new category made answerable in four weeks for its AI Infra Summit launch), NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days), UiPath (enterprise automation software), and Wyze (consumer smart home).
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its AI mention rate in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.
-- [Cornelis case study](${site.url}/customers/cornelis/): Full case study — how Cornelis made a brand-new networking category (Active Compute Fabric) answerable in four weeks ahead of its AI Infra Summit launch: 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2. Covers the five-step SolCrys method (measure visibility, diagnose gaps, activate actions, verify impact, map assets to depth).
+- [Cornelis case study](${site.url}/customers/cornelis/): Full case study — how Cornelis made a brand-new networking category (Active Compute Fabric) answerable in four weeks ahead of its AI Infra Summit launch: 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2. Covers the five-step SolCrys method (measure visibility, diagnose gaps, activate actions, verify impact, map assets to depth).${productPages.map((page) => `\n- [${page.serviceName || page.title}](${site.url}/${page.slug}/): ${page.description}`).join("")}
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards, and tools. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
@@ -3575,7 +3612,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 
 ## Recommended Reading
 
-${publishedResourcePages.map((page) => `- [${page.title}](${site.url}/${page.slug}/): ${page.description}`).join("\n")}
+${publishedResourcePages.filter((page) => !isProjectPage(page)).map((page) => `- [${page.title}](${site.url}/${page.slug}/): ${page.description}`).join("\n")}
 
 ## Contact
 

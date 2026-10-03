@@ -15,7 +15,9 @@ export type ResourceCtaCopy = {
   footnote: string;
 };
 
-export function resolveResourceCta(category?: string): ResourceCtaCopy {
+/** `cta` is siteContent.resourcePages[].cta; "project" marks a Sites / Motion product page. */
+export function resolveResourceCta(category?: string, cta?: string): ResourceCtaCopy {
+  if (cta === "project") return { ...resourceCta.default, ...resourceCta.project };
   const byCategory = resourceCta.byCategory as Record<string, Partial<ResourceCtaCopy>>;
   const override = category ? byCategory[category] ?? {} : {};
   return { ...resourceCta.default, ...override };

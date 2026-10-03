@@ -162,6 +162,8 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
   const page = siteContent.resourcePages.find((item) => item.slug === activeSlug);
 
   const isDraft = page ? (page as { status?: string }).status === "draft" : false;
+  // "project" on the Sites / Motion product pages: the CTA is a project inquiry.
+  const pageCta = page ? (page as { cta?: string }).cta : undefined;
 
   useEffect(() => {
     if (!page) return;
@@ -316,7 +318,7 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
             <Fragment key={section.heading}>
               {renderSection(section)}
               {index === 1 && page.sections.length > 2 ? (
-                <ResourceInlineCTA category={page.category} />
+                <ResourceInlineCTA category={page.category} cta={pageCta} />
               ) : null}
             </Fragment>
           ))}
@@ -356,7 +358,7 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
             </section>
           ) : null}
 
-          <ResourceEndCTA category={page.category} />
+          <ResourceEndCTA category={page.category} cta={pageCta} />
 
           <section className="border-t border-border/30 py-10">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Related guides</h2>

@@ -23,6 +23,8 @@ const previewProductLinks = [
 
 const productLinks = [
   { href: "/#features", label: "Platform" },
+  { href: "/sites/", label: "SolCrys Sites" },
+  { href: "/motion/", label: "SolCrys Motion" },
   // Phase E: pricing moved to app.solcrys.com/pricing. See Navbar.tsx for
   // the full rationale; bridge page at /pricing/ still handles bookmarks.
   { href: APP_PRICING_URL, label: "Pricing" },

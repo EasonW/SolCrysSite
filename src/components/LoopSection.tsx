@@ -20,7 +20,22 @@ import ScreenshotFrame from "./ScreenshotFrame";
  * 2026-09-29: headline "See it. Fix it. Prove it." and, under the ring, one
  * real piece of work with its published result (Cornelis case study), so the
  * "Prove it" step has evidence instead of illustrative numbers.
+ *
+ * 2026-10-03: a "built for you" row between the ring and the proof links the
+ * Execute step to SolCrys Sites and SolCrys Motion (/sites/, /motion/).
  */
+const BUILT_FOR_YOU = [
+  {
+    name: "SolCrys Sites",
+    href: "/sites/",
+    body: "Homepages, category pages, product pages and articles that AI can quote and buyers can trust.",
+  },
+  {
+    name: "SolCrys Motion",
+    href: "/motion/",
+    body: "Booth animation and interactive demos that make deeply technical products clear.",
+  },
+];
 const CORNELIS_ACF_URL = "https://www.cornelis.com/technology/active-compute-fabric";
 const LoopSection = () => {
   return (
@@ -39,6 +54,30 @@ const LoopSection = () => {
           </p>
         </div>
         <LoopDiagram />
+
+        <div className="mt-12 grid gap-4 md:grid-cols-12 md:items-stretch">
+          <div className="md:col-span-4 md:self-center md:pr-4">
+            <h3 className="font-display mb-1.5 text-lg font-semibold tracking-tight">Need the fix built for you?</h3>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Your team can ship from drafts in SolCrys AEO, or SolCrys can build it.
+            </p>
+          </div>
+          {BUILT_FOR_YOU.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className="flex flex-col rounded-xl border border-border/30 bg-card/40 p-5 transition-colors hover:border-border/60 md:col-span-4"
+            >
+              <span className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent-ink))]">
+                {item.name}
+              </span>
+              <span className="text-sm leading-relaxed text-muted-foreground">{item.body}</span>
+              <span className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-medium text-[hsl(var(--brand-accent-ink))]">
+                How it works <ArrowRight className="h-4 w-4" />
+              </span>
+            </a>
+          ))}
+        </div>
 
         <article className="mt-14 grid grid-cols-1 overflow-hidden rounded-xl border border-border/30 bg-card/40 md:grid-cols-12">
           <ScreenshotFrame
