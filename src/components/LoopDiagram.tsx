@@ -122,7 +122,7 @@ type LoopDiagramProps = {
 
 const LoopDiagram = ({
   steps = DEFAULT_STEPS,
-  centerLines = ["same prompt set,", "re-run after each fix"],
+  centerLines = ["same prompt set,", "rerun after each fix"],
   footnote = null,
 }: LoopDiagramProps) => {
   return (

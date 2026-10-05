@@ -61,12 +61,12 @@ export const LOOP_STEPS: LoopStep[] = [
   },
   {
     label: "Verify",
-    description: "Re-run the same prompts against the baseline and feed what changed into the next round.",
+    description: "Rerun the same prompts against the baseline and feed what changed into the next round.",
     example: "Cornelis: 12× mention rate on the category prompts",
   },
 ];
 
-export const LOOP_CENTER: [string, string] = ["same baseline,", "re-measured after launch"];
+export const LOOP_CENTER: [string, string] = ["same baseline,", "remeasured after launch"];
 
 export const STATS = [
   { value: "2×", label: "AI-readiness score", note: "On the marquee product page." },
@@ -117,7 +117,7 @@ export const FAQS = [
   {
     question: "How do you measure results?",
     answer:
-      "Before we ship, we run the questions your buyers ask AI and record a baseline. After launch, the same prompts re-run across the same engines, so you can see the change in mentions, citations and share of voice.",
+      "Before we ship, we run the questions your buyers ask AI and record a baseline. After launch, the same prompts rerun across the same engines, so you can see the change in mentions, citations and share of voice.",
   },
   {
     question: "What is AEO, and how is it different from SEO?",

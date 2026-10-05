@@ -24,7 +24,7 @@ const STEPS: LoopStep[] = [
   },
   {
     label: "Verify",
-    description: "Re-run the same prompts against the baseline and feed what changed into the next round.",
+    description: "Rerun the same prompts against the baseline and feed what changed into the next round.",
     example: "Cornelis: 12× mention rate on the category prompts",
   },
 ];
@@ -51,7 +51,7 @@ const MethodResultsSection = () => {
 
         <LoopDiagram
           steps={STEPS}
-          centerLines={["same baseline,", "re-measured after launch"]}
+          centerLines={["same baseline,", "remeasured after launch"]}
           footnote={null}
         />
 

@@ -753,7 +753,7 @@ function homeHtml() {
         <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, recommendation, and answer accuracy in one place.</li>
         <li><strong>Diagnose the answer gap.</strong> Classify each weak answer as an absence, citation, accuracy, comparison, or action gap. Map each gap to the page or source most likely to fix it.</li>
         <li><strong>Execute with Corporate Context.</strong> SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.</li>
-        <li><strong>Verify and re-test.</strong> Re-run the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
+        <li><strong>Verify and re-test.</strong> Rerun the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
       </ol>
       <figure style="margin-top: 2rem;">
         <figcaption><strong>The SolCrys Loop.</strong></figcaption>
@@ -1113,7 +1113,7 @@ function cornelisCaseStudyHtml() {
         <li><strong>Measure visibility.</strong> A baseline measurement and prompt sets designed with the SolCrys AI Golden Prompt Set methodology. The prompt sets were built hand in hand with Cornelis's messaging and positioning, so SolCrys tracks the prompts that reflect customer voices.</li>
         <li><strong>Diagnose gaps.</strong> Prompts where Cornelis measured zero presence became the FAQ questions and the headings on the new category page and its supporting pages.</li>
         <li><strong>Activate the right actions.</strong> One new category page, a redone homepage as well as a product page, and show floor assets, all grounded in the Cornelis Corporate Context managed by SolCrys AI. SolCrys partnered closely with the Cornelis marketing and web development teams by delivering AI-ready copy as well as design.</li>
-        <li><strong>Verify impact.</strong> The same prompt sets re-run against the baseline, so Cornelis could see the impact of the moment, and of every asset created for it.</li>
+        <li><strong>Verify impact.</strong> The same prompt sets rerun against the baseline, so Cornelis could see the impact of the moment, and of every asset created for it.</li>
         <li><strong>Map assets to depth.</strong> One story told at three depths: L100–L200 on the homepage, L200 on the category page, and L300 in the reference architecture, explained through an interactive demo video at the booth, so a buyer could go as deep as they wanted without the message changing.</li>
       </ul>
     </section>

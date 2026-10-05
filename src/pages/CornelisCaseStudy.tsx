@@ -88,7 +88,7 @@ const solutionSteps = [
     Icon: LineChart,
     title: "Verify impact",
     body:
-      "The same prompt sets re-run against the baseline, so Cornelis could see the impact of the moment, and of every asset created for it.",
+      "The same prompt sets rerun against the baseline, so Cornelis could see the impact of the moment, and of every asset created for it.",
   },
   {
     Icon: Layers,
