@@ -38133,7 +38133,7 @@
           "heading": "What a performance-based AEO contract actually pays for",
           "body": [
             "Paying for outcomes is not new. Pay-for-performance search engine optimization (SEO) deals tied fees to rankings for years, and Google's hiring guidance for SEOs still says, \"No one can guarantee a #1 ranking on Google\" ([Do You Need an SEO?](https://developers.google.com/search/docs/fundamentals/do-i-need-seo)). A familiar complaint about those deals was ranking first for keywords nobody searched.",
-            "The AEO version replaces a ranking with a rate: the share of prompts in which ChatGPT, Gemini, Perplexity, Claude, Microsoft Copilot, or Google AI Overviews names the brand. A rate over repeated prompts is a legitimate metric. SparkToro's study of 2,961 repeated runs concluded that a visibility percentage across many prompts, each run multiple times, is reasonable to track, while ranking position in an AI answer is not ([SparkToro](https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/)).",
+            "The AEO version replaces a ranking with a rate: the share of prompts in which ChatGPT, Gemini, Perplexity, Claude, Microsoft Copilot, or Google AI Overviews names the brand. A share is a legitimate metric, and it is how the platforms report their own AI surfaces. Bing Webmaster Tools reports Citation Share, \"the percentage of citations attributed to your site out of all citations shown across all sites for that same grounding query\" ([Microsoft Bing](https://blogs.bing.com/search/2026/6/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare/)). Google Merchant Center reports a brand's share of voice against competitors for shopping queries in AI Mode and AI Overviews ([Google](https://support.google.com/merchants/answer/17200695)).",
             "So the open question is never whether the rate can be measured. It is who controls the inputs. The table shows what each of the 2 performance models, and a flat fee for comparison, leaves the buyer to check."
           ],
           "table": {
@@ -38209,7 +38209,7 @@
         {
           "heading": "Question 3: What is the baseline window, and how big is the noise?",
           "body": [
-            "AI answers are sampled, not looked up. In SparkToro's 2,961 runs, the same prompt returned the same list of brands less than 1 time in 100. A threshold only means something if the distance between baseline and target is larger than what the engines produce on their own.",
+            "AI answers are sampled, not looked up, so the same prompt can return a different answer each time. OpenAI's developer documentation says its APIs are \"non-deterministic by default,\" which means \"model outputs may differ from request to request\" ([OpenAI](https://developers.openai.com/cookbook/examples/reproducible_outputs_with_the_seed_parameter)). A threshold only means something if the distance between baseline and target is larger than what the engines produce on their own.",
             "The arithmetic is simple enough to check yourself. Thirty prompts run once on 4 engines is 120 answers. A measured rate of 40% on 120 answers has a 95% margin of error of roughly ±9 points from sampling alone, so a move from 33% to 40% is inside the noise. Run the same set daily for a week and the 840 answers bring the margin to about ±3 points. The published sample-size evidence is in our guide to [how many runs an AI-visibility number needs](/how-many-runs-until-ai-visibility-trustworthy/).",
             "That estimate covers sampling only. Engines also change what they cite without notice: in the week of Aug. 10, 2026, ChatGPT all but stopped citing Reddit ([Search Engine Journal](https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/)). A change of that kind can move a brand's rate with no work by anyone. So measure the noise floor from the baseline itself, as the week-to-week spread of the rate before any work starts.",
             "Ask for a baseline measured before work begins, over several weeks of repeated runs, on the same prompts and engines that will judge the threshold. Ask that the threshold be sustained over a stated window, such as 4 consecutive weeks, not reached on a single best run. Ask for 2 or 3 competitors to be tracked on the same prompts as a control: if every brand moves together, the engine moved, not the agency. And ask who runs the measurement. If it is the agency's own tool, you need the raw answers and cited sources for every run, or a second measurement the agency does not control."
@@ -38357,8 +38357,16 @@
           "url": "https://developers.google.com/search/docs/fundamentals/do-i-need-seo"
         },
         {
-          "label": "SparkToro: AIs are highly inconsistent when recommending brands or products (Jan. 28, 2026; 2,961 runs)",
-          "url": "https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/"
+          "label": "Microsoft Bing: New AI Visibility Insights in Bing Webmaster Tools: Intents, Topics, Citation Share, Compare (June 16, 2026)",
+          "url": "https://blogs.bing.com/search/2026/6/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare/"
+        },
+        {
+          "label": "Google Merchant Center Help: About AI performance insights",
+          "url": "https://support.google.com/merchants/answer/17200695"
+        },
+        {
+          "label": "OpenAI Cookbook: How to make your completions outputs reproducible with the new seed parameter",
+          "url": "https://developers.openai.com/cookbook/examples/reproducible_outputs_with_the_seed_parameter"
         },
         {
           "label": "Search Engine Journal: Why Reddit's ChatGPT citation drop isn't fully explained (Aug. 19, 2026)",
