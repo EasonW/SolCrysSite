@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Performance-Based AEO Contracts: 5 Questions to Ask | SolCrys</title>
+    <meta name="description" content="Pay-for-performance AEO ties an agency&#39;s fee to an AI visibility threshold or a revenue share. Five questions decide whether that threshold means anything." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/performance-based-aeo-contracts/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-05" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Performance-Based AEO Contracts: 5 Questions to Ask | SolCrys" />
+    <meta property="og:description" content="Pay-for-performance AEO ties an agency&#39;s fee to an AI visibility threshold or a revenue share. Five questions decide whether that threshold means anything." />
+    <meta property="og:url" content="https://solcrys.com/performance-based-aeo-contracts/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-05" />
+    <meta property="article:modified_time" content="2026-10-05" />
+    <meta property="og:image" content="https://solcrys.com/og/performance-based-aeo-contracts.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/performance-based-aeo-contracts.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BSkIhhbU.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Performance-Based AEO Contracts: 5 Questions to Ask Before You Sign","item":"https://solcrys.com/performance-based-aeo-contracts/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Performance-based AEO contracts: 5 questions to ask before you sign","description":"Pay-for-performance AEO ties an agency's fee to an AI visibility threshold or a revenue share. Five questions decide whether that threshold means anything.","dateModified":"2026-10-05","datePublished":"2026-10-05","mainEntityOfPage":"https://solcrys.com/performance-based-aeo-contracts/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/performance-based-aeo-contracts/","mainEntity":[{"@type":"Question","name":"Is pay-for-performance AEO a red flag?","acceptedAnswer":{"@type":"Answer","text":"Not by itself. Tying fees to outcomes aligns incentives when the outcome is defined tightly. It becomes a red flag when the agency chooses the prompt list, measures the result with its own tool, and counts any mention as a win. Ask the 5 questions and get the answers into the contract."}},{"@type":"Question","name":"Can an AEO agency guarantee AI visibility?","acceptedAnswer":{"@type":"Answer","text":"No. No agency controls what an answer engine says: answers are sampled, sources change, and models update on the engines' own schedule. A performance-based contract is a contingent fee, not a guarantee, and it is only as strong as its definitions. Treat a promise of a specific result as a claim to test with the 5 questions."}},{"@type":"Question","name":"What is a fair AI visibility threshold?","acceptedAnswer":{"@type":"Answer","text":"There is no universal number. A fair threshold is set on non-branded prompts with demand evidence, sits above the measured baseline by more than the baseline's own week-to-week spread, and has to hold for several consecutive weeks. A threshold that includes branded prompts, or that can be met on a single run, is not a performance term."}},{"@type":"Question","name":"Should branded prompts count toward the threshold?","acceptedAnswer":{"@type":"Answer","text":"No. AI assistants usually name a brand when the question is about that brand, so branded prompts inflate the rate from day 1. Track them separately for accuracy, where they matter most, and keep them out of the threshold."}},{"@type":"Question","name":"Can revenue from AI answers be attributed accurately?","acceptedAnswer":{"@type":"Answer","text":"Only partly. Visits from AI assistants can be counted where a referrer is passed, but Google Analytics 4's AI Assistant channel excludes Google AI Overviews and AI Mode, and much of the influence arrives later as a branded search or a direct visit. A revenue-share contract needs an agreed referrer list, baseline trend, lookback window, and exclusions. Without them the number is a negotiation, not a measurement."}},{"@type":"Question","name":"Does SolCrys guarantee results?","acceptedAnswer":{"@type":"Answer","text":"No. We commit to a published prompt-selection method, a prompt set that changes only with your approval, reruns on the same prompts and engines, and separate readings for mention, recommendation, and accuracy. Outcomes also depend on third-party sources, engine updates, and competitors, which no vendor controls."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Buyer Guides</p>
+        <h1>Performance-based AEO contracts: 5 questions to ask before you sign</h1>
+        <p class="seo-lede">Some answer engine optimization (AEO) agencies now offer performance-based contracts: fees begin only after AI assistants name your brand in an agreed share of prompts, or the agency takes a share of the revenue attributed to AI. Moving the risk onto the agency sounds like the safest way to buy AEO, and it can be. But the risk does not disappear. It moves into the definitions: which prompts count, how demand is weighted, what the baseline was, what counts as visible, and how revenue is attributed. This guide gives the 5 questions that test those definitions, a worked example of a threshold that is met while buyer prompts do not move, and the clauses worth writing into the contract.</p>
+        
+        <p>Updated <time datetime="2026-10-05">2026-10-05</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do performance-based AEO contracts work?</li><li>Is pay-for-performance AEO worth it?</li><li>What should I ask an AEO agency before signing a performance-based contract?</li><li>Can an AEO agency guarantee AI visibility?</li><li>How is an AI visibility threshold measured in an agency contract?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>A performance-based AEO contract ties what you pay an agency to an outcome in AI answers. It comes in 2 shapes. In a visibility-threshold deal, fees begin once AI assistants name your brand in an agreed share of an agreed list of prompts. In a revenue-share deal, the agency takes a percentage of the customers or revenue attributed to AI.</p><p>Both can be fair. Neither is safe by default, because the outcome is only as meaningful as its definitions. Before signing, get written answers to 5 questions: who picks the prompts; whether they are weighted by real buyer demand; what the baseline and the noise are; whether &quot;visible&quot; means named, recommended, or accurate; and, in a revenue-share deal, how incremental revenue is attributed.</p><p>If the answers are written into the contract, you have a real performance deal. If they stay verbal, you have a retainer with a delayed start date.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a performance-based AEO contract actually pays for</h2>
+      <p>Paying for outcomes is not new. Pay-for-performance search engine optimization (SEO) deals tied fees to rankings for years, and Google&#39;s hiring guidance for SEOs still says, &quot;No one can guarantee a #1 ranking on Google&quot; (<a href="https://developers.google.com/search/docs/fundamentals/do-i-need-seo" target="_blank" rel="noopener noreferrer">Do You Need an SEO?</a>). A familiar complaint about those deals was ranking first for keywords nobody searched.</p><p>The AEO version replaces a ranking with a rate: the share of prompts in which ChatGPT, Gemini, Perplexity, Claude, Microsoft Copilot, or Google AI Overviews names the brand. A rate over repeated prompts is a legitimate metric. SparkToro&#39;s study of 2,961 repeated runs concluded that a visibility percentage across many prompts, each run multiple times, is reasonable to track, while ranking position in an AI answer is not (<a href="https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/" target="_blank" rel="noopener noreferrer">SparkToro</a>).</p><p>So the open question is never whether the rate can be measured. It is who controls the inputs. The table shows what each of the 2 performance models, and a flat fee for comparison, leaves the buyer to check.</p>
+      
+      <table>
+              <thead><tr><th>Contract model</th><th>What triggers the fee</th><th>What the buyer has to verify</th></tr></thead>
+              <tbody><tr><td><strong>Visibility threshold</strong></td><td>AI assistants name the brand in an agreed share of an agreed prompt list</td><td>The prompt list, the demand behind it, the baseline, and what counts as a mention (questions 1–4)</td></tr><tr><td><strong>Revenue share</strong></td><td>Customers or revenue attributed to AI</td><td>The attribution method and what would have happened anyway (question 5)</td></tr><tr><td><strong>Flat retainer or subscription</strong></td><td>Time or access, regardless of outcome</td><td>That the reporting holds up; questions 1–4 apply to any AEO report, with or without a performance term</td></tr></tbody>
+            </table>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Question 1: Who picks the prompts, and can the list change?</h2>
+      <p>The metric is a share of a list, so whoever writes the list sets the difficulty. Answers to branded prompts such as &quot;What is [Brand]?&quot; usually name the brand before any work is done. Long-tail prompts that few people ask are far easier to win, often with a page written to match them. Category prompts, the ones a buyer asks before they know your name, are where the competition is and where a mention is worth something.</p><p>Ask for 4 things in writing. The full prompt list is attached to the contract, with each prompt labeled branded, long-tail, or category. Branded prompts are reported separately and kept out of the threshold. The threshold has to be met inside the category bucket, not only on the blended number. And the list is frozen for the term: a replacement needs written agreement and starts its own baseline. We publish our own prompt-selection method so buyers can check it before they sign (<a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a>).</p><p>Illustrative scenario only. A mid-market data-warehouse vendor signs a contract with a 40% threshold on 30 agreed prompts. Snowflake, Databricks, and BigQuery dominate the answers to category prompts such as &quot;best cloud data warehouse for mid-market analytics.&quot; Three months later the blended rate is 53%, the threshold is met, and fees begin. The table shows where the 53% came from.</p>
+      
+      <table>
+              <thead><tr><th>Prompt bucket</th><th>Brand named</th><th>What it tells you</th></tr></thead>
+              <tbody><tr><td>Branded (12 prompts)</td><td>96%</td><td>Already true on day 1</td></tr><tr><td>Long-tail, low demand (10 prompts)</td><td>40%</td><td>Won with pages written to match the list</td></tr><tr><td>Category buyer prompts (8 prompts)</td><td>5%</td><td>Unchanged; the category leaders still own the answer</td></tr><tr><td><strong>Blended (30 prompts)</strong></td><td><strong>53%</strong></td><td><strong>Threshold met</strong></td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Question 2: Are the prompts weighted by real buyer demand?</h2>
+      <p>An unweighted share counts a prompt nobody asks the same as the one your buyers ask every week. Freezing the list is not enough if the list was built from questions with no demand behind them.</p><p>Be realistic about what demand evidence exists. No answer engine publishes prompt-level volume, so every demand figure for AI prompts is modeled, ours included. That is a reason to ask for the evidence, not a reason to skip the question.</p><p>Ask the agency to show, for each prompt, where the demand signal comes from: search demand for the underlying question, questions asked in public communities, and the questions your own sales and support teams hear. Then ask for demand tiers (high, medium, and low), and for a threshold that has to be met inside the top tier. As a cross-check, <a href="/prompt-pulse/">Prompt Pulse</a> is our public dataset of buyer-style questions by industry, each scored with a modeled, relative demand tier (<a href="/what-buyers-ask-ai-prompt-pulse/">how it is built and what it is not</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Question 3: What is the baseline window, and how big is the noise?</h2>
+      <p>AI answers are sampled, not looked up. In SparkToro&#39;s 2,961 runs, the same prompt returned the same list of brands less than 1 time in 100. A threshold only means something if the distance between baseline and target is larger than what the engines produce on their own.</p><p>The arithmetic is simple enough to check yourself. Thirty prompts run once on 4 engines is 120 answers. A measured rate of 40% on 120 answers has a 95% margin of error of roughly ±9 points from sampling alone, so a move from 33% to 40% is inside the noise. Run the same set daily for a week and the 840 answers bring the margin to about ±3 points. The published sample-size evidence is in our guide to <a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs an AI-visibility number needs</a>.</p><p>That estimate covers sampling only. Engines also change what they cite without notice: in the week of Aug. 10, 2026, ChatGPT all but stopped citing Reddit (<a href="https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/" target="_blank" rel="noopener noreferrer">Search Engine Journal</a>). A change of that kind can move a brand&#39;s rate with no work by anyone. So measure the noise floor from the baseline itself, as the week-to-week spread of the rate before any work starts.</p><p>Ask for a baseline measured before work begins, over several weeks of repeated runs, on the same prompts and engines that will judge the threshold. Ask that the threshold be sustained over a stated window, such as 4 consecutive weeks, not reached on a single best run. Ask for 2 or 3 competitors to be tracked on the same prompts as a control: if every brand moves together, the engine moved, not the agency. And ask who runs the measurement. If it is the agency&#39;s own tool, you need the raw answers and cited sources for every run, or a second measurement the agency does not control.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Question 4: Does &quot;visible&quot; mean named, recommended, or accurate?</h2>
+      <p>A named-in rate counts any answer that contains the brand&#39;s name. That includes an answer that lists you as the budget option and recommends a competitor, and an answer that quotes a price you retired last year.</p><p>The gap between appearing and being chosen is measurable. In Google AI Overviews, SEO analyst Lily Ray found that when a brand&#39;s own &quot;best [category]&quot; listicle was cited, the brand was left out of the recommendation in 224 of 323 cases (<a href="https://lilyraynyc.substack.com/p/why-calling-yourself-the-best-could" target="_blank" rel="noopener noreferrer">Lily Ray</a>). Accuracy is the third level: in G2&#39;s 2026 survey of 1,076 B2B decision-makers, 64% said they encounter inaccuracies in AI chatbot answers often or very often (<a href="https://learn.g2.com/g2-2026-ai-search-insight-report" target="_blank" rel="noopener noreferrer">G2</a>).</p><p>We cover each level separately: <a href="/ai-citation-vs-recommendation/">cited but not recommended</a>, the <a href="/ai-recommendation-score/">AI Recommendation Score</a>, and <a href="/is-ai-telling-the-truth-about-your-brand/">whether AI is telling the truth about your brand</a>. Ask which of the 3 levels in the table triggers the fee, and ask for all 3 to be reported separately. At minimum, an answer that names you unfavorably or states something false about you should not count toward the threshold.</p>
+      
+      <table>
+              <thead><tr><th>Level</th><th>What counts</th><th>What a fee tied to it rewards</th></tr></thead>
+              <tbody><tr><td><strong>Named</strong></td><td>The brand&#39;s name appears anywhere in the answer</td><td>Presence, including unfavorable or wrong mentions</td></tr><tr><td><strong>Recommended</strong></td><td>The answer positions the brand as a pick for the buyer&#39;s need</td><td>Being chosen, which is what moves a shortlist</td></tr><tr><td><strong>Accurate</strong></td><td>What the answer says about the brand matches the brand&#39;s own facts</td><td>Being described correctly on pricing, capabilities, and limits</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Question 5: How is incremental revenue attributed?</h2>
+      <p>A revenue-share deal is only as good as its attribution, and the standard reports do not connect an AI answer to a sale. Google Analytics 4&#39;s AI Assistant channel excludes Google AI Overviews and AI Mode. Search Console&#39;s generative AI report shows impressions only. Bing Webmaster Tools&#39; AI Performance report shows citations without clicks. Our guide to <a href="/aeo-web-traffic-attribution/">what AEO does to your web traffic</a> covers what each report shows and misses.</p><p>Much of the influence does not click. A buyer reads an AI answer, then arrives days later through a branded search or a direct visit, and last-click analytics files the visit under organic or direct. A contract that pays on &quot;revenue attributed to AI&quot; has to say which of those visits count.</p><p>The harder half is what would have happened anyway. Revenue grows for reasons that have nothing to do with AI answers: seasonality, pricing changes, paid campaigns, a product launch, and ordinary SEO. The causal chain is weak even at its first link. A July 2026 survey of 45 generative engine optimization (GEO) studies found that &quot;no reviewed technique shows a stable, longitudinal, cross-platform causal effect&quot; on discoverability (<a href="https://arxiv.org/abs/2607.14035" target="_blank" rel="noopener noreferrer">Martinez, 2026</a>), and revenue is further down the same chain. Without an agreed baseline trend or a control group, a revenue share can pay the agency for growth it did not cause.</p><p>For a revenue-share deal, write these into the contract:</p>
+      <ul class="seo-list"><li>Which sessions count as AI-referred, as a named referrer list, and whether branded-search and direct visits count at all.</li><li>The baseline trend those visits are compared against, measured before the engagement starts.</li><li>The lookback window between an AI-referred visit and a sale.</li><li>What is excluded: existing customers, pipeline already open at signing, and revenue from campaigns the agency did not run.</li><li>Who owns the analytics property and the raw data, and a cap on the total share.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Clauses worth writing into the contract</h2>
+      <p>The 5 questions turn into contract language. If one of these clauses is missing, the performance term depends on trusting the party that gets paid when it is met.</p><p>Add 2 clauses the questions do not cover. The first protects the brand rather than the budget. A fee tied to a number rewards the cheapest way to move that number. Google&#39;s <a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">spam policies</a> have covered &quot;attempting to manipulate generative AI responses in Google Search&quot; since May 15, 2026, and its <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">generative AI guide</a> says seeking inauthentic mentions across the web &quot;isn&#39;t as helpful as it might seem.&quot; The consequences land on your domain, not the agency&#39;s. List the tactics that are off the table, require disclosure of any paid placement, and keep approval over anything published in your name (<a href="/google-spam-policy-ai-answer-manipulation/">which tactics cross the line</a>). The second is the exit: decide at signing who keeps the content and the measurement history when the contract ends.</p><p>The table puts all 9 clauses in one place.</p>
+      
+      <table>
+              <thead><tr><th>Clause</th><th>What to put in writing</th></tr></thead>
+              <tbody><tr><td><strong>Prompt list</strong></td><td>The full list as an exhibit, each prompt labeled branded, long-tail, or category; branded prompts kept out of the threshold; the list frozen for the term</td></tr><tr><td><strong>Demand</strong></td><td>The demand evidence for each prompt, demand tiers, and a threshold that must be met in the top tier</td></tr><tr><td><strong>Baseline</strong></td><td>Measured before work starts, over several weeks of repeated runs, on the same prompts and engines</td></tr><tr><td><strong>Threshold</strong></td><td>Met inside the category bucket, larger than the baseline&#39;s own week-to-week spread, and sustained for a stated window, with competitors tracked as a control</td></tr><tr><td><strong>Counting rule</strong></td><td>Whether named, recommended, or accurate triggers the fee; unfavorable and false mentions excluded</td></tr><tr><td><strong>Measurement</strong></td><td>Who runs it, and access to the raw answers and cited sources for every run</td></tr><tr><td><strong>Attribution</strong></td><td>Referrer list, baseline trend, lookback window, exclusions, data ownership, and a cap (revenue-share deals)</td></tr><tr><td><strong>Tactics</strong></td><td>Prohibited tactics, disclosure of paid placements, and approval rights over published content</td></tr><tr><td><strong>Exit</strong></td><td>Who owns the content and the measurement history when the contract ends</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where SolCrys stands on guarantees</h2>
+      <p>We do not guarantee citation, mention, or revenue lift. We treat that as a standard, not a disclaimer. Engines sample their answers, change their sources, and update their models on their own schedule. What a vendor can commit to is the part it controls: the measurement and the work.</p><p>On measurement, we publish how prompts are selected. The tracked prompt set changes only with your approval, and a new prompt starts its own history. After a change to your content ships, we rerun the same prompt set on the same engines. We report 3 separate readings: whether an answer named you, how favorably it positioned you (<a href="/ai-recommendation-score/">Recommendation Score</a>), and whether what it said matches your Corporate Context, the governed source of truth for your brand&#39;s facts and approved claims (<a href="/is-ai-telling-the-truth-about-your-brand/">Answer Accuracy</a>). Before-and-after numbers are observations, not causal proof.</p><p>On the work, the loop is Measure, Diagnose, Execute, Verify. Execute is governed and human-approved: your team reviews every draft and decides what ships.</p><p>The same measurement can referee someone else&#39;s contract on the engines we track: ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude. If you sign a performance-based agreement with an agency, run the agreed prompt list in a tool the agency does not control and compare readings before fees begin.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://developers.google.com/search/docs/fundamentals/do-i-need-seo" target="_blank" rel="noopener noreferrer">Google Search Central: Do You Need an SEO? Tips for Hiring an SEO</a></li><li><a href="https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/" target="_blank" rel="noopener noreferrer">SparkToro: AIs are highly inconsistent when recommending brands or products (Jan. 28, 2026; 2,961 runs)</a></li><li><a href="https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/" target="_blank" rel="noopener noreferrer">Search Engine Journal: Why Reddit&#39;s ChatGPT citation drop isn&#39;t fully explained (Aug. 19, 2026)</a></li><li><a href="https://lilyraynyc.substack.com/p/why-calling-yourself-the-best-could" target="_blank" rel="noopener noreferrer">Lily Ray: Why Calling Yourself the &#39;Best&#39; Could Be Helping Your Competitors Win in AI Search (June 17, 2026)</a></li><li><a href="https://learn.g2.com/g2-2026-ai-search-insight-report" target="_blank" rel="noopener noreferrer">G2: 2026 AI Search Insight Report (survey of 1,076 B2B decision-makers)</a></li><li><a href="https://support.google.com/analytics/answer/9756891" target="_blank" rel="noopener noreferrer">Google Analytics Help: default channel group (AI Assistant channel)</a></li><li><a href="https://support.google.com/webmasters/answer/16984139" target="_blank" rel="noopener noreferrer">Google Search Console Help: Search generative AI performance report</a></li><li><a href="https://blogs.bing.com/webmaster/2026/2/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview/" target="_blank" rel="noopener noreferrer">Microsoft Bing: Introducing AI Performance in Bing Webmaster Tools (Feb. 10, 2026)</a></li><li><a href="https://arxiv.org/abs/2607.14035" target="_blank" rel="noopener noreferrer">Martinez: survey of 45 generative engine optimization studies (arXiv 2607.14035, July 2026)</a></li><li><a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">Google Search Central: Spam policies for Google web search</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: Optimizing your website for generative AI features on Google Search</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is pay-for-performance AEO a red flag?</h3>
+            <p>Not by itself. Tying fees to outcomes aligns incentives when the outcome is defined tightly. It becomes a red flag when the agency chooses the prompt list, measures the result with its own tool, and counts any mention as a win. Ask the 5 questions and get the answers into the contract.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can an AEO agency guarantee AI visibility?</h3>
+            <p>No. No agency controls what an answer engine says: answers are sampled, sources change, and models update on the engines&#39; own schedule. A performance-based contract is a contingent fee, not a guarantee, and it is only as strong as its definitions. Treat a promise of a specific result as a claim to test with the 5 questions.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What is a fair AI visibility threshold?</h3>
+            <p>There is no universal number. A fair threshold is set on non-branded prompts with demand evidence, sits above the measured baseline by more than the baseline&#39;s own week-to-week spread, and has to hold for several consecutive weeks. A threshold that includes branded prompts, or that can be met on a single run, is not a performance term.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should branded prompts count toward the threshold?</h3>
+            <p>No. AI assistants usually name a brand when the question is about that brand, so branded prompts inflate the rate from day 1. Track them separately for accuracy, where they matter most, and keep them out of the threshold.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can revenue from AI answers be attributed accurately?</h3>
+            <p>Only partly. Visits from AI assistants can be counted where a referrer is passed, but Google Analytics 4&#39;s AI Assistant channel excludes Google AI Overviews and AI Mode, and much of the influence arrives later as a branded search or a direct visit. A revenue-share contract needs an agreed referrer list, baseline trend, lookback window, and exclusions. Without them the number is a negotiation, not a measurement.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does SolCrys guarantee results?</h3>
+            <p>No. We commit to a published prompt-selection method, a prompt set that changes only with your approval, reruns on the same prompts and engines, and separate readings for mention, recommendation, and accuracy. Outcomes also depend on third-party sources, engine updates, and competitors, which no vendor controls.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>Try the full loop on your own domain, free</h2>
+          <p>Most free checkers stop at a score. The free SolCrys workspace runs 10 ChatGPT prompts on your domain, shows who gets recommended instead, and hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/aeo-vendor-claims-worth-verifying/">5 AEO Vendor Claims Worth Verifying</a></h3>
+            <p>Five pitch patterns that recur across AEO vendor conversations, paired with the specific questions that test each one. What&#39;s worth verifying before signing — and how SolCrys answers the same five tests.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>We ground every AEO prompt set on real intent volume, public community questions, AI query signals, and live engine follow-ups - not synthetic keyword lists. Here&#39;s how we build it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citation-vs-recommendation/">Cited but Not Recommended: Why AI Citations Are the Wrong KPI</a></h3>
+            <p>Getting cited as a source and getting recommended as the pick are two different AI-search outcomes, and they are decoupling. Why most teams track the wrong one, what a 100-query study and our own 5-engine data show, and the KPI to measure instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-web-traffic-attribution/">What AEO Does to Your Web Traffic</a></h3>
+            <p>AI shapes far more buying than it sends clicks, so analytics undercount AEO. What GA4, Search Console, and Bing show, what they miss, and how to attribute it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/google-spam-policy-ai-answer-manipulation/">Google Now Calls AI-Answer Manipulation Spam. The GEO Tactics That Cross the Line—and the Ones That Just Don&#39;t Work.</a></h3>
+            <p>Google&#39;s spam policies now cover manipulating AI answers. Which GEO tactics cross the line, which are risky, which are wasted, and what holds up.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
+            <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/cmo-aeo-procurement-playbook/">The CMO&#39;s AEO Procurement Playbook</a></h3>
+            <p>A 30-day playbook for evaluating and procuring an AEO platform — RFP design, POC scope, reference-check script, contract red lines. From Gwen Chen, ex-AWS marketing leader, on what AEO procurement should look like in 2026.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CQKzHLsY.js"></script>
+  </body>
+</html>
