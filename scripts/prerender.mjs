@@ -863,7 +863,7 @@ function homeHtml() {
       <div class="seo-grid">
         <article class="seo-card">
           <h3><a href="/guides/">User guides</a></h3>
-          <p>Set up your workspace, then learn the dashboards and tools, step by step.</p>
+          <p>Set up your workspace, learn the dashboards and tools, and run a Deep Analysis, step by step.</p>
         </article>
         <article class="seo-card">
           <h3><a href="/learn/aeo-operator/">AEO Operator course</a></h3>
@@ -1532,7 +1532,7 @@ function resourcesHtml() {
       <p class="seo-kicker">AEO Resource Hub</p>
       <h1>Practical guides for AI search visibility.</h1>
       <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic below.</p>
-      <div class="seo-card"><h2><a href="/guides/">Looking for SolCrys user guides?</a></h2><p>Set up your workspace and learn the dashboards and tools. Read online or download the PDFs.</p></div>
+      <div class="seo-card"><h2><a href="/guides/">Looking for SolCrys user guides?</a></h2><p>Set up your workspace, learn the dashboards and tools, and run a Deep Analysis. Read online or download the PDFs.</p></div>
     </section>
     ${orderedKeys
       .map((key) => {
@@ -3445,7 +3445,7 @@ function guideDocumentSchema(guide) {
     name: guide.title,
     description: guide.description,
     url: canonicalUrl(`/guides/${guide.slug}/`),
-    dateModified: userGuides.updated,
+    dateModified: guide.updated,
     inLanguage: "en",
     isAccessibleForFree: true,
     author: { "@type": "Organization", name: "SolCrys", url: site.url },
@@ -3475,7 +3475,8 @@ for (const guide of userGuides.guides) {
   if (userGuideText[guide.slug]?.length !== guide.pages || userGuideText[guide.slug].some((text) => !text.trim())) {
     throw new Error(`Missing page text in user guide: ${guide.slug}`);
   }
-  const companion = userGuides.guides.find((item) => item.slug !== guide.slug);
+  const nextGuide = userGuides.guides.find((item) => item.slug === guide.next.slug);
+  if (!nextGuide) throw new Error(`Unknown next guide in user guide: ${guide.slug}`);
   writePage(`guides/${guide.slug}/index.html`, renderLayout({
     routePath: `/guides/${guide.slug}/`,
     title: `${guide.title} — User Guide | SolCrys`,
@@ -3485,7 +3486,7 @@ for (const guide of userGuides.guides) {
       <nav aria-label="Breadcrumb"><a href="/resources/">Resources</a> / <a href="/guides/">User guides</a> / <span>${escapeHtml(guide.title)}</span></nav>
       <section class="seo-hero"><p class="seo-kicker">Guide ${escapeHtml(guide.number)} &middot; ${escapeHtml(guide.category)}</p>
         <h1>${escapeHtml(guide.title)}</h1><p class="seo-lede">${escapeHtml(guide.description)}</p>
-        <p>PDF &middot; ${guide.pages} pages &middot; ${escapeHtml(guide.fileSize)} &middot; ${escapeHtml(userGuides.edition)}</p>${guideLinksHtml(guide)}
+        <p>PDF &middot; ${guide.pages} pages &middot; ${escapeHtml(guide.fileSize)} &middot; ${escapeHtml(guide.edition)}</p>${guideLinksHtml(guide)}
         <aside class="seo-card"><strong>Before you start.</strong><p>${escapeHtml(guide.beforeYouStart)}</p></aside>
       </section>
       <section class="seo-section"><h2>In this guide</h2><p>Chapter links open the PDF in a new tab.</p>
@@ -3494,7 +3495,7 @@ for (const guide of userGuides.guides) {
       <section class="seo-section"><h2>Document preview</h2><a href="${escapeAttr(guide.pdf)}"><img src="${escapeAttr(guide.cover)}" alt="First page of ${escapeAttr(guide.title)}" width="636" height="900" style="max-width: 100%; height: auto" loading="lazy"></a>${guideLinksHtml(guide)}
         <p>Interface examples use fictional brands, people, and results. Available controls depend on your role, plan, and workspace type.</p>
       </section>
-      <section class="seo-section"><p><a href="/guides/">All user guides</a></p>${companion ? `<p>Companion guide: <a href="/guides/${escapeAttr(companion.slug)}/">${escapeHtml(companion.title)}</a></p>` : ""}</section>
+      <section class="seo-section"><p><a href="/guides/">All user guides</a></p><p>${escapeHtml(guide.next.label)}<br><a href="/guides/${escapeAttr(nextGuide.slug)}/">${escapeHtml(nextGuide.title)}</a></p></section>
     </main>${footerHtml()}</div>`,
     schemas: [organizationSchema, guideDocumentSchema(guide), breadcrumbSchema([
       { name: "Home", path: "/" }, { name: "User guides", path: "/guides/" },
@@ -3505,18 +3506,18 @@ for (const guide of userGuides.guides) {
 
 writePage("guides/index.html", renderLayout({
   routePath: "/guides/",
-  title: "SolCrys User Guides — Workspace Setup, Dashboards and Tools",
-  description: "Practical SolCrys user guides for workspace setup, AI visibility dashboards, and AEO tools. Read chapter by chapter or download the free PDFs.",
+  title: "SolCrys User Guides — Setup, Dashboards and Deep Analysis",
+  description: "Practical SolCrys user guides for workspace setup, AI visibility dashboards and tools, and Workspace Deep Analysis. Read chapter by chapter or download the free PDFs.",
   lastModified: userGuides.updated,
   body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
     <section class="seo-hero"><p class="seo-kicker">SolCrys documentation</p><h1>Your guide to SolCrys.</h1>
       <p class="seo-lede">From your first workspace to your weekly AEO review. Practical steps, interface examples, and answers when you need them.</p>
-      <p>Set up with guide 01. Put your results to work with guide 02. Free to read and download.</p>
-    </section><section class="seo-section"><h2>User guides</h2><p>${userGuides.guides.length} documents &middot; ${escapeHtml(userGuides.edition)} edition &middot; PDF</p>
+      <p>Set up with guide 01. Put your results to work with guide 02. Plan improvements with guide 03. Free to read and download.</p>
+    </section><section class="seo-section"><h2>User guides</h2><p>${userGuides.guides.length} documents &middot; PDF</p>
       <div class="seo-grid">${userGuides.guides.map((guide) => `<article class="seo-card"><p class="seo-kicker">Guide ${escapeHtml(guide.number)} &middot; ${escapeHtml(guide.category)}</p>
         <h3><a href="/guides/${escapeAttr(guide.slug)}/">${escapeHtml(guide.title)}</a></h3><p>${escapeHtml(guide.description)}</p>
         <ul>${guide.highlights.map((highlight) => `<li>${escapeHtml(highlight)}</li>`).join("")}</ul>
-        <p>PDF &middot; ${guide.pages} pages &middot; ${escapeHtml(guide.fileSize)}</p>
+        <p>PDF &middot; ${guide.pages} pages &middot; ${escapeHtml(guide.fileSize)} &middot; ${escapeHtml(guide.edition)}</p>
         <p><a href="/guides/${escapeAttr(guide.slug)}/">Read guide</a></p>${guideLinksHtml(guide)}</article>`).join("")}</div>
     </section><section class="seo-section"><h2>Keep the guide beside your workspace.</h2><p>Open a chapter, follow along in SolCrys, or save the PDF for your team. Controls may vary by role, plan, and workspace type.</p><p><a href="https://app.solcrys.com/login">Open SolCrys</a></p>
       <h2>Looking for the bigger picture?</h2><p><a href="/resources/">Browse resources</a> or <a href="/learn/aeo-operator/">take the free AEO Operator course</a>.</p>
@@ -3592,7 +3593,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [Cornelis case study](${site.url}/customers/cornelis/): Full case study — how Cornelis made a brand-new networking category (Active Compute Fabric) answerable in four weeks ahead of its AI Infra Summit launch: 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2. Covers the five-step SolCrys method (measure visibility, diagnose gaps, activate actions, verify impact, map assets to depth).${productPages.map((page) => `\n- [${page.serviceName || page.title}](${site.url}/${page.slug}/): ${page.description}`).join("")}
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
-- [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards, and tools. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
+- [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards and tools, and Workspace Deep Analysis. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
 - [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
 - [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
   .map(

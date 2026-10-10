@@ -5,6 +5,7 @@ Requires PyMuPDF. Run with the directory containing the original PDFs:
 
 The corrections are intentionally tied to this edition. Assertions stop a later
 edition from being edited at stale coordinates. Render and inspect changed pages.
+Later guides are published with scripts/add-user-guide.py and are left alone here.
 """
 
 import json
@@ -20,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = ROOT / "src/content/userGuides.json"
 SOURCE = Path(sys.argv[1]).resolve()
 DEST = ROOT / "public/guides"
+SEPTEMBER_GUIDES = ("workspace-setup", "aeo-dashboards-and-tools")
 FONT = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("/System/Library/Fonts/Supplemental/Arial.ttf")
 assert SOURCE != DEST.resolve(), "Use the originals, not the published copies."
 assert FONT.is_file(), "Pass the path to Arial.ttf as the second argument."
@@ -49,8 +51,10 @@ def replace_lines(doc, page_number, originals, replacements, size, x, baseline, 
 
 
 data = json.loads(MANIFEST.read_text())
-transcripts = {}
+transcripts = json.loads((ROOT / "src/content/userGuideText.json").read_text())
 for guide in data["guides"]:
+    if guide["slug"] not in SEPTEMBER_GUIDES:
+        continue
     filename = Path(guide["pdf"]).name
     doc = fitz.open(SOURCE / filename)
     assert len(doc) == guide["pages"]
@@ -80,7 +84,7 @@ for guide in data["guides"]:
 
     doc.set_toc([[1, chapter["title"], chapter["page"]] for chapter in guide["chapters"]])
     doc.set_language("en-US")
-    companion = next(item for item in data["guides"] if item["slug"] != guide["slug"])
+    companion = next(item for item in data["guides"] if item["slug"] in SEPTEMBER_GUIDES and item["slug"] != guide["slug"])
     for page in doc:
         for rect in page.search_for(companion["title"]):
             page.insert_link({"kind": fitz.LINK_URI, "from": rect, "uri": f'https://solcrys.com/guides/{companion["slug"]}/'})

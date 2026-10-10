@@ -75,7 +75,7 @@ const staticPages = [
   entry({
     slug: "guides",
     title: "SolCrys User Guides",
-    description: "Workspace setup, dashboards and tools, chapter by chapter or as free PDFs.",
+    description: "Workspace setup, dashboards and tools, and Deep Analysis, chapter by chapter or as free PDFs.",
     category: "User Guides",
     keywords: "user guide guides documentation docs manual help how-to setup onboarding PDF",
   }),

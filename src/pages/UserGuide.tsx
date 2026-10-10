@@ -28,7 +28,7 @@ const UserGuide = () => {
     }
   }, [searchParams, guideSlug]);
   if (!guide) return <NotFound />;
-  const companion = userGuides.guides.find((item) => item.slug !== guide.slug);
+  const nextGuide = userGuides.guides.find((item) => item.slug === guide.next.slug);
   const requestedPage = Number(searchParams.get("page") || 1);
   const pageNumber = Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= guide.pages ? requestedPage : 1;
   const currentChapter = guide.chapters.find((chapter) => chapter.page === pageNumber);
@@ -48,7 +48,7 @@ const UserGuide = () => {
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-[hsl(var(--brand-accent-ink))]">Guide {guide.number} · {guide.category}</p>
           <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{guide.title}</h1>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{guide.description}</p>
-          <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground"><FileText className="h-4 w-4" aria-hidden="true" />PDF · {guide.pages} pages · {guide.fileSize} · {userGuides.edition}</p>
+          <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground"><FileText className="h-4 w-4" aria-hidden="true" />PDF · {guide.pages} pages · {guide.fileSize} · {guide.edition}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild variant="hero" className="rounded-lg"><a href={guide.pdf} target="_blank" rel="noopener noreferrer">Open PDF <ExternalLink aria-hidden="true" /><span className="sr-only"> (opens in a new tab)</span></a></Button>
             <Button asChild variant="hero-outline" className="rounded-lg"><a href={guide.pdf} download><ArrowDownToLine aria-hidden="true" />Download PDF</a></Button>
@@ -82,7 +82,7 @@ const UserGuide = () => {
         <p className="mt-8 max-w-3xl text-xs leading-relaxed text-muted-foreground">Interface examples use fictional brands, people, and results. Available controls depend on your role, plan, and workspace type.</p>
         <div className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-border/15 pt-8">
           <a href="/guides/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" aria-hidden="true" />All user guides</a>
-          {companion && <a href={`/guides/${companion.slug}/`} className="group text-sm"><span className="mb-1 block text-xs text-muted-foreground">{guide.number === "01" ? "Next: put your results to work" : "Need to configure your workspace?"}</span><span className="inline-flex items-center gap-2 font-medium text-[hsl(var(--brand-accent-ink))] group-hover:underline">{companion.title}<ArrowRight className="h-4 w-4" aria-hidden="true" /></span></a>}
+          {nextGuide && <a href={`/guides/${nextGuide.slug}/`} className="group text-sm"><span className="mb-1 block text-xs text-muted-foreground">{guide.next.label}</span><span className="inline-flex items-center gap-2 font-medium text-[hsl(var(--brand-accent-ink))] group-hover:underline">{nextGuide.title}<ArrowRight className="h-4 w-4" aria-hidden="true" /></span></a>}
         </div>
       </main>
       <Footer />

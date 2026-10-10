@@ -43,7 +43,7 @@ export const RESOURCES_COLUMNS: ResourcesMenuColumn[] = [
     items: [
       {
         title: "User guides",
-        desc: "Workspace setup, dashboards, and tools",
+        desc: "Setup, dashboards, and Deep Analysis",
         href: "/guides/",
         Icon: BookOpen,
       },

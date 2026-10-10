@@ -18,7 +18,7 @@ const GETTING_STARTED = [
     href: "/guides/",
     title: "User guides",
     badge: "New",
-    description: "Set up your workspace, then learn the dashboards and tools, step by step.",
+    description: "Set up your workspace, learn the dashboards and tools, and run a Deep Analysis, step by step.",
   },
   {
     href: "/learn/aeo-operator/",

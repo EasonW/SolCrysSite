@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import userGuides from "@/content/userGuides.json";
 
+const updatedLabel = new Date(`${userGuides.updated}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+
 const UserGuides = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
@@ -14,7 +16,7 @@ const UserGuides = () => (
           <span aria-hidden="true">/</span>
           <span aria-current="page" className="text-foreground">User guides</span>
         </nav>
-        <div className="grid gap-8 border-b border-border/15 pb-12 md:grid-cols-[1fr_260px] md:items-end">
+        <div className="grid gap-8 border-b border-border/15 pb-12 md:grid-cols-[1fr_300px] md:items-end">
           <div>
             <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[hsl(var(--brand-accent-ink))]">
               <BookOpen className="h-4 w-4" aria-hidden="true" /> SolCrys documentation
@@ -24,7 +26,7 @@ const UserGuides = () => (
           </div>
           <div className="border-l-2 border-[hsl(var(--brand-accent-ink))] pl-5 text-sm">
             <p className="font-medium">A simple place to start</p>
-            <p className="mt-2 leading-relaxed text-muted-foreground">Set up with guide 01.<br />Put your results to work with guide 02.</p>
+            <p className="mt-2 leading-relaxed text-muted-foreground">Set up with guide 01.<br />Put your results to work with guide 02.<br />Plan improvements with guide 03.</p>
             <p className="mt-4 text-xs text-muted-foreground">Free to read and download.</p>
           </div>
         </div>
@@ -33,9 +35,9 @@ const UserGuides = () => (
       <section aria-labelledby="library-heading" className="container mx-auto mt-10 max-w-6xl px-6">
         <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="library-heading" className="text-xl font-semibold">User guides <span className="ml-2 text-sm font-normal text-muted-foreground">{userGuides.guides.length} documents</span></h2>
-          <p className="text-xs text-muted-foreground">{userGuides.edition} edition · PDF</p>
+          <p className="text-xs text-muted-foreground">PDF · Updated {updatedLabel}</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {userGuides.guides.map((guide) => (
             <article key={guide.slug} className="group overflow-hidden rounded-2xl border border-border/15 bg-card">
               <a href={`/guides/${guide.slug}/`} tabIndex={-1} aria-hidden="true" className="relative flex h-52 items-start justify-center overflow-hidden border-b border-border/10 bg-[hsl(var(--brand-accent)/0.06)] pt-7">
@@ -53,7 +55,7 @@ const UserGuides = () => (
                 <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-4 border-t border-border/10 pt-5">
                   <Button asChild variant="hero" className="rounded-lg"><a href={`/guides/${guide.slug}/`}>Read guide <ArrowRight aria-hidden="true" /></a></Button>
                   <a href={guide.pdf} download className="inline-flex items-center gap-2 text-sm font-medium hover:underline underline-offset-4" aria-label={`Download ${guide.title} PDF`}><ArrowDownToLine className="h-4 w-4" aria-hidden="true" />Download PDF</a>
-                  <span className="text-xs text-muted-foreground">{guide.fileSize}</span>
+                  <span className="text-xs text-muted-foreground">{guide.fileSize} · {guide.edition}</span>
                 </div>
               </div>
             </article>
