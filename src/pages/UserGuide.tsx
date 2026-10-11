@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import userGuides from "@/content/userGuides.json";
-import userGuideText from "@/content/userGuideText.json";
 import NotFound from "@/pages/NotFound";
 
 const UserGuide = () => {
@@ -33,7 +32,6 @@ const UserGuide = () => {
   const pageNumber = Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= guide.pages ? requestedPage : 1;
   const currentChapter = guide.chapters.find((chapter) => chapter.page === pageNumber);
   const pageHref = (page: number) => `/guides/${guide.slug}/?page=${page}#document-preview`;
-  const pageText = userGuideText[guide.slug as keyof typeof userGuideText]?.[pageNumber - 1];
 
   return (
     <div className="min-h-screen bg-background">
@@ -74,8 +72,7 @@ const UserGuide = () => {
                 {pageNumber < guide.pages ? <Link to={pageHref(pageNumber + 1)} className="rounded-md p-2 hover:bg-muted" aria-label="Next page"><ArrowRight className="h-4 w-4" /></Link> : <span aria-hidden="true" className="p-2 text-muted-foreground/30"><ArrowRight className="h-4 w-4" /></span>}
               </nav>
             </div>
-            <img key={pageNumber} src={`/guides/${guide.slug}/page-${String(pageNumber).padStart(2, "0")}.jpg`} alt={`${guide.title}, page ${pageNumber}: ${currentChapter?.title ?? "Guide page"}. Text is available below the preview.`} width={1061} height={1500} className="h-auto w-full bg-white" />
-            {pageText && <details key={`text-${pageNumber}`} className="border-t border-border/10 px-5 py-4"><summary className="cursor-pointer text-sm font-medium">Read page {pageNumber} as text</summary><div className="mt-4 whitespace-pre-line break-words text-sm leading-relaxed text-muted-foreground">{pageText}</div></details>}
+            <img key={pageNumber} src={`/guides/${guide.slug}/page-${String(pageNumber).padStart(2, "0")}.jpg`} alt={`${guide.title}, page ${pageNumber}: ${currentChapter?.title ?? "Guide page"}`} width={1061} height={1500} className="h-auto w-full bg-white" />
             <p className="border-t border-border/10 px-5 py-4 text-xs leading-relaxed text-muted-foreground">For zoom, printing, or a full-screen view, <a href={`${guide.pdf}#page=${pageNumber}`} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground underline underline-offset-2">open the PDF in a new tab</a>.</p>
           </section>
         </div>

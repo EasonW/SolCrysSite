@@ -38,7 +38,7 @@ Long-form resource content lives in `src/content/siteContent.json`. Homepage cli
 
 Newsroom and Prompt Pulse data live in `src/content/newsroom.json` and `src/content/promptPulse.json`.
 
-Product documentation lives at `/guides/`, separate from editorial AEO resources. `src/content/userGuides.json` drives the library, readers, search, and static metadata. PDFs, cover images, and numbered page previews live in `public/guides/`; `src/content/userGuideText.json` provides selectable text in the reader and crawlable HTML. The build checks that every page preview and transcript exists.
+Product documentation lives at `/guides/`, separate from editorial AEO resources. `src/content/userGuides.json` drives the library, readers, search, and static metadata. PDFs, cover images, and numbered page previews live in `public/guides/`; `src/content/userGuideText.json` provides the page text for the crawlable static HTML; the reader itself shows page previews and links to the PDF. The build checks that every page preview and transcript exists.
 
 See [the September 2026 guide review](docs/user-guide-review-2026-09-16.md) for content corrections and maintenance notes. `scripts/prepare-user-guides.py` prepares that specific edition of guides 01 and 02 from the original PDFs. To publish another guide, add it to `userGuides.json` (each guide carries its own `edition`, `updated`, and `next` link), then run `python3 scripts/add-user-guide.py <slug> /path/to/source.pdf` to write the PDF, cover, page previews, and page text. Both scripts need PyMuPDF locally; neither is required to build or deploy the website.
 
