@@ -68,7 +68,9 @@ doc.close()
 
 doc = fitz.open(output)
 transcripts = json.loads(TRANSCRIPTS.read_text())
-transcripts[SLUG] = [unicodedata.normalize("NFKC", page.get_text(sort=True)).strip() for page in doc]
+# The guide is printed from HTML, so its text is already stored in reading
+# order. Sorting by position would interleave side-by-side columns.
+transcripts[SLUG] = [unicodedata.normalize("NFKC", page.get_text()).strip() for page in doc]
 assert all(transcripts[SLUG]), "Every page needs text; a scanned page cannot be read in the website's text view."
 preview_dir = DEST / SLUG
 preview_dir.mkdir(exist_ok=True)
