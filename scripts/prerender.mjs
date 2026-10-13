@@ -1272,6 +1272,17 @@ function newsBlockHtml(block) {
       return `<ul class="seo-list">${(block.items || [])
         .map((item) => `<li>${renderInlineHtml(item)}</li>`)
         .join("")}</ul>`;
+    case "timeline":
+      return `<figure><ol class="seo-list">${(block.entries || [])
+        .map(
+          (entry) =>
+            `<li><span class="seo-kicker">${escapeHtml(entry.date)}</span> · <strong>${escapeHtml(
+              entry.title
+            )}</strong>: “${escapeHtml(entry.quote)}”</li>`
+        )
+        .join("")}</ol>${
+        block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : ""
+      }</figure>`;
     case "cta":
       if (!block.text || !block.href) return "";
       return `<p><a href="${escapeAttr(block.href)}">${escapeHtml(block.text)}</a></p>`;

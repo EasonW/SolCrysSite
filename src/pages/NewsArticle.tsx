@@ -123,6 +123,38 @@ const renderBlock = (block: BodyBlock, index: number) => {
           ))}
         </ul>
       );
+    case "timeline":
+      // Dated cards in reading order (e.g. a launch history): date, name,
+      // and the question behind it. Real text, not an image, so it stays
+      // legible at column width and readable by crawlers.
+      if (!("entries" in block) || !Array.isArray(block.entries)) return null;
+      return (
+        <figure key={index} className="my-10">
+          <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {block.entries.map((entry) => (
+              <li
+                key={`${entry.date}-${entry.title}`}
+                className="rounded-lg border border-border/30 bg-card/40 p-4"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-[hsl(var(--brand-accent-ink))]">
+                  {entry.date}
+                </p>
+                <p className="font-display mt-2 text-base font-semibold leading-snug text-foreground">
+                  {entry.title}
+                </p>
+                <p className="mt-2 text-sm italic leading-relaxed text-muted-foreground">
+                  “{entry.quote}”
+                </p>
+              </li>
+            ))}
+          </ol>
+          {"caption" in block && block.caption ? (
+            <figcaption className="mt-4 text-sm text-muted-foreground leading-relaxed">
+              {block.caption}
+            </figcaption>
+          ) : null}
+        </figure>
+      );
     case "cta":
       // Prominent inline CTA. `href` may be absolute (e.g. app subdomain
       // for the audit funnel) or a same-site relative path; both work.

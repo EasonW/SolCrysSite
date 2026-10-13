@@ -161,6 +161,9 @@ const staticPages = [
 const newsBlockText = (block) => {
   if (block.text) return block.text;
   if (block.items) return block.items.join(" ");
+  if (block.entries) {
+    return [...block.entries.map((e) => `${e.date} ${e.title} ${e.quote}`), block.caption ?? ""].join(" ");
+  }
   return "";
 };
 
