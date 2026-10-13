@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>SolCrys AEO Workspace Deep Analysis: one plan for the next four weeks</title>
+    <meta name="description" content="Today we&#39;re launching Workspace Deep Analysis. Run one analysis a month across the prompts that matter most to you and get back a short, ranked, dated plan, with every action grounded in the latest AI answers and citations." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/news/introducing-workspace-deep-analysis/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-13" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="SolCrys AEO Workspace Deep Analysis: one plan for the next four weeks" />
+    <meta property="og:description" content="Today we&#39;re launching Workspace Deep Analysis. Run one analysis a month across the prompts that matter most to you and get back a short, ranked, dated plan, with every action grounded in the latest AI answers and citations." />
+    <meta property="og:url" content="https://solcrys.com/news/introducing-workspace-deep-analysis/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-13" />
+    <meta property="article:modified_time" content="2026-10-13" />
+    <meta property="og:image" content="https://solcrys.com/og/news-introducing-workspace-deep-analysis.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/news-introducing-workspace-deep-analysis.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BJt2dO6z.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Newsroom","item":"https://solcrys.com/news/"},{"@type":"ListItem","position":3,"name":"SolCrys AEO Workspace Deep Analysis: one plan for the next four weeks","item":"https://solcrys.com/news/introducing-workspace-deep-analysis/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"SolCrys AEO Workspace Deep Analysis: one plan for the next four weeks","description":"Today we're launching Workspace Deep Analysis. Run one analysis a month across the prompts that matter most to you and get back a short, ranked, dated plan, with every action grounded in the latest AI answers and citations.","datePublished":"2026-10-13","dateModified":"2026-10-13","mainEntityOfPage":"https://solcrys.com/news/introducing-workspace-deep-analysis/","image":"https://solcrys.com/og/news-introducing-workspace-deep-analysis.png","author":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Product Launch · <time datetime="2026-10-13">2026-10-13</time></p>
+        
+        <h1>SolCrys AEO Workspace Deep Analysis: one plan for the next four weeks</h1>
+        
+        
+      </header>
+      
+      
+      <p>Our best product ideas come straight from customers. Ours have been telling us three things: they want evidence, not just insights. They want those insights to fit the way their team already works. And they want an easier way to implement them.</p><figure class="seo-quote"><blockquote><p>“I don&#39;t have time to check in every day. Is there an easier way to come in and know what I need to do in the next month?”</p></blockquote></figure><p>So that&#39;s what we built: evidence behind every finding, insights that land in the day to day, and the shortest path from finding to done.</p><p>Today we&#39;re launching Workspace Deep Analysis. Run one analysis a month across the prompts that matter most to you. Get back a short, ranked, dated plan that covers your month, with every action grounded in the latest AI-generated answers and citations, one click from Actions Hub.</p><h2>From one prompt to the whole workspace</h2><p>Deep Analysis started at the prompt level. Pick one question, and SolCrys reads every AI answer and every page those answers cite to explain why the engines say what they say about you.</p><p>Customers loved the why. Then they asked for the natural next step: across all of this, what should my team do first, and how do we get it done?</p><p>And there are several ways to think about which prompts to prioritize. Is this the most important prompt you&#39;re working on right now, the one you&#39;re writing content for, or pitching third-party editorials to cover? Is your goal to lift long-tail prompts, or to build on the ones where you already perform well? Or to improve one particular engine? All great questions to think through. But when you have 10 meetings a day, you probably don&#39;t have much time to think through them every week.</p><figure><ol class="seo-list"><li><span class="seo-kicker">May 2026</span> · <strong>SolCrys AEO</strong>: “What is AI saying about us?”</li><li><span class="seo-kicker">Jun 2026</span> · <strong>MCP</strong>: “Can we use this without leaving our tools?”</li><li><span class="seo-kicker">Jul 2026</span> · <strong>Answer Accuracy</strong>: “Is what AI says about us actually right?”</li><li><span class="seo-kicker">Jul 2026</span> · <strong>Recommendation</strong>: “Does being mentioned mean being chosen?”</li><li><span class="seo-kicker">Jul 2026</span> · <strong>Corporate Context Engine</strong>: “How do we keep AI current as our business changes?”</li><li><span class="seo-kicker">Jul 2026</span> · <strong>Community Intelligence</strong>: “Where are the conversations that shape AI answers?”</li><li><span class="seo-kicker">Aug 2026</span> · <strong>Signals (Market Watch)</strong>: “What is changing in our market this week?”</li><li><span class="seo-kicker">Sep 2026</span> · <strong>Web and animation</strong>: “Can the same facts power our website and our booth?”</li><li><span class="seo-kicker">Sep–Oct 2026</span> · <strong>Local business, person AEO</strong>: “Can AEO track our CEO and CTO?”</li></ol><figcaption>Ten launches in six months, all driven by real customer needs, from SolCrys AEO in May 2026 to local business and person AEO in September–October 2026.</figcaption></figure><p>Workspace Deep Analysis is built for exactly that step. Not another report to interpret, but a plan to work through.</p><h2>What one analysis gives you</h2><p>Pick up to 10 prompts that ask about the same need, such as setup, pricing, or comparisons, across your AI engines. Start the analysis and have a coffee or tea; it reads the answers and the cited pages and usually finishes in 5 to 15 minutes.</p><p>The report opens on Diagnosis:</p><ul class="seo-list"><li><strong>A one-sentence verdict</strong> that sums up where you stand, before any detail.</li><li><strong>What&#39;s working.</strong> The sources that already help you, like the roundup article every engine cites or the page that names your brand. Keep them accurate and current.</li><li><strong>What holds you back.</strong> Each finding is typed as a content gap, competitor advantage, or owned content not cited, and comes with its evidence: the engine, the answer&#39;s own words, the prompt, and the page the answer cited.</li></ul><p>No guessing why AI leaves you out. For every issue, you see which AI assistant said it, the question that was asked, the exact words of the answer, and the website it sent readers to instead of yours.</p><h2>A dated four-week plan, one click from the work</h2><p>The Actions tab is the part customers asked for most. It sums up the plan in one sentence, then lists Week 1: the tasks most likely to make a difference. Weeks 2–3 hold the rest, grouped by where you publish: your own site, other sites&#39; articles and listings, and social or video platforms.</p><p>Actions fit to your business domain, your AI visibility gaps, and your Corporate Context. Every card tells you where to publish, which answer gap it closes, the key points to cover, and its effort and impact. Select <strong>Add to Actions</strong> on the tasks you plan to do, and the work lands in Actions Hub with a brief attached, ready for an owner, a due date, and a path from Todo to Published.</p><p>Why four weeks? Week 1 starts the day the report finishes, and Weeks 2–3 cover the 14 days after. The final week leaves room for your changes to show up in AI answers before you measure again next month.</p><p>Measure visibility. Diagnose gaps. Execute the right actions. Verify what moved. Workspace Deep Analysis runs the whole loop on a monthly rhythm: run one analysis, work the plan for four weeks, then compare mentions and recommendation scores on the same prompts and run the next one. The results come from doing the work, not from running the analysis again.</p><h2>Three examples</h2><p>Say you run a well-established business in San Francisco and you want to expand to San Jose. When someone in San Jose asks an AI assistant who to call, the answers probably name the businesses already there, not you.</p><p>Pick up to 10 prompts your future customers would ask, like &quot;best [your service] in San Jose&quot; or &quot;who should I call for [your service] in San Jose&quot;, and run one analysis. The report shows which AI assistants skip you, what they say instead, and the pages they trust: local roundups, review sites, a competitor&#39;s comparison page. The plan that comes back is your first month of expansion marketing. Week 1 might be a San Jose page on your own site; Weeks 2 and 3, the listings and roundups the answers already cite. Add the tasks to Actions Hub, assign owners, ship. Next month, run it again and see how often the answers name you for San Jose.</p><p>Or say you&#39;re writing the launch plan for a new feature. Run an analysis before launch on the prompts the feature should win: &quot;best tools for [the job it does]&quot;, &quot;[your category] with [the capability]&quot;, &quot;[your product] vs [competitor]&quot;. The report shows what the answers say today and which pages they pull from, and the plan becomes the AEO section of your launch checklist: the pages to publish on launch day in Week 1, the comparison and editorial coverage to pitch in Weeks 2 and 3. A month later, run it again and see whether the answers mention the new feature when it matters.</p><p>It works for people, too. Say you want to track your CEO&#39;s visibility. Run an analysis on the prompts where executives get named, like &quot;top voices in [your industry]&quot; or &quot;[topic] experts to follow&quot;. The report shows which AI assistants mention your CEO, what they say, and the interviews, podcasts, and articles they pull from, and the plan tells you which of those to pitch next.</p><h2>Every action carries its evidence</h2><p>Customers told us they only trust an action when the evidence convinces them it&#39;s worth doing. We built the whole report around that idea.</p><p>Every task in a Workspace Deep Analysis plan links back to the answer gaps it closes, and every gap shows the AI answers behind it, with the cited page. If a destination can&#39;t be confirmed, the card says so instead of pretending.</p><p>And the plan runs through quality checks before it reaches you. An action the data can&#39;t back gets dropped. Some months the report will say &quot;no actions this time&quot; and explain why. We&#39;d rather hand you a shorter plan than a padded one.</p><p>Impact is an estimate tied to named engines and prompts, not a promise. You choose what goes to Actions Hub, your team approves what ships, and next month&#39;s measurement shows what changed. Humans stay in control of every step.</p><h2>Available today, on every plan</h2><p>Workspace Deep Analysis is live today on every SolCrys plan; each run uses one Deep Analysis from your monthly allowance. The <a href="/guides/workspace-deep-analysis/">user guide</a> has more details.</p>
+      
+      <section class="seo-section"><h2>Related</h2><div class="seo-grid">
+        <article class="seo-card">
+          <p class="seo-kicker">Founder Note</p>
+          <h3><a href="/news/introducing-the-corporate-context-engine/">Announcing the SolCrys Corporate Context Engine</a></h3>
+          <p>Today we&#39;re introducing the SolCrys Corporate Context Engine — a living record of your company that keeps AI current as your business evolves.</p>
+        </article>
+        <article class="seo-card">
+          <p class="seo-kicker">Founder Note</p>
+          <h3><a href="/news/your-brand-ai-ready-one-year-of-solcrys/">Your Brand, AI Ready: One Year of SolCrys</a></h3>
+          <p>SolCrys co-founder and CEO Gwen Chen on year one — why AI is now the first reader of your brand, and how one Corporate Context came to power AI answers, webpages, booth animation, and community engagement for the teams we work with.</p>
+        </article></div></section>
+      
+    <section class="seo-section">
+      <div class="seo-card">
+        <p class="seo-kicker">Free · No credit card</p>
+        <h2>Turn AI answer gaps into governed marketing execution.</h2>
+        <p>Start free with a ChatGPT visibility read, then add multi-engine tracking, Corporate Context governance, and the action-to-result loop when you are ready.</p>
+        <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+      </div>
+    </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-BJUcy8lE.js"></script>
+  </body>
+</html>
