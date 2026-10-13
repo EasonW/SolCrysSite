@@ -33,7 +33,7 @@ Use one fresh, complete-diff review cycle for the final candidate, with both rev
 - Both reviewers must return explicit `PASS` with no unresolved P0/P1 before task completion, any push, pull request publication or update, or handoff as ready. Missing, interrupted, or unavailable review blocks those actions; self-review, a green gate, and review-round limits do not waive it.
 - Record reviewer identity, base, merge-base, head, date, verdict, and remaining non-blocking findings in the pull request body or an attributed review comment. Identify agent or CLI signoff accurately; it is not human approval.
 - Reuse passing signoff only for the same exact reviewed inputs. Any change to head, base, merge-base, working-tree evidence, or supplied context invalidates it.
-- Merge and deployment remain separately owner-authorized. This workflow does not establish GitHub branch-protection enforcement.
+- A passing review does not authorize a merge. Merging to `main` deploys to production and needs the owner's explicit authorization, as root `AGENTS.md` describes. This workflow does not establish GitHub branch-protection enforcement.
 
 ## Review lenses
 

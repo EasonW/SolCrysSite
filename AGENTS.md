@@ -6,7 +6,7 @@ This is the shared authority for Codex, Claude Code, and other coding agents wor
 
 - `src/`: Vite and React single-page app. `src/content/*.json` is the content source of truth: resource pages, newsroom, pricing, user guides, and courses.
 - `scripts/prerender.mjs`: writes the static HTML, sitemap, feed, and `llms.txt` that crawlers read. It mirrors the app by hand.
-- `scripts/generate-client-content.mjs`: generates `src/content/searchPages.json`. It runs before every build and typecheck.
+- `scripts/generate-client-content.mjs`: generates `src/content/homeContent.json` and `src/content/searchPages.json`. It runs before every build and typecheck; do not edit the generated files by hand.
 - `scripts/check-links.mjs`: last step of `npm run build`; fails on any internal link that does not resolve.
 - `scripts/og/render.mjs`: renders the per-page OG cards committed under `public/og/`.
 - `.github/workflows/deploy.yml`: every push to `main` builds the site and deploys it to production.
@@ -25,12 +25,13 @@ A page renders twice: in the app (`src/pages/`, `src/components/`) for visitors,
 
 - Change both renderers together when page structure or hand-mirrored copy changes.
 - A new content block type or inline syntax needs the app renderer, the prerender, and the search-index extraction in `scripts/generate-client-content.mjs`.
-- Commit the regenerated `src/content/searchPages.json` with the content change that produced it.
+- Commit the regenerated `src/content/homeContent.json` and `src/content/searchPages.json` with the content change that produced them.
 - Every published page carries its own OG card. Set `ogImage` on the entry, run `node scripts/og/render.mjs --only=<slug> --force`, and commit the PNG. A page without the field falls back to the generic card silently.
 
 ## Git safety and pull requests
 
 - Never push directly to `main`. A push to `main` is a production deploy.
+- Never run `npm run deploy` or push to the `gh-pages` branch. Production is reached only by merging a reviewed pull request.
 - Every change reaches `main` through a pull request, including content-only and documentation-only changes.
 - Start each task on a branch or worktree created from freshly fetched `origin/main`.
 - Before committing, verify the branch with `git branch --show-current` and inspect `git status --short` plus the staged diff.
@@ -56,15 +57,16 @@ Every pull request passes two independent reviewers, Codex and Claude, whatever 
 - A missing, interrupted, or unavailable review blocks those actions. Self-review and a green gate do not waive it.
 - Record each reviewer's identity, base, merge-base, head, date, and verdict in the pull request body.
 - Any change to a reviewed input invalidates signoff; review the new final candidate.
-- Each logical change gets at most three review rounds. After round three, record remaining P1/P2 findings as owner-review TODOs. The cap does not waive the gate.
+- Each logical change gets at most three review rounds. After round three, record remaining P1/P2 findings as owner-review TODOs. The cap does not waive the gate: with a P0/P1 still unresolved, stop and hand the branch to the owner as not ready.
 
 When the owner has already authorized committing, a verified local candidate commit may precede the gate. Fixes may be committed locally within that authorization; then review the new final candidate.
 
 ### Running the reviewers
 
-The review runner is `scripts/cross-model-review.mjs` in the SolCrys product repository. It reviews whichever repository it is run from and reads the contract from that repository's merge-base. Set `SOLCRYS_PRODUCT_REPO` to your local checkout of the product repository, then run both from inside this repository:
+The review runner is `scripts/cross-model-review.mjs` in the SolCrys product repository. It reviews whichever repository it is run from. It resolves the merge-base from `--base` and reads the contract from that merge-base, so a branch cannot relax the rules it is reviewed under. Set `SOLCRYS_PRODUCT_REPO` to your local checkout of the product repository, then run both from inside this repository:
 
 ```bash
+git fetch origin
 review_base="$(git rev-parse origin/main)"
 node "$SOLCRYS_PRODUCT_REPO/scripts/cross-model-review.mjs" codex --base "$review_base"
 node "$SOLCRYS_PRODUCT_REPO/scripts/cross-model-review.mjs" claude --base "$review_base"
@@ -74,6 +76,6 @@ If the runner, a CLI, or authentication is unavailable, report the review as `BL
 
 ## Merge and deployment
 
-- Merging to `main` deploys to production. Merge only on the owner's explicit authorization, after the owner has had the chance to preview the change.
-- Approval of one merge never carries to the next.
+- Merging to `main` is the production deploy; there is no separate deploy step to approve. Merge only on the owner's explicit authorization of that merge and its deploy, after the owner has had the chance to preview the change.
+- Authorization of one merge never carries to the next.
 - After a merge, confirm that the deploy workflow succeeded and that the changed page is live.
