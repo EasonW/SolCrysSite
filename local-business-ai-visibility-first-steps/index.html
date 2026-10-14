@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Local Business AI Visibility: What to Do First | SolCrys</title>
+    <meta name="description" content="A prioritized checklist for local businesses: check what AI answers say now, fix your facts where each engine reads them, then earn the pages and reviews the answers cite." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/local-business-ai-visibility-first-steps/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-14" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Local Business AI Visibility: What to Do First | SolCrys" />
+    <meta property="og:description" content="A prioritized checklist for local businesses: check what AI answers say now, fix your facts where each engine reads them, then earn the pages and reviews the answers cite." />
+    <meta property="og:url" content="https://solcrys.com/local-business-ai-visibility-first-steps/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-14" />
+    <meta property="article:modified_time" content="2026-10-14" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BJt2dO6z.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"What a Local Business Should Do First to Show Up in ChatGPT, Gemini, and Google AI Overviews","item":"https://solcrys.com/local-business-ai-visibility-first-steps/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"What a local business should do first to show up in ChatGPT, Gemini, and Google AI Overviews","description":"A prioritized checklist for local businesses: check what AI answers say now, fix your facts where each engine reads them, then earn the pages and reviews the answers cite.","dateModified":"2026-10-14","datePublished":"2026-10-14","mainEntityOfPage":"https://solcrys.com/local-business-ai-visibility-first-steps/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/local-business-ai-visibility-first-steps/","mainEntity":[{"@type":"Question","name":"What is the first thing a local business should do to show up in AI answers?","acceptedAnswer":{"@type":"Answer","text":"Check what the answers say now. Ask ChatGPT, Gemini, Google, and Perplexity 8 to 10 questions the way your customers would, with your city in them, at least twice each. Note who gets named, which sites get cited, and any wrong facts. That tells you which listings to fix and which sites to get onto."}},{"@type":"Question","name":"Where does ChatGPT get local business information?","acceptedAnswer":{"@type":"Answer","text":"From web search through partners, including Microsoft, and from local data partners. OpenAI says ChatGPT may share a user's location with trusted third-party providers for nearby business listings. Yelp says its ratings and reviews began powering ChatGPT's local experience in relevant categories in 2026, and ChatGPT can find reservations through OpenTable, Resy, and Yelp."}},{"@type":"Question","name":"Does Google Business Profile affect AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"Yes. Google says Business Profiles can help your products and services be visible in AI responses as well as other Search results, and its AI Mode shows ratings, reviews, and opening hours from its local business data. Keep the profile complete and accurate, and review the edits customers suggest."}},{"@type":"Question","name":"Should I ask customers for reviews?","acceptedAnswer":{"@type":"Answer","text":"On Google, yes, as long as you ask every customer and offer nothing in return; incentives and asking only happy customers both break Google's rules. Yelp tells businesses not to ask for reviews at all."}},{"@type":"Question","name":"How long does it take to show up in ChatGPT or Google's AI answers?","acceptedAnswer":{"@type":"Answer","text":"Nobody publishes a timeline, and it varies by engine and by fix. Correcting your own listings is the fastest part of the work; earning a place on the third-party pages engines cite takes longer. Recheck the same questions monthly and judge a change over 2 or 3 checks rather than one answer."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>What a local business should do first to show up in ChatGPT, Gemini, and Google AI Overviews</h1>
+        <p class="seo-lede">Local business owners keep asking which actions most improve their visibility in ChatGPT, Gemini, and Google AI Overviews. The order matters more than any single tactic. First, see what the answers say about you today, city by city and engine by engine. Then fix your business facts on the platforms each engine reads: Google Business Profile for Google&#39;s AI, Yelp and Bing Places for ChatGPT and Copilot, Apple Business for Apple Maps and Siri. Then make your website state your services, prices, service areas, and hours plainly, get onto the third-party pages the answers already cite, and build reviews steadily within each platform&#39;s rules. Recheck the same questions monthly. This checklist gives each step with what the platforms themselves say, as of Oct. 14, 2026.</p>
+        
+        <p>Updated <time datetime="2026-10-14">2026-10-14</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What should a local business do to improve visibility in ChatGPT, Gemini, and Google AI Overviews?</li><li>How do I get my local business recommended by ChatGPT?</li><li>Where does ChatGPT get local business information?</li><li>Does Google Business Profile affect AI Overviews?</li><li>How can a small business check whether ChatGPT finds it?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Do the work in this order. Each step makes the next one count.</p><p><strong>1. See what the answers say now.</strong> Ask ChatGPT, Gemini, Google, and Perplexity 8 to 10 questions the way your customers would, with your city in them, and note who gets named and which sites get cited.</p><p><strong>2. Fix your facts where each engine reads them.</strong> Google&#39;s AI reads your Google Business Profile. ChatGPT draws local listings from partners: Yelp says its ratings and reviews now power ChatGPT&#39;s local results in relevant categories, and Microsoft&#39;s Bing is one of ChatGPT&#39;s search providers. Apple Maps and Siri read Apple Business. Keep your name, address, phone, and hours identical on all of them.</p><p><strong>3. Say it plainly on your website:</strong> each service, typical prices, the areas you serve by name, and your hours.</p><p><strong>4. Get onto the pages the answers already cite:</strong> the directories, local best-of lists, and local press from step 1.</p><p><strong>5. Build reviews steadily,</strong> within each platform&#39;s rules.</p><p><strong>6. Recheck the same questions monthly.</strong> Changes take weeks to show, and one answer is not a trend.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where each engine gets local information</h2>
+      <p>No engine reads one shared local index. Each one assembles local answers from its own sources, which is why a competitor can be named on one engine and missing from another. This table is what each platform says publicly, checked Oct. 14, 2026. The <a href="/local-business-aeo/">companion guide on local business AEO</a> covers why the third-party layer carries so much weight.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>Where local facts come from</th><th>What to keep current</th></tr></thead>
+              <tbody><tr><td><strong>Google AI Overviews and AI Mode</strong></td><td>Google&#39;s index plus its local business data. Google says its AI Mode shows &quot;ratings, reviews, and opening hours&quot; from &quot;Google&#39;s trusted and up-to-date info about local businesses&quot;</td><td>Google Business Profile, your website</td></tr><tr><td><strong>Gemini and Ask Maps</strong></td><td>&quot;Public information from Google Maps&quot;: addresses, descriptions, websites, ratings, and opening hours. Ask Maps draws on more than 300 million places and reviews from Maps contributors</td><td>Google Business Profile, reviews, and edits customers suggest to your listing</td></tr><tr><td><strong>ChatGPT</strong></td><td>Web search through partners, including Microsoft; with a user&#39;s permission, location shared with &quot;trusted third-party providers&quot; for &quot;nearby business listings.&quot; Yelp says its ratings and reviews began powering ChatGPT&#39;s local experience in 2026</td><td>Yelp, Bing Places, a website OpenAI&#39;s search crawler can reach; OpenTable, Resy, or Yelp if you take reservations</td></tr><tr><td><strong>Microsoft Copilot</strong></td><td>Microsoft says registering with Bing Places helps keep your details &quot;current and eligible for inclusion in AI-generated responses&quot;</td><td>Bing Places</td></tr><tr><td><strong>Perplexity</strong></td><td>Web search plus local data partners: Yelp, Tripadvisor, and OpenTable for bookings</td><td>Yelp, Tripadvisor where relevant</td></tr><tr><td><strong>Apple Maps and Siri</strong></td><td>Apple Business (formerly Apple Business Connect) place cards, which Apple says appear in Maps, Siri, and Spotlight. Apple hasn&#39;t said whether its AI answers use them</td><td>Apple Business</td></tr></tbody>
+            </table>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Step 1: See what the answers say now</h2>
+      <p>Set aside an afternoon. Write 8 to 10 questions in your customers&#39; words, with your city or neighborhood in each one: &quot;best family dentist in Bellevue,&quot; &quot;emergency plumber open Sunday in Tacoma,&quot; &quot;quiet sushi place for a work dinner near Pike Place.&quot; Add 2 questions that check your own facts, such as your hours or whether you take a certain insurance.</p><p>Ask each question on ChatGPT, Gemini, Google (AI Overviews or AI Mode), and Perplexity. Answers change from one run to the next, so ask each one at least twice. For each answer, record:</p>
+      <ul class="seo-list"><li><strong>Were you named,</strong> and where in the list?</li><li><strong>Who was named instead?</strong> Those are the businesses the engine trusts for this question.</li><li><strong>Which sites were cited?</strong> These become your list for step 4.</li><li><strong>Was anything wrong?</strong> Old hours, a closed location, a service you don&#39;t offer. Fix these first in step 2.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 2: Fix your facts where each engine reads them</h2>
+      <p>Google says there are <a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">no additional requirements</a> to appear in AI Overviews or AI Mode, and its <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">AI optimization guide</a> (updated July 10, 2026) says Business Profiles &quot;can help your products and services to be visible in both AI responses and other Google Search results.&quot; The same logic applies to every engine: it can only repeat the facts it can find. Do this in the first week.</p>
+      <ul class="seo-list"><li><strong>Google Business Profile:</strong> primary and secondary categories, every service, hours including holiday hours, attributes, photos, and a description in plain language. Ask Maps now lets customers suggest edits, such as new hours read from a photo of your door (<a href="https://blog.google/products-and-platforms/products/maps/order-food-in-ask-maps/" target="_blank" rel="noopener noreferrer">Google</a>), so review suggested edits regularly.</li><li><strong>Yelp:</strong> claim the listing and complete categories, hours, services, and photos. It feeds ChatGPT and Perplexity.</li><li><strong>Bing Places</strong> (now at bing.com/forbusiness): claim and complete it. It feeds Copilot, and Bing is one of ChatGPT&#39;s search providers.</li><li><strong>Apple Business:</strong> claim your place card for Apple Maps and Siri.</li><li><strong>Your vertical&#39;s directories:</strong> the ones that showed up in step 1, such as a legal, medical, or travel directory.</li><li><strong>One version of the truth:</strong> the same business name, address, phone number, and hours on every listing and on your website.</li><li><strong>Don&#39;t block the crawlers.</strong> OpenAI says sites that opt out of its search crawler, OAI-SearchBot, &quot;will not be shown in ChatGPT search answers&quot; (<a href="https://platform.openai.com/docs/bots" target="_blank" rel="noopener noreferrer">OpenAI</a>). In Search Console, check that the Search generative AI control is set to include, which is the default.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 3: Say it plainly on your website</h2>
+      <p>Your website owns your facts and converts the visit once an engine names you. Make it easy to quote. Do this in weeks 1 and 2.</p>
+      <ul class="seo-list"><li><strong>A page for each main service:</strong> what it includes, who it&#39;s for, and a typical price or price range.</li><li><strong>The areas you serve, by name:</strong> neighborhoods and nearby towns, listed on the pages where they apply.</li><li><strong>Hours, holiday hours, and how to book,</strong> in text, not only in an image.</li><li><strong>Credentials:</strong> licenses, certifications, insurance accepted, years in business.</li><li><strong>The questions customers ask you,</strong> answered in their words on the relevant page.</li><li><strong>Structured data that matches your listings.</strong> Google says structured data &quot;isn&#39;t required for generative AI search,&quot; so treat LocalBusiness markup as a way to state your name, address, and hours unambiguously, not as a shortcut. The <a href="/local-business-aeo/">companion guide</a> shows the most useful types.</li><li><strong>No pages for cities you don&#39;t serve.</strong> Google&#39;s spam policies list &quot;having multiple domain names or pages targeted at specific regions or cities that funnel users to one page&quot; as doorway abuse (<a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">Google</a>).</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 4: Get onto the pages the answers already cite</h2>
+      <p>Go back to the sites you recorded in step 1. For local recommendations, they are usually third-party pages: category directories, review sites, &quot;best of&quot; lists from local publications, and local news. Sort them into 3 groups and work through them in weeks 2 to 4.</p>
+      
+      <table>
+              <thead><tr><th>Cited page</th><th>What to do</th></tr></thead>
+              <tbody><tr><td><strong>A directory or review site that lists your competitors</strong></td><td>Claim or create your listing and complete it with the same facts as step 2</td></tr><tr><td><strong>A local &quot;best of&quot; list or guide</strong></td><td>Send the editor accurate facts and a reason you belong on it; never pay for placement without disclosure</td></tr><tr><td><strong>Local news or community pages</strong></td><td>Offer something worth covering: an event, a sponsorship, local data, or expert comment</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why step 4 has to be earned</h2>
+      <p>Google&#39;s AI optimization guide warns against &quot;seeking inauthentic &#39;mentions&#39;&quot; across the web, and its spam policies now cover attempts to manipulate generative AI answers (<a href="/google-spam-policy-ai-answer-manipulation/">which tactics cross the line</a>). A listing you earn holds up; a placement you buy quietly can cost you the domain.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 5: Build reviews steadily, within the rules</h2>
+      <p>Reviews feed the local data engines read. Google says <a href="https://support.google.com/business/answer/7091" target="_blank" rel="noopener noreferrer">more reviews and positive ratings</a> can help a business&#39;s local ranking, its <a href="https://support.google.com/local-listings/answer/9851099" target="_blank" rel="noopener noreferrer">AI review summaries</a> are each &quot;based on reviews from the past year,&quot; and Ask Maps draws on reviews from Maps contributors (<a href="https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/" target="_blank" rel="noopener noreferrer">Google</a>). Yelp says its ratings and reviews now power ChatGPT&#39;s local results in relevant categories. Because the summaries look back one year, a steady flow of recent reviews matters more than an old pile.</p><p>The rules differ by platform, and breaking them costs more than the reviews are worth.</p>
+      <ul class="seo-list"><li><strong>Google:</strong> asking is fine. Offering anything in return is not: Google&#39;s <a href="https://support.google.com/contributionpolicy/answer/7400114" target="_blank" rel="noopener noreferrer">content policy</a> prohibits incentives &quot;such as payment, discounts, free goods and/or services,&quot; and businesses may not &quot;discourage or prohibit negative reviews, or selectively solicit positive reviews.&quot; Ask every customer, not only the happy ones.</li><li><strong>Yelp:</strong> stricter. Yelp tells businesses not to ask for reviews at all (<a href="https://searchengineland.com/yelp-increasingly-cracking-review-solicitation-across-internet-286290" target="_blank" rel="noopener noreferrer">Search Engine Land</a>). Let customers know you&#39;re on Yelp, and leave it there.</li><li><strong>Every platform:</strong> reply to reviews, especially negative ones, with specifics. A reply that fixes a problem is evidence too.</li><li>For why the text of reviews matters as much as the star rating, see <a href="/why-ai-ignores-your-star-rating/">why AI ignores your star rating</a>.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 6: Recheck the same questions monthly</h2>
+      <p>Ask the same questions from step 1, on the same engines, with the same city, once a month. Changes to listings and third-party pages take weeks to reach answers, so judge a change over 2 or 3 checks, not one. If the answer moves after a fix, treat it as an observation, not proof of cause: the engines and their data partners change too. Several of the sources in this guide, including Yelp&#39;s ChatGPT deal and Ask Maps, are from 2026.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to skip</h2>
+      <p>These look like shortcuts and either don&#39;t work or put the business at risk.</p>
+      <ul class="seo-list"><li><strong>Buying reviews, offering incentives, or filtering who gets asked.</strong> All three break Google&#39;s rules.</li><li><strong>Pages for every nearby city you don&#39;t actually serve.</strong> Google calls this doorway abuse.</li><li><strong>Paying for a spot on a &quot;best of&quot; list without disclosure.</strong></li><li><strong>An llms.txt file as a local fix.</strong> No engine has said it uses one for local answers (<a href="/llms-txt-not-a-strategy/">why llms.txt is not a strategy</a>).</li><li><strong>Special &quot;AI schema.&quot;</strong> There isn&#39;t any; Google says structured data isn&#39;t required for its AI features.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys helps a local business</h2>
+      <p>SolCrys runs steps 1 and 6 for you and points to the work in between. Choose <strong>Local business</strong> when you create a workspace and add your city, and the questions you track are asked the way people in your area ask them, with your city as the user&#39;s location on each engine. Each answer shows whether you were named, which local competitors the engine named, and which sites it cited. A deep analysis of a question you lose recommends the directories, review sites, and local sources to be present on, and your team approves every task before anything ships; SolCrys never publishes for you.</p><p>To see your first 10 questions, the free audit runs 10 prompts through ChatGPT on your website; confirm your business as local on the confirmation step, and those prompts are asked in your city. <a href="https://app.solcrys.com/audit">Start Free</a> (free, no credit card). A workspace tracks one location, and SolCrys measures the AI answer, not your Maps rank, so keep checking Maps alongside it.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What we don&#39;t claim</h2>
+      <p>The platform details above are what each company says publicly as of Oct. 14, 2026, and local data partnerships are changing fast. OpenAI hasn&#39;t published a full list of its local data sources; the Yelp connection is described in Yelp&#39;s own filings. Nobody, including us, can guarantee that an engine will recommend a business. What the steps above do is make sure that when an engine looks, it finds accurate facts and the third-party evidence it relies on.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://blog.google/products-and-platforms/products/search/ai-mode-updates-may-2025/" target="_blank" rel="noopener noreferrer">Google: Try Google Search&#39;s AI Mode in Labs (May 2025; place cards with ratings, reviews, and opening hours)</a></li><li><a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">Google Search Central: AI features and your website</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: Optimizing your website for generative AI features on Google Search (updated July 10, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/" target="_blank" rel="noopener noreferrer">Google: Ask Maps and Immersive Navigation (Mar. 12, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/maps/order-food-in-ask-maps/" target="_blank" rel="noopener noreferrer">Google: Ask Maps food ordering and conversational edit suggestions (Aug. 6, 2026)</a></li><li><a href="https://support.google.com/gemini/answer/16622866" target="_blank" rel="noopener noreferrer">Gemini Apps Help: Google Maps in Gemini</a></li><li><a href="https://support.google.com/local-listings/answer/9851099" target="_blank" rel="noopener noreferrer">Google Local Listings Help: AI-generated review summaries</a></li><li><a href="https://support.google.com/business/answer/7091" target="_blank" rel="noopener noreferrer">Google Business Profile Help: Tips to get more reviews</a></li><li><a href="https://support.google.com/contributionpolicy/answer/7400114" target="_blank" rel="noopener noreferrer">Google Maps User Generated Content Policy: Prohibited and restricted content</a></li><li><a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">Google Search Central: Spam policies (doorway abuse; updated Aug. 28, 2026)</a></li><li><a href="https://help.openai.com/en/articles/9237897-searching-the-web-with-chatgpt" target="_blank" rel="noopener noreferrer">OpenAI Help Center: Searching the web with ChatGPT</a></li><li><a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes" target="_blank" rel="noopener noreferrer">OpenAI Help Center: ChatGPT release notes (location sharing, Mar. 26, 2026; reservations, Aug. 10, 2026)</a></li><li><a href="https://platform.openai.com/docs/bots" target="_blank" rel="noopener noreferrer">OpenAI: Overview of OpenAI crawlers (OAI-SearchBot)</a></li><li><a href="https://www.sec.gov/Archives/edgar/data/0001345016/000134501626000059/yelpq22026ex992lettertos.htm" target="_blank" rel="noopener noreferrer">Yelp: Q2 2026 letter to shareholders (Aug. 6, 2026)</a></li><li><a href="https://blogs.bing.com/webmaster/2026/2/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview/" target="_blank" rel="noopener noreferrer">Microsoft Bing: Introducing AI Performance in Bing Webmaster Tools (Feb. 10, 2026; Bing Places and AI answers)</a></li><li><a href="https://tripadvisor.mediaroom.com/press-releases?item=126807" target="_blank" rel="noopener noreferrer">Tripadvisor: partnership with Perplexity (Jan. 9, 2025)</a></li><li><a href="https://www.perplexity.ai/hub/blog/book-a-table-with-perplexity-and-opentable" target="_blank" rel="noopener noreferrer">Perplexity: Book a table with Perplexity and OpenTable (Aug. 4, 2025)</a></li><li><a href="https://support.apple.com/guide/business/intro-to-apple-business-axm7909096bf/web" target="_blank" rel="noopener noreferrer">Apple Business User Guide: Intro to Apple Business</a></li><li><a href="https://searchengineland.com/yelp-increasingly-cracking-review-solicitation-across-internet-286290" target="_blank" rel="noopener noreferrer">Search Engine Land: Yelp increasingly cracking down on review solicitation across the internet</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What is the first thing a local business should do to show up in AI answers?</h3>
+            <p>Check what the answers say now. Ask ChatGPT, Gemini, Google, and Perplexity 8 to 10 questions the way your customers would, with your city in them, at least twice each. Note who gets named, which sites get cited, and any wrong facts. That tells you which listings to fix and which sites to get onto.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Where does ChatGPT get local business information?</h3>
+            <p>From web search through partners, including Microsoft, and from local data partners. OpenAI says ChatGPT may share a user&#39;s location with trusted third-party providers for nearby business listings. Yelp says its ratings and reviews began powering ChatGPT&#39;s local experience in relevant categories in 2026, and ChatGPT can find reservations through OpenTable, Resy, and Yelp.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does Google Business Profile affect AI Overviews?</h3>
+            <p>Yes. Google says Business Profiles can help your products and services be visible in AI responses as well as other Search results, and its AI Mode shows ratings, reviews, and opening hours from its local business data. Keep the profile complete and accurate, and review the edits customers suggest.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I ask customers for reviews?</h3>
+            <p>On Google, yes, as long as you ask every customer and offer nothing in return; incentives and asking only happy customers both break Google&#39;s rules. Yelp tells businesses not to ask for reviews at all.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long does it take to show up in ChatGPT or Google&#39;s AI answers?</h3>
+            <p>Nobody publishes a timeline, and it varies by engine and by fix. Correcting your own listings is the fastest part of the work; earning a place on the third-party pages engines cite takes longer. Recheck the same questions monthly and judge a change over 2 or 3 checks rather than one answer.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/local-business-aeo/">Local Business AEO: Maps-Wins, AI-Invisible</a></h3>
+            <p>For local queries, answer engines build recommendations from directories, reviews, and best-of lists — not your homepage or your Maps pin. Why you can rank #1 on Google Maps and still be invisible in AI answers, and how to close the gap per city and per engine.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/why-ai-ignores-your-star-rating/">Your Star Rating Gets You Shown in AI Answers. Your Review Text Gets You Picked.</a></h3>
+            <p>Star ratings reach AI answers through licensed or first-party data, such as Yelp in ChatGPT. Review text explains the pick. How to earn both within the rules.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/fix-wrong-fact-in-ai-answer/">How to Fix a Wrong Fact in an AI Answer About Your Brand</a></h3>
+            <p>An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there&#39;s no one to email. The wrong fact is a relayed source. Here&#39;s how to find it, fix it or outweigh it, and re-test until the answer flips.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/listing-optimization-for-ai-answer-engines/">Listing Optimization for Answer Engines: 12 Patterns That Work</a></h3>
+            <p>12 specific listing patterns — from title tokenization to bullet structure to A+ content blocks — that improve answer-readiness for retail AI assistants such as Amazon Alexa for Shopping, Walmart Sparky, and ChatGPT Shopping. Each pattern includes before/after examples.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/citation-gap-audit/">Citation Gap Audit</a></h3>
+            <p>A 5-step framework to identify which sources AI engines cite for your competitors but not for your brand, and the recovery actions for each gap type.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/google-spam-policy-ai-answer-manipulation/">Google Now Calls AI-Answer Manipulation Spam. The GEO Tactics That Cross the Line—and the Ones That Just Don&#39;t Work.</a></h3>
+            <p>Google&#39;s spam policies now cover manipulating AI answers. Which GEO tactics cross the line, which are risky, which are wasted, and what holds up.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/llms-txt-not-a-strategy/">Why llms.txt Is Not a Strategy</a></h3>
+            <p>llms.txt is a proposed standard for AI-friendly content delivery, but it is neither widely adopted by major AI engines nor a substitute for AEO fundamentals. This essay explains what llms.txt does, what it does not, and why brands should focus on the unsexy basics.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/find-ai-prompts-your-brand-shows-up-for/">How to Find the AI Prompts Your Brand Shows Up For (When Search Console Only Gives You Impressions)</a></h3>
+            <p>No AI engine reports the prompts behind your citations. How to find them anyway with Search Console filters, Bing&#39;s grounding queries, and a tested prompt set.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-MSJG5uEN.js"></script>
+  </body>
+</html>

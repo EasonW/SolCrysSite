@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How an AI Visibility Score Hides Lost Prompts | SolCrys</title>
+    <meta name="description" content="A blended AI visibility score averages prompts and engines, so branded prompts, changes to the tracked prompts, and engine averaging can hide the buyer questions you lose. How to read it per prompt." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/ai-visibility-score-hides-lost-prompts/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-14" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How an AI Visibility Score Hides Lost Prompts | SolCrys" />
+    <meta property="og:description" content="A blended AI visibility score averages prompts and engines, so branded prompts, changes to the tracked prompts, and engine averaging can hide the buyer questions you lose. How to read it per prompt." />
+    <meta property="og:url" content="https://solcrys.com/ai-visibility-score-hides-lost-prompts/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-14" />
+    <meta property="article:modified_time" content="2026-10-14" />
+    <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BJt2dO6z.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Your AI Visibility Score Looks Fine. Here's How It Hides the Questions You're Losing.","item":"https://solcrys.com/ai-visibility-score-hides-lost-prompts/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your AI visibility score looks fine. Here's how it hides the questions you're losing.","description":"A blended AI visibility score averages prompts and engines, so branded prompts, changes to the tracked prompts, and engine averaging can hide the buyer questions you lose. How to read it per prompt.","dateModified":"2026-10-14","datePublished":"2026-10-14","mainEntityOfPage":"https://solcrys.com/ai-visibility-score-hides-lost-prompts/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/ai-visibility-score-hides-lost-prompts/","mainEntity":[{"@type":"Question","name":"Why is my AI visibility score decent when I never show up for category questions?","acceptedAnswer":{"@type":"Answer","text":"Because the score is an average across all your prompts and engines, and a few strong prompts can carry it. Branded prompts that name you in the question are the usual cause: answers to them nearly always name you. Report branded prompts separately and read the remaining prompts from lowest to highest."}},{"@type":"Question","name":"Should branded prompts count in an AI visibility score?","acceptedAnswer":{"@type":"Answer","text":"Track them, but report them on their own line. A prompt that names your brand almost always gets an answer that names it, so it measures how accurately you are described, not whether buyers discover you. Mixed into the average, branded prompts inflate discovery visibility."}},{"@type":"Question","name":"Why did my AI visibility score drop after I added prompts?","acceptedAnswer":{"@type":"Answer","text":"Adding prompts changes the denominator. New category prompts where you are rarely named pull the average down even when every existing answer stays the same. Compare only prompts measured in both periods, and note the date of every change to the prompt set next to the trend."}},{"@type":"Question","name":"Should I track AI visibility by prompt or by topic?","acceptedAnswer":{"@type":"Answer","text":"Both, for different jobs. Topic views help you decide where to focus and report to leadership. Prompt views are where you act and verify, because a fix targets a specific question and you can only check it by asking the same question again on the same engines."}},{"@type":"Question","name":"Is a single prompt's AI visibility number reliable?","acceptedAnswer":{"@type":"Answer","text":"Not from one run. A prompt has fewer answers behind it than the whole set, so it is noisier. Read each prompt over a window of several runs, and act on a prompt that stays at zero across them rather than on one result."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>Your AI visibility score looks fine. Here&#39;s how it hides the questions you&#39;re losing.</h1>
+        <p class="seo-lede">An AI visibility score is an average: the share of AI answers that name your brand, taken across every prompt and engine you track. Averages hide distributions. A score can read 19% while your brand is never named on two-thirds of the questions buyers ask before they know your name, and it can drop 7 points in a week when no answer changed. This guide shows the 4 ways a blended score misleads (branded prompts, changes to the list of prompts you track, engine averaging, and counting mentions instead of recommendations), how prompt-level and topic-level views fit together, and a 6-step routine for reading the number per prompt.</p>
+        
+        <p>Updated <time datetime="2026-10-14">2026-10-14</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why is my AI visibility score misleading?</li><li>Should branded prompts count in an AI visibility score?</li><li>Why did my AI visibility score drop after I added prompts?</li><li>Should I track AI visibility by prompt or by topic?</li><li>How do I compare AI visibility across different prompts and topics?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>An AI visibility score is an average. It is the share of AI answers that name your brand, taken across every prompt and engine you track. An average can look healthy while most of the questions your buyers ask never mention you, because a few strong prompts carry the rest.</p><p>Four things move a blended score without changing what buyers see. <strong>Branded prompts</strong> that name you in the question lift the floor. <strong>Adding or removing prompts</strong> moves the number while every answer stays the same. <strong>Averaging across engines</strong> hides an engine where you are absent. And <strong>counting mentions</strong> credits answers that name you without recommending you.</p><p>Read the score per prompt instead. Report branded prompts on their own line, sort the rest from lowest to highest, read each engine separately, and compare only prompts measured in both periods. The prompts at zero are where buyers build a shortlist without you, and they are the ones to work on first.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a blended score actually averages</h2>
+      <p>Most AI visibility scores start from a prompt set: a fixed list of questions, written the way buyers ask them, that a tool runs on each engine on a schedule. Every run produces answers, and each answer either names your brand or doesn&#39;t. The score divides one by the other.</p><p>That makes it an average across 3 things at once: prompts, engines, and runs. Each choice about how to combine them changes the number. Does every prompt count equally, or does a prompt with 100 answers outweigh one with 20? Does every engine count equally, or by how much your buyers use it? Do branded prompts count at all? Two tools can disagree for these reasons alone, before any difference in the answers they collected.</p><p>None of this makes the score wrong. It makes it a summary, and a summary answers &quot;how are we doing overall?&quot; It can&#39;t answer &quot;which buyer questions are we losing?&quot;, and that is the question that tells your team what to do next.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>A worked example: 19% that is really zero</h2>
+      <p>Illustrative scenario only. A mid-market payroll software vendor tracks 30 prompts on 4 engines, with roughly the same number of answers for every prompt. Its dashboard says the brand is named in 19% of AI answers. The table shows where the 19% comes from.</p>
+      
+      <table>
+              <thead><tr><th>Prompt group</th><th>Example</th><th>Prompts</th><th>Answers naming the brand</th></tr></thead>
+              <tbody><tr><td>Branded</td><td>&quot;Is [Brand] good for a 200-person company?&quot;</td><td>5</td><td>96%</td></tr><tr><td>Comparison and use case</td><td>&quot;Payroll software that handles contractors in 3 countries&quot;</td><td>5</td><td>20%</td></tr><tr><td>Category</td><td>&quot;Best payroll software for a mid-size company&quot;</td><td>20</td><td>0%</td></tr><tr><td><strong>Blended</strong></td><td></td><td><strong>30</strong></td><td><strong>19%</strong></td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What the example hides</h2>
+      <p>The 19% reads like &quot;we show up in about 1 answer in 5.&quot; The real picture is that on 20 of the 30 questions, the ones buyers ask before they know the brand exists, no answer on any engine named it. Take the 5 branded prompts out and the rate falls to 4%.</p><p>Nothing in the blended number is false. It is just answering a different question from the one the marketing team needs answered. The 20 category prompts at zero are where AI engines leave the brand out of the shortlist, and the score gives no sign of them.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>4 ways a blended score misleads</h2>
+      <p>Each of these can move or inflate the score with no change in what a buyer sees. All 4 use the illustrative numbers above.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Branded prompts lift the floor</h3>
+        <p>A prompt that names your brand nearly always gets an answer that names your brand. That is useful for checking accuracy: what the answer says about your pricing, your features, and your limits. It says almost nothing about discovery. In the example, the 5 branded prompts supply more than 80% of the blended score.</p><p>Keep branded prompts in your prompt set, and report them on their own line as an accuracy check, not as visibility.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Changing the prompt set moves the score</h3>
+        <p>Add 20 more category prompts where the brand is never named and the blended rate falls from 19% to 12%. Every answer on the original 30 prompts is the same; only the denominator changed. Remove the 10 hardest category prompts instead and the rate rises to 29%, again with no answer changing.</p><p>We have watched this happen in a workspace we monitor. In September 2026, the week 20 category prompts were added, the blended mention rate fell by more than half, while the prompts tracked in both periods held steady. Read alone, the trend line looked like a collapse.</p><p>Compare like with like: only prompts measured in both periods, with the date of every change to the set written next to the trend. Our <a href="/aeo-prompt-set-lifecycle/">four-state prompt lifecycle</a> covers when to add and retire prompts without breaking the history.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Averaging across engines hides an absence</h3>
+        <p>Suppose the 5 comparison prompts break down as 0% on ChatGPT, 10% on Google AI Overviews, 30% on Gemini, and 40% on Perplexity. The average across engines is 20%, and it describes no engine. A buyer who researches in ChatGPT never sees the brand on these questions.</p><p>Engines build answers from different sources, so a gap on one engine usually has its own cause. Read each engine separately before reading the average, and weight the average by where your buyers actually ask.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Named is not chosen</h3>
+        <p>A mention counts every answer that contains your name, including one that lists you as a budget alternative after recommending someone else, or one that describes a product you retired. Two brands with the same mention rate can be in very different positions.</p><p>Track whether answers name you, recommend you, and describe you correctly as 3 separate readings. We cover the gap in <a href="/ai-citation-vs-recommendation/">cited but not recommended</a> and the scoring in the <a href="/ai-recommendation-score/">AI Recommendation Score</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Prompt-level or topic-level: use both, for different jobs</h2>
+      <p>Practitioners keep asking whether to track AI visibility by individual prompt or by topic, in threads like <a href="https://www.reddit.com/r/aeo/comments/1wtwtev/do_you_track_ai_visibility_by_individual_prompts/" target="_blank" rel="noopener noreferrer">&quot;Do you track AI visibility by individual prompts…&quot;</a> and <a href="https://www.reddit.com/r/aeo/comments/1x1w4xf/ai_visibility_scores_are_confusing/" target="_blank" rel="noopener noreferrer">&quot;AI visibility scores are confusing&quot;</a> on r/aeo. The answer is both, because they do different jobs.</p><p><strong>Topic views are for deciding.</strong> Grouping prompts into topics such as pricing, integrations, or use cases shows leadership where the brand is strong and weak, and helps decide where to spend the next month. They inherit the same weakness as the blended score at a smaller scale: a topic average can still hide a question at zero.</p><p><strong>Prompt views are for acting and verifying.</strong> A fix targets a specific question: a page that answers it, a source the engine cites for it, a fact the answer gets wrong. You can only check whether the fix worked by asking the same question again, on the same engines, and comparing. A topic average can move for reasons unrelated to the fix.</p><p>So decide at topic level, then act and verify at prompt level. Keep the topic groups stable, so a topic&#39;s trend isn&#39;t also a change in which prompts it contains.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to read your score per prompt: a 6-step routine</h2>
+      <p>This takes about 10 minutes on a 30-prompt set, and it works in any tool that shows results by prompt and engine.</p>
+      <ul class="seo-list"><li><strong>Pull branded prompts out.</strong> Report them on their own line, as an accuracy check.</li><li><strong>Sort the rest from lowest to highest.</strong> Count the prompts where no answer named you. That count is often more useful to report than the average.</li><li><strong>Read each engine separately.</strong> Note any engine where a group of prompts sits at zero while other engines name you.</li><li><strong>Compare like with like.</strong> Use only prompts measured in both periods, and note the date of every change to the prompt set.</li><li><strong>Start with demand.</strong> Among the prompts at zero, work first on the ones buyers ask most often.</li><li><strong>Read the answers behind the zeros.</strong> For each one, note which brands the answers name and which pages they cite. That is the start of the diagnosis: the sources that shape the answer are the ones to be present on.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys shows it</h2>
+      <p>In SolCrys, Prompt Analysis lists every tracked question with its estimated volume (High, Medium, or Low), how many answers named your brand, which other brands the answers named, and how well they recommend you. Switch between a view by prompt and a view by category, filter by engine and time range, and expand a row to read the answers themselves. The headline Overall Mention figure is weighted by the engine mix you configured, so it is still an average; Prompt Analysis is where the distribution shows.</p><p>From there, the work follows the Measure → Diagnose → Execute → Verify loop. A Workspace Deep Analysis takes up to 10 of the prompts you are losing and returns a ranked plan: what holds the brand back, with the answers that show it, and the actions to take. Your team approves what ships. Then the same prompts run again on the same engines, so you can see whether the answer moved. A before-and-after change is an observation, not proof of cause.</p><p>To see your own prompts at zero, <a href="https://app.solcrys.com/audit">Start Free</a>: 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What we don&#39;t claim</h2>
+      <p>The numbers in the worked example are illustrative, chosen to make the arithmetic easy to follow. The 4 effects are arithmetic, though, and they apply to any score built as an average.</p><p>A per-prompt reading is noisier than an average, because each prompt has fewer answers behind it. A single run at zero is one sample, not a measurement. Read a prompt over a window of several runs before acting on it, and see <a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs an AI-visibility number needs</a> for the sample-size evidence.</p><p>And a prompt-level view doesn&#39;t fix anything by itself. It tells you, more honestly, where the work is.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.reddit.com/r/aeo/comments/1wtwtev/do_you_track_ai_visibility_by_individual_prompts/" target="_blank" rel="noopener noreferrer">r/aeo: &quot;Do you track AI visibility by individual prompts…&quot; (Sept. 30, 2026)</a></li><li><a href="https://www.reddit.com/r/aeo/comments/1x1w4xf/ai_visibility_scores_are_confusing/" target="_blank" rel="noopener noreferrer">r/aeo: &quot;AI visibility scores are confusing&quot; (Oct. 9, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why is my AI visibility score decent when I never show up for category questions?</h3>
+            <p>Because the score is an average across all your prompts and engines, and a few strong prompts can carry it. Branded prompts that name you in the question are the usual cause: answers to them nearly always name you. Report branded prompts separately and read the remaining prompts from lowest to highest.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should branded prompts count in an AI visibility score?</h3>
+            <p>Track them, but report them on their own line. A prompt that names your brand almost always gets an answer that names it, so it measures how accurately you are described, not whether buyers discover you. Mixed into the average, branded prompts inflate discovery visibility.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why did my AI visibility score drop after I added prompts?</h3>
+            <p>Adding prompts changes the denominator. New category prompts where you are rarely named pull the average down even when every existing answer stays the same. Compare only prompts measured in both periods, and note the date of every change to the prompt set next to the trend.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I track AI visibility by prompt or by topic?</h3>
+            <p>Both, for different jobs. Topic views help you decide where to focus and report to leadership. Prompt views are where you act and verify, because a fix targets a specific question and you can only check it by asking the same question again on the same engines.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is a single prompt&#39;s AI visibility number reliable?</h3>
+            <p>Not from one run. A prompt has fewer answers behind it than the whole set, so it is noisier. Read each prompt over a window of several runs, and act on a prompt that stays at zero across them rather than on one result.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/why-ai-visibility-score-moves/">Why Your AI Visibility Score Moves</a></h3>
+            <p>AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/is-ai-visibility-a-vanity-metric/">Is AI Visibility Tracking a Vanity Metric? How to Make It a Signal Your CEO Can Trust.</a></h3>
+            <p>Your CEO wants AI visibility on the dashboard and your gut says vanity metric. It is - if you track raw rank on vanity prompts. Here are the three conditions that turn it into a leading indicator, a CEO-ready reporting template, and an illustrative 100%-vs-0% scenario that proves the point.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/ai-search-prompt-set/">AI Search Prompt Set</a></h3>
+            <p>A practical guide to building an AI search prompt set across category, comparison, risk, implementation, competitor, and brand-specific prompts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/aeo-prompt-set-lifecycle/">Don&#39;t delete 0-visibility prompts: a four-state lifecycle for AEO prompt sets</a></h3>
+            <p>Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that&#39;s the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citation-vs-recommendation/">Cited but Not Recommended: Why AI Citations Are the Wrong KPI</a></h3>
+            <p>Getting cited as a source and getting recommended as the pick are two different AI-search outcomes, and they are decoupling. Why most teams track the wrong one, what a 100-query study and our own 5-engine data show, and the KPI to measure instead.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-recommendation-score/">AI Recommendation Score</a></h3>
+            <p>AI can name your brand and recommend a rival in the next sentence. The Recommendation Score grades every AI answer 0-100 on how favorably it positions you across ChatGPT, Gemini, Perplexity, Google AI Overviews and Claude, plots you against every competitor, and shows the verbatim line behind every point.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/performance-based-aeo-contracts/">Performance-Based AEO Contracts: 5 Questions to Ask Before You Sign</a></h3>
+            <p>Pay-for-performance AEO ties an agency&#39;s fee to an AI visibility threshold or a revenue share. Five questions decide whether that threshold means anything.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-MSJG5uEN.js"></script>
+  </body>
+</html>
