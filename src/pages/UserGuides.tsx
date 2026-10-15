@@ -26,7 +26,7 @@ const UserGuides = () => (
           </div>
           <div className="border-l-2 border-[hsl(var(--brand-accent-ink))] pl-5 text-sm">
             <p className="font-medium">A simple place to start</p>
-            <p className="mt-2 leading-relaxed text-muted-foreground">Set up with guide 01.<br />Put your results to work with guide 02.<br />Plan improvements with guide 03.</p>
+            <p className="mt-2 leading-relaxed text-muted-foreground">Set up with guide 01.<br />Put your results to work with guide 02.<br />Plan improvements with guide 03.<br />Connect your assistant with guide 04.</p>
             <p className="mt-4 text-xs text-muted-foreground">Free to read and download.</p>
           </div>
         </div>
@@ -37,7 +37,7 @@ const UserGuides = () => (
           <h2 id="library-heading" className="text-xl font-semibold">User guides <span className="ml-2 text-sm font-normal text-muted-foreground">{userGuides.guides.length} documents</span></h2>
           <p className="text-xs text-muted-foreground">PDF · Updated {updatedLabel}</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
           {userGuides.guides.map((guide) => (
             <article key={guide.slug} className="group overflow-hidden rounded-2xl border border-border/15 bg-card">
               <a href={`/guides/${guide.slug}/`} tabIndex={-1} aria-hidden="true" className="relative flex h-52 items-start justify-center overflow-hidden border-b border-border/10 bg-[hsl(var(--brand-accent)/0.06)] pt-7">
