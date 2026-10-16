@@ -231,6 +231,14 @@ html {
   color: inherit;
 }
 
+/* Long unbroken strings (regexes, URLs) must wrap instead of widening the page on mobile. */
+.seo-prerender p,
+.seo-prerender li,
+.seo-prerender td,
+.seo-prerender th {
+  overflow-wrap: anywhere;
+}
+
 .seo-prerender .seo-container {
   width: min(100% - 2rem, 1100px);
   margin: 0 auto;
