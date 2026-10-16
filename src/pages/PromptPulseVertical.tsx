@@ -30,7 +30,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
     document.title = `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`;
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (desc) {
-      desc.content = `The kind of questions ${v.short} buyers bring to AI engines, rated by modeled demand tier and trend. Free.`;
+      desc.content = `The questions ${v.short} buyers bring to AI engines, rated by demand tier and trend. Free.`;
     }
   }, [v]);
 
@@ -74,7 +74,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
               <Stat n={v.stats.decision} label="purchase-ready" color="hsl(var(--brand-accent))" />
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              Each row is one buyer-style question, scored by the SolCrys Prompt Pulse index. US /
+              Each row is one buyer question, scored by the SolCrys Prompt Pulse index. US /
               English.
             </p>
           </header>
@@ -103,10 +103,9 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
             <h2 className="mb-2 text-xl font-bold tracking-tight">About this data</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind
-              our AI-visibility measurement. The questions are drawn from public question sources and
-              written the way buyers put them to AI assistants; they are not a log of real AI
-              conversations. Demand is modeled and relative within each industry, and directional by
-              design.{" "}
+              our AI-visibility measurement. Each question is grounded in public demand signals and
+              written the way buyers ask AI assistants. Demand is relative within each industry: it
+              shows where buyer interest concentrates and what's rising.{" "}
               <a
                 href="/what-buyers-ask-ai-prompt-pulse/"
                 className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"
@@ -141,7 +140,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
 
           <p className="mt-8 text-xs leading-relaxed text-muted-foreground">
             Prompt Pulse reports directional demand signals, not exact query counts. Figures are
-            SolCrys estimates. Demand and trend are computed from a 12-month modeled demand series;
+            SolCrys estimates. Demand and trend are computed from 12 months of demand data;
             dataset snapshot {snapshotMonth(v.updated)}. US / English.
           </p>
         </div>

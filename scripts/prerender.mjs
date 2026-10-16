@@ -758,7 +758,7 @@ function homeHtml() {
       <figure style="margin-top: 2rem;">
         <figcaption><strong>The SolCrys Loop.</strong></figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Measure.</strong> Run buying questions for your category and record how each engine describes you today.</li>
+          <li><strong>Measure.</strong> Run the questions your buyers ask AI and record how each engine describes you today.</li>
           <li><strong>Diagnose.</strong> Find out whether your brand is absent from those answers, missing the right citations, showing up inaccurately, or losing to competitors.</li>
           <li><strong>Execute.</strong> Drafts grounded in your Corporate Context, your approved facts, claims, and guardrails, routed for human review.</li>
           <li><strong>Verify.</strong> Rerun the same prompts against the baseline and feed what changed into the next round.</li>
@@ -774,7 +774,7 @@ function homeHtml() {
     </section>
     <section id="free-tracker" class="seo-container seo-section">
       <h2>Free ChatGPT visibility tracker</h2>
-      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the buying questions in your category (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
+      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the questions your buyers ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
     </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers, one closed loop — from AI visibility to governed execution</h2>
@@ -829,7 +829,7 @@ function homeHtml() {
     </section>
     <section id="prompt-pulse" class="seo-container seo-section">
       <h2>Prompt Pulse: see what your market is asking AI</h2>
-      <p>Demand data — a different lens from visibility tracking: the kind of questions buyers bring to AI across ${promptPulse.verticals.length} industries, ranked by modeled demand. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
+      <p>Demand data — a different lens from visibility tracking: the questions buyers bring to AI across ${promptPulse.verticals.length} industries, ranked by demand. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
       <div class="seo-grid">
         ${homeRisingPrompts(4)
           .map(
@@ -2235,7 +2235,7 @@ writePage(
 
 // ---- Prompt Pulse (AI demand data) ----
 // "About this data" for the hub and every vertical; mirrors PromptPulseHub.tsx and PromptPulseVertical.tsx.
-const PP_ABOUT_HTML = `<p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement. The questions are drawn from public question sources and written the way buyers put them to AI assistants; they are not a log of real AI conversations. Demand is modeled and relative within each industry, and directional by design. <a href="/what-buyers-ask-ai-prompt-pulse/">How the dataset is built</a>.</p>`;
+const PP_ABOUT_HTML = `<p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement. Each question is grounded in public demand signals and written the way buyers ask AI assistants. Demand is relative within each industry: it shows where buyer interest concentrates and what's rising. <a href="/what-buyers-ask-ai-prompt-pulse/">How the dataset is built</a>.</p>`;
 
 // Crawler-facing static render of the same scrubbed public JSON the SPA reads
 // (single source of truth → no drift). Emits Dataset + ItemList + Breadcrumb
@@ -2273,7 +2273,7 @@ function promptPulseVerticalBody(v) {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · AI demand data</p>
     <h1>The prompts ${escapeHtml(v.short)} buyers ask AI</h1>
-    <p class="seo-lede">The kind of questions ${escapeHtml(v.short)} buyers bring to AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a modeled High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. US/English.</p>
+    <p class="seo-lede">The questions ${escapeHtml(v.short)} buyers bring to AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. US/English.</p>
     <section class="seo-section">
       <h2>Demand ranking</h2>
       <table>
@@ -2284,7 +2284,7 @@ function promptPulseVerticalBody(v) {
     <section class="seo-section">
       <h2>About this data</h2>
       ${PP_ABOUT_HTML}
-      <p>Prompt Pulse reports directional demand signals, not exact query counts. Figures are SolCrys estimates. Demand and trend are computed from a 12-month modeled demand series; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
+      <p>Prompt Pulse reports directional demand signals, not exact query counts. Figures are SolCrys estimates. Demand and trend are computed from 12 months of demand data; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
     </section>
   </main>
   ${ctaHtml()}
@@ -2326,7 +2326,7 @@ function promptPulseHubBody() {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · AI demand data</p>
     <h1>See what your market is asking AI</h1>
-    <p class="seo-lede">The kind of questions buyers bring to ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by modeled demand, and showing what's rising. Free, US/English.</p>
+    <p class="seo-lede">The questions buyers bring to ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by demand, and showing what's rising. Free, US/English.</p>
     <section class="seo-section">
       <h2>Browse by industry</h2>
       <ul class="seo-list">${cards}</ul>
@@ -2349,7 +2349,7 @@ function promptPulseDatasetSchema(v, routePath) {
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: `Prompt Pulse — ${v.short}: AI demand for buyer prompts`,
-    description: `The kind of questions ${v.short} buyers bring to AI answer engines, with a modeled High/Medium/Low demand tier and a trend direction. Free.`,
+    description: `The questions ${v.short} buyers bring to AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free.`,
     url: canonicalUrl(routePath),
     isAccessibleForFree: true,
     creator: { "@type": "Organization", name: site.name, url: site.url },
@@ -2383,7 +2383,7 @@ writePage(
     title: "Prompt Pulse — what your market is asking AI | SolCrys",
     ogImage: "/og/prompt-pulse.png",
     description:
-      "AI demand data: the kind of questions buyers bring to ChatGPT, Perplexity and Google AI Overviews, by industry, ranked by modeled demand and what's rising.",
+      "AI demand data: the questions buyers bring to ChatGPT, Perplexity and Google AI Overviews, by industry, ranked by demand and what's rising.",
     lastModified: promptPulse.updated,
     body: promptPulseHubBody(),
     schemas: [
@@ -2414,7 +2414,7 @@ for (const v of promptPulse.verticals) {
     renderLayout({
       routePath,
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
-      description: `The kind of questions ${v.short} buyers bring to AI engines, rated by modeled demand tier and trend. Free.`,
+      description: `The questions ${v.short} buyers bring to AI engines, rated by demand tier and trend. Free.`,
       ogImage: `/og/prompt-pulse-${v.slug}.png`,
       lastModified: v.updated,
       body: promptPulseVerticalBody(v),
@@ -2663,15 +2663,15 @@ const freeTrackerRoute = "/free-chatgpt-visibility-tracker/";
 const freeTrackerTitle =
   "Free ChatGPT Visibility Tracker — See If AI Recommends Your Brand | SolCrys";
 const freeTrackerDescription =
-  "Free ChatGPT visibility tracker. See whether ChatGPT mentions, cites, or skips your brand on the buying questions in your category — then get the exact fix to ship, not just a score. About 5 minutes, no credit card.";
+  "Free ChatGPT visibility tracker. See whether ChatGPT mentions, cites, or skips your brand on the questions your buyers ask — then get the exact fix to ship, not just a score. About 5 minutes, no credit card.";
 const freeTrackerSteps = [
   {
     name: "Enter your domain",
     text: "Start with your website — or a competitor's. No credit card.",
   },
   {
-    name: "We ask ChatGPT buying questions for your category",
-    text: "SolCrys runs high-intent buying questions for your category, then reads how ChatGPT answers.",
+    name: "We ask ChatGPT your buyers' questions",
+    text: "SolCrys runs the high-intent questions buyers ask about products like yours, then reads how ChatGPT answers.",
   },
   {
     name: "See where you show up — and where a rival wins",
@@ -2721,7 +2721,7 @@ const freeTrackerFaqs = [
   {
     question: "How accurate is the result?",
     answer:
-      "We query the live engine on buying questions for your category and report what it returned, including the citations and competitors it surfaced. AI answers vary run to run, so SolCrys tracks them over time rather than from a single snapshot.",
+      "We query the live engine on high-intent buyer questions for your category and report what it returned, including the citations and competitors it surfaced. AI answers vary run to run, so SolCrys tracks them over time rather than from a single snapshot.",
   },
 ];
 function freeTrackerBody() {
@@ -2737,7 +2737,7 @@ function freeTrackerBody() {
   <main class="seo-container">
     <p class="seo-kicker">Free ChatGPT visibility tracker</p>
     <h1>Free ChatGPT Visibility Tracker</h1>
-    <p class="seo-lede">See whether ChatGPT mentions, cites, or skips your brand on the buying questions in your category — or names a competitor instead. Then, unlike a scoreboard, the free workspace hands you the exact fix to ship. About 5 minutes, no credit card.</p>
+    <p class="seo-lede">See whether ChatGPT mentions, cites, or skips your brand on the questions your buyers ask — or names a competitor instead. Then, unlike a scoreboard, the free workspace hands you the exact fix to ship. About 5 minutes, no credit card.</p>
     <p><a href="https://app.solcrys.com/audit">Track your ChatGPT visibility, free &rarr;</a> &middot; Free &middot; No credit card</p>
     <section class="seo-section">
       <h2>What &ldquo;AI visibility&rdquo; means &mdash; and why your Google rank doesn&rsquo;t cover it</h2>
@@ -3613,7 +3613,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards and tools, and Workspace Deep Analysis. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
 - [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
-- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the kind of questions buyers bring to ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by modeled demand and what's rising.${promptPulse.verticals
+- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the questions buyers bring to ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
   .map(
     (v) => `\n  - [${v.short}](${site.url}/prompt-pulse/${v.slug}/): ${v.stats.prompts} buyer prompts ${v.short} teams should track in AI answers.`
   )

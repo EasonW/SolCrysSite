@@ -21,7 +21,7 @@ const DEFAULT_STEPS: LoopStep[] = [
   {
     label: "Measure",
     description:
-      "Run buying questions for your category and record how each engine describes you today.",
+      "Run the questions your buyers ask AI and record how each engine describes you today.",
   },
   {
     label: "Diagnose",

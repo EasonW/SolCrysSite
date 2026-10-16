@@ -9,7 +9,7 @@ import LoopDiagram, { type LoopStep } from "@/components/LoopDiagram";
 const STEPS: LoopStep[] = [
   {
     label: "Measure",
-    description: "Run buying questions for your category and record how each engine describes you today.",
+    description: "Run the questions your buyers ask AI and record how each engine describes you today.",
     example: "Cornelis: a new category prompt set, built with their team",
   },
   {
