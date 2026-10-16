@@ -863,7 +863,7 @@ function homeHtml() {
       <div class="seo-grid">
         <article class="seo-card">
           <h3><a href="/guides/">User guides</a></h3>
-          <p>Set up your workspace, learn the dashboards and tools, and run a Deep Analysis, step by step.</p>
+          <p>Set up your workspace, learn the dashboards and tools, run a Deep Analysis, and connect Claude or ChatGPT, step by step.</p>
         </article>
         <article class="seo-card">
           <h3><a href="/learn/aeo-operator/">AEO Operator course</a></h3>
@@ -1543,7 +1543,7 @@ function resourcesHtml() {
       <p class="seo-kicker">AEO Resource Hub</p>
       <h1>Practical guides for AI search visibility.</h1>
       <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic below.</p>
-      <div class="seo-card"><h2><a href="/guides/">Looking for SolCrys user guides?</a></h2><p>Set up your workspace, learn the dashboards and tools, and run a Deep Analysis. Read online or download the PDFs.</p></div>
+      <div class="seo-card"><h2><a href="/guides/">Looking for SolCrys user guides?</a></h2><p>Set up your workspace, learn the dashboards and tools, run a Deep Analysis, and connect Claude or ChatGPT. Read online or download the PDFs.</p></div>
     </section>
     ${orderedKeys
       .map((key) => {
@@ -3492,6 +3492,7 @@ for (const guide of userGuides.guides) {
     routePath: `/guides/${guide.slug}/`,
     title: `${guide.title} — User Guide | SolCrys`,
     description: guide.description,
+    ogImage: guide.ogImage,
     lastModified: userGuides.updated,
     body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
       <nav aria-label="Breadcrumb"><a href="/resources/">Resources</a> / <a href="/guides/">User guides</a> / <span>${escapeHtml(guide.title)}</span></nav>
@@ -3517,13 +3518,14 @@ for (const guide of userGuides.guides) {
 
 writePage("guides/index.html", renderLayout({
   routePath: "/guides/",
-  title: "SolCrys User Guides — Setup, Dashboards and Deep Analysis",
-  description: "Practical SolCrys user guides for workspace setup, AI visibility dashboards and tools, and Workspace Deep Analysis. Read chapter by chapter or download the free PDFs.",
+  title: "SolCrys User Guides — Setup, Dashboards, Deep Analysis and MCP",
+  description: "Practical SolCrys user guides for workspace setup, AI visibility dashboards and tools, Workspace Deep Analysis, and connecting Claude or ChatGPT through MCP. Read chapter by chapter or download the free PDFs.",
+  ogImage: "/og/guides.png",
   lastModified: userGuides.updated,
   body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
     <section class="seo-hero"><p class="seo-kicker">SolCrys documentation</p><h1>Your guide to SolCrys.</h1>
       <p class="seo-lede">From your first workspace to your weekly AEO review. Practical steps, interface examples, and answers when you need them.</p>
-      <p>Set up with guide 01. Put your results to work with guide 02. Plan improvements with guide 03. Free to read and download.</p>
+      <p>Set up with guide 01. Put your results to work with guide 02. Plan improvements with guide 03. Connect your assistant with guide 04. Free to read and download.</p>
     </section><section class="seo-section"><h2>User guides</h2><p>${userGuides.guides.length} documents &middot; PDF</p>
       <div class="seo-grid">${userGuides.guides.map((guide) => `<article class="seo-card"><p class="seo-kicker">Guide ${escapeHtml(guide.number)} &middot; ${escapeHtml(guide.category)}</p>
         <h3><a href="/guides/${escapeAttr(guide.slug)}/">${escapeHtml(guide.title)}</a></h3><p>${escapeHtml(guide.description)}</p>
@@ -3604,7 +3606,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [Cornelis case study](${site.url}/customers/cornelis/): Full case study — how Cornelis made a brand-new networking category (Active Compute Fabric) answerable in four weeks ahead of its AI Infra Summit launch: 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2. Covers the five-step SolCrys method (measure visibility, diagnose gaps, activate actions, verify impact, map assets to depth).${productPages.map((page) => `\n- [${page.serviceName || page.title}](${site.url}/${page.slug}/): ${page.description}`).join("")}
 - [Pricing](https://app.solcrys.com/pricing): Brand and agency pricing for AI visibility tracking and diagnosis.
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
-- [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards and tools, and Workspace Deep Analysis. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
+- [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards and tools, Workspace Deep Analysis, and the SolCrys AEO MCP. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
 - [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
 - [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
   .map(
