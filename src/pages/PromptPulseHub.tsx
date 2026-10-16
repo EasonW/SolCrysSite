@@ -142,9 +142,10 @@ const PromptPulseHub = () => {
             <h2 className="mb-2 text-xl font-bold tracking-tight">About this data</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind
-              our AI-visibility measurement. Each question is grounded in public demand signals and
-              written the way buyers ask AI assistants. Demand is relative within each industry: it
-              shows where buyer interest concentrates and what's rising.{" "}
+              our AI-visibility measurement. Each question is grounded in public demand signals, written
+              the way buyers ask AI assistants, and labeled by the intent behind it, the persona asking,
+              and the buying stage. Demand is relative within each industry: it shows where buyer
+              interest concentrates and what's rising.{" "}
               <a
                 href="/what-buyers-ask-ai-prompt-pulse/"
                 className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"

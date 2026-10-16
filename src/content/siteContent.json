@@ -17880,7 +17880,7 @@
       "metaTitle": "The Golden Prompt Set Methodology | SolCrys",
       "description": "How SolCrys builds a Golden Prompt Set from real demand signals for your category, and what each prompt carries.",
       "h1": "How we build prompt sets - the Golden Prompt Set methodology",
-      "summary": "We build a Golden Prompt Set (GPS) for every workspace from real demand signals for its category: search demand, the questions people ask around it, and community discussion where available. The set is balanced across prompt types, each of which tests a different way your brand can be invisible, and prompts carry a demand band so you can prioritize. We publish how we choose because prompt selection is the single biggest determinant of AEO data quality. If we're tracking the wrong prompts, every chart in your dashboard is wrong, so we'd rather you evaluate how we choose before you sign than after.",
+      "summary": "We build a Golden Prompt Set (GPS) for every workspace from real demand signals for its category: search demand, the questions people ask around it, and community discussion where available. Every prompt stands for a buyer intent, named by its prompt type, and the persona asking, and the set is balanced across types, each of which tests a different way your brand can be invisible. Prompts carry a demand band so you can prioritize. We publish how we choose because prompt selection is the single biggest determinant of AEO data quality. If we're tracking the wrong prompts, every chart in your dashboard is wrong, so we'd rather you evaluate how we choose before you sign than after.",
       "category": "How SolCrys Works",
       "alsoListIn": [
         "Prompt Intelligence"
@@ -17910,7 +17910,7 @@
           "heading": "Direct answer",
           "body": [
             "We build a Golden Prompt Set (GPS) for every workspace from real demand signals for its category: search demand, the questions people ask around it, and community discussion where available. Prompts carry a demand band so you can prioritize, and the keyword behind them so you can see why they're in your set.",
-            "No AI engine publishes the prompts people send it. A GPS does what measurement needs instead: it represents the buyer intents that carry demand in your category, and it reruns the same way every time, so a change in the numbers means something.",
+            "Buyers word the same need in endless ways, but the intent behind it and the persona asking stay stable. A GPS is built around those: each prompt stands for an intent and a persona, and the set reruns the same way every time, so a change in the numbers means something.",
             "We treat prompt selection as the single biggest determinant of AEO data quality. If we track the wrong prompts, every chart in your dashboard is wrong - so the rest of this page explains how we choose, what we deliberately exclude, and how you can audit our selection."
           ]
         },
@@ -18016,12 +18016,12 @@
           }
         },
         {
-          "heading": "The metadata we attach to every prompt",
+          "heading": "The metadata we attach to your prompts",
           "body": [
-            "Your prompts stay private to your workspace. For every prompt in your GPS we attach metadata so you can filter, sort, and prioritize - and so you can audit how the prompt got there."
+            "Your prompts stay private to your workspace. For the prompts in your GPS we attach metadata so you can filter, sort, and prioritize - and so you can audit how the prompt got there."
           ],
           "bullets": [
-            "**Demand band** - High, Medium, or Low, from the search and AI-search demand behind the prompt, so you can prioritize the questions that carry the most buyer interest.",
+            "**Demand band** - High, Medium, or Low, from the demand behind the prompt's keyword, so you can prioritize the questions that carry the most buyer interest. Brand Accuracy prompts test facts, not demand, so they run without one.",
             "**Prompt type** - which of the four visibility questions above the prompt tests. The types are failure-mode oriented: each one is a distinct way your brand can be invisible, and you can fail one while passing the others. Type is the field our distribution targets are enforced against - we don't layer a separate journey-stage label on top of it.",
             "**Target persona** - the buyer role the prompt is written for, such as a VP of marketing or a data center architect. Every prompt carries one, and when no specific role is cleanly inferable we set it to Generic rather than inventing a persona to look thorough. Persona is a filter and a sort column in your Prompts table and a column in your CSV export.",
             "**Per-engine results** - once the prompt runs, each response is stored per engine, so you can see which engines surface you for that prompt and which don't. This is measured after the fact, not predicted: we don't guess engine fit at authoring time.",
@@ -18079,7 +18079,7 @@
         {
           "heading": "Why we publish this methodology",
           "body": [
-            "Most platforms in our category keep prompt-selection methodology opaque. We publish how ours chooses because trust is our product - if you don't trust how we chose your prompts, every chart we show you is meaningless. We want this methodology to be falsifiable: open a prompt's demand band to see the keyword behind it. We want you to evaluate us before you sign, not after."
+            "Most platforms in our category keep prompt-selection methodology opaque. We publish how ours chooses because trust is our product - if you don't trust how we chose your prompts, every chart we show you is meaningless. We want this methodology to be falsifiable: open any demand band to see the keyword behind it. We want you to evaluate us before you sign, not after."
           ]
         }
       ],
@@ -18344,7 +18344,7 @@
           "heading": "Why we treat methodology as the under-investigated dimension",
           "body": [
             "Buyers comparing AEO platforms typically focus on visible feature parity, engine coverage, and support. The harder question - whether the underlying data is reliable - is easier to wave away with a slide. So most buyers skip it. We think that's a mistake, because two specific failure modes recur in this category.",
-            "Ungrounded prompts dressed as research: a vendor says 'we track 300 prompts in your category' but the prompts were generated from the category name alone, with no demand data behind them. Every prompt set is a sample, so ask whether it's tied to evidence of buyer demand you can inspect. If it isn't, the visibility numbers describe the vendor's guesses, not your buyers' exposure.",
+            "Ungrounded prompts dressed as research: a vendor says 'we track 300 prompts in your category' but the prompts were generated from the category name alone, with no demand data behind them. Ask whether the set covers the intents and personas that carry demand in your category, with evidence you can inspect. If it isn't, the visibility numbers describe the vendor's guesses, not your buyers' exposure.",
             "API-only tracking sold as consumer measurement: a vendor says 'we track ChatGPT' but in practice queries an API endpoint that uses different default models, system prompts, and web-search behavior than the consumer chat product. The two surfaces can diverge enough that fixing one does not move the other - so the buyer ships the wrong fixes for months."
           ]
         },
@@ -18357,7 +18357,7 @@
             {
               "heading": "Question 1: Where do your tracked prompts come from?",
               "body": [
-                "What you should listen for: specific data sources, not vague phrases like 'AI-generated based on your category.' Strong answers name the kinds of demand data the prompts are built from, show what prompts are anchored to, and explain how your own prompts fit in.",
+                "What you should listen for: specific data sources, not vague phrases like 'AI-generated based on your category.' Strong answers name the kinds of demand data the prompts are built from, show which intents and personas the set covers and what each prompt is anchored to, and explain how your own prompts fit in.",
                 "Red flags: 'Prompts based on your category' with no demand data named (translation: ungrounded), vague phrases like 'ensemble deep-learning models on 50+ sources' without naming them, refusal to disclose template-vs-customer ratio, no way to see what a given prompt is anchored to, and no mechanism to decline or replace the vendor's default prompts.",
                 "How we answer: every Golden Prompt Set is built from real demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Prompts show the keyword behind them in their demand band, your set starts as GPS prompts, and you decide what to replace or add. Full methodology: see our Golden Prompt Set methodology page."
               ]
@@ -18645,7 +18645,7 @@
             {
               "heading": "Where do SolCrys prompts come from?",
               "body": [
-                "From real demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Each prompt is written the way a buyer would ask an AI assistant, and its demand band shows the keyword behind it. Because the set reruns the same way every time, changes in your numbers reflect changes in the answers, not in the questions."
+                "From real demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Each prompt stands for a buyer intent and the persona asking, written the way that buyer would ask an AI assistant. Wording varies from buyer to buyer; intent and persona don't, so the set reruns the same way every time, and changes in your numbers reflect changes in the answers."
               ]
             },
             {
@@ -30368,7 +30368,7 @@
         "What buyers ask AI:",
         "1,012 questions, 16 industries."
       ],
-      "summary": "Keyword tools tell you what people typed into a search box. They don't show the full questions buyers bring to AI assistants. **Prompt Pulse** is our attempt to map those questions: a curated set of **1,012 buyer-style questions across 16 industries**, drawn from public question sources and scored with a modeled, relative Demand tier and trend. It is not a log of real AI conversations, and its stage mix describes the dataset, not everything people ask AI. Within that scope the patterns are useful: **54% of the questions are Decision-stage** and only 10% are \"what is\" awareness questions, commercial intents (recommendation, comparison, and cost) make up 53%, and the questions trending up skew toward concern, especially about whether AI can replace a specialist. [Browse the data by industry](/prompt-pulse/)",
+      "summary": "Keyword tools tell you what people typed into a search box. They don't show the full questions buyers bring to AI assistants. **Prompt Pulse** maps those questions: a curated set of **1,012 buyer-style questions across 16 industries**, drawn from public question sources and scored with a relative Demand tier and trend. Each question is labeled by the intent behind it, the persona asking, and the buying stage: the parts of a question that stay stable however a buyer words it. The stage mix describes the dataset, not everything people ask AI, and within it the patterns are useful: **54% of the questions are Decision-stage** and only 10% are \"what is\" awareness questions, commercial intents (recommendation, comparison, and cost) make up 53%, and the questions trending up skew toward concern, especially about whether AI can replace a specialist. [Browse the data by industry](/prompt-pulse/)",
       "category": "Prompt Intelligence",
       "ogImage": "/og/what-buyers-ask-ai-prompt-pulse.png",
       "published": "2026-06-03",
@@ -30395,22 +30395,22 @@
         {
           "heading": "Direct answer",
           "body": [
-            "Prompt Pulse is a curated set of **1,012 buyer-style questions across 16 industries** (verticals dated June 1–4, 2026), each labeled by buying stage, intent, persona, a relative Demand tier, and a trend direction. The questions come from public question sources and are scored with modeled, relative demand. They are not a sample of real ChatGPT or Perplexity conversations, and the Demand tiers are not query counts.",
+            "Prompt Pulse is a curated set of **1,012 buyer-style questions across 16 industries** (verticals dated June 1–4, 2026), each labeled by buying stage, intent, persona, a relative Demand tier, and a trend direction. The questions come from public question sources and are scored with relative demand within each industry. Wording varies from buyer to buyer; the labels capture what stays stable: the intent, the persona, and the stage of the decision.",
             "Within the dataset, the mix is lopsided toward decisions: **53.7% of questions are Decision-stage**, 36.1% Consideration, and 10.3% Awareness. That describes a set built around buying, not AI usage overall. Across all consumer ChatGPT use, OpenAI's own researchers found, in conversations sampled through mid-2025, that practical guidance, seeking information, and writing account for about 77% of conversations, with product questions one part of seeking information. What the dataset does show is the shape of buying questions once someone is in a category: most ask the AI to choose, compare, or de-risk, not to define.",
             "That shape matters for content and AEO. The questions where an answer can turn into a shortlist are specific and decision-shaped, and a brand built around \"what is\" explainers is answering the smallest slice of them. The live data is browsable by industry on the [Prompt Pulse hub](/prompt-pulse/)."
           ]
         },
         {
-          "heading": "What the dataset is, and what it isn't",
+          "heading": "What the dataset captures",
           "body": [
             "Start with the unit of analysis. Traditional keyword research counts the short strings people type into a search box (\"crm software,\" \"best smart lock\"). Prompt Pulse works with the **full natural-language question a buyer would put to an AI assistant**, such as \"Which CRM is considered number one for mid-market B2B sales teams?\", because that sentence, not the keyword, is what ChatGPT, Perplexity, and Google's AI surfaces answer.",
             "The current set spans 16 industries: consumer Smart Home, Fintech, the B2B SaaS stack (CRM, HR and payroll, accounting, project management, marketing and email, ecommerce, cybersecurity, and SEO and AEO), and the AI-infrastructure layer (GPUs, inference, MLOps, LLM observability, AI cloud, and AI data and storage). Every question carries five labels: a **Demand tier** (High, Medium, or Low), a **trend** (Rising, New, Stable, Cooling, or no label when there isn't enough history to call a direction), an **intent**, a **persona**, and a **buying stage** (Awareness, Consideration, or Decision)."
           ],
           "bullets": [
-            "**It is** a curated set of buyer-style questions for each industry, drawn from public question sources and written around needs and use cases rather than the vendors competing for them.",
-            "**It is** scored with modeled, relative demand. Tiers and trends are relative within each industry, so a High in LLM Inference is not comparable to a High in CRM.",
-            "**It isn't** a log of what people typed into ChatGPT, Perplexity, or Google's AI surfaces. Prompt-volume figures from any source outside the AI platforms themselves are modeled estimates, ours included.",
-            "**It isn't** a random sample of AI usage. The set was built around buying, so its stage and intent mix describe the set, not buyer behavior overall."
+            "**Buyer questions, by industry.** A curated set of buyer-style questions for each industry, drawn from public question sources and written around needs and use cases rather than the vendors competing for them.",
+            "**The stable parts of a question.** Each question is labeled by the intent behind it, the persona asking, and the buying stage. Buyers word the same need many ways; those labels are what stay constant, and they're what the findings below are built on.",
+            "**Relative demand.** Tiers and trends are relative within each industry, so a High in LLM Inference is not comparable to a High in CRM.",
+            "**A set built around buying.** Its stage and intent mix describe the set, not buyer behavior overall, which is why the findings below read as the shape of buying questions within a category."
           ],
           "subsections": [
             {
@@ -30697,7 +30697,7 @@
       "faqs": [
         {
           "question": "What is SolCrys Prompt Pulse?",
-          "answer": "Prompt Pulse is free AI-demand data: a curated set of buyer-style questions organized by industry, each labeled by relative Demand tier, trend, intent, persona, and buying stage. The current snapshot holds 1,012 questions across 16 industries. The questions come from public question sources and are scored with modeled, relative demand, so the tiers show where demand concentrates within an industry, not how many times anyone asked. The live data is browsable at [solcrys.com/prompt-pulse](/prompt-pulse/)."
+          "answer": "Prompt Pulse is free AI-demand data: a curated set of buyer-style questions organized by industry, each labeled by relative Demand tier, trend, intent, persona, and buying stage. The current snapshot holds 1,012 questions across 16 industries. The questions come from public question sources and are scored with relative demand, so the tiers show where demand concentrates within an industry. The live data is browsable at [solcrys.com/prompt-pulse](/prompt-pulse/)."
         },
         {
           "question": "How many questions and industries does it cover?",
@@ -30705,7 +30705,7 @@
         },
         {
           "question": "Where does the data come from?",
-          "answer": "Each industry's questions are drawn from public question sources and scored with modeled, relative demand. What's published is the question text and its labels; the underlying volumes, sources, and scoring weights stay internal. Treat Demand tiers and trends as directional and relative within each industry, not as query counts."
+          "answer": "Each industry's questions are drawn from public question sources and scored with modeled, relative demand. What's published is the question text and its labels; the underlying volumes, sources, and scoring weights stay internal. Demand tiers and trends are relative within each industry."
         },
         {
           "question": "Does Prompt Pulse show what people ask AI in general?",
@@ -30713,7 +30713,7 @@
         },
         {
           "question": "Is this the same as keyword search volume?",
-          "answer": "No. Keyword volume counts short strings typed into a search box. Prompt Pulse works with full natural-language questions, and its Demand tiers are modeled and relative within each industry, designed to show shape and movement rather than to be read as a volume meter. The two are complementary: keyword tools for search head terms, Prompt Pulse for the questions buyers bring to AI assistants."
+          "answer": "No. Keyword volume counts short strings typed into a search box. Prompt Pulse works with full natural-language questions, and its Demand tiers are relative within each industry and show where demand concentrates and how it moves. The two are complementary: keyword tools for search head terms, Prompt Pulse for the questions buyers bring to AI assistants."
         },
         {
           "question": "How is asking AI different from a Google search, for marketers?",
@@ -32967,7 +32967,7 @@
           "heading": "Direct answer",
           "body": [
             "Most AI-visibility tools answer one question: did the engine name you? The question that actually moves deals is harder. When the answer named you, did it recommend you, or did it recommend a competitor in the next sentence? Being in the answer is not the same as being the choice.",
-            "The Recommendation Score grades every AI answer on a 0-100 scale for how favorably it positions your brand: not just whether you appear, but whether you're the default pick, a hedged maybe, or named-and-then-talked-out-of. It runs across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, on the prompts your buyers ask. It plots you and every competitor on a single map. And every point, up or down, is tied to a verbatim line from the answer itself. Not a vibe. A score you can audit against what the model literally said."
+            "The Recommendation Score grades every AI answer on a 0-100 scale for how favorably it positions your brand: not just whether you appear, but whether you're the default pick, a hedged maybe, or named-and-then-talked-out-of. It runs across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, on the questions your buyers ask. It plots you and every competitor on a single map. And every point, up or down, is tied to a verbatim line from the answer itself. Not a vibe. A score you can audit against what the model literally said."
           ]
         },
         {
@@ -33415,7 +33415,7 @@
         {
           "heading": "How SolCrys fits",
           "body": [
-            "SolCrys covers the exposure and verification inputs of the stack above. We Measure where you appear and get recommended across engines on the prompts your buyers ask, Diagnose why a competitor is recommended where you are not, Execute governed, human-approved fixes, and then Verify by rerunning the same frozen prompt set after the fix ships. That gives the interview number its upstream context: when a buyer says \"ChatGPT suggested you,\" you can show which prompts, which engines, and how that presence has moved.",
+            "SolCrys covers the exposure and verification inputs of the stack above. We Measure where you appear and get recommended across engines on the questions your buyers ask, Diagnose why a competitor is recommended where you are not, Execute governed, human-approved fixes, and then Verify by rerunning the same frozen prompt set after the fix ships. That gives the interview number its upstream context: when a buyer says \"ChatGPT suggested you,\" you can show which prompts, which engines, and how that presence has moved.",
             "Where we are honest about scope: the interviews live in your sales motion and the answers live in your CRM. SolCrys does not see inside your CRM and does not claim a guaranteed lift — we supply the exposure and verification layers and the method; your team owns the conversion layer. If you want to see the exposure layer on your own category before running a single interview, [Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys shows you whether ChatGPT shortlists your brand today and which competitors it names instead."
           ]
         }
@@ -37202,7 +37202,7 @@
         {
           "heading": "How to read the table",
           "body": [
-            "Every free report counts something the platform can see from its own side: links to your site that it showed, citations of your pages, or sessions that reached your site. That is presence and traffic on the platform's own surfaces. It is useful, it is free, and it is real user data rather than a sample of prompts. It is not the answer.",
+            "Every free report counts something the platform can see from its own side: links to your site that it showed, citations of your pages, or sessions that reached your site. That is presence and traffic on the platform's own surfaces. It is useful, it is free, and it is real user data. It is not the answer.",
             "The pattern matters more than any single row. Because the reports count your URLs and your visits, an answer that names you through a review site is invisible to them, and because each platform reports only on itself, ChatGPT, Perplexity, and Claude reach your data only as the occasional referral visit."
           ]
         },
@@ -37320,7 +37320,7 @@
           "body": [
             "SolCrys measures the answer half. On a fixed set of buyer prompts, it captures the answer on ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan: the Free workspace covers ChatGPT, Starter adds Gemini and Google AI Overviews, Pro covers any 4 of the 5, and Custom covers all 5. For each answer it records whether you were mentioned; which URLs were cited, yours and everyone else's; a Recommendation Score from 0 to 100 for how favorably the answer positions you, with each point tied to quoted text; and, on Pro (up to 15 prompts) and Custom (every prompt), Answer Accuracy, which grades the answer against your Corporate Context and can't mark a claim wrong without evidence.",
             "That feeds the Measure → Diagnose → Execute → Verify loop. A Deep Analysis explains why a competitor was recommended, a Content Audit shows what a page is missing, your team ships the change after human review (SolCrys never publishes to your site), and SolCrys reruns the same frozen prompts on the same engines to show whether the answer moved.",
-            "Where the scope ends: SolCrys has no GA4 or Search Console connector and doesn't read your analytics, so it doesn't report your impressions, sessions, or pipeline. The join is the cited URL, in a sheet you control. SolCrys doesn't measure Copilot, so use Bing Webmaster Tools for it. For product share of voice in Google's shopping answers, Merchant Center is the source. And a prompt set is a sample you choose, not a census of real queries, which is why it pairs with the platform reports rather than replacing them.",
+            "Where the scope ends: SolCrys has no GA4 or Search Console connector and doesn't read your analytics, so it doesn't report your impressions, sessions, or pipeline. The join is the cited URL, in a sheet you control. SolCrys doesn't measure Copilot, so use Bing Webmaster Tools for it. For product share of voice in Google's shopping answers, Merchant Center is the source. And the platform reports show which intents already reach you, while a prompt set measures the intents and personas you choose, which is why the two work together.",
             "To see the answer half for your own brand, [Start Free](https://app.solcrys.com/audit): 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card. Multi-engine tracking is on [paid plans](https://app.solcrys.com/pricing), or [talk to sales](https://app.solcrys.com/contact-sales/)."
           ]
         }
@@ -38748,7 +38748,7 @@
           },
           "bullets": [
             "**Read them by page.** Add the Page dimension and compare with the pages that show impressions in the generative AI report. A long question-form query landing on a page with AI impressions is a strong candidate.",
-            "**Expect a floor, not a census.** Rare queries are withheld, so most real prompts never appear. What you find is the visible fraction.",
+            "**Group by intent.** Rare queries are withheld, so the report shows the more common phrasings. Group what you find by the intent and persona behind it.",
             "**Watch for automated probes.** Monitoring tools send scheduled prompts to Google too. Oddly specific long queries with steady impressions and no clicks may be machines checking a brand, not buyers.",
             "**Don't over-read a match.** A 12-word question can be an ordinary search. The filters find candidates; testing in Step 4 decides what matters."
           ]
@@ -38823,7 +38823,7 @@
           ],
           "bullets": [
             "**Asking an assistant which prompts it mentions you for.** It has no access to other people's conversations, so its answer is a guess.",
-            "**Treating \"AI prompt volume\" as observed data.** No engine publishes prompt-level volume, so any volume figure for a prompt is modeled from other signals. That can be useful for prioritizing, as long as the method is disclosed.",
+            "**Ranking by prompt volume alone.** Volume figures for prompts are modeled from other signals. Use them to prioritize intents alongside persona fit and buyer value, as long as the method is disclosed.",
             "**Tracking only branded prompts.** They almost always name you and tell you little about discovery.",
             "**Deciding from one run.** A single answer is one draw; read a prompt over several runs."
           ]
@@ -38845,7 +38845,7 @@
         {
           "heading": "What we don't claim",
           "body": [
-            "The regex filters find candidates, not proof that a query came from an AI feature; Google provides no way to tell them apart. A prompt set is a sample you choose, not a record of what buyers actually asked, which is why it pairs with the first-party reports rather than replacing them. And the platform details above are as of Oct. 14, 2026; check each platform's documentation before relying on them."
+            "The regex filters find candidates, not proof that a query came from an AI feature; Google provides no way to tell them apart. The reports show phrasings that already reach you; a prompt set measures the intents and personas behind them, so the two work together. And the platform details above are as of Oct. 14, 2026; check each platform's documentation before relying on them."
           ]
         }
       ],
@@ -38868,7 +38868,7 @@
         },
         {
           "question": "Is AI prompt volume data real?",
-          "answer": "No engine publishes how often a prompt is asked, so any prompt volume figure is an estimate built from other signals, such as search demand for the underlying question and community activity. Use it to prioritize, and ask how it was modeled."
+          "answer": "Prompt volume figures are modeled from signals such as search demand for the underlying question and community activity. Use them to prioritize intents, and ask how they were modeled."
         }
       ],
       "sources": [
@@ -39972,11 +39972,11 @@
     },
     {
       "slug": "do-you-need-real-prompts-for-aeo",
-      "title": "Do You Need Real Prompts to Measure AEO? Demand Data and Measurement Are Different Questions",
-      "metaTitle": "Do You Need Real Prompts to Measure AEO? | SolCrys",
-      "description": "Real prompt data tells you what buyers ask AI. AEO measurement tells you what the engine says when they ask. Why the second doesn't need the buyer's exact wording, and where real-prompt sources fall short.",
-      "h1": "Do you need real prompts to measure AEO?",
-      "summary": "A familiar argument in answer engine optimization (AEO) says prompt tracking is guesswork, because outside a clickstream panel nobody can see the prompts people really type into AI assistants. On demand data, that's fair: no AI engine publishes what people ask it or how often, so any prompt volume is an estimate. But the argument mixes up 2 questions. \"What do buyers ask, and how often?\" needs observed data. \"When buyers ask about my category, does the engine recommend me?\" doesn't need the buyer's exact sentence, because engines such as Google's AI Mode can rewrite questions into several searches, and answers vary from run to run anyway. It needs a prompt set that stands for real buyer intent and is rerun the same way over time. This essay explains the split, where each source of real prompts is strong and where it's blind, and how to use them together.",
+      "title": "Prompts Vary. Intent and Persona Don't: The Right Unit for AEO Measurement",
+      "metaTitle": "Prompts Vary, Intent Doesn't: How to Measure AEO | SolCrys",
+      "description": "Buyers word the same question in endless ways, but the intent behind it and the persona asking stay stable. Why AEO measurement should track intent and persona, and how the Golden Prompt Set is built around them.",
+      "h1": "Prompts vary. Intent and persona don't.",
+      "summary": "Ask 10 buyers the same question and you get 10 different prompts: different words, different lengths, different context, and follow-ups in a different order. What doesn't change is what they're trying to decide and who they are. A VP of sales at a 50-person SaaS company choosing a CRM can phrase that need a hundred ways, but the intent and the persona stay the same. That makes intent and persona, not the literal prompt, the right unit for answer engine optimization (AEO) measurement. This essay explains why, how a prompt set built on intent and persona measures what real buyers see, how SolCrys's Golden Prompt Set is designed around them, and where real prompt data fits: as evidence for the intents, not as a list of strings to track.",
       "category": "Prompt Intelligence",
       "alsoListIn": [
         "Measurement"
@@ -39986,10 +39986,10 @@
       "ogImage": "/og/do-you-need-real-prompts-for-aeo.png",
       "ogEyebrow": "Prompt Intelligence",
       "ogTitleParts": [
-        "Do you need real prompts",
-        "to measure AEO?"
+        "Prompts vary.",
+        "Intent doesn't."
       ],
-      "primaryKeyword": "real AI prompts for AEO",
+      "primaryKeyword": "intent-based AEO measurement",
       "author": {
         "name": "Eason Wang",
         "role": "Co-Founder & CPO, SolCrys",
@@ -39997,11 +39997,11 @@
         "photoUrl": "/team/eason-wang.jpg"
       },
       "aeoTargets": [
-        "Do you need real user prompts to measure AI visibility?",
-        "Can you see the real prompts people type into ChatGPT?",
-        "Is AI prompt volume data accurate?",
-        "Where should an AEO prompt set come from?",
-        "Is a prompt set that wasn't typed by real buyers good enough for AEO?"
+        "Do you need real prompts to measure AEO?",
+        "Why track intent and persona instead of exact prompts in AI search?",
+        "How do you choose prompts for AI visibility tracking?",
+        "Does SolCrys use real data to build prompt sets?",
+        "What is the right unit of AEO measurement?"
       ],
       "relatedSlugs": [
         "find-ai-prompts-your-brand-shows-up-for",
@@ -40017,174 +40017,133 @@
         {
           "heading": "Direct answer",
           "body": [
-            "No, not for measurement. You need real prompt data to size demand: which questions buyers ask AI, and how often. You don't need it to measure whether AI engines recommend you, because measurement works on intent, not wording. Google says AI Overviews and AI Mode may use a \"query fan-out\" technique that issues multiple related searches across subtopics and data sources ([Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)), so the engine isn't answering only the buyer's exact string. And because answers vary from run to run, even a perfect copy of one buyer's prompt is a single sample.",
-            "What measurement does need is a prompt set that stands for real buyer intent, built from evidence you can inspect, frozen, and rerun across engines and over time. Real prompts, where you can get them, are the best way to check that the set covers the right intents. They aren't a substitute for it."
+            "Track intent and persona, not exact prompts. The wording of a buyer's prompt changes every time it's typed, but the intent behind it (the decision they're making) and the persona asking (their role, company size, and constraints) are stable, and they change only when the market does. Answer engines work from that need: Google says AI Overviews and AI Mode may use a \"query fan-out\" technique that issues multiple related searches across subtopics and data sources ([Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)), so the answer draws on the need behind the question, not only on its exact words.",
+            "A prompt set that covers the intents and personas carrying demand in your category, each phrased the way that buyer asks, measures what real buyers see. Because intents and personas hold still while wording churns, the same set can be rerun over time, and a change in your numbers reflects a change in the answers rather than a change in the questions."
           ]
         },
         {
           "heading": "Why I'm writing this",
           "body": [
-            "The latest version of this argument holds that outside a clickstream panel, there is no reliable source of what people actually type into AI assistants. When we evaluated prompt datasets for our own use earlier this year, we reached much the same conclusion about demand data.",
-            "Where I disagree is the step from \"we can't see real prompts\" to \"measurement built on representative prompts is guessing.\" That step treats 2 different questions as one, and teams that accept it either buy data that can't answer their question or stop measuring the answers that decide whether they're on a buyer's shortlist."
+            "Teams evaluating AEO tools increasingly ask whether a vendor's prompts are \"real.\" It's a fair question with a hidden assumption: that the literal prompt a buyer typed is the thing to measure. I think that assumption is wrong, and that acting on it leads teams to track wording instead of demand.",
+            "Our Golden Prompt Set is built from real demand signals, and every prompt in it carries the persona it stands for. This essay explains why we built it around intent and persona, and why that is the stable foundation measurement needs."
           ]
         },
         {
-          "heading": "Two questions that get mixed up",
+          "heading": "One intent, many prompts",
           "body": [
-            "Most of the real-prompts debate dissolves once you separate demand from measurement. They need different data, and the exact wording of a prompt matters far more to the first than to the second."
+            "Here is one buyer need written 5 ways. Each is a prompt a real buyer could type, and none of them is the prompt. The intent is the same in every row (choose a CRM), and so is the persona (a VP of sales at a 50-person B2B SaaS company)."
           ],
           "table": {
             "headers": [
-              "",
-              "Demand question",
-              "Measurement question"
+              "The prompt",
+              "What changed"
             ],
             "rows": [
               [
-                "**The question**",
-                "What do buyers ask AI about my category, and how often?",
-                "When buyers ask about my category, does the engine name and recommend me?"
+                "\"Best CRM for a 50-person B2B SaaS team?\"",
+                "Short, category-level"
               ],
               [
-                "**What it needs**",
-                "Observed prompts and counts",
-                "Representative prompts, run repeatedly across engines"
+                "\"We're 50 people selling to mid-market and outgrowing spreadsheets. What CRM should we look at?\"",
+                "Context first, conversational"
               ],
               [
-                "**Does exact wording matter?**",
-                "Yes: the wording is the data",
-                "Less: engines such as Google's AI Mode can rewrite questions, and answers vary run to run"
+                "\"HubSpot or Salesforce for a small sales team with a 6-month cycle?\"",
+                "Names brands, adds a constraint"
               ],
               [
-                "**Who can observe it**",
-                "The AI platforms; opt-in panels, partially",
-                "Anyone who runs the prompts and reads the answers"
+                "\"Which CRM won't need a full-time admin for a 10-rep team?\"",
+                "Framed around a risk"
               ],
               [
-                "**What it's for**",
-                "Sizing demand and choosing which intents to cover",
-                "Tracking visibility, diagnosing gaps, and verifying fixes"
+                "\"OK, and which of those handles long enterprise deals?\"",
+                "A follow-up that depends on the previous answer"
               ]
             ]
           }
         },
         {
-          "heading": "Where the critique is right: demand data is thin",
+          "heading": "Why intent and persona are the stable unit",
           "body": [
-            "No AI engine publishes the prompts people send it, or how often a question is asked. That leaves 3 kinds of outside data, and each has limits."
+            "Wording is the noisiest part of a prompt. Intent and persona are the parts that carry the decision."
           ],
           "bullets": [
-            "**Research chat datasets.** Collections of real conversations exist for academic work, but their licenses, consent terms, and personal data make most of them hard to reuse commercially, and the people in them were using research chat apps, not shopping your category.",
-            "**Opt-in clickstream panels.** Panels that record browsing with members' consent can observe real prompts, and they are the strongest source of real-prompt demand data today. Some panel products report the prompts behind visits from AI assistants; how much of the rest a panel sees depends on how it collects, which vendors rarely disclose in detail.",
-            "**\"AI search volume\" in keyword tools.** These figures are estimates. No AI engine publishes query counts, so every such number is modeled from something else, such as search data or panel data. Use them to rank intents against each other, not as counts, and ask how they were modeled."
+            "**Wording churns; intent doesn't.** Prompts differ in length, word order, named brands, and context, and the same buyer rewords as the conversation goes. When its memory settings are on, ChatGPT also draws on saved memories and past conversations ([OpenAI Help Center](https://help.openai.com/en/articles/8590148-memory-faq)), so the literal string was never the whole input. The decision behind it changes only when the buyer's need changes.",
+            "**Persona changes what a good answer is.** A 10-rep startup and a 500-rep enterprise asking the same question need different shortlists, so the persona belongs in the prompt. The exact wording doesn't need to match anyone's.",
+            "**Engines work from the need.** Google's AI surfaces may fan a question out into related searches across subtopics before answering, and answers vary from run to run. A literal prompt is one sample of a need the engine is already generalizing.",
+            "**Intents move with the market, and slowly.** New intents appear when a category changes: a new entrant, a pricing shift, a regulation. That's when a prompt set should change too. Wording changes every time someone types."
           ]
         },
         {
-          "heading": "Why measurement doesn't need the exact wording",
+          "heading": "What this means for measurement",
           "body": [
-            "Because the engine doesn't answer the exact wording either. Three things stand between a buyer's sentence and the answer they see."
+            "Measure coverage of intent and persona, and measure it the same way every time."
           ],
           "bullets": [
-            "**Engines rewrite the question.** Google says AI Overviews and AI Mode may use query fan-out, issuing multiple related searches before composing an answer, and that the 2 surfaces may use different models and techniques ([Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)). Two buyers who phrase the same need differently can trigger overlapping searches.",
-            "**Answers vary from run to run.** Ask the same engine the same question twice and you can get different brands and different sources. One run of a real prompt is one sample, so you need several runs either way ([how many runs a visibility number needs](/how-many-runs-until-ai-visibility-trustworthy/)).",
-            "**Real conversations can't be replayed.** When the settings are on, ChatGPT can draw on saved memories and past conversations ([OpenAI Help Center](https://help.openai.com/en/articles/8590148-memory-faq)), and many buying conversations run several turns. A captured prompt, stripped of that context, doesn't reproduce what the buyer saw."
+            "**One prompt per intent and persona that matters, not 10 paraphrases.** Paraphrases of the same need re-measure the same decision; a missing intent or persona is a blind spot.",
+            "**Write each prompt the way that persona asks.** Include the role, size, and constraint a real buyer would give, so the engine answers the question that persona has.",
+            "**Freeze the set, then rerun it.** Because intents hold still, a frozen set stays representative, and a change in your numbers reflects a change in the answers. Judge any move across several runs and engines ([how many runs a visibility number needs](/how-many-runs-until-ai-visibility-trustworthy/)).",
+            "**Read results by intent and persona.** \"Named in 3 of 4 discovery answers for mid-market sales leaders, absent for startups\" tells you what to fix; an average across unrelated strings doesn't."
           ]
         },
         {
-          "heading": "A prompt set is a sampling instrument",
+          "heading": "How the Golden Prompt Set is built around intent and persona",
           "body": [
-            "So the useful question about a prompt set isn't \"were these exact words typed?\" It's \"does each prompt stand for an intent buyers really have, and is the set run the same way every time, so a change in the numbers means something?\"",
-            "Search demand also matters on Google's AI surfaces: AI Overviews and AI Mode build on Google's Search index and core ranking systems ([Google's May 2026 guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)), so AEO for Google is an operating layer on top of SEO foundations, and the search demand behind a question remains the best public evidence of which intents matter."
-          ]
-        },
-        {
-          "heading": "Where real-prompt sources fall short for AEO",
-          "body": [
-            "Even good real-prompt data has blind spots that matter for AEO specifically."
+            "Each SolCrys workspace tracks a [Golden Prompt Set](/golden-prompt-set-methodology/) built from real demand signals for its category: search demand, the questions people ask around it, and community discussion where available. Those signals show which intents carry demand and how the buyers behind them phrase their questions. On Google's AI surfaces, search demand is direct evidence: AI Overviews and AI Mode build on Google's Search index and core ranking systems ([Google's May 2026 guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)), so AEO for Google is an operating layer on top of SEO foundations.",
+            "The SolCrys Loop (Measure → Diagnose → Execute → Verify) runs on that set across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan, and reruns the same frozen prompts after a fix ships, so you can see whether the answer moved for that intent and persona and whether the move held across runs."
           ],
           "bullets": [
-            "**Answers that never produce a click.** AEO matters most when the engine names you and the buyer never visits. Pew Research Center found that Google users who saw an AI summary clicked a traditional search result in 8% of visits, against 15% when no summary appeared, and clicked a link inside the summary in 1% ([Pew Research Center](https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/), browsing data from 900 U.S. adults, March 2025). A source that learns about prompts through visits sees least of the answers where influence happens without one.",
-            "**Niche categories.** In a narrow B2B category, even a large panel is likely to capture only a handful of conversations per topic, too few to measure against.",
-            "**Signup surveys mostly see the prompts you won.** Asking new leads which AI they used and what they typed is a good idea, and we recommend it. But only buyers who found you can answer. Prompts where the engine recommended a competitor rarely reach your form, and those are the gaps AEO exists to close. Buyers also recall their wording imperfectly. Use survey answers to check a prompt set's coverage, not to build it ([how to run closed-won interviews](/prove-ai-influence-closed-won-interviews/))."
+            "**Intent, as prompt type.** Every prompt carries a type that names the visibility question it tests: Discovery (does the engine name you for the category?), Feature Research (for a specific use case or constraint?), Comparison (how are you framed head-to-head?), and Brand Accuracy (are the facts right?). Each set is built to a fixed type mix, not improvised per customer.",
+            "**Persona, on every prompt.** Every prompt carries the buyer role it's written for, such as a VP of marketing or a data center architect, and persona is a filter in your Prompts table.",
+            "**Demand, as a band.** Prompts carry a High, Medium, or Low demand band, with the keyword behind them in the band's popover, so you can prioritize the intents with the most buyer interest.",
+            "**Stable by design.** The set is reviewed with you and changes when the category does. Prompts you keep retain their trend lines, and new ones start their own history.",
+            "**Your buyers' own words.** Questions from your sales calls, support tickets, and demos slot in alongside the GPS."
           ]
         },
         {
-          "heading": "Where each source fits",
+          "heading": "Where real prompt data fits",
           "body": [
-            "Each source answers a different part of the job. The mistake is asking one to do another's work."
+            "Real prompts are evidence for intents and personas, and the most useful ones are already yours. A list of literal strings is a snapshot of how some buyers worded something once; mapped to intents and personas, it keeps its value as the wording moves on."
           ],
           "table": {
             "headers": [
               "Source",
-              "What it sees",
-              "What it misses",
-              "Best use"
+              "What it tells you",
+              "How it feeds the set"
             ],
             "rows": [
               [
-                "**Opt-in clickstream panels**",
-                "Real prompts from panel members, at least those tied to visits",
-                "Thin coverage in niche categories; collection methods rarely disclosed",
-                "Sizing demand across a broad category"
-              ],
-              [
-                "**Research chat datasets**",
-                "Real conversations",
-                "Commercial-use and consent limits; not your buyers",
-                "Studying how people phrase requests in general"
-              ],
-              [
                 "**Search Console and Bing grounding queries**",
-                "Queries and grounding phrases for your own site",
-                "Prompts where you don't appear; ChatGPT, Claude, and Perplexity give site owners no report",
-                "Finding candidate prompts ([how](/find-ai-prompts-your-brand-shows-up-for/))"
-              ],
-              [
-                "**Signup surveys and closed-won interviews**",
-                "Prompts from buyers who found you",
-                "Most prompts where a competitor won",
-                "Checking coverage and showing AI influence on pipeline"
+                "How buyers phrase questions that already reach your site",
+                "New intents and phrasings to cover ([how to find them](/find-ai-prompts-your-brand-shows-up-for/))"
               ],
               [
                 "**Sales calls, support tickets, and demos**",
-                "Real buyer questions, in buyers' words",
-                "How often each is asked; questions buyers never bring to you",
-                "Writing prompts that sound like buyers"
+                "Buyers' questions in their own words, with role and context",
+                "Persona detail, and prompts that sound like your buyers"
+              ],
+              [
+                "**Signup surveys and closed-won interviews**",
+                "Which assistant buyers used and what they asked",
+                "Confirmation that the intents you track are the ones that convert ([how to run interviews](/prove-ai-influence-closed-won-interviews/))"
+              ],
+              [
+                "**Clickstream panels**",
+                "Real prompts across a broad category, sampled",
+                "Which intents carry the most demand"
               ],
               [
                 "**A tracked prompt set**",
-                "What each engine says, run after run",
-                "How often each question is asked",
-                "Measuring visibility and verifying fixes"
+                "What each engine says, run after run, by intent and persona",
+                "The measurement itself"
               ]
             ]
           }
         },
         {
-          "heading": "How to build a set you can trust without seeing real prompts",
-          "body": [
-            "Start from the best real signals you have, then make the set stable enough to measure against."
-          ],
-          "bullets": [
-            "**Seed it with questions buyers already asked you.** Sales calls, support tickets, and demos are real prompts in all but name.",
-            "**Cover intents, not phrasings.** One prompt per intent you care about (category, comparison, use case, risk, and brand) beats 10 paraphrases of the same question ([what a prompt set should contain](/ai-search-prompt-set/)).",
-            "**Tie each prompt to evidence.** Search demand for the underlying question, or a buyer who asked it. Drop prompts that nothing supports.",
-            "**Keep the zeros.** A prompt with real intent where you never appear is the most useful gap in the set ([why](/aeo-prompt-set-lifecycle/)).",
-            "**Freeze it, then rerun it.** Change the set only between measurement periods, and judge any change across several runs and engines, not one.",
-            "**Check coverage with real prompts.** When survey answers or Search Console queries show an intent the set doesn't cover, add it as a new prompt with its own history."
-          ]
-        },
-        {
           "heading": "What would change this",
           "body": [
-            "If AI platforms start reporting prompt-level data to site owners, the way Search Console reports queries, demand data stops being an estimate, and the first thing to do with it is check your prompt set's coverage. It still won't replace measurement: knowing that a question is common doesn't tell you what the engine said when it was asked."
-          ]
-        },
-        {
-          "heading": "How SolCrys fits",
-          "body": [
-            "SolCrys works on the measurement side of this split and carries it through to the fix. Each workspace tracks a [Golden Prompt Set](/golden-prompt-set-methodology/) built from search demand, the questions people ask around it, and community discussion where available, plus any prompts you add from your own buyers. The set runs across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan. The SolCrys Loop (Measure → Diagnose → Execute → Verify) reruns the same frozen prompts after a fix ships, so you can see whether the answer moved and whether the move held across runs.",
-            "[Prompt Pulse](/prompt-pulse/) is our public set of buyer-style questions by industry, with modeled, relative demand. It's a starting list for your category, not a log of real conversations."
+            "If AI platforms start reporting prompt-level data to site owners, the way Search Console reports queries, intent discovery gets faster. The first step with that data will be the same: map each prompt to the intent and persona behind it, and check that your set covers them."
           ]
         },
         {
@@ -40197,24 +40156,24 @@
       ],
       "faqs": [
         {
-          "question": "Can I see the real prompts people type into ChatGPT?",
-          "answer": "Not as a brand. OpenAI doesn't publish user prompts or how often a question is asked, and ChatGPT gives site owners no prompt report. You can see adjacent signals: questions in your Search Console data, Bing's grounding queries for Copilot, and what buyers tell you in surveys and sales calls ([how to find them](/find-ai-prompts-your-brand-shows-up-for/))."
+          "question": "Do you need real prompts to measure AEO?",
+          "answer": "You need real demand behind each intent, not the literal strings. Buyers word the same need in many ways, but the intent and the persona asking are stable, so a prompt set that covers the intents and personas carrying demand, phrased the way those buyers ask and rerun the same way, measures what real buyers see."
         },
         {
-          "question": "Is AI prompt volume data accurate?",
-          "answer": "It's an estimate. No AI engine publishes how often a question is asked, so every prompt volume figure is modeled from other data, such as search demand or panel data. Use it to rank intents against each other, and ask how it was modeled."
+          "question": "Why not track the exact prompts buyers type?",
+          "answer": "Because there's no single exact prompt: every buyer words the same need differently and rewords it as the conversation goes. Google's AI surfaces may expand a question into related searches before answering, and answers vary from run to run. Tracking intents and personas keeps the set representative and comparable over time."
         },
         {
-          "question": "Is a prompt set that wasn't typed by real buyers good enough to measure AEO?",
-          "answer": "Yes, if each prompt stands for an intent buyers really have and the set is rerun the same way over time. Google's AI surfaces can rewrite questions into several searches and answers vary from run to run, so intent coverage and consistency matter more than exact wording. A set with no evidence behind it, such as questions generated from a category name alone, isn't good enough."
+          "question": "Does SolCrys use real data to build prompt sets?",
+          "answer": "Yes. Every Golden Prompt Set starts from real demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Prompts carry the persona they're written for and a demand band, and you can add questions from your own buyers alongside them."
+        },
+        {
+          "question": "How many prompts do I need per intent?",
+          "answer": "Usually one per intent and persona that matters to you. More paraphrases of the same need add little; a missing intent or persona is a blind spot. Spend your plan's prompt budget on coverage ([what a prompt set should contain](/ai-search-prompt-set/))."
         },
         {
           "question": "Should I add a \"which AI did you use?\" question to my signup form?",
-          "answer": "Yes. Ask which assistant buyers used and what they asked. Treat the answers as a coverage check: they mostly show prompts you've already won, rarely the ones where a competitor was recommended, and buyers recall their wording imperfectly."
-        },
-        {
-          "question": "Do I need clickstream panel data for AEO?",
-          "answer": "Only if you need to size demand across a broad category. For measuring and improving how engines describe and recommend you, a well-built prompt set that you rerun across engines is the main instrument; panel data can help you decide which intents deserve a prompt."
+          "answer": "Yes. Ask which assistant buyers used and what they asked, then map each answer to an intent and persona. It confirms the intents you track and surfaces new ones."
         }
       ],
       "sources": [
@@ -40225,10 +40184,6 @@
         {
           "label": "Google Search Central: generative AI optimization guide (May 2026)",
           "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide"
-        },
-        {
-          "label": "Pew Research Center: Google users are less likely to click on links when an AI summary appears in the results (July 22, 2025)",
-          "url": "https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/"
         },
         {
           "label": "OpenAI Help Center: Memory FAQ",

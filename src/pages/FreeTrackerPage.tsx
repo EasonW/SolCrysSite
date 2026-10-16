@@ -43,7 +43,7 @@ const STEPS = [
   },
   {
     Icon: BarChart3,
-    title: "We ask ChatGPT your buyers' questions",
+    title: "We ask ChatGPT the questions your buyers ask",
     body: "SolCrys runs the high-intent questions buyers ask about products like yours, then reads how ChatGPT answers.",
   },
   {

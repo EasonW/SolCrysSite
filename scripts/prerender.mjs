@@ -2235,7 +2235,7 @@ writePage(
 
 // ---- Prompt Pulse (AI demand data) ----
 // "About this data" for the hub and every vertical; mirrors PromptPulseHub.tsx and PromptPulseVertical.tsx.
-const PP_ABOUT_HTML = `<p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement. Each question is grounded in public demand signals and written the way buyers ask AI assistants. Demand is relative within each industry: it shows where buyer interest concentrates and what's rising. <a href="/what-buyers-ask-ai-prompt-pulse/">How the dataset is built</a>.</p>`;
+const PP_ABOUT_HTML = `<p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement. Each question is grounded in public demand signals, written the way buyers ask AI assistants, and labeled by the intent behind it, the persona asking, and the buying stage. Demand is relative within each industry: it shows where buyer interest concentrates and what's rising. <a href="/what-buyers-ask-ai-prompt-pulse/">How the dataset is built</a>.</p>`;
 
 // Crawler-facing static render of the same scrubbed public JSON the SPA reads
 // (single source of truth → no drift). Emits Dataset + ItemList + Breadcrumb
@@ -2284,7 +2284,7 @@ function promptPulseVerticalBody(v) {
     <section class="seo-section">
       <h2>About this data</h2>
       ${PP_ABOUT_HTML}
-      <p>Prompt Pulse reports directional demand signals, not exact query counts. Figures are SolCrys estimates. Demand and trend are computed from 12 months of demand data; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
+      <p>Prompt Pulse reports relative demand and trend direction within each industry, computed from 12 months of demand data; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
     </section>
   </main>
   ${ctaHtml()}
@@ -2670,7 +2670,7 @@ const freeTrackerSteps = [
     text: "Start with your website — or a competitor's. No credit card.",
   },
   {
-    name: "We ask ChatGPT your buyers' questions",
+    name: "We ask ChatGPT the questions your buyers ask",
     text: "SolCrys runs the high-intent questions buyers ask about products like yours, then reads how ChatGPT answers.",
   },
   {
