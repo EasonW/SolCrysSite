@@ -241,7 +241,7 @@ function collectTargets() {
     {
       slug: "prompt-pulse",
       title: "What your market is asking AI",
-      description: "AI demand data: the questions buyers bring to ChatGPT, Perplexity and Google AI Overviews, by industry.",
+      description: "AI demand data: the questions buyers bring to ChatGPT, Perplexity, and Google AI Overviews, by industry.",
       category: "Prompt Pulse",
     },
     {

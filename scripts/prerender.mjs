@@ -2383,7 +2383,7 @@ writePage(
     title: "Prompt Pulse — what your market is asking AI | SolCrys",
     ogImage: "/og/prompt-pulse.png",
     description:
-      "AI demand data: the questions buyers bring to ChatGPT, Perplexity and Google AI Overviews, by industry, ranked by demand and what's rising.",
+      "AI demand data: the questions buyers bring to ChatGPT, Perplexity, and Google AI Overviews, by industry, ranked by demand and what's rising.",
     lastModified: promptPulse.updated,
     body: promptPulseHubBody(),
     schemas: [
@@ -3613,7 +3613,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards and tools, and Workspace Deep Analysis. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
 - [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
-- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the questions buyers bring to ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
+- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the questions buyers bring to ChatGPT, Perplexity, and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
   .map(
     (v) => `\n  - [${v.short}](${site.url}/prompt-pulse/${v.slug}/): ${v.stats.prompts} buyer prompts ${v.short} teams should track in AI answers.`
   )
