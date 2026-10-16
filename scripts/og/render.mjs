@@ -241,7 +241,7 @@ function collectTargets() {
     {
       slug: "prompt-pulse",
       title: "What your market is asking AI",
-      description: "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries.",
+      description: "AI demand data: the kind of questions buyers bring to ChatGPT, Perplexity and Google AI Overviews, by industry.",
       category: "Prompt Pulse",
     },
     {
@@ -270,7 +270,7 @@ function collectTargets() {
       slug: `prompt-pulse-${v.slug}`,
       entry: {
         title: `${v.short}: what buyers ask AI`,
-        description: `${v.stats?.prompts ?? ""} real buyer prompts ${v.short} teams should track in AI answers, rated by demand tier and trend.`,
+        description: `${v.stats?.prompts ?? ""} buyer-style prompts ${v.short} teams should track in AI answers, rated by modeled demand tier and trend.`,
         category: "Prompt Pulse",
         // No date in the byline: an OG card is cached and reshared for months,
         // so a stamped snapshot date is the first thing to read as stale.
