@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Social Listening for AEO Prompts by Intent and Persona | SolCrys</title>
+    <meta name="description" content="How to use Reddit, LinkedIn, YouTube comments, review sites, and forums to find the intents, personas, and buying stages your AEO prompt set should cover, in 7 steps with a worked example." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/social-listening-for-aeo-prompts/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-16" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Social Listening for AEO Prompts by Intent and Persona | SolCrys" />
+    <meta property="og:description" content="How to use Reddit, LinkedIn, YouTube comments, review sites, and forums to find the intents, personas, and buying stages your AEO prompt set should cover, in 7 steps with a worked example." />
+    <meta property="og:url" content="https://solcrys.com/social-listening-for-aeo-prompts/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-16" />
+    <meta property="article:modified_time" content="2026-10-16" />
+    <meta property="og:image" content="https://solcrys.com/og/social-listening-for-aeo-prompts.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/social-listening-for-aeo-prompts.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BJt2dO6z.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Social Listening for AEO Prompts: Turn What Buyers Ask in Public Into a Prompt Set by Intent and Persona","item":"https://solcrys.com/social-listening-for-aeo-prompts/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Social listening for AEO prompts: turn what buyers ask in public into a prompt set by intent and persona","description":"How to use Reddit, LinkedIn, YouTube comments, review sites, and forums to find the intents, personas, and buying stages your AEO prompt set should cover, in 7 steps with a worked example.","dateModified":"2026-10-16","datePublished":"2026-10-16","mainEntityOfPage":"https://solcrys.com/social-listening-for-aeo-prompts/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/social-listening-for-aeo-prompts/","mainEntity":[{"@type":"Question","name":"Can I use Reddit posts as AI prompts?","acceptedAnswer":{"@type":"Answer","text":"Not as they are. A post is one person's wording, with personal details and context nobody types into an assistant. Use it as evidence instead: map it to an intent and persona, then write 1 prompt the way that buyer would ask. Collect within Reddit's rules. Its User Agreement prohibits scraping without written consent, and its RSS feeds end Nov. 13, 2026."}},{"@type":"Question","name":"How many prompts per intent should a prompt set have?","acceptedAnswer":{"@type":"Answer","text":"One per intent and persona that matters. Add a second only when another persona asks with a constraint that changes the answer. Rewording the same need remeasures the same decision, so spend the effort on rerunning each prompt several times on each engine you track."}},{"@type":"Question","name":"How often should I refresh a prompt set?","acceptedAnswer":{"@type":"Answer","text":"Review it monthly for new intents, and sooner after a market event such as a new competitor, a price change, or a regulation. Add prompts for new intents and personas, but don't reword existing ones, because rewording breaks their trend. Keep prompts where you're never named as long as buyers still ask them."}},{"@type":"Question","name":"Is social listening for AEO different from social listening for brand monitoring?","acceptedAnswer":{"@type":"Answer","text":"Yes. Brand monitoring tracks mentions of your brand and how people feel about it. Listening for AEO reads the category's questions, most of which name no brand, to decide what to measure. Its output is a prompt set organized by intent and persona, not an alert feed. The same tool can serve both if you search for needs rather than your name."}},{"@type":"Question","name":"Which platforms should I listen on first?","acceptedAnswer":{"@type":"Answer","text":"The 3–4 places your buyers ask each other for advice. For B2B, that's often LinkedIn comments, practitioner subreddits and communities, and review sites. For consumer brands, it's often Reddit, YouTube comments, app store reviews, and Quora. Check what you find against your sales and support conversations."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Prompt Intelligence</p>
+        <h1>Social listening for AEO prompts: turn what buyers ask in public into a prompt set by intent and persona</h1>
+        <p class="seo-lede">Buyers word the same need in endless ways, but the intent behind it, the persona asking, and the buying stage stay stable. That makes public conversation on Reddit, LinkedIn, YouTube comments, X, Quora, community forums, and review sites useful for finding the intents, personas, and stated constraints your AEO prompt set should cover, not for copying posts as prompts. This guide gives a 7-step method: pick sources, collect questions and complaints, cluster them by intent, tag persona and buying stage, write 1 representative prompt per intent and persona, check demand, then freeze the set and rerun it. It also covers what each source is good for, a worked example, the platform rules to follow as of Oct. 16, 2026, and the market changes that signal a new intent.</p>
+        
+        <p>Updated <time datetime="2026-10-16">2026-10-16</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I use social listening to build an AEO prompt set?</li><li>Can I use Reddit posts as AI prompts?</li><li>How do I find the questions buyers ask AI assistants in my category?</li><li>How many prompts per intent should an AI visibility prompt set have?</li><li>How often should I refresh an AEO prompt set?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Social listening for AEO prompts means reading what buyers ask and complain about in public (on Reddit, LinkedIn, YouTube, X, Quora, community forums, and review sites) to decide which intents and personas your prompt set should cover. It isn&#39;t a way to collect prompts to paste in. The same need gets worded 100 ways, and none of them is the prompt. What stays stable is the intent (the decision the buyer is making), the persona asking, the buying stage, and the constraints they state, such as budget, company size, integrations, or risk.</p><p>The method has 7 steps: pick sources, collect questions and complaints, cluster by intent, tag persona and stage, write 1 prompt per intent and persona, check demand, then freeze the set and rerun it. It goes deeper than the community step in <a href="/find-ai-prompts-your-brand-shows-up-for/">how to find the AI prompts your brand shows up for</a> and puts into practice the argument in <a href="/prompts-vary-intent-and-persona-dont/">Prompts vary. Intent and persona don&#39;t.</a></p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why buyers&#39; public questions are worth reading</h2>
+      <p>Public questions carry what keyword data strips out: the constraint that decides the answer, in the buyer&#39;s own words. A query says &quot;security camera no subscription.&quot; A thread says the poster rents, can&#39;t drill, and is switching brands because person detection moved behind a monthly plan.</p>
+      <ul class="seo-list"><li><strong>Constraints change which brands come back.</strong> Researchers at Northwestern University and Boston University asked 6 models from OpenAI, Google, and Anthropic for brand recommendations through their APIs, with web search off. Needs-based prompts, which describe the buyer&#39;s goals and constraints, changed which brands were retrieved. In an illustrative test, a drill brand absent from every plain category answer appeared in just over a third of answers when prompts described the buyer&#39;s situation, such as a weekend do-it-yourselfer (<a href="https://arxiv.org/abs/2609.16304" target="_blank" rel="noopener noreferrer">Malthouse et al., Sept. 2026</a>).</li><li><strong>People bring decisions to assistants.</strong> In a representative sample of consumer ChatGPT conversations through mid-2025, about 49% of messages were &quot;Asking,&quot; seeking information or advice to &quot;be better informed or make better decisions&quot; (<a href="https://www.nber.org/papers/w34255" target="_blank" rel="noopener noreferrer">Chatterji et al., NBER</a>). A buyer asking peers which option fits is that kind of question, asked in public.</li><li><strong>The words help; the exact string doesn&#39;t.</strong> Posts show a persona&#39;s vocabulary (&quot;renter-friendly,&quot; &quot;no drilling&quot;), which keeps your prompts sounding like buyers. But Google says its AI systems &quot;can understand synonyms and general meanings of what someone is seeking&quot; (<a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central</a>), so the need matters more than the wording.</li></ul>
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Step 1: Pick sources by where your buyers talk</h2>
+      <p>Start from your personas, not the platforms: a finance lead and a first-time homeowner ask for advice in different places. Pick the 3–4 sources where your buyers ask each other for help.</p><p>Some of those threads also feed answers. In a 30-day sample of AI answers SolCrys collected across B2B and consumer categories, ending Oct. 16, 2026, Google AI Overviews cited social and community pages more often than any other engine we track (YouTube most, then LinkedIn, Reddit, Facebook, and Quora), while ChatGPT rarely cited them. When a thread you read also shows up as a Google AI Overviews citation, note it.</p>
+      
+      <table>
+              <thead><tr><th>Source</th><th>What it&#39;s good for</th><th>Watch out for</th></tr></thead>
+              <tbody><tr><td><strong>Reddit</strong></td><td>Candid questions with the constraint spelled out; comparisons and switching stories</td><td>Skews toward enthusiasts and complaints. Scraping without Reddit&#39;s written consent is prohibited, RSS feeds end Nov. 13, 2026, and public API access ends by March 2027.</td></tr><tr><td><strong>LinkedIn</strong></td><td>B2B questions with role, company size, and team context, often in the comments</td><td>Posts are written for an audience, so needs come out polished. LinkedIn&#39;s User Agreement bans scraping tools, so take notes by hand.</td></tr><tr><td><strong>YouTube comments</strong></td><td>Questions under review and setup videos; owners&#39; problems that new buyers later ask about</td><td>Many comments are about the video. Note its topic, since the question often depends on it.</td></tr><tr><td><strong>X</strong></td><td>Reactions to launches, outages, and price changes, an early sign of a new intent</td><td>Short and low on context, so the persona is often unclear.</td></tr><tr><td><strong>Quora</strong></td><td>Plain &quot;which&quot; and &quot;is it worth it&quot; questions, often from first-time buyers</td><td>Check the date; many threads are years old.</td></tr><tr><td><strong>Community forums</strong> (vendor communities, Slack and Discord groups, Stack Overflow, Hacker News)</td><td>Integration, migration, and edge-case questions from practitioners</td><td>Private groups are off-limits. Vendor forums skew toward existing customers.</td></tr><tr><td><strong>Review sites and app store reviews</strong></td><td>Why buyers chose or left a product, and the deal-breakers in the &quot;cons&quot;</td><td>Written after purchase, so work back to the question the reviewer had before buying.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 2: Collect questions and complaints</h2>
+      <p>Collect posts where someone is deciding something: a question, a request for recommendations, a comparison, or a complaint that explains a switch. A complaint is a decision in progress. Record a paraphrase, the source type, the date, and any persona detail, and leave out usernames and anything else that identifies a person.</p>
+      <ul class="seo-list"><li><strong>Search for the need, not your brand.</strong> Use the category&#39;s problem words (&quot;no subscription,&quot; &quot;for renters&quot;). Most buying questions name no brand.</li><li><strong>Read the replies.</strong> Follow-ups add constraints, and answers show which brands peers already recommend.</li><li><strong>Stop at saturation.</strong> When new posts stop producing new intents, you have enough for a first pass.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 3: Cluster by intent, the decision being made</h2>
+      <p>Group posts by the decision, not the words. &quot;Any cameras that don&#39;t charge monthly?&quot; and &quot;Every brand paywalls person detection now, what&#39;s left?&quot; share one intent: choose a camera that works without a subscription. Name each intent as a decision (choose, compare, switch from, decide whether it&#39;s worth it) so different vocabularies land in the same cluster.</p><p>The test: if one good answer would satisfy both posters, they share an intent. If the answer changes with who is asking, that&#39;s a persona difference, tagged next.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 4: Tag persona and buying stage</h2>
+      <p>Tag each post with a persona and a buying stage. An intent asked by 2 different personas becomes 2 prompts.</p>
+      <ul class="seo-list"><li><strong>Persona.</strong> Who is asking and what constrains them: role, company size or household, and technical comfort. &quot;Renter who can&#39;t drill&quot; is a persona; &quot;millennial&quot; isn&#39;t, because it doesn&#39;t change the answer.</li><li><strong>Buying stage.</strong> How close they are to deciding: Awareness (learning how something works), Consideration (comparing options and testing risks), or Decision (choosing, pricing, or switching).</li><li><strong>Constraints.</strong> Budget, integrations, compliance, and deal-breakers travel with the persona. They change a shortlist, and they&#39;re the kind of detail the Northwestern study varied.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 5: Write 1 representative prompt per intent and persona</h2>
+      <p>For each intent and persona that matters, write 1 prompt the way that buyer would ask an assistant. Keep the constraint and the persona&#39;s vocabulary, and drop everything else.</p>
+      <ul class="seo-list"><li><strong>Put the constraint in.</strong> &quot;I rent and can&#39;t drill&quot; changes the answer. Without it, you measure a different question.</li><li><strong>Leave your brand out</strong> of discovery and comparison prompts unless the buyer would name it.</li><li><strong>Don&#39;t paste the post.</strong> It carries personal details and side stories nobody types into an assistant, and it belongs to someone else.</li><li><strong>Write 1 prompt, not 10 paraphrases.</strong> Paraphrases remeasure the same decision. Spend the effort on reruns instead (<a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs a number needs</a>).</li><li><strong>Write content for intents, not phrasings.</strong> Google says creating &quot;separate content for every possible variation of how people might search&quot; primarily to manipulate rankings or its AI responses violates its scaled content abuse policy.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Worked example: smart home security</h2>
+      <p>Illustrative scenario only. The posts are invented but typical, paraphrased, and tied to no real account. The 7 posts reduce to 6 prompts: the app store review and the first YouTube comment share a decision, so they merge. Each prompt keeps the buyer&#39;s constraint and drops the rest.</p>
+      
+      <table>
+              <thead><tr><th>Raw post (paraphrased)</th><th>Intent</th><th>Persona</th><th>Stage</th><th>Representative prompt</th></tr></thead>
+              <tbody><tr><td>Reddit: &quot;Moving into a second-floor apartment and the landlord says no drilling. Anything decent without wiring or a contract?&quot;</td><td>Choose a setup with no installation and no contract</td><td>Renter who can&#39;t drill or hardwire</td><td>Consideration</td><td>&quot;I rent a second-floor apartment and can&#39;t drill or hardwire anything. What&#39;s the best home security setup with no contract that I can take with me when I move?&quot;</td></tr><tr><td>App store review: &quot;Was fine until person detection went behind a monthly plan.&quot;</td><td>Choose cameras that work without a subscription</td><td>Current owner ready to switch</td><td>Decision</td><td>&quot;Which home security cameras do person detection and store video locally without a monthly subscription?&quot;</td></tr><tr><td>YouTube comment: &quot;Every brand wants $10 a month now. Do any cameras still save video locally?&quot;</td><td>Same as the row above</td><td>Same as above</td><td>Decision</td><td>Merged into the prompt above; this post supplied &quot;store video locally.&quot;</td></tr><tr><td>YouTube comment: &quot;Does the doorbell keep recording when the Wi-Fi drops? Ours goes out a lot.&quot;</td><td>Make sure it works through an internet outage</td><td>Homeowner with unreliable internet</td><td>Consideration</td><td>&quot;Which video doorbells keep recording when the Wi-Fi goes down, and where is that footage saved?&quot;</td></tr><tr><td>Landlord forum: &quot;I manage 6 units and want cameras on the shared entrances, but tenants are worried about privacy.&quot;</td><td>Choose cameras for shared areas without privacy problems</td><td>Small landlord with several units</td><td>Consideration</td><td>&quot;I&#39;m a landlord with 6 rental units. Which security cameras work for shared entrances, and what privacy rules should I follow?&quot;</td></tr><tr><td>X: &quot;Is paid professional monitoring worth it if my cameras already alert my phone?&quot;</td><td>Decide whether professional monitoring is worth the cost</td><td>Homeowner with a self-monitored system</td><td>Decision</td><td>&quot;Is professional monitoring worth the monthly cost if my cameras already send alerts to my phone?&quot;</td></tr><tr><td>Quora: &quot;What happens to a smart lock when the battery dies?&quot;</td><td>Understand how a smart lock fails</td><td>First-time smart home buyer</td><td>Awareness</td><td>&quot;What happens to a smart lock when the battery dies, and how do I get in?&quot;</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 6: Check demand before you commit</h2>
+      <p>Posts show which intents exist, not how many buyers have them, because communities over-represent the vocal, the technical, and the frustrated. The NBER authors say an earlier study of AI use cases built by hand-labeling Reddit, Quora, and online articles &quot;likely resulted in an unrepresentative distribution of use cases.&quot; Rank intents on evidence from more than one place.</p>
+      <ul class="seo-list"><li><strong>Search demand for the underlying question</strong>, from Search Console, Google Trends, or your keyword tool. For Google AI Overviews and AI Mode, which retrieve from Google&#39;s Search index, it&#39;s direct evidence: Google calls optimizing for them &quot;still SEO&quot; (<a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google&#39;s AI optimization guide</a>). AEO for Google is an operating layer on top of SEO foundations.</li><li><strong>Recurrence.</strong> Count the distinct threads, sources, and weeks an intent appears in. Upvotes measure the audience, not the need.</li><li><strong>Your own buyers.</strong> Check each intent against what sales, support, and <a href="/prove-ai-influence-closed-won-interviews/">closed-won interviews</a> hear.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Step 7: Freeze the set, rerun it, and refresh monthly</h2>
+      <p>Freeze the set, run every prompt several times on the engines your buyers use, and read results by intent and persona. Because intents hold still, a change in your numbers reflects a change in the answers, not in the questions. After a fix ships, rerun the same prompts and judge the move across several runs; to credit the fix, check whether untouched prompts on the same engine moved too.</p><p>Each month, repeat Steps 2–6 on new posts. Add a prompt for each new intent or persona, and don&#39;t reword existing ones, because a reworded prompt starts a new history. Keep prompts where you&#39;re never named as long as the intent has demand (<a href="/aeo-prompt-set-lifecycle/">why</a>).</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Ground rules for listening</h2>
+      <p>Listen within each platform&#39;s rules, and keep people out of your dataset. Platform details are as of Oct. 16, 2026.</p>
+      <ul class="seo-list"><li><strong>Use the access each platform allows.</strong> Reddit&#39;s <a href="https://redditinc.com/policies/user-agreement" target="_blank" rel="noopener noreferrer">User Agreement</a> says &quot;scraping the Services without Reddit&#39;s prior written consent is prohibited.&quot; According to <a href="https://techcrunch.com/2026/09/30/reddit-is-killing-rss-feeds-ending-public-api-access-because-of-ai-bots/" target="_blank" rel="noopener noreferrer">TechCrunch</a>, Reddit will end RSS feeds on Nov. 13, 2026, remove API access for developers who haven&#39;t registered their apps by Jan. 12, 2027, and end public API access by March 2027. LinkedIn&#39;s <a href="https://www.linkedin.com/legal/user-agreement" target="_blank" rel="noopener noreferrer">User Agreement</a> bans software used &quot;to scrape or copy the Services, including profiles and other data.&quot; TechCrunch notes the API change affects social listening products, so if you use one, ask how it gets each platform&#39;s data.</li><li><strong>Stay out of private spaces.</strong> Don&#39;t collect from private groups, closed Slack or Discord communities, or other members-only spaces, even ones you belong to.</li><li><strong>Don&#39;t copy personal data.</strong> Store the paraphrase, source type, and date, never usernames, names, employers, or screenshots that show them.</li><li><strong>Paraphrase when you quote.</strong> A verbatim post can be searched back to its author.</li><li><strong>Listen; don&#39;t plant.</strong> Questions posted under invented personas corrupt the data you&#39;re trying to read.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What signals a new intent</h2>
+      <p>New intents appear when the market changes, not when wording does. When one of these events shows up in more than one source, run it through Steps 3–6 before you add a prompt.</p>
+      <ul class="seo-list"><li><strong>A new entrant.</strong> &quot;Has anyone tried [new name]?&quot; threads change comparison intents.</li><li><strong>A pricing change.</strong> A new tier, a price rise, or a feature moving behind a paywall produces switching and &quot;is it still worth it&quot; questions.</li><li><strong>A regulation or a safety event.</strong> New rules, a recall, or a breach produce compliance and &quot;is it safe&quot; questions.</li><li><strong>A product launch or a new standard.</strong> New capabilities create &quot;can it do X now&quot; and migration questions.</li><li><strong>A new kind of buyer.</strong> The same question from a new role or company size is a new persona with its own prompt.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys helps</h2>
+      <p>SolCrys builds each workspace&#39;s <a href="/golden-prompt-set-methodology/">Golden Prompt Set</a> from search demand, the questions people ask around it, and community discussion where available. Every prompt carries its intent, as a prompt type, and its persona, and you can add the questions you find by listening. <a href="/prompt-pulse/">Prompt Pulse</a> is a free, public set of buyer-style questions by industry, labeled by intent, persona, and buying stage, with relative demand. <a href="/signal-weekly-market-brief/">Signals</a>, the weekly market brief, surfaces competitor, industry, and community items.</p><p>The set is frozen and rerun on ChatGPT, plus Gemini, Google AI Overviews, Perplexity, and Claude on paid plans, so the Measure → Diagnose → Execute → Verify loop shows whether an answer moved for an intent and persona after a fix, and whether the move held across runs. To test 10 buyer questions on ChatGPT, <a href="https://app.solcrys.com/audit">Start Free</a>: free, with email verification and no credit card.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://arxiv.org/abs/2609.16304" target="_blank" rel="noopener noreferrer">Malthouse, Lee, Yang, Pal, and Feng (Northwestern University, Boston University): &quot;Evaluating Brand Retrieval and Ranking in Large Language Model Recommendations,&quot; arXiv:2609.16304 (Sept. 14, 2026)</a></li><li><a href="https://www.nber.org/papers/w34255" target="_blank" rel="noopener noreferrer">Chatterji et al.: &quot;How People Use ChatGPT,&quot; NBER Working Paper 34255 (Sept. 2025)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: guide to optimizing for generative AI features (updated July 10, 2026)</a></li><li><a href="https://techcrunch.com/2026/09/30/reddit-is-killing-rss-feeds-ending-public-api-access-because-of-ai-bots/" target="_blank" rel="noopener noreferrer">TechCrunch: Reddit is killing RSS feeds and ending public API access because of AI bots (Sept. 30, 2026)</a></li><li><a href="https://redditinc.com/policies/user-agreement" target="_blank" rel="noopener noreferrer">Reddit User Agreement (effective July 1, 2026)</a></li><li><a href="https://www.linkedin.com/legal/user-agreement" target="_blank" rel="noopener noreferrer">LinkedIn User Agreement (effective Nov. 3, 2025)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Can I use Reddit posts as AI prompts?</h3>
+            <p>Not as they are. A post is one person&#39;s wording, with personal details and context nobody types into an assistant. Use it as evidence instead: map it to an intent and persona, then write 1 prompt the way that buyer would ask. Collect within Reddit&#39;s rules. Its User Agreement prohibits scraping without written consent, and its RSS feeds end Nov. 13, 2026.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many prompts per intent should a prompt set have?</h3>
+            <p>One per intent and persona that matters. Add a second only when another persona asks with a constraint that changes the answer. Rewording the same need remeasures the same decision, so spend the effort on rerunning each prompt several times on each engine you track.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How often should I refresh a prompt set?</h3>
+            <p>Review it monthly for new intents, and sooner after a market event such as a new competitor, a price change, or a regulation. Add prompts for new intents and personas, but don&#39;t reword existing ones, because rewording breaks their trend. Keep prompts where you&#39;re never named as long as buyers still ask them.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is social listening for AEO different from social listening for brand monitoring?</h3>
+            <p>Yes. Brand monitoring tracks mentions of your brand and how people feel about it. Listening for AEO reads the category&#39;s questions, most of which name no brand, to decide what to measure. Its output is a prompt set organized by intent and persona, not an alert feed. The same tool can serve both if you search for needs rather than your name.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which platforms should I listen on first?</h3>
+            <p>The 3–4 places your buyers ask each other for advice. For B2B, that&#39;s often LinkedIn comments, practitioner subreddits and communities, and review sites. For consumer brands, it&#39;s often Reddit, YouTube comments, app store reviews, and Quora. Check what you find against your sales and support conversations.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/prompts-vary-intent-and-persona-dont/">Prompts Vary. Intent and Persona Don&#39;t: The Right Unit for AEO Measurement</a></h3>
+            <p>Buyers word the same question in endless ways, but the intent behind it and the persona asking stay stable. Why AEO measurement should track intent and persona, and how the Golden Prompt Set is built around them.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/find-ai-prompts-your-brand-shows-up-for/">How to Find the AI Prompts Your Brand Shows Up For (When Search Console Only Gives You Impressions)</a></h3>
+            <p>No AI engine reports the prompts behind your citations. How to find them anyway with Search Console filters, Bing&#39;s grounding queries, and a tested prompt set.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>How SolCrys builds a Golden Prompt Set from real demand signals for your category, and what each prompt carries.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/what-buyers-ask-ai-prompt-pulse/">What Buyers Ask AI: Patterns in 1,012 Buyer-Style Questions Across 16 Industries</a></h3>
+            <p>Prompt Pulse is a curated set of 1,012 buyer-style questions across 16 industries, scored for relative AI demand. What its patterns show, and what they don&#39;t.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/ai-search-prompt-set/">AI Search Prompt Set</a></h3>
+            <p>A practical guide to building an AI search prompt set across category, comparison, risk, implementation, competitor, and brand-specific prompts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/aeo-prompt-set-lifecycle/">Don&#39;t delete 0-visibility prompts: a four-state lifecycle for AEO prompt sets</a></h3>
+            <p>Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that&#39;s the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Community &amp; UGC</p>
+            <h3><a href="/community-intelligence-reddit/">Community Intelligence: reading the communities AI engines read</a></h3>
+            <p>How SolCrys turns citation evidence into a Reddit targeting playbook, scores threads for subject fit, drafts replies against each subreddit&#39;s own rules, and stops at the clipboard. No API-post path exists.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/social-platforms-ai-engines-can-see/">The Social Web Each AI Engine Sees: Crawler Access and Citations by Platform (October 2026)</a></h3>
+            <p>Which AI engines can crawl and cite X, TikTok, Instagram, LinkedIn, YouTube, Reddit, and 7 more platforms, what each engine cites, and where to put social effort, as of Oct. 16, 2026.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/google-social-posts-in-ai-answers/">Google Put Social Posts Inside AI Answers: What Changed in 2026 and What to Set Up</a></h3>
+            <p>Google now quotes social posts and names creators in its AI answers. A dated timeline of its 2026 changes, what Search Console shows and doesn&#39;t, and a setup checklist.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/consulted-not-cited-social-ai-answers/">Consulted, Not Cited: How Social Shapes AI Answers Without a Link</a></h3>
+            <p>Citation share is the wrong scoreboard for social. Here are 3 ways social content shapes ChatGPT, Gemini, and Google AI Overviews answers without a link, and how to measure them.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CPwC9Lb8.js"></script>
+  </body>
+</html>

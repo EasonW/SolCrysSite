@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Which Social Platforms Each AI Engine Sees (2026) | SolCrys</title>
+    <meta name="description" content="Which AI engines can crawl and cite X, TikTok, Instagram, LinkedIn, YouTube, Reddit, and 7 more platforms, what each engine cites, and where to put social effort, as of Oct. 16, 2026." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/social-platforms-ai-engines-can-see/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-16" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Which Social Platforms Each AI Engine Sees (2026) | SolCrys" />
+    <meta property="og:description" content="Which AI engines can crawl and cite X, TikTok, Instagram, LinkedIn, YouTube, Reddit, and 7 more platforms, what each engine cites, and where to put social effort, as of Oct. 16, 2026." />
+    <meta property="og:url" content="https://solcrys.com/social-platforms-ai-engines-can-see/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-16" />
+    <meta property="article:modified_time" content="2026-10-16" />
+    <meta property="og:image" content="https://solcrys.com/og/social-platforms-ai-engines-can-see.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/social-platforms-ai-engines-can-see.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BJt2dO6z.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"The Social Web Each AI Engine Sees: Crawler Access and Citations by Platform (October 2026)","item":"https://solcrys.com/social-platforms-ai-engines-can-see/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The social web each AI engine sees: crawler access and citations by platform (October 2026)","description":"Which AI engines can crawl and cite X, TikTok, Instagram, LinkedIn, YouTube, Reddit, and 7 more platforms, what each engine cites, and where to put social effort, as of Oct. 16, 2026.","dateModified":"2026-10-16","datePublished":"2026-10-16","mainEntityOfPage":"https://solcrys.com/social-platforms-ai-engines-can-see/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/social-platforms-ai-engines-can-see/","mainEntity":[{"@type":"Question","name":"Does ChatGPT cite TikTok or Instagram?","acceptedAnswer":{"@type":"Answer","text":"Not in the answers SolCrys tracks. TikTok blocks OpenAI's crawlers by name, and Instagram's robots.txt admits only GPTBot, OpenAI's training crawler, while blocking OAI-SearchBot and ChatGPT-User. ChatGPT rarely cites any social platform; the few social citations we see are mostly LinkedIn, which admits OpenAI's search crawler."}},{"@type":"Question","name":"Why does Google AI Overviews cite social posts more than ChatGPT does?","acceptedAnswer":{"@type":"Answer","text":"Access, mostly. Nearly every social platform admits Googlebot, while most block OpenAI's search crawler; Google also owns YouTube and licenses Reddit's content. AI Overviews draws on Google's Search index, which includes those posts. Even so, AI Overviews cites social far less than the blue links do: in a 2026 Washington University in St. Louis study, social and video platforms were 14.2% of AI Overview references versus 49.9% of first-page results."}},{"@type":"Question","name":"Can Perplexity read X posts?","acceptedAnswer":{"@type":"Answer","text":"X's robots.txt blocks PerplexityBot and Perplexity-User, along with every search and AI crawler except Googlebot and Bingbot. Perplexity says Perplexity-User generally ignores robots.txt, and X posts do appear occasionally in Perplexity's answers in our sample. The engine that reads X natively is Grok, through its X Search tool."}},{"@type":"Question","name":"Which social platform matters most for AI search?","acceptedAnswer":{"@type":"Answer","text":"It depends on the engine your buyers use. YouTube matters most for Google AI Overviews and Gemini, LinkedIn for Perplexity and for B2B questions in Google AI Overviews, and X for Grok. For ChatGPT, no social platform matters much; your own site and third-party pages do."}},{"@type":"Question","name":"Why doesn't Gemini cite LinkedIn or Instagram?","acceptedAnswer":{"@type":"Answer","text":"Both block Google-Extended, which Google documents as the control for grounding in Gemini Apps, and in our sample Gemini almost never cites either. Google AI Overviews relies on Googlebot instead, which both platforms allow."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Citation &amp; Source Influence</p>
+        <h1>The social web each AI engine sees: crawler access and citations by platform (October 2026)</h1>
+        <p class="seo-lede">Each AI answer engine sees a different slice of the social web, set by which crawlers each platform admits and which licensing deals it signs. Most large social platforms admit Googlebot but block the search crawlers of OpenAI and Anthropic, and most block Perplexity&#39;s too, so social content reaches AI answers mostly through Google and through the platforms&#39; own assistants, such as Grok on X. In the answers SolCrys tracks, Google AI Overviews cites YouTube most often among social platforms, then LinkedIn, Reddit, Facebook, and Quora, while ChatGPT rarely cites any. This page maps the crawler rules of 13 platforms, the deals behind them, and where to put social effort by engine, as of Oct. 16, 2026.</p>
+        
+        <p>Updated <time datetime="2026-10-16">2026-10-16</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Does ChatGPT cite TikTok or Instagram posts?</li><li>Which social media platforms do AI answer engines cite?</li><li>Why does Google AI Overviews cite social media more than ChatGPT?</li><li>Can ChatGPT or Perplexity read posts on X?</li><li>Which social platform matters most for AI search visibility?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Social content reaches AI answers mostly through Google and through the platforms&#39; own assistants. As of Oct. 16, 2026, X, TikTok, Threads, Pinterest, and Quora let Googlebot crawl public posts (all but Quora admit Bingbot too) but block every search crawler and user-triggered fetcher from OpenAI, Anthropic, and Perplexity. Instagram and Facebook block OpenAI&#39;s and Anthropic&#39;s search crawlers and all user-triggered fetchers, yet admit their training crawlers and PerplexityBot. Reddit blocks every crawler in its public robots.txt and licenses its content to Google and OpenAI instead.</p><p>The answers follow the access. In a 30-day sample of AI answers SolCrys collected across B2B and consumer categories, ending Oct. 16, 2026, Google AI Overviews leaned on social platforms far more than any other engine we track, citing YouTube most often, then LinkedIn, Reddit, Facebook, and Quora. Gemini cited YouTube and Reddit but almost never the platforms that block Google-Extended, such as LinkedIn. ChatGPT rarely cited any social platform, Perplexity&#39;s social citations were mostly LinkedIn, and TikTok almost never appeared.</p><p>X belongs to xAI, whose Grok searches X posts natively, and Facebook&#39;s own AI Mode answers from public posts. So allocate by engine: social is a strong lever for Google AI Overviews, a narrower one for Gemini and Perplexity, and a weak one for ChatGPT, where your own site and third-party pages carry the answer.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Who can crawl what: 13 platforms, checked Oct. 16, 2026</h2>
+      <p>We fetched each platform&#39;s robots.txt on Oct. 16, 2026, and read it per <a href="https://www.rfc-editor.org/rfc/rfc9309" target="_blank" rel="noopener noreferrer">RFC 9309</a>: a crawler without its own group follows the catch-all (*) group, and the most specific matching rule wins. &quot;Allowed&quot; means public post pages are open. OpenAI&#39;s column covers OAI-SearchBot and ChatGPT-User; Perplexity&#39;s, PerplexityBot and Perplexity-User; Anthropic&#39;s, Claude-SearchBot and Claude-User. Training crawlers are noted where they differ.</p>
+      
+      <table>
+              <thead><tr><th>Platform</th><th>Google (Googlebot)</th><th>OpenAI search and user bots</th><th>Perplexity bots</th><th>Anthropic bots</th><th>Also worth knowing</th></tr></thead>
+              <tbody><tr><td><strong>X</strong></td><td>Allowed</td><td>Blocked</td><td>Blocked</td><td>Blocked</td><td>Among search and AI crawlers, only Googlebot and Bingbot get in; Google-Extended is blocked by name. Owned by xAI, whose Grok searches X directly.</td></tr><tr><td><strong>TikTok</strong></td><td>Allowed</td><td>Blocked by name</td><td>Blocked by name</td><td>Blocked by name</td><td>Names and blocks 25 agents, including Google-Extended, Gemini-Deep-Research, and Google-NotebookLM.</td></tr><tr><td><strong>Instagram</strong></td><td>Allowed</td><td>Blocked (GPTBot, the training crawler, is allowed)</td><td>PerplexityBot allowed; Perplexity-User blocked</td><td>Blocked (ClaudeBot, the training crawler, is allowed)</td><td>Owned by Meta; Google-Extended blocked. The file&#39;s header says automated collection needs Instagram&#39;s written permission.</td></tr><tr><td><strong>Facebook</strong></td><td>Allowed</td><td>Blocked (GPTBot allowed)</td><td>PerplexityBot allowed; Perplexity-User blocked</td><td>Blocked (ClaudeBot allowed)</td><td>Same pattern and header as Instagram. Facebook search has its own AI Mode.</td></tr><tr><td><strong>Threads</strong></td><td>Allowed</td><td>Blocked</td><td>Blocked</td><td>Blocked</td><td>Owned by Meta. Unlike Instagram and Facebook, it also blocks GPTBot, ClaudeBot, and Google-Extended.</td></tr><tr><td><strong>YouTube</strong></td><td>Allowed</td><td>Allowed on watch pages</td><td>Allowed on watch pages</td><td>Allowed on watch pages</td><td>Owned by Google. No AI-specific rules, but caption endpoints are closed to every crawler.</td></tr><tr><td><strong>LinkedIn</strong></td><td>Allowed</td><td>OAI-SearchBot allowed; ChatGPT-User and GPTBot blocked</td><td>Blocked</td><td>Claude-SearchBot allowed; Claude-User and ClaudeBot blocked</td><td>Owned by Microsoft. Blocks every crawler it doesn&#39;t name; Google-Extended is blocked by name.</td></tr><tr><td><strong>Reddit</strong></td><td>Blocked in the public file; Google licenses Reddit content (2024)</td><td>Blocked; OpenAI licenses Reddit content (2024)</td><td>Blocked; Reddit is suing Perplexity over scraping</td><td>Blocked; Reddit sued Anthropic in 2025</td><td>The public file disallows every crawler. Access runs on contracts.</td></tr><tr><td><strong>Quora</strong></td><td>Allowed on question pages; most single-answer URLs blocked</td><td>Blocked by name</td><td>Blocked</td><td>Blocked by name</td><td>Google-only: Bingbot isn&#39;t named, so the catch-all blocks it, while Google-Extended is allowed. The header bars AI training without a licensing contract.</td></tr><tr><td><strong>Medium</strong></td><td>Allowed</td><td>Allowed (GPTBot blocked)</td><td>Allowed</td><td>Allowed (ClaudeBot blocked)</td><td>Blocks training crawlers only, and adds a License line pointing to its licensing terms.</td></tr><tr><td><strong>Substack</strong></td><td>Allowed</td><td>Allowed</td><td>Allowed</td><td>Allowed</td><td>No AI-specific rules on substack.com or the publications we checked; each publication serves its own file.</td></tr><tr><td><strong>Pinterest</strong></td><td>Allowed</td><td>Blocked</td><td>Blocked</td><td>Blocked</td><td>An allowlist of named crawlers that includes Bingbot but no OpenAI, Anthropic, or Perplexity agent; the catch-all blocks everything else, Google-Extended included.</td></tr><tr><td><strong>GitHub</strong></td><td>Allowed on repository pages and files</td><td>Allowed on repository pages and files</td><td>Allowed</td><td>Allowed</td><td>Owned by Microsoft. Directory views (/tree/) and raw files are closed to most crawlers.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Reading the matrix: 5 patterns</h2>
+      <p>The table shows policy as written, and 5 patterns matter for planning.</p>
+      <ul class="seo-list"><li><strong>Google is the crawler nearly every platform admits.</strong> Every platform here except Reddit lets Googlebot reach public posts, and Reddit licenses its content to Google. That is why Google AI Overviews, which draws on Google&#39;s Search index, cites social posts most.</li><li><strong>OpenAI and Anthropic are locked out of the big consumer platforms, and Perplexity nearly so.</strong> Among the consumer platforms that block OpenAI and Anthropic, only Instagram and Facebook admit PerplexityBot. LinkedIn admits OpenAI&#39;s and Anthropic&#39;s search crawlers but not Perplexity&#39;s, and YouTube, Medium, Substack, and GitHub are open to all 3.</li><li><strong>Meta&#39;s files look inverted.</strong> Instagram and Facebook admit GPTBot and ClaudeBot, which collect training data, plus PerplexityBot, yet block OAI-SearchBot, Claude-SearchBot, and every user-triggered fetcher. Both files also say automated collection needs the platform&#39;s written permission.</li><li><strong>Gemini tracks Google-Extended, not Googlebot.</strong> Google says Google-Extended governs grounding in Gemini Apps and &quot;does not impact a site&#39;s inclusion in Google Search.&quot; In our sample, Gemini cites YouTube and Medium, which allow it, and Reddit, which licenses to Google, but almost never LinkedIn, Instagram, X, or TikTok, which block it. Quora is the exception: it allows Google-Extended, yet Gemini almost never cites it.</li><li><strong>robots.txt states a policy, not proof of access.</strong> OpenAI says robots.txt rules &quot;may not apply&quot; to ChatGPT-User, and Perplexity says Perplexity-User &quot;generally ignores robots.txt rules&quot;; Anthropic says its bots honor them. Perplexity cites LinkedIn and, occasionally, X, though both block its crawlers.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What each engine cites from social platforms</h2>
+      <p>In a 30-day sample of AI answers SolCrys collected across B2B and consumer categories, ending Oct. 16, 2026, the engines split along the access lines above. We collect Perplexity with a recency filter that favors new pages, so read its row as a lighter signal.</p>
+      
+      <table>
+              <thead><tr><th>Engine</th><th>Social platforms it cites</th><th>Rarely or never</th><th>What it means</th></tr></thead>
+              <tbody><tr><td><strong>Google AI Overviews</strong></td><td>YouTube most often, then LinkedIn, Reddit, Facebook, and Quora; Instagram and Medium less often</td><td>X and TikTok almost never, though both admit Googlebot</td><td>The most social-heavy engine we track. Social is a real lever here.</td></tr><tr><td><strong>Gemini</strong></td><td>YouTube and Reddit, and Medium to a lesser degree</td><td>Facebook rarely; LinkedIn, Instagram, and Quora almost never; X and TikTok not seen</td><td>Platforms that block Google-Extended are nearly absent.</td></tr><tr><td><strong>ChatGPT</strong></td><td>Rarely any; the few are mostly LinkedIn, then Reddit and GitHub</td><td>YouTube almost never; Facebook, Instagram, X, TikTok, and Quora not seen</td><td>Your own site and third-party pages carry ChatGPT, not social posts.</td></tr><tr><td><strong>Perplexity</strong></td><td>Mostly LinkedIn</td><td>X occasionally (almost never on other engines); TikTok not seen</td><td>LinkedIn is the platform to watch, despite its block on Perplexity&#39;s crawlers.</td></tr><tr><td><strong>Claude</strong></td><td>None seen so far</td><td>Every platform, in a smaller sample than the other engines</td><td>Too early to plan around.</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What independent research shows</h2>
+      <p>Neutral studies agree that Google&#39;s AI answers lean on a few social platforms and that ChatGPT leans on them less. In March 2025 browsing data from 900 U.S. adults, <a href="https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/" target="_blank" rel="noopener noreferrer">Pew Research Center</a> found Wikipedia, YouTube, and Reddit were the most-cited sources in Google&#39;s AI summaries, together 15% of sources.</p><p>A <a href="https://arxiv.org/abs/2605.14021" target="_blank" rel="noopener noreferrer">Washington University in St. Louis study</a> in the proceedings of the 2026 ACM Internet Measurement Conference ran 55,393 trending U.S. queries from March 13 to April 21, 2026. The most-cited hostname in AI Overviews was youtube.com (5.49%), with facebook.com (3.68%) and instagram.com (3.65%) right behind Wikipedia, and Reddit under 1%. Social and video platforms supplied 14.2% of AI Overview references, against 49.9% of first-page results, from 9.3% in Climate to 28.9% in Beauty &amp; Fashion. In our sample, which includes B2B categories, LinkedIn ranked second.</p><p>For ChatGPT, researchers at Ruhr University Bochum and the Max Planck Institute for Software Systems (<a href="https://arxiv.org/abs/2510.11560" target="_blank" rel="noopener noreferrer">Kirsten et al.</a>) found OpenAI&#39;s GPT models relied heavily on company sites and encyclopedias, &quot;with less reliance on Social Media and User Forums,&quot; while Google&#39;s organic results drew up to 35% from such sites.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The 2026 licensing and ownership layer</h2>
+      <p>Access to social content is increasingly licensed, litigated, or owned, and each deal changes what a single engine sees.</p>
+      <ul class="seo-list"><li><strong>Reddit licenses and litigates.</strong> It licensed its content to Google in February 2024 and to OpenAI in May 2024, sued Anthropic in June 2025, and on July 31, 2026, won a ruling that lets the main claims of its scraping suit against Perplexity and SerpApi proceed. Licensed access isn&#39;t the same as citation: ChatGPT all but stopped citing Reddit in August 2026 (<a href="/wikipedia-techradar-reddit-dominate-ai-citations/">our citation study</a>).</li><li><strong>Reddit&#39;s Google deal is in renewal talks.</strong> CNBC reported on July 22, 2026, citing The Wall Street Journal, that the $60 million-a-year deal is ending soon and Reddit has discussed shutting off Google&#39;s AI access; we found no announced outcome by Oct. 16. Reddit also ends RSS feeds on Nov. 13, 2026, and public API access by March 2027.</li><li><strong>X belongs to an AI company.</strong> xAI acquired X in March 2025, and SpaceX acquired xAI in February 2026. Since June 2025, X&#39;s developer terms bar using X content &quot;to fine-tune or train a foundation or frontier model,&quot; while Grok&#39;s X Search tool searches X posts and answers with citations.</li><li><strong>Meta, Yelp, and Wikipedia.</strong> On June 15, 2026, Meta unveiled an AI Mode for Facebook search that answers from public posts, including Groups and Reels. Yelp licenses reviews, photos, and business information to OpenAI so ChatGPT can link to them (reported July 23, 2026). On Jan. 15, 2026, Wikimedia named Amazon, Meta, Microsoft, Mistral AI, and Perplexity as Wikimedia Enterprise partners, alongside Google.</li><li><strong>Cloudflare changed the rules for sites behind it.</strong> Since Sept. 15, 2026, its Block option for AI training also stops Googlebot, Bingbot, and Applebot, and Pay Per Use entered beta on Sept. 30 (<a href="/ai-crawler-access-search-agent-training/">details</a>).</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where to put social effort, by engine</h2>
+      <p>Start from your buyers: who is asking, what they need done, and at which buying stage. Those stay stable while engines shift, so map each persona and intent to its engine, then to the platforms that engine reads. In our <a href="/linkedin-aeo-guidelines/">LinkedIn</a> and <a href="/youtube-aeo-guidelines/">YouTube</a> analyses, category questions (&quot;best X for Y&quot;) drew mostly on independent voices, and brand questions on a brand&#39;s own posts and on others&#39; posts about it.</p>
+      <ul class="seo-list"><li><strong>If your buyers use Google AI Overviews,</strong> social is a real lever: YouTube for how-to, comparison, and review questions, LinkedIn for B2B, Facebook and Instagram for consumer questions, and Reddit and Quora where first-hand experience counts. Keep posts public and indexable. Google calls optimizing for its generative AI features &quot;still SEO&quot; (<a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google&#39;s guide</a>), so treat this as an operating layer on top of SEO foundations.</li><li><strong>If they use Gemini,</strong> YouTube, Reddit, and Medium reach it; LinkedIn, Instagram, X, and TikTok posts mostly don&#39;t.</li><li><strong>If they use ChatGPT,</strong> don&#39;t count on social posts. Put the answer on your own site, keep OAI-SearchBot and ChatGPT-User allowed, and earn coverage on third-party pages ChatGPT can crawl, such as press and review sites (<a href="/how-to-get-cited-by-chatgpt-2026/">how to get cited by ChatGPT</a>). LinkedIn, which admits OpenAI&#39;s search crawler, is the social platform ChatGPT cites most in our sample.</li><li><strong>If they use Perplexity,</strong> publish substantive, public LinkedIn posts, and keep your own site open to PerplexityBot and Perplexity-User.</li><li><strong>If they use Grok,</strong> post natively on X: Grok searches X posts directly and cites them. The same post does little for ChatGPT or Claude, whose crawlers X blocks.</li><li><strong>If they live on Facebook,</strong> keep your public posts and Group answers accurate, because Facebook&#39;s AI Mode answers from them.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How to measure it</h2>
+      <p>Measure from the answers, engine by engine; no social platform&#39;s analytics counts AI citations of your posts. Search Console&#39;s platform properties for Instagram, TikTok, X, and YouTube cover Search, Discover, and News, and Google&#39;s guide to them doesn&#39;t mention AI Overviews or AI Mode (<a href="/search-console-bing-ga4-ai-reports/">what the free reports show</a>).</p><p>Fix a prompt set by persona, intent, and buying stage, built from search demand, the questions people ask around it, and community discussion where available (<a href="/golden-prompt-set-methodology/">our Golden Prompt Set</a>). Run it on each engine repeatedly and log every cited social URL with its platform, its author (your company, your people, or independent), and whether it names you. Judge a change across several runs, not one (<a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs you need</a>), and before crediting a post, check whether untouched prompts on the same engine moved too.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What may change</h2>
+      <p>Everything here is as of Oct. 16, 2026. Watch 4 dated items: the outcome of Reddit&#39;s Google renewal talks, reported July 22, 2026; Reddit&#39;s RSS shutdown on Nov. 13, 2026, and API changes through March 2027; Google&#39;s work to name creators in AI responses (May 6 and Oct. 15, 2026); and edits to any platform&#39;s robots.txt, which can land any day.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys helps</h2>
+      <p>SolCrys runs your buyer prompts on a schedule on ChatGPT and, on paid plans, Gemini, Google AI Overviews, Perplexity, and Claude, and records every cited URL, social posts included, so you can see which platforms each answer leaned on and whether those posts mention you or competitors. Workspace Deep Analysis can recommend a platform post where one would close a gap, with governance guidance attached: post from your own account, disclose your affiliation, use first-hand data, and no engagement pods.</p><p>That is Measure → Diagnose → Execute → Verify applied to social: your team writes and approves the post, and the frozen prompt set reruns on the same engines so you can judge across runs whether answers moved. SolCrys doesn&#39;t track AI Mode, Copilot, Grok, or Meta AI. <a href="https://app.solcrys.com/audit">Start Free</a> with 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://x.com/robots.txt" target="_blank" rel="noopener noreferrer">X robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.tiktok.com/robots.txt" target="_blank" rel="noopener noreferrer">TikTok robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.instagram.com/robots.txt" target="_blank" rel="noopener noreferrer">Instagram robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.facebook.com/robots.txt" target="_blank" rel="noopener noreferrer">Facebook robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.threads.com/robots.txt" target="_blank" rel="noopener noreferrer">Threads robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.youtube.com/robots.txt" target="_blank" rel="noopener noreferrer">YouTube robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.linkedin.com/robots.txt" target="_blank" rel="noopener noreferrer">LinkedIn robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.reddit.com/robots.txt" target="_blank" rel="noopener noreferrer">Reddit robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.quora.com/robots.txt" target="_blank" rel="noopener noreferrer">Quora robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://medium.com/robots.txt" target="_blank" rel="noopener noreferrer">Medium robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://substack.com/robots.txt" target="_blank" rel="noopener noreferrer">Substack robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.pinterest.com/robots.txt" target="_blank" rel="noopener noreferrer">Pinterest robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://github.com/robots.txt" target="_blank" rel="noopener noreferrer">GitHub robots.txt (checked Oct. 16, 2026)</a></li><li><a href="https://www.rfc-editor.org/rfc/rfc9309" target="_blank" rel="noopener noreferrer">RFC 9309: Robots Exclusion Protocol</a></li><li><a href="https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers" target="_blank" rel="noopener noreferrer">Google: common crawlers, including Google-Extended</a></li><li><a href="https://developers.openai.com/api/docs/bots" target="_blank" rel="noopener noreferrer">OpenAI: crawlers and user agents</a></li><li><a href="https://docs.perplexity.ai/docs/resources/perplexity-crawlers" target="_blank" rel="noopener noreferrer">Perplexity: crawlers</a></li><li><a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler" target="_blank" rel="noopener noreferrer">Anthropic: crawlers and how site owners can block them (updated April 7, 2026)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: guide to optimizing for generative AI features (updated July 10, 2026)</a></li><li><a href="https://developers.google.com/search/docs/monitor-debug/analyze-social-video-content" target="_blank" rel="noopener noreferrer">Google Search Central: analyze social and video content in Search Console (updated July 29, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/search/explore-web-generative-ai-search/" target="_blank" rel="noopener noreferrer">Google: 5 new ways to explore the web with generative AI in Search (May 6, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/search/updates-ai-mode-overviews-explore-web/" target="_blank" rel="noopener noreferrer">Google: More ways to connect with the web from Search (Oct. 15, 2026)</a></li><li><a href="https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/" target="_blank" rel="noopener noreferrer">Pew Research Center: Google users are less likely to click on links when an AI summary appears (July 22, 2025)</a></li><li><a href="https://arxiv.org/abs/2605.14021" target="_blank" rel="noopener noreferrer">Xu, Iqbal, and Montgomery (Washington University in St. Louis): Measuring Google AI Overviews, arXiv:2605.14021 (IMC 2026)</a></li><li><a href="https://arxiv.org/abs/2510.11560" target="_blank" rel="noopener noreferrer">Kirsten et al. (Ruhr University Bochum, Max Planck Institute for Software Systems): Characterizing Web Search in the Age of Generative AI, arXiv:2510.11560</a></li><li><a href="https://blog.google/inside-google/company-announcements/expanded-reddit-partnership/" target="_blank" rel="noopener noreferrer">Google: An expanded partnership with Reddit (Feb. 22, 2024)</a></li><li><a href="https://techcrunch.com/2024/05/16/openai-inks-deal-to-train-ai-on-reddit-data/" target="_blank" rel="noopener noreferrer">TechCrunch: OpenAI inks deal to train AI on Reddit data (May 16, 2024)</a></li><li><a href="https://techcrunch.com/2025/06/04/reddit-sues-anthropic-for-allegedly-not-paying-for-training-data/" target="_blank" rel="noopener noreferrer">TechCrunch: Reddit sues Anthropic for allegedly not paying for training data (June 4, 2025)</a></li><li><a href="https://www.mediapost.com/publications/article/416950/reddit-can-proceed-with-scraping-claims-against-pe.html" target="_blank" rel="noopener noreferrer">MediaPost: Reddit can proceed with scraping claims against Perplexity, SerpApi (July 31, 2026)</a></li><li><a href="https://www.cnbc.com/2026/07/22/reddit-stock-google-ai-content-deal.html" target="_blank" rel="noopener noreferrer">CNBC: Reddit stock sinks on report it may not renew Google AI content deal (July 22, 2026)</a></li><li><a href="https://techcrunch.com/2026/09/30/reddit-is-killing-rss-feeds-ending-public-api-access-because-of-ai-bots/" target="_blank" rel="noopener noreferrer">TechCrunch: Reddit is killing RSS feeds and ending public API access because of AI bots (Sept. 30, 2026)</a></li><li><a href="https://techcrunch.com/2025/06/05/x-changes-its-terms-to-bar-training-of-ai-models-using-its-content/" target="_blank" rel="noopener noreferrer">TechCrunch: X changes its terms to bar training of AI models using its content (June 5, 2025)</a></li><li><a href="https://techcrunch.com/2026/02/02/elon-musk-spacex-acquires-xai-data-centers-space-merger/" target="_blank" rel="noopener noreferrer">TechCrunch: SpaceX acquires xAI (Feb. 2, 2026)</a></li><li><a href="https://docs.x.ai/developers/tools/x-search" target="_blank" rel="noopener noreferrer">xAI docs: X Search tool</a></li><li><a href="https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/" target="_blank" rel="noopener noreferrer">TechCrunch: Meta&#39;s new AI Mode on Facebook pulls from public info (June 15, 2026)</a></li><li><a href="https://www.mediapost.com/publications/article/416762/openai-licenses-content-from-yelp-seems-to-be-bui.html" target="_blank" rel="noopener noreferrer">MediaPost: OpenAI licenses content from Yelp (July 23, 2026)</a></li><li><a href="https://enterprise.wikimedia.com/blog/wikipedia-25-enterprise-partners/" target="_blank" rel="noopener noreferrer">Wikimedia Enterprise: new partners for Wikipedia&#39;s 25th birthday (Jan. 15, 2026)</a></li><li><a href="https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/" target="_blank" rel="noopener noreferrer">Cloudflare: Stay discoverable in search while disallowing AI training (Sept. 15, 2026)</a></li><li><a href="https://blog.cloudflare.com/pay-per-use/" target="_blank" rel="noopener noreferrer">Cloudflare: Pay Per Use (Sept. 30, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does ChatGPT cite TikTok or Instagram?</h3>
+            <p>Not in the answers SolCrys tracks. TikTok blocks OpenAI&#39;s crawlers by name, and Instagram&#39;s robots.txt admits only GPTBot, OpenAI&#39;s training crawler, while blocking OAI-SearchBot and ChatGPT-User. ChatGPT rarely cites any social platform; the few social citations we see are mostly LinkedIn, which admits OpenAI&#39;s search crawler.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why does Google AI Overviews cite social posts more than ChatGPT does?</h3>
+            <p>Access, mostly. Nearly every social platform admits Googlebot, while most block OpenAI&#39;s search crawler; Google also owns YouTube and licenses Reddit&#39;s content. AI Overviews draws on Google&#39;s Search index, which includes those posts. Even so, AI Overviews cites social far less than the blue links do: in a 2026 Washington University in St. Louis study, social and video platforms were 14.2% of AI Overview references versus 49.9% of first-page results.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can Perplexity read X posts?</h3>
+            <p>X&#39;s robots.txt blocks PerplexityBot and Perplexity-User, along with every search and AI crawler except Googlebot and Bingbot. Perplexity says Perplexity-User generally ignores robots.txt, and X posts do appear occasionally in Perplexity&#39;s answers in our sample. The engine that reads X natively is Grok, through its X Search tool.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which social platform matters most for AI search?</h3>
+            <p>It depends on the engine your buyers use. YouTube matters most for Google AI Overviews and Gemini, LinkedIn for Perplexity and for B2B questions in Google AI Overviews, and X for Grok. For ChatGPT, no social platform matters much; your own site and third-party pages do.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why doesn&#39;t Gemini cite LinkedIn or Instagram?</h3>
+            <p>Both block Google-Extended, which Google documents as the control for grounding in Gemini Apps, and in our sample Gemini almost never cites either. Google AI Overviews relies on Googlebot instead, which both platforms allow.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Community &amp; UGC</p>
+            <h3><a href="/linkedin-aeo-guidelines/">LinkedIn AEO Guidelines: How AI Answer Engines Cite LinkedIn, and How to Post for It</a></h3>
+            <p>Which AI answer engines cite LinkedIn, which posts they pick, the settings that decide whether a post can be cited, and 10 posting guidelines, checked Oct. 15, 2026.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Community &amp; UGC</p>
+            <h3><a href="/youtube-aeo-guidelines/">YouTube AEO Guidelines: How AI Answer Engines Cite Videos, and How to Publish for It</a></h3>
+            <p>Which AI answer engines cite YouTube, how they read a video, what the cited videos have in common, and 10 publishing guidelines, checked Oct. 15, 2026.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Community &amp; UGC</p>
+            <h3><a href="/reddit-aeo-playbook/">Reddit AEO Playbook</a></h3>
+            <p>A 6-step playbook for Reddit as an AEO surface - weekly cadence, thread-authoring patterns, disclosure norms, a 12-week build plan - re-underwritten after ChatGPT stopped showing Reddit citations in August 2026. What Reddit still buys you, and on which engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-access-search-agent-training/">Search, Agent, or Training? How to Set AI Crawler Access in 2026 Without Blocking Your Own Citations</a></h3>
+            <p>Which AI crawlers to allow, what Cloudflare&#39;s Sept. 15, 2026 rules changed, and how to block AI training without losing your AI citations.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-get-cited-by-chatgpt-2026/">How to Get Cited by ChatGPT (2026): A Data-Backed Guide</a></h3>
+            <p>How ChatGPT search picks sources in 2026: crawlers, search providers, 7 citation-eligibility patterns, and what August 2026 changed about the sources it names.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/optimize-for-google-ai-overviews-ai-mode/">How to Optimize for Google AI Overviews &amp; AI Mode</a></h3>
+            <p>How Google&#39;s AI Overviews and conversational AI Mode are built from your index, the inheritance signals that decide which pages get cited, and the optimization plays that actually move position.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/google-social-posts-in-ai-answers/">Google Put Social Posts Inside AI Answers: What Changed in 2026 and What to Set Up</a></h3>
+            <p>Google now quotes social posts and names creators in its AI answers. A dated timeline of its 2026 changes, what Search Console shows and doesn&#39;t, and a setup checklist.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/social-listening-for-aeo-prompts/">Social Listening for AEO Prompts: Turn What Buyers Ask in Public Into a Prompt Set by Intent and Persona</a></h3>
+            <p>How to use Reddit, LinkedIn, YouTube comments, review sites, and forums to find the intents, personas, and buying stages your AEO prompt set should cover, in 7 steps with a worked example.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/consulted-not-cited-social-ai-answers/">Consulted, Not Cited: How Social Shapes AI Answers Without a Link</a></h3>
+            <p>Citation share is the wrong scoreboard for social. Here are 3 ways social content shapes ChatGPT, Gemini, and Google AI Overviews answers without a link, and how to measure them.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CPwC9Lb8.js"></script>
+  </body>
+</html>
