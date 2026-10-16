@@ -27030,3 +27030,170 @@ A: No. That setting controls whether YouTube may share your videos with selected
 
 Q: Does embedding a YouTube video on my page help my page get cited?
 A: There's no evidence that the embed itself does. An AI Overview that cites the video usually links to youtube.com, and Google doesn't treat a blog post with an embedded video as a video page. What helps your page is putting the video's substance on it as text: the answer, the steps, and the numbers.
+
+## Do You Need Real Prompts to Measure AEO? Demand Data and Measurement Are Different Questions
+
+A familiar argument in answer engine optimization (AEO) says prompt tracking is guesswork, because outside a clickstream panel nobody can see the prompts people really type into AI assistants. On demand data, that's fair: no AI engine publishes what people ask it or how often, so any prompt volume is an estimate. But the argument mixes up 2 questions. "What do buyers ask, and how often?" needs observed data. "When buyers ask about my category, does the engine recommend me?" doesn't need the buyer's exact sentence, because engines such as Google's AI Mode can rewrite questions into several searches, and answers vary from run to run anyway. It needs a prompt set that stands for real buyer intent and is rerun the same way over time. This essay explains the split, where each source of real prompts is strong and where it's blind, and how to use them together.
+
+### Questions this guide answers
+
+- Do you need real user prompts to measure AI visibility?
+- Can you see the real prompts people type into ChatGPT?
+- Is AI prompt volume data accurate?
+- Where should an AEO prompt set come from?
+- Is a prompt set that wasn't typed by real buyers good enough for AEO?
+
+### Direct answer
+
+No, not for measurement. You need real prompt data to size demand: which questions buyers ask AI, and how often. You don't need it to measure whether AI engines recommend you, because measurement works on intent, not wording. Google says AI Overviews and AI Mode may use a "query fan-out" technique that issues multiple related searches across subtopics and data sources ([Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)), so the engine isn't answering only the buyer's exact string. And because answers vary from run to run, even a perfect copy of one buyer's prompt is a single sample.
+
+What measurement does need is a prompt set that stands for real buyer intent, built from evidence you can inspect, frozen, and rerun across engines and over time. Real prompts, where you can get them, are the best way to check that the set covers the right intents. They aren't a substitute for it.
+
+
+
+
+### Why I'm writing this
+
+The latest version of this argument holds that outside a clickstream panel, there is no reliable source of what people actually type into AI assistants. When we evaluated prompt datasets for our own use earlier this year, we reached much the same conclusion about demand data.
+
+Where I disagree is the step from "we can't see real prompts" to "measurement built on representative prompts is guessing." That step treats 2 different questions as one, and teams that accept it either buy data that can't answer their question or stop measuring the answers that decide whether they're on a buyer's shortlist.
+
+
+
+
+### Two questions that get mixed up
+
+Most of the real-prompts debate dissolves once you separate demand from measurement. They need different data, and the exact wording of a prompt matters far more to the first than to the second.
+
+
+
+ | Demand question | Measurement question
+--- | --- | ---
+**The question** | What do buyers ask AI about my category, and how often? | When buyers ask about my category, does the engine name and recommend me?
+**What it needs** | Observed prompts and counts | Representative prompts, run repeatedly across engines
+**Does exact wording matter?** | Yes: the wording is the data | Less: engines such as Google's AI Mode can rewrite questions, and answers vary run to run
+**Who can observe it** | The AI platforms; opt-in panels, partially | Anyone who runs the prompts and reads the answers
+**What it's for** | Sizing demand and choosing which intents to cover | Tracking visibility, diagnosing gaps, and verifying fixes
+
+
+### Where the critique is right: demand data is thin
+
+No AI engine publishes the prompts people send it, or how often a question is asked. That leaves 3 kinds of outside data, and each has limits.
+
+
+- **Research chat datasets.** Collections of real conversations exist for academic work, but their licenses, consent terms, and personal data make most of them hard to reuse commercially, and the people in them were using research chat apps, not shopping your category.
+- **Opt-in clickstream panels.** Panels that record browsing with members' consent can observe real prompts, and they are the strongest source of real-prompt demand data today. Some panel products report the prompts behind visits from AI assistants; how much of the rest a panel sees depends on how it collects, which vendors rarely disclose in detail.
+- **"AI search volume" in keyword tools.** These figures are estimates. No AI engine publishes query counts, so every such number is modeled from something else, such as search data or panel data. Use them to rank intents against each other, not as counts, and ask how they were modeled.
+
+
+
+### Why measurement doesn't need the exact wording
+
+Because the engine doesn't answer the exact wording either. Three things stand between a buyer's sentence and the answer they see.
+
+
+- **Engines rewrite the question.** Google says AI Overviews and AI Mode may use query fan-out, issuing multiple related searches before composing an answer, and that the 2 surfaces may use different models and techniques ([Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)). Two buyers who phrase the same need differently can trigger overlapping searches.
+- **Answers vary from run to run.** Ask the same engine the same question twice and you can get different brands and different sources. One run of a real prompt is one sample, so you need several runs either way ([how many runs a visibility number needs](/how-many-runs-until-ai-visibility-trustworthy/)).
+- **Real conversations can't be replayed.** When the settings are on, ChatGPT can draw on saved memories and past conversations ([OpenAI Help Center](https://help.openai.com/en/articles/8590148-memory-faq)), and many buying conversations run several turns. A captured prompt, stripped of that context, doesn't reproduce what the buyer saw.
+
+
+
+### A prompt set is a sampling instrument
+
+So the useful question about a prompt set isn't "were these exact words typed?" It's "does each prompt stand for an intent buyers really have, and is the set run the same way every time, so a change in the numbers means something?"
+
+Search demand also matters on Google's AI surfaces: AI Overviews and AI Mode build on Google's Search index and core ranking systems ([Google's May 2026 guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)), so AEO for Google is an operating layer on top of SEO foundations, and the search demand behind a question remains the best public evidence of which intents matter.
+
+
+
+
+### Where real-prompt sources fall short for AEO
+
+Even good real-prompt data has blind spots that matter for AEO specifically.
+
+
+- **Answers that never produce a click.** AEO matters most when the engine names you and the buyer never visits. Pew Research Center found that Google users who saw an AI summary clicked a traditional search result in 8% of visits, against 15% when no summary appeared, and clicked a link inside the summary in 1% ([Pew Research Center](https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/), browsing data from 900 U.S. adults, March 2025). A source that learns about prompts through visits sees least of the answers where influence happens without one.
+- **Niche categories.** In a narrow B2B category, even a large panel is likely to capture only a handful of conversations per topic, too few to measure against.
+- **Signup surveys mostly see the prompts you won.** Asking new leads which AI they used and what they typed is a good idea, and we recommend it. But only buyers who found you can answer. Prompts where the engine recommended a competitor rarely reach your form, and those are the gaps AEO exists to close. Buyers also recall their wording imperfectly. Use survey answers to check a prompt set's coverage, not to build it ([how to run closed-won interviews](/prove-ai-influence-closed-won-interviews/)).
+
+
+
+### Where each source fits
+
+Each source answers a different part of the job. The mistake is asking one to do another's work.
+
+
+
+Source | What it sees | What it misses | Best use
+--- | --- | --- | ---
+**Opt-in clickstream panels** | Real prompts from panel members, at least those tied to visits | Thin coverage in niche categories; collection methods rarely disclosed | Sizing demand across a broad category
+**Research chat datasets** | Real conversations | Commercial-use and consent limits; not your buyers | Studying how people phrase requests in general
+**Search Console and Bing grounding queries** | Queries and grounding phrases for your own site | Prompts where you don't appear; ChatGPT, Claude, and Perplexity give site owners no report | Finding candidate prompts ([how](/find-ai-prompts-your-brand-shows-up-for/))
+**Signup surveys and closed-won interviews** | Prompts from buyers who found you | Most prompts where a competitor won | Checking coverage and showing AI influence on pipeline
+**Sales calls, support tickets, and demos** | Real buyer questions, in buyers' words | How often each is asked; questions buyers never bring to you | Writing prompts that sound like buyers
+**A tracked prompt set** | What each engine says, run after run | How often each question is asked | Measuring visibility and verifying fixes
+
+
+### How to build a set you can trust without seeing real prompts
+
+Start from the best real signals you have, then make the set stable enough to measure against.
+
+
+- **Seed it with questions buyers already asked you.** Sales calls, support tickets, and demos are real prompts in all but name.
+- **Cover intents, not phrasings.** One prompt per intent you care about (category, comparison, use case, risk, and brand) beats 10 paraphrases of the same question ([what a prompt set should contain](/ai-search-prompt-set/)).
+- **Tie each prompt to evidence.** Search demand for the underlying question, or a buyer who asked it. Drop prompts that nothing supports.
+- **Keep the zeros.** A prompt with real intent where you never appear is the most useful gap in the set ([why](/aeo-prompt-set-lifecycle/)).
+- **Freeze it, then rerun it.** Change the set only between measurement periods, and judge any change across several runs and engines, not one.
+- **Check coverage with real prompts.** When survey answers or Search Console queries show an intent the set doesn't cover, add it as a new prompt with its own history.
+
+
+
+### What would change this
+
+If AI platforms start reporting prompt-level data to site owners, the way Search Console reports queries, demand data stops being an estimate, and the first thing to do with it is check your prompt set's coverage. It still won't replace measurement: knowing that a question is common doesn't tell you what the engine said when it was asked.
+
+
+
+
+### How SolCrys fits
+
+SolCrys works on the measurement side of this split and carries it through to the fix. Each workspace tracks a [Golden Prompt Set](/golden-prompt-set-methodology/) built from search demand, the questions people ask around it, and community discussion where available, plus any prompts you add from your own buyers. The set runs across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan. The SolCrys Loop (Measure → Diagnose → Execute → Verify) reruns the same frozen prompts after a fix ships, so you can see whether the answer moved and whether the move held across runs.
+
+[Prompt Pulse](/prompt-pulse/) is our public set of buyer-style questions by industry, with modeled, relative demand. It's a starting list for your category, not a log of real conversations.
+
+
+
+
+### About the author
+
+Eason Wang is Co-Founder & CPO of SolCrys. He holds a PhD in Machine Learning and has spent 18+ years building enterprise products, starting at Microsoft Research Asia. His current focus is agentic AI workflows and the infrastructure required to run them in production. Connect on [LinkedIn](https://www.linkedin.com/in/eason-wang/).
+
+Written October 2026. For the practical method of finding candidate prompts, see [How to Find the AI Prompts Your Brand Shows Up For](/find-ai-prompts-your-brand-shows-up-for/).
+
+
+
+
+
+### Sources
+
+- [Google Search Central: AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)
+- [Google Search Central: generative AI optimization guide (May 2026)](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+- [Pew Research Center: Google users are less likely to click on links when an AI summary appears in the results (July 22, 2025)](https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/)
+- [OpenAI Help Center: Memory FAQ](https://help.openai.com/en/articles/8590148-memory-faq)
+
+### FAQ
+
+Q: Can I see the real prompts people type into ChatGPT?
+A: Not as a brand. OpenAI doesn't publish user prompts or how often a question is asked, and ChatGPT gives site owners no prompt report. You can see adjacent signals: questions in your Search Console data, Bing's grounding queries for Copilot, and what buyers tell you in surveys and sales calls ([how to find them](/find-ai-prompts-your-brand-shows-up-for/)).
+
+Q: Is AI prompt volume data accurate?
+A: It's an estimate. No AI engine publishes how often a question is asked, so every prompt volume figure is modeled from other data, such as search demand or panel data. Use it to rank intents against each other, and ask how it was modeled.
+
+Q: Is a prompt set that wasn't typed by real buyers good enough to measure AEO?
+A: Yes, if each prompt stands for an intent buyers really have and the set is rerun the same way over time. Google's AI surfaces can rewrite questions into several searches and answers vary from run to run, so intent coverage and consistency matter more than exact wording. A set with no evidence behind it, such as questions generated from a category name alone, isn't good enough.
+
+Q: Should I add a "which AI did you use?" question to my signup form?
+A: Yes. Ask which assistant buyers used and what they asked. Treat the answers as a coverage check: they mostly show prompts you've already won, rarely the ones where a competitor was recommended, and buyers recall their wording imperfectly.
+
+Q: Do I need clickstream panel data for AEO?
+A: Only if you need to size demand across a broad category. For measuring and improving how engines describe and recommend you, a well-built prompt set that you rerun across engines is the main instrument; panel data can help you decide which intents deserve a prompt.
