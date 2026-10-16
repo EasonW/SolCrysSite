@@ -18,7 +18,7 @@ const PromptPulseHub = () => {
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (desc) {
       desc.content =
-        "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and AI Overviews across industries — ranked by demand and what's rising.";
+        "AI demand data: the kind of questions buyers bring to ChatGPT, Perplexity and AI Overviews, by industry — ranked by modeled demand and what's rising.";
     }
   }, []);
 
@@ -37,8 +37,8 @@ const PromptPulseHub = () => {
               See what your market is asking AI
             </h1>
             <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
-              The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by
-              industry, ranked by demand, and showing what's heating up.
+              The kind of questions buyers bring to ChatGPT, Perplexity, and Google AI Overviews — by
+              industry, ranked by modeled demand, and showing what's heating up.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">US / English</p>
           </header>
@@ -142,14 +142,15 @@ const PromptPulseHub = () => {
             <h2 className="mb-2 text-xl font-bold tracking-tight">About this data</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind
-              our AI-visibility measurement — distilled from the real questions buyers ask across AI
-              answer engines and the community sources they cite. Signals are relative within each
-              industry and directional by design.{" "}
+              our AI-visibility measurement. The questions are drawn from public question sources and
+              written the way buyers put them to AI assistants; they are not a log of real AI
+              conversations. Demand is modeled and relative within each industry, and directional by
+              design.{" "}
               <a
-                href="/resources/"
+                href="/what-buyers-ask-ai-prompt-pulse/"
                 className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"
               >
-                See the methodology in our resources →
+                How the dataset is built →
               </a>
             </p>
           </section>

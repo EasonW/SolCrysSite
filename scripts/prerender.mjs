@@ -829,7 +829,7 @@ function homeHtml() {
     </section>
     <section id="prompt-pulse" class="seo-container seo-section">
       <h2>Prompt Pulse: see what your market is asking AI</h2>
-      <p>Demand data — a different lens from visibility tracking: the real questions buyers ask AI, sourced from ChatGPT, Perplexity, and Google AI Overviews signals across ${promptPulse.verticals.length} industries, ranked by demand. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
+      <p>Demand data — a different lens from visibility tracking: the kind of questions buyers bring to AI across ${promptPulse.verticals.length} industries, ranked by modeled demand. <a href="/prompt-pulse/">Explore Prompt Pulse</a>.</p>
       <div class="seo-grid">
         ${homeRisingPrompts(4)
           .map(
@@ -2270,7 +2270,7 @@ function promptPulseVerticalBody(v) {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · AI demand data</p>
     <h1>The prompts ${escapeHtml(v.short)} buyers ask AI</h1>
-    <p class="seo-lede">The real questions ${escapeHtml(v.short)} buyers ask AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. US/English.</p>
+    <p class="seo-lede">The kind of questions ${escapeHtml(v.short)} buyers bring to AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a modeled High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. US/English.</p>
     <section class="seo-section">
       <h2>Demand ranking</h2>
       <table>
@@ -2280,8 +2280,8 @@ function promptPulseVerticalBody(v) {
     </section>
     <section class="seo-section">
       <h2>About this data</h2>
-      <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement — distilled from the real questions buyers ask across AI answer engines and the community sources they cite. Signals are relative within each industry and directional by design. <a href="/resources/">See the methodology in our resources</a>.</p>
-      <p>Prompt Pulse reports directional demand signals, not exact query counts. Figures are SolCrys estimates. Demand and trend are computed from a 12-month AI-search series; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
+      <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement. The questions are drawn from public question sources and written the way buyers put them to AI assistants; they are not a log of real AI conversations. Demand is modeled and relative within each industry, and directional by design. <a href="/what-buyers-ask-ai-prompt-pulse/">How the dataset is built</a>.</p>
+      <p>Prompt Pulse reports directional demand signals, not exact query counts. Figures are SolCrys estimates. Demand and trend are computed from a 12-month modeled demand series; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
     </section>
   </main>
   ${ctaHtml()}
@@ -2323,7 +2323,7 @@ function promptPulseHubBody() {
   <main class="seo-container">
     <p class="seo-kicker">Prompt Pulse · AI demand data</p>
     <h1>See what your market is asking AI</h1>
-    <p class="seo-lede">The real questions buyers ask ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by demand, and showing what's rising. Free, US/English.</p>
+    <p class="seo-lede">The kind of questions buyers bring to ChatGPT, Perplexity, and Google AI Overviews — by industry, ranked by modeled demand, and showing what's rising. Free, US/English.</p>
     <section class="seo-section">
       <h2>Browse by industry</h2>
       <ul class="seo-list">${cards}</ul>
@@ -2342,7 +2342,7 @@ function promptPulseDatasetSchema(v, routePath) {
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: `Prompt Pulse — ${v.short}: AI demand for buyer prompts`,
-    description: `The questions ${v.short} buyers ask AI answer engines, with a High/Medium/Low demand tier and a trend direction. Free.`,
+    description: `The kind of questions ${v.short} buyers bring to AI answer engines, with a modeled High/Medium/Low demand tier and a trend direction. Free.`,
     url: canonicalUrl(routePath),
     isAccessibleForFree: true,
     creator: { "@type": "Organization", name: site.name, url: site.url },
@@ -2376,7 +2376,7 @@ writePage(
     title: "Prompt Pulse — what your market is asking AI | SolCrys",
     ogImage: "/og/prompt-pulse.png",
     description:
-      "AI demand data: the real prompts buyers ask ChatGPT, Perplexity and Google AI Overviews across industries, ranked by demand and what's rising.",
+      "AI demand data: the kind of questions buyers bring to ChatGPT, Perplexity and Google AI Overviews, by industry, ranked by modeled demand and what's rising.",
     lastModified: promptPulse.updated,
     body: promptPulseHubBody(),
     schemas: [
@@ -2407,7 +2407,7 @@ for (const v of promptPulse.verticals) {
     renderLayout({
       routePath,
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
-      description: `The real questions ${v.short} buyers ask AI engines, rated by demand tier and trend. Free.`,
+      description: `The kind of questions ${v.short} buyers bring to AI engines, rated by modeled demand tier and trend. Free.`,
       ogImage: `/og/prompt-pulse-${v.slug}.png`,
       lastModified: v.updated,
       body: promptPulseVerticalBody(v),
@@ -3606,7 +3606,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 - [AEO Resource Hub](${site.url}/resources/): Curated guides for Answer Engine Optimization and AI search visibility.
 - [User guides](${site.url}/guides/): Product documentation for SolCrys workspace setup, dashboards and tools, and Workspace Deep Analysis. Free PDF downloads.${userGuides.guides.map((guide) => `\n  - [${guide.title}](${site.url}/guides/${guide.slug}/): ${guide.description} [PDF](${site.url}${guide.pdf})`).join("")}
 - [Compare](${site.url}/compare/): Side-by-side comparisons of SolCrys against the AEO and AI visibility platforms buyers evaluate most often.
-- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the real questions buyers ask ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by demand and what's rising.${promptPulse.verticals
+- [Prompt Pulse](${site.url}/prompt-pulse/): AI demand data — the kind of questions buyers bring to ChatGPT, Perplexity and Google AI Overviews across ${promptPulse.verticals.length} industries, ranked by modeled demand and what's rising.${promptPulse.verticals
   .map(
     (v) => `\n  - [${v.short}](${site.url}/prompt-pulse/${v.slug}/): ${v.stats.prompts} buyer prompts ${v.short} teams should track in AI answers.`
   )
