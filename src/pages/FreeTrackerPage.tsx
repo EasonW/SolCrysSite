@@ -22,7 +22,7 @@ import { trackEvent } from "@/lib/analytics";
 const PAGE_TITLE =
   "Free ChatGPT Visibility Tracker — See If AI Recommends Your Brand | SolCrys";
 const PAGE_DESCRIPTION =
-  "Free ChatGPT visibility tracker. See whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — then get the exact fix to ship, not just a score. About 5 minutes, no credit card.";
+  "Free ChatGPT visibility tracker. See whether ChatGPT mentions, cites, or skips your brand on the buying questions in your category — then get the exact fix to ship, not just a score. About 5 minutes, no credit card.";
 const CANONICAL = "https://solcrys.com/free-chatgpt-visibility-tracker/";
 
 // Same loose URL-shape check the hero + /audit AuditFlow use, kept local so
@@ -43,8 +43,8 @@ const STEPS = [
   },
   {
     Icon: BarChart3,
-    title: "We ask ChatGPT your buyers' questions",
-    body: "SolCrys runs the high-intent prompts people actually use to find products like yours, then reads how ChatGPT answers.",
+    title: "We ask ChatGPT buying questions for your category",
+    body: "SolCrys runs high-intent buying questions for your category, then reads how ChatGPT answers.",
   },
   {
     Icon: Target,
@@ -96,7 +96,7 @@ const FAQS = [
   },
   {
     q: "How accurate is the result?",
-    a: "We query the live engine on real buyer prompts and report what it returned, including the citations and competitors it surfaced. AI answers vary run to run, so SolCrys tracks them over time rather than from a single snapshot.",
+    a: "We query the live engine on buying questions for your category and report what it returned, including the citations and competitors it surfaced. AI answers vary run to run, so SolCrys tracks them over time rather than from a single snapshot.",
   },
 ];
 
@@ -157,7 +157,7 @@ const FreeTrackerPage = () => {
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
               See whether ChatGPT mentions, cites, or skips your brand on the
-              prompts your buyers actually ask — or names a competitor instead.
+              buying questions in your category — or names a competitor instead.
               Then, unlike a scoreboard, the free workspace hands you the exact
               fix to ship. Results in about 5 minutes.
             </p>

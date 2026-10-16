@@ -758,7 +758,7 @@ function homeHtml() {
       <figure style="margin-top: 2rem;">
         <figcaption><strong>The SolCrys Loop.</strong></figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Measure.</strong> Run the questions your buyers ask AI and record how each engine describes you today.</li>
+          <li><strong>Measure.</strong> Run buying questions for your category and record how each engine describes you today.</li>
           <li><strong>Diagnose.</strong> Find out whether your brand is absent from those answers, missing the right citations, showing up inaccurately, or losing to competitors.</li>
           <li><strong>Execute.</strong> Drafts grounded in your Corporate Context, your approved facts, claims, and guardrails, routed for human review.</li>
           <li><strong>Verify.</strong> Rerun the same prompts against the baseline and feed what changed into the next round.</li>
@@ -774,7 +774,7 @@ function homeHtml() {
     </section>
     <section id="free-tracker" class="seo-container seo-section">
       <h2>Free ChatGPT visibility tracker</h2>
-      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
+      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the buying questions in your category (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
     </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers, one closed loop — from AI visibility to governed execution</h2>
@@ -2663,15 +2663,15 @@ const freeTrackerRoute = "/free-chatgpt-visibility-tracker/";
 const freeTrackerTitle =
   "Free ChatGPT Visibility Tracker — See If AI Recommends Your Brand | SolCrys";
 const freeTrackerDescription =
-  "Free ChatGPT visibility tracker. See whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — then get the exact fix to ship, not just a score. About 5 minutes, no credit card.";
+  "Free ChatGPT visibility tracker. See whether ChatGPT mentions, cites, or skips your brand on the buying questions in your category — then get the exact fix to ship, not just a score. About 5 minutes, no credit card.";
 const freeTrackerSteps = [
   {
     name: "Enter your domain",
-    text: "Just your website — or a competitor's. No credit card.",
+    text: "Start with your website — or a competitor's. No credit card.",
   },
   {
-    name: "We ask ChatGPT your buyers' questions",
-    text: "SolCrys runs the high-intent prompts people use to find products like yours, then reads how ChatGPT answers.",
+    name: "We ask ChatGPT buying questions for your category",
+    text: "SolCrys runs high-intent buying questions for your category, then reads how ChatGPT answers.",
   },
   {
     name: "See where you show up — and where a rival wins",
@@ -2711,7 +2711,7 @@ const freeTrackerFaqs = [
   {
     question: "Which AI engines does it cover?",
     answer:
-      "The free tracker checks ChatGPT. SolCrys also tracks Gemini, Google AI Overviews / AI Mode, and Perplexity on paid plans, so you can see your visibility across every major answer engine.",
+      "The free tracker checks ChatGPT. SolCrys also tracks Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on paid plans, so you can see your visibility across every major answer engine.",
   },
   {
     question: "How is this different from my Google ranking?",
@@ -2721,7 +2721,7 @@ const freeTrackerFaqs = [
   {
     question: "How accurate is the result?",
     answer:
-      "We query the live engine on real buyer prompts and report what it returned, including the citations and competitors it surfaced. AI answers vary run to run, so SolCrys tracks them over time rather than from a single snapshot.",
+      "We query the live engine on buying questions for your category and report what it returned, including the citations and competitors it surfaced. AI answers vary run to run, so SolCrys tracks them over time rather than from a single snapshot.",
   },
 ];
 function freeTrackerBody() {
@@ -2737,7 +2737,7 @@ function freeTrackerBody() {
   <main class="seo-container">
     <p class="seo-kicker">Free ChatGPT visibility tracker</p>
     <h1>Free ChatGPT Visibility Tracker</h1>
-    <p class="seo-lede">See whether ChatGPT mentions, cites, or skips your brand on the prompts your buyers actually ask — or names a competitor instead. Then, unlike a scoreboard, the free workspace hands you the exact fix to ship. About 5 minutes, no credit card.</p>
+    <p class="seo-lede">See whether ChatGPT mentions, cites, or skips your brand on the buying questions in your category — or names a competitor instead. Then, unlike a scoreboard, the free workspace hands you the exact fix to ship. About 5 minutes, no credit card.</p>
     <p><a href="https://app.solcrys.com/audit">Track your ChatGPT visibility, free &rarr;</a> &middot; Free &middot; No credit card</p>
     <section class="seo-section">
       <h2>What &ldquo;AI visibility&rdquo; means &mdash; and why your Google rank doesn&rsquo;t cover it</h2>
