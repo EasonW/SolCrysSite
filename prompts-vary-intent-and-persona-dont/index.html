@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Prompts Vary, Intent and Persona Don&#39;t: How to Measure AEO | SolCrys</title>
+    <meta name="description" content="Buyers word the same question in endless ways, but the intent behind it and the persona asking stay stable. Why AEO measurement should track intent and persona, and how the Golden Prompt Set is built around them." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/prompts-vary-intent-and-persona-dont/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-15" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Prompts Vary, Intent and Persona Don&#39;t: How to Measure AEO | SolCrys" />
+    <meta property="og:description" content="Buyers word the same question in endless ways, but the intent behind it and the persona asking stay stable. Why AEO measurement should track intent and persona, and how the Golden Prompt Set is built around them." />
+    <meta property="og:url" content="https://solcrys.com/prompts-vary-intent-and-persona-dont/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-15" />
+    <meta property="article:modified_time" content="2026-10-15" />
+    <meta property="og:image" content="https://solcrys.com/og/prompts-vary-intent-and-persona-dont.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/prompts-vary-intent-and-persona-dont.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BJt2dO6z.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Prompts Vary. Intent and Persona Don't: The Right Unit for AEO Measurement","item":"https://solcrys.com/prompts-vary-intent-and-persona-dont/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Prompts vary. Intent and persona don't.","description":"Buyers word the same question in endless ways, but the intent behind it and the persona asking stay stable. Why AEO measurement should track intent and persona, and how the Golden Prompt Set is built around them.","dateModified":"2026-10-15","datePublished":"2026-10-15","mainEntityOfPage":"https://solcrys.com/prompts-vary-intent-and-persona-dont/","author":{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO, SolCrys","sameAs":["https://www.linkedin.com/in/eason-wang/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/prompts-vary-intent-and-persona-dont/","mainEntity":[{"@type":"Question","name":"Do you need real prompts to measure AEO?","acceptedAnswer":{"@type":"Answer","text":"You need real demand behind each intent, not the literal strings. Buyers word the same need in many ways, but the intent and the persona asking are stable, so a prompt set that covers the intents and personas carrying demand, phrased the way those buyers ask and rerun the same way, measures what real buyers see."}},{"@type":"Question","name":"Why not track the exact prompts buyers type?","acceptedAnswer":{"@type":"Answer","text":"Because there's no single exact prompt: every buyer words the same need differently and rewords it as the conversation goes. Google's AI surfaces may expand a question into related searches before answering, and answers vary from run to run. Tracking intents and personas keeps the set representative and comparable over time."}},{"@type":"Question","name":"Does SolCrys use real data to build prompt sets?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every Golden Prompt Set starts from real demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Prompts carry the persona they're written for and a demand band, and you can add questions from your own buyers alongside them."}},{"@type":"Question","name":"How many prompts do I need per intent?","acceptedAnswer":{"@type":"Answer","text":"Usually one per intent and persona that matters to you. More paraphrases of the same need add little; a missing intent or persona is a blind spot. Spend your plan's prompt budget on coverage (what a prompt set should contain)."}},{"@type":"Question","name":"Should I add a \"which AI did you use?\" question to my signup form?","acceptedAnswer":{"@type":"Answer","text":"Yes. Ask which assistant buyers used and what they asked, then map each answer to an intent and persona. It confirms the intents you track and surfaces new ones."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Prompt Intelligence</p>
+        <h1>Prompts vary. Intent and persona don&#39;t.</h1>
+        <p class="seo-lede">Ask 10 buyers the same question and you get 10 different prompts: different words, different lengths, different context, and follow-ups in a different order. What doesn&#39;t change is what they&#39;re trying to decide and who they are. A VP of sales at a 50-person SaaS company choosing a CRM can phrase that need 100 ways, but the intent and the persona stay the same. That makes intent and persona, not the literal prompt, the right unit for answer engine optimization (AEO) measurement. This essay explains why, how a prompt set built on intent and persona measures what real buyers see, how SolCrys&#39;s Golden Prompt Set is designed around them, and where real prompt data fits: as evidence for the intents, not as a list of strings to track.</p>
+        <p>By <a href="https://www.linkedin.com/in/eason-wang/" rel="noopener">Eason Wang</a>, Co-Founder &amp; CPO, SolCrys</p>
+        <p>Updated <time datetime="2026-10-15">2026-10-15</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Do you need real prompts to measure AEO?</li><li>Why track intent and persona instead of exact prompts in AI search?</li><li>How do you choose prompts for AI visibility tracking?</li><li>Does SolCrys use real data to build prompt sets?</li><li>What is the right unit of AEO measurement?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Track intent and persona, not exact prompts. The wording of a buyer&#39;s prompt changes every time it&#39;s typed, but the intent behind it (the decision they&#39;re making) and the persona asking (their role, company size, and constraints) are stable, and they change only when the market does. Answer engines work from that need: Google says AI Overviews and AI Mode may use a &quot;query fan-out&quot; technique that issues multiple related searches across subtopics and data sources (<a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">Google Search Central</a>), so the answer draws on the need behind the question, not only on its exact words.</p><p>A prompt set that covers the intents and personas carrying demand in your category, each phrased the way that buyer asks, measures what real buyers see. Because intents and personas hold still while wording churns, the same set can be rerun over time, and a change in your numbers reflects a change in the answers rather than a change in the questions.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why I&#39;m writing this</h2>
+      <p>Teams evaluating AEO tools increasingly ask whether a vendor&#39;s prompts are &quot;real.&quot; It&#39;s a fair question with a hidden assumption: that the literal prompt a buyer typed is the thing to measure. I think that assumption is wrong, and that acting on it leads teams to track wording instead of demand.</p><p>Our Golden Prompt Set is built from real demand signals, and every prompt in it carries the persona it stands for. This essay explains why we built it around intent and persona, and why that is the stable foundation measurement needs.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>One intent, many prompts</h2>
+      <p>Here is one buyer need written 5 ways. Each is a prompt a real buyer could type, and none of them is the prompt. The intent is the same in every row (choose a CRM), and so is the persona (a VP of sales at a 50-person B2B SaaS company).</p>
+      
+      <table>
+              <thead><tr><th>The prompt</th><th>What changed</th></tr></thead>
+              <tbody><tr><td>&quot;Best CRM for a 50-person B2B SaaS team?&quot;</td><td>Short, category-level</td></tr><tr><td>&quot;We&#39;re 50 people selling to mid-market and outgrowing spreadsheets. What CRM should we look at?&quot;</td><td>Context first, conversational</td></tr><tr><td>&quot;HubSpot or Salesforce for a small sales team with a 6-month cycle?&quot;</td><td>Names brands, adds a constraint</td></tr><tr><td>&quot;Which CRM won&#39;t need a full-time admin for a 10-rep team?&quot;</td><td>Framed around a risk</td></tr><tr><td>&quot;OK, and which of those handles long enterprise deals?&quot;</td><td>A follow-up that depends on the previous answer</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why intent and persona are the stable unit</h2>
+      <p>Wording is the noisiest part of a prompt. Intent and persona are the parts that carry the decision.</p>
+      <ul class="seo-list"><li><strong>Wording churns; intent doesn&#39;t.</strong> Prompts differ in length, word order, named brands, and context, and the same buyer rewords as the conversation goes. When its memory settings are on, ChatGPT also draws on saved memories and past conversations (<a href="https://help.openai.com/en/articles/8590148-memory-faq" target="_blank" rel="noopener noreferrer">OpenAI Help Center</a>), so the literal string was never the whole input. The decision behind it changes only when the buyer&#39;s need changes.</li><li><strong>Persona changes what a good answer is.</strong> A 10-rep startup and a 500-rep enterprise asking the same question need different shortlists, so the persona belongs in the prompt. The exact wording doesn&#39;t need to match anyone&#39;s.</li><li><strong>Engines expand the question.</strong> Google&#39;s AI surfaces may fan a question out into related searches across subtopics before answering, and answers vary from run to run. A literal prompt is one sample of a need the engine is already generalizing.</li><li><strong>Intents move with the market, and slowly.</strong> New intents appear when a category changes: a new entrant, a pricing shift, a regulation. That&#39;s when a prompt set should change too. Wording changes every time someone types.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What this means for measurement</h2>
+      <p>Measure coverage of intent and persona, and measure it the same way every time.</p>
+      <ul class="seo-list"><li><strong>One prompt per intent and persona that matters, not 10 paraphrases.</strong> Paraphrases of the same need remeasure the same decision; a missing intent or persona is a blind spot.</li><li><strong>Write each prompt the way that persona asks.</strong> Include the role, size, and constraint a real buyer would give, so the engine answers the question that persona has.</li><li><strong>Freeze the set, then rerun it.</strong> Because intents hold still, a frozen set stays representative, and a change in your numbers reflects a change in the answers. Judge any move across several runs and engines (<a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs a visibility number needs</a>).</li><li><strong>Read results by intent and persona.</strong> &quot;Named in 3 of 4 discovery answers for mid-market sales leaders, absent for startups&quot; tells you what to fix; an average across unrelated strings doesn&#39;t.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How the Golden Prompt Set is built around intent and persona</h2>
+      <p>Each SolCrys workspace tracks a <a href="/golden-prompt-set-methodology/">Golden Prompt Set</a> built from real demand signals for its category: search demand, the questions people ask around it, and community discussion where available. Those signals show which intents carry demand and how the buyers behind them phrase their questions. On Google&#39;s AI surfaces, search demand is direct evidence: AI Overviews and AI Mode build on Google&#39;s Search index and core ranking systems (<a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google&#39;s May 2026 guide</a>), so AEO for Google is an operating layer on top of SEO foundations.</p><p>The SolCrys Loop (Measure → Diagnose → Execute → Verify) runs on that set across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan, and reruns the same frozen prompts after a fix ships, so you can see whether the answer moved for that intent and persona and whether the move held across runs.</p>
+      <ul class="seo-list"><li><strong>Intent, as prompt type.</strong> Every prompt carries a type that names the visibility question it tests: Discovery (does the engine name you for the category?), Feature Research (for a specific use case or constraint?), Comparison (how are you framed head-to-head?), and Brand Accuracy (are the facts right?). Each set is built to a fixed type mix, not improvised per customer.</li><li><strong>Persona, on every prompt.</strong> Every prompt carries the buyer role it&#39;s written for, such as a VP of marketing or a data center architect (or Generic when no single role applies), and persona is a filter in your Prompts table.</li><li><strong>Demand, as a band.</strong> Prompts carry a High, Medium, or Low demand band, with the keyword behind them in the band&#39;s popover, so you can prioritize the intents with the most buyer interest.</li><li><strong>Stable by design.</strong> The set is reviewed with you and changes when the category does. Prompts you keep retain their trend lines, and new ones start their own history.</li><li><strong>Your buyers&#39; own words.</strong> Questions from your sales calls, support tickets, and demos slot in alongside the GPS.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where real prompt data fits</h2>
+      <p>Real prompts are evidence for intents and personas, and the most useful ones are already yours. A list of literal strings is a snapshot of how some buyers worded something once; mapped to intents and personas, it keeps its value as the wording moves on.</p>
+      
+      <table>
+              <thead><tr><th>Source</th><th>What it tells you</th><th>How it feeds your set</th></tr></thead>
+              <tbody><tr><td><strong>Search Console and Bing grounding queries</strong></td><td>How buyers phrase questions that already reach your site</td><td>New intents and phrasings to cover (<a href="/find-ai-prompts-your-brand-shows-up-for/">how to find them</a>)</td></tr><tr><td><strong>Sales calls, support tickets, and demos</strong></td><td>Buyers&#39; questions in their own words, with role and context</td><td>Persona detail, and prompts that sound like your buyers</td></tr><tr><td><strong>Signup surveys and closed-won interviews</strong></td><td>Which assistant buyers used and what they asked</td><td>Confirmation that the intents you track are the ones that convert (<a href="/prove-ai-influence-closed-won-interviews/">how to run interviews</a>)</td></tr><tr><td><strong>Clickstream panels</strong></td><td>Real prompts across a broad category, sampled</td><td>Which intents carry the most demand</td></tr><tr><td><strong>A tracked prompt set</strong></td><td>What each engine says, run after run, by intent and persona</td><td>The measurement itself</td></tr></tbody>
+            </table>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What would change this</h2>
+      <p>If AI platforms start reporting prompt-level data to site owners, the way Search Console reports queries, intent discovery gets faster. The first step with that data will be the same: map each prompt to the intent and persona behind it, and check that your set covers them.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Eason Wang is Co-Founder &amp; CPO of SolCrys. He holds a PhD in Machine Learning and has spent 18+ years building enterprise products, starting at Microsoft Research Asia. His current focus is agentic AI workflows and the infrastructure required to run them in production. Connect on <a href="https://www.linkedin.com/in/eason-wang/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written October 2026. For the practical method of finding candidate prompts, see <a href="/find-ai-prompts-your-brand-shows-up-for/">How to Find the AI Prompts Your Brand Shows Up For</a>.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">Google Search Central: AI features and your website</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: generative AI optimization guide (May 2026)</a></li><li><a href="https://help.openai.com/en/articles/8590148-memory-faq" target="_blank" rel="noopener noreferrer">OpenAI Help Center: Memory FAQ</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Do you need real prompts to measure AEO?</h3>
+            <p>You need real demand behind each intent, not the literal strings. Buyers word the same need in many ways, but the intent and the persona asking are stable, so a prompt set that covers the intents and personas carrying demand, phrased the way those buyers ask and rerun the same way, measures what real buyers see.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Why not track the exact prompts buyers type?</h3>
+            <p>Because there&#39;s no single exact prompt: every buyer words the same need differently and rewords it as the conversation goes. Google&#39;s AI surfaces may expand a question into related searches before answering, and answers vary from run to run. Tracking intents and personas keeps the set representative and comparable over time.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does SolCrys use real data to build prompt sets?</h3>
+            <p>Yes. Every Golden Prompt Set starts from real demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Prompts carry the persona they&#39;re written for and a demand band, and you can add questions from your own buyers alongside them.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How many prompts do I need per intent?</h3>
+            <p>Usually one per intent and persona that matters to you. More paraphrases of the same need add little; a missing intent or persona is a blind spot. Spend your plan&#39;s prompt budget on coverage (<a href="/ai-search-prompt-set/">what a prompt set should contain</a>).</p>
+          </article>
+          <article class="seo-card">
+            <h3>Should I add a &quot;which AI did you use?&quot; question to my signup form?</h3>
+            <p>Yes. Ask which assistant buyers used and what they asked, then map each answer to an intent and persona. It confirms the intents you track and surfaces new ones.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/find-ai-prompts-your-brand-shows-up-for/">How to Find the AI Prompts Your Brand Shows Up For (When Search Console Only Gives You Impressions)</a></h3>
+            <p>No AI engine reports the prompts behind your citations. How to find them anyway with Search Console filters, Bing&#39;s grounding queries, and a tested prompt set.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/ai-search-prompt-set/">AI Search Prompt Set</a></h3>
+            <p>A practical guide to building an AI search prompt set across category, comparison, risk, implementation, competitor, and brand-specific prompts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/golden-prompt-set-methodology/">Golden Prompt Set Methodology</a></h3>
+            <p>How SolCrys builds a Golden Prompt Set from real demand signals for your category, and what each prompt carries.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/prove-ai-influence-closed-won-interviews/">Prove AI Influence with Closed-Won Interviews</a></h3>
+            <p>Your dashboard says branded search. Your buyers say ChatGPT. The fastest defensible way to prove AI influence on pipeline is a monthly closed-won interview — the script, the sample size, the CRM field, and the 1-in-X readout that gets AEO funded.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/aeo-prompt-set-lifecycle/">Don&#39;t delete 0-visibility prompts: a four-state lifecycle for AEO prompt sets</a></h3>
+            <p>Most teams delete prompts that show 0 visibility. Eason Wang, SolCrys CPO, on why that&#39;s the wrong heuristic — a 0-visibility prompt with real buyer intent is a gap to fix, not a prompt to remove — and the four-state lifecycle (Keep + Act, Rewrite, Archive, Add) we ship to enforce it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/what-buyers-ask-ai-prompt-pulse/">What Buyers Ask AI: Patterns in 1,012 Buyer-Style Questions Across 16 Industries</a></h3>
+            <p>Prompt Pulse is a curated set of 1,012 buyer-style questions across 16 industries, scored for relative AI demand. What its patterns show, and what they don&#39;t.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/evaluate-aeo-platform-methodology-checklist/">Evaluate an AEO Platform&#39;s Data Methodology</a></h3>
+            <p>Six questions every buyer should send to every AEO platform - including us - before signing. We designed SolCrys to answer all six; here&#39;s how, and what to listen for from anyone you&#39;re evaluating.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-ClhjPSr0.js"></script>
+  </body>
+</html>
