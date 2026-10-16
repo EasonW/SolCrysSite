@@ -4421,7 +4421,7 @@ A: SolCrys identifies prompts where the brand is not recommended, diagnoses the 
 
 ## AI Search Prompt Set
 
-An AI search prompt set is a repeatable list of questions used to measure how answer engines mention, cite, compare, and recommend a brand. A strong set includes category, comparison, competitor, risk, implementation, persona, and brand-specific prompts - it should mirror how real buyers research decisions, not just how marketers describe keywords. For the methodology behind how SolCrys grounds its prompt sets on real intent volume, public community signals, AI query data, and live engine follow-ups, see the Golden Prompt Set methodology.
+An AI search prompt set is a repeatable list of questions used to measure how answer engines mention, cite, compare, and recommend a brand. A strong set includes category, comparison, competitor, risk, implementation, persona, and brand-specific prompts - it should mirror how real buyers research decisions, not just how marketers describe keywords. For how SolCrys builds its prompt sets from demand signals for your category, see the Golden Prompt Set methodology.
 
 ### Questions this guide answers
 
@@ -4512,7 +4512,7 @@ The same category can require different prompt sets by ICP. For B2B SaaS, prompt
 A practical first SolCrys workspace starts with the number of tracked prompts included in your plan. Today, the free plan tracks 10 prompts and Starter workspaces track 20 prompts; Pro workspaces expand that to 60 tracked prompts. Agency plans use 30 tracked prompts per client organization. The exact number matters less than consistency. A smaller fixed prompt set measured over time is more useful than a large random set checked once.
 
 
-- For a 20-prompt starting set: 5 category prompts.
+- If you build a 20-prompt set by hand: 5 category prompts.
 - 4 comparison and alternative prompts.
 - 3 risk and implementation prompts.
 - 3 persona or use-case prompts.
@@ -4743,7 +4743,7 @@ Shopify frames it cleanly: AI platforms recommend specific products rather than 
 
 In traditional organic search, the funnel runs from category query to category page to filter to product page to cart. In AI-mediated commerce, the funnel runs from conversational prompt to AI recommends specific SKU to product page to cart. Three sub-funnel steps disappear.
 
-The marketing implication is uncomfortable for teams whose AI search strategy is still framed as 'rank higher' or 'increase brand mentions.' When the AI is doing the comparison, being recommended for the right SKU on the right prompt is the funnel. Mention rate, share of voice, even brand awareness in AI - none of these survive contact with this data as the right KPI. The right KPI is whether the answer engine recommends your specific product for the prompts your buyers actually run. That is what we measure as AI Share of Recommendation, segmented by prompt category, engine, persona, and rolling 7/30-day windows.
+The marketing implication is uncomfortable for teams whose AI search strategy is still framed as 'rank higher' or 'increase brand mentions.' When the AI is doing the comparison, being recommended for the right SKU on the right prompt is the funnel. Mention rate, share of voice, even brand awareness in AI - none of these survive contact with this data as the right KPI. The right KPI is whether the answer engine recommends your specific product when buyers ask it to choose. That is what we measure as AI Share of Recommendation, on a tracked prompt set segmented by prompt category, engine, persona, and rolling 7/30-day windows.
 
 
 
@@ -4781,7 +4781,7 @@ Action Gap | Team knows about the gap but has no executable fix path | Compounds
 The Shopify data validates tactics we have been running, but it changes the priority order. The sequence we would put a retail brand through, in the order we would run it.
 
 
-- Build a product-level prompt set. Most brands have a category-level prompt set. The Shopify data argues you also need product-level and use-case-level prompts where a buyer would expect a specific SKU recommendation. We ground these in intent volume, public community Q&A platforms, AI query signals, and engine follow-ups.
+- Build a product-level prompt set. Most brands have a category-level prompt set. The Shopify data argues you also need product-level and use-case-level prompts where a buyer would expect a specific SKU recommendation. We build these from search demand, the questions people ask around it, and community discussion where available.
 - Run a Retail AI Shelf Diagnostic on your top 50 SKUs. Check which SKUs are absent, mentioned-but-not-recommended, or cited with stale specs.
 - Diagnose the structural reason for each gap. Is the product page missing the buyer-language attributes the engine retrieves? Are reviews and Q&A surfacing the wrong use cases? Is a third-party comparison page framing a competitor as the obvious choice? Each cause has a different fix path.
 - Fix at the listing and source layer first. Update product page direct-answer blocks, structured spec tables, and use-case framing. Seed buyer-concern Q&A coverage in compliant ways. Earn third-party citations where the engine already retrieves.
@@ -4821,7 +4821,7 @@ Q: What is the difference between mention rate and Share of Recommendation under
 A: Mention rate counts whether your brand appears in the answer. Share of Recommendation measures whether the engine actually recommends your specific product or brand for the prompt. Given the journey-compression data, a brand can have high mention rate and low recommendation rate and still lose most of the AI-referred funnel. We treat Share of Recommendation as the headline metric for Retail AEO programs.
 
 Q: How do you measure AI Share of Recommendation for retail brands specifically?
-A: We build a Golden Prompt Set grounded in intent volume, public community Q&A platforms, AI query signals, and engine follow-ups for your category. We run those prompts on the engines your buyers use, capture and score each answer, and segment recommendation by prompt category, engine, persona, and rolling 7-day or 30-day windows. Every chart drills back to the captured response.
+A: We build a Golden Prompt Set for your category from search demand, the questions people ask around it, and community discussion where available. We run those prompts on the engines your buyers use, capture and score each answer, and segment recommendation by prompt category, engine, persona, and rolling 7-day or 30-day windows. Every chart drills back to the captured response.
 
 Q: Is this only relevant for Shopify merchants?
 A: No. Shopify's data is the largest public dataset we have seen on AI-referred commerce, but the journey-compression dynamic is platform-independent. Brands on BigCommerce, custom stacks, Amazon, Walmart Marketplace, and DTC platforms face the same structural shift - buyers arrive on product surfaces from AI recommendations regardless of which storefront serves the page.
@@ -12630,7 +12630,7 @@ A: A single workspace measures one country at a time: measurement country is a p
 
 ## Golden Prompt Set Methodology
 
-We build a Golden Prompt Set (GPS) for every customer category by grounding on four real-world signals: intent volume across major search and marketplace surfaces, trending questions from leading public community platforms, AI query volume signals, and live follow-up questions from supported surfaces where reliable. Every prompt we hand you carries a prompt type, a target persona, projected query volume, and source provenance so you can prioritize questions your buyers actually run - not the ones marketers wish they ran. We publish this methodology in full because prompt selection is the single biggest determinant of AEO data quality. If we're tracking the wrong prompts, every chart in your dashboard is wrong - so we'd rather you evaluate how we choose before you sign than after.
+We build a Golden Prompt Set (GPS) for every workspace from demand signals for its category: search demand, the questions people ask around it, and community discussion where available. The set is balanced across prompt types, each of which tests a different way your brand can be invisible, and prompts drawn from keyword data carry a demand band so you can prioritize. We publish how we choose because prompt selection is the single biggest determinant of AEO data quality. If we're tracking the wrong prompts, every chart in your dashboard is wrong, so we'd rather you evaluate how we choose before you sign than after.
 
 ### Questions this guide answers
 
@@ -12641,9 +12641,11 @@ We build a Golden Prompt Set (GPS) for every customer category by grounding on f
 
 ### Direct answer
 
-We build a Golden Prompt Set (GPS) for every customer category by grounding on four real-world data sources: intent volume across major search and marketplace surfaces, trending questions from leading public community platforms, AI query volume signals, and live follow-up questions from supported surfaces where reliable. Every prompt we hand you carries projected query volume so you can prioritize the questions your buyers actually run, not the ones marketers wish they ran.
+We build a Golden Prompt Set (GPS) for every workspace from demand signals for its category: search demand, the questions people ask around it, and community discussion where available. Prompts drawn from keyword data show a demand band so you can prioritize, and the keyword behind them so you can check why they're in your set.
 
-We treat prompt selection as the single biggest determinant of AEO data quality. If we track the wrong prompts, every chart in your dashboard is wrong - so the rest of this page explains exactly how we choose, what we deliberately exclude, and how you can audit our selection.
+AI engines don't publish the prompts people send them, so any prompt set, ours included, is a sample of buyer intent, not a record of what buyers typed. What makes it trustworthy is evidence you can inspect and a set that is rerun the same way over time, so a change in the numbers means something.
+
+We treat prompt selection as the single biggest determinant of AEO data quality. If we track the wrong prompts, every chart in your dashboard is wrong - so the rest of this page explains how we choose, what we deliberately exclude, and how you can audit our selection.
 
 
 
@@ -12658,55 +12660,45 @@ Failure mode | What goes wrong | What buyers experience
 --- | --- | ---
 Synthetic keyword lists | Tools pull SEO keywords and reformat them as questions ('best [X]?', '[X] vs [Y]?'). They look like prompts but don't match how buyers phrase questions to AI assistants. | 'Why is my AEO tool tracking 200 prompts but I never see traffic move when I fix things?'
 Customer-only prompts | Tools rely entirely on customer-supplied prompts. Marketers tend to ask brand-flattering questions; real buyers ask harder, more skeptical ones. | 'Our SOV looks great but our pipeline isn't growing.'
-LLM-generated synthetic prompts | Tools prompt an LLM to 'generate 100 questions a buyer might ask.' This produces plausible-sounding but volume-unverified queries - many are never actually asked. | 'We're tracking lots of prompts but only 3 of them seem to drive any decisions.'
+Category-only prompts | Tools generate '100 questions a buyer might ask' from the category name alone, with no demand data behind them. The list sounds plausible, but nothing ties it to what buyers search for or discuss. | 'We're tracking lots of prompts but only 3 of them seem to drive any decisions.'
 
 
-### The four grounding sources
+### What a GPS is built from
 
-Every GPS is built from four grounded data sources. A prompt only enters the GPS if it can be evidenced from at least one source - preferably more than one.
-
-
+Every GPS starts from demand signals for your category. The exact inputs, suppliers, and generation process are implementation details we keep confidential; what they cover is below.
 
 
-#### Source 1: Organic intent volume across major search and marketplace surfaces
 
-We start with organic intent-volume data across the customer's category, covering general web search and, for ecommerce categories, marketplace-side search behavior. The exact data composition draws on multiple aggregate sources and partnerships and is tuned per category; we treat the supplier mix as part of our internal methodology.
 
-Intent volume is the closest public proxy to real demand. A query asked at high volume in conventional search is highly likely to be asked in similar form in AI assistants. The phrasing differs - AI prompts are longer and more conversational - but the underlying intent is the same. We convert each intent-volume query into a prompt-style phrasing and add buyer context, comparative framing, and follow-up structure that AI assistants tend to elicit.
+#### Search demand
 
-#### Source 2: Trending consumer questions from public community platforms
+Keyword demand for your category in search, and in marketplace search for categories where buyers shop there.
 
-Intent volume tells us what people search. Communities tell us how they actually phrase questions when asking other humans, which is much closer to how they ask AI.
+Intent volume is the closest public proxy to real demand. A query asked at high volume in conventional search is highly likely to be asked in similar form in AI assistants. The phrasing differs, since AI prompts are longer and more conversational, but the underlying intent is the same.
 
-We continuously monitor leading public community platforms in the customer's category - the discussion forums and Q&A sites where buyers ask category questions of other humans. The platform mix varies by industry and is tuned per category as part of our internal methodology. Public community Q&A has been among the most-cited source layers in AI answers; third-party citation studies place community-discussion sites in the top tier of Perplexity citations, though ChatGPT all but stopped citing Reddit in August 2026.
+Where available, AI-search demand estimates inform the demand band too. No AI engine publishes how often people ask it something, so we treat these figures as estimates, not counts of prompts.
 
-Real AI-search prompts are typically much longer than typed search queries - multi-clause, conversational, and explicitly problem-stated. Community-grounded prompts close that gap because human-to-human Q&A in communities phrases questions the same way humans phrase them to AI.
+#### The questions people ask around it
 
-#### Source 3: AI query volume signals
+Buyers put full, problem-stated questions to AI assistants, not head terms. That gap between a keyword list and a prompt set is why the questions people ask around a keyword matter as much as its volume.
 
-Direct AI query volume data is not fully public yet, but it is no longer guesswork. We aggregate signals from a combination of public engine disclosures, third-party research, and SERP-side trigger data, drawing on multiple aggregate sources rather than any single supplier. Specific input mix is part of our internal methodology.
+#### Community discussion, where available
 
-Some queries are far more common in AI assistants than in traditional search - especially long, conversational, multi-clause questions. These queries don't show up in keyword-planner-style tools but dominate AI engine traffic. SEO-keyword-only prompt sets miss them entirely.
-
-#### Source 4: Live follow-up questions from answer engines
-
-This is the source most platforms don't use, and it's where the GPS gets its edge. When a user asks ChatGPT, Alexa for Shopping, Perplexity, or Google AI Overviews a question, the engines themselves often suggest follow-up questions. These follow-ups reflect the engine's own model of 'what users ask next,' expose the prompt journey from question to comparison to risk validation to recommendation, and surface buyer-stage transitions that pure search data cannot see.
-
-We capture follow-ups from the rendered consumer-surface output of each engine, from marketplace-side AI assistant follow-up Q&A, and from supported SERP surfaces' 'People also ask' expansion. See the companion Visibility Measurement methodology for the broader capture approach.
+Community discussion adds how buyers phrase questions to other people, which is close to how they ask AI.
 
 ### What a Golden Prompt Set looks like in practice
 
-The GPS candidate library for a category is usually larger than the set a workspace actively tracks. The tracked benchmark should match the customer's plan and scope: current public brand plans track 10 prompts on Free, 20 on Starter, and 60 on Pro; Agency plans track 30 prompts per client organization; Enterprise scope is confirmed during evaluation.
+A GPS build usually produces more candidate prompts than a workspace actively tracks. The tracked benchmark should match the customer's plan and scope: current public brand plans track 10 prompts on Free, 20 on Starter, and 60 on Pro; Agency plans track 30 prompts per client organization; Enterprise scope is confirmed during evaluation.
 
-The mix is not improvised per customer. Every prompt type answers a different visibility question you can fail on independently, and our generation engine holds a locked distribution target across those types. A run that cannot fill a type honestly redistributes those slots to Discovery rather than padding the set with near-duplicate variants. The table below is the balanced mix used for ongoing workspaces. Examples use well-known public products purely for illustration - they are not taken from any customer's prompt set.
+The mix is not improvised per customer. Every prompt type answers a different visibility question you can fail on independently, and each set is built to a fixed type mix, not padded with near-duplicate variants. There are two mixes. Discovery focus is the default for onboarding, the Free AI Visibility Audit, and Suggest prompts: 60% Discovery, 30% Feature Research, 10% Brand Accuracy, and no Comparison prompts. Balanced, which you can choose when you generate prompts, is the mix in the table below. Examples use well-known public products purely for illustration - they are not taken from any customer's prompt set.
 
-The Free AI Visibility Audit deliberately runs a different mix: 60% Discovery, 30% Feature Research, 10% Brand Accuracy, and zero Comparison prompts. A Comparison prompt names your brand inside the prompt itself, so the engine has no way to omit you. Mixing even one into an unaided-discovery audit inflates the headline number with a guaranteed appearance and quietly turns unaided measurement into aided measurement. We keep the two modes separate so the number means what the column header says it means.
+Discovery focus leaves Comparison out on purpose. A Comparison prompt names your brand inside the prompt itself, so the engine has no way to omit you; it measures how you're framed, not whether you're found. The Brand Accuracy prompt names your brand too, and it tests whether the facts are right. Read those two types separately from Discovery and Feature Research, the prompts that test unaided discovery.
 
 We also deliberately do not generate 'alternatives to [competitor]' prompts. Anchoring a prompt on a single competitor's name measures that competitor's gravity more than your category presence, so we rewrite that intent as brand-neutral Discovery instead.
 
 
 
-Prompt type | Share of the working set | The visibility question it tests | Illustrative example
+Prompt type | Share in the Balanced mix | The visibility question it tests | Illustrative example
 --- | --- | --- | ---
 Discovery | 50% | Does the engine name you for the broad category question, when no brand is named in the prompt? | Best CRM for a 50-person B2B SaaS team
 Feature Research | 30% | Does the engine name you for a specific persona, use case, capability, or constraint? | Which CRM handles a 6-month enterprise sales cycle?
@@ -12719,19 +12711,19 @@ Brand Accuracy | 10% | When a buyer asks about you directly, are the facts and t
 Your prompts stay private to your workspace. For every prompt in your GPS we attach metadata so you can filter, sort, and prioritize - and so you can audit how the prompt got there.
 
 
-- **Projected query volume** - our estimate of monthly run frequency on AI engines, carried with the keyword evidence that backs it.
+- **Demand band** - High, Medium, or Low, from the demand behind the keyword a prompt is drawn from. It's a relative guide for prioritizing, not a count of how often the prompt runs on AI engines.
 - **Prompt type** - which of the four visibility questions above the prompt tests. The types are failure-mode oriented: each one is a distinct way your brand can be invisible, and you can fail one while passing the others. Type is the field our distribution targets are enforced against - we don't layer a separate journey-stage label on top of it.
 - **Target persona** - the buyer role the prompt is written for, such as a VP of marketing or a data center architect. Every prompt carries one, and when no specific role is cleanly inferable we set it to Generic rather than inventing a persona to look thorough. Persona is a filter and a sort column in your Prompts table and a column in your CSV export.
 - **Per-engine results** - once the prompt runs, each response is stored per engine, so you can see which engines surface you for that prompt and which don't. This is measured after the fact, not predicted: we don't guess engine fit at authoring time.
-- **Source provenance** - which of the four grounding sources brought this prompt into your set, so you can audit our selection.
+- **Measurement anchor** - for prompts drawn from keyword data, the keyword behind the prompt, shown in the demand band's popover, so you can check why it's in your set.
 
 
 
 ### How your own prompts blend in
 
-We treat the GPS as the foundation, not the whole thing. You know your buyers in ways we don't, so every workspace - including the Free AI Visibility Audit - lets you supply your own prompts as an alternative to, or alongside, the GPS. We default to running the GPS directly because it produces a more intent-aligned baseline than prompts drafted from scratch: every GPS prompt is grounded in our four-source evidence model, so customers who don't have time to author prompts still get a rigorous starting set. In ongoing workspaces, you can replace any GPS prompt with your own at any time, and our in-app suggestion panel recommends additions based on gaps in your current set, trending category discussion, and engine follow-ups we found in your own tracked responses.
+We treat the GPS as the foundation, not the whole thing. You know your buyers in ways we don't, so every workspace lets you supply your own prompts as an alternative to, or alongside, the GPS. We default to running the GPS so teams without time to write prompts still start from a demand-based set. Questions from your own sales calls, support tickets, and demos are the closest thing to real buyer prompts any team has, and they belong in the set. In ongoing workspaces, you can replace any GPS prompt with your own at any time, or run Suggest prompts from keywords or a page URL to generate new candidates you approve.
 
-The prompt sanity-check workflow is [coming soon]. Today, we treat off-topic prompts, brand-flattering prompts without comparative context, and duplicate prompts as review criteria during setup and customer review. When this ships in-product, flags will be guidance rather than gating.
+The prompt sanity-check workflow is coming soon. Today, we treat off-topic prompts, brand-flattering prompts without comparative context, and duplicate prompts as review criteria during setup and customer review. When this ships in-product, flags will be guidance rather than gating.
 
 
 
@@ -12756,15 +12748,15 @@ We've written this section because we'd rather you know the limits up front than
 
 
 - We don't promise the GPS guarantees revenue lift. A perfect prompt set doesn't fix weak content or thin brand presence; it just measures the right things.
-- We don't claim to replace human judgment. The slot we reserve for your own prompts exists because you know your buyers in ways we don't.
-- We don't generate prompts from a single LLM. We refuse to ask one model to 'write 100 questions a buyer might ask' and call it research. Every prompt in your GPS has external evidence we can show you.
+- We don't claim to replace human judgment. We support your own prompts because you know your buyers in ways we don't.
+- We don't promise every prompt has a measured search anchor. Some prompts have no keyword behind them, and their demand band shows that.
 - We don't automatically change tracked prompts without approval. Prompt revisions are handled as review items with your team; newly added prompts start their own measurement history.
 
 
 
 ### Why we publish this methodology
 
-Most platforms in our category keep prompt-selection methodology opaque. We publish ours because trust is our product - if you don't trust how we chose your prompts, every chart we show you is meaningless. We want this methodology to be falsifiable: open any prompt in your GPS and we'll show you which of the four sources surfaced it. We want you to evaluate us before you sign, not after.
+Most platforms in our category keep prompt-selection methodology opaque. We publish how ours chooses because trust is our product - if you don't trust how we chose your prompts, every chart we show you is meaningless. We want this methodology to be falsifiable: open any prompt drawn from keyword data and its demand band shows the keyword behind it. We want you to evaluate us before you sign, not after.
 
 
 
@@ -12773,7 +12765,7 @@ Most platforms in our category keep prompt-selection methodology opaque. We publ
 ### FAQ
 
 Q: How is the Golden Prompt Set different from just using SEO keywords?
-A: SEO keywords measure what people type into a search box. AI prompts are longer, more conversational, and increasingly bypass conventional search engines entirely. SEO keywords are one input to the GPS; the other three (community questions, AI query volume signals, engine follow-ups) capture the parts of buyer behavior that SEO data does not see.
+A: SEO keywords measure what people type into a search box. AI prompts are longer and more conversational. In a GPS, keyword demand is evidence, and each prompt reads like a question a buyer would put to an AI assistant rather than a reformatted keyword.
 
 Q: How many prompts should I be tracking?
 A: Start with the tracked prompt budget included in your plan, then keep the set stable enough to measure over time. Current public brand plans track 10 prompts on Free, 20 on Starter, and 60 on Pro. Agency plans track 30 prompts per client organization, and Enterprise scope is custom. The GPS framework can generate additional candidate prompts, but the prompts you actively track are the benchmark.
@@ -12782,12 +12774,12 @@ Q: Can I track prompts in languages other than English?
 A: Currently the GPS supports English-language prompts across English-dominant markets (US, UK, Canada, Australia). Multi-language GPS support is on the roadmap; please contact sales for current localization availability.
 
 Q: Do you share my custom prompts with anyone?
-A: No. Customer-supplied prompts are private to your workspace and never used to update other customers' GPS templates. Industry-template GPS updates are derived from public sources only.
+A: No. Customer-supplied prompts are private to your workspace and never used to build other customers' prompt sets.
 
-Q: How do you verify a prompt is actually asked by real buyers and not just an SEO artifact?
-A: We require evidence from at least one of the four grounding sources before a prompt enters the GPS, and we prioritize prompts evidenced by two or more sources. Synthetic SEO-only prompts are de-prioritized during selection and should not enter the tracked GPS unless they are supported by real evidence from the grounding sources above.
+Q: Is every GPS prompt something a real buyer typed?
+A: No. AI engines don't publish what people ask them, so no prompt set, ours included, is a record of what buyers typed. Each GPS prompt stands for a buyer intent in your category, and prompts drawn from keyword data show the keyword behind them in their demand band. For the closest thing to real prompts, add questions from your own sales calls, support tickets, and demos alongside the GPS.
 
-Q: What happens to my historical data if the GPS template updates?
+Q: What happens to my historical data if my prompt set changes?
 A: Your tracked prompts don't change unless you approve the change. Prompt revisions are handled as review items with your team; historical trend lines for prompts you keep tracking stay continuous, while newly added prompts start their own measurement history.
 
 ## AI Visibility Measurement Methodology
@@ -12962,7 +12954,7 @@ This page is the data-trust companion to our broader AEO Platform Buyer's Guide.
 
 Buyers comparing AEO platforms typically focus on visible feature parity, engine coverage, and support. The harder question - whether the underlying data is reliable - is easier to wave away with a slide. So most buyers skip it. We think that's a mistake, because two specific failure modes recur in this category.
 
-Synthetic prompts dressed as research: a vendor says 'we track 300 prompts in your category' but the prompts were generated by a language model at indexing time, not grounded in real buyer behavior. The questions real users ask AI assistants are typically much longer and more problem-stated than synthetic SEO-keyword-derived prompts. If the prompts don't reflect real questions, the visibility numbers don't reflect real exposure - so no number on the dashboard means what it claims to.
+Ungrounded prompts dressed as research: a vendor says 'we track 300 prompts in your category' but the prompts were generated from the category name alone, with no demand data behind them. Every prompt set is a sample, ours included, so ask whether the set is tied to evidence of buyer demand you can inspect, and whether you can see which prompts aren't. If it isn't, the visibility numbers describe the vendor's guesses, not your buyers' exposure.
 
 API-only tracking sold as consumer measurement: a vendor says 'we track ChatGPT' but in practice queries an API endpoint that uses different default models, system prompts, and web-search behavior than the consumer chat product. The two surfaces can diverge enough that fixing one does not move the other - so the buyer ships the wrong fixes for months.
 
@@ -12978,11 +12970,11 @@ Each question lists what you are listening for, common red flags, and why it mat
 
 #### Question 1: Where do your tracked prompts come from?
 
-What you should listen for: specific data sources, not vague phrases like 'AI-generated based on your category.' Strong answers include some combination of intent volume data, trending community questions from public Q&A platforms, live follow-up questions captured from the engines themselves, and customer-supplied prompts at a transparent ratio.
+What you should listen for: specific data sources, not vague phrases like 'AI-generated based on your category.' Strong answers name the kinds of demand data the prompts are built from, show what prompts are anchored to, and explain how your own prompts fit in.
 
-Red flags: 'We use AI to generate prompts based on your category' (translation: synthetic), vague phrases like 'ensemble deep-learning models on 50+ sources' without naming them, refusal to disclose template-vs-customer ratio, and no mechanism to decline or replace the vendor's default prompts.
+Red flags: 'Prompts based on your category' with no demand data named (translation: ungrounded), vague phrases like 'ensemble deep-learning models on 50+ sources' without naming them, refusal to disclose template-vs-customer ratio, no way to see what a given prompt is anchored to, and no mechanism to decline or replace the vendor's default prompts.
 
-How we answer: every Golden Prompt Set is grounded on four real-world signals - intent volume, public community Q&A trending questions, AI query volume signals, and live follow-up questions from supported surfaces where reliable. We reserve a meaningful share of every workspace for prompts you supply yourself, and we'll show you the source provenance for any prompt in your set. Full methodology: see our Golden Prompt Set methodology page.
+How we answer: every Golden Prompt Set is built from demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Prompts drawn from keyword data show the keyword behind them in their demand band. Your set starts as GPS prompts, and you decide what to replace or add. Full methodology: see our Golden Prompt Set methodology page.
 
 #### Question 2: Are responses captured from the consumer surface or the API?
 
@@ -13212,15 +13204,15 @@ The 33 questions buyers ask us during evaluation - how we build prompt sets, whi
 
 #### How does SolCrys build prompt sets?
 
-We build a Golden Prompt Set (GPS) for every customer category, grounded on four real-world signals: intent volume across major search and marketplace surfaces, trending questions from public community platforms, AI query volume signals, and live follow-up questions from supported surfaces where reliable. Every prompt carries projected query volume so you can prioritize what your buyers actually ask, and you can replace any GPS prompt with your own at any time - typically 40 to 50 percent of a working set ends up customer-supplied. Full methodology: [Golden Prompt Set methodology](/golden-prompt-set-methodology/).
+We build a Golden Prompt Set (GPS) for every workspace from demand signals for its category: search demand, the questions people ask around it, and community discussion where available. Prompts drawn from keyword data show a demand band and the keyword behind them, and you can replace any GPS prompt with your own at any time. Full methodology: [Golden Prompt Set methodology](/golden-prompt-set-methodology/).
 
 #### Why doesn't SolCrys just use SEO keywords as prompts?
 
-SEO keywords measure what people type into a search box. AI prompts are longer, more conversational, and increasingly bypass traditional search entirely (asked directly to ChatGPT, Claude, Perplexity, or Alexa for Shopping). Synthetic-keyword prompt sets miss the multi-clause, problem-stated questions buyers actually ask AI assistants ('I run a 50-person SaaS team and our current CRM doesn't handle our 6-month sales cycle well - what should I look at?'). Our community-grounded layer specifically closes that gap.
+SEO keywords measure what people type into a search box. AI prompts are longer, more conversational, and often asked directly to ChatGPT, Claude, or Perplexity instead of a search engine. Reformatted-keyword prompt sets miss the multi-clause, problem-stated questions buyers bring to AI assistants ('I run a 50-person SaaS team and our current CRM doesn't handle our 6-month sales cycle well - what should I look at?'). GPS prompts are full, problem-stated questions, and those drawn from keyword data show the keyword behind them.
 
-#### Are SolCrys prompts AI-generated, or sourced from real demand?
+#### Where do SolCrys prompts come from?
 
-Sourced. Every prompt entering the GPS requires evidence from at least one of the four grounding sources, and we prioritize prompts evidenced by two or more sources. We don't ask an LLM to 'generate 100 questions a buyer might ask' and call it research. Synthetic SEO-only prompts are de-prioritized during selection and should not enter the tracked GPS unless they are supported by real evidence.
+From demand signals for your category: search demand, the questions people ask around it, and community discussion where available. Prompts drawn from keyword data show the keyword behind them in their demand band. No prompt set, ours included, is a record of what buyers typed; a GPS is a sample of buyer intent you can inspect and rerun.
 
 #### How often does SolCrys update the prompt set?
 
@@ -13228,7 +13220,7 @@ The tracked GPS is designed to stay stable as a measurement benchmark, so we don
 
 #### Can I bring my own prompts to SolCrys?
 
-Yes. You can replace any GPS prompt with your own at any time. We provide a suggestion panel that flags gaps in your set (for example, 'you don't have any risk/objection prompts') and recommends additions. Your custom prompts are private to your workspace and never used to update other customers' GPS templates.
+Yes. You can replace any GPS prompt with your own at any time. You can also run Suggest prompts from keywords or a page URL to generate new candidates you approve. Your custom prompts are private to your workspace and never used to build other customers' prompt sets.
 
 ### How we measure visibility and why you can trust the data
 
@@ -13313,7 +13305,7 @@ Partly. SolCrys measures the answer side - whether an engine mentioned you, whic
 
 #### How do I see SolCrys data on my own brand before committing?
 
-Two ways, both self-serve. The [free AI visibility audit](https://app.solcrys.com/audit) is a one-time read of your brand: it asks for an email, takes no credit card, and builds the prompt set from your industry's Golden Prompt Set, so the baseline is grounded in real demand rather than prompts drafted cold.
+Two ways, both self-serve. The [free AI visibility audit](https://app.solcrys.com/audit) is a one-time read of your brand: it asks for an email, takes no credit card, and builds a Golden Prompt Set for your category, so the baseline starts from real demand signals rather than prompts drafted cold.
 
 The Free plan is a real workspace on your own brand, not a demo - 10 tracked prompts, three on-demand ChatGPT checks a month, and one Deep Analysis and one Content Audit a month. Treat the audit as a baseline snapshot and Free as the workflow at small scale; trend-grade measurement is what the scheduled paid plans add.
 
@@ -13323,7 +13315,7 @@ Brand plans are Free, Starter at $99 a month, Pro at $399 a month, and Custom fr
 
 #### How long does SolCrys onboarding take?
 
-Minutes to first results. The GPS for your category is pre-built, so a new workspace shows its first measurement within a few minutes of setup - review the prompts, confirm the engine set and measurement market, and the run starts. The rest of onboarding is tuning: swapping in your own prompts, configuring competitors, and establishing the Corporate Context that recommendations and accuracy grading are graded against. What to get right while setting up: [workspace setup best practices](/workspace-setup-best-practices/).
+Minutes to first results. SolCrys builds the GPS for your category during setup, so a new workspace shows its first measurement within a few minutes - review the prompts, confirm the engine set and measurement market, and the run starts. The rest of onboarding is tuning: swapping in your own prompts, configuring competitors, and establishing the Corporate Context that recommendations and accuracy grading are graded against. What to get right while setting up: [workspace setup best practices](/workspace-setup-best-practices/).
 
 #### How often does SolCrys rerun prompts?
 
@@ -13363,7 +13355,7 @@ Yes, three ways. The workspace CSV export gives one row per prompt and engine fo
 
 #### Is my data used to train models, or shared with other customers?
 
-No. Your custom prompts stay private to your workspace and are never used to update another customer's GPS template; your Corporate Context is scoped to your organization; and we don't sell or share workspace data with other customers. The one thing to know: measuring an engine means sending prompts to that provider, whose own terms govern handling on their side - which is why the engine set is something you confirm rather than something we enable silently.
+No. Your custom prompts stay private to your workspace and are never used to build another customer's prompt set; your Corporate Context is scoped to your organization; and we don't sell or share workspace data with other customers. The one thing to know: measuring an engine means sending prompts to that provider, whose own terms govern handling on their side - which is why the engine set is something you confirm rather than something we enable silently.
 
 #### Is SolCrys's data capture compliant with engine terms of service?
 
@@ -13425,7 +13417,7 @@ Primary positioning | PLG-first AEO workflow product for marketing teams and age
 Entry price (published) | Free $0/mo, Starter $99/mo, Pro $399/mo | Self-serve 7-day free trial (ChatGPT, Gemini, Google AI Overviews); Enterprise contract is custom (per Profound's pricing page, Sep 2026)
 Core loop | Measure - Diagnose - Execute - Verify | Insights + Agents (workflow chaining)
 Engines covered (paid) | ChatGPT, Gemini, Google AI Overviews on Starter; Pro tracks any 4 of 5 including Perplexity and Claude; Custom runs all five | Perplexity, ChatGPT, Claude, Gemini, Grok, Copilot, Meta AI, DeepSeek, Google AI Overviews
-Distinct data layer | Corporate Context (approved brand facts, claims, proof, voice, competitor framing) as the grounding source for actions; intent-volume label on every generated prompt at workspace scope | Prompt Volumes - a productized global cross-brand prompt-demand database sourced from AI-conversation data at scale
+Distinct data layer | Corporate Context (approved brand facts, claims, proof, voice, competitor framing) as the grounding source for actions; a High/Medium/Low demand band on generated prompts where keyword evidence supports one, at workspace scope | Prompt Volumes - a productized global cross-brand prompt-demand database sourced from AI-conversation data at scale
 Crawler / server-log analytics | Not in scope today; our focus is the answer, citation, and source layer | Agent Analytics tracks AI crawlers and attributes activity to traffic
 Retail AI (Amazon Alexa for Shopping, Walmart Sparky, ChatGPT Shopping) | Scoped Retail AI add-on for ecommerce teams that need retail-assistant snapshots and SKU-level action planning | Profound Shopping module for ChatGPT Shopping product visibility
 Agency plans | Agency $1,499/mo (10 client orgs), Agency Pro $4,999/mo (25 client orgs) | Agency-oriented tier listed on Profound's pricing page; larger engagements custom
@@ -13446,7 +13438,7 @@ Tracks brand presence across multiple answer engines, how AI describes the brand
 
 #### Prompt Volumes
 
-Profound describes Prompt Volumes as keyword volumes, topic trends, and intent signals derived from AI-conversation data at scale, productized as a global cross-brand database. We carry an intent-volume signal too - every prompt SolCrys generates for a workspace ships with a high, medium, or low label drawn from keyword and autocomplete evidence for that brand and category. What we have not productized is the global cross-brand index shape; that index is the part of Profound we would not try to reproduce in the short term.
+Profound describes Prompt Volumes as keyword volumes, topic trends, and intent signals derived from AI-conversation data at scale, productized as a global cross-brand database. We carry an intent-volume signal too - prompts SolCrys generates for a workspace carry a high, medium, or low demand band where the keyword evidence for that brand and category supports one. What we have not productized is the global cross-brand index shape; that index is the part of Profound we would not try to reproduce in the short term.
 
 #### Agent Analytics
 
@@ -13508,7 +13500,7 @@ We publish prices, offer a free self-serve tier ($0/mo, 10 prompts, no credit ca
 
 #### Two orthogonal productized data layers
 
-Corporate Context and Prompt Volumes are not the same kind of thing - they are orthogonal investments that solve different problems, not a fork-in-the-road choice. Profound productized a global cross-brand prompt-demand database (Prompt Volumes) sourced from AI-conversation data at scale - that is a supply of demand-side intent signals. We productized a governance layer (Corporate Context) - approved brand facts, claims, proof, voice, and competitor framing that agent actions ground inside - which is a supply of supply-side truth. We carry workspace-level intent-volume signal too (every prompt we generate ships with a high, medium, or low label drawn from keyword and autocomplete evidence), but we have not productized it as a global cross-brand index; that index shape is Profound's specific investment. A team that needs both a global prompt-demand index AND a governed fact layer for agent actions could in principle run both - they answer different questions.
+Corporate Context and Prompt Volumes are not the same kind of thing - they are orthogonal investments that solve different problems, not a fork-in-the-road choice. Profound productized a global cross-brand prompt-demand database (Prompt Volumes) sourced from AI-conversation data at scale - that is a supply of demand-side intent signals. We productized a governance layer (Corporate Context) - approved brand facts, claims, proof, voice, and competitor framing that agent actions ground inside - which is a supply of supply-side truth. We carry workspace-level intent-volume signal too (prompts we generate carry a high, medium, or low demand band where the keyword evidence supports one), but we have not productized it as a global cross-brand index; that index shape is Profound's specific investment. A team that needs both a global prompt-demand index AND a governed fact layer for agent actions could in principle run both - they answer different questions.
 
 #### Workflow product vs platform
 
@@ -13568,7 +13560,7 @@ Q: Is SolCrys just a cheaper Profound?
 A: No, and we would push back on framing it that way. Cheaper-than-X is a fragile strategy: it loses the moment the competitor cuts price or adds a smaller tier. The product shapes are different in three ways that are not just price-driven: Corporate Context as a productized governance layer (orthogonal to Profound's productized global cross-brand Prompt Volumes index - they solve different problems), PLG entry as our GTM (vs Profound's enterprise-first procurement), and a weekly workflow product (vs a platform you compose). The price difference is a consequence of those choices, not the choice itself.
 
 Q: Does SolCrys have a prompt-volume database like Profound's Prompt Volumes?
-A: Yes - just shaped differently. Every prompt SolCrys generates for a workspace today carries a real intent-volume signal, bucketed as high, medium, or low, drawn from keyword and autocomplete evidence for that specific brand and category. What we have not productized is a global AI-conversation prompt-demand index at Profound's scale - that index shape is genuinely hard to replicate as a startup. The intent-volume signal we ship is workspace-specific and lives inside the prompt set, not as a standalone database product. If your buying motivation is access to a global AI-prompt-volume index for cross-brand demand research, pick Profound; if you want verified intent volume on the prompts you actually track in your own workspace, SolCrys ships that today.
+A: Yes - just shaped differently. Prompts SolCrys generates for a workspace carry an intent-volume signal, bucketed as high, medium, or low, where the keyword evidence for that brand and category supports one. What we have not productized is a global AI-conversation prompt-demand index at Profound's scale - that index shape is genuinely hard to replicate as a startup. The intent-volume signal we ship is workspace-specific and lives inside the prompt set, not as a standalone database product. If your buying motivation is access to a global AI-prompt-volume index for cross-brand demand research, pick Profound; if you want a demand band on the prompts you track in your own workspace, SolCrys ships that today.
 
 Q: Can SolCrys publish content automatically like Profound's Agents?
 A: Not today. Today we deliver Deep Analyses and content briefs your team turns into drafts. Publish-ready drafting and agent-assisted shipping with CMS integration are being built. Profound's Agents module is more mature on workflow chaining and CMS integration; if you need that loop in-platform today, that is a real reason to pick Profound.
@@ -14782,7 +14774,7 @@ Here are our honest answers.
 
 #### Prompt set
 
-Our [Golden Prompt Set methodology](/golden-prompt-set-methodology/) grounds every customer's prompt set on four real-world signals: intent volume across major search and marketplace surfaces, public community questions, AI query volume signals where reliable, and live engine follow-ups. Typical workspace size: tens of prompts (10 on Free, around 20 on Starter, 60 on Pro, 30 per client organization on Agency), expandable when a category needs deeper coverage. A focused set measured well beats a sprawling set checked once. Refresh: priority prompts daily, full set quarterly, plus event-triggered review when major engine or category news lands.
+Our [Golden Prompt Set methodology](/golden-prompt-set-methodology/) builds every customer's prompt set from search demand, the questions people ask around it, and community discussion where available. Typical workspace size: tens of prompts (10 on Free, around 20 on Starter, 60 on Pro, 30 per client organization on Agency), expandable when a category needs deeper coverage. A focused set measured well beats a sprawling set checked once. Refresh: priority prompts daily, full set quarterly, plus event-triggered review when major engine or category news lands.
 
 #### Cadence
 
@@ -22801,7 +22793,7 @@ Mention rate tells you an AI answer named your brand. It can't tell you whether 
 
 Most AI-visibility tools answer one question: did the engine name you? The question that actually moves deals is harder. When the answer named you, did it recommend you, or did it recommend a competitor in the next sentence? Being in the answer is not the same as being the choice.
 
-The Recommendation Score grades every AI answer on a 0-100 scale for how favorably it positions your brand: not just whether you appear, but whether you're the default pick, a hedged maybe, or named-and-then-talked-out-of. It runs across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, on the prompts your buyers actually ask. It plots you and every competitor on a single map. And every point, up or down, is tied to a verbatim line from the answer itself. Not a vibe. A score you can audit against what the model literally said.
+The Recommendation Score grades every AI answer on a 0-100 scale for how favorably it positions your brand: not just whether you appear, but whether you're the default pick, a hedged maybe, or named-and-then-talked-out-of. It runs across ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude, on your tracked buyer prompts. It plots you and every competitor on a single map. And every point, up or down, is tied to a verbatim line from the answer itself. Not a vibe. A score you can audit against what the model literally said.
 
 
 
@@ -23169,7 +23161,7 @@ The interview is the conversion layer of a three-layer stack. Each layer has a d
 
 Layer | Question it answers | How you check it | Evidence standard
 --- | --- | --- | ---
-Exposure | Do AI engines shortlist and recommend you on the prompts your buyers actually run? | A fixed prompt set, run on a regular cadence across engines, tracked over time | Directly observable
+Exposure | Do AI engines shortlist and recommend you when buyers ask about your category? | A fixed prompt set, run on a regular cadence across engines, tracked over time | Directly observable
 Verification | Do branded search and direct traffic move when your AI presence moves? | Branded-query and direct-session trends against your exposure timeline | Correlational
 Conversion | Do real buyers confirm the AI touch on closed revenue? | Closed-won interviews plus a how-did-you-hear field on high-intent forms | Self-reported
 
@@ -23180,7 +23172,7 @@ In the [4-method attribution stack](/aeo-actions-to-revenue/), survey-based attr
 
 ### How SolCrys fits
 
-SolCrys covers the exposure and verification inputs of the stack above. We Measure where you appear and get recommended across engines on the prompts your buyers actually run, Diagnose why a competitor is recommended where you are not, Execute governed, human-approved fixes, and then Verify by rerunning the same frozen prompt set after the fix ships. That gives the interview number its upstream context: when a buyer says "ChatGPT suggested you," you can show which prompts, which engines, and how that presence has moved.
+SolCrys covers the exposure and verification inputs of the stack above. We Measure where you appear and get recommended across engines on your tracked buyer prompts, Diagnose why a competitor is recommended where you are not, Execute governed, human-approved fixes, and then Verify by rerunning the same frozen prompt set after the fix ships. That gives the interview number its upstream context: when a buyer says "ChatGPT suggested you," you can show which prompts, which engines, and how that presence has moved.
 
 Where we are honest about scope: the interviews live in your sales motion and the answers live in your CRM. SolCrys does not see inside your CRM and does not claim a guaranteed lift — we supply the exposure and verification layers and the method; your team owns the conversion layer. If you want to see the exposure layer on your own category before running a single interview, [Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys shows you whether ChatGPT shortlists your brand today and which competitors it names instead.
 
@@ -25717,7 +25709,7 @@ Four steps, and the first one happens before any copy is written.
 
 #### 1. Measure the questions first
 
-We run the questions your buyers ask AI engines and record how each engine answers today. That baseline is what the finished pages are compared against.
+We run buying questions for your category across AI engines and record how each engine answers today. That baseline is what the finished pages are compared against.
 
 #### 2. Turn the gaps into the outline
 
@@ -26366,7 +26358,7 @@ These reports are moving quickly, so date anything you write down. Google added 
 
 ### How SolCrys helps
 
-SolCrys starts from the same reverse method. Each workspace's category gets a [Golden Prompt Set](/golden-prompt-set-methodology/) grounded on 4 signals (search and marketplace intent volume, public community questions, AI query volume signals, and live follow-up questions where reliable), and each prompt carries a type, a persona, a projected volume, and where it came from. You add your own questions alongside them. [Prompt Pulse](/prompt-pulse/) is our public dataset of 1,012 buyer-style questions across 16 industries, if you want a starting list for your category.
+SolCrys starts from the same reverse method. Each workspace's category gets a [Golden Prompt Set](/golden-prompt-set-methodology/) built from search demand, the questions people ask around it, and community discussion where available, and each prompt carries a type and a persona, with a demand band on prompts drawn from keyword data. You add your own questions alongside them. [Prompt Pulse](/prompt-pulse/) is our public dataset of 1,012 buyer-style questions across 16 industries, if you want a starting list for your category.
 
 Then the prompts run on a schedule across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan, and Prompt Analysis shows for each one how often answers name you, which brands they name instead, and which sources they cite. [Signal](/signal-weekly-market-brief/), the weekly market brief, ties each new content idea to a tracked prompt and flags ideas aimed at questions you don't measure yet, which points to prompts worth adding.
 
