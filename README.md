@@ -50,4 +50,6 @@ Lead forms submit to the configured `VITE_LEAD_INTAKE_URL`. Formspree is retaine
 
 ## Deployment
 
+Changes reach `main` through reviewed pull requests; `AGENTS.md` defines the branch, verification, and review rules.
+
 Pushes to `main` run typecheck, lint, tests, build/link validation, deploy `dist/` to GitHub Pages, and send a best-effort IndexNow notification. Production configuration is defined in `.github/workflows/deploy.yml`.
