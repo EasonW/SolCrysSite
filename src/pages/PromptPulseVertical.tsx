@@ -30,7 +30,7 @@ const PromptPulseVertical = ({ slug: configuredSlug }: Props) => {
     document.title = `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`;
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (desc) {
-      desc.content = `The kind of questions ${v.short} buyers bring to AI engines, ranked by modeled demand and trend.`;
+      desc.content = `The kind of questions ${v.short} buyers bring to AI engines, rated by modeled demand tier and trend. Free.`;
     }
   }, [v]);
 

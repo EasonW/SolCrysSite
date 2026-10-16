@@ -2234,6 +2234,9 @@ writePage(
 );
 
 // ---- Prompt Pulse (AI demand data) ----
+// "About this data" for the hub and every vertical; mirrors PromptPulseHub.tsx and PromptPulseVertical.tsx.
+const PP_ABOUT_HTML = `<p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement. The questions are drawn from public question sources and written the way buyers put them to AI assistants; they are not a log of real AI conversations. Demand is modeled and relative within each industry, and directional by design. <a href="/what-buyers-ask-ai-prompt-pulse/">How the dataset is built</a>.</p>`;
+
 // Crawler-facing static render of the same scrubbed public JSON the SPA reads
 // (single source of truth → no drift). Emits Dataset + ItemList + Breadcrumb
 // schema so AI engines can cite the prompt set as a data source.
@@ -2280,7 +2283,7 @@ function promptPulseVerticalBody(v) {
     </section>
     <section class="seo-section">
       <h2>About this data</h2>
-      <p>Prompt Pulse runs on SolCrys's proprietary AEO methodology — the same framework behind our AI-visibility measurement. The questions are drawn from public question sources and written the way buyers put them to AI assistants; they are not a log of real AI conversations. Demand is modeled and relative within each industry, and directional by design. <a href="/what-buyers-ask-ai-prompt-pulse/">How the dataset is built</a>.</p>
+      ${PP_ABOUT_HTML}
       <p>Prompt Pulse reports directional demand signals, not exact query counts. Figures are SolCrys estimates. Demand and trend are computed from a 12-month modeled demand series; dataset snapshot ${escapeHtml(ppSnapshotMonth(v.updated))}. US / English.</p>
     </section>
   </main>
@@ -2331,6 +2334,10 @@ function promptPulseHubBody() {
     <section class="seo-section">
       <h2>Rising across all industries</h2>
       <table><thead><tr><th>Prompt</th><th>Trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table>
+    </section>
+    <section class="seo-section">
+      <h2>About this data</h2>
+      ${PP_ABOUT_HTML}
     </section>
   </main>
   ${ctaHtml()}
