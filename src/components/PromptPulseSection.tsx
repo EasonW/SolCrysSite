@@ -26,8 +26,8 @@ const PromptPulseSection = () => {
               See what your market is asking AI.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              Demand data — a different lens from visibility tracking: the kind of questions buyers
-              bring to AI across {industries} industries, ranked by modeled demand.
+              Demand data — a different lens from visibility tracking: the questions buyers bring
+              to AI across {industries} industries, ranked by demand.
             </p>
           </div>
           <a
