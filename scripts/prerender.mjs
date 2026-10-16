@@ -3755,6 +3755,8 @@ const retiredRedirects = [
   { from: "contact", to: "https://app.solcrys.com/contact-sales/" },
   { from: "pricing-alerts", to: "aeo-platform-pricing-2026" },
   { from: "strategy-positioning", to: "about" },
+  // Essay renamed 2026-10-15 to match its rewritten title ("Prompts vary. Intent and persona don't.").
+  { from: "do-you-need-real-prompts-for-aeo", to: "prompts-vary-intent-and-persona-dont" },
 ];
 
 for (const { from, to } of retiredRedirects) {
