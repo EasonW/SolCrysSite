@@ -164,8 +164,8 @@ const PromptPulseHub = () => {
               Want this for your brand and prompts?
             </h2>
             <p className="mx-auto mb-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              See whether AI engines mention, cite, or miss you on the prompts your buyers actually
-              ask — across ChatGPT, Perplexity, Gemini and Google AI Overviews.
+              See whether AI engines mention, cite, or miss you on the buying questions in your
+              category — across ChatGPT, Perplexity, Gemini and Google AI Overviews.
             </p>
             <a
               href={AUDIT_URL}
