@@ -349,9 +349,9 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">FAQ</h2>
               <div className="grid gap-4">
                 {page.faqs.map((faq) => (
-                  <article key={faq.question} className="rounded-xl border border-border/30 bg-card/40 p-5">
+                  <article key={faq.question} className="min-w-0 rounded-xl border border-border/30 bg-card/40 p-5">
                     <h3 className="font-display text-lg font-semibold mb-3">{faq.question}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{renderInline(faq.answer)}</p>
+                    <p className="text-muted-foreground leading-relaxed [overflow-wrap:anywhere]">{renderInline(faq.answer)}</p>
                   </article>
                 ))}
               </div>
