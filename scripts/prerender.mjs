@@ -758,7 +758,7 @@ function homeHtml() {
       <figure style="margin-top: 2rem;">
         <figcaption><strong>The SolCrys Loop.</strong></figcaption>
         <ol class="seo-list" style="margin-top: 1rem;">
-          <li><strong>Measure.</strong> Run the questions your buyers ask AI and record how each engine describes you today.</li>
+          <li><strong>Measure.</strong> Run buying questions for your category and record how each engine describes you today.</li>
           <li><strong>Diagnose.</strong> Find out whether your brand is absent from those answers, missing the right citations, showing up inaccurately, or losing to competitors.</li>
           <li><strong>Execute.</strong> Drafts grounded in your Corporate Context, your approved facts, claims, and guardrails, routed for human review.</li>
           <li><strong>Verify.</strong> Rerun the same prompts against the baseline and feed what changed into the next round.</li>
@@ -2667,7 +2667,7 @@ const freeTrackerDescription =
 const freeTrackerSteps = [
   {
     name: "Enter your domain",
-    text: "Just your website — or a competitor's. No credit card.",
+    text: "Start with your website — or a competitor's. No credit card.",
   },
   {
     name: "We ask ChatGPT buying questions for your category",
@@ -2711,7 +2711,7 @@ const freeTrackerFaqs = [
   {
     question: "Which AI engines does it cover?",
     answer:
-      "The free tracker checks ChatGPT. SolCrys also tracks Gemini, Google AI Overviews / AI Mode, and Perplexity on paid plans, so you can see your visibility across every major answer engine.",
+      "The free tracker checks ChatGPT. SolCrys also tracks Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude on paid plans, so you can see your visibility across every major answer engine.",
   },
   {
     question: "How is this different from my Google ranking?",
