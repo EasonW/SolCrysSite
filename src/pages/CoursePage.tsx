@@ -220,7 +220,12 @@ const CoursePage = ({ slug: slugProp }: CoursePageProps) => {
               <p className="text-muted-foreground mb-6">
                 {course.modules[0].blurb}
               </p>
-              <Button asChild variant="hero" size="lg">
+              <Button
+                asChild
+                variant="hero"
+                size="lg"
+                className="h-auto max-w-full whitespace-normal py-3 text-center sm:whitespace-nowrap"
+              >
                 <a href={lessonPath(course.slug, first.module.slug, first.lesson.slug)}>
                   {first.lesson.title}
                   <ArrowRight className="ml-2 h-4 w-4" />

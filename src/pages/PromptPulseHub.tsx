@@ -55,7 +55,7 @@ const PromptPulseHub = () => {
                   <a
                     key={v.slug}
                     href={`/prompt-pulse/${v.slug}/`}
-                    className="group rounded-xl border border-border/30 bg-card/40 p-5 transition-colors hover:border-[hsl(var(--brand-accent)/0.4)]"
+                    className="group min-w-0 rounded-xl border border-border/30 bg-card/40 p-5 transition-colors hover:border-[hsl(var(--brand-accent)/0.4)]"
                   >
                     <div className="mb-1 flex items-center justify-between">
                       <h3 className="font-display text-lg font-semibold group-hover:text-[hsl(var(--brand-accent))]">
