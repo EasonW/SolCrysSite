@@ -231,12 +231,18 @@ html {
   color: inherit;
 }
 
-/* Long unbroken strings (regexes, URLs) must wrap instead of widening the page on mobile. */
+/* Long unbroken strings (regexes, URLs) must wrap instead of widening the page on mobile.
+   Table cells are left out: tables scroll inside .seo-table-wrap instead, so short
+   columns aren't squeezed until words break mid-word. */
 .seo-prerender p,
-.seo-prerender li,
-.seo-prerender td,
-.seo-prerender th {
+.seo-prerender li {
   overflow-wrap: anywhere;
+}
+
+/* Code samples scroll inside their own box instead of widening the page. */
+.seo-prerender pre {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .seo-prerender .seo-container {
@@ -317,13 +323,21 @@ html {
   color: hsl(var(--muted-foreground));
 }
 
+/* Mirrors the app's table wrapper (overflow-x-auto rounded-xl border in ResourcePage). */
+.seo-prerender .seo-table-wrap {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  border: 1px solid hsl(var(--border) / 0.25);
+  border-radius: 0.75rem;
+}
+
 .seo-prerender table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1.5rem;
-  overflow: hidden;
-  border: 1px solid hsl(var(--border) / 0.25);
-  border-radius: 0.75rem;
+}
+
+.seo-prerender thead tr:first-child > th {
+  border-top: 0;
 }
 
 .seo-prerender th,
