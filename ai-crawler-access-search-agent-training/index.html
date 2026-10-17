@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/ai-crawler-access-search-agent-training.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/ai-crawler-access-search-agent-training.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-B1bOz0vk.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-foj_9sLs.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -165,10 +165,10 @@
       <h2>What changed: 5 Cloudflare moves since July 2025</h2>
       <p>The biggest change to crawler access in the past year happened at the CDN, not in robots.txt. Cloudflare, which says more than 20% of web domains sit behind it, went from a single &quot;Block AI bots&quot; switch to 3 behavior classes, and the rules it shipped on Sept. 15, 2026 differ from the ones it announced in July. Coverage written in July and August describes the announced plan, not the shipped one.</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Date</th><th>What Cloudflare did</th><th>Why it matters for citations</th></tr></thead>
               <tbody><tr><td>July 1, 2025</td><td>Began asking every new domain at sign-up whether to allow AI crawlers, starting from a block by default. Launched pay per crawl in private beta, which can answer a crawler with HTTP 402 and a price.</td><td>Sites onboarded since then may block AI crawlers nobody on the marketing team chose to block.</td></tr><tr><td>Aug. 4, 2025</td><td>De-listed Perplexity as a verified bot after reporting undeclared crawling. Perplexity disputed the account.</td><td>Check how your zone actually treats PerplexityBot and Perplexity-User.</td></tr><tr><td>Sept. 24, 2025</td><td>Published the Content Signals Policy (search, ai-input, ai-train) and served search=yes, ai-train=no on the more than 3.8 million domains using its managed robots.txt.</td><td>Signals are preferences, not blocks. The ai-input signal, not search, is the one that covers grounding for AI answers.</td></tr><tr><td>July 1, 2026</td><td>Split AI traffic into Search, Agent, and Training classes for every plan, including Free, and announced new defaults for Sept. 15.</td><td>Agent includes chat fetch bots such as ChatGPT-User, not only browser automation.</td></tr><tr><td>Sept. 15, 2026</td><td>Added Disallow AI Training, extended Block to mixed-use crawlers including Googlebot, Bingbot, and Applebot, and announced that the legacy &quot;Block AI bots&quot; switch and managed robots.txt will be deprecated in favor of the new controls and Bot Preference Sync.</td><td>The option labeled Block now removes search crawlers too.</td></tr></tbody>
-            </table>
+            </table></div>
       
     </section>
     <aside class="seo-card" aria-label="Free ChatGPT visibility check">
@@ -197,10 +197,10 @@
       <h2>Every major AI crawler: what it does and what blocking it costs</h2>
       <p>Checked against each company&#39;s crawler documentation on Sept. 26, 2026. User-agent names and behavior change; re-check the linked docs before you edit a rule.</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Bot</th><th>Company</th><th>Purpose</th><th>What blocking it costs you in AI answers</th><th>Recommendation</th></tr></thead>
               <tbody><tr><td><strong>OAI-SearchBot</strong></td><td>OpenAI</td><td>Search: surfaces sites in ChatGPT search</td><td>OpenAI: blocked sites &quot;will not be shown in ChatGPT search answers,&quot; except as navigational links</td><td>Allow, and allow OpenAI&#39;s published IP ranges at the CDN</td></tr><tr><td><strong>GPTBot</strong></td><td>OpenAI</td><td>Training for OpenAI&#39;s foundation models</td><td>Nothing in ChatGPT search; OpenAI treats it as an independent setting</td><td>Your call on training</td></tr><tr><td><strong>ChatGPT-User</strong></td><td>OpenAI</td><td>Visits a page during a user&#39;s request; not used for search inclusion; robots.txt &quot;may not apply&quot;</td><td>ChatGPT can&#39;t open the page mid-conversation</td><td>Allow; if you must block, do it at the CDN</td></tr><tr><td><strong>Claude-SearchBot</strong></td><td>Anthropic</td><td>Search indexing for Claude&#39;s search results</td><td>Anthropic: &quot;may reduce your site&#39;s visibility and accuracy in user search results&quot;</td><td>Allow</td></tr><tr><td><strong>Claude-User</strong></td><td>Anthropic</td><td>Fetches pages when a Claude user asks a question</td><td>Anthropic: &quot;may reduce your site&#39;s visibility for user-directed web search&quot;</td><td>Allow</td></tr><tr><td><strong>ClaudeBot</strong></td><td>Anthropic</td><td>Training</td><td>Future content excluded from training; Cloudflare says blocking training-only crawlers &quot;does not affect search&quot;</td><td>Your call on training</td></tr><tr><td><strong>PerplexityBot</strong></td><td>Perplexity</td><td>Search: surfaces and links sites in Perplexity; not used for foundation-model training</td><td>Out of Perplexity&#39;s search results</td><td>Allow</td></tr><tr><td><strong>Perplexity-User</strong></td><td>Perplexity</td><td>Fetches a page for a user&#39;s question and may link it; &quot;generally ignores robots.txt rules&quot;</td><td>Perplexity can&#39;t read or link the page for that answer</td><td>Allow; the CDN is the only effective block</td></tr><tr><td><strong>Googlebot</strong></td><td>Google</td><td>Google Search, including AI Overviews and AI Mode</td><td>Out of Google Search and its AI features; Gemini app grounding draws on the Search index too, though Google documents Google-Extended as that control</td><td>Always allow; limit AI features with Search Console&#39;s control or preview controls instead</td></tr><tr><td><strong>Google-Extended</strong></td><td>Google</td><td>Robots.txt token, not a separate crawler: Gemini training plus grounding in the Gemini app and Vertex AI</td><td>No effect on Google Search, AI Overviews, or AI Mode; removes your content from Gemini app grounding</td><td>Allow if Gemini citations matter; blocking it is Google&#39;s training opt-out</td></tr><tr><td><strong>Google-Agent</strong></td><td>Google</td><td>Agents on Google infrastructure acting on a user&#39;s request</td><td>The agent can&#39;t complete a task on your site</td><td>Allow on pages agents need</td></tr><tr><td><strong>Applebot</strong></td><td>Apple</td><td>Search in Spotlight, Siri, and Safari, and context for Siri and Search answers that link sources</td><td>Out of Apple&#39;s search features and those answers</td><td>Allow; use nosnippet to opt pages out of Siri and Search AI answers</td></tr><tr><td><strong>Applebot-Extended</strong></td><td>Apple</td><td>Robots.txt token for foundation-model training</td><td>No effect on Apple search</td><td>Your call on training</td></tr><tr><td><strong>Bingbot</strong></td><td>Microsoft</td><td>Bing index, which Copilot and Bing&#39;s AI summaries ground in</td><td>Out of Bing and Copilot citations; OpenAI&#39;s ChatGPT search help says it partners with other search providers and links Microsoft&#39;s privacy statement</td><td>Always allow; NOARCHIVE removes a page from Copilot answers and training together</td></tr></tbody>
-            </table>
+            </table></div>
       
     </section>
     <section class="seo-section">
@@ -413,6 +413,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-uz5rjSHP.js"></script>
+    <script type="module" crossorigin src="/assets/index-Dn9pVG4f.js"></script>
   </body>
 </html>

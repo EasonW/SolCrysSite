@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-B1bOz0vk.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-foj_9sLs.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -175,20 +175,20 @@
       <h2>What each source can and can&#39;t tell you</h2>
       <p>Checked against each platform&#39;s documentation on Oct. 14, 2026. For a fuller tour of the free reports, see <a href="/search-console-bing-ga4-ai-reports/">what Search Console, Bing, GA4, and Merchant Center show</a>.</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Source</th><th>What it shows</th><th>What it doesn&#39;t</th></tr></thead>
               <tbody><tr><td><strong>Search Console generative AI report</strong></td><td>Impressions of your links in AI Overviews and AI Mode, by page, country, date, and device</td><td>Queries, clicks, or CTR</td></tr><tr><td><strong>Search Console Performance report</strong></td><td>Queries, including AI Mode queries and follow-ups, mixed in with ordinary searches</td><td>Which queries came from AI Mode or AI Overviews; very rare queries; more than 1,000 rows in the interface</td></tr><tr><td><strong>Bing Webmaster Tools AI Performance</strong></td><td>A sample of grounding queries (the phrases Copilot searched to find your pages), grouped into topics, plus opportunity queries where other sites are cited and yours isn&#39;t</td><td>The user&#39;s actual prompt; exact volumes in the new topic view; ChatGPT, Google, Claude, or Perplexity</td></tr><tr><td><strong>GA4 AI Assistant channel</strong></td><td>Landing pages for visits referred by recognized AI assistants</td><td>The question asked; anyone who read the answer and didn&#39;t click</td></tr><tr><td><strong>ChatGPT, Claude, Perplexity</strong></td><td>No public prompt or citation report for site owners</td><td>Everything; you see them only as referral visits</td></tr></tbody>
-            </table>
+            </table></div>
       
     </section>
     <section class="seo-section">
       <h2>Step 1: Mine Search Console for conversational queries</h2>
       <p>Google confirms that AI Mode activity is in the standard Performance report. Its <a href="https://support.google.com/webmasters/answer/7042828" target="_blank" rel="noopener noreferrer">counting rules</a> say a follow-up question in AI Mode is &quot;essentially performing a new query,&quot; and John Mueller <a href="https://www.seroundtable.com/google-search-console-ai-mode-queries-41821.html" target="_blank" rel="noopener noreferrer">said in August 2026</a> that Search Console &quot;includes information on AI Overviews and AI Mode in the general performance report,&quot; when asked about rows such as &quot;yes, pricing&quot; in the queries table. There is no filter that separates them, but 3 regex filters on the Query dimension narrow the list to likely candidates. Search Console uses RE2 syntax; the (?i) prefix makes a pattern ignore case.</p>
       <ul class="seo-list"><li><strong>Read them by page.</strong> Add the Page dimension and compare with the pages that show impressions in the generative AI report. A long question-form query landing on a page with AI impressions is a strong candidate.</li><li><strong>Group by intent.</strong> Rare queries are withheld, so the report shows the more common phrasings. Group what you find by the intent and persona behind it.</li><li><strong>Watch for automated probes.</strong> Monitoring tools send scheduled prompts to Google too. Oddly specific long queries with steady impressions and no clicks may be machines checking a brand, not buyers.</li><li><strong>Don&#39;t over-read a match.</strong> A 12-word question can be an ordinary search. The filters find candidates; testing in Step 4 decides what matters.</li></ul>
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Filter</th><th>Regex (Query → Custom (regex))</th><th>What it catches</th></tr></thead>
               <tbody><tr><td><strong>Question form</strong></td><td>(?i)^(what|how|which|why|is|can|should|does|i)\b</td><td>Queries that start like a question. Google lists What, How, I, Is, and Can as the top first words in AI Mode queries, with &quot;which&quot; growing fastest</td></tr><tr><td><strong>Long queries</strong></td><td>^(?:\S+\s+){9,}\S+$</td><td>Queries of 10 or more words, the length where conversational searches start to dominate</td></tr><tr><td><strong>Follow-ups</strong></td><td>(?i)^(yes|yeah|ok|okay|sure|tell me more|go on)\b</td><td>Short replies that only make sense inside an AI conversation</td></tr></tbody>
-            </table>
+            </table></div>
       
     </section>
     <section class="seo-section">
@@ -209,10 +209,10 @@
       <h2>Step 4: Rewrite, then test on the engines</h2>
       <p>Turn each candidate into a full question with the context a buyer would give: role, company size, constraint, and what they are comparing. Keep a mix of types: category questions asked before the buyer knows your name, comparison and use-case questions, and a few branded questions to check accuracy. <a href="/ai-search-prompt-set/">AI search prompt set</a> covers the 7 prompt types worth including.</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Where it came from</th><th>Raw signal</th><th>Candidate prompt</th></tr></thead>
               <tbody><tr><td>Search Console, long query</td><td>&quot;how to pay contractors in other countries without an entity&quot;</td><td>&quot;What&#39;s the easiest way for a 50-person US company to pay contractors in 3 other countries without setting up an entity?&quot;</td></tr><tr><td>Bing grounding query</td><td>&quot;payroll software contractor payments multiple countries&quot;</td><td>&quot;Which payroll software handles both employees and international contractors?&quot;</td></tr><tr><td>Sales call</td><td>&quot;Do you integrate with our accounting system?&quot;</td><td>&quot;What payroll software integrates well with our accounting system for a mid-size company?&quot;</td></tr></tbody>
-            </table>
+            </table></div>
       
     </section>
     <section class="seo-section">
@@ -391,6 +391,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-uz5rjSHP.js"></script>
+    <script type="module" crossorigin src="/assets/index-Dn9pVG4f.js"></script>
   </body>
 </html>

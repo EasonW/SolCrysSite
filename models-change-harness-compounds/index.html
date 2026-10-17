@@ -95,7 +95,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
-    <meta name="author" content="SolCrys" />
+    <meta name="author" content="Eason Wang" />
     <meta name="date" content="2026-09-29" />
     <meta name="theme-color" content="#000000" />
     <meta property="og:site_name" content="SolCrys" />
@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/models-change-harness-compounds.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/models-change-harness-compounds.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-B1bOz0vk.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-foj_9sLs.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -187,10 +187,10 @@
       <h2>Layer 1: a portfolio in which every model has a role</h2>
       <p>&quot;Portfolio&quot; can sound like hedging: a little of every vendor, just in case. We mean something narrower. Every model call is assigned a role, and the rules attach to the role, not to the model.</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Role</th><th>What it does</th><th>When it may change</th><th>Why</th></tr></thead>
               <tbody><tr><td>Instrument</td><td>Puts a buyer&#39;s question to an answer engine (ChatGPT, Google AI Overviews, Gemini, Perplexity, or Claude) and records the answer and its sources</td><td>Only to measure more faithfully what buyers see, never to save cost or swap providers, and always on a recorded date. The engine&#39;s own model changes on the engine&#39;s schedule, and that change is part of what we measure.</td><td>Swapping the model behind a measurement changes the measurement, not the answer buyers see</td></tr><tr><td>Judge</td><td>Produces the verdicts behind a score customers follow over time: whether an answer is accurate against the company&#39;s facts, whether a page meets the audit playbook, whether a candidate prompt belongs in the category</td><td>Pinned to an exact model version on a setting of its own; moving it is a deliberate, recorded decision with its gate report attached</td><td>A new judge can move every customer&#39;s score with nothing changed in the world</td></tr><tr><td>Worker</td><td>Everything else: extracting brands and citations, research, classification, drafting, summarizing</td><td>Through a shared registry, under a quality budget measured on our own evals</td><td>No one&#39;s trend line depends on which model extracted a citation, so workers should ride the price-performance curve</td></tr></tbody>
-            </table>
+            </table></div>
       
       <div class="seo-subsection">
         <h3>Instruments measure what buyers get</h3>
@@ -217,10 +217,10 @@
       <h2>Layer 2: scenario evals, not benchmarks</h2>
       <p>Public benchmarks tell you a model got better in general. They can&#39;t tell you it got better at your job, and marketing jobs are conditional in ways benchmarks aren&#39;t. Whether a thread is about &quot;us&quot; depends on who &quot;us&quot; is. Whether an answer is accurate depends on the facts one company approved. Whether a prompt sounds like a buyer depends on the category.</p><p>So the unit we evaluate is a scenario: a specific company, a specific input (an AI answer, a page, a community thread, a candidate prompt), the engine or surface it came from, and the error that would hurt that company most. Jia&#39;s essay covers how we label them: 2 blind passes from a written guide, agreement measured against a Krippendorff&#39;s alpha bar of 0.67, disagreements adjudicated, and the production code path graded rather than a copy of it. This section is about why the scenario is the right unit. The table shows four scenarios and the error each one gates; the first three follow in detail.</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Scenario</th><th>The error it can&#39;t afford</th><th>How the gate is set</th></tr></thead>
               <tbody><tr><td>A candidate buyer prompt for a category</td><td>A question that asks for a definition, or one whose answer names no brands</td><td>Scored on whether it seeks a solution and whether it drifts into &quot;what is X&quot;</td></tr><tr><td>A community thread matched to a company</td><td>Drafting a reply to a thread that only shares the company&#39;s vocabulary</td><td>Scored on subject fit, per company, at the production threshold</td></tr><tr><td>A drawback an engine raises about a brand</td><td>Erasing a real criticism, which flatters the customer</td><td>Hard fail if a single real drawback is erased or downgraded</td></tr><tr><td>An AI answer about a company, graded against its approved facts</td><td>Missing a clear error, so the customer trusts a wrong answer</td><td>Hard fail on any missed clear error; false alarms are reported, not blocking</td></tr></tbody>
-            </table>
+            </table></div>
       
       <div class="seo-subsection">
         <h3>The prompt set that scored 100 and found no brands</h3>
@@ -228,7 +228,7 @@
         
       </div>
       <div class="seo-subsection">
-        <h3>The relevance judge that learned &quot;subject, not vocabulary&quot;</h3>
+        <h3>The relevance judge that learned “subject, not vocabulary”</h3>
         <p>In September, a scan for an industrial HVAC software company drafted replies to threads that shared its vocabulary and nothing else, a car-buying listicle among them. We built the eval from that failure: 88 real threads, 22 from each of 4 test workspaces chosen to be as unlike each other as possible (industrial HVAC software, B2B marketing software, high-performance networking hardware, and consumer security cameras). Two blind labeling passes, from two different model families, scored each thread&#39;s subject fit from 0 to 100, under a guide whose first rule is to score the subject, never the shared words. They agreed at an alpha of 0.956.</p><p>At the production threshold, the gate cut off-topic drafts from 45 to 5, and recall on the threads actually worth a reply rose from 0.56 to 0.93. The per-company view is the point: the HVAC workspace went from 18 off-topic drafts to 1, and the camera workspace still had 4. An aggregate score would have hidden both.</p>
         
       </div>
@@ -252,10 +252,10 @@
       <h2>Layer 3: a harness for marketing</h2>
       <p>Jia defined a harness as everything around the model that decides what it reads, what it may do, and how its work gets checked. A coding harness has one advantage marketing doesn&#39;t: a compiler and a test suite that say whether the work is correct. Marketing has no compiler. &quot;Correct&quot; means consistent with facts the company approved, allowed by legal, aimed at a question buyers actually ask, and, eventually, reflected in the answer. A marketing harness has to supply that ground truth itself. Ours does it in six parts:</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Part</th><th>What it supplies</th><th>Where a model helps</th><th>What code or a person decides</th></tr></thead>
               <tbody><tr><td>Facts</td><td><a href="/corporate-context-ai-marketing/">Corporate Context</a>: the organization&#39;s facts, claims, and proof, set once and shared across workspaces</td><td>Researching and drafting pages</td><td>Only active, published pages reach a model, because some of what&#39;s built on them is public. The facts change when the business changes, not when a model does</td></tr><tr><td>Questions</td><td>Golden Prompt Sets that mirror buyer research, with discovery questions written without the brand in view</td><td>Generating and reviewing candidate prompts</td><td>Scenario scores on solution-seeking and definitional drift</td></tr><tr><td>Measurement</td><td>Engines queried the way buyers query them, repeated across runs</td><td>No model; the engine is what&#39;s being measured</td><td>Rates across runs, with the capture method stored alongside each response</td></tr><tr><td>Verdicts</td><td>Mentions, rankings, favorability, accuracy against the facts</td><td>Reading answers and quoting evidence</td><td>Code verifies the quotes and computes the scores</td></tr><tr><td>Action</td><td>Recommendations and audit findings as tasks that keep their evidence, with an owner and, where a team wants it, a recorded approval</td><td>Diagnosis and recommendations; page drafting happens in your own agents, grounded in the same facts</td><td>Tasks are rebuilt server-side from the stored report, never from what a browser sends; your team publishes, and SolCrys never publishes to your site</td></tr><tr><td>Verification</td><td>The same prompts on the same engines; a re-audit of the fixed page</td><td>No model</td><td>Whether a change held, read as rates across runs, not from one reading</td></tr></tbody>
-            </table>
+            </table></div>
       
       <div class="seo-subsection">
         <h3>Six rules the harness taught us</h3>
@@ -457,6 +457,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-uz5rjSHP.js"></script>
+    <script type="module" crossorigin src="/assets/index-Dn9pVG4f.js"></script>
   </body>
 </html>

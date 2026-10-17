@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/aeo-platforms-that-integrate-with-cms.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/aeo-platforms-that-integrate-with-cms.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-B1bOz0vk.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-foj_9sLs.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -162,7 +162,7 @@
       
     </section>
     <section class="seo-section">
-      <h2>What &quot;integration&quot; actually means in AEO</h2>
+      <h2>What “integration” actually means in AEO</h2>
       <p>&quot;Integrates with your CMS&quot; is one of the most overloaded claims in the AEO buyer cycle. At least 4 different things hide behind the phrase, and they differ in what the platform can touch and who stays accountable for what ships. Calibrate on the vocabulary before you read the matrix.</p><p><strong>Export.</strong> The platform produces a recommendation, such as &quot;add a direct answer under this H2&quot; or &quot;fix the canonical tag,&quot; and hands it to a person as a PDF, a CSV, a Slack message, or a document. The CMS is never touched by the platform. It&#39;s a handoff, not an integration, and it can be the right design when the handoff is structured and tracked.</p><p><strong>Push.</strong> The platform writes into the CMS through an API or connector, usually as a draft for an editor to publish, sometimes as a direct publish. It saves the copy-and-paste step. Whether it also reads the current page before proposing a change, and remeasures after the change goes live, varies by vendor.</p><p><strong>Edge delivery.</strong> Instead of editing your pages, the platform serves an AI-optimized version of content to AI crawlers at the CDN or edge layer. It changes what crawlers receive without changing your CMS, which is a different risk and governance question from editing canonical pages.</p><p><strong>Agent handoff.</strong> The platform exposes its findings to an AI assistant your team runs, through MCP or an API, and your assistant does the writing with your own permissions. The platform never holds write access to your CMS; your agent does.</p><p>If a vendor says &quot;we integrate with WordPress&quot; on a discovery call, the next question is: which of those 4, into which fields, and who approves before anything goes live?</p>
       
       
@@ -175,10 +175,10 @@
       <h2>Integration matrix (September 2026)</h2>
       <p>The matrix reflects each vendor&#39;s own product pages and documentation as of September 2026. &quot;Write path&quot; is what the platform itself can do to your CMS; templates you run yourself and your own automations don&#39;t count. &quot;Remeasures after publish&quot; means a documented view of results after a specific change, not just a trend line.</p><p>Four reads to call out. <strong>Profound</strong> has the deepest native coverage with a mandatory approval step; draft or publish is set per CMS, and Adobe Experience Manager content fragments are published in AEM, not by Profound. <strong>AirOps</strong> has the widest coverage and the most flexible publish settings, including live; if you need a gate, you add the review step yourself. <strong>Webflow AEO</strong> is a CMS that added AEO, not an AEO platform that integrates with a CMS: Enterprise-only, Webflow sites only, and strong if that&#39;s your stack. <strong>Edge delivery</strong> from Adobe and Scrunch changes what AI agents receive while your pages stay as they are, which is fast and reversible but needs its own review policy, since human visitors never see that version.</p>
       
-      <table>
+      <div class="seo-table-wrap"><table>
               <thead><tr><th>Platform</th><th>CMS write path</th><th>Draft or live</th><th>Approval before publish</th><th>Remeasures after publish</th></tr></thead>
               <tbody><tr><td><strong>Profound</strong></td><td>Agents write to about 10 CMSs: WordPress, Webflow, Contentful, Sanity, Drupal, AEM content fragments, Framer, Payload, and Basehub</td><td>Set per CMS</td><td>Yes, on every Agent run</td><td>Yes: Projects track completed tasks; Agents track whether output earns citations</td></tr><tr><td><strong>AirOps</strong></td><td>Workflows publish to 13 CMSs, including WordPress, Webflow, Contentful, Sanity, HubSpot CMS, Shopify, Strapi, and Framer; some also import content</td><td>Selectable, including live</td><td>Optional workflow step</td><td>Yes: Campaign Measurement after a tracked publish</td></tr><tr><td><strong>Webflow AEO</strong></td><td>Inside Webflow only (Enterprise sites)</td><td>Drafts as new CMS items</td><td>Yes: review, accept, then publish</td><td>AEO analytics on 4 engines, plus AI bot activity after updates</td></tr><tr><td><strong>Adobe Brand Visibility</strong></td><td>Edge delivery to AI agents; a content-source deploy is documented for Adobe Commerce catalogs</td><td>Deploy after preview, with rollback</td><td>Yes: preview and edit before deploy</td><td>Yes: prompts rerun before and after, for supported fix types</td></tr><tr><td><strong>Scrunch</strong></td><td>None native: copy out as Markdown, a third-party CMS MCP server, or AXP at the edge (Enterprise)</td><td>Drafts via third-party MCP; AXP serves agent-only versions</td><td>Yours, in your CMS</td><td>Per-page citation and agent-traffic trends</td></tr><tr><td><strong>Conductor</strong></td><td>None native; insights inside the Drupal editor; Optimizely&#39;s partner agents publish in Optimizely CMS</td><td>Drafts stay in Conductor or export</td><td>n/a</td><td>Page-level changelog annotated against performance</td></tr><tr><td><strong>Peec AI</strong></td><td>None; the WordPress plugin only logs AI crawler visits</td><td>n/a</td><td>n/a</td><td>Impact view around completed actions</td></tr><tr><td><strong>Otterly.AI</strong></td><td>None built in; Otterly&#39;s marketplace n8n templates can draft into WordPress or Webflow</td><td>Template-dependent</td><td>Yours</td><td>None documented per change</td></tr><tr><td><strong>Ahrefs Brand Radar</strong></td><td>None; Ahrefs Patches pushes title, meta, and redirect fixes through a script or Cloudflare, bypassing the CMS</td><td>Patches: draft, publish, or unpublish</td><td>Yours</td><td>Prompt trends, not tied to a change</td></tr><tr><td><strong>SolCrys</strong></td><td>None: Action Hub tasks, Google Drive briefs or linked docs, and MCP handoff to your AI assistant</td><td>Your team publishes</td><td>Recorded review in the Action Hub; a person always publishes</td><td>Yes: same prompt set reruns, published-page citations per engine, and content re-audit</td></tr></tbody>
-            </table>
+            </table></div>
       
     </section>
     <section class="seo-section">
@@ -342,6 +342,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-uz5rjSHP.js"></script>
+    <script type="module" crossorigin src="/assets/index-Dn9pVG4f.js"></script>
   </body>
 </html>
