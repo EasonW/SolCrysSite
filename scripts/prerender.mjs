@@ -254,7 +254,7 @@ function ctaHtml() {
     </section>`;
 }
 
-function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false, ogImage, lastModified, ogType = "website", publishedTime }) {
+function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false, ogImage, lastModified, ogType = "website", publishedTime, author }) {
   const canonical = canonicalUrl(routePath);
   const pageOgImage = ogImage ? resolveOgImage(ogImage) : defaultOgImage;
   const dateMeta = lastModified || site.updated || generatedAt;
@@ -357,7 +357,7 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="${escapeAttr(site.name)} — AEO guides and news" href="/feed.xml" />
-    <meta name="author" content="${escapeAttr(site.name)}" />
+    <meta name="author" content="${escapeAttr(author || site.name)}" />
     <meta name="date" content="${escapeAttr(dateMeta)}" />
     <meta name="theme-color" content="#000000" />
     <meta property="og:site_name" content="${escapeAttr(site.name)}" />
@@ -1200,7 +1200,7 @@ function aboutHtml() {
           )
           .join("")}
       </div>
-      <table>
+      <div class="seo-table-wrap"><table>
         <thead>
           <tr><th>Name</th><th>Role</th><th>Background</th><th>Search/AEO relevance</th></tr>
         </thead>
@@ -1211,7 +1211,7 @@ function aboutHtml() {
             )
             .join("")}
         </tbody>
-      </table>
+      </table></div>
     </section>
     <section id="founders-notes" class="seo-container seo-section">
       <h2>Founders' Notes</h2>
@@ -1591,12 +1591,12 @@ function sectionHtml(section) {
       ${section.bullets ? `<ul class="seo-list">${section.bullets.map((item) => `<li>${renderInlineHtml(item)}</li>`).join("")}</ul>` : ""}
       ${
         section.table
-          ? `<table>
+          ? `<div class="seo-table-wrap"><table>
               <thead><tr>${section.table.headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr></thead>
               <tbody>${section.table.rows
                 .map((row) => `<tr>${row.map((cell) => `<td>${renderInlineHtml(cell)}</td>`).join("")}</tr>`)
                 .join("")}</tbody>
-            </table>`
+            </table></div>`
           : ""
       }
       ${section.subsections ? section.subsections.map(subsectionHtml).join("") : ""}
@@ -2276,10 +2276,10 @@ function promptPulseVerticalBody(v) {
     <p class="seo-lede">The questions ${escapeHtml(v.short)} buyers bring to AI answer engines (ChatGPT, Perplexity, Google AI Overviews), rated by a High/Medium/Low demand tier and a trend direction. ${v.stats.prompts} prompts${v.stats.rising > 0 ? ` · ${v.stats.rising} rising` : ""} · ${v.stats.decision} purchase-ready. US/English.</p>
     <section class="seo-section">
       <h2>Demand ranking</h2>
-      <table>
+      <div class="seo-table-wrap"><table>
         <thead><tr><th>Prompt</th><th>Demand</th><th>Trend</th><th>Persona</th><th>Buying stage</th></tr></thead>
         <tbody>${rows}</tbody>
-      </table>
+      </table></div>
     </section>
     <section class="seo-section">
       <h2>About this data</h2>
@@ -2333,7 +2333,7 @@ function promptPulseHubBody() {
     </section>
     <section class="seo-section">
       <h2>Rising across all industries</h2>
-      <table><thead><tr><th>Prompt</th><th>Trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table>
+      <div class="seo-table-wrap"><table><thead><tr><th>Prompt</th><th>Trend</th><th>Industry</th></tr></thead><tbody>${risingRows}</tbody></table></div>
     </section>
     <section class="seo-section">
       <h2>About this data</h2>
@@ -2464,6 +2464,7 @@ for (const page of resourcePages) {
       lastModified: page.updated,
       ogType: "article",
       publishedTime: page.published || page.updated,
+      author: page.author?.name,
       noindex: draft,
       schemas: [
         organizationSchema,
@@ -2576,6 +2577,7 @@ for (const post of newsPosts) {
       description: post.description,
       body: newsArticleHtml(post),
       ogImage: post.ogImage,
+      author: post.author?.name,
       ogType: "article",
       publishedTime: post.datePublished || post.date,
       lastModified: post.updated || post.date,
@@ -2792,7 +2794,7 @@ function freeTrackerBody() {
     <section class="seo-section">
       <h2>Exactly what&rsquo;s free &mdash; no fine print</h2>
       <p>Most free tools never state their limits. Here are ours, precisely:</p>
-      <table>
+      <div class="seo-table-wrap"><table>
         <thead>
           <tr><th></th><th>Free workspace</th><th>Paid plans</th></tr>
         </thead>
@@ -2804,7 +2806,7 @@ function freeTrackerBody() {
           <tr><td>Action Hub (the fix itself)</td><td>Included</td><td>Included</td></tr>
           <tr><td>Re-test to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p>Full plan details on the <a href="https://app.solcrys.com/pricing">pricing page</a>.</p>
     </section>
     <section class="seo-section">
@@ -2992,7 +2994,7 @@ brand visibility in AI-generated answers." /&gt;</code></pre>
     </section>
     <section class="seo-section">
       <h2>Exactly what&rsquo;s free &mdash; no fine print</h2>
-      <table>
+      <div class="seo-table-wrap"><table>
         <thead>
           <tr><th></th><th>Free workspace</th><th>Paid plans</th></tr>
         </thead>
@@ -3004,7 +3006,7 @@ brand visibility in AI-generated answers." /&gt;</code></pre>
           <tr><td>Action Hub (the fix itself)</td><td>Included</td><td>Included</td></tr>
           <tr><td>Re-test to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p>Full plan details on the <a href="https://app.solcrys.com/pricing">pricing page</a>.</p>
     </section>
     <section class="seo-section">
@@ -3200,12 +3202,12 @@ function courseHtml(course) {
     <section class="seo-container seo-section">
       <h2>${escapeHtml(course.labBudget.heading)}</h2>
       <p>${escapeHtml(course.labBudget.intro)}</p>
-      <table>
+      <div class="seo-table-wrap"><table>
         <thead><tr><th>Module</th><th>What you do</th><th>Quota</th></tr></thead>
         <tbody>${course.labBudget.rows
           .map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`)
           .join("")}</tbody>
-      </table>
+      </table></div>
       <p>${escapeHtml(course.labBudget.note)}</p>
     </section>
     <section class="seo-container seo-section">
