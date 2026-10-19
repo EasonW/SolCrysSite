@@ -55,7 +55,8 @@ for (const endpoint of ENDPOINTS) {
     response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(15000)
     });
   } catch (error) {
     console.error(`[indexnow] ${endpoint} unreachable: ${error.message}`);
