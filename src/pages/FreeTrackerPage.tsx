@@ -72,11 +72,11 @@ const FAQS = [
   },
   {
     q: "Does it just give me a score, or help me fix it?",
-    a: "Both. The visibility check is the measure step. In the same free workspace, a free content audit hands you the concrete fix to ship — the schema block, the heading rewrite — not just a score. That's what makes SolCrys a closed loop instead of a scoreboard: measure, diagnose, execute, verify. Re-testing at scale across every engine is the paid part.",
+    a: "Both. The visibility check is the measure step. In the same free workspace, a free content audit hands you the concrete fix to ship — the schema block, the heading rewrite — not just a score. That's what makes SolCrys a closed loop instead of a scoreboard: measure, diagnose, execute, verify. Retesting at scale across every engine is the paid part.",
   },
   {
     q: "What should I do after I get my results?",
-    a: "Run the loop. Pick the page behind your weakest prompt and run your free content audit on it — it returns the specific findings, the code or copy to ship, and the points each fix recovers. Ship the fix, then re-test: your next monthly audit (or a paid plan, on demand) re-scores the page so you can see the recovery. Score → fix → proof, instead of score → screenshot → forgotten.",
+    a: "Run the loop. Pick the page behind your weakest prompt and run your free content audit on it — it returns the specific findings, the code or copy to ship, and the points each fix recovers. Ship the fix, then retest: your next monthly audit (or a paid plan, on demand) re-scores the page so you can see the recovery. Score → fix → proof, instead of score → screenshot → forgotten.",
   },
   {
     q: "What's included in the free workspace?",
@@ -417,8 +417,8 @@ const FreeTrackerPage = () => {
               a gap list, then you're on your own. The SolCrys free workspace
               is the only free tier we found that reaches{" "}
               <em>execute</em> — it hands you the fix itself. The honest
-              boundary: re-testing that the fix moved the answer uses your next
-              monthly audit on free; on-demand re-tests and multi-engine
+              boundary: retesting that the fix moved the answer uses your next
+              monthly audit on free; on-demand retests and multi-engine
               tracking are the paid part.
             </p>
             <p className="text-sm text-muted-foreground">
@@ -488,7 +488,7 @@ const FreeTrackerPage = () => {
                   </tr>
                   <tr>
                     <td className="py-3 pr-4 text-foreground/90">
-                      Re-test to verify the fix
+                      Retest to verify the fix
                     </td>
                     <td className="py-3 pr-4">Next month's audit</td>
                     <td className="py-3">On demand, at scale</td>

@@ -21,7 +21,7 @@ const steps = [
   },
   {
     number: "04",
-    title: "Verify and re-test",
+    title: "Verify and retest",
     description:
       "Rerun the same prompt set after the action ships. Track citation rate, answer accuracy, and recommendation share to prove which fixes actually moved the answer.",
   },
