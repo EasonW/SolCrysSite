@@ -52,7 +52,7 @@ const pages = siteContent.resourcePages as unknown as RawPage[];
 // Inline markdown the body strings carry: `[label](url)` and `**bold**`.
 // Strip the syntax so URLs and asterisks don't pollute the token stream.
 const stripMarkdown = (text: string): string =>
-  text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, "");
+  text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, "").replace(/`/g, "");
 
 // Flatten a page's section/subsection prose into one searchable blob, capped
 // so a single long guide can't dominate the index or slow tokenization.

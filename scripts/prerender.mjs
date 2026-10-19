@@ -129,7 +129,8 @@ function escapeAttr(value) {
 }
 
 // Matches either a markdown link [text](url) or **bold** segment.
-const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*/g;
+const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*|`([^`]+)`/g;
+const CODE_SPAN_REGEX = /`([^`]+)`/g;
 // Resolved at call time: AUDIT_URL is declared further down this module and
 // a module-level `new URL(AUDIT_URL)` here would hit the TDZ.
 function isAppHref(href) {
@@ -140,9 +141,26 @@ function isAppHref(href) {
   }
 }
 
+// Inline code (`text`) renders as <code>, also inside link labels and bold
+// runs (mirrors renderCode in src/pages/ResourcePage.tsx).
+function codeHtml(value) {
+  const text = String(value);
+  if (!text.includes("`")) return escapeHtml(text);
+  let out = "";
+  let last = 0;
+  for (const m of text.matchAll(CODE_SPAN_REGEX)) {
+    const start = m.index ?? 0;
+    if (start > last) out += escapeHtml(text.slice(last, start));
+    out += `<code>${escapeHtml(m[1])}</code>`;
+    last = start + m[0].length;
+  }
+  if (last < text.length) out += escapeHtml(text.slice(last));
+  return out;
+}
+
 function renderInlineHtml(value) {
   const text = String(value);
-  if (!text.includes("](") && !text.includes("**")) return escapeHtml(text);
+  if (!text.includes("](") && !text.includes("**") && !text.includes("`")) return escapeHtml(text);
   let out = "";
   let lastIndex = 0;
   for (const match of text.matchAll(INLINE_TOKEN_REGEX)) {
@@ -157,10 +175,13 @@ function renderInlineHtml(value) {
         : /^https?:\/\//.test(href)
           ? ` target="_blank" rel="noopener noreferrer"`
           : "";
-      out += `<a href="${escapeAttr(href)}"${attrs}>${escapeHtml(match[1])}</a>`;
+      out += `<a href="${escapeAttr(href)}"${attrs}>${codeHtml(match[1])}</a>`;
     } else if (match[3] !== undefined) {
       // Bold
-      out += `<strong>${escapeHtml(match[3])}</strong>`;
+      out += `<strong>${codeHtml(match[3])}</strong>`;
+    } else if (match[4] !== undefined) {
+      // Inline code
+      out += `<code>${escapeHtml(match[4])}</code>`;
     }
     lastIndex = start + match[0].length;
   }
@@ -531,8 +552,10 @@ const websiteSchema = {
 // link/bold syntax and keep the visible words.
 function plainInline(value) {
   const text = String(value);
-  if (!text.includes("](") && !text.includes("**")) return text;
-  return text.replace(INLINE_TOKEN_REGEX, (_match, label, _href, bold) => label ?? bold ?? "");
+  if (!text.includes("](") && !text.includes("**") && !text.includes("`")) return text;
+  return text.replace(INLINE_TOKEN_REGEX, (_match, label, _href, bold, code) =>
+    (label ?? bold ?? code ?? "").replace(/`/g, "")
+  );
 }
 
 function faqSchema(faqs, routePath) {
