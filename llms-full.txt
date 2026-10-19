@@ -26244,7 +26244,7 @@ SEO teams want the AI equivalent of a keyword report: the prompts where ChatGPT,
 
 You can't download a list of the AI prompts your brand appears in, because no engine publishes one. Search Console's generative AI report shows how often your pages appeared in AI Overviews and AI Mode, with no queries. Bing Webmaster Tools shows a sample of the search phrases Copilot used to find your pages. ChatGPT, Claude, and Perplexity offer site owners no prompt report.
 
-So work in reverse. Collect candidate questions from what you can see: long and question-form queries in Search Console, Bing's grounding queries, and the questions your sales and support teams already hear. Rewrite them the way a buyer would ask an assistant. Then run them on the engines your buyers use, several times each, and record whether the answers name you, recommend you, or cite your pages. The prompts you keep become your prompt set: the fixed list of questions you measure over time.
+So work in reverse. Collect candidate questions from what you can see: long and question-form queries in Search Console, with automated probes set aside, Bing's grounding queries, and the questions your sales and support teams already hear. Rewrite them the way a buyer would ask an assistant. Then run them on the engines your buyers use, several times each, and record whether the answers name you, recommend you, or cite your pages. The prompts you keep become your prompt set: the fixed list of questions you measure over time.
 
 
 
@@ -26280,9 +26280,9 @@ Source | What it shows | What it doesn't
 Google confirms that AI Mode activity is in the standard Performance report. Its [counting rules](https://support.google.com/webmasters/answer/7042828) say a follow-up question in AI Mode is "essentially performing a new query," and John Mueller [said in August 2026](https://www.seroundtable.com/google-search-console-ai-mode-queries-41821.html) that Search Console "includes information on AI Overviews and AI Mode in the general performance report," when asked about rows such as "yes, pricing" in the queries table. There is no filter that separates them, but 3 regex filters on the Query dimension narrow the list to likely candidates. Search Console uses RE2 syntax; the (?i) prefix makes a pattern ignore case.
 
 
+- **Set aside automated probes first.** Monitoring tools send scheduled queries to Google, and automated requests can register as impressions: when Google disabled a 100-results-per-page parameter in September 2025, many sites saw desktop impressions drop, and the working theory among SEOs was that bots loading those pages had partly inflated them ([Search Engine Journal](https://www.searchenginejournal.com/google-modifies-search-results-parameter-affecting-seo-tools/556080/)). Sort the matches by clicks. A long, oddly specific question with steady impressions and no clicks over months is more likely a tool checking a brand than a buyer, and on a site with modest search traffic, probes can be most of what these filters return. If none of your long questions have clicks, lean on Step 3.
 - **Read them by page.** Add the Page dimension and compare with the pages that show impressions in the generative AI report. A long question-form query landing on a page with AI impressions is a strong candidate.
 - **Group by intent.** Rare queries are withheld, so the report shows the more common phrasings. Group what you find by the intent and persona behind it.
-- **Watch for automated probes.** Monitoring tools send scheduled prompts to Google too. Oddly specific long queries with steady impressions and no clicks may be machines checking a brand, not buyers.
 - **Don't over-read a match.** A 12-word question can be an ordinary search. The filters find candidates; testing in Step 4 decides what matters.
 
 
@@ -26391,6 +26391,7 @@ The regex filters find candidates, not proof that a query came from an AI featur
 - [Search Console Help: How impressions, position, and clicks are counted (AI Mode)](https://support.google.com/webmasters/answer/7042828)
 - [Search Console Help: Generative AI performance report (Search)](https://support.google.com/webmasters/answer/16984139)
 - [Search Engine Roundtable: Google Search Console AI Mode queries in the performance report (Aug. 6, 2026)](https://www.seroundtable.com/google-search-console-ai-mode-queries-41821.html)
+- [Search Engine Journal: Google Modifies Search Results Parameter, Affecting SEO Tools (Sept. 15, 2025)](https://www.searchenginejournal.com/google-modifies-search-results-parameter-affecting-seo-tools/556080/)
 - [Google Search Central Blog: Web multimodal search in Search Console (Sept. 24, 2026)](https://developers.google.com/search/blog/2026/09/web-multimodal-in-sc)
 - [Microsoft Bing: Introducing AI Performance in Bing Webmaster Tools Public Preview (Feb. 10, 2026)](https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview)
 - [Microsoft Bing: Introducing Topics Portfolio (Beta) in AI Performance (Oct. 13, 2026)](https://blogs.bing.com/webmaster/2026/10/introducing-topics-portfolio-beta-in-ai-performance/)
@@ -26405,7 +26406,7 @@ Q: Does Search Console show AI Mode queries?
 A: Mixed in with everything else. Google counts AI Mode queries, including follow-ups, in the standard Performance report under the Web search type, with no filter that separates them. The generative AI performance report shows impressions by page only, with no queries.
 
 Q: What regex finds AI-style queries in Search Console?
-A: Three filters on the Query dimension narrow the list: question openers such as (?i)^(what|how|which|why|is|can|should|does|i)\b, queries of 10 or more words with ^(?:\S+\s+){9,}\S+$, and short follow-ups such as (?i)^(yes|ok|sure|tell me more)\b. They find candidates, not confirmed AI queries, and very rare queries are withheld.
+A: Three filters on the Query dimension narrow the list: question openers such as (?i)^(what|how|which|why|is|can|should|does|i)\b, queries of 10 or more words with ^(?:\S+\s+){9,}\S+$, and short follow-ups such as (?i)^(yes|ok|sure|tell me more)\b. They find candidates, not confirmed AI queries: very rare queries are withheld, and long questions with steady impressions but no clicks are often monitoring tools, not buyers.
 
 Q: What are grounding queries in Bing Webmaster Tools?
 A: The search phrases Microsoft's AI used to retrieve your pages when it cited them in Copilot or Bing's AI summaries. They are a sample, and they are the AI's search rather than the user's prompt, but they are the only first-party list of query phrasings tied to AI citations of your pages.
@@ -27144,7 +27145,8 @@ Real prompts are evidence for intents and personas, and the most useful ones are
 
 Source | What it tells you | How it feeds your set
 --- | --- | ---
-**Search Console and Bing grounding queries** | How buyers phrase questions that already reach your site | New intents and phrasings to cover ([how to find them](/find-ai-prompts-your-brand-shows-up-for/))
+**Search Console queries people clicked** | How buyers phrase questions that already reach your site | New intents and phrasings to cover ([how to find them](/find-ai-prompts-your-brand-shows-up-for/))
+**Bing grounding queries** | The phrases Microsoft's AI searched to find your pages: the AI's wording, not the buyer's | Topics and intents to cover
 **Sales calls, support tickets, and demos** | Buyers' questions in their own words, with role and context | Persona detail, and prompts that sound like your buyers
 **Signup surveys and closed-won interviews** | Which assistant buyers used and what they asked | Confirmation that the intents you track are the ones that convert ([how to run interviews](/prove-ai-influence-closed-won-interviews/))
 **Clickstream panels** | Real prompts across a broad category, sampled | Which intents carry the most demand
