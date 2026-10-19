@@ -34,3 +34,27 @@ describe("ResourcePage CTAs", () => {
     }
   });
 });
+
+describe("ResourcePage inline code", () => {
+  it("renders `code` spans as <code>, including inside bold runs", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <ResourcePage slug="best-aeo-tools-for-small-marketing-teams" />
+      </MemoryRouter>
+    );
+    const codes = Array.from(container.querySelectorAll("article code")).map((el) => el.textContent);
+    expect(codes).toContain("[YOUR CATEGORY]");
+    expect(container.textContent).not.toContain("`[YOUR CATEGORY]`");
+  });
+
+  it("renders code nested in bold without literal backticks", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <ResourcePage slug="google-endorses-aeo-fundamentals" />
+      </MemoryRouter>
+    );
+    const boldCode = container.querySelector("article strong code");
+    expect(boldCode?.textContent).toBe("llms.txt");
+    expect(container.textContent).not.toContain("`llms.txt`");
+  });
+});

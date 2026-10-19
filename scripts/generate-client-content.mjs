@@ -38,7 +38,7 @@ const courseContent = readContent("courseContent.json");
 const promptPulse = readContent("promptPulse.json");
 
 const stripMarkdown = (text) =>
-  text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, "");
+  text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, "").replace(/`/g, "");
 
 // Same 2,000-char cap the resource pages get, so no single entry dominates.
 const toBody = (parts) => stripMarkdown(parts.filter(Boolean).join(" ")).slice(0, 2000);
