@@ -41878,7 +41878,7 @@
             "Read each engine's record, not your deploy log. A successful deploy proves the page is live, not that any engine was told. The notification can fail on its own: an IndexNow endpoint returns 403 when it can't validate your key and 429 when you send too much, and the deploy still shows success unless the build fails on those codes. Log every response code, as the IndexNow FAQ advises."
           ],
           "bullets": [
-            "**Bing Webmaster Tools.** The IndexNow Insights report counts URLs submitted, crawled, and indexed, and lists your latest 1,000 submitted URLs with their index status, and shows where submissions came from, such as Cloudflare or a CMS. If the fixed URL isn't there, treat the notice as undelivered.",
+            "**Bing Webmaster Tools.** The IndexNow Insights report counts URLs submitted, crawled, and indexed, and lists your latest 1,000 submitted URLs with their index status, and shows where submissions came from, such as Cloudflare or a CMS. If you submitted only a few URLs and the fixed one isn't there, treat the notice as undelivered. The list holds only the latest 1,000, so after a large batch, confirm delivery from your submission log and the response code instead.",
             "**Search Console.** In URL Inspection, Last crawl shows \"the last time this page was crawled by Google.\" If that date is before your fix, Google hasn't seen it.",
             "**Server logs.** Look for the search crawlers above requesting the updated URL. Check that they're genuine: Google documents how to verify its crawlers, and OpenAI, Perplexity, and Anthropic publish their crawlers' IP addresses."
           ]
