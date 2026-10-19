@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>How to Get AI Engines to See Your Updates Faster | SolCrys</title>
+    <meta name="description" content="An AI answer can&#39;t reflect your update until the engine refetches the page. How Google, ChatGPT, Perplexity, Claude, and Bing find changes, what IndexNow does, and how to check." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/get-ai-engines-to-see-your-updates/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-18" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="How to Get AI Engines to See Your Updates Faster | SolCrys" />
+    <meta property="og:description" content="An AI answer can&#39;t reflect your update until the engine refetches the page. How Google, ChatGPT, Perplexity, Claude, and Bing find changes, what IndexNow does, and how to check." />
+    <meta property="og:url" content="https://solcrys.com/get-ai-engines-to-see-your-updates/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-18" />
+    <meta property="article:modified_time" content="2026-10-18" />
+    <meta property="og:image" content="https://solcrys.com/og/get-ai-engines-to-see-your-updates.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/get-ai-engines-to-see-your-updates.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-foj_9sLs.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"How to Get AI Engines to See Your Updates Faster","item":"https://solcrys.com/get-ai-engines-to-see-your-updates/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to get AI engines to see your updates faster","description":"An AI answer can't reflect your update until the engine refetches the page. How Google, ChatGPT, Perplexity, Claude, and Bing find changes, what IndexNow does, and how to check.","dateModified":"2026-10-18","datePublished":"2026-10-18","mainEntityOfPage":"https://solcrys.com/get-ai-engines-to-see-your-updates/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/get-ai-engines-to-see-your-updates/","mainEntity":[{"@type":"Question","name":"Does IndexNow help with ChatGPT?","acceptedAnswer":{"@type":"Answer","text":"Not in any way OpenAI documents. OpenAI isn't an IndexNow participant, and its crawler and ChatGPT search help pages don't mention IndexNow. What OpenAI does document is OAI-SearchBot: allow it in robots.txt and allow OpenAI's published IP ranges. OpenAI also says ChatGPT search \"sometimes partners with other search providers\" and links Microsoft's privacy statement among those providers' policies, but it doesn't say whether a URL submitted to Bing reaches ChatGPT any faster. Rerun your ChatGPT prompts after an update to find out."}},{"@type":"Question","name":"How long does it take an AI answer to reflect an update?","acceptedAnswer":{"@type":"Answer","text":"It varies by engine, because 2 things have to happen: the engine has to recrawl the page, and the answer has to retrieve the new version. Google says crawling \"can take anywhere from a few days to a few weeks.\" IndexNow can tell Bing right away, though it doesn't guarantee a crawl. OpenAI, Perplexity, and Anthropic don't document a recrawl schedule. The honest way to know is to rerun the same prompts after the update and watch each engine across several runs."}},{"@type":"Question","name":"Does Google support IndexNow?","acceptedAnswer":{"@type":"Answer","text":"No. Google isn't among the participating engines indexnow.org lists, and Google's guidance on asking for a recrawl names URL Inspection and sitemaps. Google retired its sitemap \"ping\" endpoint after announcing the change in June 2023, and it uses accurate lastmod dates \"as a signal for scheduling crawls.\" Its Indexing API covers only job-posting and livestream pages. For Google AI Overviews and Gemini, keep the sitemap accurate and use URL Inspection for the few pages that matter most."}},{"@type":"Question","name":"Is IndexNow safe to turn on?","acceptedAnswer":{"@type":"Answer","text":"Yes, for public pages you want found. It only sends notices about URLs on a site where you host the key file, and it doesn't change what crawlers are allowed to read. Know 2 things before you start: every submission is shared with all participating engines, so you can't notify Bing alone, and submissions count toward your crawl quota, so send real changes, not every cosmetic edit. Crawler Hints is a site-wide setting, and Cloudflare's advice for any page that shouldn't be indexed is a noindex tag or header."}},{"@type":"Question","name":"Do I still need a sitemap if I use IndexNow?","acceptedAnswer":{"@type":"Answer","text":"Yes. IndexNow covers recent changes on participating engines, while a sitemap gives Google and Bing a complete inventory of your URLs. The IndexNow FAQ recommends using both, and Bing says the same. Google, which doesn't take IndexNow, says the best way to request indexing of many new or updated pages is a sitemap with the updated pages marked by their lastmod date."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Technical Readiness</p>
+        <h1>How to get AI engines to see your updates faster</h1>
+        <p class="seo-lede">An answer engine can&#39;t reflect an update to your page until it has fetched the new version, and engines learn about changes in 2 ways: their crawlers come back on their own schedule, or you tell them a URL changed. IndexNow is the open push protocol, and 1 submission is shared with every participating engine, Bing included, but Google, OpenAI, Perplexity, and Anthropic aren&#39;t among its participants. For Google AI Overviews and Gemini, the levers are an accurate sitemap lastmod date, internal links, and URL Inspection; for ChatGPT, Perplexity, and Claude, it&#39;s open crawler access. A stable URL and facts in the HTML the server sends help every engine. Publishing is not delivery, so confirm in Bing Webmaster Tools and Google Search Console that Bing and Google got the update, then rerun the same prompts and judge across several runs whether the answer moved.</p>
+        
+        <p>Updated <time datetime="2026-10-18">2026-10-18</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>How do I get ChatGPT to see my updated page?</li><li>Does IndexNow work for AI search engines?</li><li>How do I get Google AI Overviews to show my updated content?</li><li>How long does it take AI answers to reflect website changes?</li><li>Does Google support IndexNow?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>An answer engine can&#39;t reflect an update until it has fetched the new version of the page. Engines learn about changes in 2 ways. Pull: their crawlers come back on their own schedule. Push: you tell them a URL changed. IndexNow is the open push protocol, and 1 submission reaches every participating engine, Bing among them. Google, OpenAI, Perplexity, and Anthropic don&#39;t participate. For Google AI Overviews and Gemini, the levers are an accurate sitemap, internal links, and Request indexing for a few key URLs. For ChatGPT, Perplexity, and Claude, the documented lever is open access for each engine&#39;s search crawler. A stable URL and facts in the server&#39;s HTML help every engine.</p><p>Publishing is not delivery. Check Bing Webmaster Tools and Google Search Console to confirm Bing and Google got the update, then rerun the same prompts and judge across several runs whether the answer moved.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why an update is a different problem from a new page</h2>
+      <p>In answer engine optimization (AEO), the work that changes an answer is often an edit: correcting a wrong fact, adding a comparison, or refreshing a price. Often an engine already knows those pages, so the update needs to be refetched, not discovered. If the wrong fact sits on someone else&#39;s page, start there; <a href="/fix-wrong-fact-in-ai-answer/">How to fix a wrong fact in an AI answer</a> shows how to find the source.</p><p>For Google, the copy that counts is the indexed one. Google&#39;s <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">guide to its generative AI features</a> says they retrieve &quot;relevant, up-to-date web pages from our Search index.&quot; ChatGPT, Perplexity, and Claude run their own search crawlers, and each also documents a fetcher that may read a page live when a user asks. Those live reads happen only when a user&#39;s question triggers one, so you can&#39;t count on them; get each engine&#39;s stored copy refreshed.</p>
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>How each engine learns about a changed page</h2>
+      <p>Of the engines below, only Bing takes an automated push for ordinary pages. Google&#39;s closest equivalent, Request indexing in URL Inspection, is manual and has a daily limit. This is what each vendor documents, as of Oct. 18, 2026.</p>
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>Engine</th><th>How it finds and refreshes pages (documented)</th><th>What you can do</th></tr></thead>
+              <tbody><tr><td><strong>Google AI Overviews and Gemini</strong></td><td>Google&#39;s AI features retrieve from Google&#39;s Search index, and grounding in the Gemini app uses the same index. Googlebot decides &quot;which sites to crawl, how often,&quot; and Google uses accurate lastmod dates &quot;as a signal for scheduling crawls.&quot;</td><td>Keep lastmod accurate, link the page internally, and request indexing in URL Inspection for key URLs.</td></tr><tr><td><strong>ChatGPT</strong> (OAI-SearchBot)</td><td>OAI-SearchBot &quot;is used to surface websites in search results in ChatGPT&#39;s search features.&quot; OpenAI&#39;s crawler and search help pages describe no IndexNow support, sitemap use, or URL submission.</td><td>Allow OAI-SearchBot and OpenAI&#39;s published IP ranges.</td></tr><tr><td><strong>Perplexity</strong> (PerplexityBot)</td><td>PerplexityBot &quot;is designed to surface and link websites in search results on Perplexity.&quot; Its crawler docs describe no IndexNow support or URL submission.</td><td>Allow PerplexityBot and Perplexity&#39;s published IP ranges.</td></tr><tr><td><strong>Claude</strong> (Claude-SearchBot)</td><td>Claude-SearchBot &quot;navigates the web to improve search result quality,&quot; and blocking it &quot;prevents our system from indexing your content for search optimization.&quot; Anthropic&#39;s crawler docs describe no IndexNow support or URL submission.</td><td>Allow Claude-SearchBot in robots.txt.</td></tr><tr><td><strong>Bing</strong>, which feeds Microsoft Copilot</td><td>Takes IndexNow. Bing rereads sitemaps &quot;typically at least once per day&quot; and uses lastmod to &quot;prioritize URLs for recrawling and reindexing.&quot; Microsoft says Bing&#39;s crawling and indexing serve &quot;AI-powered experiences like Copilot.&quot;</td><td>Turn on IndexNow, submit a sitemap in Bing Webmaster Tools, and check IndexNow Insights.</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <section class="seo-section">
+      <h2>IndexNow: the push channel</h2>
+      <p>IndexNow is an open protocol for telling search engines that a URL was &quot;added, updated, or deleted.&quot; You notify 1 participating engine, and participants &quot;agree that submitted URLs will be automatically shared with all other participating search engines.&quot; The protocol&#39;s site, indexnow.org, names Microsoft Bing, Naver, Seznam.cz, Yandex, and Yep as supporters and lists an Amazon endpoint. Google isn&#39;t on the list, and its own recrawl guidance names URL Inspection and sitemaps instead.</p><p>IndexNow is a notice, not a command. A successful response &quot;only indicates that the search engine has received your URL,&quot; and Bing says IndexNow &quot;does not guarantee that web pages will be crawled or indexed.&quot; It guarantees no ranking or citation either. Submissions also count toward your crawl quota, so send only pages whose content changed.</p><p>Turning it on is usually a setting, not a project.</p>
+      <ul class="seo-list"><li><strong>Check your CMS first.</strong> The IndexNow FAQ&#39;s first step is to check whether your content management system (CMS) or host already supports it; Microsoft notes many CMSs and content delivery networks (CDNs) &quot;already offer built-in support.&quot;</li><li><strong>On Cloudflare, turn on Crawler Hints.</strong> Cloudflare&#39;s Crawler Hints &quot;supports IndexNow&quot; on every plan, Free included. It judges from cache misses when content &quot;has likely been updated,&quot; so confirm the page you fixed shows up in Bing&#39;s report.</li><li><strong>Otherwise, add 1 request after publishing.</strong> A developer hosts a key in a small text file at the site&#39;s root, which proves the site is yours, and adds a step that sends each changed URL to 1 endpoint. One request can carry up to 10,000 URLs.</li><li><strong>Send real changes only.</strong> Skip cosmetic and layout-only edits, and wait at least 5 minutes before resubmitting the same URL.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The pull side: make updates easy to find</h2>
+      <p>For the engines that don&#39;t take IndexNow, make the updated page easy to find and recrawl. These habits help Bing too.</p>
+      <ul class="seo-list"><li><strong>Keep lastmod honest.</strong> Google uses sitemap lastmod dates only when they&#39;re &quot;consistently and verifiably&quot; accurate, and the date should reflect &quot;the last significant update&quot;: main content, structured data, or links, not a new copyright year. Bing uses lastmod to prioritize recrawls. A sitemap that stamps today&#39;s date on every URL teaches both engines to distrust it.</li><li><strong>Link the page from pages crawlers already visit.</strong> Google discovers pages by following links from pages it already knows; its example is a category page linking to a new post. Link a corrected pricing or comparison page from your product, hub, or changelog pages.</li><li><strong>Don&#39;t block the search crawlers.</strong> Allow Googlebot, Bingbot, OAI-SearchBot, PerplexityBot, and Claude-SearchBot in robots.txt and at your CDN or firewall. The <a href="/ai-crawler-access-search-agent-training/">AI crawler access guide</a> covers what blocking each one costs.</li><li><strong>Request indexing for the few URLs that matter.</strong> URL Inspection in Search Console can send a page to Google&#39;s indexing queue. There&#39;s a daily limit, asking again &quot;won&#39;t get it crawled any faster,&quot; and a request &quot;does not guarantee that the page will appear in the Google Index.&quot; For many pages, submit the sitemap.</li><li><strong>Keep the URL stable.</strong> Update the page in place. A corrected copy at a new URL starts from scratch while the old one keeps serving the outdated version. If you must move it, redirect permanently, which Google calls &quot;a strong signal that the target of the redirect should become canonical.&quot;</li><li><strong>Put the facts in the HTML your server sends.</strong> Google renders JavaScript, though pages can wait in a rendering queue, and it notes that &quot;not all bots can run JavaScript.&quot; OpenAI, Perplexity, and Anthropic don&#39;t say whether their crawlers do, so don&#39;t rely on a script to show a corrected price. The <a href="/ai-crawler-answer-readiness/">AI crawler and answer readiness checklist</a> covers the rest.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Check that it&#39;s working</h2>
+      <p>Read each engine&#39;s record, not your deploy log. A successful deploy proves the page is live, not that any engine was told. The notification can fail on its own: an IndexNow endpoint returns 403 when it can&#39;t validate your key and 429 when you send too much, and the deploy still shows success unless the build fails on those codes. Log every response code, as the IndexNow FAQ advises.</p>
+      <ul class="seo-list"><li><strong>Bing Webmaster Tools.</strong> The IndexNow Insights report counts URLs submitted, crawled, and indexed, and lists your latest 1,000 submitted URLs with their index status, and shows where submissions came from, such as Cloudflare or a CMS. If you submitted only a few URLs and the fixed one isn&#39;t there, treat the notice as undelivered. The list holds only the latest 1,000, so after a large batch, confirm delivery from your submission log and the response code instead.</li><li><strong>Search Console.</strong> In URL Inspection, Last crawl shows &quot;the last time this page was crawled by Google.&quot; If that date is before your fix, Google hasn&#39;t seen it.</li><li><strong>Server logs.</strong> Look for the search crawlers above requesting the updated URL. Check that they&#39;re genuine: Google documents how to verify its crawlers, and OpenAI, Perplexity, and Anthropic publish their crawlers&#39; IP addresses.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Then verify the answer moved</h2>
+      <p>A recrawl puts the new version in front of the engine; it doesn&#39;t show that the answer uses it. Rerun the same prompts on each engine after the update and compare them with the runs before it.</p><p>Engines refresh on different clocks. Bing can be notified the moment you publish, Google recrawls on its own schedule, and OpenAI, Perplexity, and Anthropic don&#39;t document theirs. Answers also vary from run to run, so judge across several runs (<a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs is enough</a>), report each engine separately, and before crediting the fix, check whether untouched prompts on the same engine moved too.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys runs that last step inside its loop: Measure → Diagnose → Execute → Verify. Measure shows how each engine answers your buyer prompts and which sources it cites, Diagnose shows which prompts you lose and which sources win them, and your team approves and publishes the fix. Verify then reruns the same frozen prompts on ChatGPT, and on Gemini, Google AI Overviews, Perplexity, and Claude on paid plans, to show for each engine whether the answer moved and held.</p><p>IndexNow and sitemaps tell engines the page changed; SolCrys shows whether the answer did. To see how ChatGPT answers your buyer questions now, <a href="https://app.solcrys.com/audit">Start Free</a>: free, no credit card.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.indexnow.org/" target="_blank" rel="noopener noreferrer">IndexNow.org: What is IndexNow?</a></li><li><a href="https://www.indexnow.org/documentation" target="_blank" rel="noopener noreferrer">IndexNow.org: Documentation (including requirements for search engines)</a></li><li><a href="https://www.indexnow.org/faq" target="_blank" rel="noopener noreferrer">IndexNow.org: FAQ</a></li><li><a href="https://www.bing.com/indexnow" target="_blank" rel="noopener noreferrer">Bing Webmaster Tools: Why IndexNow</a></li><li><a href="https://www.bing.com/indexnow/getstarted" target="_blank" rel="noopener noreferrer">Bing Webmaster Tools: How to add IndexNow to your website</a></li><li><a href="https://blogs.bing.com/webmaster/2024/3/Optimize-your-Impact-with-IndexNow-Insights/" target="_blank" rel="noopener noreferrer">Bing Webmaster Blog: Optimize your Impact with IndexNow Insights (March 3, 2024)</a></li><li><a href="https://blogs.bing.com/webmaster/2025/7/Keeping-Content-Discoverable-with-Sitemaps-in-AI-Powered-Search/" target="_blank" rel="noopener noreferrer">Bing Webmaster Blog: Keeping Content Discoverable with Sitemaps in AI Powered Search (July 31, 2025)</a></li><li><a href="https://blogs.bing.com/webmaster/2023/2/The-Importance-of-Setting-the-lastmod-Tag-in-Your-Sitemap/" target="_blank" rel="noopener noreferrer">Bing Webmaster Blog: The Importance of Setting the &quot;lastmod&quot; Tag in Your Sitemap (Feb. 1, 2023)</a></li><li><a href="https://developers.cloudflare.com/cache/advanced-configuration/crawler-hints/" target="_blank" rel="noopener noreferrer">Cloudflare docs: Crawler Hints</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: Optimizing your website for generative AI features on Google Search (updated July 10, 2026)</a></li><li><a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">Google Search Central: AI features and your website</a></li><li><a href="https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers" target="_blank" rel="noopener noreferrer">Google: Google&#39;s common crawlers (Google-Extended and Gemini app grounding)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/how-search-works" target="_blank" rel="noopener noreferrer">Google Search Central: In-depth guide to how Google Search works</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl" target="_blank" rel="noopener noreferrer">Google Search Central: Ask Google to recrawl your URLs</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" target="_blank" rel="noopener noreferrer">Google Search Central: Build and submit a sitemap</a></li><li><a href="https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping" target="_blank" rel="noopener noreferrer">Google Search Central Blog: Sitemaps ping endpoint is going away (June 26, 2023)</a></li><li><a href="https://support.google.com/webmasters/answer/9012289" target="_blank" rel="noopener noreferrer">Search Console Help: URL Inspection tool</a></li><li><a href="https://developers.google.com/search/apis/indexing-api/v3/quickstart" target="_blank" rel="noopener noreferrer">Google Search Central: Indexing API quickstart</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/links-crawlable" target="_blank" rel="noopener noreferrer">Google Search Central: Link best practices for Google</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" target="_blank" rel="noopener noreferrer">Google Search Central: How to specify a canonical URL</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener noreferrer">Google Search Central: Understand JavaScript SEO basics</a></li><li><a href="https://developers.google.com/crawling/docs/crawlers-fetchers/verify-google-requests" target="_blank" rel="noopener noreferrer">Google: Verify requests from Google crawlers and fetchers</a></li><li><a href="https://developers.openai.com/api/docs/bots" target="_blank" rel="noopener noreferrer">OpenAI: Overview of OpenAI crawlers</a></li><li><a href="https://help.openai.com/en/articles/9237897-chatgpt-search" target="_blank" rel="noopener noreferrer">OpenAI Help Center: Searching the web with ChatGPT</a></li><li><a href="https://docs.perplexity.ai/docs/resources/perplexity-crawlers" target="_blank" rel="noopener noreferrer">Perplexity: Perplexity crawlers</a></li><li><a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler" target="_blank" rel="noopener noreferrer">Anthropic: Does Anthropic crawl data from the web, and how can site owners block the crawler? (April 7, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Does IndexNow help with ChatGPT?</h3>
+            <p>Not in any way OpenAI documents. OpenAI isn&#39;t an IndexNow participant, and its crawler and ChatGPT search help pages don&#39;t mention IndexNow. What OpenAI does document is OAI-SearchBot: allow it in robots.txt and allow OpenAI&#39;s published IP ranges. OpenAI also says ChatGPT search &quot;sometimes partners with other search providers&quot; and links Microsoft&#39;s privacy statement among those providers&#39; policies, but it doesn&#39;t say whether a URL submitted to Bing reaches ChatGPT any faster. Rerun your ChatGPT prompts after an update to find out.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How long does it take an AI answer to reflect an update?</h3>
+            <p>It varies by engine, because 2 things have to happen: the engine has to recrawl the page, and the answer has to retrieve the new version. Google says crawling &quot;can take anywhere from a few days to a few weeks.&quot; IndexNow can tell Bing right away, though it doesn&#39;t guarantee a crawl. OpenAI, Perplexity, and Anthropic don&#39;t document a recrawl schedule. The honest way to know is to rerun the same prompts after the update and watch each engine across several runs.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does Google support IndexNow?</h3>
+            <p>No. Google isn&#39;t among the participating engines indexnow.org lists, and Google&#39;s guidance on asking for a recrawl names URL Inspection and sitemaps. Google retired its sitemap &quot;ping&quot; endpoint after announcing the change in June 2023, and it uses accurate lastmod dates &quot;as a signal for scheduling crawls.&quot; Its Indexing API covers only job-posting and livestream pages. For Google AI Overviews and Gemini, keep the sitemap accurate and use URL Inspection for the few pages that matter most.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is IndexNow safe to turn on?</h3>
+            <p>Yes, for public pages you want found. It only sends notices about URLs on a site where you host the key file, and it doesn&#39;t change what crawlers are allowed to read. Know 2 things before you start: every submission is shared with all participating engines, so you can&#39;t notify Bing alone, and submissions count toward your crawl quota, so send real changes, not every cosmetic edit. Crawler Hints is a site-wide setting, and Cloudflare&#39;s advice for any page that shouldn&#39;t be indexed is a noindex tag or header.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I still need a sitemap if I use IndexNow?</h3>
+            <p>Yes. IndexNow covers recent changes on participating engines, while a sitemap gives Google and Bing a complete inventory of your URLs. The IndexNow FAQ recommends using both, and Bing says the same. Google, which doesn&#39;t take IndexNow, says the best way to request indexing of many new or updated pages is a sitemap with the updated pages marked by their lastmod date.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/fix-wrong-fact-in-ai-answer/">How to Fix a Wrong Fact in an AI Answer About Your Brand</a></h3>
+            <p>An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there&#39;s no one to email. The wrong fact is a relayed source. Here&#39;s how to find it, fix it or outweigh it, and retest until the answer flips.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-answer-readiness/">AI Crawler and Answer Readiness Checklist</a></h3>
+            <p>A practical checklist for making website content crawlable, indexable, structured, and answer-ready for AI search and answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-access-search-agent-training/">Search, Agent, or Training? How to Set AI Crawler Access in 2026 Without Blocking Your Own Citations</a></h3>
+            <p>Which AI crawlers to allow, what Cloudflare&#39;s Sept. 15, 2026 rules changed, and how to block AI training without losing your AI citations.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-ai-describes-your-brand/">How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)</a></h3>
+            <p>AI decides what your brand is, and each engine decides differently. How the description forms, why a fix takes weeks to show, and how to correct it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-to-get-cited-by-chatgpt-2026/">How to Get Cited by ChatGPT (2026): A Data-Backed Guide</a></h3>
+            <p>How ChatGPT search picks sources in 2026: crawlers, search providers, 7 citation-eligibility patterns, and what August 2026 changed about the sources it names.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/why-ai-visibility-score-moves/">Why Your AI Visibility Score Moves</a></h3>
+            <p>AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-B3069A1s.js"></script>
+  </body>
+</html>
