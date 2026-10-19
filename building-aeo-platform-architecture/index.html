@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/building-aeo-platform-architecture.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/building-aeo-platform-architecture.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-foj_9sLs.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -187,7 +187,7 @@
     </section>
     <section class="seo-section">
       <h2>Decision 4: URL canonicalization — at fetch vs. at query</h2>
-      <p>Tradeoff: canonicalizing URLs at fetch time (when the citation is first parsed) produces clean data with smaller storage but loses information about the original raw URL the engine emitted. Canonicalizing at query time (when reporting) preserves the raw data but bloats storage and slows queries.</p><p>We chose <strong>at query time, with a redirect-resolver cache</strong>. The raw URLs as the engine emits them are stored unchanged. When the report layer runs, a redirect-resolver service maps raw URLs to their canonical forms, with results cached aggressively.</p><p>Why: AEO reporting has to handle cases where an engine cites `https://amzn.to/xxx` and another engine cites `https://www.amazon.com/dp/yyy` — both pointing to the same product. Canonicalizing at fetch time would lock in whichever form the first engine emitted. Canonicalizing at query time lets us evolve the canonical-form rules without rebuilding history.</p><p>Hindsight: the cache hit rate is good enough that I wouldn&#39;t change this. The complexity tax is real but contained.</p>
+      <p>Tradeoff: canonicalizing URLs at fetch time (when the citation is first parsed) produces clean data with smaller storage but loses information about the original raw URL the engine emitted. Canonicalizing at query time (when reporting) preserves the raw data but bloats storage and slows queries.</p><p>We chose <strong>at query time, with a redirect-resolver cache</strong>. The raw URLs as the engine emits them are stored unchanged. When the report layer runs, a redirect-resolver service maps raw URLs to their canonical forms, with results cached aggressively.</p><p>Why: AEO reporting has to handle cases where an engine cites <code>https://amzn.to/xxx</code> and another engine cites <code>https://www.amazon.com/dp/yyy</code> — both pointing to the same product. Canonicalizing at fetch time would lock in whichever form the first engine emitted. Canonicalizing at query time lets us evolve the canonical-form rules without rebuilding history.</p><p>Hindsight: the cache hit rate is good enough that I wouldn&#39;t change this. The complexity tax is real but contained.</p>
       
       
       
@@ -329,6 +329,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Dg9OQTx5.js"></script>
+    <script type="module" crossorigin src="/assets/index-BfueS8by.js"></script>
   </body>
 </html>
