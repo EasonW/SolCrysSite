@@ -66,7 +66,7 @@ for (const endpoint of ENDPOINTS) {
     accepted = true;
     break;
   }
-  const body = await response.text();
+  const body = await response.text().catch((error) => `(body unreadable: ${error.message})`);
   console.error(`[indexnow] ${endpoint} refused: HTTP ${response.status} ${body}`);
 }
 
