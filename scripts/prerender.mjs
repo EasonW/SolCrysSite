@@ -753,7 +753,7 @@ function homeHtml() {
         <li><strong>Measure across engines.</strong> Run a fixed prompt set across ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude on eligible plans. Capture mentions, citations, competitors, recommendation, and answer accuracy in one place.</li>
         <li><strong>Diagnose the answer gap.</strong> Classify each weak answer as an absence, citation, accuracy, comparison, or action gap. Map each gap to the page or source most likely to fix it.</li>
         <li><strong>Execute with Corporate Context.</strong> SolCrys uses your approved facts, claims, and guardrails to turn gaps into briefs, fix recommendations, and reviewable drafts your team can approve and ship.</li>
-        <li><strong>Verify and re-test.</strong> Rerun the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
+        <li><strong>Verify and retest.</strong> Rerun the same prompt set after the action ships. Track recommendation share, answer accuracy, and visibility movement to prove which fixes actually moved the answer.</li>
       </ol>
       <figure style="margin-top: 2rem;">
         <figcaption><strong>The SolCrys Loop.</strong></figcaption>
@@ -774,7 +774,7 @@ function homeHtml() {
     </section>
     <section id="free-tracker" class="seo-container seo-section">
       <h2>Free ChatGPT visibility tracker</h2>
-      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the questions your buyers ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you re-test that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the re-test loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
+      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the questions your buyers ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you retest that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the retest loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
     </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers, one closed loop — from AI visibility to governed execution</h2>
@@ -2693,12 +2693,12 @@ const freeTrackerFaqs = [
   {
     question: "Does it just give me a score, or help me fix it?",
     answer:
-      "Both. The visibility check is the measure step. In the same free workspace, a free content audit hands you the concrete fix to ship — the schema block, the heading rewrite — not just a score. That is what makes SolCrys a closed loop instead of a scoreboard: measure, diagnose, execute, verify. Re-testing at scale across every engine is the paid part.",
+      "Both. The visibility check is the measure step. In the same free workspace, a free content audit hands you the concrete fix to ship — the schema block, the heading rewrite — not just a score. That is what makes SolCrys a closed loop instead of a scoreboard: measure, diagnose, execute, verify. Retesting at scale across every engine is the paid part.",
   },
   {
     question: "What should I do after I get my results?",
     answer:
-      "Run the loop. Pick the page behind your weakest prompt and run your free content audit on it — it returns the specific findings, the code or copy to ship, and the points each fix recovers. Ship the fix, then re-test: your next monthly audit (or a paid plan, on demand) re-scores the page so you can see the recovery. Score → fix → proof, instead of score → screenshot → forgotten.",
+      "Run the loop. Pick the page behind your weakest prompt and run your free content audit on it — it returns the specific findings, the code or copy to ship, and the points each fix recovers. Ship the fix, then retest: your next monthly audit (or a paid plan, on demand) re-scores the page so you can see the recovery. Score → fix → proof, instead of score → screenshot → forgotten.",
   },
   {
     question: "What's included in the free workspace?",
@@ -2789,7 +2789,7 @@ function freeTrackerBody() {
     </section>
     <section class="seo-section">
       <h2>Most free checkers stop at the score &mdash; this one reaches the fix</h2>
-      <p>We surveyed 16 free AEO tools against the full loop &mdash; measure &rarr; diagnose &rarr; execute &rarr; verify. Free-forever trackers, one-shot graders, and trials all stop at measure or diagnose: a score and a gap list, then you are on your own. The SolCrys free workspace is the only free tier we found that reaches <em>execute</em> &mdash; it hands you the fix itself. The honest boundary: re-testing that the fix moved the answer uses your next monthly audit on free; on-demand re-tests and multi-engine tracking are the paid part. That cycle is <a href="/#loop">the SolCrys Loop</a>; see the full comparison in <a href="/free-aeo-tools-that-fix-not-just-score/">16 free AEO tools, compared by the loop</a>.</p>
+      <p>We surveyed 16 free AEO tools against the full loop &mdash; measure &rarr; diagnose &rarr; execute &rarr; verify. Free-forever trackers, one-shot graders, and trials all stop at measure or diagnose: a score and a gap list, then you are on your own. The SolCrys free workspace is the only free tier we found that reaches <em>execute</em> &mdash; it hands you the fix itself. The honest boundary: retesting that the fix moved the answer uses your next monthly audit on free; on-demand retests and multi-engine tracking are the paid part. That cycle is <a href="/#loop">the SolCrys Loop</a>; see the full comparison in <a href="/free-aeo-tools-that-fix-not-just-score/">16 free AEO tools, compared by the loop</a>.</p>
     </section>
     <section class="seo-section">
       <h2>Exactly what&rsquo;s free &mdash; no fine print</h2>
@@ -2804,7 +2804,7 @@ function freeTrackerBody() {
           <tr><td>Content audits (with the fix)</td><td>1 / month</td><td>4&ndash;10 / month</td></tr>
           <tr><td>Deep analyses</td><td>1 / month</td><td>12&ndash;40 / month</td></tr>
           <tr><td>Action Hub (the fix itself)</td><td>Included</td><td>Included</td></tr>
-          <tr><td>Re-test to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
+          <tr><td>Retest to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
         </tbody>
       </table></div>
       <p>Full plan details on the <a href="https://app.solcrys.com/pricing">pricing page</a>.</p>
@@ -2896,7 +2896,7 @@ const freeAeoAuditSteps = [
     text: "Every finding ships with the current state, the update to make, the code or copy to paste, and the points it recovers.",
   },
   {
-    name: "Ship, then re-test",
+    name: "Ship, then retest",
     text: "Re-audit the page to watch the score recover — your next monthly audit on free, on demand on paid plans.",
   },
 ];
@@ -2929,12 +2929,12 @@ const freeAeoAuditFaqs = [
   {
     question: "What should I do after the audit?",
     answer:
-      "Ship the highest-point fixes first — each finding shows its points recoverable, so the priority order is explicit. Then re-test: re-auditing the same page shows the score recovery. On free that's your next monthly audit; paid plans re-test on demand and track the answer itself across engines daily.",
+      "Ship the highest-point fixes first — each finding shows its points recoverable, so the priority order is explicit. Then retest: re-auditing the same page shows the score recovery. On free that's your next monthly audit; paid plans retest on demand and track the answer itself across engines daily.",
   },
   {
     question: "How is this different from a free AEO grader?",
     answer:
-      "Graders measure; this audit executes. We surveyed 16 free AEO tools against the loop — measure, diagnose, execute, verify — and the free offerings all stop at a score or a gap list. The SolCrys free workspace is the only free tier we found that reaches execute: it hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit.",
+      "Graders measure; this audit executes. We surveyed 16 free AEO tools against the loop — measure, diagnose, execute, verify — and the free offerings all stop at a score or a gap list. The SolCrys free workspace is the only free tier we found that reaches execute: it hands you the fix itself. The honest boundary: retesting on free uses your next monthly audit.",
   },
   {
     question: "Do I need to sign up?",
@@ -2990,7 +2990,7 @@ brand visibility in AI-generated answers." /&gt;</code></pre>
     </section>
     <section class="seo-section">
       <h2>Graders measure &mdash; this audit executes</h2>
-      <p>We surveyed 16 free AEO tools against the full loop &mdash; measure &rarr; diagnose &rarr; execute &rarr; verify. The free graders and checkers all stop at a score or a gap list; even the biggest one returns five scored dimensions and generic tips. The SolCrys free workspace is the only free tier we found that reaches <em>execute</em>: the audit hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit; on-demand re-tests and multi-engine tracking are the paid part. See the evidence in <a href="/free-aeo-tools-that-fix-not-just-score/">16 free AEO tools, compared by the loop</a>, or start with the <a href="/free-chatgpt-visibility-tracker/">free ChatGPT visibility tracker</a> if you want the visibility read first.</p>
+      <p>We surveyed 16 free AEO tools against the full loop &mdash; measure &rarr; diagnose &rarr; execute &rarr; verify. The free graders and checkers all stop at a score or a gap list; even the biggest one returns five scored dimensions and generic tips. The SolCrys free workspace is the only free tier we found that reaches <em>execute</em>: the audit hands you the fix itself. The honest boundary: retesting on free uses your next monthly audit; on-demand retests and multi-engine tracking are the paid part. See the evidence in <a href="/free-aeo-tools-that-fix-not-just-score/">16 free AEO tools, compared by the loop</a>, or start with the <a href="/free-chatgpt-visibility-tracker/">free ChatGPT visibility tracker</a> if you want the visibility read first.</p>
     </section>
     <section class="seo-section">
       <h2>Exactly what&rsquo;s free &mdash; no fine print</h2>
@@ -3004,7 +3004,7 @@ brand visibility in AI-generated answers." /&gt;</code></pre>
           <tr><td>Tracked prompts</td><td>10</td><td>20&ndash;60</td></tr>
           <tr><td>Deep analyses</td><td>1 / month</td><td>12&ndash;40 / month</td></tr>
           <tr><td>Action Hub (the fix itself)</td><td>Included</td><td>Included</td></tr>
-          <tr><td>Re-test to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
+          <tr><td>Retest to verify the fix</td><td>Next month&rsquo;s audit</td><td>On demand, at scale</td></tr>
         </tbody>
       </table></div>
       <p>Full plan details on the <a href="https://app.solcrys.com/pricing">pricing page</a>.</p>

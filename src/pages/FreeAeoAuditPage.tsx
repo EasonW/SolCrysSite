@@ -64,7 +64,7 @@ const STEPS = [
   },
   {
     Icon: RefreshCw,
-    title: "Ship, then re-test",
+    title: "Ship, then retest",
     body: "Re-audit the page to watch the score recover — your next monthly audit on free, on demand on paid plans.",
   },
 ];
@@ -115,11 +115,11 @@ const FAQS = [
   },
   {
     q: "What should I do after the audit?",
-    a: "Ship the highest-point fixes first — each finding shows its points recoverable, so the priority order is explicit. Then re-test: re-auditing the same page shows the score recovery. On free that's your next monthly audit; paid plans re-test on demand and track the answer itself across engines daily.",
+    a: "Ship the highest-point fixes first — each finding shows its points recoverable, so the priority order is explicit. Then retest: re-auditing the same page shows the score recovery. On free that's your next monthly audit; paid plans retest on demand and track the answer itself across engines daily.",
   },
   {
     q: "How is this different from a free AEO grader?",
-    a: "Graders measure; this audit executes. We surveyed 16 free AEO tools against the loop — measure, diagnose, execute, verify — and the free offerings all stop at a score or a gap list. The SolCrys free workspace is the only free tier we found that reaches execute: it hands you the fix itself. The honest boundary: re-testing on free uses your next monthly audit.",
+    a: "Graders measure; this audit executes. We surveyed 16 free AEO tools against the loop — measure, diagnose, execute, verify — and the free offerings all stop at a score or a gap list. The SolCrys free workspace is the only free tier we found that reaches execute: it hands you the fix itself. The honest boundary: retesting on free uses your next monthly audit.",
   },
   {
     q: "Do I need to sign up?",
@@ -376,8 +376,8 @@ brand visibility in AI-generated answers." />`}</code>
               stop at a score or a gap list; even the biggest one returns five
               scored dimensions and generic tips. The SolCrys free workspace is
               the only free tier we found that reaches <em>execute</em>: the
-              audit hands you the fix itself. The honest boundary: re-testing
-              on free uses your next monthly audit; on-demand re-tests and
+              audit hands you the fix itself. The honest boundary: retesting
+              on free uses your next monthly audit; on-demand retests and
               multi-engine tracking are the paid part.
             </p>
             <p className="text-sm text-muted-foreground">
@@ -450,7 +450,7 @@ brand visibility in AI-generated answers." />`}</code>
                   </tr>
                   <tr>
                     <td className="py-3 pr-4 text-foreground/90">
-                      Re-test to verify the fix
+                      Retest to verify the fix
                     </td>
                     <td className="py-3 pr-4">Next month's audit</td>
                     <td className="py-3">On demand, at scale</td>
