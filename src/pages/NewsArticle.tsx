@@ -35,10 +35,30 @@ const formatDate = (iso: string) =>
 // Matches either a markdown link [text](url) or **bold** segment. Mirrors
 // renderInline in ResourcePage.tsx and renderInlineHtml in prerender.mjs —
 // body copy must render identically in the SPA and the prerendered HTML.
-const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*/g;
+const INLINE_TOKEN_REGEX = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+?)\*\*|`([^`]+)`/g;
+const CODE_SPAN_REGEX = /`([^`]+)`/g;
+const CODE_CLASS = "rounded bg-muted px-1 py-0.5 font-mono text-[0.9em] text-foreground";
+const renderCode = (text: string, keyPrefix: string): ReactNode => {
+  if (!text.includes("`")) return text;
+  const parts: ReactNode[] = [];
+  let last = 0;
+  let i = 0;
+  for (const m of text.matchAll(CODE_SPAN_REGEX)) {
+    const start = m.index ?? 0;
+    if (start > last) parts.push(text.slice(last, start));
+    parts.push(
+      <code key={`${keyPrefix}-c-${i++}`} className={CODE_CLASS}>
+        {m[1]}
+      </code>
+    );
+    last = start + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+};
 
 const renderInline = (text: string): ReactNode => {
-  if (!text.includes("](") && !text.includes("**")) return text;
+  if (!text.includes("](") && !text.includes("**") && !text.includes("`")) return text;
   const nodes: ReactNode[] = [];
   let lastIndex = 0;
   let keyIndex = 0;
@@ -55,14 +75,20 @@ const renderInline = (text: string): ReactNode => {
           {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           className="text-[hsl(var(--brand-accent))] underline-offset-4 hover:underline"
         >
-          {match[1]}
+          {renderCode(match[1], `lnk-${keyIndex}`)}
         </a>
       );
     } else if (match[3] !== undefined) {
       nodes.push(
-        <strong key={`b-${keyIndex++}`} className="font-semibold text-foreground">
-          {match[3]}
+        <strong key={`b-${keyIndex}`} className="font-semibold text-foreground">
+          {renderCode(match[3], `b-${keyIndex++}`)}
         </strong>
+      );
+    } else if (match[4] !== undefined) {
+      nodes.push(
+        <code key={`c-${keyIndex++}`} className={CODE_CLASS}>
+          {match[4]}
+        </code>
       );
     }
     lastIndex = start + match[0].length;
