@@ -38669,7 +38669,7 @@
       "summary": "SEO teams want the AI equivalent of a keyword report: the prompts where ChatGPT, Gemini, or Google AI Overviews mention them. No engine publishes one. Search Console's generative AI report shows impressions by page, with no queries. AI Mode queries are mixed into the standard Performance report, where very rare queries are withheld. Bing shows sampled grounding queries for Copilot, and ChatGPT, Claude, and Perplexity give site owners no prompt report at all. So you work in reverse: collect candidate questions from the data you do have, rewrite them the way buyers ask an assistant, and test them on the engines repeatedly. This guide covers the filters, the sources, and a 5-step method, with what each source can and can't tell you as of Oct. 14, 2026.",
       "category": "Prompt Intelligence",
       "published": "2026-10-14",
-      "updated": "2026-10-16",
+      "updated": "2026-10-18",
       "ogImage": "/og/find-ai-prompts-your-brand-shows-up-for.png",
       "ogEyebrow": "Prompt Intelligence",
       "ogTitleParts": [
@@ -38702,7 +38702,7 @@
           "heading": "Direct answer",
           "body": [
             "You can't download a list of the AI prompts your brand appears in, because no engine publishes one. Search Console's generative AI report shows how often your pages appeared in AI Overviews and AI Mode, with no queries. Bing Webmaster Tools shows a sample of the search phrases Copilot used to find your pages. ChatGPT, Claude, and Perplexity offer site owners no prompt report.",
-            "So work in reverse. Collect candidate questions from what you can see: long and question-form queries in Search Console, Bing's grounding queries, and the questions your sales and support teams already hear. Rewrite them the way a buyer would ask an assistant. Then run them on the engines your buyers use, several times each, and record whether the answers name you, recommend you, or cite your pages. The prompts you keep become your prompt set: the fixed list of questions you measure over time."
+            "So work in reverse. Collect candidate questions from what you can see: long and question-form queries in Search Console, with automated probes set aside, Bing's grounding queries, and the questions your sales and support teams already hear. Rewrite them the way a buyer would ask an assistant. Then run them on the engines your buyers use, several times each, and record whether the answers name you, recommend you, or cite your pages. The prompts you keep become your prompt set: the fixed list of questions you measure over time."
           ]
         },
         {
@@ -38783,9 +38783,9 @@
             ]
           },
           "bullets": [
+            "**Set aside automated probes first.** Monitoring tools send scheduled queries to Google, and automated requests can register as impressions: when Google disabled a 100-results-per-page parameter in September 2025, many sites saw desktop impressions drop, and the working theory among SEOs was that bots loading those pages had partly inflated them ([Search Engine Journal](https://www.searchenginejournal.com/google-modifies-search-results-parameter-affecting-seo-tools/556080/)). Sort the matches by clicks. A long, oddly specific question with steady impressions and no clicks over months is more likely a tool checking a brand than a buyer, and on a site with modest search traffic, probes can be most of what these filters return. If none of your long questions have clicks, lean on Step 3.",
             "**Read them by page.** Add the Page dimension and compare with the pages that show impressions in the generative AI report. A long question-form query landing on a page with AI impressions is a strong candidate.",
             "**Group by intent.** Rare queries are withheld, so the report shows the more common phrasings. Group what you find by the intent and persona behind it.",
-            "**Watch for automated probes.** Monitoring tools send scheduled prompts to Google too. Oddly specific long queries with steady impressions and no clicks may be machines checking a brand, not buyers.",
             "**Don't over-read a match.** A 12-word question can be an ordinary search. The filters find candidates; testing in Step 4 decides what matters."
           ]
         },
@@ -38896,7 +38896,7 @@
         },
         {
           "question": "What regex finds AI-style queries in Search Console?",
-          "answer": "Three filters on the Query dimension narrow the list: question openers such as (?i)^(what|how|which|why|is|can|should|does|i)\\b, queries of 10 or more words with ^(?:\\S+\\s+){9,}\\S+$, and short follow-ups such as (?i)^(yes|ok|sure|tell me more)\\b. They find candidates, not confirmed AI queries, and very rare queries are withheld."
+          "answer": "Three filters on the Query dimension narrow the list: question openers such as (?i)^(what|how|which|why|is|can|should|does|i)\\b, queries of 10 or more words with ^(?:\\S+\\s+){9,}\\S+$, and short follow-ups such as (?i)^(yes|ok|sure|tell me more)\\b. They find candidates, not confirmed AI queries: very rare queries are withheld, and long questions with steady impressions but no clicks are often monitoring tools, not buyers."
         },
         {
           "question": "What are grounding queries in Bing Webmaster Tools?",
@@ -38931,6 +38931,10 @@
         {
           "label": "Search Engine Roundtable: Google Search Console AI Mode queries in the performance report (Aug. 6, 2026)",
           "url": "https://www.seroundtable.com/google-search-console-ai-mode-queries-41821.html"
+        },
+        {
+          "label": "Search Engine Journal: Google Modifies Search Results Parameter, Affecting SEO Tools (Sept. 15, 2025)",
+          "url": "https://www.searchenginejournal.com/google-modifies-search-results-parameter-affecting-seo-tools/556080/"
         },
         {
           "label": "Google Search Central Blog: Web multimodal search in Search Console (Sept. 24, 2026)",
@@ -40022,7 +40026,7 @@
         "Measurement"
       ],
       "published": "2026-10-15",
-      "updated": "2026-10-16",
+      "updated": "2026-10-18",
       "ogImage": "/og/prompts-vary-intent-and-persona-dont.png",
       "ogEyebrow": "Prompt Intelligence",
       "ogTitleParts": [
@@ -40167,9 +40171,14 @@
             ],
             "rows": [
               [
-                "**Search Console and Bing grounding queries**",
+                "**Search Console queries people clicked**",
                 "How buyers phrase questions that already reach your site",
                 "New intents and phrasings to cover ([how to find them](/find-ai-prompts-your-brand-shows-up-for/))"
+              ],
+              [
+                "**Bing grounding queries**",
+                "The phrases Microsoft's AI searched to find your pages: the AI's wording, not the buyer's",
+                "Topics and intents to cover"
               ],
               [
                 "**Sales calls, support tickets, and demos**",
