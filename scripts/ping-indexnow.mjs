@@ -19,7 +19,13 @@ const rootDir = path.resolve(__dirname, "..");
 const distDir = path.join(rootDir, "dist");
 
 const HOST = "solcrys.com";
-const ENDPOINT = "https://api.indexnow.org/IndexNow";
+// IndexNow engines share submissions with each other, so one accepted
+// submission reaches all of them. Bing (behind api.indexnow.org) has rejected
+// solcrys.com with 403 UserForbiddedToAccessSite since at least 2026-07, while
+// Yandex accepts the same key; a URL accepted by Yandex then shows up in Bing
+// Webmaster Tools' IndexNow report (verified 2026-10-18). Try the generic
+// endpoint first and fall back to the next one when it refuses.
+const ENDPOINTS = ["https://api.indexnow.org/IndexNow", "https://yandex.com/indexnow"];
 
 const key = process.env.INDEXNOW_KEY;
 if (!key) {
@@ -42,16 +48,29 @@ const payload = {
   urlList
 };
 
-const response = await fetch(ENDPOINT, {
-  method: "POST",
-  headers: { "Content-Type": "application/json; charset=utf-8" },
-  body: JSON.stringify(payload)
-});
-
-if (response.status === 200 || response.status === 202) {
-  console.log(`[indexnow] Submitted ${urlList.length} URLs to ${ENDPOINT} (status ${response.status}).`);
-} else {
+let accepted = false;
+for (const endpoint of ENDPOINTS) {
+  let response;
+  try {
+    response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+  } catch (error) {
+    console.error(`[indexnow] ${endpoint} unreachable: ${error.message}`);
+    continue;
+  }
+  if (response.status === 200 || response.status === 202) {
+    console.log(`[indexnow] Submitted ${urlList.length} URLs to ${endpoint} (status ${response.status}).`);
+    accepted = true;
+    break;
+  }
   const body = await response.text();
-  console.error(`[indexnow] Submission failed: HTTP ${response.status} ${body}`);
+  console.error(`[indexnow] ${endpoint} refused: HTTP ${response.status} ${body}`);
+}
+
+if (!accepted) {
+  console.error("[indexnow] Submission failed at every endpoint.");
   process.exit(1);
 }
