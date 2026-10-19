@@ -1,1 +1,0 @@
-import{r as e}from"./index-B3069A1s.js";var t=`https://app.solcrys.com/audit`;function n(t){e(`request_audit_open`,{surface:t,mode:`audit`,destination:`app`})}export{n,t};
