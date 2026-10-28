@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Google AI Overviews Opt-Out: UK Rules From Dec. 3 | SolCrys</title>
+    <meta name="description" content="From Dec. 3, 2026, UK rules bar Google from downranking content that opts out of its AI answers in Search. What opting out removes and who should." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/google-ai-overviews-opt-out-uk-cma/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-27" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Google AI Overviews Opt-Out: UK Rules From Dec. 3 | SolCrys" />
+    <meta property="og:description" content="From Dec. 3, 2026, UK rules bar Google from downranking content that opts out of its AI answers in Search. What opting out removes and who should." />
+    <meta property="og:url" content="https://solcrys.com/google-ai-overviews-opt-out-uk-cma/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-27" />
+    <meta property="article:modified_time" content="2026-10-27" />
+    <meta property="og:image" content="https://solcrys.com/og/google-ai-overviews-opt-out-uk-cma.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/google-ai-overviews-opt-out-uk-cma.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Opting Out of Google AI Overviews: What the UK's New Rules Protect From Dec. 3, 2026","item":"https://solcrys.com/google-ai-overviews-opt-out-uk-cma/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Opting out of Google AI Overviews: what the UK's new rules protect from Dec. 3, 2026","description":"From Dec. 3, 2026, UK rules bar Google from downranking content that opts out of its AI answers in Search. What opting out removes and who should.","dateModified":"2026-10-27","datePublished":"2026-10-27","mainEntityOfPage":"https://solcrys.com/google-ai-overviews-opt-out-uk-cma/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/google-ai-overviews-opt-out-uk-cma/","mainEntity":[{"@type":"Question","name":"Can I opt out of Google AI Overviews without hurting my rankings?","acceptedAnswer":{"@type":"Answer","text":"Google says its Search generative AI control isn't a ranking signal for the rest of Search, and from Dec. 3, 2026 the UK's rules make that binding for content shown to people in the UK: Google may not downrank or otherwise disadvantage opted-out content, or take away features such as snippets. The CMA notes that Google may not be able to control every indirect effect on its ranking systems."}},{"@type":"Question","name":"When do the UK CMA rules on Google's AI answers take effect?","acceptedAnswer":{"@type":"Answer","text":"On Dec. 3, 2026, six months after the CMA imposed them on June 3, 2026. The page-level control for grounding Google's AI features in Search follows three months later, by March 2027."}},{"@type":"Question","name":"Does the UK opt-out rule apply to sites outside the UK?","acceptedAnswer":{"@type":"Answer","text":"It applies to content shown to people located in the UK, wherever the site is based. A US brand's content in AI Overviews for UK users is covered; a UK site's content shown to users elsewhere is not."}},{"@type":"Question","name":"Does blocking Google-Extended remove my site from AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"No. Google-Extended limits training of Gemini models and grounding in the Gemini app and Vertex AI, and Google says it doesn't affect inclusion in Search. The control for AI Overviews is the Search generative AI control in Search Console."}},{"@type":"Question","name":"Will Search Console show clicks from AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"Not separately, yet. The generative AI report shows impressions only, and clicks on AI Overview links count in the standard Performance report alongside ordinary web results. The CMA expects Google to provide clicks and click-through rate for content shown in its AI features in Search, but Google hasn't announced how or when."}},{"@type":"Question","name":"If I opt out of AI Overviews, does Google stop answering questions about my brand?","acceptedAnswer":{"@type":"Answer","text":"No. Google says content from other sites will still be available in those features, \"and it may appear similar to yours.\" Opting out removes your links and words from the answer, not the answer itself."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Technical Readiness</p>
+        <h1>Opting out of Google AI Overviews: what the UK&#39;s new rules protect from Dec. 3, 2026</h1>
+        <p class="seo-lede">Any site can already opt out of Google&#39;s AI answers in Search. Search Console&#39;s Search generative AI control has been available worldwide since Aug. 31, 2026, and Google says the choice isn&#39;t a ranking signal for the rest of Search. From Dec. 3, 2026, the UK Competition and Markets Authority makes the key protections a legal duty for content shown to people in the UK: Google may not downrank or otherwise disadvantage content that opts out, must give publishers engagement data including clicks and click-through rate, and must take reasonable steps to attribute sources clearly. A page-level control follows by March 2027. Opting out removes your links and words from AI Overviews, but not the answer, which Google says can still draw on other sites&#39; content that &quot;may appear similar to yours&quot;. This guide covers what changes on Dec. 3, who is covered, what each Google control does, and who should consider opting out, as of Oct. 27, 2026.</p>
+        
+        <p>Updated <time datetime="2026-10-27">2026-10-27</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Can I opt out of Google AI Overviews without hurting my rankings?</li><li>When do the UK CMA rules on Google&#39;s AI answers take effect?</li><li>Does the UK opt-out rule apply to sites outside the UK?</li><li>Does blocking Google-Extended remove my site from AI Overviews?</li><li>Will Search Console show clicks from AI Overviews?</li><li>If I opt out of AI Overviews, does Google stop answering questions about my brand?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>You don&#39;t have to wait for Dec. 3 to opt out. Google&#39;s Search generative AI control in Search Console lets any site exclude its links and content from Google&#39;s AI features in Search, and Google rolled it out &quot;to all websites worldwide&quot; on Aug. 31, 2026. Google also says the control &quot;isn&#39;t used as a ranking or inclusion signal affecting other parts of Search&quot;.</p><p>What Dec. 3, 2026 changes is the legal footing. Under the UK&#39;s <a href="https://assets.publishing.service.gov.uk/media/6a1ec73a59fb7a60f827f64e/Publisher_CR_Notice.pdf" target="_blank" rel="noopener noreferrer">publisher conduct requirement</a>, imposed on June 3, 2026, Google must not penalize publishers for using the controls, &quot;for example by downranking their Search Content&quot;, for content shown to people in the UK. It must also provide engagement data, including clicks and click-through rate, and take reasonable steps to attribute content clearly. A page-level control for grounding follows three months later.</p><p>For most brands, opting out is the wrong move. It removes your links and your words from AI Overviews, but the answer still gets written from other sites, and you also lose the &quot;preferred&quot; badge in AI answers. It can make sense for publishers whose content gets summarized in place, ideally tested on one directory first, once the click data arrives.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What changes on Dec. 3, 2026, and what doesn&#39;t</h2>
+      <p>The CMA&#39;s summary is explicit: &quot;Google has until 3 December 2026 to comply with the CR, with an additional 3 months to develop and roll-out a page level control.&quot; The legal notice says the same: it comes into force six months after June 3, 2026, except the page-level control, which comes into force after nine months. The table compares what exists today with what the rules require.</p>
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th></th><th>Today (worldwide)</th><th>From Dec. 3, 2026 (content shown in the UK)</th></tr></thead>
+              <tbody><tr><td><strong>Opting out of AI features in Search</strong></td><td>The Search generative AI control in Search Console, set per property (a whole site, a subdomain, or a directory such as /blog/)</td><td>Required: controls to withhold content from grounding Google&#39;s AI features in Search, at directory level; page level by March 2027</td></tr><tr><td><strong>No downranking for opting out</strong></td><td>Google&#39;s own statement that the control isn&#39;t a ranking signal</td><td>Binding: no downranking or other disadvantage in general search, and no loss of features such as snippets</td></tr><tr><td><strong>Engagement data</strong></td><td>Impressions only, in Search Console&#39;s generative AI report</td><td>Impressions, clicks, and click-through rate, separate from organic results, through a platform such as Search Console</td></tr><tr><td><strong>Attribution</strong></td><td>Google&#39;s own design choices</td><td>Reasonable steps to attribute content clearly and accurately, plus published explanations of how</td></tr><tr><td><strong>Training</strong></td><td>Google-Extended limits training of Gemini models, which Google&#39;s help page says includes the models behind its AI features in Search, and grounding in the Gemini app and Vertex AI</td><td>Controls must cover training as well as grounding, for Google&#39;s AI features in Search and its broader AI services</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Who is covered: content shown in the UK, not just UK sites</h2>
+      <p>The rules apply to &quot;the outputs of all generative AI services and features shown to any natural or legal persons located in the UK&quot;, and the CMA&#39;s interpretative notes say location can be taken from &quot;the location reported by their device&quot;. So a US brand whose content appears in AI Overviews for people in the UK is covered for those answers, and a UK site&#39;s content shown to people elsewhere is not.</p><p>&quot;Publisher&quot; is broad. The legal notice defines it as &quot;any party that makes content available on the web&quot;, which includes brands and B2B companies, not only news outlets. The CMA says &quot;all publishers will benefit to the extent that their Search Content is used in the outputs&quot; shown to UK users. Google may also choose to apply the same approach more widely, but it hasn&#39;t announced how it will implement the UK rules.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>&quot;Without being downranked&quot;: what the rules actually protect</h2>
+      <p>The core text is paragraph 9 of the legal notice: Google &quot;shall not seek to prevent publishers from, or penalise them for, using the controls … for example by downranking their Search Content, or otherwise disadvantaging them, relative to opted-in Search Content, in general search outside of search generative AI features.&quot; The interpretative notes add that opting out &quot;should therefore not lead to a publisher losing features such as snippets&quot;.</p><p>Two limits are written into the same notes. The CMA &quot;recognises that Google may not be able to control for all possible second order effects of the controls on Google&#39;s overall ranking algorithm&quot;, so the protection is against deliberate penalties, not against every ripple. And Google may still promote the benefits of staying in, or negotiate an agreement with a publisher about its use of the controls.</p><p>Outside the UK, you rely on Google&#39;s own statement that the control isn&#39;t a ranking signal. That is a policy, not a legal duty.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The four controls, and what each one does</h2>
+      <p>Google offers four different levers, and they are easy to confuse. Only the first is built for AI Overviews specifically. For a fuller guide to crawler and training settings, see <a href="/ai-crawler-access-search-agent-training/">AI crawler access: search, agents, and training</a>.</p>
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>Control</th><th>What it does</th><th>Cost</th></tr></thead>
+              <tbody><tr><td><strong>Search generative AI control</strong> (Search Console)</td><td>Excludes a property&#39;s links and content from Google&#39;s AI features in Search, including AI Overviews, and from grounding their answers</td><td>No traffic or impressions from those features; per property, not per page</td></tr><tr><td><strong>nosnippet, max-snippet, data-nosnippet</strong> (robots meta tags and attributes)</td><td>Stops or limits a page&#39;s text being shown in results or used as a direct input for AI Overviews; data-nosnippet works on parts of a page</td><td>Also removes or shortens your snippet in ordinary search results</td></tr><tr><td><strong>Google-Extended</strong> (robots.txt)</td><td>Limits training of Google&#39;s Gemini models and grounding in the Gemini app and Vertex AI</td><td>Doesn&#39;t control whether you appear in AI Overviews; Google says it doesn&#39;t affect inclusion in Search</td></tr><tr><td><strong>noindex</strong></td><td>Removes a page from Google Search entirely</td><td>Removes the page from ordinary results too</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <section class="seo-section">
+      <h2>What opting out removes, keeps, and doesn&#39;t touch</h2>
+      <p>Google&#39;s help page for the control is specific about the trade, and it is worth reading before you change the setting.</p>
+      <ul class="seo-list"><li><strong>It removes your links and content from the AI answer.</strong> Excluded sites aren&#39;t linked to within these features, their content isn&#39;t used to ground the answers, and Google says &quot;You won&#39;t receive any traffic or impressions from these features.&quot;</li><li><strong>It doesn&#39;t remove the answer.</strong> &quot;Content from other sites will still be available in those features, and it may appear similar to yours.&quot; For a brand, that means competitors, reviewers, and roundups can still shape what AI Overviews says about your category, and about you.</li><li><strong>It removes the preferred badge.</strong> Google&#39;s Preferred Sources documentation says that to be highlighted as a preferred source in AI answers, &quot;you must make sure your site is included in Search generative AI features in Search Console.&quot;</li><li><strong>It shouldn&#39;t cost you ordinary rankings.</strong> Google says the control isn&#39;t a ranking signal for other parts of Search, and from Dec. 3 the UK rules bar Google from downranking opted-out content shown in the UK, short of indirect effects the CMA says Google may not be able to control.</li><li><strong>It doesn&#39;t change AI training.</strong> Google&#39;s help page says the control &quot;doesn&#39;t affect AI training&quot;; Google-Extended is the training control. It also notes your content &quot;may still be used to power Google Search as a whole&quot;.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Should you opt out? Publishers and brands differ</h2>
+      <p>The rules are framed around publishers, and they matter most for sites whose content is summarized in place, where an AI answer can replace the visit. For a site like that, opting out is a business decision worth testing. A sensible order, based on what the rules provide: wait for the click data the CMA requires, exclude one directory first by setting the control on a URL-prefix property such as /guides/, then compare traffic and classic positions in Search Console before going further.</p><p>For a brand that wants to be named and recommended, opting out mostly hands the answer to other sources. AI Overviews can still answer &quot;best X for Y&quot; and &quot;is [your brand] any good&quot;, built from pages you don&#39;t control, and your own site can no longer be the cited source or carry the preferred badge. If your concern is that the answer is wrong, the fix is usually on your pages and in the third-party sources the answer cites, not in leaving.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The data you&#39;ll get, and won&#39;t</h2>
+      <p>Today, Search Console&#39;s generative AI performance report shows impressions only: no clicks, no click-through rate, and no queries. The CMA&#39;s interpretative notes expect Google to provide impressions, clicks, and click-through rate for content shown in its AI features in Search, &quot;fully disaggregated from other elements of general search&quot;, through a platform such as Search Console, plus a way to identify those clicks so you can judge their quality. The data may be aggregated across features rather than split by feature, and query-level data isn&#39;t on the list. For what each free report shows today, see <a href="/search-console-bing-ga4-ai-reports/">what Search Console, Bing, GA4, and Merchant Center show</a>.</p><p>Google hasn&#39;t said what the report will look like on Dec. 3 or whether the new data will cover only content shown in the UK. And because query-level data isn&#39;t on the CMA&#39;s list, the practical way to see which of your pages AI Overviews cites, and for which questions, is to run the questions yourself.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What&#39;s next</h2>
+      <p>Dates to watch, as of Oct. 27, 2026.</p>
+      <ul class="seo-list"><li><strong>Choice screens:</strong> on Sept. 23, 2026, the CMA proposed that Google show Android and Chrome users a choice of search services, including AI assistants, but only providers that attribute publisher content clearly. Responses closed Oct. 9, and the CMA expects a decision by the end of 2026. It is still a proposal.</li><li><strong>Jan. 3, 2027:</strong> Google&#39;s first compliance report to the CMA is due, covering June 3 to Dec. 3, 2026.</li><li><strong>The EU:</strong> the European Commission opened an investigation on Dec. 9, 2025 into whether publishers can refuse the use of their content in Google&#39;s AI features &quot;without losing access to Google Search&quot;, and under the Digital Markets Act, AI chatbots with search functions can receive shared Google search data from January 2027.</li><li><strong>March 2027:</strong> the page-level control for grounding Google&#39;s AI features in Search is due.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys helps</h2>
+      <p>SolCrys runs your buyer questions on a schedule across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan, and records every cited URL. That shows what Search Console doesn&#39;t: which of your pages AI Overviews cites, for which questions, and which other sources it uses instead. If you test the control on a directory, the same questions run again on the same engines, so you can see across several runs whether those pages drop out of AI Overviews while your classic positions hold in Search Console.</p><p>To see which sources ChatGPT cites for 10 of your buyer questions, <a href="https://app.solcrys.com/audit">Start Free</a>: 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card. Google AI Overviews is on the Starter plan and above.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://assets.publishing.service.gov.uk/media/6a1ec73a59fb7a60f827f64e/Publisher_CR_Notice.pdf" target="_blank" rel="noopener noreferrer">CMA: Publisher conduct requirement, legal notice (June 3, 2026)</a></li><li><a href="https://assets.publishing.service.gov.uk/media/6a1ec397050971fbebf3bd42/_Publisher_CR_Interpretative_Notes_.pdf" target="_blank" rel="noopener noreferrer">CMA: Publisher conduct requirement, interpretative notes (June 3, 2026)</a></li><li><a href="https://assets.publishing.service.gov.uk/media/6a7195d7aec8358a34958bfa/Publisher_conduct_requirement_-_3_Aug_2026.pdf" target="_blank" rel="noopener noreferrer">CMA: Publisher conduct requirement, summary (Aug. 4, 2026)</a></li><li><a href="https://assets.publishing.service.gov.uk/media/6a1f0098b95db968c8f3bdb9/Publisher_CR_final_decision.pdf" target="_blank" rel="noopener noreferrer">CMA: Final decision on the publisher conduct requirement (June 3, 2026)</a></li><li><a href="https://assets.publishing.service.gov.uk/media/6a1ec37a916cd732dcdaae30/_Publisher_CR_Compliance_Reporting_Notice_.pdf" target="_blank" rel="noopener noreferrer">CMA: Compliance reporting notice (June 3, 2026)</a></li><li><a href="https://www.gov.uk/find-digital-markets-measures/google-search-publisher-conduct-requirement" target="_blank" rel="noopener noreferrer">CMA: Google search publisher conduct requirement (landing page)</a></li><li><a href="https://www.gov.uk/government/news/cma-secures-fairer-deal-for-publishers-and-improves-google-search-services-in-uk" target="_blank" rel="noopener noreferrer">CMA: Press release, a fairer deal for publishers (June 3, 2026)</a></li><li><a href="https://www.gov.uk/government/news/cma-strengthens-proposals-allowing-people-choice-over-their-search-service" target="_blank" rel="noopener noreferrer">CMA: Proposals on choice over search services (Sept. 23, 2026)</a></li><li><a href="https://support.google.com/webmasters/answer/16908024" target="_blank" rel="noopener noreferrer">Search Console Help: Search generative AI control</a></li><li><a href="https://support.google.com/webmasters/answer/16984139" target="_blank" rel="noopener noreferrer">Search Console Help: Generative AI performance report</a></li><li><a href="https://blog.google/products-and-platforms/products/search/new-controls-website-owners/" target="_blank" rel="noopener noreferrer">Google: New opportunities, control and insights for website owners (June 3, 2026; updated Aug. 31, 2026)</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag" target="_blank" rel="noopener noreferrer">Google Search Central: Robots meta tag specifications</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers" target="_blank" rel="noopener noreferrer">Google Search Central: Common crawlers, including Google-Extended</a></li><li><a href="https://developers.google.com/search/docs/appearance/preferred-sources" target="_blank" rel="noopener noreferrer">Google Search Central: Preferred sources</a></li><li><a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2964" target="_blank" rel="noopener noreferrer">European Commission: Investigation into Google&#39;s use of publishers&#39; content for AI features (Dec. 9, 2025)</a></li><li><a href="https://digital-markets-act.ec.europa.eu/commission-provides-guidance-google-ai-interoperability-android-and-sharing-google-search-data-under-2026-07-16_en" target="_blank" rel="noopener noreferrer">European Commission: Guidance on Google search data sharing under the DMA (July 16, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Can I opt out of Google AI Overviews without hurting my rankings?</h3>
+            <p>Google says its Search generative AI control isn&#39;t a ranking signal for the rest of Search, and from Dec. 3, 2026 the UK&#39;s rules make that binding for content shown to people in the UK: Google may not downrank or otherwise disadvantage opted-out content, or take away features such as snippets. The CMA notes that Google may not be able to control every indirect effect on its ranking systems.</p>
+          </article>
+          <article class="seo-card">
+            <h3>When do the UK CMA rules on Google&#39;s AI answers take effect?</h3>
+            <p>On Dec. 3, 2026, six months after the CMA imposed them on June 3, 2026. The page-level control for grounding Google&#39;s AI features in Search follows three months later, by March 2027.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does the UK opt-out rule apply to sites outside the UK?</h3>
+            <p>It applies to content shown to people located in the UK, wherever the site is based. A US brand&#39;s content in AI Overviews for UK users is covered; a UK site&#39;s content shown to users elsewhere is not.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does blocking Google-Extended remove my site from AI Overviews?</h3>
+            <p>No. Google-Extended limits training of Gemini models and grounding in the Gemini app and Vertex AI, and Google says it doesn&#39;t affect inclusion in Search. The control for AI Overviews is the Search generative AI control in Search Console.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Will Search Console show clicks from AI Overviews?</h3>
+            <p>Not separately, yet. The generative AI report shows impressions only, and clicks on AI Overview links count in the standard Performance report alongside ordinary web results. The CMA expects Google to provide clicks and click-through rate for content shown in its AI features in Search, but Google hasn&#39;t announced how or when.</p>
+          </article>
+          <article class="seo-card">
+            <h3>If I opt out of AI Overviews, does Google stop answering questions about my brand?</h3>
+            <p>No. Google says content from other sites will still be available in those features, &quot;and it may appear similar to yours.&quot; Opting out removes your links and words from the answer, not the answer itself.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-access-search-agent-training/">Search, Agent, or Training? How to Set AI Crawler Access in 2026 Without Blocking Your Own Citations</a></h3>
+            <p>Which AI crawlers to allow, what Cloudflare&#39;s Sept. 15, 2026 rules changed, and how to block AI training without losing your AI citations.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/google-ai-overviews-tracker/">Google AI Overviews Tracker</a></h3>
+            <p>How to track your brand in Google AI Overviews and AI Mode, what Search Console can&#39;t show, what SolCrys measures, and which plans include Google.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/find-ai-prompts-your-brand-shows-up-for/">How to Find the AI Prompts Your Brand Shows Up For (When Search Console Only Gives You Impressions)</a></h3>
+            <p>No AI engine reports the prompts behind your citations. How to find them anyway with Search Console filters, Bing&#39;s grounding queries, and a tested prompt set.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/google-ai-overviews-more-links/">Google Is Adding More Links to AI Overviews: The Settings and Pages That Make One Yours</a></h3>
+            <p>On Oct. 15, 2026, Google said it is adding more and higher links to AI Overviews and testing a slot for official pages. What qualifies yours.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AEO Fundamentals</p>
+            <h3><a href="/ai-search-statistics-2026/">AI Search in 2026: A Dated Timeline and the Statistics That Hold Up (With Source, Date, and Sample)</a></h3>
+            <p>28 AI search statistics for 2026, each with source, date, and sample, plus a dated timeline of the year and the widely quoted numbers to stop using.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-D-PaQ5HM.js"></script>
+  </body>
+</html>

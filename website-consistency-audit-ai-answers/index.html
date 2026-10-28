@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Website Consistency Audit for AI Answers | SolCrys</title>
+    <meta name="description" content="When your homepage, FAQ, help center, and press releases disagree, AI answers can repeat either version. How to audit and fix your own pages first." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/website-consistency-audit-ai-answers/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-27" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Website Consistency Audit for AI Answers | SolCrys" />
+    <meta property="og:description" content="When your homepage, FAQ, help center, and press releases disagree, AI answers can repeat either version. How to audit and fix your own pages first." />
+    <meta property="og:url" content="https://solcrys.com/website-consistency-audit-ai-answers/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-27" />
+    <meta property="article:modified_time" content="2026-10-27" />
+    <meta property="og:image" content="https://solcrys.com/og/website-consistency-audit-ai-answers.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/website-consistency-audit-ai-answers.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Your Own Pages Disagree, and AI Repeats It: Run a Consistency Audit Before AEO","item":"https://solcrys.com/website-consistency-audit-ai-answers/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your own pages disagree, and AI repeats it: run a consistency audit before AEO","description":"When your homepage, FAQ, help center, and press releases disagree, AI answers can repeat either version. How to audit and fix your own pages first.","dateModified":"2026-10-27","datePublished":"2026-10-27","mainEntityOfPage":"https://solcrys.com/website-consistency-audit-ai-answers/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/website-consistency-audit-ai-answers/","mainEntity":[{"@type":"Question","name":"Why does AI give a different answer about my product than my homepage?","acceptedAnswer":{"@type":"Answer","text":"It can be because another page of yours says something different. Answers that use web search are built from the pages an engine retrieves, and in lab studies models favor the passage that answers the question most directly, so a FAQ, help-center article, or old press release can outweigh your homepage. Check whether your own pages agree before looking elsewhere."}},{"@type":"Question","name":"What happens when my website has conflicting information about the same fact?","acceptedAnswer":{"@type":"Answer","text":"An AI answer may repeat either version. In lab studies, models rarely tell the reader that sources disagree, and a value repeated on more pages, or one the model already learned, can outweigh a single corrected page."}},{"@type":"Question","name":"Which pages should I check for contradictions first?","acceptedAnswer":{"@type":"Answer","text":"Pricing, plans, and compatibility facts first, then the pages AI answers already cite. After that, check the help center and docs, press releases, and PDFs, because they are updated on different schedules than your marketing pages."}},{"@type":"Question","name":"Do old press releases and PDFs affect what AI says about my company?","acceptedAnswer":{"@type":"Answer","text":"They can. Google indexes PDFs, and research finds outdated pages can mislead models even when current information is available. Keep historical press releases, but add a dated note that the value was superseded and link to the current page; redirect or remove pages that no longer serve a purpose."}},{"@type":"Question","name":"How do I tell AI engines which version of a fact is current?","acceptedAnswer":{"@type":"Answer","text":"Leave only one current value on pages you control, mark superseded pages with a dated note, redirect retired pages to their current equivalent, keep visible dates and structured data consistent and honest, and make sure crawlers see the change. Then rerun the same questions across several runs to confirm the answers moved."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Risk Monitoring</p>
+        <h1>Your own pages disagree, and AI repeats it: run a consistency audit before AEO</h1>
+        <p class="seo-lede">Before you try to change what AI engines or other sites say about you, make sure your own pages agree with each other. When your homepage, FAQ, help center, and press releases state different prices, capabilities, or numbers, an answer can repeat either version. In lab studies, language models tend to favor the passage that answers the question most directly rather than the most authoritative one, and they rarely tell the reader that sources disagree. In most of the brands we analyzed in October 2026, at least two of the brand&#39;s own pages disagreed on a fact AI answers repeat. This guide covers why that happens, the contradictions we see most often, a 5-step audit, how to fix each type, and how to check that engines picked up the fix, as of Oct. 27, 2026.</p>
+        
+        <p>Updated <time datetime="2026-10-27">2026-10-27</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why does AI give a different answer about my product than my homepage?</li><li>What happens when my website has conflicting information about the same fact?</li><li>How do I audit my website for inconsistent facts before doing AEO?</li><li>Which pages should I check for contradictions first?</li><li>Do old press releases and PDFs affect what AI says about my company?</li><li>How do I tell AI engines which version of a fact is current?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Fix your own pages first. If your homepage says a feature is on the free plan and your help center says it&#39;s paid-only, or your About page gives two different totals for the same customer result, an AI answer can repeat either one, and you can&#39;t predict which. Asking engines or third-party sites to change what they say is much harder while your own site argues with itself.</p><p>The audit is short: list the facts buyers ask about, pick 1 current value for each, find every page that states it (help center, old press releases, and PDFs included), fix or retire the outliers, date your pages honestly, and then rerun the same buyer questions across several runs to see whether the answers changed.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why your own contradictions end up in AI answers</h2>
+      <p>AI answers that use web search are assembled from the pages the engine retrieves. Google says its AI features rely &quot;on our core Search ranking systems to retrieve relevant, up-to-date web pages from our Search index&quot;, so any indexed page of yours, old or new, is a candidate. Research on how language models handle conflicting passages explains why contradictions on one site are hard for them to resolve. None of the engine documentation we checked explains how an engine chooses between two conflicting pages from the same site, so these findings come from lab studies, not from any one engine.</p>
+      <ul class="seo-list"><li><strong>Relevance beats polish.</strong> In an ACL 2024 study, models relied &quot;heavily on the relevance of a website to the query, while largely ignoring stylistic features that humans find important&quot;. The FAQ or help-center line that answers the exact question can outweigh your homepage.</li><li><strong>Same-site conflicts are the hard case.</strong> The WikiContradict benchmark looked at contradictions between passages that &quot;originate from the same source and have equal trustworthiness&quot; and found that models &quot;struggle to generate answers that accurately reflect the conflicting nature of the context&quot;. With nothing to break the tie, a model tends to pick one version without saying there&#39;s a conflict.</li><li><strong>Repetition tips the scale.</strong> Lab studies find models &quot;leaning towards placing trust in evidence that appears more frequently&quot; and showing confirmation bias toward what they already learned. An old figure repeated across old blog posts, a press release, and two PDFs can outvote the one page you corrected.</li><li><strong>Old pages don&#39;t stop working when you publish a new one.</strong> A 2025 study found outdated information can mislead models &quot;even when current information is available&quot;.</li><li><strong>Subtle conflicts are the sticky ones.</strong> In one benchmark, models struggled to detect conflicts &quot;especially when multi-hop reasoning is required&quot; and often failed &quot;to pinpoint the exact source of contradictions&quot;. We&#39;d expect conflicts of scope (which plan, which program) and status (planned versus shipped) to be among the hardest to spot.</li><li><strong>For a niche fact, you may be the only source.</strong> Google has described a &quot;data void&quot;, where little high-quality content exists on a topic. A detail like a plan limit or a compatibility status may appear only on your pages, so your internal conflict can decide the answer.</li></ul>
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>The contradictions we see most often</h2>
+      <p>In most of the brands we analyzed in October 2026 with Workspace Deep Analysis, at least two of the brand&#39;s own pages disagreed on a fact that AI answers repeat. The conflicts weren&#39;t exotic, and help centers and docs are where many of them hide, because support and product teams update them on a different schedule than marketing does. In some brands, the page an answer leaned on to describe the brand wasn&#39;t marketing copy at all; it was a help-center or docs page.</p><p>Anonymized, the conflicts looked like this.</p>
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>Type</th><th>What it looked like</th></tr></thead>
+              <tbody><tr><td><strong>Plan entitlement</strong></td><td>A software company&#39;s product page says the free plan includes a feature; its help center says the feature is paid-only, and answers repeated the paid-only version.</td></tr><tr><td><strong>Capability status</strong></td><td>A technology company&#39;s homepage calls support for a widely used developer framework &quot;planned&quot;, while its FAQ says it works today.</td></tr><tr><td><strong>Same number, two values</strong></td><td>A subscription brand&#39;s homepage and FAQ give different counts for the same weekly menu.</td></tr><tr><td><strong>Two totals on one page</strong></td><td>A B2B company&#39;s About page states the same cumulative customer result twice, with different totals.</td></tr><tr><td><strong>Performance claim drift</strong></td><td>A technology vendor&#39;s homepage and its own launch press release state different performance gains for the same product.</td></tr><tr><td><strong>Credential scope</strong></td><td>A services firm calls one offering accredited on one page; another page says only a related program holds the accreditation.</td></tr><tr><td><strong>Category mislabel</strong></td><td>An agency&#39;s industry portfolio page lists a project from an unrelated industry.</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <section class="seo-section">
+      <h2>The consistency audit, step by step</h2>
+      <p>Do it before outreach, content production, or any other AEO work, because every later step depends on knowing which value is current.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Inventory the facts buyers ask about</h3>
+        <p>List the facts a buyer, analyst, or AI answer would need to describe and compare you. Most contradictions fall into a short list of fact types.</p>
+        <ul class="seo-list"><li><strong>Prices and plans</strong>, including what each plan includes and what&#39;s free versus paid</li><li><strong>Capabilities, integrations, and compatibility</strong>, with status: available, beta, planned, or retired</li><li><strong>Numbers</strong>: customer counts, savings, performance gains, inventory or menu counts</li><li><strong>Credentials</strong>: certifications, accreditations, and awards, and which offering holds each one</li><li><strong>Dates</strong>: founding, launch, availability, end of life</li><li><strong>Availability</strong>: regions, languages, service area, stock</li><li><strong>Names and category</strong>: company, product, and legal entity names, and what you are</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Pick 1 current value and an owner for each fact</h3>
+        <p>Write each value down in one place, with the date it became true and the person who owns it. That is your single source of truth. Record retired values as retired, with the date, so the old value has an explicit end rather than a silent replacement.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Find every page that states it</h3>
+        <p>Search for each current value and each old value. Use site: searches, a filetype:pdf search, and a search of your CMS or a crawl export for the old numbers. Check these places, because they drift on different schedules.</p>
+        <ul class="seo-list"><li>Homepage hero and meta description; product, feature, and pricing pages; FAQ</li><li>Help center, docs, and knowledge base, which often live on a separate subdomain</li><li>About and company pages; press releases and newsroom; launch blog posts; case studies</li><li>Landing pages, localized pages, and legal or terms pages</li><li>PDFs such as datasheets, one-pagers, price sheets, and press kits, which Google indexes</li><li>Structured data and meta tags, and facts shown only inside images</li></ul>
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Classify each conflict</h3>
+        <p>The fix depends on the type. A conflict is usually one of five: outdated (an old value next to a new one), scope (true for one plan, region, or product but stated generally), computation (two totals from different dates or methods), status (planned versus shipped), or a plain error (a typo or the wrong category).</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>5. Prioritize</h3>
+        <p>Start with money and compatibility facts, and with the pages AI answers already cite. The citations show which of your pages the engines actually read, so a conflict on a cited page may already be costing you.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>How to fix each type</h2>
+      <p>Most fixes are ordinary site maintenance. The point is to leave one clearly current value everywhere an engine might look, without hiding anything from readers.</p>
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>Situation</th><th>Fix</th></tr></thead>
+              <tbody><tr><td><strong>A living page with the wrong value</strong> (pricing, FAQ, help article)</td><td>Update it in place, and state the current value in a plain sentence near the top.</td></tr><tr><td><strong>A historical page that should stay</strong> (press release, launch post)</td><td>Keep it, but add a dated note that it was superseded and link to the current page. In a September 2026 study, telling the larger models when old evidence stops applying worked far better than a date alone.</td></tr><tr><td><strong>A retired plan, product, or page with a current equivalent</strong></td><td>Use a permanent redirect, which Google treats as a strong signal that the target should be canonical.</td></tr><tr><td><strong>An obsolete page with no equivalent</strong></td><td>Remove it; Google drops URLs that return a 4xx status from its index over time. For an archived PDF you must keep, add an archived note in the document and noindex through the X-Robots-Tag header.</td></tr><tr><td><strong>Near-duplicate pages</strong></td><td>Consolidate them, and link internally to the canonical URL.</td></tr><tr><td><strong>A scope conflict</strong></td><td>Say the scope out loud: &quot;on paid plans&quot;, &quot;in the U.S.&quot;, &quot;for annual contracts&quot;. Then both pages stay true.</td></tr><tr><td><strong>Dates</strong></td><td>Show a labeled &quot;Published&quot; or &quot;Last updated&quot; date that matches the page&#39;s structured data, remove stray dates, and keep sitemap lastmod honest. Don&#39;t change dates on pages you didn&#39;t substantially update: Google asks whether you&#39;re &quot;changing the date of pages to make them seem fresh&quot;, and lab studies show models favor fresher-looking pages, so a falsely fresh old page can win.</td></tr><tr><td><strong>Structured data</strong></td><td>Make it say exactly what the visible text says; Google lists &quot;making sure your structured data matches the visible text on the page&quot; among its fundamentals. See <a href="/schema-markup-for-ai-search/">schema markup for AI search</a>.</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Check whether engines picked up the fix</h2>
+      <p>First, make sure crawlers saw the change; <a href="/get-ai-engines-to-see-your-updates/">how to get AI engines to see your updates</a> covers Search Console, Bing Webmaster Tools, and honest lastmod dates. Then rerun the same buyer questions on each engine you track and capture both the answer and the pages it cites.</p><p>Judge the change across several runs, not one, because each engine updates on its own schedule, and check whether untouched prompts on the same engine moved too. Watch the citations as well as the wording: if an answer still repeats the old value and cites an old press release or PDF, open that page and check it. It may not have been fixed, redirected, or annotated yet, or the engine may not have picked up the change. An answer can also cite an annotated historical page correctly. If the wrong value persists and the cited page isn&#39;t yours, the self-audit is done and the next step is <a href="/fix-wrong-fact-in-ai-answer/">fixing the third-party sources</a>.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Keep it consistent</h2>
+      <p>Make the fact inventory part of your release checklist. When a price, plan, or capability changes, update every page on the inventory the same day, including the help center, and bring support and docs owners into that checklist. Once a quarter, sweep old press releases and PDFs for values that have since changed.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys helps</h2>
+      <p>SolCrys runs this as the Measure → Diagnose → Execute → Verify loop. Workspace Deep Analysis reads the pages of yours that AI answers cite most, plus the pages your Corporate Context lists, and when two of them, or two passages on one page, state different facts, it shows the conflict under &quot;What holds you back&quot; with a verbatim quote from each and adds a Fact alignment task to Week 1 of the plan, because it fixes facts you control. It only sees those pages, so the manual audit above still matters for the rest of your site.</p><p>Corporate Context, your organization&#39;s source of truth shared across workspaces, holds the current value of each fact and the retired ones. Answer Accuracy, on the Pro plan and above, checks AI answers to selected brand questions against it and can&#39;t mark a claim wrong without quoting the evidence; when an answer repeats a value you&#39;ve marked retired, it can be flagged as Outdated info. Your team approves every change, and SolCrys never publishes for you. Content Audit then checks each fixed page&#39;s date signals and freshness and whether its content is readable in the HTML, and the same prompts run again on the same engines so you can judge the change across several runs.</p><p>To see what ChatGPT says about you and which pages it cites, <a href="https://app.solcrys.com/audit">Start Free</a>: 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://aclanthology.org/2024.acl-long.403/" target="_blank" rel="noopener noreferrer">Wan, Wallace, and Klein: What Evidence Do Language Models Find Convincing? (ACL 2024)</a></li><li><a href="https://arxiv.org/abs/2406.13805" target="_blank" rel="noopener noreferrer">Hou et al.: WikiContradict, arXiv:2406.13805 (NeurIPS 2024 Datasets and Benchmarks)</a></li><li><a href="https://arxiv.org/abs/2305.13300" target="_blank" rel="noopener noreferrer">Xie et al.: Adaptive Chameleon or Stubborn Sloth, arXiv:2305.13300 (ICLR 2024)</a></li><li><a href="https://arxiv.org/abs/2402.14409" target="_blank" rel="noopener noreferrer">Jin et al.: Tug-of-War Between Knowledge, arXiv:2402.14409 (LREC-COLING 2024)</a></li><li><a href="https://aclanthology.org/2025.findings-emnlp.466/" target="_blank" rel="noopener noreferrer">Lee, Lee, and Kim: MAGIC (EMNLP 2025 Findings)</a></li><li><a href="https://arxiv.org/abs/2509.11353" target="_blank" rel="noopener noreferrer">Fang et al.: Do Large Language Models Favor Recent Content?, arXiv:2509.11353 (SIGIR-AP 2025)</a></li><li><a href="https://aclanthology.org/2025.acl-long.301/" target="_blank" rel="noopener noreferrer">Ouyang et al.: HoH, outdated information in RAG (ACL 2025)</a></li><li><a href="https://arxiv.org/abs/2609.31342" target="_blank" rel="noopener noreferrer">Ahmed et al.: Stale-Document Poisoning, arXiv:2609.31342 (Sept. 2026)</a></li><li><a href="https://developers.google.com/search/docs/appearance/ai-features" target="_blank" rel="noopener noreferrer">Google Search Central: AI features and your website</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: Optimizing for generative AI features (updated July 10, 2026)</a></li><li><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" target="_blank" rel="noopener noreferrer">Google Search Central: General structured data guidelines</a></li><li><a href="https://developers.google.com/search/docs/appearance/publication-dates" target="_blank" rel="noopener noreferrer">Google Search Central: Influence your byline dates in Google Search</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener noreferrer">Google Search Central: Creating helpful, reliable, people-first content</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" target="_blank" rel="noopener noreferrer">Google Search Central: Build and submit a sitemap</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects" target="_blank" rel="noopener noreferrer">Google Search Central: Redirects and Google Search</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" target="_blank" rel="noopener noreferrer">Google Search Central: How to specify a canonical URL</a></li><li><a href="https://developers.google.com/crawling/docs/troubleshooting/http-status-codes" target="_blank" rel="noopener noreferrer">Google Search Central: How HTTP status codes affect Google&#39;s crawlers</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag" target="_blank" rel="noopener noreferrer">Google Search Central: Robots meta tag, data-nosnippet, and X-Robots-Tag</a></li><li><a href="https://blog.google/products-and-platforms/products/search/ai-overviews-update-may-2024/" target="_blank" rel="noopener noreferrer">Google: What happened with AI Overviews and next steps (May 30, 2024)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Why does AI give a different answer about my product than my homepage?</h3>
+            <p>It can be because another page of yours says something different. Answers that use web search are built from the pages an engine retrieves, and in lab studies models favor the passage that answers the question most directly, so a FAQ, help-center article, or old press release can outweigh your homepage. Check whether your own pages agree before looking elsewhere.</p>
+          </article>
+          <article class="seo-card">
+            <h3>What happens when my website has conflicting information about the same fact?</h3>
+            <p>An AI answer may repeat either version. In lab studies, models rarely tell the reader that sources disagree, and a value repeated on more pages, or one the model already learned, can outweigh a single corrected page.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Which pages should I check for contradictions first?</h3>
+            <p>Pricing, plans, and compatibility facts first, then the pages AI answers already cite. After that, check the help center and docs, press releases, and PDFs, because they are updated on different schedules than your marketing pages.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do old press releases and PDFs affect what AI says about my company?</h3>
+            <p>They can. Google indexes PDFs, and research finds outdated pages can mislead models even when current information is available. Keep historical press releases, but add a dated note that the value was superseded and link to the current page; redirect or remove pages that no longer serve a purpose.</p>
+          </article>
+          <article class="seo-card">
+            <h3>How do I tell AI engines which version of a fact is current?</h3>
+            <p>Leave only one current value on pages you control, mark superseded pages with a dated note, redirect retired pages to their current equivalent, keep visible dates and structured data consistent and honest, and make sure crawlers see the change. Then rerun the same questions across several runs to confirm the answers moved.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/fix-wrong-fact-in-ai-answer/">How to Fix a Wrong Fact in an AI Answer About Your Brand</a></h3>
+            <p>An AI engine is stating a wrong price, a dead feature, or a bad comparison about you, and there&#39;s no one to email. The wrong fact is a relayed source. Here&#39;s how to find it, fix it or outweigh it, and retest until the answer flips.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/how-ai-describes-your-brand/">How AI Updates Its Description of You (and Why a Wrong One Is Worse Than No Mention)</a></h3>
+            <p>AI decides what your brand is, and each engine decides differently. How the description forms, why a fix takes weeks to show, and how to correct it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/get-ai-engines-to-see-your-updates/">How to Get AI Engines to See Your Updates Faster</a></h3>
+            <p>An AI answer can&#39;t reflect your update until the engine refetches the page. How Google, ChatGPT, Perplexity, Claude, and Bing find changes, what IndexNow does, and how to check.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/schema-markup-for-ai-search/">Schema Markup for AI Search: What Structured Data Actually Does (and Where It Stops)</a></h3>
+            <p>Schema markup helps AI engines parse and classify your brand, and makes you eligible for richer treatment. It does not, on its own, get you cited or trusted. The honest, complete guide to structured data for AEO: what it does, what it doesn&#39;t, which types matter, and how to ship it so it moves the answer.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/ai-citations-consensus-not-authority/">AI Cites Consensus, Not Authority: Why Domain Authority Is the Wrong Target</a></h3>
+            <p>Answer engines repeat the claim corroborated across independent sources, not the most authoritative page. The evidence, the ChatGPT caveat, and what to do.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-D-PaQ5HM.js"></script>
+  </body>
+</html>

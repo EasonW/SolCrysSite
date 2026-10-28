@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>More Links in Google AI Overviews: Make One Yours | SolCrys</title>
+    <meta name="description" content="On Oct. 15, 2026, Google said it is adding more and higher links to AI Overviews and testing a slot for official pages. What qualifies yours." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/google-ai-overviews-more-links/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-27" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="More Links in Google AI Overviews: Make One Yours | SolCrys" />
+    <meta property="og:description" content="On Oct. 15, 2026, Google said it is adding more and higher links to AI Overviews and testing a slot for official pages. What qualifies yours." />
+    <meta property="og:url" content="https://solcrys.com/google-ai-overviews-more-links/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-27" />
+    <meta property="article:modified_time" content="2026-10-27" />
+    <meta property="og:image" content="https://solcrys.com/og/google-ai-overviews-more-links.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/google-ai-overviews-more-links.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Google Is Adding More Links to AI Overviews: The Settings and Pages That Make One Yours","item":"https://solcrys.com/google-ai-overviews-more-links/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Google is adding more links to AI Overviews: the settings and pages that make one yours","description":"On Oct. 15, 2026, Google said it is adding more and higher links to AI Overviews and testing a slot for official pages. What qualifies yours.","dateModified":"2026-10-27","datePublished":"2026-10-27","mainEntityOfPage":"https://solcrys.com/google-ai-overviews-more-links/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/google-ai-overviews-more-links/","mainEntity":[{"@type":"Question","name":"What did Google change about links in AI Overviews in October 2026?","acceptedAnswer":{"@type":"Answer","text":"On Oct. 15, 2026, Google said it is adding more inline links to its AI answers and showing them higher, expanding the timely-article carousels in AI Overviews that highlight Preferred Sources, and adding image thumbnails to related links at the end of some answers. It also announced a test of a top-of-answer section for the one or two official places to complete a task."}},{"@type":"Question","name":"Is Google's official-sites section live in AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"Not as of Oct. 27, 2026. Google announced it as a test in its AI search experiences, with no date and no published selection criteria, and its example wasn't an AI Overview. No rollout to AI Overviews had been reported."}},{"@type":"Question","name":"Can a non-news site be a Preferred Source on Google?","acceptedAnswer":{"@type":"Answer","text":"Yes, if its domain or subdomain appears in Google's source preferences tool. Google has said any website that publishes fresh content is eligible. Your site must also be included in Search generative AI features in Search Console for the badge to appear in AI answers."}},{"@type":"Question","name":"Does Search Console show clicks from AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"Not separately. The generative AI performance report shows impressions only. Clicks on AI Overview links are counted in the standard Performance report, blended with ordinary web results, and every link in an AI Overview is assigned the same position."}},{"@type":"Question","name":"Do I need special markup to get linked in AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"No. Google says there are no special files or schema for its AI features. A linked page must be indexed and eligible for a snippet, and the site must be included through the Search generative AI control in Search Console. Canonical tags, a site name, and a declared preview image help Google show the URL and image you prefer."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Engine Optimization</p>
+        <h1>Google is adding more links to AI Overviews: the settings and pages that make one yours</h1>
+        <p class="seo-lede">On Oct. 15, 2026, Google said it is putting more inline links in its AI answers and showing them higher, expanding the timely-article carousels that highlight each reader&#39;s Preferred Sources, and adding image thumbnails to the related links at the end of some answers. It also announced a test of a section at the top of an answer for the &quot;one or two official places&quot; to complete a task. None of this needs new markup. Five things put your link in the running: your Search Console AI setting, Preferred Sources, one canonical page per task, thumbnail-ready images, and snippet eligibility. What you still can&#39;t do is see AI Overview clicks separately: Search Console&#39;s AI report shows impressions only, and every link in an AI Overview shares one position. This guide covers what changed, what&#39;s launched and what&#39;s a test, the 5-item checklist, and the measurement gap, as of Oct. 27, 2026.</p>
+        
+        <p>Updated <time datetime="2026-10-27">2026-10-27</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What did Google change about links in AI Overviews in October 2026?</li><li>How do I get my site linked in Google AI Overviews?</li><li>What are Preferred Sources in Google AI Overviews?</li><li>Is Google&#39;s official-sites section live in AI Overviews?</li><li>Can a non-news site be a Preferred Source on Google?</li><li>Does Search Console show clicks from AI Overviews?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Google&#39;s <a href="https://blog.google/products-and-platforms/products/search/updates-ai-mode-overviews-explore-web/" target="_blank" rel="noopener noreferrer">Oct. 15 announcement</a> is about links. It says it has made &quot;continued and substantial increases to the presence of inline links&quot; in its AI answers and is &quot;launching updates to show inline links higher up in responses more frequently.&quot; It is expanding the carousels of timely articles in AI Overviews, which highlight the sites a reader chose as Preferred Sources, and adding image thumbnails to the related links shown at the end of some AI answers. And it will test a section at the top of an answer for the &quot;one or two official places&quot; to complete a task.</p><p>None of it requires new markup or files. Whether a given link can be yours comes down to five checks: the Search generative AI setting in Search Console stays on Include, readers can choose your site as a Preferred Source, each customer task has one canonical page, articles carry a usable preview image, and the pages you want linked are eligible for a snippet. Google adds that meeting its requirements &quot;doesn&#39;t mean that Google will crawl, index, or serve&quot; a page, so treat these as what puts you in the running.</p><p>The gap hasn&#39;t changed: Search Console still reports impressions only for AI features, and a link that moves higher in an AI Overview looks the same in the data as one at the bottom.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What changed on Oct. 15, and what&#39;s still a test</h2>
+      <p>Google&#39;s post mixes launched changes with tests, and it doesn&#39;t always name the surface. The table sorts them, based on Google&#39;s own wording, as of Oct. 27, 2026. Google also says the number of people using Preferred Sources &quot;has grown by more than 7x since the start of the year&quot;, without a baseline.</p>
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>Change</th><th>Status</th><th>What Google said</th></tr></thead>
+              <tbody><tr><td><strong>More inline links, placed higher</strong></td><td>Launched and rolling out; Google gave no numbers</td><td>&quot;continued and substantial increases to the presence of inline links in our AI experiences&quot;</td></tr><tr><td><strong>Timely-article carousels that highlight Preferred Sources</strong></td><td>Expanding to more locations and languages; the feature reached AI Overviews on May 27, 2026</td><td>Carousels &quot;also highlight your Preferred Sources&quot;; Google&#39;s example is an AI Overview</td></tr><tr><td><strong>Related links with image thumbnails at the end of an answer</strong></td><td>Launched in &quot;some AI responses&quot;</td><td>Links made &quot;more engaging and prominent, with image thumbnails&quot;; Google&#39;s example is a conversational answer, not an AI Overview</td></tr><tr><td><strong>A top section for &quot;one or two official places&quot;</strong></td><td>A test, with no date and no published criteria</td><td>&quot;We&#39;ll be testing a new display in Search AI experiences&quot;; Google hasn&#39;t said which, and its example is not an AI Overview</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>The 5 settings and pages that make a link yours</h2>
+      <p>For the fundamentals, including what you don&#39;t need (no llms.txt, no special schema), see <a href="/optimize-for-google-ai-overviews-ai-mode/">how to optimize for Google AI Overviews</a>. These five checks are specific to the October changes.</p>
+      
+      
+      
+      <div class="seo-subsection">
+        <h3>1. Keep Search Console&#39;s Search generative AI control on Include</h3>
+        <p>In Search Console, open Settings &gt; Search generative AI on your domain property, and check child properties too, since a child can override its parent. Google says excluded sites &quot;won&#39;t receive any traffic or impressions from these features.&quot; Include is the default, so for most sites this is a check, not a task. It also matters for the next item: Google says a site must be included &quot;in Search generative AI features in Search Console&quot; to be eligible for the preferred badge in AI answers.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>2. Make sure readers can choose you as a Preferred Source</h3>
+        <p>When a reader picks your site as a Preferred Source, your content &quot;can be highlighted with a &#39;preferred&#39; badge&quot; in AI Overviews for that reader. It isn&#39;t only for news sites: Google said in May that &quot;any website that publishes fresh content is eligible,&quot; and its <a href="https://developers.google.com/search/docs/appearance/preferred-sources" target="_blank" rel="noopener noreferrer">documentation</a> gives the test, which is whether your site shows up in the source preferences tool. Only domains and subdomains qualify, not a /blog folder. Google offers a two-line HTML button and a link you can put in newsletters and article footers; neither is required. This reaches readers who already know you, not new ones, and Google has started emailing site owners their selection count rather than reporting it in Search Console.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>3. Give every customer task one official URL</h3>
+        <p>The top-of-answer test is for queries where, in Google&#39;s words, &quot;there are only one or two official places on the web to complete a specific task or get the exact info you need.&quot; Google hasn&#39;t published how it picks them, so the practical move is to make your answer unambiguous. For each task customers come to do (sign in, see pricing, request a refund or return, contact support, read the docs, check service status), keep one indexable page with a plain title. Point duplicates at it with redirects or rel=&quot;canonical&quot;, which Google calls strong signals, list it in your sitemap, and set your site name with WebSite structured data. That tells Google which URL you want shown; it doesn&#39;t secure the slot.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>4. Give articles a usable preview image</h3>
+        <p>Google hasn&#39;t documented how it picks thumbnails for related links, but its image guidance says you &quot;can influence which image gets selected&quot; by declaring one with og:image, primaryImageOfPage, or the article&#39;s image property. Use an image that represents the page, not your logo or an image of text, at high resolution; Google&#39;s article guidance recommends at least 50,000 pixels (width times height) in 16x9, 4x3, and 1x1 versions. Image URLs must be crawlable, and don&#39;t set max-image-preview to none on articles you want shown with an image; Google says that setting applies to all forms of search results.</p>
+        
+      </div>
+      <div class="seo-subsection">
+        <h3>5. Keep the pages you want linked eligible for a snippet</h3>
+        <p>Google&#39;s baseline is that a page shown as a supporting link must be indexed and eligible for a snippet. Audit nosnippet, data-nosnippet, a restrictive max-snippet, and noindex on your priority pages. These can be left over from old templates or legal pages and quietly take a page out of the running.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>What you still can&#39;t measure</h2>
+      <p>Google told Search Engine Roundtable on Oct. 15 that it will &quot;introduce additional metrics over time&quot;, the same line it used in June, without a date. Until then, the limits are concrete.</p>
+      <ul class="seo-list"><li><strong>Impressions only.</strong> Search Console&#39;s generative AI performance report counts how often links to your site were shown, by page, country, date, and device. It has no clicks, click-through rate, or queries. See <a href="/search-console-bing-ga4-ai-reports/">what each free report shows</a>.</li><li><strong>One position for every link.</strong> Google&#39;s help center says &quot;an AI Overview occupies a single position in search results, and all links in the AI Overview are assigned that same position.&quot; A link that moves higher in the answer looks the same as one at the bottom.</li><li><strong>Clicks blended into web results.</strong> Clicks on AI Overview links are counted, but in the standard Performance report alongside ordinary web results.</li><li><strong>Preferred Sources by email.</strong> Preferred Sources selection counts arrive in an email from Search Console, not in a report you can trend.</li><li><strong>Personalized badges.</strong> The preferred badge and carousel highlights depend on each reader&#39;s choices, so a logged-out check shows the default answer, not what a loyal reader sees.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys helps</h2>
+      <p>Search Console tells you how often your links were shown. SolCrys shows what the answer said. It runs your buyer questions on Google AI Overviews, ChatGPT, Gemini, Perplexity, and Claude, depending on plan, and records the answer and every source it links, so you can see which of your URLs AI Overviews cites for each question, which competitors and third-party pages it cites instead, and whether that holds across several runs after you fix a canonical or a snippet setting. For more on the difference, see <a href="/google-ai-overviews-tracker/">what an AI Overviews tracker measures</a>.</p><p>To see which sources ChatGPT cites for 10 of your buyer questions, <a href="https://app.solcrys.com/audit">Start Free</a>: 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card. Google AI Overviews is on the Starter plan and above.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://blog.google/products-and-platforms/products/search/updates-ai-mode-overviews-explore-web/" target="_blank" rel="noopener noreferrer">Google: More ways to connect with the web from Search (Oct. 15, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/search/original-high-quality-content-search/" target="_blank" rel="noopener noreferrer">Google: New ways to find your favorite sources and original content in AI Search (May 27, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/search/explore-web-generative-ai-search/" target="_blank" rel="noopener noreferrer">Google: 5 new ways to explore the web with generative AI in Search (May 6, 2026)</a></li><li><a href="https://developers.google.com/search/docs/appearance/preferred-sources" target="_blank" rel="noopener noreferrer">Google Search Central: Preferred sources (updated Sept. 18, 2026)</a></li><li><a href="https://support.google.com/webmasters/answer/16908024" target="_blank" rel="noopener noreferrer">Search Console Help: Search generative AI control</a></li><li><a href="https://support.google.com/webmasters/answer/16984139" target="_blank" rel="noopener noreferrer">Search Console Help: Generative AI performance report (Search)</a></li><li><a href="https://support.google.com/webmasters/answer/7042828" target="_blank" rel="noopener noreferrer">Search Console Help: Performance report data, including AI Overviews clicks and position</a></li><li><a href="https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports" target="_blank" rel="noopener noreferrer">Google Search Central Blog: Search generative AI performance reports in Search Console (June 3, 2026)</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: Optimizing for generative AI features (updated July 10, 2026)</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" target="_blank" rel="noopener noreferrer">Google Search Central: How to specify a canonical URL</a></li><li><a href="https://developers.google.com/search/docs/appearance/google-images" target="_blank" rel="noopener noreferrer">Google Search Central: Image SEO best practices</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag" target="_blank" rel="noopener noreferrer">Google Search Central: Robots meta tag specifications</a></li><li><a href="https://developers.google.com/search/docs/appearance/structured-data/article" target="_blank" rel="noopener noreferrer">Google Search Central: Article structured data</a></li><li><a href="https://developers.google.com/search/docs/appearance/site-names" target="_blank" rel="noopener noreferrer">Google Search Central: Site names</a></li><li><a href="https://www.searchenginejournal.com/google-inline-links-higher-ai-search-responses/593089/" target="_blank" rel="noopener noreferrer">Search Engine Journal: Google puts inline links higher in more AI search responses (Oct. 15, 2026)</a></li><li><a href="https://www.seroundtable.com/google-updates-links-in-ai-mode-and-ai-overviews-again-42308.html" target="_blank" rel="noopener noreferrer">Search Engine Roundtable: coverage of Google&#39;s Oct. 15 link updates and the missing click data (Oct. 15, 2026)</a></li><li><a href="https://www.seroundtable.com/google-preferred-source-subscribers-email-42244.html" target="_blank" rel="noopener noreferrer">Search Engine Roundtable: Google email shares number of preferred source subscribers (Oct. 6, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>What did Google change about links in AI Overviews in October 2026?</h3>
+            <p>On Oct. 15, 2026, Google said it is adding more inline links to its AI answers and showing them higher, expanding the timely-article carousels in AI Overviews that highlight Preferred Sources, and adding image thumbnails to related links at the end of some answers. It also announced a test of a top-of-answer section for the one or two official places to complete a task.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Is Google&#39;s official-sites section live in AI Overviews?</h3>
+            <p>Not as of Oct. 27, 2026. Google announced it as a test in its AI search experiences, with no date and no published selection criteria, and its example wasn&#39;t an AI Overview. No rollout to AI Overviews had been reported.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Can a non-news site be a Preferred Source on Google?</h3>
+            <p>Yes, if its domain or subdomain appears in Google&#39;s source preferences tool. Google has said any website that publishes fresh content is eligible. Your site must also be included in Search generative AI features in Search Console for the badge to appear in AI answers.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Does Search Console show clicks from AI Overviews?</h3>
+            <p>Not separately. The generative AI performance report shows impressions only. Clicks on AI Overview links are counted in the standard Performance report, blended with ordinary web results, and every link in an AI Overview is assigned the same position.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do I need special markup to get linked in AI Overviews?</h3>
+            <p>No. Google says there are no special files or schema for its AI features. A linked page must be indexed and eligible for a snippet, and the site must be included through the Search generative AI control in Search Console. Canonical tags, a site name, and a declared preview image help Google show the URL and image you prefer.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/optimize-for-google-ai-overviews-ai-mode/">How to Optimize for Google AI Overviews &amp; AI Mode</a></h3>
+            <p>How Google&#39;s AI Overviews and conversational AI Mode are built from your index, the inheritance signals that decide which pages get cited, and the optimization plays that actually move position.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/google-ai-overviews-tracker/">Google AI Overviews Tracker</a></h3>
+            <p>How to track your brand in Google AI Overviews and AI Mode, what Search Console can&#39;t show, what SolCrys measures, and which plans include Google.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/google-ai-overviews-opt-out-uk-cma/">Opting Out of Google AI Overviews: What the UK&#39;s New Rules Protect From Dec. 3, 2026</a></h3>
+            <p>From Dec. 3, 2026, UK rules bar Google from downranking content that opts out of its AI answers in Search. What opting out removes and who should.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/google-social-posts-in-ai-answers/">Google Put Social Posts Inside AI Answers: What Changed in 2026 and What to Set Up</a></h3>
+            <p>Google now quotes social posts and names creators in its AI answers. A dated timeline of its 2026 changes, what Search Console shows and doesn&#39;t, and a setup checklist.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/get-ai-engines-to-see-your-updates/">How to Get AI Engines to See Your Updates Faster</a></h3>
+            <p>An AI answer can&#39;t reflect your update until the engine refetches the page. How Google, ChatGPT, Perplexity, Claude, and Bing find changes, what IndexNow does, and how to check.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-D-PaQ5HM.js"></script>
+  </body>
+</html>
