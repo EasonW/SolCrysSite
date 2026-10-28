@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>SolCrys AEO MCP — User Guide | SolCrys</title>
+    <meta name="description" content="Connect Claude or ChatGPT to your SolCrys organization, ask about your AEO data in your own words, and keep your Corporate Context accurate with your assistant&#39;s help." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/guides/aeo-mcp/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-10-15" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="SolCrys AEO MCP — User Guide | SolCrys" />
+    <meta property="og:description" content="Connect Claude or ChatGPT to your SolCrys organization, ask about your AEO data in your own words, and keep your Corporate Context accurate with your assistant&#39;s help." />
+    <meta property="og:url" content="https://solcrys.com/guides/aeo-mcp/" />
+    <meta property="og:type" content="website" />
+    
+    
+    <meta property="og:image" content="https://solcrys.com/og/guides-aeo-mcp.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/guides-aeo-mcp.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"DigitalDocument","name":"SolCrys AEO MCP","description":"Connect Claude or ChatGPT to your SolCrys organization, ask about your AEO data in your own words, and keep your Corporate Context accurate with your assistant's help.","url":"https://solcrys.com/guides/aeo-mcp/","dateModified":"2026-10-15","inLanguage":"en","isAccessibleForFree":true,"author":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"encoding":{"@type":"MediaObject","contentUrl":"https://solcrys.com/guides/SolCrys-AEO-MCP-Guide.pdf","encodingFormat":"application/pdf"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"User guides","item":"https://solcrys.com/guides/"},{"@type":"ListItem","position":3,"name":"SolCrys AEO MCP","item":"https://solcrys.com/guides/aeo-mcp/"}]}</script>
+  </head>
+  <body>
+    <div id="root"><div class="seo-prerender">
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header><main class="seo-container">
+      <nav aria-label="Breadcrumb"><a href="/resources/">Resources</a> / <a href="/guides/">User guides</a> / <span>SolCrys AEO MCP</span></nav>
+      <section class="seo-hero"><p class="seo-kicker">Guide 04 &middot; Connecting assistants</p>
+        <h1>SolCrys AEO MCP</h1><p class="seo-lede">Connect Claude or ChatGPT to your SolCrys organization, ask about your AEO data in your own words, and keep your Corporate Context accurate with your assistant&#39;s help.</p>
+        <p>PDF &middot; 13 pages &middot; 1.3 MB &middot; October 2026</p><p><a href="/guides/SolCrys-AEO-MCP-Guide.pdf" target="_blank" rel="noopener noreferrer">Open PDF (new tab)</a> &middot; <a href="/guides/SolCrys-AEO-MCP-Guide.pdf" download>Download PDF</a></p>
+        <aside class="seo-card"><strong>Before you start.</strong><p>MCP is included on the Starter, Pro and Custom plans, and you need to be an editor or admin of your SolCrys organization. If you still need to add workspaces and prompts, start with Workspace Setup.</p></aside>
+      </section>
+      <section class="seo-section"><h2>In this guide</h2><p>Chapter links open the PDF in a new tab.</p>
+        <ol class="seo-list"><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=1" target="_blank" rel="noopener noreferrer">Page 1: Follow the flow</a><p>The weekly rhythm, the seven steps from connecting your assistant to reviewing its changes, and what you need first.</p><details><summary>Read page 1 as text</summary><p style="white-space: pre-line">SOLCRYS  /  USER GUIDE 4
+SolCrys AEO MCP
+Connect Claude or ChatGPT to your SolCrys organization, ask about your AEO data in your own
+words, and keep your Corporate Context accurate with your assistant&#39;s help.
+Work in a simple rhythm
+Connect once
+Add SolCrys to Claude or
+ChatGPT and choose what your
+assistant may read and change.
+Ask any day
+Ask about visibility, citations,
+answer accuracy and tasks,
+and turn the answers into work.
+Review every week
+Check what assistants changed
+in Corporate Context, then keep
+or undo each change.
+Why review weekly? Corporate Context is the source of truth SolCrys grounds its work in. An assistant&#39;s
+edits go live at once, so a short weekly review keeps that truth accurate.
+Follow the flow
+1
+Get ready
+2
+Connect
+Claude
+3
+Connect
+ChatGPT
+4
+Ask about
+your data
+5
+Read your
+context
+6
+Update
+pages
+7
+Review the
+changes
+Step
+Page
+What you do
+1
+2–3
+Check your plan and role, then copy the connection URL from MCP.
+2
+4–5
+Add SolCrys to Claude, approve access, and use it in Cowork and chats.
+3
+6
+Add SolCrys to ChatGPT and approve access.
+4
+7
+Ask your assistant about visibility, citations, answer accuracy and tasks.
+5
+8–9
+Read your Corporate Context and check it against what AI answers get wrong.
+6
+10
+Have your assistant update pages, as live edits or as drafts for review.
+7
+11–12
+Review each change in SolCrys: keep it, revert it, or restore an earlier version.
+13
+Quick reference and troubleshooting.
+Before you start: MCP is included on the Starter, Pro and Custom plans, and you need to be an editor or
+admin of your SolCrys organization. To add workspaces and prompts, see the Workspace Setup guide.
+Screenshots use the SolCrys interface with fictional brands, people and results. Claude and ChatGPT change their menus
+often: their steps were checked in October 2026, and labels can differ by plan. The controls you see depend on your role,
+plan and workspace type. October 2026.
+SolCrys | SolCrys AEO MCP
+1 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=2" target="_blank" rel="noopener noreferrer">Page 2: Check your plan and role</a><p>What your assistant can do with each permission, what your role allows, and the monthly MCP calls on each plan.</p><details><summary>Read page 2 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 1 · GET READY
+Check your plan and role
+SolCrys MCP lets an AI assistant work with your SolCrys data through the Model Context Protocol (MCP), an
+open standard that Claude, ChatGPT and other assistants support. Your assistant calls SolCrys tools to read your
+data and, when you allow it, to update Corporate Context.
+What your assistant can do
+Area
+Your assistant can
+Permission
+Workspaces
+List your workspaces and their activity counts.
+read:workspace
+Visibility and prompts
+Read headline visibility, share of voice, results per
+engine, and presence and trends for each prompt.
+read:prompts
+read:responses
+Citations
+Read which pages and domains AI answers cite, and
+which of them mention you.
+read:citations
+Deep Analysis and
+Actions Hub
+Read Deep Analysis reports and Actions Hub tasks,
+and mark a task as published with its URL.
+read:deep-analysis
+read:actions ·
+write:actions
+Content audits and
+Answer Accuracy
+Read audit reports, and the pass or fail verdict for each
+AI answer with the claims it got wrong.
+read:content-audits
+read:answer-accuracy
+Corporate Context
+Read pages and grounding, create drafts for review,
+and create, edit or remove pages live.
+read:corporate-context
+write:corporate-context
+write:corporate-context-
+live
+What your role allows
+Role
+Can connect
+What the connection reaches
+Admin
+Yes
+Everything above. Admins see every connection in the organization and can
+revoke any of them.
+Editor
+Yes
+Corporate Context and the workspace list only. Reading AEO data such as
+prompts and citations needs an admin&#39;s connection. Editors see and revoke their
+own connections.
+Viewer
+No
+Ask an organization admin for editor access.
+Monthly MCP calls
+Plan
+Calls per month
+Free
+Not included
+Starter
+500
+Pro
+2,500
+Custom
+Unlimited
+Each tool your assistant calls counts once, and a
+broad question can use several calls. The count is
+shared by everyone in the organization and resets on
+the first day of each month (UTC).
+Each connection can make up to 60 calls a minute.
+Each person connects their own assistant. Everything a connection changes is recorded under the name
+of the person who approved it, with the app it came through, for example Maya Chen via Claude.
+SolCrys | SolCrys AEO MCP
+2 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=3" target="_blank" rel="noopener noreferrer">Page 3: Copy your connection URL</a><p>Open MCP from your account menu, copy the URL, and read each connected app&#39;s row.</p><details><summary>Read page 3 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 1 · GET READY
+Copy your connection URL
+MCP → Connected Apps shows the URL to share and every assistant connected to your organization.
+1.  Open your account menu at the bottom left of SolCrys and select MCP.
+2.  On Connected Apps, select Copy URL. The address is https://mcp.solcrys.com/mcp , and everyone in your
+organization uses the same one.
+3.  After you approve an assistant (steps 2 and 3), it appears in this list within about a minute.
+Row part
+What it tells you
+Name
+The name the app gave itself, such as Claude or ChatGPT.
+Permissions
+What the connection may do. A connection with all nine read permissions and no write
+permission shows All read scopes.
+Last used, Granted
+by
+When the assistant last called SolCrys, how many active sign-ins it has, and who approved
+it.
+View activity
+Every Corporate Context change made through this connection (step 7).
+Revoke
+Disconnects the app within about 60 seconds. To use SolCrys again, connect the assistant
+again.
+Personal Access Tokens is for tools that can&#39;t sign in through a browser, such as scripts. Claude and
+ChatGPT use the consent screen, so most people never need a token.
+SolCrys | SolCrys AEO MCP
+3 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=4" target="_blank" rel="noopener noreferrer">Page 4: Add SolCrys to Claude</a><p>Add the custom connector, sign in on the SolCrys consent screen, and choose what Claude may read and change.</p><details><summary>Read page 4 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 2 · CONNECT CLAUDE
+Add SolCrys to Claude
+6 more read permissions
+The SolCrys consent screen. Writes you can grant
+start on.
+Add the connector
+Claude Pro or Max, on the web or in the desktop app:
+1.  Open Customize → Connectors (on older versions,
+Settings → Connectors).
+2.  Select + Add → Add custom connector. Name it SolCrys
+and paste the URL from step 1.
+3.  If Claude asks how to sign in, keep Sign in now and
+choose Register automatically. Leave Client ID and Secret
+blank. Select Add.
+4.  Select Connect. The SolCrys consent screen opens; the
+desktop app opens it in your browser. Sign in to SolCrys if
+asked.
+Claude Team or Enterprise: an owner first adds SolCrys under
+Organization settings → Connectors. Each member then finds it
+under Customize → Connectors, marked Custom, and selects
+Connect.
+Approve access
+5.  Under Authorize for, choose your SolCrys organization.
+6.  Review Read access and Write access. Untick anything
+Claude shouldn&#39;t do.
+7.  Select Authorize. You return to Claude, and SolCrys
+shows as Connected.
+Live edits are the last write permission: Create, edit, and remove Corporate Context pages without a
+review step. Leave it on to let Claude maintain pages for you; each change is recorded and can be reverted
+(step 7). Untick it if you only want drafts.
+SolCrys | SolCrys AEO MCP
+4 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=5" target="_blank" rel="noopener noreferrer">Page 5: Use SolCrys in Cowork and chats</a><p>Turn SolCrys on, decide which tools need your approval, and connect Claude Code or Codex.</p><details><summary>Read page 5 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 2 · CONNECT CLAUDE
+Use SolCrys in Cowork and chats
+Turn SolCrys on
+1.  In a chat or a Cowork task, select + → Connectors and turn on SolCrys. Cowork uses the connectors on your
+Claude account and loads them when a task starts.
+2.  Ask &quot;Use SolCrys to list my workspaces.&quot; If Claude lists them, you&#39;re connected.
+Decide what needs your approval
+Claude asks before it uses a tool: Allow once or Always allow. To set this ahead of time, open Customize →
+Connectors → SolCrys → Tool permissions and choose Always allow, Needs approval or Blocked for each tool.
+Tool
+What it does
+Suggested
+solcrys_get_..., solcrys_list_...
+Read your data.
+Always allow
+solcrys_propose_cc_page
+Creates a Corporate Context draft. Nothing changes
+until an editor publishes it.
+Always allow
+solcrys_write_cc_page
+Creates, edits or removes a live Corporate Context
+page.
+Needs approval
+solcrys_publish_task
+Marks an Actions Hub task as published, with its URL.
+Needs approval
+Working in Cowork
+Cowork can run longer tasks, such as checking every page against your website: &quot;Use SolCrys. Check every live
+Corporate Context page for Northstar Analytics against https://www.northstar.example/ and its product pages.
+Make a table of page, outdated or missing line, evidence and fix, then save the fixes as drafts for review.&quot;
+Keep Cowork in Manual mode, or keep solcrys_write_cc_page on Needs approval, so you see each page edit
+before it goes live. Cowork needs a paid Claude plan; Claude Free allows one custom connector.
+Before a Research run: Claude&#39;s Research mode can call connector tools without asking. Set
+solcrys_write_cc_page to Blocked or turn SolCrys off for that chat.
+Claude Code and Codex
+In a terminal, add SolCrys, then sign in on the same consent screen:
+Tool
+Command
+Claude Code
+claude mcp add --transport http solcrys https://mcp.solcrys.com/mcp, then /mcp to sign
+in
+Codex
+codex mcp add solcrys --url https://mcp.solcrys.com/mcp, then codex mcp login solcrys
+Changes from Codex show as via Codex.
+SolCrys | SolCrys AEO MCP
+5 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=6" target="_blank" rel="noopener noreferrer">Page 6: Add SolCrys to ChatGPT</a><p>Add SolCrys as a plugin or app, approve access, check your ChatGPT plan, and use it in a chat.</p><details><summary>Read page 6 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 3 · CONNECT CHATGPT
+Add SolCrys to ChatGPT
+Leo, an editor, connecting ChatGPT. Permissions
+only an admin can grant are marked Admin only.
+Check your ChatGPT plan
+Business, Enterprise and Edu: SolCrys tools
+including writes, in beta and on the web only.
+An admin first turns on developer mode for the
+workspace.
+Pro: read tools only, in developer mode. For
+other plans, check OpenAI&#39;s current plan
+details.
+Add the app
+ChatGPT is renaming Apps to Plugins, so your account
+shows one of these:
+1. Plugins: go to chatgpt.com/plugins, select + → Add
+custom MCP server, name it SolCrys, and paste the URL
+under Connection.
+Apps: in Settings, turn on Developer mode under Apps →
+Advanced settings, then select Create, name it SolCrys and
+paste the URL.
+2.  Choose OAuth for authentication. Confirm the warning
+about custom servers.
+3.  The SolCrys consent screen opens. Choose your
+organization, review the permissions and select Authorize.
+4.  Finish with Create (and install the plugin, on the Plugins
+flow). To share it with your ChatGPT workspace, an admin
+publishes it under Workspace settings → Apps → Drafts.
+Use it in a chat
+5.  Pick SolCrys with @, the + menu or Plugins in the
+message box. Pick it again on each message where you
+want it.
+6.  ChatGPT asks before each write. Choose Allow once for
+Corporate Context edits, so you see each one.
+Deep research only reads, and agent mode doesn&#39;t use custom
+apps. When SolCrys adds tools, an admin refreshes the app
+before ChatGPT can use them.
+How ChatGPT changes are labeled: in SolCrys, edits made through ChatGPT read via an MCP app, with
+the connection shown as ChatGPT · chatgpt.com.
+SolCrys | SolCrys AEO MCP
+6 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=7" target="_blank" rel="noopener noreferrer">Page 7: Ask about your AEO data</a><p>Questions to ask about visibility, prompts, citations, Answer Accuracy, tasks, and content audits.</p><details><summary>Read page 7 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 4 · ASK ABOUT YOUR DATA
+Ask about your AEO data
+Ask in your own words. Your assistant picks the SolCrys tools, reads the data and explains it. Name the
+workspace and the period when it matters: most SolCrys data covers the last 7, 14, 30 or 60 days.
+You want to
+decide
+Ask, for example
+Your assistant
+reads
+Where to focus
+&quot;Compare our visibility by engine for the last 30 days with the 30 days
+before. Which engine should we work on first, and why?&quot;
+Visibility insights
+Which prompts to
+fix
+&quot;Which prompts lost the most presence in the last 30 days? For each,
+give the likely cause and one fix to try.&quot;
+Prompt insights,
+Deep Analysis
+Where to earn
+mentions
+&quot;Which domains do AI answers cite most for our prompts? Sort them
+into ours, competitors&#39; and editorial, and pick three to pitch.&quot;
+Citations
+What to correct
+&quot;Group the last 30 days of Answer Accuracy failures by type. Show
+one example each, and say if Corporate Context or our website needs
+the fix.&quot;
+Answer Accuracy
+What to do this
+week
+&quot;Using our latest Deep Analysis, pick three open high-priority Actions
+Hub tasks for this week, and say what each one needs.&quot;
+Deep Analysis,
+tasks
+Which pages to
+improve
+&quot;Which fixes from the latest content audit would raise its score most?
+List the page and the exact change for each.&quot;
+Content audits
+EXAMPLE CONVERSATION · ILLUSTRATIVE
+YOU
+Use SolCrys. For Northstar Analytics, which three prompts need the most work, why, and what
+should we do next for each?
+ASSISTANT
+↳ solcrys_get_prompts_insights · solcrys_get_citations_insights
+Over the last 14 days, three prompts stand out:
+Which BI tools are easiest for a small team to adopt? You&#39;re named in 3 of 9 answers, and they
+lean on a roundup that doesn&#39;t list you. Next: ask the roundup&#39;s editor to review Northstar.
+Which analytics platforms offer the fastest setup? 2 of 9 answers, down from 4 in the period
+before. Next: state your setup time on your getting-started page.
+What reporting tool should a data lead choose? 5 of 9 answers, but none of them cite your own
+pages. Next: publish a buyer&#39;s guide for data leads.
+Tips
+With more than one workspace, start with &quot;Use SolCrys to list my workspaces&quot; and then name the one you
+mean.
+Ask for the period and engine behind each number, and which SolCrys data the answer came from.
+Turn findings into work: &quot;Turn these into three tasks, each with an owner, the page to change and the prompt
+to watch.&quot; Your assistant drafts them; it can&#39;t add them to Actions Hub for you.
+Close the loop when the page is live: &quot;Mark the setup guide task as published at
+https://www.northstar.example/guides/setup.&quot; This works for Deep Analysis tasks that are approved or in
+progress.
+If you&#39;re an editor, your connection reads Corporate Context only. AEO data needs an admin&#39;s connection.
+Numbers come from SolCrys measurements of AI answers and the pages they cite. They are not website traffic.
+SolCrys | SolCrys AEO MCP
+7 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=8" target="_blank" rel="noopener noreferrer">Page 8: Know your Corporate Context</a><p>Find Needs review, the page types, and how scope decides which page applies.</p><details><summary>Read page 8 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 5 · READ YOUR CONTEXT
+Know your Corporate Context
+Corporate Context is your organization&#39;s source of truth: the facts, messaging and guidance SolCrys grounds its
+work in. Answer Accuracy scores AI answers against it, SolCrys features read it, and so do assistants you
+connect.
+Corporate Context, with four assistant changes waiting under Needs review.
+1.  Select Corporate Context in the sidebar, under All Workspaces. Editors and admins see it.
+2.  Read Needs review first: it lists changes waiting for a person (step 7).
+3.  Below it, pages are grouped By type or By scope. A ● Review  chip marks a page with an unreviewed
+change.
+Page type
+What it holds
+Grounds Answer
+Accuracy
+Facts
+The canonical facts AI engines must get right: company,
+products, plans, security. One page per scope.
+Yes, by default
+Messaging Framework
+Your positioning and proof points. One page per scope.
+Yes, by default
+Writing Guidance
+Voice, tone and terminology for a channel, such as your
+blog or LinkedIn. Several pages per scope.
+Not by default
+Your own types
+Types an editor adds with manage them for your
+organization.
+If an editor pins them
+Scope: a page is either Organization — shared, for every workspace, or belongs to one workspace. For
+that workspace, a workspace page replaces an organization page of the same type and name.
+SolCrys | SolCrys AEO MCP
+8 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=9" target="_blank" rel="noopener noreferrer">Page 9: Check your context with your assistant</a><p>What your assistant can read, prompt recipes that find gaps, and the signals to look for.</p><details><summary>Read page 9 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 5 · READ YOUR CONTEXT
+Check your context with your assistant
+What your assistant can read
+Ask it to
+What comes back
+List pages
+Each live page, or each draft, with its type, scope, version and last update.
+Read a page
+The full page, its version and its sources.
+Read the grounding
+All live pages as one document, the way SolCrys features read them.
+Assistants don&#39;t see archived pages or which pages wait for review: check Needs review in SolCrys.
+Find gaps with a prompt recipe
+Copy a recipe and change the names and links. Each lists gaps with evidence, proposes exact changes and waits
+for you. Your assistant reads web pages with its own web tools; if it can&#39;t, paste the page text.
+When
+Copy this prompt
+New product
+launch
+&quot;Use SolCrys. Compare https://www.northstar.example/products/embedded with our Facts
+and Messaging Framework for Northstar Embedded. List missing or outdated names, plans,
+integrations and proof points with quotes. Propose exact edits and wait for my approval.&quot;
+Homepage or
+positioning
+refresh
+&quot;Use SolCrys. Read https://www.northstar.example/ and compare its positioning, proof points
+and numbers with our organization-wide Messaging Framework and Facts. Quote each
+difference, then save your proposed wording as drafts for review.&quot;
+Monthly
+freshness check
+&quot;Use SolCrys. List our Corporate Context pages for Northstar Analytics by last update. In
+pages older than 90 days, flag lines that date fast, such as counts, plans, prices and
+certifications. Ask me what changed, then propose edits.&quot;
+Fix what AI gets
+wrong
+Admin connection
+&quot;Use SolCrys. Read the Answer Accuracy failures for the last 30 days. Match each wrong or
+missing claim to the page that should cover it, quote the answer, and propose the exact line.
+Flag any fix that belongs on our website instead.&quot;
+Check each proposal against a source you trust before you approve it (step 6). A new product&#39;s facts go in the existing
+Facts page for its scope: Facts and Messaging Framework allow one page per scope.
+Look for
+The signal
+Page is behind
+Answers contradict grounding but match your current website. Update the page.
+AI is behind
+Answers show outdated info your page marks as no longer current. Fix the sources AI
+reads.
+Claims left out
+Answers miss a required claim. State it plainly on the page and on your website.
+Gaps or duplicates
+A page type has no page, or two Writing Guidance pages say the same thing.
+EXAMPLE REVIEW · ILLUSTRATIVE
+ASSISTANT
+↳ solcrys_get_cc_grounding · solcrys_get_answer_accuracy_details
+Company facts (v3): says 3,800 customers and SOC 2 Type I. Four answers fail as contradicting it,
+yet cite 4,200 and SOC 2 Type II from your October company page, so the page is behind.
+Suggested fix: update both lines.
+Press release guidance (v2): both rules repeat Blog voice. Suggested fix: remove the page.
+Answer Accuracy doesn&#39;t link a failure to a page. Your assistant matches them by reading both, so check its reasoning.
+SolCrys | SolCrys AEO MCP
+9 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=10" target="_blank" rel="noopener noreferrer">Page 10: Update pages with your assistant</a><p>Choose between live edits and drafts for review, and ask for a change safely.</p><details><summary>Read page 10 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 6 · UPDATE PAGES
+Update pages with your assistant
+Two ways to change a page
+Live edit
+Draft for review
+Permission
+Create, edit, and remove Corporate Context pages
+without a review step
+Create Corporate Context drafts
+for review
+Takes effect
+At once. SolCrys uses the new version from its next run.
+Only when an editor selects
+Publish in SolCrys.
+Can
+Create, update or remove (archive) a page.
+Create a new page, or a
+replacement for a live page.
+Shows in
+SolCrys as
+● Live update
+● New page by agent
+● Removed by agent
+Draft update
+New draft
+Limits
+A reason (change note) on every edit, and up to 60 live
+edits per connection per hour.
+Can&#39;t publish, archive or delete
+anything.
+Ask for a change safely
+1.  Have your assistant read the page first. It needs the page&#39;s current version to edit it.
+2.  Give the change and its source, and ask to see it before it&#39;s written. After a recipe (step 5), reply &quot;Write the
+changes I approved as live edits, each with a change note that names the source.&quot; For drafts: &quot;Save them as
+drafts for review.&quot;
+3.  Approve the write when your assistant asks (Allow once). The change note becomes the reason you see in
+History.
+4.  Ask for the new version number to confirm the change landed.
+EXAMPLE CONVERSATION · ILLUSTRATIVE
+YOU
+Update Company facts from our company page, https://www.northstar.example/company. Show me
+each change and the change note before you write anything.
+ASSISTANT
+↳ web fetch · solcrys_get_cc_page
+Company facts (v3) says about 3,800 customers in 35 countries, 280 employees and SOC 2 Type I.
+Your company page says 4,200, 38, 310 and SOC 2 Type II since May 2026. Change note: &quot;From the
+October 2026 company page: updated customer, country and employee counts, and SOC 2 Type I
+to Type II (May 2026).&quot; Shall I write it as a live edit?
+YOU
+Yes.
+ASSISTANT
+↳ solcrys_write_cc_page · op: update
+Done. Company facts is now v4. The change is live and waiting for review in SolCrys.
+Removing a page archives it. It stops grounding at once, and only a person can bring it back with Restore
+page. Assistants can&#39;t publish drafts, mark changes reviewed, revert, or delete a page for good: those stay
+in SolCrys.
+SolCrys | SolCrys AEO MCP
+10 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=11" target="_blank" rel="noopener noreferrer">Page 11: Review what changed</a><p>Open each change on Changes, then keep or undo it from the banner.</p><details><summary>Read page 11 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 7 · REVIEW THE CHANGES
+Review what changed
+A live update made through Claude, opened on Changes: removed text in red, added text in green.
+1.  Open Corporate Context. Under Needs review, each row names the page, what happened, and who made the
+change through which app.
+2.  Select a row. The page opens on Changes, comparing the last reviewed version with the current one. Choose
+Split or Inline.
+3.  Decide with the buttons on the banner:
+Banner
+Keep it
+Undo it
+Agent updated this live page — needs your review
+Mark reviewed
+Revert to v3 (the last
+reviewed version)
+Agent created this live page — needs your review
+Keep page
+Remove page
+Agent removed this page — needs your review
+Accept removal
+Restore page
+New draft or Draft update
+Publish
+Archive, or Edit it first
+The keep button waits until the changes have loaded, so you always see them first. Revert undoes every assistant edit
+since the last review, and editing the page yourself also clears the review.
+SolCrys | SolCrys AEO MCP
+11 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=12" target="_blank" rel="noopener noreferrer">Page 12: See who changed what</a><p>Use History and Activity to see every version, who made it, and through which app.</p><details><summary>Read page 12 as text</summary><p style="white-space: pre-line">SOLCRYS  /  STEP 7 · REVIEW THE CHANGES
+See who changed what
+History on Company facts: every version with the person, the app and the reason they gave.
+Activity shows every change across your pages, filtered by person, app, connection and time.
+1.  On a page, open History. Select View diff to compare versions, or Restore to bring back an earlier one. It
+becomes a new version, and every version stays.
+2.  Select Activity (or View all activity) to see every change in the last 24 hours to 90 days.
+3.  Select All changes from this connection to see everything one assistant did. To stop it, select Manage
+connection and Revoke it on MCP.
+Changes read &quot;by person via app&quot;: via Claude, via Codex, via an MCP app (ChatGPT, other assistants and
+tokens), via the dashboard, via the SolCrys agent or via brand scan. Reverting fixes future runs; results
+that already used the earlier text don&#39;t change.
+SolCrys | SolCrys AEO MCP
+12 / 13</p></details></li><li><a href="/guides/SolCrys-AEO-MCP-Guide.pdf#page=13" target="_blank" rel="noopener noreferrer">Page 13: Quick reference and troubleshooting</a><p>The seven steps on one page, and what to check when something needs explanation.</p><details><summary>Read page 13 as text</summary><p style="white-space: pre-line">SOLCRYS  /  QUICK REFERENCE
+The flow at a glance
+Connect once: add SolCrys to your assistant. Ask any day: analyze your data and keep your context
+current. Review every week: keep or undo each change.
+1. Get ready. Check your plan and role, open MCP and select Copy URL.
+2. Connect Claude. Add a custom connector with the URL, select Connect and Authorize.
+3. Connect ChatGPT. Add a custom MCP server or app with OAuth, then Authorize.
+4. Ask about your data. Name the workspace and the period; check where each number comes from.
+5. Read your context. Use a recipe to check your pages against your website and AI answers.
+6. Update pages. See each change before it&#39;s written, with its source and reason.
+7. Review the changes. Under Needs review, open Changes, then keep or undo.
+When something needs explanation
+What you see
+What to check
+SolCrys tools don&#39;t appear
+Turn SolCrys on for this chat (Claude: + → Connectors; ChatGPT: pick it with @
+or +). Still missing? Remove the connector and add it again.
+&quot;You must be an editor or
+admin...&quot;
+Viewers can&#39;t connect. Ask an organization admin for editor access.
+&quot;Consent session expired or not
+found&quot;
+The consent screen was open for more than 10 minutes. Select Connect again
+in your assistant.
+&quot;Token missing required scope&quot;
+The connection doesn&#39;t have that permission. Editors&#39; connections reach
+Corporate Context only; for AEO data, an admin connects.
+Your assistant reads pages but
+can&#39;t edit them
+The live edit permission was unticked, or you&#39;re no longer an editor. Revoke the
+app on MCP and connect again with it ticked.
+&quot;This month&#39;s MCP usage has
+been fully used&quot;
+Your organization used its monthly calls. An admin can upgrade under Billing,
+or wait for the reset on the 1st (UTC).
+&quot;Rate limit exceeded&quot;
+More than 60 calls a minute from one connection. Wait the seconds shown,
+then retry.
+VERSION_CONFLICT
+Someone changed the page after your assistant read it. Nothing was written:
+ask it to read the page again and redo the edit.
+IDENTITY_OCCUPIED
+A live page with that type and name exists. Ask your assistant to update that
+page instead.
+&quot;...60 live Corporate Context
+writes in the last hour&quot;
+Nothing was written. Wait, or switch to drafts for large batches.
+A change you didn&#39;t expect
+Open Activity, filter by the connection, and revert. Revoke the connection on
+MCP if needed.
+Your assistant works from SolCrys measurements of AI answers and the pages they cite. Check its
+suggestions against sources you trust before you approve a change: your team stays responsible for what
+your Corporate Context says.
+Connecting your own agent? To connect an in-house agent or harness system to SolCrys MCP tools,
+reach out to support@solcrys.com.
+SolCrys | SolCrys AEO MCP
+13 / 13</p></details></li></ol>
+      </section>
+      <section class="seo-section"><h2>Document preview</h2><a href="/guides/SolCrys-AEO-MCP-Guide.pdf"><img src="/guides/aeo-mcp-cover.jpg" alt="First page of SolCrys AEO MCP" width="636" height="900" style="max-width: 100%; height: auto" loading="lazy"></a><p><a href="/guides/SolCrys-AEO-MCP-Guide.pdf" target="_blank" rel="noopener noreferrer">Open PDF (new tab)</a> &middot; <a href="/guides/SolCrys-AEO-MCP-Guide.pdf" download>Download PDF</a></p>
+        <p>Interface examples use fictional brands, people, and results. Available controls depend on your role, plan, and workspace type.</p>
+      </section>
+      <section class="seo-section"><p><a href="/guides/">All user guides</a></p><p>Need to configure your workspace?<br><a href="/guides/workspace-setup/">Workspace Setup</a></p></section>
+    </main>
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer></div></div>
+    <script type="module" crossorigin src="/assets/index-Ckf0LHne.js"></script>
+  </body>
+</html>
