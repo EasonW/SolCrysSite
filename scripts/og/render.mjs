@@ -5,6 +5,7 @@
  * Reads:
  *   src/content/siteContent.json   (homepage + resourcePages[])
  *   src/content/newsroom.json      (newsroom posts[])
+ *   src/content/userGuides.json    (user guides[])
  *
  * Emits one 1200×630 PNG per entry that has an `ogImage` field, to:
  *   public/og/<slug>.png
@@ -38,6 +39,7 @@ const REPO_ROOT = resolve(__dirname, "..", "..");
 const SITE_JSON = join(REPO_ROOT, "src", "content", "siteContent.json");
 const NEWS_JSON = join(REPO_ROOT, "src", "content", "newsroom.json");
 const PULSE_JSON = join(REPO_ROOT, "src", "content", "promptPulse.json");
+const GUIDES_JSON = join(REPO_ROOT, "src", "content", "userGuides.json");
 const TEMPLATE = join(__dirname, "template.html");
 const OUT_DIR = join(REPO_ROOT, "public", "og");
 const TMP_DIR = join(__dirname, ".tmp");
@@ -173,6 +175,7 @@ function collectTargets() {
   const site = JSON.parse(readFileSync(SITE_JSON, "utf8"));
   const news = JSON.parse(readFileSync(NEWS_JSON, "utf8"));
   const promptPulse = JSON.parse(readFileSync(PULSE_JSON, "utf8"));
+  const userGuides = JSON.parse(readFileSync(GUIDES_JSON, "utf8"));
 
   const targets = [];
 
@@ -245,6 +248,12 @@ function collectTargets() {
       category: "Prompt Pulse",
     },
     {
+      slug: "guides",
+      title: "Your guide to SolCrys",
+      description: "User guides for workspace setup, dashboards and tools, Deep Analysis, and MCP. Read chapter by chapter or download the free PDFs.",
+      category: "User Guides",
+    },
+    {
       slug: "learn",
       title: "Free courses on Answer Engine Optimization",
       description: "Self-paced, open, free to read in full — no login, no email gate. Labs run on a free SolCrys account.",
@@ -274,6 +283,21 @@ function collectTargets() {
         category: "Prompt Pulse",
         // No date in the byline: an OG card is cached and reshared for months,
         // so a stamped snapshot date is the first thing to read as stale.
+      },
+    });
+  }
+
+  // User guides — slugs match each guide's `ogImage` in userGuides.json.
+  // No date in the byline: guides are reissued in new editions.
+  for (const guide of userGuides.guides ?? []) {
+    if (!guide.ogImage) continue;
+    targets.push({
+      source: "guide",
+      slug: deriveSlugFromOgImage(guide.ogImage) ?? guide.slug,
+      entry: {
+        title: guide.title,
+        description: guide.description,
+        category: `User guide ${guide.number} · ${guide.category}`,
       },
     });
   }
