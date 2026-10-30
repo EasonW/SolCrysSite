@@ -12,7 +12,6 @@ import {
   SearchX,
   FileText,
   LineChart,
-  Layers,
 } from "lucide-react";
 
 const CORNELIS_PURPLE = "#9B23E8";
@@ -80,21 +79,15 @@ const solutionSteps = [
   },
   {
     Icon: FileText,
-    title: "Activate the right actions",
+    title: "Execute the right actions",
     body:
-      "One new category page, a redone homepage as well as a product page, and show floor assets, all grounded in the Cornelis Corporate Context managed by SolCrys AI. SolCrys partnered closely with the Cornelis marketing and web development teams by delivering AI-ready copy as well as design.",
+      "One story told at three depths, so a buyer could go as deep as they wanted without the message changing: L100–L200 on a redone homepage, L200 on a new category page, and L300 in the reference architecture, explained through an interactive demo video at the booth. A product page and show floor assets carried the same message. All of it was grounded in the Cornelis Corporate Context managed by SolCrys AI, and SolCrys partnered closely with the Cornelis marketing and web development teams by delivering AI-ready copy as well as design.",
   },
   {
     Icon: LineChart,
     title: "Verify impact",
     body:
       "The same prompt sets rerun against the baseline, so Cornelis could see the impact of the moment, and of every asset created for it.",
-  },
-  {
-    Icon: Layers,
-    title: "Map assets to depth",
-    body:
-      "One story told at three depths: L100–L200 on the homepage, L200 on the category page, and L300 in the reference architecture, explained through an interactive demo video at the booth, so a buyer could go as deep as they wanted without the message changing.",
   },
 ];
 
