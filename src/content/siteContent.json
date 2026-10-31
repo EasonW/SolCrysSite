@@ -43288,7 +43288,7 @@
       "metaTitle": "__usage_ai-training: Most Brands Should Change Nothing | SolCrys",
       "description": "Microsoft, Google, OpenAI, and Anthropic backed a robots.txt AI training opt-out. Fine with training? Change nothing. Opting out? Decide Google-Extended first.",
       "h1": "The new AI training opt-out in robots.txt: most brands should change nothing",
-      "summary": "If you want AI answers to cite your brand and you don't mind AI training, change nothing. On Oct. 30, 2026, Microsoft, Google, OpenAI, and Anthropic backed a robots.txt rule, `__usage_ai-training`, for refusing AI training. A site that doesn't add it keeps working as before. Read on only if you want to refuse training, or if your pages carry Bing's NOARCHIVE or NOCACHE tags.",
+      "summary": "On Oct. 30, 2026, Microsoft, Google, OpenAI, and Anthropic backed a robots.txt rule, `__usage_ai-training`, for refusing AI training.",
       "category": "Technical Readiness",
       "published": "2026-10-30",
       "updated": "2026-10-31",
@@ -43308,6 +43308,13 @@
         "search-console-bing-ga4-ai-reports"
       ],
       "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "If you want AI answers to cite your brand and you don't mind AI training, change nothing: a site that doesn't add the rule keeps working as before.",
+            "Read on only in 2 cases. If you want to refuse training, decide Google-Extended first, or the opt-out can also cost you Gemini app citations. If your pages carry Bing's NOARCHIVE or NOCACHE tags, Bing stops reading them as AI controls in 2027, so check them now."
+          ]
+        },
         {
           "heading": "What was announced, and when each company starts",
           "body": [
@@ -43355,18 +43362,18 @@
         {
           "heading": "If your pages carry NOARCHIVE or NOCACHE",
           "body": [
-            "Bing reads these tags as AI controls today: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. From Feb. 1, 2027, Bing ignores them on any site where it finds one of its new training or grounding preferences, and everywhere after March 1, 2027. Pages that relied on them can then be used in Bing's AI answers and for training unless you replace them."
+            "Bing reads these tags as AI controls today: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. From Feb. 1, 2027, Bing ignores them on any site where it finds one of its new training or grounding preferences, including the robots.txt rule above, and everywhere after March 1, 2027. Pages that relied on them can then be used in Bing's AI answers and for training unless you replace them."
           ],
           "bullets": [
             "**Check whether you have them.** Search your page source and response headers for `noarchive` and `nocache`. If they're there by accident, from an old template, plugin, or header, remove them now.",
-            "**If you use them on purpose,** leave them in place and switch every page together before March 1, 2027, because one new preference ends the old tags across the site. First record a temporary grounding preference in Bing Webmaster Tools, which accepts it from Dec. 15, 2026. Then add the AI Grounding preference, `<meta name=\"Bingbot\" content=\"ai-grounding:disallow\">`, to every page that carries the old tags, and at the same time add the robots.txt rule above or the page tag `ai-training:disallow` to refuse training."
+            "**If you use them on purpose,** leave them in place and follow [Microsoft's transition steps](https://blogs.bing.com/search/2026/10/your-content-your-choice-clearer-preferences-for-training-and-grounding/) for the whole site before March 1, 2027. One new preference ends the old tags site-wide from Feb. 1, so a partial switch can expose the rest of the site, and Bing has no temporary setting for training."
           ]
         }
       ],
       "faqs": [
         {
           "question": "Do my existing robots.txt rules already opt me out of AI training?",
-          "answer": "Only lines that name a company's own crawler or token, such as GPTBot or Google-Extended, and only at that company. Under the shared rule, `User-Agent: *` never counts as a training preference."
+          "answer": "No, except at a company whose own crawler or token your file names, such as GPTBot or Google-Extended. Under the shared rule, `User-Agent: *` never counts as a training preference."
         },
         {
           "question": "Should I set Bing's new AI Grounding preference?",
