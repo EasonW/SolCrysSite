@@ -43355,18 +43355,18 @@
         {
           "heading": "If your pages carry NOARCHIVE or NOCACHE",
           "body": [
-            "Bing reads these tags as AI controls today: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. Bing stops reading them after March 1, 2027, or from Feb. 1, 2027 on any site where it finds one of its new training or grounding preferences. Pages that relied on them can then be used in Bing's AI answers and for training unless you replace them."
+            "Bing reads these tags as AI controls today: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. From Feb. 1, 2027, Bing ignores them on any site where it finds one of its new training or grounding preferences, and everywhere after March 1, 2027. Pages that relied on them can then be used in Bing's AI answers and for training unless you replace them."
           ],
           "bullets": [
             "**Check whether you have them.** Search your page source and response headers for `noarchive` and `nocache`. If they're there by accident, from an old template, plugin, or header, remove them now.",
-            "**If you use them on purpose,** replace them before March 1, 2027, and before you add the robots.txt rule above, which counts as a new preference. To keep pages out of Bing's AI answers, add the AI Grounding preference to each page, `<meta name=\"Bingbot\" content=\"ai-grounding:disallow\">`, and record it as a temporary preference in Bing Webmaster Tools from Dec. 15, 2026. To refuse training, use the robots.txt rule above or the page tag `ai-training:disallow`."
+            "**If you use them on purpose,** leave them in place and switch every page together before March 1, 2027, because one new preference ends the old tags across the site. First record a temporary grounding preference in Bing Webmaster Tools, which accepts it from Dec. 15, 2026. Then add the AI Grounding preference, `<meta name=\"Bingbot\" content=\"ai-grounding:disallow\">`, to every page that carries the old tags, and at the same time add the robots.txt rule above or the page tag `ai-training:disallow` to refuse training."
           ]
         }
       ],
       "faqs": [
         {
           "question": "Do my existing robots.txt rules already opt me out of AI training?",
-          "answer": "Only lines that name a company's crawler, such as GPTBot or Google-Extended, and only at that company. Under the shared rule, `User-Agent: *` never counts as a training preference."
+          "answer": "Only lines that name a company's own crawler or token, such as GPTBot or Google-Extended, and only at that company. Under the shared rule, `User-Agent: *` never counts as a training preference."
         },
         {
           "question": "Should I set Bing's new AI Grounding preference?",
