@@ -33865,7 +33865,7 @@
       "summary": "Allow the search crawlers and user-triggered fetchers of every engine you want to be cited by, decide AI training separately, and never block a search engine's main crawler to stop training. Since Sept. 15, 2026, choosing Block for Training in Cloudflare also stops Googlebot, Bingbot, and Applebot, while the new Disallow AI Training setting refuses training and keeps search. Google-Extended does not control AI Overviews; Googlebot and Search Console's generative AI control do. After any change to robots.txt or CDN rules, rerun the same prompts on each engine and compare which of your URLs are still cited.",
       "category": "Technical Readiness",
       "published": "2026-09-26",
-      "updated": "2026-09-26",
+      "updated": "2026-10-30",
       "ogImage": "/og/ai-crawler-access-search-agent-training.png",
       "ogEyebrow": "Technical Readiness",
       "ogTitleParts": [
@@ -33891,7 +33891,8 @@
         "solcrys-content-audit-report",
         "search-console-bing-ga4-ai-reports",
         "social-platforms-ai-engines-can-see",
-        "google-ai-overviews-opt-out-uk-cma"
+        "google-ai-overviews-opt-out-uk-cma",
+        "usage-ai-training-robots-txt"
       ],
       "sections": [
         {
@@ -33951,7 +33952,7 @@
             "**Block and Block on pages with ads** now reach mixed-use crawlers: they \"apply to mixed-use crawlers, including Applebot, Bingbot, and Googlebot, so either setting impacts search as well as training.\"",
             "**Existing settings were migrated, not broken.** A legacy \"Block AI bots\" setting became Search Allow, Training Disallow AI Training, and Agent Block on pages with ads, and earlier Training Block selections became Disallow AI Training. Cloudflare's advice to existing customers: \"Nothing, in almost every case.\"",
             "**New domains are offered a preset at onboarding, which the owner can change.** A site that monetizes with ads is offered Search allowed, Training set to Disallow AI Training, and Agent blocked on pages with ads. Every other site is offered all 3 allowed.",
-            "**Bing is the exception.** Until Microsoft supports a robots.txt no-training preference, \"targeted for early 2027,\" Disallow AI Training does not convey a no-training choice to Bing. Cloudflare points site owners to Bing's NOARCHIVE tag instead."
+            "**Bing is the exception.** Cloudflare says that until Microsoft supports a robots.txt no-training preference, \"targeted for early 2027,\" Disallow AI Training does not convey a no-training choice to Bing, and it points site owners to Bing's NOARCHIVE tag instead. On Oct. 30, 2026, Microsoft set the date: Bing honors the shared `__usage_ai-training` robots.txt preference from Feb. 1, 2027, and stops reading NOARCHIVE as an AI control after March 1, 2027. Disallow AI Training reaches Bing from then only if the robots.txt it publishes includes that token, so read the file your site actually serves. See [the shared AI training opt-out](/usage-ai-training-robots-txt/)."
           ],
           "subsections": [
             {
@@ -33971,13 +33972,13 @@
           "bullets": [
             "**Search** builds an index an engine answers from later: OAI-SearchBot, Claude-SearchBot, PerplexityBot, and the search half of Googlebot, Bingbot, and Applebot. Blocking this class takes a site out of that engine's cited answers.",
             "**Agent** fetches a page in real time for a person. Cloudflare's definition covers \"chat fetch bots (e.g., ChatGPT-User) and browser-use agents (e.g., Gemini or Claude driving Chrome).\" Claude-User and Perplexity-User do the same job, and Perplexity says Perplexity-User may \"include a link to the page in its response.\" An Agent block can cost a citation too.",
-            "**Training** feeds model weights: GPTBot, ClaudeBot, and the training use of mixed-use crawlers, which Google and Apple let you refuse with the Google-Extended and Applebot-Extended tokens."
+            "**Training** feeds model weights: GPTBot, ClaudeBot, and the training use of mixed-use crawlers, which Google and Apple let you refuse with the Google-Extended and Applebot-Extended tokens. Microsoft, Google, OpenAI, and Anthropic have also backed a shared training token, `__usage_ai-training`, with Microsoft starting on Feb. 1, 2027."
           ]
         },
         {
           "heading": "Every major AI crawler: what it does and what blocking it costs",
           "body": [
-            "Checked against each company's crawler documentation on Sept. 26, 2026. User-agent names and behavior change; re-check the linked docs before you edit a rule."
+            "Checked against each company's crawler documentation on Sept. 26, 2026; the Bingbot row was updated on Oct. 30, 2026. User-agent names and behavior change; recheck the linked docs before you edit a rule."
           ],
           "table": {
             "headers": [
@@ -34084,7 +34085,7 @@
                 "Microsoft",
                 "Bing index, which Copilot and Bing's AI summaries ground in",
                 "Out of Bing and Copilot citations; OpenAI's ChatGPT search help says it partners with other search providers and links Microsoft's privacy statement",
-                "Always allow; NOARCHIVE removes a page from Copilot answers and training together"
+                "Always allow; NOARCHIVE removes a page from Copilot answers and training together until separate AI Training and AI Grounding preferences replace it, starting Feb. 1, 2027; Bing stops reading NOARCHIVE as an AI control after March 1, 2027"
               ]
             ]
           }
@@ -34098,7 +34099,7 @@
             {
               "heading": "1. Stop training with training controls, never with a search-crawler block",
               "body": [
-                "Use GPTBot, ClaudeBot, Google-Extended, and Applebot-Extended rules in robots.txt, or Disallow AI Training on Cloudflare. Microsoft is the exception today: Bing documents NOARCHIVE as keeping a page out of both Copilot answers and training, and NOCACHE as limiting both to the URL, title, and snippet, so until the robots.txt preference arrives there is no documented Bing setting that refuses training and keeps full Copilot citations."
+                "Use GPTBot, ClaudeBot, Google-Extended, and Applebot-Extended rules in robots.txt, or Disallow AI Training on Cloudflare. Microsoft is the exception today: Bing documents NOARCHIVE as keeping a page out of both Copilot answers and training, and NOCACHE as limiting both to the URL, title, and snippet, so until Feb. 1, 2027 there is no documented Bing setting that refuses training and keeps full Copilot citations. From that date, Bing honors the shared `__usage_ai-training` robots.txt token for training and a separate page-level grounding preference, so a site can refuse training and stay in Copilot answers. Google, OpenAI, and Anthropic plan to honor the same token, but Google plans to read an opt-out that doesn't name Google-Extended as a Google-Extended disallow, which also removes Gemini app grounding; see [the shared AI training opt-out](/usage-ai-training-robots-txt/) before you rely on it."
               ]
             },
             {
@@ -34153,7 +34154,7 @@
             "**Cloudflare:** Search set to Allow; Agent set to Allow; Training set to Allow or Disallow AI Training, and set to Block only if you intend to leave Google, Bing, and Apple search.",
             "**Firewall and bot rules:** check custom rules and bot-fighting features that block by user agent or network, and confirm that OpenAI's and Perplexity's published IP ranges get through.",
             "**Search Console:** leave the Search generative AI control on Include unless you intend to leave AI Overviews and AI Mode.",
-            "**Bing:** keep NOARCHIVE off pages you want cited in Copilot.",
+            "**Bing:** keep NOARCHIVE off pages you want cited in Copilot, and from Feb. 1, 2027 leave Bing's new AI Grounding preference on its default, Allow.",
             "**Change log:** record the date of every robots.txt, CDN, and firewall change, so the next step has a before and an after."
           ]
         },
@@ -34217,6 +34218,22 @@
         }
       ],
       "sources": [
+        {
+          "label": "Microsoft Bing Blog: Your content, your choice: clearer preferences for training and grounding (Oct. 30, 2026)",
+          "url": "https://blogs.bing.com/search/2026/10/your-content-your-choice-clearer-preferences-for-training-and-grounding/"
+        },
+        {
+          "label": "Google Search Central Blog: Supporting a shared AI training control for websites (Oct. 30, 2026)",
+          "url": "https://developers.google.com/search/blog/2026/10/ai-training-control"
+        },
+        {
+          "label": "OpenAI: Making it easier for websites to express AI training preferences (Oct. 30, 2026)",
+          "url": "https://openai.com/index/helping-websites-express-ai-training-preferences/"
+        },
+        {
+          "label": "IETF AI Preferences mailing list: Kevin Kelley, New draft: draft-kelley-aipref-training-preference-signal-00 (Oct. 30, 2026)",
+          "url": "https://mailarchive.ietf.org/arch/msg/ai-control/mddjatOxSR0h6GmLRBWlc839c7w/"
+        },
         {
           "label": "Cloudflare: Your site, your rules: new AI traffic options for all customers (July 1, 2026)",
           "url": "https://blog.cloudflare.com/content-independence-day-ai-options/"
@@ -41907,7 +41924,8 @@
         "how-many-runs-until-ai-visibility-trustworthy",
         "how-ai-describes-your-brand",
         "how-to-get-cited-by-chatgpt-2026",
-        "why-ai-visibility-score-moves"
+        "why-ai-visibility-score-moves",
+        "usage-ai-training-robots-txt"
       ],
       "sections": [
         {
@@ -42381,11 +42399,11 @@
       "slug": "google-ai-overviews-opt-out-uk-cma",
       "title": "Opting Out of Google AI Overviews: What the UK's New Rules Protect From Dec. 3, 2026",
       "metaTitle": "Google AI Overviews Opt-Out: UK Rules From Dec. 3 | SolCrys",
-      "description": "From Dec. 3, 2026, UK rules bar Google from downranking content that opts out of its AI answers in Search. What opting out removes and who should.",
+      "description": "From Dec. 3, 2026, UK rules bar Google from downranking content that opts out of its AI answers in Search. What opting out removes, and who should opt out.",
       "h1": "Opting out of Google AI Overviews: what the UK's new rules protect from Dec. 3, 2026",
       "category": "Technical Readiness",
       "published": "2026-10-27",
-      "updated": "2026-10-27",
+      "updated": "2026-10-30",
       "ogImage": "/og/google-ai-overviews-opt-out-uk-cma.png",
       "ogEyebrow": "Technical Readiness",
       "ogTitleParts": [
@@ -42408,7 +42426,8 @@
         "google-ai-overviews-tracker",
         "find-ai-prompts-your-brand-shows-up-for",
         "google-ai-overviews-more-links",
-        "ai-search-statistics-2026"
+        "ai-search-statistics-2026",
+        "usage-ai-training-robots-txt"
       ],
       "sources": [
         {
@@ -42476,7 +42495,7 @@
           "url": "https://digital-markets-act.ec.europa.eu/commission-provides-guidance-google-ai-interoperability-android-and-sharing-google-search-data-under-2026-07-16_en"
         }
       ],
-      "summary": "Any site can already opt out of Google's AI answers in Search. Search Console's Search generative AI control has been available worldwide since Aug. 31, 2026, and Google says the choice isn't a ranking signal for the rest of Search. From Dec. 3, 2026, the UK Competition and Markets Authority makes the key protections a legal duty for content shown to people in the UK: Google may not downrank or otherwise disadvantage content that opts out, must give publishers engagement data including clicks and click-through rate, and must take reasonable steps to attribute sources clearly. A page-level control follows by March 2027. Opting out removes your links and words from AI Overviews, but not the answer, which Google says can still draw on other sites' content that \"may appear similar to yours\". This guide covers what changes on Dec. 3, who is covered, what each Google control does, and who should consider opting out, as of Oct. 27, 2026.",
+      "summary": "Any site can already opt out of Google's AI answers in Search. Search Console's Search generative AI control has been available worldwide since Aug. 31, 2026, and Google says the choice isn't a ranking signal for the rest of Search. From Dec. 3, 2026, the UK Competition and Markets Authority makes the key protections a legal duty for content shown to people in the UK: Google may not downrank or otherwise disadvantage content that opts out, must give publishers engagement data including clicks and click-through rate, and must take reasonable steps to attribute sources clearly. A page-level control follows by March 2027. Opting out removes your links and words from AI Overviews, but not the answer, which Google says can still draw on other sites' content that \"may appear similar to yours\". This guide covers what changes on Dec. 3, who is covered, what each Google control does, and who should consider opting out, as of Oct. 30, 2026.",
       "sections": [
         {
           "heading": "Direct answer",
@@ -42609,10 +42628,11 @@
             "**Choice screens:** on Sept. 23, 2026, the CMA proposed that Google show Android and Chrome users a choice of search services, including AI assistants, but only providers that attribute publisher content clearly. Responses closed Oct. 9, and the CMA expects a decision by the end of 2026. It is still a proposal.",
             "**Jan. 3, 2027:** Google's first compliance report to the CMA is due, covering June 3 to Dec. 3, 2026.",
             "**The EU:** the European Commission opened an investigation on Dec. 9, 2025 into whether publishers can refuse the use of their content in Google's AI features \"without losing access to Google Search\", and under the Digital Markets Act, AI chatbots with search functions can receive shared Google search data from January 2027.",
+            "**Early 2027:** Google's crawler documentation says it intends to support the shared robots.txt training opt-out, `__usage_ai-training`, announced on Oct. 30, 2026, and Google plans to read it as a Google-Extended disallow when Google-Extended isn't named. That would also remove Gemini app grounding, but not AI Overviews; see [what the token does at each company](/usage-ai-training-robots-txt/).",
             "**March 2027:** the page-level control for grounding Google's AI features in Search is due."
           ],
           "body": [
-            "Dates to watch, as of Oct. 27, 2026."
+            "Dates to watch, as of Oct. 30, 2026."
           ]
         },
         {
@@ -43257,6 +43277,304 @@
         {
           "label": "Forrester: The State of Business Buying, 2026 (January 2026)",
           "url": "https://www.forrester.com/blogs/state-of-business-buying-2026/"
+        }
+      ]
+    },
+    {
+      "slug": "usage-ai-training-robots-txt",
+      "title": "One robots.txt Rule to Opt Out of AI Training: What __usage_ai-training Does at Microsoft, Google, OpenAI, and Anthropic",
+      "metaTitle": "__usage_ai-training: The Shared AI Training Opt-Out | SolCrys",
+      "description": "Microsoft, Google, OpenAI, and Anthropic back one robots.txt rule for AI training. What it does at each, and the Gemini app citations it can cost.",
+      "h1": "One robots.txt rule to opt out of AI training: what __usage_ai-training does at Microsoft, Google, OpenAI, and Anthropic",
+      "summary": "On Oct. 30, 2026, Microsoft, Google, OpenAI, and Anthropic each backed one robots.txt rule for AI training: a group for the policy token __usage_ai-training. Microsoft starts on Feb. 1, 2027, Google plans support in 2027, OpenAI says in the coming months, and the draft's author says Anthropic has started implementing it. The rule states a training preference; it doesn't block crawling, and each company's own crawler rules keep working. Google is the case to check: when the rule opts a site out and Google-Extended isn't named, Google plans to read it as a Google-Extended disallow, and Google-Extended also controls grounding in the Gemini app. Microsoft adds a separate page-level grounding preference and stops reading NOARCHIVE and NOCACHE as AI controls after March 1, 2027. If you are fine with AI training, change nothing. If you opt out, decide Google-Extended explicitly, then rerun the prompts you track to confirm your citations held.",
+      "category": "Technical Readiness",
+      "published": "2026-10-30",
+      "updated": "2026-10-30",
+      "ogImage": "/og/usage-ai-training-robots-txt.png",
+      "ogEyebrow": "Technical Readiness",
+      "ogTitleParts": [
+        "One rule to opt out of AI training.",
+        "Check what else it turns off."
+      ],
+      "ogSubtitle": "What __usage_ai-training does at Microsoft, Google, OpenAI, and Anthropic, and the Gemini app citations it can cost.",
+      "primaryKeyword": "__usage_ai-training",
+      "aeoTargets": [
+        "What is __usage_ai-training in robots.txt?",
+        "Does opting out of AI training remove my site from AI answers?",
+        "Does the shared AI training opt-out affect Gemini?",
+        "When will Microsoft, Google, OpenAI, and Anthropic honor the shared AI training signal?",
+        "What replaces Bing's NOARCHIVE and NOCACHE for AI?",
+        "What does DisallowExtended mean in Bing's AI grounding preference?",
+        "Do I need to change robots.txt to allow AI training?"
+      ],
+      "relatedSlugs": [
+        "ai-crawler-access-search-agent-training",
+        "google-ai-overviews-opt-out-uk-cma",
+        "search-console-bing-ga4-ai-reports",
+        "get-ai-engines-to-see-your-updates",
+        "how-many-runs-until-ai-visibility-trustworthy",
+        "solcrys-content-audit-report",
+        "llms-txt-not-a-strategy"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "`__usage_ai-training` is a robots.txt policy token for one decision: whether AI companies may train generative models on your content. On Oct. 30, 2026, Microsoft, Google, OpenAI, and Anthropic each backed it: Microsoft and OpenAI say they will honor it, Google plans to, and Anthropic has started implementing it. One group, `User-Agent: __usage_ai-training` followed by `Disallow: /`, states a training opt-out to all 4 at once.",
+            "It states a preference about use. It doesn't block crawling, and each company's rules for its own crawlers keep working, so search crawlers such as OAI-SearchBot, Claude-SearchBot, Googlebot, and Bingbot are still governed by their own lines. Google is the case to check. When the token opts a site out and Google-Extended isn't named, Google plans to treat it as a Google-Extended disallow, and Google-Extended also controls grounding in the Gemini app. The shortest opt-out can cost Gemini app citations.",
+            "For a brand that wants to be cited: if you are fine with AI training, change nothing, because a file without the token expresses no preference and Microsoft defaults to Allow. If you opt out, name Google-Extended explicitly, leave Bing's new grounding preference on its default, and rerun the prompts you track as each company starts honoring the rule."
+          ]
+        },
+        {
+          "heading": "What was announced on Oct. 30, 2026",
+          "body": [
+            "4 companies backed the rule on the same day, on 4 timelines; Anthropic's commitment came from the draft's author on the IETF working group's mailing list. Only Microsoft has given a start date. The rule itself is an individual Internet-Draft submitted to the IETF's AI Preferences working group, not yet a standard; Microsoft calls the working group's progress significant enough that it \"merits adoption\" while that work continues."
+          ],
+          "table": {
+            "headers": [
+              "Company",
+              "What it said",
+              "When",
+              "Its existing controls"
+            ],
+            "rows": [
+              [
+                "**Microsoft**",
+                "Bing will honor the token in robots.txt for a site or path, add page-level training and grounding tags, and replace NOARCHIVE and NOCACHE as AI controls",
+                "From Feb. 1, 2027, as Bing crawls",
+                "A page-level training tag overrides robots.txt; grounding is a separate page-level setting"
+              ],
+              [
+                "**Google**",
+                "Plans to read a token opt-out \"as if the publisher had disallowed Google-Extended\" when Google-Extended isn't named",
+                "\"in 2027\"; Google's crawler documentation says early 2027",
+                "Google-Extended keeps working \"alongside this new joint signal\""
+              ],
+              [
+                "**OpenAI**",
+                "\"OpenAI will honor a common signal\" for \"foundational generative AI training\"",
+                "\"in the coming months,\" with implementation details to follow",
+                "\"This new signal will not replace the controls we already provide through robots.txt\""
+              ],
+              [
+                "**Anthropic**",
+                "The draft's author, Kevin Kelley of Anthropic, wrote that Anthropic \"has already started implementing support\"",
+                "\"It'll take us some time to add support across our services\"",
+                "\"This complements our existing crawler controls rather than replacing them\""
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "How the rule works",
+          "body": [
+            "The draft, \"Machine-Readable Training Preference Signal,\" adds no new syntax to robots.txt. The details that matter for a site owner are these."
+          ],
+          "bullets": [
+            "**It's an ordinary robots.txt group.** The user-agent line names a policy token instead of a crawler. `Disallow` states a preference against training for those paths and `Allow` a preference for it, with the usual longest-match rules. The draft's example refuses training everywhere except `/press-kit/`.",
+            "**No group, no preference.** `User-Agent: *` groups never match the token, so existing wildcard rules aren't read as a training choice. In Kelley's words, a file that doesn't use the mechanism, \"as is true of every one published today, expresses no preference at all.\"",
+            "**It doesn't control crawling.** The draft says the token \"is not a directive for crawling behavior.\" Rules for a crawler's own user agent still decide what it fetches, though a crawler that collects only for training may skip pages that refuse training.",
+            "**The specific rule should win.** The draft says \"Specific expressions SHOULD take precedence over general ones\" and lets each company treat its own tokens, such as Google-Extended, as more specific. Google has said how it will apply that; OpenAI says its existing crawler controls \"will continue to apply and be respected\" and will publish its implementation details later.",
+            "**\"Training\" has a narrow meaning.** The draft uses the working group's definition: \"Using an asset to modify the learned parameters of a generative AI model.\" Models used only for \"classification, ranking, or scoring\" are outside it, so the rule says nothing about search ranking."
+          ]
+        },
+        {
+          "heading": "The Google catch: the opt-out can cost Gemini app citations",
+          "body": [
+            "Google's announcement is specific: \"When a website uses this policy token to opt out of training in its robots.txt file (and Google-Extended is not explicitly specified), Google plans to interpret that as if the publisher had disallowed Google-Extended.\"",
+            "Google-Extended isn't only a training control. Google's crawler documentation says it governs training of future Gemini models \"and for grounding\" in \"Gemini Apps and Grounding with Google Search on Vertex AI.\" Google's announcement adds that \"Websites that specifically allow Google-Extended are eligible to appear in responses and receive clicks via grounding in Gemini Apps.\" Once Google supports the token, a site that adds only the 2-line opt-out refuses Gemini training and, by Google's reading, Gemini app grounding too.",
+            "Google Search is not affected. Google says Google-Extended \"does not impact a site's inclusion in Google Search,\" and AI Overviews and AI Mode follow Googlebot and Search Console's Search generative AI control, as [the UK opt-out guide](/google-ai-overviews-opt-out-uk-cma/) explains.",
+            "There is still no Google setting that refuses Gemini training and keeps Gemini app grounding, and the token doesn't create one. What changes is how the choice gets made: without anyone naming Google-Extended, a generic training opt-out now makes the bundled choice for you. Decide Google-Extended on purpose, using the setups below."
+          ]
+        },
+        {
+          "heading": "3 robots.txt setups, and what each one does",
+          "body": [
+            "Each setup assumes your search crawlers stay allowed. \"Then\" marks the next line of the same group; a new `User-Agent` line starts a new group."
+          ],
+          "table": {
+            "headers": [
+              "Your goal",
+              "What to write in robots.txt",
+              "What it does"
+            ],
+            "rows": [
+              [
+                "**Allow AI training and keep every citation**",
+                "Nothing. Optionally `User-Agent: __usage_ai-training` then `Allow: /`",
+                "No preference, or an explicit one in favor of training. Microsoft defaults to Allow, and Gemini app grounding is unchanged"
+              ],
+              [
+                "**Refuse training except Google's, and keep Gemini app citations**",
+                "`User-Agent: __usage_ai-training` then `Disallow: /`, plus a group for `User-Agent: Google-Extended` then `Allow: /`",
+                "Refuses training at Microsoft, OpenAI, and Anthropic as each implements the token. At Google, Gemini training stays allowed, because Google-Extended is the same switch as Gemini app grounding"
+              ],
+              [
+                "**Refuse training wherever the token is honored, Google included**",
+                "`User-Agent: __usage_ai-training` then `Disallow: /`",
+                "Refuses training at all 4 as each implements the token. Google reads it as a Google-Extended disallow, so Gemini app grounding goes too; AI Overviews and AI Mode are unaffected"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "Microsoft: training and grounding become separate choices",
+          "body": [
+            "Microsoft goes further than the shared token. Its announcement covers content used for training and \"to inform generated responses, including web-grounded responses in Bing, Copilot, and Microsoft 365,\" and it splits that use into 2 independent preferences. Both default to Allow, and setting one doesn't change the other."
+          ],
+          "bullets": [
+            "**AI Training.** Use the shared token in robots.txt for a site or a path, or set it per page with `<meta name=\"Bingbot\" content=\"ai-training:disallow\">` or the header `X-Robots-Tag: Bingbot: ai-training:disallow`. A page-level setting overrides robots.txt.",
+            "**AI Grounding.** Page level only, through the same meta tag or header with `ai-grounding:disallow` or `ai-grounding:disallowextended`; Allow is the default. Microsoft: \"There is no site-wide robots.txt grounding preference.\"",
+            "**DisallowExtended** keeps a page available to \"Microsoft-operated experiences such as AI Mode, AI Overview, Copilot, and Microsoft 365,\" which are Microsoft's own products despite the names, and excludes \"grounding services Microsoft provides to third parties, such as Web IQ and grounding through API access in Foundry.\" Microsoft launched Web IQ on June 2, 2026 as \"a suite of AI-native grounding APIs\" for AI systems and agents, \"a search engine for AI systems.\"",
+            "**Bing search is untouched.** The preferences \"do not change eligibility for traditional Bing search results,\" and the Bing search syndication API, which \"returns links for traditional search scenarios,\" is not affected by the grounding preference.",
+            "**Use, not access.** \"These settings govern use of content, not crawl access.\" An Allow setting doesn't override a robots.txt rule that blocks Bingbot, and a new setting takes effect only when Bing recrawls the page. Microsoft says IndexNow can \"increase the chance of a recrawl\" without guaranteeing a date; see [how to get AI engines to see your updates](/get-ai-engines-to-see-your-updates/)."
+          ],
+          "subsections": [
+            {
+              "heading": "What grounding restrictions cost",
+              "body": [
+                "Microsoft states the trade plainly: \"If you select DisallowExtended or Disallow for grounding, you will see reduced brand visibility in AI experiences.\" For a brand that wants to be cited, leave grounding on its default. DisallowExtended suits a publisher that wants Microsoft's AI products but not other companies' products built on Microsoft's grounding services. Microsoft doesn't name Web IQ's or Foundry's customers, so a brand can't see in advance which AI products DisallowExtended would remove."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "If your site uses NOARCHIVE or NOCACHE",
+          "body": [
+            "NOARCHIVE and NOCACHE are the AI controls Bing documented in 2023: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. Microsoft is retiring them as AI controls on this schedule."
+          ],
+          "table": {
+            "headers": [
+              "Date",
+              "What happens",
+              "What to do"
+            ],
+            "rows": [
+              [
+                "**Dec. 15, 2026**",
+                "Temporary grounding preferences open in Bing Webmaster Tools, only for sites that use NOARCHIVE or NOCACHE on that date",
+                "If you use these tags to keep pages out of AI answers, record a temporary grounding preference before March 1, 2027. Otherwise, nothing"
+              ],
+              [
+                "**Feb. 1, 2027**",
+                "Bing starts honoring the new preferences as it crawls. On a site where it finds them, it disregards any remaining NOARCHIVE and NOCACHE",
+                "Publish the new training and grounding preferences you want, before March 1, 2027"
+              ],
+              [
+                "**March 1, 2027**",
+                "NOARCHIVE and NOCACHE \"will no longer be read as a preference for training or grounding.\" Pages that relied on them and have no recorded temporary preference \"default to Allow for grounding\" until Bing recrawls them",
+                "To keep pages out of grounding, publish the page-level tag and record the temporary preference. Training needs robots.txt or page tags, because there is no temporary training setting"
+              ],
+              [
+                "**Sept. 30, 2027**",
+                "Temporary preferences expire, or earlier for each page Bing recrawls and finds a new grounding tag on",
+                "Make sure every page you want restricted carries the new tag"
+              ]
+            ]
+          },
+          "subsections": [
+            {
+              "heading": "Check for tags nobody chose",
+              "body": [
+                "For a brand, the retirement mostly helps. If NOARCHIVE sits on your pages by accident, or by a decision nobody remembers, it keeps them out of Copilot answers today, and from March 1, 2027 those pages default to Allow for grounding. Don't wait for that: search your templates, CMS settings, and response headers for `noarchive` and `nocache` now, and remove them from pages you want cited."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Before you edit robots.txt",
+          "body": [
+            "The token makes a training opt-out easy to write and easy to get wrong. Run these checks first."
+          ],
+          "bullets": [
+            "**Decide training as a policy, then write it once.** One `__usage_ai-training` group, plus an explicit `Google-Extended` group, states it to all 4 companies as each honors the token. Company-specific lines such as GPTBot, ClaudeBot, and Applebot-Extended still apply, and Apple and other AI companies haven't announced support for the token, so keep those lines consistent with it.",
+            "**Leave the search crawlers alone.** The token doesn't change what OAI-SearchBot, Claude-SearchBot, PerplexityBot, Googlebot, or Bingbot may crawl, but a crawl block still removes you from answers. [AI crawler access](/ai-crawler-access-search-agent-training/) lists which bot does what.",
+            "**Read the file you actually serve.** If a CDN, plugin, or CMS writes robots.txt for you, fetch `/robots.txt` from your live site after every change, because that file is what each company reads.",
+            "**Find old tags.** Search for `noarchive`, `nocache`, and `X-Robots-Tag` rules before Bing's dates, and find out who added them.",
+            "**Log the date.** Record every robots.txt, meta tag, and header change, so the verification step has a before and an after."
+          ]
+        },
+        {
+          "heading": "Verify: did the change cost you citations?",
+          "body": [
+            "A preference changes nothing until a company honors it and rereads your pages. Microsoft applies a page's setting when Bing recrawls it, and Google, OpenAI, and Anthropic will each start on their own schedule, so the effect arrives engine by engine. Before a change, capture which of your URLs each engine cites on the prompts you track. After each start date, rerun the same prompts on the same engines and compare.",
+            "For the Gemini app, where Google-Extended applies, ask your most important prompts in the app itself before and after Google starts honoring the token. Judge across several runs, because engines change what they cite on their own; [how many runs you need](/how-many-runs-until-ai-visibility-trustworthy/) covers the noise. For Copilot and Bing's AI summaries, Bing Webmaster Tools' AI Performance report counts citations of your pages; [what the free reports show](/search-console-bing-ga4-ai-reports/) compares it with Search Console and GA4."
+          ]
+        },
+        {
+          "heading": "How SolCrys helps",
+          "body": [
+            "SolCrys runs your prompt set on a schedule across ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan, and records every URL each engine cites. When a training or grounding preference changes, on your side or when a company starts honoring the token, the same prompts rerun on the same engines, so you can see across several runs whether each engine you track still cites your pages. The [Content Audit](/solcrys-content-audit-report/)'s AI Bot Check reads robots.txt and requests a page as named crawlers, to flag a crawl block that a robots.txt edit introduced by mistake.",
+            "To see which sources ChatGPT cites for 10 of your buyer questions, [Start Free](https://app.solcrys.com/audit): 10 ChatGPT prompts and 1 content audit, free, with email verification and no credit card. To verify a crawler-policy change across engines, [talk to us](https://app.solcrys.com/contact-sales/)."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "What is __usage_ai-training?",
+          "answer": "A robots.txt policy token for AI training preferences, defined in an IETF Internet-Draft published on Oct. 30, 2026. A group that starts `User-Agent: __usage_ai-training` and says `Disallow: /` states a preference against training generative AI models on your content; `Allow` states a preference for it. Microsoft and OpenAI have said they will honor it, Google plans to, and Anthropic has started implementing it. It doesn't block crawling, and it doesn't replace company-specific rules such as GPTBot or Google-Extended."
+        },
+        {
+          "question": "Does opting out of AI training remove my site from AI answers?",
+          "answer": "Not by itself at Microsoft, where grounding is a separate setting, and OpenAI and Anthropic describe it as a training signal that sits alongside their existing crawler controls. At Google it can: when Google-Extended isn't named, Google plans to read the opt-out as a Google-Extended disallow, and Google-Extended also controls grounding in the Gemini app. AI Overviews and AI Mode are not affected."
+        },
+        {
+          "question": "Does the shared AI training opt-out affect Gemini?",
+          "answer": "It can. Google-Extended covers Gemini training and grounding in Gemini Apps and Grounding with Google Search on Vertex AI, and Google plans to treat a token opt-out as a Google-Extended disallow when Google-Extended isn't named. Adding a `User-Agent: Google-Extended` group with `Allow: /` keeps Gemini app grounding, and Gemini training with it."
+        },
+        {
+          "question": "When will Microsoft, Google, OpenAI, and Anthropic honor the shared AI training signal?",
+          "answer": "Microsoft from Feb. 1, 2027, as Bing crawls. Google in 2027; its crawler documentation says early 2027. OpenAI \"in the coming months,\" with details to follow. Anthropic has started implementing support, and the draft's author says adding it across Anthropic's services will take time."
+        },
+        {
+          "question": "What replaces Bing's NOARCHIVE and NOCACHE for AI?",
+          "answer": "Separate AI Training and AI Grounding preferences. From Feb. 1, 2027, Bing honors the shared robots.txt training token and page-level tags such as `ai-grounding:disallow`. After March 1, 2027, NOARCHIVE and NOCACHE are no longer read as training or grounding preferences, and pages without a temporary preference recorded in Bing Webmaster Tools default to Allow for grounding until Bing recrawls them."
+        },
+        {
+          "question": "What does DisallowExtended mean in Bing's AI grounding preference?",
+          "answer": "It's 1 of 3 values for Bing's page-level grounding preference. It keeps a page available to Microsoft-operated experiences such as AI Mode, AI Overview, Copilot, and Microsoft 365, and excludes grounding services Microsoft provides to other companies, such as Web IQ and the Foundry grounding API. Microsoft says choosing it reduces brand visibility in AI experiences."
+        },
+        {
+          "question": "Do I need to change robots.txt to allow AI training?",
+          "answer": "No. A file without a `__usage_ai-training` group expresses no preference, and `User-Agent: *` rules don't count as one. Microsoft treats both training and grounding as Allow by default. You can add `User-Agent: __usage_ai-training` with `Allow: /` to state it explicitly."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Microsoft Bing Blog: Your content, your choice: clearer preferences for training and grounding (Oct. 30, 2026)",
+          "url": "https://blogs.bing.com/search/2026/10/your-content-your-choice-clearer-preferences-for-training-and-grounding/"
+        },
+        {
+          "label": "Google Search Central Blog: Supporting a shared AI training control for websites (Oct. 30, 2026)",
+          "url": "https://developers.google.com/search/blog/2026/10/ai-training-control"
+        },
+        {
+          "label": "OpenAI: Making it easier for websites to express AI training preferences (Oct. 30, 2026)",
+          "url": "https://openai.com/index/helping-websites-express-ai-training-preferences/"
+        },
+        {
+          "label": "IETF: Machine-Readable Training Preference Signal, draft-kelley-aipref-training-preference-signal-00 (Oct. 30, 2026)",
+          "url": "https://datatracker.ietf.org/doc/draft-kelley-aipref-training-preference-signal/"
+        },
+        {
+          "label": "IETF AI Preferences mailing list: Kevin Kelley, New draft: draft-kelley-aipref-training-preference-signal-00 (Oct. 30, 2026)",
+          "url": "https://mailarchive.ietf.org/arch/msg/ai-control/mddjatOxSR0h6GmLRBWlc839c7w/"
+        },
+        {
+          "label": "Google: Google's common crawlers (Google-Extended)",
+          "url": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers"
+        },
+        {
+          "label": "Microsoft Bing Blog: Announcing Microsoft Web IQ (June 2, 2026)",
+          "url": "https://blogs.bing.com/search/2026/6/Announcing-Microsoft-Web-IQ/"
+        },
+        {
+          "label": "Bing Webmaster Blog: New options for webmasters to control usage of their content in Bing Chat (NOCACHE and NOARCHIVE, September 2023)",
+          "url": "https://blogs.bing.com/webmaster/2023/9/Announcing-new-options-for-webmasters-to-control-usage-of-their-content-in-Bing-Chat/"
+        },
+        {
+          "label": "Bing Webmaster Blog: Introducing AI Performance in Bing Webmaster Tools (Feb. 10, 2026)",
+          "url": "https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview"
         }
       ]
     }
