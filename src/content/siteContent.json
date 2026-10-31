@@ -33974,7 +33974,7 @@
           "bullets": [
             "**Search** builds an index an engine answers from later: OAI-SearchBot, Claude-SearchBot, PerplexityBot, and the search half of Googlebot, Bingbot, and Applebot. Blocking this class takes a site out of that engine's cited answers.",
             "**Agent** fetches a page in real time for a person. Cloudflare's definition covers \"chat fetch bots (e.g., ChatGPT-User) and browser-use agents (e.g., Gemini or Claude driving Chrome).\" Claude-User and Perplexity-User do the same job, and Perplexity says Perplexity-User may \"include a link to the page in its response.\" An Agent block can cost a citation too.",
-            "**Training** feeds model weights: GPTBot, ClaudeBot, and the training use of mixed-use crawlers, which Google and Apple let you refuse with the Google-Extended and Applebot-Extended tokens. Microsoft, Google, OpenAI, and Anthropic have also backed a shared training token, `__usage_ai-training`, with Microsoft starting on Feb. 1, 2027."
+            "**Training** feeds model weights: GPTBot, ClaudeBot, and the training use of mixed-use crawlers, which Google and Apple let you refuse with the Google-Extended and Applebot-Extended tokens. Microsoft, Google, OpenAI, and Anthropic have also backed a shared training rule, `__usage_ai-training`, with Microsoft starting on Feb. 1, 2027."
           ]
         },
         {
@@ -34101,7 +34101,7 @@
             {
               "heading": "1. Stop training with training controls, never with a search-crawler block",
               "body": [
-                "Use GPTBot, ClaudeBot, Google-Extended, and Applebot-Extended rules in robots.txt, or Disallow AI Training on Cloudflare. The shared `__usage_ai-training` rule states the same opt-out to Microsoft, Google, OpenAI, and Anthropic as each starts honoring it, and from Feb. 1, 2027 it's the first way to refuse Bing training and stay in Copilot answers. Once Google honors it, the rule without a Google-Extended line also costs Gemini app citations, so read [the shared AI training opt-out](/usage-ai-training-robots-txt/) before you rely on it."
+                "Use GPTBot, ClaudeBot, Google-Extended, and Applebot-Extended rules in robots.txt, or Disallow AI Training on Cloudflare. The shared `__usage_ai-training` rule states the same opt-out to Microsoft, Google, OpenAI, and Anthropic as each starts honoring it, and from Feb. 1, 2027 it lets you refuse Bing training and stay in Copilot answers. Once Google honors it, the rule without a Google-Extended line also costs Gemini app citations, so read [the shared AI training opt-out](/usage-ai-training-robots-txt/) before you rely on it."
               ]
             },
             {
@@ -43286,7 +43286,7 @@
       "slug": "usage-ai-training-robots-txt",
       "title": "The New AI Training Opt-Out in robots.txt: Most Brands Should Change Nothing",
       "metaTitle": "__usage_ai-training: Most Brands Should Change Nothing | SolCrys",
-      "description": "Microsoft, Google, OpenAI, and Anthropic backed a robots.txt AI training opt-out. Fine with training? Change nothing. Opting out? Name Google-Extended.",
+      "description": "Microsoft, Google, OpenAI, and Anthropic backed a robots.txt AI training opt-out. Fine with training? Change nothing. Opting out? Decide Google-Extended first.",
       "h1": "The new AI training opt-out in robots.txt: most brands should change nothing",
       "summary": "If you want AI answers to cite your brand and you don't mind AI training, change nothing. On Oct. 30, 2026, Microsoft, Google, OpenAI, and Anthropic backed a robots.txt rule, `__usage_ai-training`, for refusing AI training. A site that doesn't add it keeps working as before. Read on only if you want to refuse training, or if your pages carry Bing's NOARCHIVE or NOCACHE tags.",
       "category": "Technical Readiness",
@@ -43329,7 +43329,7 @@
               ],
               [
                 "**OpenAI**",
-                "\"In the coming months\""
+                "In the coming months"
               ],
               [
                 "**Anthropic**",
@@ -43355,11 +43355,11 @@
         {
           "heading": "If your pages carry NOARCHIVE or NOCACHE",
           "body": [
-            "Bing reads these tags as AI controls today: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. After March 1, 2027, Bing stops reading them, so pages that relied on them can be used in Bing's AI answers and for training again unless you replace them."
+            "Bing reads these tags as AI controls today: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. Bing stops reading them after March 1, 2027, or from Feb. 1, 2027 on any site where it finds one of its new training or grounding preferences. Pages that relied on them can then be used in Bing's AI answers and for training unless you replace them."
           ],
           "bullets": [
             "**Check whether you have them.** Search your page source and response headers for `noarchive` and `nocache`. If they're there by accident, from an old template, plugin, or header, remove them now.",
-            "**If you use them on purpose,** replace them before then. To keep pages out of Bing's AI answers, add the AI Grounding preference to each page, `<meta name=\"Bingbot\" content=\"ai-grounding:disallow\">`, and record it as a temporary preference in Bing Webmaster Tools, which opens Dec. 15, 2026. To refuse training, use the robots.txt rule above or the page tag `ai-training:disallow`."
+            "**If you use them on purpose,** replace them before March 1, 2027, and before you add the robots.txt rule above, which counts as a new preference. To keep pages out of Bing's AI answers, add the AI Grounding preference to each page, `<meta name=\"Bingbot\" content=\"ai-grounding:disallow\">`, and record it as a temporary preference in Bing Webmaster Tools from Dec. 15, 2026. To refuse training, use the robots.txt rule above or the page tag `ai-training:disallow`."
           ]
         }
       ],
