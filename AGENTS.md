@@ -46,7 +46,7 @@ A page renders twice: in the app (`src/pages/`, `src/components/`) for visitors,
 
 - Run targeted checks while implementing; run the gate once after the diff is stable and before a candidate commit or the required final review.
 - Do not repeat a successful gate when neither the diff nor the relevant environment changed.
-- For a new or changed content page, a separate content review runs first. It follows the brief at `solcrys_content_system/content_review_v1.md` in the GEOResearch workspace and checks readability, consistency within the page, and fit with related pages. Both reviewers then receive that brief and the related pages' reader text in their bundle.
+- For a new or changed content page, a separate content review runs first. It follows the brief at `solcrys_content_system/content_review_v1.md` in the GEOResearch workspace and checks readability, consistency within the page, and fit with related pages. Both reviewers then receive that brief and the reader text of each changed page and its related pages in their bundle.
 - For a new or changed content page, a reader other than the author also reads the rendered `dist/<path>/index.html` from top to bottom. Searching the output for expected strings does not catch truncated sentences, unrendered markdown, or blocks in the wrong order.
 
 ## Review gate
