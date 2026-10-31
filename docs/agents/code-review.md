@@ -45,8 +45,9 @@ Use one fresh, complete-diff review cycle for the final candidate, with both rev
 - Secrets, analytics consent, and lead-intake behavior
 - Test gaps that could conceal a concrete regression
 - Dead code or stale documentation created by the change
+- Content changes, judged against the content-review brief supplied in the bundle: readability (the answer most readers need comes first, each fact is stated once, the page stays within its word budget), consistency within each changed page (no fact stated with 2 values or 2 scopes, and what the page says about itself matches what renders), and fit with the related pages in the bundle (no contradiction on the same fact, no second page answering a question another page owns, and link text that matches its target)
 
-Do not report personal style preferences, pre-existing defects outside the diff, or risks without a concrete failure mode.
+Do not report personal style preferences, pre-existing defects outside the diff, or risks without a concrete failure mode. A readability finding cites the brief's rule it breaks, such as a repeat, a buried answer, or a page over budget, not taste. A contradiction with an unchanged page is in scope, because the changed page created it; name both pages and leave the choice of which side is right to the evidence.
 
 For affected paths, preserve these repository-specific checks:
 
@@ -60,7 +61,7 @@ For affected paths, preserve these repository-specific checks:
 
 - **P0 — Critical:** immediate severe impact such as credential exposure or a broken production site.
 - **P1 — High:** likely visitor-facing or crawler-facing failure, wrong published content, or a broken build or deploy. P0/P1 block task completion, push, and publication.
-- **P2 — Medium:** real but narrower defect. Fix when practical or defer with explicit owner rationale.
+- **P2 — Medium:** real but narrower defect. Fix when practical or defer with explicit owner rationale. A changed page that contradicts itself or another page, or misstates what it contains, is at least P2, and P1 when it would lead a reader to a wrong action.
 - **P3 — Low:** limited improvement or maintainability issue. Non-blocking.
 
 ## Required output
