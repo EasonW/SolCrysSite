@@ -42202,7 +42202,7 @@
           "heading": "Direct answer",
           "body": [
             "If a stat on your page counts up as visitors scroll to it, check the HTML your server sends, because that's the copy a crawler that doesn't run JavaScript reads. Counters built with Elementor, Divi, and Kubio put a 0 or an empty slot there and keep the real number in an attribute that only their script reads.",
-            "To check, open the page's source and search for the number. To fix it, make the HTML carry the real number: in Elementor, set Starting number to the same value as Ending number; in Divi and Kubio, replace the counter with a text or heading block that shows the number, or, to keep the animation, write the number into the counter's title."
+            "To check, open the page's source and look at the number each counter shows as text, not the one in its attributes. To fix it, make the HTML carry the real number: in Elementor, set Starting number to the same value as Ending number; in Divi and Kubio, replace the counter with a text or heading block that shows the number."
           ]
         },
         {
@@ -42243,9 +42243,9 @@
           ],
           "bullets": [
             "**Open the source.** In Chrome, type `view-source:` before the URL, or right-click and choose View Page Source. Don't use Inspect: it shows the page after scripts ran, so the real number appears there and hides the problem.",
-            "**Search for each stat as the page shows it,** such as `1,200`.",
-            "**If a stat is missing,** search for `data-to-value`, `data-number-value`, or `data-kubio-settings` to find the counter it belongs to.",
-            "**After the fix,** reload the source and search again."
+            "**Find the counters.** Search for `data-to-value` (Elementor), `data-number-value` (Divi), or `data-kubio-component=\"counter\"` (Kubio). Each match is one counter.",
+            "**Read the number it shows as text.** That's the text inside the counter's tag; for Divi, inside its `percent-value` span. If that text isn't the real number, the counter needs the fix.",
+            "**After the fix,** reload the source and check that the real number now appears as text."
           ]
         },
         {
