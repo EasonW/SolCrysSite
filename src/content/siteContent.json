@@ -2405,7 +2405,7 @@
         "is it telling the truth?"
       ],
       "published": "2026-06-20",
-      "updated": "2026-09-26",
+      "updated": "2026-11-02",
       "primaryKeyword": "AI brand accuracy",
       "aeoTargets": [
         "Is AI describing my brand correctly?",
@@ -2491,14 +2491,15 @@
             "Two findings matter most for anyone responsible for a brand:"
           ],
           "bullets": [
-            "**You cannot cleanly filter it out.** The team tested the obvious defenses: blocking user-generated domains, screening inputs by statistical weirdness, screening outputs for similarity. All failed. The injected text actually looks more normal than ordinary content (lower perplexity), so it slips past filters built to catch anomalies.",
+            "**You cannot cleanly filter it out.** Dropping user-generated pages from what the agent retrieves blocks the attack, but it also degrades the reports. Screening inputs and outputs for anomalies didn't reliably catch it. The injected text actually looks more normal than ordinary content (lower perplexity), so it slips past filters built to catch anomalies.",
             "**The engine isn't weighing credibility the way you'd hope.** As co-author Tingwei Zhang put it to 404 Media, which [covered the paper](https://www.404media.co/it-is-trivially-easy-to-use-reddit-to-manipulate-ai-search-research-suggests/) weeks later: \"It's not thinking about which source you find more credible: a random Reddit comment or an article from a government website.\""
           ]
         },
         {
           "heading": "You can't firewall the open web, but you can prove what it does to you",
           "body": [
-            "An honest note on engine specificity: the researchers ran the live poisoning against open-source agents and measured, but did not poison, commercial ones. The takeaway is not that ChatGPT has been hacked. It's that the retrieval layer every AI answer depends on is steerable by ordinary-looking text on the open web, and the most-cited sources are exactly the ones easiest to edit.",
+            "Two later papers tested commercial engines. In October 2026, in [Data-Void Exploits](https://arxiv.org/abs/2610.30365), NYU Abu Dhabi researchers published 56 single pages on topics no other page covered and asked ChatGPT and the Gemini and Sonar Pro APIs about them. The planted page showed up in 31% of answers, and in 42% when it had medium or high search visibility; only about a quarter of those answers carried a hedge or warning. A [Fudan University team](https://arxiv.org/abs/2610.11932) found that 8 of 10 AI search platforms, including ChatGPT and Perplexity, cited a fabricated concept within 7 days of it being posted.",
+            "The retrieval layer every AI answer depends on is steerable by ordinary-looking text on the open web: the most-cited sources are the easiest to edit, and where nobody has written about a topic, one page can become the answer.",
             "Here's the trap. You can't pre-approve every Reddit thread, every directory, every forum the engines pull from. The attack surface is the whole internet, and the defenses that should catch tampering don't. So lock down the web is not a strategy available to you.",
             "What is available: continuously read the story the engines actually tell about you, hold it against the truth you've defined, and catch every deviation with evidence, whether the cause is a stale page, an honest hallucination, or planted text. You move from hoping the narrator is accurate to knowing, with receipts, every place it isn't."
           ]
@@ -2573,6 +2574,7 @@
             "**Ask each one in all five engines** and capture the verbatim answer about you.",
             "**Hold each answer against your real, current facts.** Mark every dropped claim, every outdated number, every fabrication.",
             "**Decide the fix per failure.** A missing claim is usually a content or source-layer job. A contradiction is usually a stale page. A fabrication often traces to weak or conflicting sources the engine had to guess from.",
+            "**Answer the questions nobody else has.** The October 2026 studies planted pages on topics no other page covered, so publish your own facts on the specifics buyers ask about, such as pricing and integrations.",
             "**Retest the same questions after you ship the fix.** If the answer didn't change, the fix didn't reach the retrieval layer."
           ]
         },
@@ -2596,7 +2598,7 @@
         },
         {
           "question": "Can AI search results really be manipulated?",
-          "answer": "Yes, and there's research evidence. A May 2026 Cornell Tech preprint showed that roughly 13 words added to a single user-generated page can steer which sources research agents cite across a whole cluster of related queries, and that standard filters don't reliably catch it. The live attack was demonstrated on open-source deep-research agents; the same paper showed commercial agents rely heavily on the same easily-edited sources."
+          "answer": "Yes. In October 2026, NYU Abu Dhabi researchers got single planted pages, on topics no other page covered, into 31% of answers from ChatGPT and the Gemini and Sonar Pro APIs. A May 2026 Cornell Tech study found that standard filters don't reliably catch planted text."
         },
         {
           "question": "What is Corporate Context?",
