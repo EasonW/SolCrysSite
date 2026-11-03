@@ -9725,7 +9725,9 @@ Three reasons Perplexity deserves engine-specific optimization.
 
 The standard Perplexity flow: a user asks a question, Perplexity reformulates it (sometimes into multiple sub-queries), crawls or retrieves from its index for each sub-query, synthesizes an answer with explicit source citations, and links each citation to the source URL.
 
-For Pro Search (paid tier), Perplexity uses multi-step reasoning across five to eight sub-queries, often reads multiple paragraphs from a single source, and synthesizes more comprehensive answers. Perplexity uses its own crawler (PerplexityBot) plus selective integration with other indexes, and re-fetches pages every few days for fresh-content categories. Perplexity cites typically three to eight sources per answer.
+For Pro Search (paid tier), Perplexity uses multi-step reasoning across five to eight sub-queries, often reads multiple paragraphs from a single source, and synthesizes more comprehensive answers.
+
+Perplexity crawls with its own bot, PerplexityBot. On Sept. 24, 2026, it said its own retrieval and ranking engine, [Photon](https://www.perplexity.ai/hub/blog/photon), now powers its search pipeline. Perplexity cites typically three to eight sources per answer.
 
 
 
@@ -17045,7 +17047,7 @@ Four sources of variance make single-prompt checks misleading:
 
 
 - **Sampling noise.** The same prompt returns different answers from run to run. SparkToro's January 2026 study (2,961 runs of 12 prompts) found less than a 1-in-100 chance that two runs return the same brand list, and less than 1 in 1,000 that they return it in the same order. A one-shot tool can't tell you which side of that distribution you landed on.
-- **Model churn.** The model behind ChatGPT keeps changing. OpenAI retired GPT-4o and GPT-5 from ChatGPT on Feb. 13, 2026 ([OpenAI](https://openai.com/index/retiring-gpt-4o-and-older-models/)), made GPT-5.5 Instant the default in May, and moved Free and Go users to GPT-5.6 Luna in August ([ChatGPT release notes](https://help.openai.com/en/articles/6825453-chatgpt-release-notes)). ChatGPT also decides per question whether to search the web. The answer your buyer sees depends on which model and path handled it, and no tracker sees that routing.
+- **Model churn.** The model behind ChatGPT keeps changing. OpenAI retired GPT-4o and GPT-5 from ChatGPT on Feb. 13, 2026 ([OpenAI](https://openai.com/index/retiring-gpt-4o-and-older-models/)), made GPT-5.5 Instant the default in May, moved Free and Go users to GPT-5.6 Luna in August, and began moving ChatGPT to GPT-6 on Oct. 7 ([ChatGPT release notes](https://help.openai.com/en/articles/6825453-chatgpt-release-notes)). ChatGPT also decides per question whether to search the web. The answer your buyer sees depends on which model and path handled it, and no tracker sees that routing.
 - **Location.** Web results can be localized, so the same prompt asked from two countries can cite different sources. Measure from the markets your buyers are in.
 - **Retrieval changes.** Engines change what they cite without notice. In the week of Aug. 10, 2026, ChatGPT all but stopped citing Reddit (from 3.83% to 0.52% of citations, per trackers reported by [Search Engine Journal](https://www.searchenginejournal.com/why-reddits-chatgpt-citation-drop-isnt-fully-explained/586479/)), while Perplexity and Google's AI surfaces were largely unaffected. A brand whose ChatGPT visibility rode on Reddit threads saw it move within days without changing anything.
 
@@ -24308,7 +24310,7 @@ A: Quarterly. Each review re-checks every number on its source page, and each ch
 
 ## ChatGPT Ads Don't Buy the Answer: How to Budget and Report Sponsored vs. Organic AI Visibility
 
-ChatGPT ads reached a $1 billion annualized run rate in under 200 days, but what they buy is a labeled unit below the answer; OpenAI says ads do not influence the answer itself, and neither Google nor Microsoft documents a way to buy the organic recommendation in their AI answers. So the Q4 question isn't ads or AEO. Test the ads from paid media, keep funding the sources and facts that decide what the engine says about you, and report organic answer share and sponsored placements on separate lines. Claude has committed to staying ad-free, so on that engine the organic answer is the only answer. One thing changes at the end of October: unless advertisers opt out, OpenAI can rewrite ChatGPT ads and choose their landing pages, which makes your own site's facts part of the paid unit too.
+ChatGPT ads reached a $1 billion annualized run rate in under 200 days, but what they buy is a labeled unit below the answer; OpenAI says ads do not influence the answer itself, and neither Google nor Microsoft documents a way to buy the organic recommendation in their AI answers. So the Q4 question isn't ads or AEO. Test the ads from paid media, keep funding the sources and facts that decide what the engine says about you, and report organic answer share and sponsored placements on separate lines. Claude has committed to staying ad-free, so on that engine the organic answer is the only answer. From the end of October, unless advertisers opt out, OpenAI can rewrite ChatGPT ads and choose their landing pages, which makes your own site's facts part of the paid unit too.
 
 ### Questions this guide answers
 
@@ -24327,22 +24329,22 @@ ChatGPT ads reached a $1 billion annualized run rate in under 200 days, but what
 
 No. On ChatGPT, an ad is a unit clearly labeled as an ad that sits below the end of a response, OpenAI says ads "do not influence ChatGPT's answers," and neither Google nor Microsoft documents a way to buy the organic recommendation in their AI answers. Anthropic has said Claude will stay ad-free. So test the ads if your buyers can see them, but don't fund the test by cutting the work that earns the organic answer. Report the two on separate lines: organic answer share on one, sponsored placements on the other.
 
-One thing changes at the end of October: unless you opt out, OpenAI can rewrite your ChatGPT ad and pick the page it links to. That doesn't touch the answer, but it does make any relevant page on your site a possible landing page for an ad you paid for.
+From the end of October, unless you opt out, OpenAI can rewrite your ChatGPT ad and pick the page it links to. That doesn't touch the answer, but it does make any relevant page on your site a possible landing page for an ad you paid for.
 
 
 
 
 ### Where ads run in AI answers today
 
-Here is what each platform owner has published, as checked on Sept. 26, 2026, with the ChatGPT row updated Oct. 27, 2026. The table covers the surfaces whose owners document how their ads work; it isn't a list of every assistant.
+Here is what each platform owner has published, as checked on Sept. 26, 2026, with the ChatGPT row updated Oct. 27 and the Google AI Mode row Nov. 2, 2026. The table covers the surfaces whose owners document how their ads work; it isn't a list of every assistant.
 
 
 
 Surface | Status | Where the paid unit sits | What the owner says | Ad reporting
 --- | --- | --- | --- | ---
-ChatGPT | Test announced Jan. 16, 2026; live in the U.S. Feb. 9; in 89 countries as of Oct. 21, per OpenAI. Creative enhancements switch on by default at the end of October | Below the end of a response, clearly labeled as an ad. Free and Go plans and logged-out use; never Plus, Pro, Business, Enterprise, or Edu | "Ads do not influence ChatGPT's answers." | Ads Manager reporting by campaign, ad group, and ad, plus weekly performance emails; OpenAI's Pixel and Conversions API, and third-party measurement partners announced Oct. 5
+ChatGPT | Test announced Jan. 16, 2026; live in the U.S. Feb. 9; in 89 countries as of Oct. 21, per OpenAI. Creative enhancements on by default from the end of October | Below the end of a response, clearly labeled as an ad. Free and Go plans and logged-out use; never Plus, Pro, Business, Enterprise, or Edu | "Ads do not influence ChatGPT's answers." | Ads Manager reporting by campaign, ad group, and ad, plus weekly performance emails; OpenAI's Pixel and Conversions API, and third-party measurement partners announced Oct. 5
 Google AI Overviews | Ads above or below AI Overviews in all 200+ markets where they run; ads inside AI Overviews in English in 12 countries | Text and Shopping ads from existing campaigns, matched to the query and to the Overview's content | Ads inside an Overview must also be relevant to "the content of the AI Overviews" | "Currently doesn't offer segmented reporting"; reported as Top Ads
-Google AI Mode | Direct Offers pilot since Jan. 11, 2026; Conversational Discovery ads and Highlighted Answers in testing since May 20 | Labeled "Sponsored"; a Highlighted Answer can appear on an AI Mode list of recommendations | The new formats carry "an independent AI explainer" written by Gemini | Not described in Google's announcements
+Google AI Mode | Direct Offers pilot since Jan. 11, 2026; Conversational Discovery ads and Highlighted Answers in testing since May 20. On Oct. 28, ads in AI Mode expanded to [10 more countries](https://blog.google/products/ads-commerce/ads-in-ai-mode-global/) and to follow-up questions in the U.S. | Labeled "Sponsored"; a Highlighted Answer can appear on an AI Mode list of recommendations | The new formats carry "an independent AI explainer" written by Gemini | Not described in Google's announcements
 Microsoft Copilot | Live; eligible Microsoft Advertising campaigns are opted in automatically, with no opt-out | "Displayed in Copilot's responses," built from existing campaign assets | Ads are chosen from the context of the whole conversation, not only the last prompt | "Does not currently support specific metrics for ads served in Copilot"
 Claude | No ads (Anthropic, Feb. 4, 2026) | None | "Claude will remain ad-free" | Not applicable
 
@@ -24370,14 +24372,14 @@ Google's new AI Mode formats point the same way. Google says both carry "an inde
 
 ### From the end of October, OpenAI can rewrite your ad and pick its landing page
 
-On Oct. 20, OpenAI told advertisers it will turn on "creative enhancements" by default for new and existing self-serve campaigns. With the setting on, OpenAI may rewrite your headlines and descriptions, translate your ad text, resize your images, and send the click to a different page on your site than the one you chose. Variations "may be prepared in advance or created in real time based on the conversation," and they can run without you reviewing or approving each one.
+On Oct. 20, OpenAI told advertisers it would turn on "creative enhancements" by default for new and existing self-serve campaigns. With the setting on, OpenAI may rewrite your headlines and descriptions, translate your ad text, resize your images, and send the click to a different page on your site than the one you chose. Variations "may be prepared in advance or created in real time based on the conversation," and they can run without you reviewing or approving each one.
 
-The start date isn't settled. OpenAI's notices have given 3 dates, Oct. 29, 30, and 31, so treat Oct. 29 as your deadline. The opt-out is in Ads Manager settings. The account default applies to every campaign, a campaign-level setting overrides it, and OpenAI says existing opt-outs carry over. You can change it at any time, but anything that runs before you do runs unreviewed.
+OpenAI's notices gave 3 start dates, Oct. 29, 30, and 31, so if you haven't opted out, assume enhancements are on. The opt-out is in Ads Manager settings. The account default applies to every campaign, a campaign-level setting overrides it, and OpenAI says existing opt-outs carry over. You can change it at any time, but anything that runs before you do runs unreviewed.
 
 This doesn't move the wall between ads and answers. OpenAI repeated on Oct. 5 that "advertising does not influence the answers ChatGPT provides." What it moves is authorship. Without enhancements, a ChatGPT ad says what you wrote and links where you point. With them on, the wording can be generated for the conversation, and the landing page can be "a relevant page on your website" that OpenAI picks. A retired plan, an expired promotion, or an old price that's still live on your site can now reach a buyer through the paid unit as well as the organic answer.
 
 
-- **Decide on the opt-out before Oct. 29.** If every ad needs legal or brand review, opt out at the account level and turn enhancements on campaign by campaign. If you want to test them, use one campaign with a spend cap and a decision date, the same standard as the rest of your ChatGPT test.
+- **Decide on the opt-out now.** If every ad needs legal or brand review, opt out at the account level and turn enhancements on campaign by campaign. If you want to test them, use one campaign with a spend cap and a decision date, the same standard as the rest of your ChatGPT test.
 - **Audit the pages OpenAI can send buyers to, not just the ones you chose.** Check pricing, plans, promotions, availability, and product claims across your site, because a wrong fact now has 2 routes to a buyer. The fixes are the same ones that correct the organic answer; see [how to fix a wrong fact in an AI answer](/fix-wrong-fact-in-ai-answer/) and [what AI-referred buyers need from the page they land on](/ai-referred-buyers-landing-page/).
 - **Mark the switch date in your paid report.** If click-through rate moves after enhancements go on, you'll need to know whether your copy or OpenAI's ran. After the switch, click a live ad and check that the landing URL still carries your campaign parameters.
 - **Keep the lines separate.** Enhancements change the sponsored line only. They aren't evidence that your organic answer moved, in either direction.
@@ -24479,6 +24481,7 @@ Gwen Chen is co-founder and CEO of SolCrys, an AEO platform that helps brands an
 - [Google Ads Help, "About ads and AI Overviews" (read Sept. 26, 2026): 12 English-language markets, sensitive-vertical exclusions, no segmented reporting, reported as Top Ads](https://support.google.com/google-ads/answer/16297775)
 - [Google, "New tech and tools for retailers to succeed in an agentic shopping era" (Jan. 11, 2026): Direct Offers pilot in AI Mode](https://blog.google/products/ads-commerce/agentic-commerce-ai-tools-protocol-retailers-platforms/)
 - [Google, "A new generation of ads for the AI era of Search" (May 20, 2026): Conversational Discovery ads and Highlighted Answers in AI Mode](https://blog.google/products/ads-commerce/google-marketing-live-search-ads/)
+- [Google, "Ads in AI Mode expand to new markets" (Oct. 28, 2026): 10 more countries; multiturn ads in the U.S.](https://blog.google/products/ads-commerce/ads-in-ai-mode-global/)
 - [Microsoft Advertising, "About ads in Copilot" (read Sept. 26, 2026): automatic opt-in, no Copilot-specific metrics](https://learn.microsoft.com/en-us/advertising/msa-help/hlp_ba_conc_adsforcopilot)
 - [SparkToro, "AIs are highly inconsistent when recommending brands or products" (Jan. 28, 2026; 2,961 runs)](https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/)
 - [OpenAI Help Center: Creative enhancements for ChatGPT Ads (as reported Oct. 20–23, 2026)](https://help.openai.com/en/articles/20001614-creative-enhancements-for-chatgpt-ads)
@@ -24504,7 +24507,7 @@ Q: Should we buy ChatGPT ads or invest in AEO?
 A: They do different jobs, so they belong in different budgets. Ads buy a labeled placement while you pay; AEO work shapes what the engine says about you, and that work can keep paying off after a campaign ends. Test ads from your paid-media budget with a spend cap and a decision date, and don't fund the test by cutting the work that earns the organic answer.
 
 Q: Which AI assistants show ads?
-A: ChatGPT shows ads on its Free and Go plans and in logged-out use; OpenAI said on Oct. 21, 2026 that they're available in 89 countries. As of our Sept. 26, 2026 check, Google shows ads above or below AI Overviews wherever they run and inside AI Overviews in English in 12 countries, and it is testing ad formats in AI Mode. Microsoft Advertising serves ads in Copilot's responses. Anthropic has said Claude will remain ad-free.
+A: ChatGPT shows ads on its Free and Go plans and in logged-out use; OpenAI said on Oct. 21, 2026 that they're available in 89 countries. As of our Sept. 26, 2026 check, Google shows ads above or below AI Overviews wherever they run and inside AI Overviews in English in 12 countries. On Oct. 28, it expanded ads in AI Mode to 10 more countries, including Australia, Canada, and India. Microsoft Advertising serves ads in Copilot's responses. Anthropic has said Claude will remain ad-free.
 
 Q: Who sees ads in ChatGPT?
 A: According to OpenAI's help center, ads may appear on the Free and Go plans and in logged-out use. Plus, Pro, Business, Enterprise, and Edu accounts don't get ads, and neither do accounts identified as belonging to people under 18 or Temporary Chats. Ads aren't eligible near sensitive or regulated topics such as personal health, mental health, or politics, and Free users can switch to an ad-free option with lower usage limits and reduced feature access.
@@ -24519,7 +24522,7 @@ Q: Does SolCrys track ChatGPT ads?
 A: No. SolCrys measures the organic line: mention, citation, Recommendation Score, and Answer Accuracy, per engine, on your tracked prompts. Your sponsored line comes from the ad platforms' own reporting, and keeping the two sources separate is part of the point.
 
 Q: Will ChatGPT rewrite my ads?
-A: Yes, unless you opt out. OpenAI is turning on creative enhancements by default for new and existing self-serve campaigns at the end of October 2026; its notices have given start dates of Oct. 29, 30, and 31. With the setting on, OpenAI may rewrite headlines and descriptions, translate ad text, resize images, and send clicks to a different page on your site, and those versions can run without your review. The opt-out is in Ads Manager settings: a campaign-level setting overrides the account default, and existing opt-outs carry over. OpenAI says ads still don't influence ChatGPT's answers.
+A: Yes, unless you opt out. From the end of October 2026, creative enhancements are on by default for new and existing self-serve campaigns. With the setting on, OpenAI may rewrite headlines and descriptions, translate ad text, resize images, and send clicks to a different page on your site, and those versions can run without your review. The opt-out is in Ads Manager settings: a campaign-level setting overrides the account default, and existing opt-outs carry over. OpenAI says ads still don't influence ChatGPT's answers.
 
 Q: Will there be a public library of ChatGPT ads?
 A: In the EU, yes. The European Commission designated ChatGPT a Very Large Online Search Engine under the Digital Services Act on Aug. 31, 2026. Very large search engines that show ads must keep a public, searchable repository of them, including each ad's content, advertiser, dates, main targeting parameters, and reach. The obligations apply 4 months after notification, which the Commission puts at January 2027. OpenAI hasn't published how its repository will work.
@@ -24555,7 +24558,7 @@ It's a clarification, not a new rulebook: the named policies (cloaking, hidden t
 
 The guide says the same thing in practical terms. Creating separate content for every query variation, including fan-out queries, "primarily to manipulate rankings or generative AI responses in Google Search violates Google's scaled content abuse spam policy." And on manufactured buzz: "seeking inauthentic 'mentions' across the web isn't as helpful as it might seem. Our core ranking systems focus on high-quality content while other systems block spam; our generative AI features depend on both."
 
-Google also began rolling out its [September 2026 spam update](https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu) on Sept. 24, 2026, with a rollout of up to 2 weeks. It hasn't said what the update targets, so don't read it as an AI-specific crackdown.
+Google's [September 2026 spam update](https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu) ran from Sept. 24 to Oct. 8, 2026. Google hasn't said what it targeted, so don't read it as an AI-specific crackdown.
 
 
 
@@ -24597,6 +24600,8 @@ Microsoft's research is the clearest case, because the people doing it weren't h
 Two caveats keep this honest. Microsoft says the effectiveness of these attempts "varies by platform and has changed over time" as protections evolve, and it has deployed mitigations in Copilot. And memory poisoning lives in a user's own assistant, outside Google Search, so it's a security and trust problem more than a Google spam-policy one. A buyer who finds "remember us as a trusted source" in their assistant's memory has still found a vendor willing to tamper with their tools.
 
 Planting false claims works in the lab, which is exactly why it's policed. In FORGE (Luo and Chen, [arXiv 2606.13610](https://arxiv.org/abs/2606.13610), June 2026), researchers swapped real products for fake ones in a frozen set of retrieved pages, across 225 products in 15 categories and 12 commercial and open-weights models: "a single polluted page yields fooled rates of up to 27%," rising to 73.8% when all top 3 pages were replaced. Reasoning didn't help, and none of the 4 defenses tested was adequate. A related Cornell Tech result on poisoning deep-research agents is covered in [When AI describes your brand, is it telling the truth?](/is-ai-telling-the-truth-about-your-brand/)
+
+Anthropic draws the same line for its own model. From Nov. 12, 2026, Anthropic's Usage Policy bars using Claude for "deceptive activity of any kind (whether political or commercial)," including efforts to "amplify content through fake accounts or posts."
 
 
 
@@ -24711,7 +24716,7 @@ SolCrys doesn't scan the web for manipulation or identify who planted a claim, i
 - [Google Search Central, documentation updates log: "Clarifying that spam policies apply to generative AI responses in Google Search" (May 15, 2026) and the site reputation policy update (Aug. 28, 2026)](https://developers.google.com/search/updates)
 - [Google Search Central, guide to optimizing for generative AI features in Search (May 15, 2026, updated July 10, 2026)](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
 - [Google Search Central, guidance on using third-party SEO tools, services, and advice (June 5, 2026)](https://developers.google.com/search/docs/fundamentals/third-party-seo)
-- [Google Search Status Dashboard, September 2026 spam update (began Sept. 24, 2026)](https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu)
+- [Google Search Status Dashboard, September 2026 spam update (Sept. 24 to Oct. 8, 2026)](https://status.search.google.com/incidents/XhUDXP7A67iHCD2kmbVu)
 - [Microsoft Security Blog (Microsoft Defender Security Research), "Manipulating AI memory for profit: The rise of AI Recommendation Poisoning" (Feb. 10, 2026)](https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/)
 - [Lily Ray, "Why Calling Yourself the 'Best' Could Be Helping Your Competitors Win in AI Search" (June 17, 2026): 100 B2B queries in Google AI Overviews, 224 of 323](https://lilyraynyc.substack.com/p/why-calling-yourself-the-best-could)
 - [Search Engine Land, "Google AI Overviews cite self-serving listicles, but recommend competitors 69% of the time" (coverage of Lily Ray's analysis)](https://searchengineland.com/google-ai-overviews-cite-self-serving-listicles-recommend-competitors-480573)
@@ -24719,6 +24724,7 @@ SolCrys doesn't scan the web for manipulation or identify who planted a claim, i
 - [Chu et al., "GEO-Flag: Detecting and Measuring GEO-Optimized Web Content," arXiv 2608.16824 (August 2026)](https://arxiv.org/abs/2608.16824)
 - [Martinez, "Optimizing Visibility in Generative Engines: A Critical Survey of Generative Engine Optimization (2023-2026)," arXiv 2607.14035 (July 15, 2026)](https://arxiv.org/abs/2607.14035)
 - [Federal Trade Commission, final rule banning fake reviews and testimonials (Aug. 14, 2024)](https://www.ftc.gov/news-events/news/press-releases/2024/08/federal-trade-commission-announces-final-rule-banning-fake-reviews-testimonials)
+- [Anthropic, "2026 Usage Policy update" (Oct. 8, 2026; takes effect Nov. 12, 2026)](https://www.anthropic.com/news/2026-usage-policy-update)
 
 ### FAQ
 
@@ -24760,7 +24766,7 @@ Model releases now arrive every few weeks, and each one changes how your prompts
 
 Treat every model change as a migration, even a new version of a model you already use: freeze real examples from your own work, decide in advance what the new model must pass, run it alongside the old one before it ships anything, and keep switching back to a one-line change. Keep what should not change—your approved facts, output formats, and eval set—outside the model, so the model becomes the replaceable part.
 
-The cadence makes this routine: between July 9 and Sept. 22, 2026, Anthropic, Google, and OpenAI shipped more than 10 general-purpose models, 3 of them on Sept. 22 alone, and Anthropic says Claude Sonnet 5.5 and Haiku 5.5 "will follow in the coming weeks."
+The cadence makes this routine: between July 9 and Oct. 26, 2026, Anthropic, Google, and OpenAI shipped more than 15 general-purpose models, 3 of them on Sept. 22 alone.
 
 
 
@@ -24776,7 +24782,7 @@ In [Action Externalization](/action-externalization/) I argued that when doing g
 
 ### The release cadence, dated
 
-These are the general-purpose model releases from Anthropic, Google, and OpenAI in the 11 weeks from July 9 to Sept. 22, 2026, leaving out restricted security variants, each checked against the vendor's announcement or dated coverage.
+These are the general-purpose model releases from Anthropic, Google, and OpenAI in the 16 weeks from July 9 to Oct. 26, 2026, leaving out restricted security variants, each checked against the vendor's announcement or dated coverage.
 
 
 
@@ -24789,7 +24795,11 @@ Aug. 13 | Google | [Gemini 3.7 Flash](https://blog.google/innovation-and-ai/mode
 Sept. 1 | Anthropic | [Claude Fable 5.1](https://www.anthropic.com/claude-fable-and-mythos-5-1)
 Sept. 2 | Google | [Gemini 3.8 Flash](https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/), "our third Flash release in only six weeks"
 Sept. 3 | OpenAI | [GPT-6 Astra](https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/)
-Sept. 22 | Anthropic and OpenAI | [Claude Opus 5.5](https://www.anthropic.com/claude-opus-5-5) (Sonnet 5.5 and Haiku 5.5 "will follow in the coming weeks"); OpenAI's [GPT-6 Sol and GPT-6 Luna](https://www.macrumors.com/2026/09/22/openai-gpt-6-sol-luna/)
+Sept. 22 | Anthropic and OpenAI | [Claude Opus 5.5](https://www.anthropic.com/claude-opus-5-5); OpenAI's [GPT-6 Sol and GPT-6 Luna](https://www.macrumors.com/2026/09/22/openai-gpt-6-sol-luna/)
+Sept. 28 | Anthropic | [Claude Sonnet 5.5](https://www.anthropic.com/claude-sonnet-5-5)
+Oct. 7 | Anthropic | [Claude Haiku 5.5](https://www.anthropic.com/claude-haiku-5-5)
+Oct. 13 | Google | [Gemini 4 Argon](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/)
+Oct. 26 | OpenAI | [GPT-6.1 Terra](https://help.openai.com/en/articles/9624314-model-release-notes)
 
 
 #### What the dates mean
@@ -24818,7 +24828,7 @@ In my experience, a model change rarely announces itself with an error. It shows
 - **Interface changes.** Parameters get deprecated. Anthropic's documentation says that on Claude 4.7 and later models, setting temperature, top_p, or top_k to a non-default value returns a 400 error.
 - **Stale workarounds.** Instructions that compensated for an old model's weakness become dead weight, and they can over-steer a model that no longer has it.
 - **Scores that change scale.** Model-generated scores for lead fit, content quality, or relevance are often ordered but not calibrated. A new model's 70 is not the old model's 70, so every fixed threshold quietly changes meaning.
-- **Silent swaps.** OpenAI's [chat-latest](https://developers.openai.com/api/docs/models/chat-latest) alias "points to the latest Instant model currently used in ChatGPT," and "The underlying model snapshot will be regularly updated." Consumer apps and agent workspaces change defaults on their own schedules.
+- **Silent swaps.** OpenAI's [chat-latest](https://developers.openai.com/api/docs/models/chat-latest) alias "points to the latest Instant model currently used in ChatGPT," and "The underlying model snapshot will be regularly updated." Consumer apps and agent workspaces change defaults on their own schedules: on Oct. 29, OpenAI updated GPT-6 in ChatGPT "to give more concise responses" for Free and Go users and people not signed in, under the same name.
 - **Forced moves.** A retired model stops answering, on the vendor's deadline, not yours.
 
 
@@ -24963,7 +24973,11 @@ Written September 2026 as the method companion to Eason's [A Year in View](/news
 
 ### Sources
 
-- [Anthropic, "Introducing Claude Opus 5.5" (Sept. 22, 2026): Sonnet 5.5 and Haiku 5.5 "will follow in the coming weeks"](https://www.anthropic.com/claude-opus-5-5)
+- [Anthropic, "Introducing Claude Opus 5.5" (Sept. 22, 2026)](https://www.anthropic.com/claude-opus-5-5)
+- [Anthropic, Claude Sonnet 5.5 (Sept. 28, 2026)](https://www.anthropic.com/claude-sonnet-5-5)
+- [Anthropic, Claude Haiku 5.5 (Oct. 7, 2026)](https://www.anthropic.com/claude-haiku-5-5)
+- [Google, Gemini 4 Argon announcement (Oct. 13, 2026)](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/)
+- [OpenAI Help Center, Model Release Notes: GPT-6.1 Terra (Oct. 26, 2026) and the GPT-6 in ChatGPT update (Oct. 29, 2026)](https://help.openai.com/en/articles/9624314-model-release-notes)
 - [Google, "Introducing Gemini 3.8 Flash and 3.8 Flash Cyber" (Sept. 2, 2026): "our third Flash release in only six weeks"](https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/)
 - [OpenAI, "GPT-5.6" (July 9, 2026)](https://openai.com/index/gpt-5-6/)
 - [MacRumors, Anthropic introduces Claude Fable 5.1 and Mythos 5.1 (Sept. 1, 2026)](https://www.macrumors.com/2026/09/01/anthropic-claude-fable-5-1/)
