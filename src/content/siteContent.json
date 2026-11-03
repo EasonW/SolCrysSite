@@ -7252,7 +7252,7 @@
       "category": "Technical Readiness",
       "ogImage": "/og/ai-crawler-answer-readiness.png",
       "published": "2026-05-04",
-      "updated": "2026-09-26",
+      "updated": "2026-11-02",
       "primaryKeyword": "AI crawler readiness",
       "aeoTargets": [
         "How do you make a website ready for AI search?",
@@ -7265,7 +7265,8 @@
         "ai-brand-visibility-monitoring",
         "ai-search-prompt-set",
         "schema-markup-for-ai-search",
-        "get-ai-engines-to-see-your-updates"
+        "get-ai-engines-to-see-your-updates",
+        "animated-counters-ai-crawlers"
       ],
       "sections": [
         {
@@ -7340,7 +7341,7 @@
             {
               "heading": "3. Put essential information in visible text",
               "body": [
-                "If the most important content is hidden in images, tabs that do not render reliably, client-side scripts, PDFs without HTML summaries, or gated documents, it may be harder for systems to retrieve. Can a text-only view still understand the page? Are feature tables, FAQs, and product specs available in HTML? Do images and videos have supporting text?"
+                "If the most important content is hidden in images, tabs that do not render reliably, client-side scripts, PDFs without HTML summaries, or gated documents, it may be harder for systems to retrieve. Can a text-only view still understand the page? Are feature tables, FAQs, and product specs available in HTML? Do images and videos have supporting text? Animated stat counters are an easy miss: some page builders put a placeholder in the HTML and fill in the real number with a script ([how to check and fix them](/animated-counters-ai-crawlers/))."
               ]
             },
             {
@@ -22036,7 +22037,8 @@
         "schema-markup-for-ai-search",
         "google-endorses-aeo-fundamentals",
         "corporate-context-ai-marketing",
-        "solcrys-mcp-and-skills"
+        "solcrys-mcp-and-skills",
+        "animated-counters-ai-crawlers"
       ],
       "sections": [
         {
@@ -42299,6 +42301,115 @@
         {
           "label": "Anthropic: Does Anthropic crawl data from the web, and how can site owners block the crawler? (April 7, 2026)",
           "url": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler"
+        }
+      ]
+    },
+    {
+      "slug": "animated-counters-ai-crawlers",
+      "title": "Animated Stat Counters Can Read 0 to AI Crawlers: How to Check and Fix Them",
+      "metaTitle": "Animated Counters Can Read 0 to AI Crawlers | SolCrys",
+      "description": "Elementor, Divi, and Kubio counters put a 0 or an empty slot in the HTML and fill in the real number with JavaScript. How to check a page and fix each builder.",
+      "h1": "Animated stat counters can read 0 to AI crawlers: how to check and fix them",
+      "summary": "A count-up counter looks right in a browser, ticking from 0 to the real number as the visitor scrolls. Whether an AI engine reads that number depends on what's in the HTML underneath.",
+      "category": "Technical Readiness",
+      "published": "2026-11-02",
+      "updated": "2026-11-02",
+      "ogImage": "/og/animated-counters-ai-crawlers.png",
+      "ogEyebrow": "Technical Readiness",
+      "ogTitleParts": [
+        "Your page says 40.",
+        "The HTML says 0."
+      ],
+      "ogSubtitle": "Count-up counters in Elementor, Divi, and Kubio ship a placeholder. How to check what a crawler reads, and the fix for each builder.",
+      "primaryKeyword": "animated counters and AI crawlers",
+      "aeoTargets": [
+        "Can AI crawlers see animated number counters?",
+        "Why does my page source show 0 instead of my stat?",
+        "How do I make an Elementor counter readable to AI search?",
+        "Do Divi number counters show up for search engines?"
+      ],
+      "relatedSlugs": [
+        "ai-crawler-answer-readiness",
+        "get-ai-engines-to-see-your-updates",
+        "solcrys-content-audit-report",
+        "ai-crawler-access-search-agent-training"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "If a stat on your page counts up as visitors scroll to it, check the HTML your server sends, because that's the copy a crawler that doesn't run JavaScript reads. Counters built with Elementor, Divi, and Kubio put a 0 or an empty slot there and keep the real number in an attribute that only their script reads.",
+            "To check, open the page's source and look at the number each counter shows as text, not the one in its attributes. To fix it, make the HTML carry the real number: in Elementor, set Starting number to the same value as Ending number; in Divi and Kubio, replace the counter with a text or heading block that shows the number."
+          ]
+        },
+        {
+          "heading": "Why crawlers can miss the number",
+          "body": [
+            "A crawler that reads the HTML without running the script gets the placeholder, so a model working from that copy reads a stat like \"40 hours saved per month\" as \"0 hours saved per month.\"",
+            "Google renders JavaScript but notes that \"not all bots can run JavaScript,\" and OpenAI, Perplexity, and Anthropic don't say whether their crawlers do ([how each engine fetches pages](/get-ai-engines-to-see-your-updates/)). A number that exists only after a script runs is one you can't count on an AI engine to read."
+          ],
+          "table": {
+            "headers": [
+              "Builder",
+              "What the HTML shows",
+              "Fix"
+            ],
+            "rows": [
+              [
+                "Elementor (Counter widget)",
+                "The Starting number, 0 by default",
+                "Set Starting number to the Ending number. The count-up stops."
+              ],
+              [
+                "Divi (Number Counter module)",
+                "Nothing; the number's slot is empty",
+                "Divi counts \"up from zero\" and has no setting to change that. Use a Text module."
+              ],
+              [
+                "Kubio (Counter block)",
+                "The start value, usually 0",
+                "Use a heading or paragraph block."
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "Check your pages",
+          "body": [
+            "Start with the pages that carry your proof, such as the homepage, product and pricing pages, and case studies. On each one:"
+          ],
+          "bullets": [
+            "**Open the source.** In Chrome, type `view-source:` before the URL, or right-click and choose View Page Source. Don't use Inspect: it shows the page after scripts ran, so the real number appears there and hides the problem.",
+            "**Find the counters.** Search for `data-to-value` (Elementor), `data-number-value` (Divi), or `data-kubio-component=\"counter\"` (Kubio). Each match is one counter.",
+            "**Read the number it shows as text.** That's the text inside the counter's tag; for Divi, inside its `percent-value` span. If that text isn't the real number, the counter needs the fix.",
+            "**After the fix,** reload the source and check that the real number now appears as text."
+          ]
+        },
+        {
+          "heading": "How SolCrys checks for it",
+          "body": [
+            "A SolCrys [Content Audit](/solcrys-content-audit-report/) checks for this: it flags counters whose HTML doesn't show their real number and gives the fix."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Do other parts of a page hide content the same way?",
+          "answer": "Yes. Anything a script adds after the page loads can be missing from the HTML the same way. The view-source test works for all of them, and the [AI crawler and answer readiness checklist](/ai-crawler-answer-readiness/) covers the rest of what a crawler needs."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Elementor Help Center: Counter widget (Starting number and Ending number)",
+          "url": "https://elementor.com/help/counter-widget/"
+        },
+        {
+          "label": "Elegant Themes Help Center: The Number Counter Module in Divi 5 (\"counts up from zero to your specified value\")",
+          "url": "https://help.elegantthemes.com/en/articles/10353752-the-number-counter-module-in-divi-5"
+        },
+        {
+          "label": "Google Search Central: Understand JavaScript SEO basics",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
         }
       ]
     },
