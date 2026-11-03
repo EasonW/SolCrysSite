@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Animated Counters Can Read 0 to AI Crawlers | SolCrys</title>
+    <meta name="description" content="Elementor, Divi, and Kubio counters put a 0 or an empty slot in the HTML and fill in the real number with JavaScript. How to check a page and fix each builder." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/animated-counters-ai-crawlers/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-11-02" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Animated Counters Can Read 0 to AI Crawlers | SolCrys" />
+    <meta property="og:description" content="Elementor, Divi, and Kubio counters put a 0 or an empty slot in the HTML and fill in the real number with JavaScript. How to check a page and fix each builder." />
+    <meta property="og:url" content="https://solcrys.com/animated-counters-ai-crawlers/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-11-02" />
+    <meta property="article:modified_time" content="2026-11-02" />
+    <meta property="og:image" content="https://solcrys.com/og/animated-counters-ai-crawlers.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/animated-counters-ai-crawlers.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Animated Stat Counters Can Read 0 to AI Crawlers: How to Check and Fix Them","item":"https://solcrys.com/animated-counters-ai-crawlers/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Animated stat counters can read 0 to AI crawlers: how to check and fix them","description":"Elementor, Divi, and Kubio counters put a 0 or an empty slot in the HTML and fill in the real number with JavaScript. How to check a page and fix each builder.","dateModified":"2026-11-02","datePublished":"2026-11-02","mainEntityOfPage":"https://solcrys.com/animated-counters-ai-crawlers/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/animated-counters-ai-crawlers/","mainEntity":[{"@type":"Question","name":"Do other parts of a page hide content the same way?","acceptedAnswer":{"@type":"Answer","text":"Yes. Anything a script adds after the page loads can be missing from the HTML the same way. The view-source test works for all of them, and the AI crawler and answer readiness checklist covers the rest of what a crawler needs."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Technical Readiness</p>
+        <h1>Animated stat counters can read 0 to AI crawlers: how to check and fix them</h1>
+        <p class="seo-lede">A count-up counter looks right in a browser, ticking from 0 to the real number as the visitor scrolls. Whether an AI engine reads that number depends on what&#39;s in the HTML underneath.</p>
+        
+        <p>Updated <time datetime="2026-11-02">2026-11-02</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Can AI crawlers see animated number counters?</li><li>Why does my page source show 0 instead of my stat?</li><li>How do I make an Elementor counter readable to AI search?</li><li>Do Divi number counters show up for search engines?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>If a stat on your page counts up as visitors scroll to it, check the HTML your server sends, because that&#39;s the copy a crawler that doesn&#39;t run JavaScript reads. Counters built with Elementor, Divi, and Kubio put a 0 or an empty slot there and keep the real number in an attribute that only their script reads.</p><p>To check, open the page&#39;s source and look at the number each counter shows as text, not the one in its attributes. To fix it, make the HTML carry the real number: in Elementor, set Starting number to the same value as Ending number; in Divi and Kubio, replace the counter with a text or heading block that shows the number.</p>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why crawlers can miss the number</h2>
+      <p>A crawler that reads the HTML without running the script gets the placeholder, so a model working from that copy reads a stat like &quot;40 hours saved per month&quot; as &quot;0 hours saved per month.&quot;</p><p>Google renders JavaScript but notes that &quot;not all bots can run JavaScript,&quot; and OpenAI, Perplexity, and Anthropic don&#39;t say whether their crawlers do (<a href="/get-ai-engines-to-see-your-updates/">how each engine fetches pages</a>). A number that exists only after a script runs is one you can&#39;t count on an AI engine to read.</p>
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>Builder</th><th>What the HTML shows</th><th>Fix</th></tr></thead>
+              <tbody><tr><td>Elementor (Counter widget)</td><td>The Starting number, 0 by default</td><td>Set Starting number to the Ending number. The count-up stops.</td></tr><tr><td>Divi (Number Counter module)</td><td>Nothing; the number&#39;s slot is empty</td><td>Divi counts &quot;up from zero&quot; and has no setting to change that. Use a Text module.</td></tr><tr><td>Kubio (Counter block)</td><td>The start value, usually 0</td><td>Use a heading or paragraph block.</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Check your pages</h2>
+      <p>Start with the pages that carry your proof, such as the homepage, product and pricing pages, and case studies. On each one:</p>
+      <ul class="seo-list"><li><strong>Open the source.</strong> In Chrome, type <code>view-source:</code> before the URL, or right-click and choose View Page Source. Don&#39;t use Inspect: it shows the page after scripts ran, so the real number appears there and hides the problem.</li><li><strong>Find the counters.</strong> Search for <code>data-to-value</code> (Elementor), <code>data-number-value</code> (Divi), or <code>data-kubio-component=&quot;counter&quot;</code> (Kubio). Each match is one counter.</li><li><strong>Read the number it shows as text.</strong> That&#39;s the text inside the counter&#39;s tag; for Divi, inside its <code>percent-value</code> span. If that text isn&#39;t the real number, the counter needs the fix.</li><li><strong>After the fix,</strong> reload the source and check that the real number now appears as text.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys checks for it</h2>
+      <p>A SolCrys <a href="/solcrys-content-audit-report/">Content Audit</a> checks for this: it flags counters whose HTML doesn&#39;t show their real number and gives the fix.</p>
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://elementor.com/help/counter-widget/" target="_blank" rel="noopener noreferrer">Elementor Help Center: Counter widget (Starting number and Ending number)</a></li><li><a href="https://help.elegantthemes.com/en/articles/10353752-the-number-counter-module-in-divi-5" target="_blank" rel="noopener noreferrer">Elegant Themes Help Center: The Number Counter Module in Divi 5 (&quot;counts up from zero to your specified value&quot;)</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener noreferrer">Google Search Central: Understand JavaScript SEO basics</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Do other parts of a page hide content the same way?</h3>
+            <p>Yes. Anything a script adds after the page loads can be missing from the HTML the same way. The view-source test works for all of them, and the <a href="/ai-crawler-answer-readiness/">AI crawler and answer readiness checklist</a> covers the rest of what a crawler needs.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-answer-readiness/">AI Crawler and Answer Readiness Checklist</a></h3>
+            <p>A practical checklist for making website content crawlable, indexable, structured, and answer-ready for AI search and answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/get-ai-engines-to-see-your-updates/">How to Get AI Engines to See Your Updates Faster</a></h3>
+            <p>An AI answer can&#39;t reflect your update until the engine refetches the page. How Google, ChatGPT, Perplexity, Claude, and Bing find changes, what IndexNow does, and how to check.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/solcrys-content-audit-report/">What a SolCrys Content Audit Looks Like</a></h3>
+            <p>What a SolCrys Content Audit checks on one URL, how the score and recoverable points work, and how a fix is promoted, published, and re-audited.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-access-search-agent-training/">Search, Agent, or Training? How to Set AI Crawler Access in 2026 Without Blocking Your Own Citations</a></h3>
+            <p>Which AI crawlers to allow, what Cloudflare&#39;s Sept. 15, 2026 rules changed, and how to block AI training without losing your AI citations.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+  </body>
+</html>
