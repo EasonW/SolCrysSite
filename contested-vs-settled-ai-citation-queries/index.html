@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/contested-vs-settled-ai-citation-queries.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/contested-vs-settled-ai-citation-queries.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Why citations move at all</h2>
       <p>Before treating variance as a selection signal, it helps to know why an AI-citation number moves even when nothing you control has changed. The mechanics live in <a href="/why-ai-visibility-score-moves/">why your AI visibility score moves</a>: engines are non-deterministic by design, models get updated, competitors publish, third-party citations shift, freshness windows turn over, and sampling cadence introduces its own jitter. A score is a statistical estimate, not a deterministic count, so some movement is normal noise.</p><p>Published research puts a size on that noise. <a href="https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/" target="_blank" rel="noopener noreferrer">SparkToro&#39;s January 2026 study</a> ran 12 prompts 2,961 times across ChatGPT, Claude, and Google&#39;s AI Overviews and found less than a 1 in 100 chance that two runs return the same list of brands, and less than 1 in 1,000 that they return it in the same order. Cited sources move as well: in our own repeated runs, the set of sources cited for the same prompt changes from day to day.</p><p>The score-moves page draws one conclusion from this: the moving score is a <strong>symptom</strong>, and the diagnostic job is to ask what was published and which citations changed, rather than panic at the number. This page makes the opposite move on the same raw phenomenon. Here, variance is a <strong>selection signal</strong>: a map of which queries are still contested and therefore still winnable. Same noise, inverted use.</p>
+      
       
       
       
@@ -174,6 +176,7 @@
     <section class="seo-section">
       <h2>The two regimes, and how to tell them apart</h2>
       <p>Contested and settled are the two ends of a spectrum, not a hard binary, and most prompts sit somewhere between. The diagnostic is not a single threshold; it is a pattern you read over several runs. A settled query shows high, stable presence with a small, recurring set of cited sources. A contested query shows low or middling presence with a cited set that reshuffles run to run, often pulling in a different domain each time.</p><p>Illustrative scenario only. Picture a mid-market observability vendor, call it Brand O, that tracks 30 prompts on 4 engines and collects 32 responses per prompt each week (8 runs on each engine). Its settled end is a branded lookup, &quot;What does Brand O do?&quot;: Brand O appears in 31 of 32 responses, and the same 2 sources, its own documentation and one analyst profile, are cited in most of them. The engines already have a place to go. Its contested end is a discovery prompt, &quot;best log management tool for Kubernetes teams&quot;: Brand O appears in 4 of 32 responses, Datadog, Grafana Labs, and Elastic take most of the named slots, and the cited set pulls in a different comparison post or community thread on nearly every run. No source has locked that slot, including the leaders&#39; own pages.</p><p>One branded prompt and one discovery prompt illustrate the two ends. They are not a measured finding that branded or factual queries are stable as a class. The practical tells for sorting a query yourself:</p>
+      
       <ul class="seo-list"><li><strong>Presence level</strong>: settled queries cluster near the top (consistently high presence); contested queries sit low or in the middle and bounce.</li><li><strong>Source stability</strong>: settled queries cite the same 1 or 2 sources every run; contested queries pull a different domain into the answer from run to run.</li><li><strong>Query type as a prior, not a rule</strong>: branded, factual, and definitional questions skew settled; unbranded &quot;best X for Y&quot; and feature questions skew contested. Treat type as a hint to check, never as the verdict.</li><li><strong>Read it over runs, not once</strong>: a single run cannot tell the two apart, because one run of a contested query can look deceptively stable by luck. The regime shows up in the pattern across several runs.</li></ul>
       
       
@@ -184,10 +187,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Run-variance vs non-stationarity: the discipline to hold yourself to</h2>
       <p>The reframe only works if you can tell a query that is genuinely moving from one that is merely sampling noisily. This is the part the evidence supports most firmly:</p>
+      
       <ul class="seo-list"><li><strong>Cited sources churn.</strong> In our own repeated runs, the set of sources cited for the same prompt changes from day to day, so one day&#39;s source list is not a baseline.</li><li><strong>Brand lists churn too.</strong> Two runs had less than a 1 in 100 chance of returning the same list of brands (SparkToro, 2026). The same study calls visibility measured as a rate across prompts run multiple times &quot;a reasonable metric&quot; and dismisses &quot;ranking position in AI.&quot;</li><li><strong>Sample size decides what you can see.</strong> One run is one draw, and on a small sample a single mention appearing or vanishing moves the rate by several points, so a presence number needs many runs per prompt, per engine, before a change in it means anything.</li></ul>
       
       
@@ -203,10 +208,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>How to earn a contested slot, governed</h2>
       <p>Earning into a contested slot is the same governed loop SolCrys runs on everything else: Measure → Diagnose → Execute → Verify. Nothing about it is automatic, and the Execute step stays human-approved. We do not claim the engine publishes for you, and we do not promise a slot; you earn your way in, and the engines decide.</p><p>The loop applied to a contested query looks like this:</p>
+      
       <ul class="seo-list"><li><strong>Measure the rate.</strong> Track presence for the query as a rate over weeks of runs, per engine, not from one reading. A single run cannot tell you whether a slot is contested or settled, and a 2-run difference is usually just run-variance.</li><li><strong>Diagnose contested vs settled.</strong> Use the tells above: presence level, source stability across runs, and query type as a prior. Confirm the high-value queries you care about are genuinely contested (low and churning), which is what makes them open rather than already lost.</li><li><strong>Execute consistent fresh signals across sampled sources, human-approved.</strong> Because each engine samples a different handful of independent sources, the work is getting your claim corroborated across several of them over time, not perfecting one authoritative page. Every piece is reviewed and approved by a person before it ships, and none of it is a planted mention; Google&#39;s own guidance says seeking inauthentic mentions &quot;isn&#39;t as helpful as it might seem.&quot;</li><li><strong>Verify on a rerun.</strong> Rerun the same frozen prompt set on the same engines and look for a sustained climb that survives many readings, the non-stationarity signal rather than a one-run blip. If the rate holds its rise across weeks, the slot is settling for you; if it wobbles inside its band, nothing real has moved yet.</li></ul>
       
       
@@ -219,6 +226,7 @@
     <section class="seo-section">
       <h2>What we don&#39;t claim</h2>
       <p>To keep the method honest, here is the boundary of what this page does and does not assert. The variance discipline rests on published research. The interpretation above it is ours, offered as a frame to test on your own prompt set, not as a proven law.</p>
+      
       <ul class="seo-list"><li><strong>We do not claim branded or factual queries are stable as a class.</strong> The settled example is one illustrative branded prompt. It shows what a settled slot looks like; it is not a measured cohort.</li><li><strong>We do not publish small run-to-run moves as slots being won or lost.</strong> When one mention moves presence by several points, a change inside that band is sampling run-variance, not a trend.</li><li><strong>We do not claim a slot settles because sources agree.</strong> That is a hypothesis the cross-engine overlap research is consistent with, not a measurement. The causal step from corroboration to a settled slot is unproven, and we label it a hypothesis everywhere it appears.</li><li><strong>We did not run a study ranking many query types by citation stability.</strong> The regime framing is a logical reading of how citations behave, generalized as method. No such study sits behind this page.</li><li><strong>We do not promise a slot, or claim the engine publishes for you.</strong> Contested slots are up for grabs; you earn your way in with human-approved content, and the engines decide. The settling clock is daily, not real-time.</li><li><strong>We measure per engine, not as one blob.</strong> Engines retrieve substantially different sources, and a retrieval change on one engine can reopen slots there alone, as ChatGPT&#39;s August 2026 shift did. There is no blanket &quot;AI engines do X&quot; claim here.</li></ul>
       
       
@@ -351,6 +359,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

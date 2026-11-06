@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/model-upgrades-are-migrations.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/model-upgrades-are-migrations.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Why I&#39;m writing this</h2>
       <p>Eason&#39;s <a href="/news/a-year-in-view-the-facts-had-to-hold/">year-one essay</a> described what we built as the models kept changing under the product. This note is the method behind it: what we freeze, what we gate, and what we refuse to swap. It is written for anyone who now owns a harness, whether or not they call it that: marketing-ops and AI-ops leads, technical marketers who maintain Skills and MCP connections, and CTOs deciding whether a vendor&#39;s numbers will survive its next model change.</p><p>In <a href="/action-externalization/">Action Externalization</a> I argued that when doing gets cheap, deciding gets expensive. A model upgrade is a small, recurring case of that, and my position is simple: the model is a replaceable part. Your context and your evals are not.</p>
+      
       
       
       
@@ -174,6 +176,7 @@
     <section class="seo-section">
       <h2>The release cadence, dated</h2>
       <p>These are the general-purpose model releases from Anthropic, Google, and OpenAI in the 16 weeks from July 9 to Oct. 26, 2026, leaving out restricted security variants, each checked against the vendor&#39;s announcement or dated coverage.</p>
+      
       
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Date (2026)</th><th>Lab</th><th>Release</th></tr></thead>
@@ -192,10 +195,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>What breaks when the model changes</h2>
       <p>In my experience, a model change rarely announces itself with an error. It shows up as output that looks fine and is subtly different. I check these first:</p>
+      
       <ul class="seo-list"><li><strong>Format drift.</strong> A preamble appears, fields get renamed, headings shift, answers get longer, and whatever parses or templates the output downstream breaks quietly.</li><li><strong>Interface changes.</strong> Parameters get deprecated. Anthropic&#39;s documentation says that on Claude 4.7 and later models, setting temperature, top_p, or top_k to a non-default value returns a 400 error.</li><li><strong>Stale workarounds.</strong> Instructions that compensated for an old model&#39;s weakness become dead weight, and they can over-steer a model that no longer has it.</li><li><strong>Scores that change scale.</strong> Model-generated scores for lead fit, content quality, or relevance are often ordered but not calibrated. A new model&#39;s 70 is not the old model&#39;s 70, so every fixed threshold quietly changes meaning.</li><li><strong>Silent swaps.</strong> OpenAI&#39;s <a href="https://developers.openai.com/api/docs/models/chat-latest" target="_blank" rel="noopener noreferrer">chat-latest</a> alias &quot;points to the latest Instant model currently used in ChatGPT,&quot; and &quot;The underlying model snapshot will be regularly updated.&quot; Consumer apps and agent workspaces change defaults on their own schedules: on Oct. 29, OpenAI updated GPT-6 in ChatGPT &quot;to give more concise responses&quot; for Free and Go users and people not signed in, under the same name.</li><li><strong>Forced moves.</strong> A retired model stops answering, on the vendor&#39;s deadline, not yours.</li></ul>
       
       
@@ -203,6 +208,7 @@
     <section class="seo-section">
       <h2>What should change on an upgrade, and what shouldn&#39;t</h2>
       <p>The fastest way to make upgrades boring is to decide, in writing, which layer is allowed to move.</p>
+      
       
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Layer</th><th>On a model upgrade</th><th>Owner</th></tr></thead>
@@ -218,6 +224,7 @@
     <section class="seo-section">
       <h2>How we run a model change at SolCrys</h2>
       <p>This is what we do. Eason&#39;s essay gave the outline; this is the detail behind it. None of it is exotic; the discipline is not skipping steps when a new model looks obviously better.</p>
+      
       
       
       
@@ -251,6 +258,7 @@
       <h2>The checklist for your own AI workflows</h2>
       <p>This is what I would hand a marketing team running its own agents, whether that means Skills in Claude, an agent working through your files in Claude Cowork, or an automation calling a model API. None of it requires SolCrys.</p>
       
+      
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Step</th><th>What to do</th><th>What it catches</th></tr></thead>
               <tbody><tr><td>1. Inventory</td><td>List every place a model makes a decision: the Skill or tool, the model name, whether it&#39;s pinned, and the owner.</td><td>The workflow nobody knew depended on a model</td></tr><tr><td>2. Freeze an eval set</td><td>Save a few dozen real inputs per job, including ones that went wrong. Never edit them to suit a new model.</td><td>Comparisons run on flattering examples</td></tr><tr><td>3. Label blind, twice</td><td>Two people, or two strong models from different families, write expected outputs from a written guide without seeing any model&#39;s answer. Check agreement; adjudicate disagreements.</td><td>A gold set that quietly agrees with whatever you already ship</td></tr><tr><td>4. Write gates before testing</td><td>Make the costly error a hard fail, and set a floor per metric, not for the average.</td><td>An upgrade that is better on average and worse where it matters</td></tr><tr><td>5. Write output contracts</td><td>Define format, required fields, length, citation style, and banned claims; validate every output mechanically.</td><td>Format drift that breaks templates downstream</td></tr><tr><td>6. Pin the model</td><td>Call a fixed snapshot where the API allows it; otherwise record the model name and date on every output.</td><td>Silent swaps</td></tr><tr><td>7. Shadow run</td><td>Run the candidate beside the current model on live inputs for 1–2 weeks; ship only the current output and review the differences.</td><td>Failures your frozen set didn&#39;t contain</td></tr><tr><td>8. Keep rollback to one line</td><td>Version prompts and Skills with the model they were tested on, so reverting is a configuration change.</td><td>A bad upgrade that takes a week to undo</td></tr><tr><td>9. Remove dead weight</td><td>After a switch, delete workarounds the new model doesn&#39;t need, then rerun the gates.</td><td>Instructions that over-steer a better model</td></tr><tr><td>10. Don&#39;t swap the instrument</td><td>If a model measures something you report over time, don&#39;t change it mid-series; run both in parallel and re-baseline on purpose.</td><td>A trend line that moved because the ruler changed</td></tr></tbody>
@@ -278,10 +286,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>What to ask an AEO vendor about model changes</h2>
       <p>If a vendor&#39;s product runs models on your behalf, ours included, these questions separate a governed system from a demo. Our <a href="/evaluate-aeo-platform-methodology-checklist/">methodology checklist</a> covers what happens when an answer engine changes its model; these cover the models inside the product.</p>
+      
       <ul class="seo-list"><li>When you change the model behind a feature, what does it have to pass first, and can you show me the gate?</li><li>Is the model that queries the answer engines ever changed? If so, how do you keep my trend line comparable?</li><li>How were your gold labels made: how many independent passes, what agreement bar, and who adjudicated?</li><li>Are your scores calibrated, or only ordered? What happens to a threshold when the model changes?</li><li>Where do my approved facts live: in prompts, or in a store the model reads?</li><li>What can an agent write through your product, who grants that permission, and who approves what ships?</li></ul>
       
       
@@ -289,6 +299,7 @@
     <section class="seo-section">
       <h2>How SolCrys fits</h2>
       <p>SolCrys is an AEO platform built as a Measure → Diagnose → Execute → Verify loop, and the method above keeps that loop steady while the models underneath it change. Three parts of the product map to this post:</p>
+      
       <ul class="seo-list"><li><strong>Corporate Context is the stable layer.</strong> Your approved facts, claims, and guardrails live at the organization level, not in prompts. Answer Accuracy grades AI answers against them, and recommendations are grounded in them rather than in a model&#39;s guesses.</li><li><strong>Measurement holds its instrument fixed.</strong> The same frozen prompt set runs on the same engines (ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, by plan), and the model that queries an engine is not substituted. The <a href="/visibility-measurement-methodology/">measurement methodology</a> covers the rest.</li><li><strong>Your agents get typed tools and open Skills.</strong> The <a href="/solcrys-mcp-and-skills/">SolCrys MCP server</a> works with Claude, ChatGPT, and Cursor, and our Skills are MIT-licensed on GitHub, so you can fork them, version them with the model you tested, and run this checklist on them. Writes are narrow and opt-in: with a permission an admin grants, an assistant can mark a task published or, where enabled, propose a Corporate Context draft that a person must approve.</li></ul>
       
       
@@ -301,6 +312,7 @@
     <section class="seo-section">
       <h2>About the author</h2>
       <p>Jia Chang is Co-Founder &amp; CTO of SolCrys. AI architect with 15+ years building production AI systems, most recently as an engineering leader at Microsoft. Connect on <a href="https://www.linkedin.com/in/jia-c/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written September 2026 as the method companion to Eason&#39;s <a href="/news/a-year-in-view-the-facts-had-to-hold/">A Year in View</a>. For the architecture underneath, see <a href="/building-aeo-platform-architecture/">6 architectural decisions</a>; for why agents reach SolCrys through MCP, see <a href="/why-we-bet-on-mcp/">why we bet on MCP early</a>.</p>
+      
       
       
       
@@ -441,6 +453,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

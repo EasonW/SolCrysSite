@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/ai-crawler-access-search-agent-training.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/ai-crawler-access-search-agent-training.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>What changed: 5 Cloudflare moves since July 2025</h2>
       <p>The biggest change to crawler access in the past year happened at the CDN, not in robots.txt. Cloudflare, which says more than 20% of web domains sit behind it, went from a single &quot;Block AI bots&quot; switch to 3 behavior classes, and the rules it shipped on Sept. 15, 2026 differ from the ones it announced in July. Coverage written in July and August describes the announced plan, not the shipped one.</p>
+      
       
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Date</th><th>What Cloudflare did</th><th>Why it matters for citations</th></tr></thead>
@@ -177,6 +179,7 @@
     <section class="seo-section">
       <h2>The Sept. 15, 2026 rules, precisely</h2>
       <p>In July, Cloudflare said that from Sept. 15 &quot;multi-purpose crawlers such as Googlebot, Applebot, and BingBot will be blocked by customers who have selected to block Training.&quot; What shipped is narrower, and it depends on which Training option you pick. Search, Training, and Agent are each set per domain to Allow, Block, or Block on pages with ads; Training also gets Disallow AI Training.</p>
+      
       <ul class="seo-list"><li><strong>Disallow AI Training</strong> publishes a no-training preference in robots.txt through Bot Preference Sync. In Cloudflare&#39;s words: &quot;Accountable mixed-use crawlers remain allowed for search. Every other training crawler is blocked, including the training-only crawlers run by Amazon, Anthropic, Meta, and OpenAI.&quot; Apple, Google, and Microsoft are the operators Cloudflare labeled Accountable for their mixed-use crawlers.</li><li><strong>Block and Block on pages with ads</strong> now reach mixed-use crawlers: they &quot;apply to mixed-use crawlers, including Applebot, Bingbot, and Googlebot, so either setting impacts search as well as training.&quot;</li><li><strong>Existing settings were migrated, not broken.</strong> A legacy &quot;Block AI bots&quot; setting became Search Allow, Training Disallow AI Training, and Agent Block on pages with ads, and earlier Training Block selections became Disallow AI Training. Cloudflare&#39;s advice to existing customers: &quot;Nothing, in almost every case.&quot;</li><li><strong>New domains are offered a preset at onboarding, which the owner can change.</strong> A site that monetizes with ads is offered Search allowed, Training set to Disallow AI Training, and Agent blocked on pages with ads. Every other site is offered all 3 allowed.</li><li><strong>Bing is the exception.</strong> Cloudflare says Disallow AI Training does not convey a no-training choice to Bing until Microsoft supports a robots.txt no-training preference. Bing starts honoring one, the shared <code>__usage_ai-training</code> rule, on Feb. 1, 2027, and Disallow AI Training reaches Bing from then only if the robots.txt your site serves includes that rule. See <a href="/usage-ai-training-robots-txt/">the shared AI training opt-out</a>.</li></ul>
       
       
@@ -189,6 +192,7 @@
     <section class="seo-section">
       <h2>Search, agent, training: which class gets you cited</h2>
       <p>Citations come from the first 2 classes. Training shapes what a model knows when it answers without searching; it doesn&#39;t produce a cited link to your page.</p>
+      
       <ul class="seo-list"><li><strong>Search</strong> builds an index an engine answers from later: OAI-SearchBot, Claude-SearchBot, PerplexityBot, and the search half of Googlebot, Bingbot, and Applebot. Blocking this class takes a site out of that engine&#39;s cited answers.</li><li><strong>Agent</strong> fetches a page in real time for a person. Cloudflare&#39;s definition covers &quot;chat fetch bots (e.g., ChatGPT-User) and browser-use agents (e.g., Gemini or Claude driving Chrome).&quot; Claude-User and Perplexity-User do the same job, and Perplexity says Perplexity-User may &quot;include a link to the page in its response.&quot; An Agent block can cost a citation too.</li><li><strong>Training</strong> feeds model weights: GPTBot, ClaudeBot, and the training use of mixed-use crawlers, which Google and Apple let you refuse with the Google-Extended and Applebot-Extended tokens. Microsoft, Google, OpenAI, and Anthropic have also backed a shared training rule, <code>__usage_ai-training</code>, with Microsoft starting on Feb. 1, 2027.</li></ul>
       
       
@@ -196,6 +200,7 @@
     <section class="seo-section">
       <h2>Every major AI crawler: what it does and what blocking it costs</h2>
       <p>Checked against each company&#39;s crawler documentation on Sept. 26, 2026; the Bingbot row was updated on Oct. 31, 2026. User-agent names and behavior change; recheck the linked docs before you edit a rule.</p>
+      
       
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Bot</th><th>Company</th><th>Purpose</th><th>What blocking it costs you in AI answers</th><th>Recommendation</th></tr></thead>
@@ -206,6 +211,7 @@
     <section class="seo-section">
       <h2>Reading the table: 4 rules</h2>
       <p>Each rule guards against a mistake that can cost citations without anyone noticing.</p>
+      
       
       
       
@@ -236,6 +242,7 @@
       
       
       
+      
       <div class="seo-subsection">
         <h3>How to see agent visits</h3>
         <p>Start with server or CDN logs. Declared fetchers identify themselves by user agent (ChatGPT-User, Claude-User, Perplexity-User, Google-Agent), and OpenAI, Perplexity, and Google publish the IP ranges to check them against, because user-agent strings can be spoofed. Cloudflare&#39;s AI Crawl Control reports AI crawler traffic by user agent on the Free plan. Some agents sign their requests: Cloudflare reported in August 2025 that ChatGPT agent uses the proposed Web Bot Auth standard, and Google says it is experimenting with Web Bot Auth for Google-Agent. An extension acting in a signed-in browser may be indistinguishable from the user, so no log gives a complete count.</p>
@@ -248,10 +255,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>A configuration that keeps your citations</h2>
       <p>For a B2B brand that wants to be cited and doesn&#39;t sell ad inventory, this is a sound default. Adjust the training lines to your own policy; leave the rest alone unless you mean to leave an engine.</p>
+      
       <ul class="seo-list"><li><strong>Robots.txt:</strong> allow OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User, Googlebot, Bingbot, and Applebot. Decide GPTBot, ClaudeBot, Google-Extended, and Applebot-Extended one by one, remembering that Google-Extended also covers Gemini app grounding. If robots.txt doesn&#39;t mention Applebot but does mention Googlebot, Apple says Applebot follows the Googlebot rules.</li><li><strong>Cloudflare:</strong> Search set to Allow; Agent set to Allow; Training set to Allow or Disallow AI Training, and set to Block only if you intend to leave Google, Bing, and Apple search.</li><li><strong>Firewall and bot rules:</strong> check custom rules and bot-fighting features that block by user agent or network, and confirm that OpenAI&#39;s and Perplexity&#39;s published IP ranges get through.</li><li><strong>Search Console:</strong> leave the Search generative AI control on Include unless you intend to leave AI Overviews and AI Mode.</li><li><strong>Bing:</strong> keep NOARCHIVE off pages you want cited in Copilot, and from Feb. 1, 2027 leave Bing&#39;s new AI Grounding preference on its default, Allow.</li><li><strong>Change log:</strong> record the date of every robots.txt, CDN, and firewall change, so the next step has a before and an after.</li></ul>
       
       
@@ -262,10 +271,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>How SolCrys fits</h2>
       <p>SolCrys does not read or change your CDN, firewall, or bot-management configuration, and it can&#39;t tell you whether Cloudflare lets the real Googlebot through. It helps in 3 narrower ways.</p>
+      
       <ul class="seo-list"><li><strong>The Content Audit&#39;s AI Bot Check.</strong> For a live page, <a href="/solcrys-content-audit-report/">the audit</a> reads robots.txt and requests the page as 7 named crawlers (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Perplexity-User, Googlebot, and Bingbot), reporting each as OK, Blocked, or Degraded. Those requests come from SolCrys&#39;s servers, not from OpenAI&#39;s or Google&#39;s published IP ranges, so a CDN that verifies crawlers by IP can treat the real crawler differently. The check does not cover Claude-SearchBot, Claude-User, ChatGPT-User, or Applebot. Treat it as a robots.txt and origin-server check, not a CDN audit.</li><li><strong>Verify on the prompts you already track.</strong> Your frozen prompt set keeps running on the same engines (ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude, depending on plan), so after a bot-policy change you can compare which of your URLs each engine cites, before and after. That is the Verify step of Measure → Diagnose → Execute → Verify, and it answers the question logs can&#39;t: whether a CDN toggle cost you ChatGPT or Perplexity citations. SolCrys does not measure Copilot or Siri; for Copilot, use Bing Webmaster Tools.</li><li><strong>A deliberate agent surface.</strong> We run a remote <a href="/solcrys-mcp-and-skills/">MCP server</a> with OAuth, so assistants such as Claude, ChatGPT, and Cursor read a workspace through typed tools, and write only through narrow opt-in permissions, instead of driving our dashboard through a browser. Most marketing sites don&#39;t need one. The point is that agent access worth having is designed and permissioned, not left to whatever gets past the bot rules.</li></ul>
       
       
@@ -273,6 +284,7 @@
     <section class="seo-section">
       <h2>Next step</h2>
       <p>To see which of your pages ChatGPT cites today, <a href="https://app.solcrys.com/audit">Start Free</a>: the free workspace runs 10 tracked prompts on ChatGPT and 1 Content Audit (free, no credit card, email verification). To verify a crawler-policy change across engines, <a href="https://app.solcrys.com/contact-sales/">talk to us</a>.</p>
+      
       
       
       
@@ -385,6 +397,11 @@
             <h3><a href="/usage-ai-training-robots-txt/">The New AI Training Opt-Out in robots.txt: Most Brands Should Change Nothing</a></h3>
             <p>Microsoft, Google, OpenAI, and Anthropic backed a robots.txt AI training opt-out. Fine with training? Change nothing. Opting out? Decide Google-Extended first.</p>
           </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/can-ai-agents-use-your-website/">Can AI Agents Use Your Website? Three Gates to Check</a></h3>
+            <p>Allowing AI crawlers in robots.txt isn&#39;t enough. An AI agent also has to get past your bot protection and be able to read your facts. How to test all three gates.</p>
+          </article>
         </div>
       </section>
     </article>
@@ -423,6 +440,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/why-we-bet-on-mcp.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/why-we-bet-on-mcp.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>The trend, in one paragraph</h2>
       <p>Anthropic published the Model Context Protocol spec in November 2024 as an open standard for how AI applications connect to external tools and data. In the twelve months since, it has been adopted by every major AI coding interface (Claude Code, Cursor, Continue, Zed, JetBrains AI Assistant), by OpenAI&#39;s developer platform, and by the agent stacks of the major application vendors. That is a faster adoption curve than HTTP/2, GraphQL, or LangChain&#39;s tool calling. The reason is straightforward: every team building agentic workflows hit the same problem at the same time — how does a model running in client X find, understand, and call tools sitting in service Y without bespoke glue per pairing? MCP answers that question in a way that is small, typed, and self-describing.</p><p>What surprised us was not that MCP would win — that seemed likely once OpenAI added support. What surprised us was how quickly the agent-readable surface area started to matter for non-developer use cases. Marketing teams, comms teams, support teams — anyone whose data the LLM should be able to read and reason over — became consumers of MCP through the AI clients they were already using. That changed our roadmap.</p>
+      
       
       
       
@@ -177,10 +179,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Why MCP, not REST</h2>
       <p>Several SolCrys customers have asked, reasonably, why we don&#39;t just expose a REST API. The honest answer is that we do — internally — but exposing it to AI agents externally would be wrong fit for three reasons.</p><p>REST is right for many things. Programmatic access from a finance system, scheduled exports, server-to-server pipelines — these are all fine REST patterns and we will support them. But for agents reasoning over marketing data interactively, MCP is the right primitive.</p>
+      
       <ul class="seo-list"><li><strong>Discoverability.</strong> A REST API has documentation that lives outside the API. An MCP server declares its tools, parameters, and return types as part of the protocol. An agent connects, calls <code>tools/list</code>, and immediately knows what is available. That removes a class of integration error (agent calls a method that doesn&#39;t exist or passes the wrong shape) that consumes a meaningful share of every API integration&#39;s debugging time.</li><li><strong>Auth and scope.</strong> MCP servers can negotiate OAuth scopes per session, and the SolCrys MCP server both reads and writes — read tools plus narrow, opt-in write scopes. That maps cleanly onto how marketing teams want to share workspace access with agents: scoped to a workspace, time-limited, revokable, and auditable. Building the equivalent on top of a REST API would mean inventing our own scope/token system, which is exactly the work that an open standard is supposed to remove.</li><li><strong>Letting the LLM compose.</strong> The most useful thing an LLM does inside an analytics workflow is decide which questions to ask next. Give it tool descriptions and it will chain — pull workspace prompts, then pull visibility, then dig into citations for the worst-performing engine, then audit the page that&#39;s missing. Our typical narrative flow is seven tool calls deep; we never wrote glue code for that sequence. The model figured it out from the tool descriptions. A REST API would have required us to ship a SDK that pre-shapes those flows, which is brittle and which we&#39;d be maintaining forever.</li></ul>
       
       
@@ -188,6 +192,7 @@
     <section class="seo-section">
       <h2>What the SolCrys MCP server actually exposes</h2>
       <p>A tool set that reads and writes — read tools for measurement and diagnosis, plus a narrow write — all scoped to a workspace the calling identity is authorized for:</p><p>There are two write tools, both deliberately narrow and each gated behind an opt-in scope an admin grants on purpose: <code>solcrys_publish_task</code> marks a recommendation&#39;s task as published (an internal status update, <code>write:actions</code>), and, where enabled, <code>solcrys_propose_cc_page</code> creates a Corporate Context draft that a person still has to review and approve (<code>write:corporate-context</code>). What we deliberately did NOT ship is an agent pushing a content update back into the systems that actually publish — GitHub, CMS, Slack approval threads. That is the <a href="/action-externalization/">action externalization</a> argument: the risky writes belong outside the platform, where the customer wants the side effect to live, with a human in the approval loop. Retrieve widely, write narrowly, approve at every boundary.</p>
+      
       <ul class="seo-list"><li><code>solcrys_list_workspaces</code> — workspace discovery, the entry point for any agent that doesn&#39;t yet know which tenant to scope to</li><li><code>solcrys_get_prompts</code> — the tracked prompt set for a workspace</li><li><code>solcrys_get_visibility_insights</code> — hero metrics (mention rate, SOV ranking, owned-media %, per-engine breakdown, trends)</li><li><code>solcrys_get_prompts_insights</code> — per-prompt presence %, citation %, sentiment, gainers, decliners</li><li><code>solcrys_get_citations_insights</code> — top-cited domains with source-type breakdown (Owned / Competitor / Editorial / UGC / Other)</li><li><code>solcrys_get_citations</code> — raw citation rows with rich filters</li><li><code>solcrys_get_deep_analysis</code> — per-response structured reasoning, recommendations, action items, brand-position analysis</li><li><code>solcrys_get_content_audit_reports</code> — page-level AEO audit scores (citation readiness, structure, credibility, quality)</li><li><code>solcrys_get_tasks</code> — the action queue: title, status, priority, source</li></ul>
       
       
@@ -195,6 +200,7 @@
     <section class="seo-section">
       <h2>Why we open-sourced the Skills, but not the server</h2>
       <p>On top of the MCP server we ship six Skills — Claude Skills, the format Anthropic shipped for packaging reusable workflows that auto-activate when relevant. They sit in the <a href="https://github.com/SolCrysAI/SolCrys-AEO-Skills" target="_blank" rel="noopener noreferrer">SolCrys-AEO-Skills repo on GitHub</a>, MIT licensed.</p><p>Two design choices in those Skills matter more than which deliverables they produce. The first is that every Skill references a shared file called <code>soul.md</code> — three rules enforced across every Skill: claims must be data-grounded, recommendations must align with the workspace&#39;s declared AEO goal, and any writing must be fact-grounded with web search and customer-supplied source documents. That file is in the public repo. If a Skill drifts toward fabrication, the place to look is <code>soul.md</code>, and the place to file a PR is the repo. The Skills are inspectable governance, not opaque magic.</p><p>The second choice is that we open-sourced the Skills under MIT and kept the MCP server hosted. That asymmetry is intentional. The Skills are workflow templates — the most useful version of them is the one our customer forked, edited, and embedded in their own agent stack. Open-sourcing them removes the gatekeeping; the customer owns the workflow. The MCP server is a multi-tenant data layer — it has to evolve its tool schema, enforce auth, scale, and never leak across tenants. Hosting it lets us iterate without breaking customer agents, and lets the customer rely on a managed surface rather than self-hosting an evolving spec.</p>
+      
       <ul class="seo-list"><li><strong>solcrys-weekly-cmo-brief</strong> — one-page exec brief: headline KPIs, what&#39;s trending, where losing, recommended actions, forward note</li><li><strong>solcrys-domain-influence-report</strong> — citation landscape by source type, with strategy implications</li><li><strong>solcrys-brand-footprint-gap-analysis</strong> — URLs currently surfacing in AI answers and high-volume prompts where the brand is missing</li><li><strong>solcrys-action-driven-content</strong> — publication-ready first draft (blog post, landing page, FAQ) from the action queue</li></ul>
       
       
@@ -202,6 +208,7 @@
     <section class="seo-section">
       <h2>Soul.md as governance, not branding</h2>
       <p>The <code>soul.md</code> file in our Skills repo is the part we are proudest of, and the part most likely to be misread as a branding choice. It is not. It is a prompt-level governance mechanism. Every Skill in the repo references the same three rules:</p><p>These rules are short on purpose. They are inspectable on purpose. And they are the most reliable mechanism we know for preventing the failure mode that LLM-generated marketing content most consistently produces — hallucinated statistics, generic recommendations, and copy that reads confident about claims the model cannot verify.</p>
+      
       <ul class="seo-list"><li><strong>Data-grounded claims only.</strong> A Skill must not invent a metric, a percentage, or a competitor comparison. If the MCP data doesn&#39;t support it, the Skill must say so or omit it.</li><li><strong>AEO-goal-aligned recommendations.</strong> Recommendations must trace back to the workspace&#39;s stated AEO objective (e.g. &#39;win citation share on procurement prompts&#39;), not to whatever the model&#39;s training distribution prefers.</li><li><strong>Fact-grounded writing.</strong> Any draft content the Skill produces must be backed by web search results, customer-supplied source documents, or the MCP data — not by the model&#39;s prior knowledge.</li></ul>
       
       
@@ -212,10 +219,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>How to try it</h2>
       <p>If you have a SolCrys workspace, the MCP server is already live at <code>https://mcp.solcrys.com/mcp</code>. Adding it to Claude Code is one command:</p><p>claude mcp add --transport http solcrys https://mcp.solcrys.com/mcp</p><p>OAuth handles the connect step the first time you call a tool. For CI or scripted use, a Personal Access Token from the dashboard plugs in via the standard <code>--header &quot;Authorization: Bearer &lt;TOKEN&gt;&quot;</code> flag.</p><p>The six Skills live at <a href="https://github.com/SolCrysAI/SolCrys-AEO-Skills" target="_blank" rel="noopener noreferrer">github.com/SolCrysAI/SolCrys-AEO-Skills</a>. The repo README walks through installation into <code>~/.claude/skills/</code> and adaptation for other AI clients.</p><p>A longer how-to — every tool documented, the typical seven-step workflow, install patterns for different clients — lives in <a href="/solcrys-mcp-and-skills/">SolCrys MCP and Skills: tools, install, and the workflows that chain them</a>.</p>
+      
       
       
       
@@ -323,6 +332,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

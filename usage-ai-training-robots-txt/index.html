@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/usage-ai-training-robots-txt.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/usage-ai-training-robots-txt.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -154,10 +154,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>What was announced, and when each company starts</h2>
       <p>The rule is 2 lines in robots.txt: <code>User-Agent: __usage_ai-training</code>, then <code>Disallow: /</code>. It doesn&#39;t block crawling.</p>
+      
       
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Company</th><th>Starts honoring the rule</th></tr></thead>
@@ -171,6 +173,7 @@
     <section class="seo-section">
       <h2>If you opt out, decide Google-Extended first</h2>
       <p>Google-Extended is Google&#39;s robots.txt switch for Gemini training, and it also controls grounding in the Gemini app, where Gemini reads your pages to answer a question and can link to them. Google plans to read the opt-out as a Google-Extended disallow whenever your file doesn&#39;t name Google-Extended, so the 2 lines alone can cost you Gemini app citations. Appearing in Google Search, AI Overviews, and AI Mode isn&#39;t affected.</p><p>To keep Gemini app citations, add 2 more lines, <code>User-Agent: Google-Extended</code> then <code>Allow: /</code>. Gemini training then stays allowed too, because Google has no setting that separates the two. To refuse Google as well, use the 2 lines alone.</p><p>Either way, check 4 things in the rest of the file.</p>
+      
       <ul class="seo-list"><li><strong>Company lines.</strong> A line for GPTBot, ClaudeBot, or Google-Extended can override the shared rule at that company, so make each one say what you want there.</li><li><strong>Other AI companies.</strong> Apple and others haven&#39;t announced support, so their own lines, such as Applebot-Extended, are still the only way to refuse them.</li><li><strong>Search crawlers.</strong> Keep Googlebot, Bingbot, OAI-SearchBot, and Claude-SearchBot allowed, because a crawl block removes you from answers; see <a href="/ai-crawler-access-search-agent-training/">which bot does what</a>.</li><li><strong>The live file.</strong> Fetch your site&#39;s <code>/robots.txt</code> after the change, in case a CDN such as Cloudflare, or a plugin, writes its own.</li></ul>
       
       
@@ -178,6 +181,7 @@
     <section class="seo-section">
       <h2>If your pages carry NOARCHIVE or NOCACHE</h2>
       <p>Bing reads these tags as AI controls today: NOARCHIVE keeps a page out of Copilot answers and training, and NOCACHE limits both to the URL, title, and snippet. From Feb. 1, 2027, Bing ignores them on any site where it finds one of its new training or grounding preferences, including the robots.txt rule above, and everywhere after March 1, 2027. Pages that relied on them can then be used in Bing&#39;s AI answers and for training unless you replace them.</p>
+      
       <ul class="seo-list"><li><strong>Check whether you have them.</strong> Search your page source and response headers for <code>noarchive</code> and <code>nocache</code>. If they&#39;re there by accident, from an old template, plugin, or header, remove them now.</li><li><strong>If you use them on purpose,</strong> leave them in place and follow <a href="https://blogs.bing.com/search/2026/10/your-content-your-choice-clearer-preferences-for-training-and-grounding/" target="_blank" rel="noopener noreferrer">Microsoft&#39;s transition steps</a> for the whole site before March 1, 2027. One new preference ends the old tags site-wide from Feb. 1, so a partial switch can expose the rest of the site, and Bing has no temporary setting for training.</li></ul>
       
       
@@ -274,6 +278,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

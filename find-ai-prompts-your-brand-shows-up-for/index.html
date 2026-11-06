@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/solcrys-og-card.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/solcrys-og-card.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Why there is no AI keyword report</h2>
       <p>A keyword report works because search queries are short and repeated. Millions of people type the same 3 words, so a ranking for that string is a stable fact you can report.</p><p>Prompts don&#39;t behave that way. Google says the average AI Mode search is <a href="https://blog.google/products-and-platforms/products/search/ai-mode-us-insights/" target="_blank" rel="noopener noreferrer">triple the length of a traditional search</a> (May 19, 2026). In a <a href="https://arxiv.org/abs/2506.05334" target="_blank" rel="noopener noreferrer">UC Berkeley study</a> of 24,069 conversations with search-enabled AI models, prompts averaged 57.1 words. Long, specific questions are rarely asked twice in the same words.</p><p>That has 2 consequences. The engines have little reason to report prompt strings, and so far none do for site owners. And when a prompt does reach a report, it is often too rare to show: Search Console&#39;s <a href="https://support.google.com/webmasters/answer/96568" target="_blank" rel="noopener noreferrer">Performance report documentation</a> says that &quot;to protect user privacy,&quot; it might not track &quot;some queries that are made a very small number of times.&quot;</p>
+      
       
       
       
@@ -175,6 +177,7 @@
       <h2>What each source can and can&#39;t tell you</h2>
       <p>Checked against each platform&#39;s documentation on Oct. 14, 2026. For a fuller tour of the free reports, see <a href="/search-console-bing-ga4-ai-reports/">what Search Console, Bing, GA4, and Merchant Center show</a>.</p>
       
+      
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Source</th><th>What it shows</th><th>What it doesn&#39;t</th></tr></thead>
               <tbody><tr><td><strong>Search Console generative AI report</strong></td><td>Impressions of your links in AI Overviews and AI Mode, by page, country, date, and device</td><td>Queries, clicks, or CTR</td></tr><tr><td><strong>Search Console Performance report</strong></td><td>Queries, including AI Mode queries and follow-ups, mixed in with ordinary searches</td><td>Which queries came from AI Mode or AI Overviews; very rare queries; more than 1,000 rows in the interface</td></tr><tr><td><strong>Bing Webmaster Tools AI Performance</strong></td><td>A sample of grounding queries (the phrases Copilot searched to find your pages), grouped into topics, plus opportunity queries where other sites are cited and yours isn&#39;t</td><td>The user&#39;s actual prompt; exact volumes in the new topic view; ChatGPT, Google, Claude, or Perplexity</td></tr><tr><td><strong>GA4 AI Assistant channel</strong></td><td>Landing pages for visits referred by recognized AI assistants</td><td>The question asked; anyone who read the answer and didn&#39;t click</td></tr><tr><td><strong>ChatGPT, Claude, Perplexity</strong></td><td>No public prompt or citation report for site owners</td><td>Everything; you see them only as referral visits</td></tr></tbody>
@@ -184,6 +187,7 @@
     <section class="seo-section">
       <h2>Step 1: Mine Search Console for conversational queries</h2>
       <p>Google confirms that AI Mode activity is in the standard Performance report. Its <a href="https://support.google.com/webmasters/answer/7042828" target="_blank" rel="noopener noreferrer">counting rules</a> say a follow-up question in AI Mode is &quot;essentially performing a new query,&quot; and John Mueller <a href="https://www.seroundtable.com/google-search-console-ai-mode-queries-41821.html" target="_blank" rel="noopener noreferrer">said in August 2026</a> that Search Console &quot;includes information on AI Overviews and AI Mode in the general performance report,&quot; when asked about rows such as &quot;yes, pricing&quot; in the queries table. There is no filter that separates them, but 3 regex filters on the Query dimension narrow the list to likely candidates. Search Console uses RE2 syntax; the (?i) prefix makes a pattern ignore case.</p>
+      
       <ul class="seo-list"><li><strong>Set aside automated probes first.</strong> Monitoring tools send scheduled queries to Google, and automated requests can register as impressions: when Google disabled a 100-results-per-page parameter in September 2025, many sites saw desktop impressions drop, and the working theory among SEOs was that bots loading those pages had partly inflated them (<a href="https://www.searchenginejournal.com/google-modifies-search-results-parameter-affecting-seo-tools/556080/" target="_blank" rel="noopener noreferrer">Search Engine Journal</a>). Sort the matches by clicks. A long, oddly specific question with steady impressions and no clicks over months is more likely a tool checking a brand than a buyer, and on a site with modest search traffic, probes can be most of what these filters return. If none of your long questions have clicks, lean on Step 3.</li><li><strong>Read them by page.</strong> Add the Page dimension and compare with the pages that show impressions in the generative AI report. A long question-form query landing on a page with AI impressions is a strong candidate.</li><li><strong>Group by intent.</strong> Rare queries are withheld, so the report shows the more common phrasings. Group what you find by the intent and persona behind it.</li><li><strong>Don&#39;t over-read a match.</strong> A 12-word question can be an ordinary search. The filters find candidates; testing in Step 4 decides what matters.</li></ul>
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Filter</th><th>Regex (Query → Custom (regex))</th><th>What it catches</th></tr></thead>
@@ -197,10 +201,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Step 3: Add the questions you already hear</h2>
       <p>The richest source of prompts isn&#39;t a search tool. It&#39;s the questions buyers already put to your team, in roughly the words they would type into an assistant.</p>
+      
       <ul class="seo-list"><li><strong>Sales calls and demos:</strong> the comparison and &quot;will it work for us&quot; questions asked before a deal.</li><li><strong>Support tickets and onboarding:</strong> the setup, integration, and limit questions people ask after buying, which other buyers ask AI before buying.</li><li><strong>Lost-deal and closed-won interviews:</strong> what the buyer was looking for, and which alternatives they considered.</li><li><strong>Public communities:</strong> the threads where your buyers ask each other for recommendations, and the reviews they leave.</li></ul>
       
       
@@ -208,6 +214,7 @@
     <section class="seo-section">
       <h2>Step 4: Rewrite, then test on the engines</h2>
       <p>Turn each candidate into a full question with the context a buyer would give: role, company size, constraint, and what they are comparing. Keep a mix of types: category questions asked before the buyer knows your name, comparison and use-case questions, and a few branded questions to check accuracy. <a href="/ai-search-prompt-set/">AI search prompt set</a> covers the 7 prompt types worth including.</p>
+      
       
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Where it came from</th><th>Raw signal</th><th>Candidate prompt</th></tr></thead>
@@ -221,6 +228,7 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Step 5: Keep the set current</h2>
@@ -228,10 +236,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>What to skip</h2>
       <p>Four shortcuts look tempting and mislead.</p>
+      
       <ul class="seo-list"><li><strong>Asking an assistant which prompts it mentions you for.</strong> It has no access to other people&#39;s conversations, so its answer is a guess.</li><li><strong>Ranking by prompt volume alone.</strong> Volume figures for prompts are modeled from other signals. Use them to prioritize intents alongside persona fit and buyer value, as long as the method is disclosed.</li><li><strong>Tracking only branded prompts.</strong> They almost always name you and tell you little about discovery.</li><li><strong>Deciding from one run.</strong> A single answer is one draw; read a prompt over several runs.</li></ul>
       
       
@@ -242,6 +252,7 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>How SolCrys helps</h2>
@@ -249,10 +260,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>What we don&#39;t claim</h2>
       <p>The regex filters find candidates, not proof that a query came from an AI feature; Google provides no way to tell them apart. The reports show phrasings that already reach you; a prompt set measures the intents and personas behind them, so the two work together. And the platform details above are as of Oct. 14, 2026; check each platform&#39;s documentation before relying on them.</p>
+      
       
       
       
@@ -391,6 +404,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

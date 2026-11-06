@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/answer-accuracy-coverage-gap.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/answer-accuracy-coverage-gap.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>“All green” is a claim about coverage, not about correctness</h2>
       <p>When an accuracy dashboard shows every graded answer passing, it is tempting to read that as &quot;AI is getting us right.&quot; It isn&#39;t saying that. It&#39;s saying: <strong>of the questions we checked, against the facts recorded in our source of truth, nothing deviated.</strong> Those two qualifiers — which questions, which facts — are the entire story. A green board with thin coverage and a thin source of truth is the most dangerous report you can hand a CMO, because it converts an unmeasured risk into false confidence.</p><p>There are two distinct coverage gaps, and they fail in different directions. One is about <strong>breadth</strong> — how many of your buyers&#39; real questions you actually grade. The other is about <strong>depth</strong> — how completely your source of truth describes what a correct answer must and must not contain. You can have perfect breadth and still pass wrong answers if your context is thin; you can have a deep, airtight context and still miss disasters if you only grade three questions. Both have to be closed.</p>
+      
       
       
       
@@ -174,6 +176,7 @@
     <section class="seo-section">
       <h2>Gap 1: Breadth — the questions you never graded are the ones that hurt</h2>
       <p>A real buyer doesn&#39;t ask one question before choosing in your category. They ask a cluster: what does this company do, how does it compare to the alternatives, what does it cost, is it any good for my use case, is it secure, who already uses it, what&#39;s the catch. Each of those is a separate prompt, answered separately, on each engine. Grade five of them and leave the rest, and you&#39;ve inspected maybe a tenth of the surface where an engine forms an opinion about you.</p><p>The ungraded questions are not safe by default. They&#39;re simply unmeasured. An engine can quote a retired price on the pricing question, invent a compliance certification on the security question, or recommend a competitor by name on the comparison question — and your accuracy report, which only watched the five questions you chose, stays green the whole time. The blind spot isn&#39;t a known risk you&#39;ve accepted; it&#39;s a risk you can&#39;t see, which is worse, because you can&#39;t triage what you can&#39;t observe.</p><p><strong>Illustrative scenario only.</strong> Picture a mid-market data-warehouse vendor — call it Northwind — that grades the three questions its team cares about most: &quot;what is Northwind,&quot; &quot;is Northwind reliable,&quot; and &quot;Northwind vs Snowflake.&quot; All three pass. Meanwhile the question that actually decides deals in its segment — &quot;best data warehouse for regulated healthcare data&quot; — never gets graded, and on that prompt the engines describe Northwind as consumer-grade and route the buyer to Snowflake and Databricks. Northwind&#39;s dashboard is green. Northwind is losing the deal inside an answer it never inspected. The numbers here are invented to illustrate the mechanism, not a measured result.</p><p>The fix for the breadth gap is not &quot;grade everything&quot; — that&#39;s both impractical and, on the lowest-stakes long-tail questions, not worth the effort. The fix is to <strong>grade the questions that move deals first, then widen coverage deliberately over time.</strong> Three rules make that concrete:</p>
+      
       <ul class="seo-list"><li><strong>Rank by stakes, not by volume.</strong> The question a buyer asks right before they choose — pricing, the head-to-head comparison, the &quot;is it good for my exact use case&quot; — is worth more than a high-traffic definitional question you&#39;ll always pass. Start where being wrong is most expensive.</li><li><strong>Include the questions where you&#39;re most likely to be misrepresented</strong>, not just the ones you&#39;re confident you win. A comparison prompt and a &quot;what are the limitations of X&quot; prompt are where dropped claims and competitor substitution live. Coverage that only watches your safe questions is coverage theater.</li><li><strong>Treat the prompt set as a living thing.</strong> Buyer language shifts, new comparisons emerge, you launch into a new segment. Coverage that was right last quarter has holes this quarter. Widening the graded set is ongoing work, not a one-time setup.</li></ul>
       
       
@@ -184,10 +187,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Gap 2: Depth — silence is not prohibition</h2>
       <p>The breadth gap is the obvious one. The depth gap is the one that quietly invalidates a green report even when your coverage is wide, and it&#39;s worth slowing down for.</p><p>An accuracy check works by comparison. It holds the engine&#39;s answer against your source of truth and flags where they diverge: a claim your truth says must appear but didn&#39;t (a dropped claim), a claim your truth says must never appear but did (a prohibited or fabricated claim), a fact that contradicts your canonical record. That&#39;s a powerful mechanism — but notice its hard limit. <strong>It can only catch a deviation from something your source of truth actually records.</strong> Where your grounding truth is silent, there&#39;s nothing to compare against, so there&#39;s nothing to catch.</p><p>This is the trap, stated plainly: <strong>silence is not prohibition.</strong> If your Corporate Context never recorded that you do <strong>not</strong> hold a particular certification, and an engine confidently claims you do, the check has no prohibited-claim rule to fire — your truth never said the claim was forbidden, so the fabrication sails through as a pass. If your context never recorded that a specific differentiator <strong>must</strong> appear in any fair description of you, the check can&#39;t flag its absence as a dropped claim — it isn&#39;t required by anything the context records. The answer is wrong by omission or by fabrication, and the grade is green, because the grade is only as complete as the truth behind it.</p><p>A thin context produces <strong>falsely reassuring &quot;all green.&quot;</strong> The shallower your source of truth, the fewer rules the check has to test against, the easier it is to pass — and the more passing means nothing. This is the precise inverse of how it should feel. A deep, complete grounding truth makes the check <strong>harder</strong> to pass, because there&#39;s more it can catch; that difficulty is the check doing its job. An empty context passes everything, perfectly, and tells you nothing.</p><p><strong>Illustrative scenario only.</strong> Stay with Northwind. Its Corporate Context lists the product name, the founding year, and two headline features. Every graded answer passes. But the context never captured that Northwind is <strong>not</strong> SOC 2 Type II certified yet, never recorded that its real differentiator is sub-second query latency, and never marked a competitor&#39;s trademarked feature name as a prohibited claim. So when an engine asserts Northwind is &quot;SOC 2 certified&quot; (it isn&#39;t), describes it as &quot;comparable on latency to legacy tools&quot; (it&#39;s faster), and attributes a competitor&#39;s branded capability to it, all three answers pass the accuracy check — because Northwind&#39;s truth was silent on all three. Green board, three material errors live in the answers buyers read. Again, invented to show the mechanism.</p><p>The fix for the depth gap is a <strong>deeper, more complete source of truth</strong> — one that doesn&#39;t just say what you are, but explicitly records what must be claimed, what must never be claimed, what&#39;s been retired, and where the easy-to-confuse edges are (the competitor whose features get attributed to you, the certification you don&#39;t yet hold, the price you stopped offering). The work is unglamorous and it is the whole game: an accuracy check grades against your truth, so the quality of your truth is the ceiling on the quality of every grade. We go deep on this in the parallel piece on <a href="/grounding-depth-ai-brand-accuracy/">grounding depth</a>.</p>
+      
       
       
       
@@ -198,10 +203,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Where this fits: Measure → Diagnose → Execute → Verify</h2>
       <p>SolCrys runs on one loop — <strong>Measure → Diagnose → Execute → Verify</strong> — and both coverage gaps map onto it.</p>
+      
       <ul class="seo-list"><li><strong>Measure</strong> is where breadth lives. Measuring &quot;are we mentioned correctly?&quot; is only as wide as the prompt set you measure. Expanding to the highest-stakes buyer questions <strong>is</strong> widening Measure.</li><li><strong>Diagnose</strong> is where depth lives. When an answer fails, the failure type — a dropped required claim, a prohibited claim asserted, a contradiction of a canonical fact — points at the fix. But Diagnose can only name a failure your Corporate Context defined. A silent context produces no diagnoses, not because nothing&#39;s wrong, but because nothing was specified to check. Deepening the context is what gives Diagnose something to find.</li><li><strong>Execute</strong> is the content, source-layer, or page fix the diagnosis points to — governed and human-approved, never auto-published.</li><li><strong>Verify</strong> retests the same frozen prompts after the fix and shows whether the verdict flipped from fail to pass. No promise of lift — just the same test, run again, proving whether the fix reached the answer.</li></ul>
       
       
@@ -212,10 +219,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>What to do this week</h2>
       <p>You don&#39;t need a platform to find your blind spots. You need an hour, your real buyer questions, and an honest look at your source of truth.</p>
+      
       <ul class="seo-list"><li><strong>List the 10–15 questions a buyer actually asks before choosing</strong> in your category — and rank them by how much it costs you to be wrong on each. Grade the top of that list first.</li><li><strong>Deliberately include the questions you&#39;re afraid of</strong> — the head-to-head comparison, the &quot;limitations of X,&quot; the use-case fit for your hardest segment — not just the ones you expect to win.</li><li><strong>Ask each in all five engines</strong> (ChatGPT, Gemini, Perplexity, Google AI Overviews, and Claude) and hold the answer against your real, current facts.</li><li><strong>Write down what&#39;s missing from your source of truth.</strong> Every time an answer is wrong in a way your context never anticipated, that&#39;s a gap in your truth, not just in the answer. Record the required claim, the prohibited claim, the retired fact, the easy-to-confuse edge. That single list is the start of a deeper context.</li><li><strong>Retest after you fix the source or the page.</strong> If the answer didn&#39;t move, the fix didn&#39;t reach the retrieval layer.</li></ul>
       
       
@@ -226,10 +235,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>See where you stand</h2>
       <p>Start with your baseline. <a href="https://app.solcrys.com/audit">Start Free</a> (free, no credit card) and SolCrys will show you where ChatGPT mentions you, which sources it cites, and where you&#39;re missing from the answers your buyers ask. Answer Accuracy is included on Pro (up to 15 prompts) and Custom (every prompt) — if grading those answers against your own grounding truth, on the questions that move your deals, is the problem you&#39;re solving, <a href="https://app.solcrys.com/contact-sales/">talk to sales</a> about a managed Corporate Context if you want the truth built out for you.</p><p>A green report should mean you&#39;re getting it right. It only does when you&#39;ve graded the questions that matter, against a truth deep enough to catch the ways you can be wrong. Coverage is the difference.</p>
+      
       
       
       
@@ -331,6 +342,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

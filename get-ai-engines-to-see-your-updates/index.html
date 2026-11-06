@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/get-ai-engines-to-see-your-updates.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/get-ai-engines-to-see-your-updates.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Why an update is a different problem from a new page</h2>
       <p>In answer engine optimization (AEO), the work that changes an answer is often an edit: correcting a wrong fact, adding a comparison, or refreshing a price. Often an engine already knows those pages, so the update needs to be refetched, not discovered. If the wrong fact sits on someone else&#39;s page, start there; <a href="/fix-wrong-fact-in-ai-answer/">How to fix a wrong fact in an AI answer</a> shows how to find the source.</p><p>For Google, the copy that counts is the indexed one. Google&#39;s <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">guide to its generative AI features</a> says they retrieve &quot;relevant, up-to-date web pages from our Search index.&quot; ChatGPT, Perplexity, and Claude run their own search crawlers, and each also documents a fetcher that may read a page live when a user asks. Those live reads happen only when a user&#39;s question triggers one, so you can&#39;t count on them; get each engine&#39;s stored copy refreshed.</p>
+      
       
       
       
@@ -175,6 +177,7 @@
       <h2>How each engine learns about a changed page</h2>
       <p>Of the engines below, only Bing takes an automated push for ordinary pages. Google&#39;s closest equivalent, Request indexing in URL Inspection, is manual and has a daily limit. This is what each vendor documents, as of Oct. 18, 2026.</p>
       
+      
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Engine</th><th>How it finds and refreshes pages (documented)</th><th>What you can do</th></tr></thead>
               <tbody><tr><td><strong>Google AI Overviews and Gemini</strong></td><td>Google&#39;s AI features retrieve from Google&#39;s Search index, and grounding in the Gemini app uses the same index. Googlebot decides &quot;which sites to crawl, how often,&quot; and Google uses accurate lastmod dates &quot;as a signal for scheduling crawls.&quot;</td><td>Keep lastmod accurate, link the page internally, and request indexing in URL Inspection for key URLs.</td></tr><tr><td><strong>ChatGPT</strong> (OAI-SearchBot)</td><td>OAI-SearchBot &quot;is used to surface websites in search results in ChatGPT&#39;s search features.&quot; OpenAI&#39;s crawler and search help pages describe no IndexNow support, sitemap use, or URL submission.</td><td>Allow OAI-SearchBot and OpenAI&#39;s published IP ranges.</td></tr><tr><td><strong>Perplexity</strong> (PerplexityBot)</td><td>PerplexityBot &quot;is designed to surface and link websites in search results on Perplexity.&quot; Its crawler docs describe no IndexNow support or URL submission.</td><td>Allow PerplexityBot and Perplexity&#39;s published IP ranges.</td></tr><tr><td><strong>Claude</strong> (Claude-SearchBot)</td><td>Claude-SearchBot &quot;navigates the web to improve search result quality,&quot; and blocking it &quot;prevents our system from indexing your content for search optimization.&quot; Anthropic&#39;s crawler docs describe no IndexNow support or URL submission.</td><td>Allow Claude-SearchBot in robots.txt.</td></tr><tr><td><strong>Bing</strong>, which feeds Microsoft Copilot</td><td>Takes IndexNow. Bing rereads sitemaps &quot;typically at least once per day&quot; and uses lastmod to &quot;prioritize URLs for recrawling and reindexing.&quot; Microsoft says Bing&#39;s crawling and indexing serve &quot;AI-powered experiences like Copilot.&quot;</td><td>Turn on IndexNow, submit a sitemap in Bing Webmaster Tools, and check IndexNow Insights.</td></tr></tbody>
@@ -184,6 +187,7 @@
     <section class="seo-section">
       <h2>IndexNow: the push channel</h2>
       <p>IndexNow is an open protocol for telling search engines that a URL was &quot;added, updated, or deleted.&quot; You notify 1 participating engine, and participants &quot;agree that submitted URLs will be automatically shared with all other participating search engines.&quot; The protocol&#39;s site, indexnow.org, names Microsoft Bing, Naver, Seznam.cz, Yandex, and Yep as supporters and lists an Amazon endpoint. Google isn&#39;t on the list, and its own recrawl guidance names URL Inspection and sitemaps instead.</p><p>IndexNow is a notice, not a command. A successful response &quot;only indicates that the search engine has received your URL,&quot; and Bing says IndexNow &quot;does not guarantee that web pages will be crawled or indexed.&quot; It guarantees no ranking or citation either. Submissions also count toward your crawl quota, so send only pages whose content changed.</p><p>Turning it on is usually a setting, not a project.</p>
+      
       <ul class="seo-list"><li><strong>Check your CMS first.</strong> The IndexNow FAQ&#39;s first step is to check whether your content management system (CMS) or host already supports it; Microsoft notes many CMSs and content delivery networks (CDNs) &quot;already offer built-in support.&quot;</li><li><strong>On Cloudflare, turn on Crawler Hints.</strong> Cloudflare&#39;s Crawler Hints &quot;supports IndexNow&quot; on every plan, Free included. It judges from cache misses when content &quot;has likely been updated,&quot; so confirm the page you fixed shows up in Bing&#39;s report.</li><li><strong>Otherwise, add 1 request after publishing.</strong> A developer hosts a key in a small text file at the site&#39;s root, which proves the site is yours, and adds a step that sends each changed URL to 1 endpoint. One request can carry up to 10,000 URLs.</li><li><strong>Send real changes only.</strong> Skip cosmetic and layout-only edits, and wait at least 5 minutes before resubmitting the same URL.</li></ul>
       
       
@@ -191,6 +195,7 @@
     <section class="seo-section">
       <h2>The pull side: make updates easy to find</h2>
       <p>For the engines that don&#39;t take IndexNow, make the updated page easy to find and recrawl. These habits help Bing too.</p>
+      
       <ul class="seo-list"><li><strong>Keep lastmod honest.</strong> Google uses sitemap lastmod dates only when they&#39;re &quot;consistently and verifiably&quot; accurate, and the date should reflect &quot;the last significant update&quot;: main content, structured data, or links, not a new copyright year. Bing uses lastmod to prioritize recrawls. A sitemap that stamps today&#39;s date on every URL teaches both engines to distrust it.</li><li><strong>Link the page from pages crawlers already visit.</strong> Google discovers pages by following links from pages it already knows; its example is a category page linking to a new post. Link a corrected pricing or comparison page from your product, hub, or changelog pages.</li><li><strong>Don&#39;t block the search crawlers.</strong> Allow Googlebot, Bingbot, OAI-SearchBot, PerplexityBot, and Claude-SearchBot in robots.txt and at your CDN or firewall. The <a href="/ai-crawler-access-search-agent-training/">AI crawler access guide</a> covers what blocking each one costs.</li><li><strong>Request indexing for the few URLs that matter.</strong> URL Inspection in Search Console can send a page to Google&#39;s indexing queue. There&#39;s a daily limit, asking again &quot;won&#39;t get it crawled any faster,&quot; and a request &quot;does not guarantee that the page will appear in the Google Index.&quot; For many pages, submit the sitemap.</li><li><strong>Keep the URL stable.</strong> Update the page in place. A corrected copy at a new URL starts from scratch while the old one keeps serving the outdated version. If you must move it, redirect permanently, which Google calls &quot;a strong signal that the target of the redirect should become canonical.&quot;</li><li><strong>Put the facts in the HTML your server sends.</strong> Google renders JavaScript, though pages can wait in a rendering queue, and it notes that &quot;not all bots can run JavaScript.&quot; OpenAI, Perplexity, and Anthropic don&#39;t say whether their crawlers do, so don&#39;t rely on a script to show a corrected price. The <a href="/ai-crawler-answer-readiness/">AI crawler and answer readiness checklist</a> covers the rest.</li></ul>
       
       
@@ -198,6 +203,7 @@
     <section class="seo-section">
       <h2>Check that it&#39;s working</h2>
       <p>Read each engine&#39;s record, not your deploy log. A successful deploy proves the page is live, not that any engine was told. The notification can fail on its own: an IndexNow endpoint returns 403 when it can&#39;t validate your key and 429 when you send too much, and the deploy still shows success unless the build fails on those codes. Log every response code, as the IndexNow FAQ advises.</p>
+      
       <ul class="seo-list"><li><strong>Bing Webmaster Tools.</strong> The IndexNow Insights report counts URLs submitted, crawled, and indexed, and lists your latest 1,000 submitted URLs with their index status, and shows where submissions came from, such as Cloudflare or a CMS. If you submitted only a few URLs and the fixed one isn&#39;t there, treat the notice as undelivered. The list holds only the latest 1,000, so after a large batch, confirm delivery from your submission log and the response code instead.</li><li><strong>Search Console.</strong> In URL Inspection, Last crawl shows &quot;the last time this page was crawled by Google.&quot; If that date is before your fix, Google hasn&#39;t seen it.</li><li><strong>Server logs.</strong> Look for the search crawlers above requesting the updated URL. Check that they&#39;re genuine: Google documents how to verify its crawlers, and OpenAI, Perplexity, and Anthropic publish their crawlers&#39; IP addresses.</li></ul>
       
       
@@ -208,10 +214,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>How SolCrys fits</h2>
       <p>SolCrys runs that last step inside its loop: Measure → Diagnose → Execute → Verify. Measure shows how each engine answers your buyer prompts and which sources it cites, Diagnose shows which prompts you lose and which sources win them, and your team approves and publishes the fix. Verify then reruns the same frozen prompts on ChatGPT, and on Gemini, Google AI Overviews, Perplexity, and Claude on paid plans, to show for each engine whether the answer moved and held.</p><p>IndexNow and sitemaps tell engines the page changed; SolCrys shows whether the answer did. To see how ChatGPT answers your buyer questions now, <a href="https://app.solcrys.com/audit">Start Free</a>: free, no credit card.</p>
+      
       
       
       
@@ -345,6 +353,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Can AI Agents Use Your Website? 3 Gates | SolCrys</title>
+    <meta name="description" content="Allowing AI crawlers in robots.txt isn&#39;t enough. An AI agent also has to get past your bot protection and be able to read your facts. How to test all three gates." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/can-ai-agents-use-your-website/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-11-05" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Can AI Agents Use Your Website? 3 Gates | SolCrys" />
+    <meta property="og:description" content="Allowing AI crawlers in robots.txt isn&#39;t enough. An AI agent also has to get past your bot protection and be able to read your facts. How to test all three gates." />
+    <meta property="og:url" content="https://solcrys.com/can-ai-agents-use-your-website/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-11-05" />
+    <meta property="article:modified_time" content="2026-11-05" />
+    <meta property="og:image" content="https://solcrys.com/og/can-ai-agents-use-your-website.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/can-ai-agents-use-your-website.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Can AI Agents Use Your Website? Three Gates to Check","item":"https://solcrys.com/can-ai-agents-use-your-website/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Can AI agents use your website? Three gates to check","description":"Allowing AI crawlers in robots.txt isn't enough. An AI agent also has to get past your bot protection and be able to read your facts. How to test all three gates.","dateModified":"2026-11-05","datePublished":"2026-11-05","mainEntityOfPage":"https://solcrys.com/can-ai-agents-use-your-website/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/can-ai-agents-use-your-website/","mainEntity":[{"@type":"Question","name":"Is it OK to test my site with an AI crawler's user agent?","acceptedAnswer":{"@type":"Answer","text":"On your own site, yes, if you keep it slow, as the script does. Don't point it at sites you don't own."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <a href="/#features">Platform</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Technical Readiness</p>
+        <h1>Can AI agents use your website? Three gates to check</h1>
+        <p class="seo-lede">Allowing AI crawlers in robots.txt doesn&#39;t mean an AI agent can use your site. This guide covers the three checks that decide it, and how to run each one on your own pages.</p>
+        
+        <p>Updated <time datetime="2026-11-05">2026-11-05</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Can AI agents use my website?</li><li>My robots.txt allows AI crawlers. Why can an AI agent still be blocked?</li><li>Do AI crawlers and AI agents run JavaScript?</li><li>How do I test my website the way an AI agent sees it?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>An AI agent can use your website only if it gets through three gates. <strong>Gate 1, rules:</strong> what your robots.txt says to the agent&#39;s name. <strong>Gate 2, walls:</strong> what your CDN or bot protection does when the request arrives. <strong>Gate 3, sight:</strong> whether the agent can read your facts once it&#39;s in: in the HTML your server sends, for crawlers that don&#39;t run JavaScript, and in the accessibility tree, the page outline screen readers also use, for browsing agents that do.</p><p>If your robots.txt already allows AI crawlers, start with gates 2 and 3. Each gate is usually owned by a different team, so passing one says nothing about the next.</p>
+      <figure class="seo-figure"><a href="/figures/can-ai-agents-use-your-website-three-gates.png" target="_blank" rel="noopener noreferrer"><img src="/figures/can-ai-agents-use-your-website-three-gates.png" alt="Diagram of an AI agent passing three gates on the way to an answer, with a test for each. Gate 1, robots.txt: does it name the agent and let it in? OpenAI and Perplexity say their user-triggered fetchers may not follow robots.txt. Gate 2, CDN and bot protection: does it let the request through? Blend&#39;s audit found 29 of 200 retailers refused an AI shopping agent; all 24 of those whose robots.txt it could read allow the ChatGPT, Perplexity and Claude search crawlers. Gate 3, what the agent can read: are your facts there, with JavaScript or without? Vercel and MERJ found that the major AI crawlers didn&#39;t render JavaScript, apart from Gemini and Applebot, and Meta&#39;s Muse reads the accessibility tree. Microsoft Clarity reports weekly AI-agent sessions nearly doubled in three weeks to almost 2 million." width="1600" height="900" loading="lazy" /></a><figcaption>The three gates, how to test each, and the dated third-party findings cited in this guide.</figcaption></figure>
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Why this matters now</h2>
+      <p>On Nov. 4, 2026, <a href="https://clarity.microsoft.com/blog/clarity-connects-agents-LLMs-people/" target="_blank" rel="noopener noreferrer">Microsoft Clarity</a> added an Agent Activity view and tests of whether an agent can finish a task on your site, and wrote that &quot;weekly sessions from AI agents nearly doubled in three weeks to almost 2 million.&quot;</p>
+      
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Gate 1: rules (robots.txt)</h2>
+      <p>Robots.txt is matched by name, so it governs only the agents that announce one, and not every agent follows it: OpenAI says robots.txt rules &quot;may not apply&quot; to ChatGPT-User, its user-triggered fetcher, and Perplexity says Perplexity-User &quot;generally ignores&quot; them. Robots.txt states your intent to named crawlers; it isn&#39;t access control, and <a href="/ai-crawler-access-search-agent-training/">Search, agent, or training?</a> covers which tokens to allow. To check this gate:</p>
+      
+      <ul class="seo-list"><li>List each agent you care about by its token, and mark it search, user-triggered, or training.</li><li>Give each one its own group, or know what your <code>*</code> group gives it.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Gate 2: walls (bot protection and the CDN)</h2>
+      <p>Your CDN, firewall, or bot manager decides on every request, whatever robots.txt says, by name, IP range, behavior, or browser fingerprint. Cloudflare, for example, sets Search, Agent, and Training separately and keeps a list of <a href="https://developers.cloudflare.com/bots/concepts/bot/verified-bots/" target="_blank" rel="noopener noreferrer">verified bots</a>; a verified bot &quot;obeys robots.txt and crawl directives, maintains reasonable request rates, and has not been observed evading website owner preferences.&quot;</p><p>The two can disagree. In a Sept. 8–15, 2026 test, Blend sent an unmodified Chromium browser that named its audit to 200 UK and US retailers, and 29 refused it (14.5%). Blend could read robots.txt for 24 of the 29, and <a href="https://ppc.land/bot-protection-blocks-blends-ai-shopping-agent-at-29-of-200-retailers/" target="_blank" rel="noopener noreferrer">according to PPC Land</a>, &quot;every one of the 24 allows the search crawlers from ChatGPT, Perplexity and Claude.&quot; Blend sells conversion audits, so read this as evidence that the gap exists, not as a market-wide rate.</p><p>A test request carries the agent&#39;s name but not its IP address, so it shows what the wall does with the name; your bot manager&#39;s logs show what it does with the real crawler. To check this gate:</p>
+      
+      <ul class="seo-list"><li>Request each key page with each agent&#39;s published user agent and with a browser&#39;s.</li><li>Record the status, redirects, size, and any challenge page. A 403, 429, 503, or challenge the browser didn&#39;t get is the wall.</li><li>Make your bot manager&#39;s AI and verified-bot settings say what robots.txt says.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Gate 3: sight (what the agent can read)</h2>
+      <p>An agent that gets a 200 can still miss your facts. Google renders JavaScript but <a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener noreferrer">notes</a> that &quot;not all bots can run JavaScript.&quot; <a href="https://vercel.com/blog/the-rise-of-the-ai-crawler" target="_blank" rel="noopener noreferrer">Vercel and MERJ</a> found in December 2024 that &quot;none of the major AI crawlers currently render JavaScript,&quot; apart from Gemini (through Googlebot) and Applebot.</p><p>Browsing agents do run the page, and some read its <a href="/agent-readiness-third-audience/">accessibility tree</a>: Meta says the browsing sub-agent in Muse &quot;sees an accessibility tree snapshot of the page, not the raw DOM,&quot; <a href="https://www.searchenginejournal.com/personal-ai-agents-meta-muse-openai-dots-seo/592530/" target="_blank" rel="noopener noreferrer">Search Engine Journal reported on Oct. 20, 2026</a>.</p><p>To check this gate, load each page twice in a headless browser, once with JavaScript off and once with it on, and dump the accessibility tree both ways. Then confirm:</p>
+      
+      <ul class="seo-list"><li>Every price, plan name, number, and claim is in the server HTML as text, along with your JSON-LD. Numbers that read 0 or are blank without JavaScript are a common miss; <a href="/animated-counters-ai-crawlers/">count-up counters do this</a>.</li><li>Each fact has one copy, or every copy is generated from one source. Hand-kept copies drift apart, which is what a <a href="/website-consistency-audit-ai-answers/">consistency audit</a> looks for.</li><li>The accessibility tree carries the same facts as the page people see.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Run the check yourself</h2>
+      <p>Start with the pages that carry your facts: home, pricing, product, and About. The script <a href="/tools/check_agent_gates.py">check_agent_gates.py</a> (Python, with requests and Playwright) runs all three gates. Point it at your pages with <code>--pages</code>, and list the facts each must carry with <code>--facts</code>. It spaces its page requests two seconds apart and saves the raw HTML, the text with and without JavaScript, both accessibility trees, and a results file. Rerun it after every change to robots.txt, the CDN, or page templates.</p><p>One limit: Anthropic publishes its agents&#39; names but not full user-agent strings, so the script sends those names in a minimal string.</p><p>For gate 3, a SolCrys <a href="/solcrys-content-audit-report/">Content Audit</a> reads the page the way a crawler does, runs a fixed set of checks, and turns every failed or partial check into a specific edit.</p>
+      
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://ppc.land/bot-protection-blocks-blends-ai-shopping-agent-at-29-of-200-retailers/" target="_blank" rel="noopener noreferrer">PPC Land: Bot protection blocks Blend&#39;s AI shopping agent at 29 of 200 retailers (Nov. 5, 2026)</a></li><li><a href="https://clarity.microsoft.com/blog/clarity-connects-agents-LLMs-people/" target="_blank" rel="noopener noreferrer">Microsoft Clarity blog: Clarity connects agents, LLMs, and people (Nov. 4, 2026)</a></li><li><a href="https://www.searchenginejournal.com/personal-ai-agents-meta-muse-openai-dots-seo/592530/" target="_blank" rel="noopener noreferrer">Search Engine Journal: personal AI agents and what they read (Oct. 20, 2026)</a></li><li><a href="https://developers.openai.com/api/docs/bots" target="_blank" rel="noopener noreferrer">OpenAI: Overview of OpenAI crawlers (GPTBot, OAI-SearchBot, ChatGPT-User)</a></li><li><a href="https://support.claude.com/en/articles/8896518" target="_blank" rel="noopener noreferrer">Anthropic: how Anthropic&#39;s bots crawl the web (ClaudeBot, Claude-SearchBot, Claude-User)</a></li><li><a href="https://docs.perplexity.ai/guides/bots" target="_blank" rel="noopener noreferrer">Perplexity: Perplexity crawlers (PerplexityBot, Perplexity-User)</a></li><li><a href="https://developers.cloudflare.com/bots/concepts/bot/verified-bots/" target="_blank" rel="noopener noreferrer">Cloudflare: Verified bots</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener noreferrer">Google Search Central: Understand JavaScript SEO basics (&quot;not all bots can run JavaScript&quot;)</a></li><li><a href="https://vercel.com/blog/the-rise-of-the-ai-crawler" target="_blank" rel="noopener noreferrer">Vercel: The rise of the AI crawler, with MERJ (Dec. 17, 2024)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is it OK to test my site with an AI crawler&#39;s user agent?</h3>
+            <p>On your own site, yes, if you keep it slow, as the script does. Don&#39;t point it at sites you don&#39;t own.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-access-search-agent-training/">Search, Agent, or Training? How to Set AI Crawler Access in 2026 Without Blocking Your Own Citations</a></h3>
+            <p>Which AI crawlers to allow, what Cloudflare&#39;s Sept. 15, 2026 rules changed, and how to block AI training without losing your AI citations.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/animated-counters-ai-crawlers/">Animated Stat Counters Can Read 0 to AI Crawlers: How to Check and Fix Them</a></h3>
+            <p>Elementor, Divi, and Kubio counters put a 0 or an empty slot in the HTML and fill in the real number with JavaScript. How to check a page and fix each builder.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/ai-crawler-answer-readiness/">AI Crawler and Answer Readiness Checklist</a></h3>
+            <p>A practical checklist for making website content crawlable, indexable, structured, and answer-ready for AI search and answer engines.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/website-consistency-audit-ai-answers/">Your Own Pages Disagree, and AI Repeats It: Run a Consistency Audit Before AEO</a></h3>
+            <p>When your homepage, FAQ, help center, and press releases disagree, AI answers can repeat either version. How to audit and fix your own pages first.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/solcrys-content-audit-report/">What a SolCrys Content Audit Looks Like</a></h3>
+            <p>What a SolCrys Content Audit checks on one URL, how the score and recoverable points work, and how a fix is promoted, published, and re-audited.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Technical Readiness</p>
+            <h3><a href="/get-ai-engines-to-see-your-updates/">How to Get AI Engines to See Your Updates Faster</a></h3>
+            <p>An AI answer can&#39;t reflect your update until the engine refetches the page. How Google, ChatGPT, Perplexity, Claude, and Bing find changes, what IndexNow does, and how to check.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/agent-readiness-third-audience/">Your Website Has a Third Audience Now — Agents</a></h3>
+            <p>AI agents are a third audience for your website — alongside humans and search crawlers. Eason Wang on what changes for product UX when agents see what humans can&#39;t, and miss what humans take for granted.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed content, citation, and marketplace actions they can approve, ship, and verify.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
+  </body>
+</html>

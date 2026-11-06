@@ -109,7 +109,7 @@
     <meta property="og:image" content="https://solcrys.com/og/aeo-platforms-with-closed-loop-execution.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://solcrys.com/og/aeo-platforms-with-closed-loop-execution.png" />
-    <link rel="stylesheet" crossorigin href="/assets/index-tgay22kv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-w1Vvs_DT.css">
     <!-- analytics:start -->
     <link rel="stylesheet" href="/analytics-consent.css" />
     <script src="/analytics-consent.js" defer></script>
@@ -160,10 +160,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>Why we wrote this guide</h2>
       <p>A separate SolCrys resource, <a href="/ai-visibility-dashboard-vs-aeo-execution-engine/">AI Visibility Dashboard vs AEO Execution Engine</a>, explains the architectural split between dashboards and execution engines and which one matches your team&#39;s bottleneck. That piece is the framework.</p><p>This article is the vendor-by-vendor scorecard. We grade 9 platforms across the 4 steps of a closed loop and call out, for each, exactly where its loop opens up. Because we operate one of the platforms in the table, we grade ourselves under the same rubric as everyone else. The previous edition of this page, from June 2026, said almost nobody verified fixes. That is no longer true, and we&#39;ve rewritten the page to say so.</p>
+      
       
       
       
@@ -174,6 +176,7 @@
     <section class="seo-section">
       <h2>What “closed loop” actually means</h2>
       <p>The phrase &quot;closed loop&quot; is overused by AEO vendors. To make it usable, we break it into 4 discrete steps and grade each separately. A platform that ships 3 of the 4 is not closed-loop; it&#39;s an open loop with a longer first stage.</p>
+      
       
       
       
@@ -202,6 +205,7 @@
       <h2>At a glance: engines tracked, pricing, and execution model</h2>
       <p>The fastest way to compare closed-loop AEO platforms is on 3 things: how many answer engines they track, what they cost to start, and what execution means for each. Every figure below comes from the vendor&#39;s own pricing, product, or documentation pages as of September 2026; prices and engine lists change often, so confirm on the vendor&#39;s site before you buy.</p><p>The column that matters most is the last one: who holds write access. A platform can push into your CMS, serve changed content to AI crawlers at the edge, or hand an approved task to your team, and each is a different governance decision.</p>
       
+      
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Platform</th><th>Answer engines</th><th>Entry price</th><th>Execution model</th></tr></thead>
               <tbody><tr><td><strong>Profound</strong></td><td>Up to 9 (Enterprise); 3 on Trial</td><td>Free trial; paid plans are Enterprise, custom</td><td>Agents draft and push into about 10 CMSs, as draft or publish; an approval step precedes publishing</td></tr><tr><td><strong>AirOps</strong></td><td>8 (plan-dependent)</td><td>Not published; free start, Enterprise custom</td><td>Workflows draft, refresh, and publish into 13 CMSs, as draft or live; human review is an optional step</td></tr><tr><td><strong>Conductor</strong></td><td>8</td><td>Not published; 3-week free trial</td><td>Creator drafts review-ready content; no native CMS publishing (Optimizely&#39;s partner agents publish in Optimizely CMS)</td></tr><tr><td><strong>Adobe Brand Visibility</strong></td><td>&quot;Ten LLM families&quot;</td><td>Sales-only; trial for some Adobe customers</td><td>Generates fixes and deploys them to AI agents at the CDN edge, with preview, edit, and rollback; origin CMS unchanged</td></tr><tr><td><strong>Scrunch</strong> (a Sitecore company)</td><td>9 (Enterprise); 4 on Core</td><td>$250/mo (Core); Enterprise custom</td><td>Optimizer rewrites pages; you publish in your CMS, or AXP serves AI-optimized versions to agents at the edge (Enterprise)</td></tr><tr><td><strong>Peec AI</strong></td><td>3 chosen on self-serve plans; up to 13 (Enterprise)</td><td>$95/mo (Starter)</td><td>Ranked Actions with content briefs; drafting happens in your AI assistant over MCP; no CMS publishing</td></tr><tr><td><strong>Otterly.AI</strong></td><td>4 included, 3 as add-ons</td><td>$29/mo (Lite)</td><td>Recommendations (beta) and page audits; marketplace n8n templates can draft into WordPress or Webflow</td></tr><tr><td><strong>Ahrefs Brand Radar</strong></td><td>6, plus Claude via Custom Prompts</td><td>Custom Prompts from $50/mo; included in limited form with paid Ahrefs plans</td><td>Monitoring; Ahrefs&#39; separate Patches feature pushes title, meta, and redirect fixes via a script or Cloudflare</td></tr><tr><td><strong>SolCrys</strong></td><td>5 (plan-dependent)</td><td>Free; Starter $99/mo; Pro $399/mo; Custom from $2,000/mo</td><td>Human-approved Action Hub tasks; your team, or its AI assistant, drafts and publishes; no CMS write</td></tr></tbody>
@@ -211,6 +215,7 @@
     <section class="seo-section">
       <h2>The 9-vendor closed-loop scorecard</h2>
       <p>Grades: Full / Partial / Missing, for what each vendor documents as live in September 2026, not its roadmap. For Verify, Full means a documented view that ties remeasurement to a specific shipped change; Partial means change annotations or page trends where connecting the result to the change is left to you; Missing means no documented post-change view. Where a vendor&#39;s absence of a feature is inferred from its docs rather than stated, we grade conservatively and invite correction.</p><p>A few honest reads on this table:</p>
+      
       <ul class="seo-list"><li><strong>Profound and AirOps are the most complete loops by this rubric.</strong> Both draft, publish into a wide range of CMSs, and measure afterward. The difference is governance: Profound says every Agent run includes an approval step before anything publishes, while AirOps makes human review a step you add to a workflow and lets you choose a live publish.</li><li><strong>Adobe Brand Visibility has the most explicit before-and-after.</strong> Its impact measurement reruns prompts before a fix and through the weeks after, though only for supported fix types, and its main delivery path is the CDN edge rather than your pages.</li><li><strong>Edge delivery is a different kind of shipping.</strong> Scrunch&#39;s AXP and Adobe&#39;s edge optimization change what AI agents receive without changing your CMS. That&#39;s fast and reversible, and it&#39;s also content your human visitors never see, which deserves its own review policy.</li><li><strong>Peec AI and Conductor stop short of publishing.</strong> Peec&#39;s Actions produce ranked recommendations and briefs, with drafting in your assistant; Conductor&#39;s own docs say Writing Assistant &quot;doesn&#39;t publish content.&quot; Both are strong on diagnosis.</li><li><strong>SolCrys is Partial on both Execute columns, by choice.</strong> We don&#39;t draft finished pages in-app and we don&#39;t write to your CMS: tasks are human-approved, your team publishes, and drafting happens with your writers or an assistant over MCP. Our Verify step ties the same frozen prompt set to each published task, adds a page re-audit when the fix came from a Content Audit, and reads the result across runs, not from one snapshot. If you want the platform itself to publish, Profound or AirOps will fit better.</li></ul>
       <div class="seo-table-wrap"><table>
               <thead><tr><th>Vendor</th><th>Measure</th><th>Diagnose</th><th>Execute (recommend and draft)</th><th>Execute (ship)</th><th>Verify</th></tr></thead>
@@ -221,6 +226,7 @@
     <section class="seo-section">
       <h2>Why closing the loop is expensive</h2>
       <p>There&#39;s an economic and technical reason that, where a loop still opens, it opens at the Execute and Verify steps, and why the vendors that close it got there last. Building a measurement layer is hard but bounded: you query a fixed set of engines, structure the responses, and ship a dashboard. The shape of that work is well understood from a decade of SEO tooling.</p><p>Execution is qualitatively different. To help ship a fix, a platform has to:</p>
+      
       <ul class="seo-list"><li>Understand the customer&#39;s existing content: the page as it is today, the brand&#39;s approved facts, and its voice.</li><li>Reach the place the fix goes live, whether through a CMS connector, the edge, or a handoff to the team or its AI assistant.</li><li>Hold a human-approval step, because brand content should not publish autonomously.</li><li>Fit the customer&#39;s editorial workflow rather than forcing the team into the vendor&#39;s.</li></ul>
       
       
@@ -233,6 +239,7 @@
     <section class="seo-section">
       <h2>Where loops still break: verification in practice</h2>
       <p>Post-change views are now common among execution platforms, and verification still breaks in practice in 2 ways. The first is organizational: the team ships the fix outside the platform, nobody records what changed or when, and the dashboard moves on to the next gap. The second is interpretive: a before-and-after gets read as proof, when answers vary from run to run and engines change what they cite on their own.</p><p>We treat verification as a customer-facing step, not a footnote. It&#39;s what lets a CMO ask &quot;of the fixes we shipped last quarter, which ones were followed by a change in the answer?&quot; and get an evidence-backed reply instead of an activity report. Two things break when it&#39;s missing:</p>
+      
       <ul class="seo-list"><li><strong>You can&#39;t report outcomes, only output.</strong> The board asks what the AEO program moved, and you have pages shipped and briefs delivered, not answers changed or citations gained.</li><li><strong>You can&#39;t tell good fixes from bad ones.</strong> Some fixes are followed by movement and some aren&#39;t. Without remeasurement tied to each fix, the team can&#39;t learn which kinds of changes tend to matter for its category.</li></ul>
       
       
@@ -243,10 +250,12 @@
       
       
       
+      
     </section>
     <section class="seo-section">
       <h2>When you actually need closed loop vs when a dashboard is fine</h2>
       <p>Closed-loop execution is not the right buy for every team. Two honest signals tell you which side of the line you&#39;re on. If you&#39;re still unsure, our <a href="/aeo-platform-pilot-playbook/">AEO Platform Pilot Playbook</a> lays out a 30-day test of measurement, diagnosis, execution, and verification against your own prompts.</p>
+      
       
       
       
@@ -264,6 +273,7 @@
     <section class="seo-section">
       <h2>See the loop on your own brand</h2>
       <p>The free audit is the Measure step, and the Free plan workspace (10 tracked prompts, 1 Deep Analysis, and 1 Content Audit a month, email verification, no credit card) is enough to walk one fix through the loop. <a href="https://app.solcrys.com/audit">Start Free</a>.</p><p>If you already have a dashboard and its report is sitting on a shelf, <a href="https://app.solcrys.com/contact-sales/">talk to us</a>. That&#39;s the conversation we most want to have.</p><p>Last updated Sept. 26, 2026. Vendor grades, engine counts, and prices reflect each vendor&#39;s own public pages as of September 2026. Prices change often; confirm on the vendor&#39;s site before buying. We re-grade when vendors ship material changes, and we correct grades when a vendor shows us documentation we missed. Disclosure: SolCrys operates one of the platforms in this comparison.</p>
+      
       
       
       
@@ -394,6 +404,6 @@
       </div>
     </footer>
 </div></div>
-    <script type="module" crossorigin src="/assets/index-Sulk5wyg.js"></script>
+    <script type="module" crossorigin src="/assets/index-DMWzx2LY.js"></script>
   </body>
 </html>
