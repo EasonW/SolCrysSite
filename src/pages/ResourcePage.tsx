@@ -11,6 +11,10 @@ import NotFound from "./NotFound";
 type ResourcePageData = (typeof siteContent.resourcePages)[number];
 type ResourceSectionData = ResourcePageData["sections"][number];
 type ResourceSubsection = { heading: string; body: string[]; bullets?: string[] };
+// A section image (a diagram or a chart). It sits after the section's
+// paragraphs; `alt` carries what the image says, so the facts never live in
+// pixels alone.
+type ResourceFigure = { src: string; alt: string; caption?: string; width?: number; height?: number };
 
 // Matches either a markdown link [text](url) or **bold** segment.
 // Bold uses a non-greedy capture so adjacent bold spans don't merge.
@@ -132,6 +136,7 @@ const renderSection = (section: ResourceSectionData) => {
   const subsections = ("subsections" in section ? section.subsections : undefined) as
     | ResourceSubsection[]
     | undefined;
+  const figure = ("figure" in section ? section.figure : undefined) as ResourceFigure | undefined;
 
   return (
     <section key={section.heading} className="border-t border-border/30 py-10">
@@ -141,6 +146,25 @@ const renderSection = (section: ResourceSectionData) => {
           <p key={paragraph}>{renderInline(paragraph)}</p>
         ))}
       </div>
+      {figure ? (
+        <figure className="mt-7 overflow-hidden rounded-xl border border-border/30 bg-card/30">
+          <a href={figure.src} target="_blank" rel="noopener noreferrer">
+            <img
+              src={figure.src}
+              alt={figure.alt}
+              width={figure.width}
+              height={figure.height}
+              loading="lazy"
+              className="block w-full h-auto"
+            />
+          </a>
+          {figure.caption ? (
+            <figcaption className="px-5 py-3 text-xs text-muted-foreground leading-relaxed border-t border-border/30">
+              {renderInline(figure.caption)}
+            </figcaption>
+          ) : null}
+        </figure>
+      ) : null}
       {"bullets" in section && section.bullets ? (
         <ul className="mt-6 grid gap-3">
           {section.bullets.map((item) => (

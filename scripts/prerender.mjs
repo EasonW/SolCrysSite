@@ -1605,11 +1605,23 @@ function subsectionHtml(subsection) {
       </div>`;
 }
 
+// A section image; mirrors the figure in ResourcePage. The alt text carries
+// what the image says, so a reader without images still gets the facts.
+function figureHtml(figure) {
+  const size =
+    (figure.width ? ` width="${Number(figure.width)}"` : "") +
+    (figure.height ? ` height="${Number(figure.height)}"` : "");
+  return `<figure class="seo-figure"><a href="${escapeAttr(figure.src)}" target="_blank" rel="noopener noreferrer"><img src="${escapeAttr(figure.src)}" alt="${escapeAttr(figure.alt)}"${size} loading="lazy" /></a>${
+    figure.caption ? `<figcaption>${renderInlineHtml(figure.caption)}</figcaption>` : ""
+  }</figure>`;
+}
+
 function sectionHtml(section) {
   return `
     <section class="seo-section">
       <h2>${escapeHtml(section.heading)}</h2>
       ${section.body.map((paragraph) => `<p>${renderInlineHtml(paragraph)}</p>`).join("")}
+      ${section.figure ? figureHtml(section.figure) : ""}
       ${section.bullets ? `<ul class="seo-list">${section.bullets.map((item) => `<li>${renderInlineHtml(item)}</li>`).join("")}</ul>` : ""}
       ${
         section.table
@@ -3681,6 +3693,7 @@ ${page.sections
     (section) => `### ${section.heading}
 
 ${section.body.join("\n\n")}
+${section.figure ? `\n\n![${section.figure.alt}](${site.url}${section.figure.src})${section.figure.caption ? `\n\n${section.figure.caption}` : ""}` : ""}
 ${section.bullets ? `\n\n${section.bullets.map((item) => `- ${item}`).join("\n")}` : ""}
 ${section.table ? `\n\n${section.table.headers.join(" | ")}\n${section.table.headers.map(() => "---").join(" | ")}\n${section.table.rows.map((row) => row.join(" | ")).join("\n")}` : ""}
 ${section.subsections ? section.subsections.map((sub) => `\n\n#### ${sub.heading}\n\n${sub.body.join("\n\n")}${sub.bullets ? `\n\n${sub.bullets.map((item) => `- ${item}`).join("\n")}` : ""}`).join("") : ""}`
