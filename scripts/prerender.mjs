@@ -99,21 +99,13 @@ function resolveOgImage(preferredPath) {
 
 const defaultOgImage = resolveOgImage(fallbackOgPath);
 
-const founders = [
-  ["Gwen Chen", "Co-Founder & CEO", "AI search & GTM strategy", "AEO, content authority, and brand visibility", "https://www.linkedin.com/in/gwenchenx/"],
-  ["Eason Wang", "Co-Founder & CPO", "Product & AI systems", "Product strategy, agentic AI, and enterprise workflows", "https://www.linkedin.com/in/eason-wang/"],
-  ["Jia Chang", "Co-Founder & CTO", "AI architect; ex-Microsoft engineering leader", "15+ years in AI architecture and engineering systems", "https://www.linkedin.com/in/jia-c/"]
-];
-
-const advisors = [
-  [
-    "Raejeanne Skillern",
-    "Strategic Advisor",
-    "Former CMO, AWS; 25+ years at Intel; current board director at Jabil (NYSE: JBL) and Dycom Industries (NYSE: DY)",
-    "Scaled hyperscale data center and cloud businesses; brings 30+ years of go-to-market leadership across cloud, AI, and infrastructure",
-    "https://www.linkedin.com/in/raejeanne-skillern/"
-  ]
-];
+// Founder and advisor bios: one source (src/content/team.json) for the static
+// About page below, the Person JSON-LD, and the React page src/pages/AboutUs.tsx.
+// Edit the JSON, not a copy here — `npm run check:agents` fails when the static
+// About page is missing any of these bios.
+const team = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/team.json"), "utf8"));
+const founders = team.founders;
+const advisors = team.advisors;
 
 function escapeHtml(value) {
   return String(value)
@@ -435,6 +427,11 @@ function writePage(relativePath, html) {
  *     inbound UTM params, then `window.location.replace()` for a
  *     faster cache-warm redirect. Falls back to the meta-refresh if
  *     JS is disabled.
+ *   - The plan list ([[pricingSummaryHtml]]): plan names, prices,
+ *     features, and FAQ in plain HTML. A plain HTTP fetch does not
+ *     follow a meta-refresh, so without it an agent fetching this URL
+ *     read seven words and no prices. The redirect script hides it, so
+ *     people still see only the redirect notice.
  *
  * The marketing site's `<Pricing />` SPA route is wired to
  * [[PricingRedirect]] which does the same handoff for warm-cache
@@ -455,16 +452,100 @@ const AUDIT_URL =
   (process.env.VITE_AUDIT_URL || "").trim() ||
   "https://app.solcrys.com/audit";
 
+// Plan prices as the app shows them: "$99 / mo", "Starts at $2,000 / mo".
+function pricingPriceLabel(tier) {
+  return `${tier.startsAt ? "Starts at " : ""}$${Number(tier.monthly).toLocaleString("en-US")} / mo`;
+}
+
+const pricingTiers = (pricingContent.audiences || []).flatMap((audience) => audience.tiers || []);
+
+// The plan list a reader that runs no JavaScript gets from /pricing/: the same
+// content, in the same order, as the static summary the app serves at
+// app.solcrys.com/pricing (both come from the app's pricing data, mirrored in
+// src/content/pricing.json). Hidden from visitors whose browser runs the
+// redirect script, so people see the same one-line redirect as before.
+function pricingSummaryHtml() {
+  const dest = APP_PRICING_URL;
+  return `
+    <main class="pricing-summary" style="font-family: system-ui; padding: 0 2rem 2rem; max-width: 60rem;">
+      <p>${escapeHtml(pricingContent.hero.eyebrow)}</p>
+      <h1>${escapeHtml(pricingContent.hero.title)}</h1>
+      <p>${escapeHtml(pricingContent.hero.subtitle)}</p>
+      <p>Plans, checkout, and sign-up are at <a href="${escapeAttr(dest)}">app.solcrys.com/pricing</a>.</p>
+      ${(pricingContent.audiences || [])
+        .map(
+          (audience) => `
+      <section>
+        <h2>${escapeHtml(audience.label)}</h2>
+        <p>${escapeHtml(audience.description)}</p>
+        ${(audience.tiers || [])
+          .map(
+            (tier) => `
+        <article>
+          <h3>${escapeHtml(tier.name)}</h3>
+          <p><strong>${escapeHtml(pricingPriceLabel(tier))}</strong> · ${tier.custom ? "Sales-led custom plan." : "Self-serve plan."}</p>
+          <p>${escapeHtml(tier.tagline)} Best fit: ${escapeHtml(tier.bestFit)}.</p>
+          <ul>
+            ${(tier.features || []).map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}
+          </ul>
+        </article>`
+          )
+          .join("")}
+      </section>`
+        )
+        .join("")}
+      <section>
+        <h2>Always included</h2>
+        <ul>
+          ${(pricingContent.alwaysIncluded || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+        </ul>
+      </section>
+      <section>
+        <h2>Add-ons</h2>
+        ${(pricingContent.addOns || [])
+          .map(
+            (addOn) => `
+        <article>
+          <h3>${escapeHtml(addOn.label)}</h3>
+          <p>${escapeHtml(addOn.description)}</p>
+        </article>`
+          )
+          .join("")}
+      </section>
+      <section>
+        <h2>${escapeHtml(pricingContent.enterprise.title)}</h2>
+        <p>${escapeHtml(pricingContent.enterprise.description)}</p>
+      </section>
+      <section>
+        <h2>Pricing FAQ</h2>
+        ${(pricingContent.faqs || [])
+          .map(
+            (faq) => `
+        <article>
+          <h3>${escapeHtml(faq.question)}</h3>
+          <p>${escapeHtml(faq.answer)}</p>
+        </article>`
+          )
+          .join("")}
+      </section>
+    </main>`;
+}
+
 function pricingRedirectBridgeHtml() {
   const dest = APP_PRICING_URL;
   const title = "Pricing — SolCrys";
-  const description =
-    "SolCrys pricing has moved to app.solcrys.com/pricing.";
+  const description = `SolCrys pricing: ${pricingTiers
+    .map((tier) => `${tier.name} ${tier.startsAt ? "from " : ""}$${Number(tier.monthly).toLocaleString("en-US")}/mo`)
+    .join(", ")}. Plans and checkout are at app.solcrys.com/pricing.`;
   // The inline script is a small enough payload to ship without a
   // bundler; embeds the destination URL once so the meta-refresh and
   // the JS path can't drift.
   const handoffScript = `
       (function () {
+        // A browser that runs this script is redirected right away: hide the
+        // plan list (it is for readers without JavaScript) so people see only
+        // the one-line redirect notice.
+        document.documentElement.className += ' pricing-redirecting';
         var dest = ${JSON.stringify(dest)};
         function resolvedTheme() {
           try {
@@ -498,12 +579,13 @@ function pricingRedirectBridgeHtml() {
     <meta name="robots" content="noindex,follow" />
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeAttr(description)}" />
+    <style>.pricing-redirecting .pricing-summary { display: none; }</style>
     <script>${handoffScript}</script>
   </head>
   <body>
     <p style="font-family: system-ui; padding: 2rem;">
       Redirecting to <a href="${escapeAttr(dest)}">app.solcrys.com/pricing</a>…
-    </p>
+    </p>${pricingSummaryHtml()}
   </body>
 </html>
 `;
@@ -522,7 +604,7 @@ const organizationSchema = {
   description: site.description,
   email: site.email,
   sameAs: organizationSameAs,
-  founder: founders.map(([name, title, background, expertise, linkedin]) => ({
+  founder: founders.map(({ name, title, background, expertise, linkedin }) => ({
     "@type": "Person",
     name,
     jobTitle: title,
@@ -1184,7 +1266,7 @@ function cornelisCaseStudyHtml() {
 // Founders' Notes — crawler-facing mirror of the section in
 // src/pages/AboutUs.tsx (founderNotes): published resource pages authored
 // by a founder, newest first.
-const FOUNDER_NAMES = new Set(founders.map(([name]) => name));
+const FOUNDER_NAMES = new Set(founders.map(({ name }) => name));
 const founderNotePages = publishedResourcePages
   .filter((p) => p.author && FOUNDER_NAMES.has(p.author.name))
   .sort((a, b) => (b.updated || "").localeCompare(a.updated || ""));
@@ -1213,7 +1295,7 @@ function aboutHtml() {
       <div class="seo-grid">
         ${founders
           .map(
-            ([name, title, background, expertise, linkedin]) => `
+            ({ name, title, background, expertise, linkedin }) => `
           <article class="seo-card">
             <h3><a href="${escapeAttr(linkedin)}">${escapeHtml(name)}</a></h3>
             <p>${escapeHtml(title)}</p>
@@ -1224,12 +1306,12 @@ function aboutHtml() {
       </div>
       <div class="seo-table-wrap"><table>
         <thead>
-          <tr><th>Name</th><th>Role</th><th>Background</th><th>Search/AEO relevance</th></tr>
+          <tr><th>Name</th><th>Role</th><th>Background</th><th>Experience and focus</th></tr>
         </thead>
         <tbody>
           ${founders
             .map(
-              ([name, title, background, expertise, linkedin]) => `<tr><td><a href="${escapeAttr(linkedin)}">${escapeHtml(name)}</a></td><td>${escapeHtml(title)}</td><td>${escapeHtml(background)}</td><td>${escapeHtml(expertise)}</td></tr>`
+              ({ name, title, background, expertise, linkedin }) => `<tr><td><a href="${escapeAttr(linkedin)}">${escapeHtml(name)}</a></td><td>${escapeHtml(title)}</td><td>${escapeHtml(background)}</td><td>${escapeHtml(expertise)}</td></tr>`
             )
             .join("")}
         </tbody>
@@ -1257,7 +1339,7 @@ function aboutHtml() {
       <div class="seo-grid">
         ${advisors
           .map(
-            ([name, title, background, expertise, linkedin]) => `
+            ({ name, title, background, expertise, linkedin }) => `
           <article class="seo-card">
             <h3><a href="${escapeAttr(linkedin)}">${escapeHtml(name)}</a></h3>
             <p>${escapeHtml(title)}</p>
@@ -1418,109 +1500,6 @@ function newsArticleHtml(post) {
       ${relatedHtml}
       ${ctaHtml()}
     </article>
-  </main>
-  ${footerHtml()}
-</div>`;
-}
-
-const pricingAudiences = pricingContent.audiences || [];
-const pricingBrandTierCount = pricingAudiences.find((audience) => audience.key === "brand")?.tiers?.length || 0;
-
-function pricingComparisonValue(label, globalIndex) {
-  for (const group of pricingContent.comparisonGroups || []) {
-    const row = group.rows?.find((candidate) => candidate.label === label);
-    if (row) return row.values?.[globalIndex] || "";
-  }
-  return "";
-}
-
-function promptLabel(value) {
-  const text = String(value);
-  if (/prompt/i.test(text)) return text;
-  return `${text} prompts`;
-}
-
-function countLabel(value, singular, plural) {
-  const text = String(value);
-  if (!/^\d+$/.test(text)) return text;
-  return `${text} ${Number(text) === 1 ? singular : plural}`;
-}
-
-function pricingPlansFor(audienceKey) {
-  const audience = pricingAudiences.find((candidate) => candidate.key === audienceKey);
-  const offset = audienceKey === "brand" ? 0 : pricingBrandTierCount;
-  return (audience?.tiers || []).map((tier, index) => {
-    const globalIndex = index + offset;
-    return {
-      name: tier.name,
-      price: `$${Number(tier.monthly).toLocaleString("en-US")}/mo`,
-      prompts: promptLabel(pricingComparisonValue("Tracked prompts", globalIndex)),
-      engines: pricingComparisonValue("Included engines", globalIndex),
-      deepAnalyses: countLabel(pricingComparisonValue("Deep Analyses / mo", globalIndex), "Deep Analysis", "Deep Analyses"),
-      contentAudits: countLabel(pricingComparisonValue("Content Audits / mo", globalIndex), "Content Audit", "Content Audits"),
-      bestFit: tier.bestFit,
-      summary: tier.tagline
-    };
-  });
-}
-
-const brandPricingPlans = pricingPlansFor("brand");
-const agencyPricingPlans = pricingPlansFor("agency");
-
-function pricingPlanCard(plan) {
-  return `
-          <article class="seo-card">
-            <p class="seo-kicker">${escapeHtml(plan.name)}</p>
-            <h3>${escapeHtml(plan.price)}</h3>
-            <p>${escapeHtml(plan.summary)}</p>
-            <ul class="seo-list">
-              <li><strong>Prompts:</strong> ${escapeHtml(plan.prompts)}</li>
-              <li><strong>Engines:</strong> ${escapeHtml(plan.engines)}</li>
-              <li><strong>Deep Analyses:</strong> ${escapeHtml(plan.deepAnalyses)}</li>
-              <li><strong>Content Audits:</strong> ${escapeHtml(plan.contentAudits)}</li>
-              <li><strong>Best fit:</strong> ${escapeHtml(plan.bestFit)}</li>
-            </ul>
-          </article>`;
-}
-
-function pricingHtml() {
-  return `
-<div class="seo-prerender">
-  ${navHtml()}
-  <main>
-    <section class="seo-container seo-hero">
-      <p class="seo-kicker">${escapeHtml(pricingContent.hero.eyebrow)}</p>
-      <h1>${escapeHtml(pricingContent.hero.title)}</h1>
-      <p class="seo-lede">${escapeHtml(pricingContent.hero.subtitle)}</p>
-    </section>
-    <section class="seo-container seo-section">
-      <h2>Brand plans</h2>
-      <p>Brand plans scale by prompts, engines, workspaces, Deep Analyses, and Content Audits. We do not meter seats.</p>
-      <div class="seo-grid">
-        ${brandPricingPlans.map(pricingPlanCard).join("")}
-      </div>
-    </section>
-    <section class="seo-container seo-section">
-      <h2>Agency plans</h2>
-      <p>Agency plans sell client organization capacity, repeatable reporting, and white-label-ready Deep Analysis workflows.</p>
-      <div class="seo-grid">
-        ${agencyPricingPlans.map(pricingPlanCard).join("")}
-      </div>
-    </section>
-    <section class="seo-container seo-section">
-      <h2>Add-ons and Enterprise</h2>
-      <div class="seo-grid">
-        ${(pricingContent.addOns || [])
-          .map(
-            (addOn) => `<article class="seo-card">
-          <h3>${escapeHtml(addOn.label)}</h3>
-          <p>${escapeHtml(addOn.description)}</p>
-        </article>`
-          )
-          .join("")}
-      </div>
-    </section>
-    <div class="seo-container">${ctaHtml()}</div>
   </main>
   ${footerHtml()}
 </div>`;
