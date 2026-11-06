@@ -24,6 +24,7 @@ interface RawSubsection {
 interface RawSection {
   heading?: string;
   body?: string[];
+  figure?: { caption?: string };
   bullets?: string[];
   subsections?: RawSubsection[];
 }
@@ -61,6 +62,7 @@ const buildBody = (page: RawPage): string => {
   for (const section of page.sections ?? []) {
     if (section.heading) parts.push(section.heading);
     if (section.body) parts.push(...section.body);
+    if (section.figure?.caption) parts.push(section.figure.caption);
     if (section.bullets) parts.push(...section.bullets);
     for (const sub of section.subsections ?? []) {
       if (sub.heading) parts.push(sub.heading);
