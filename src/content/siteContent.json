@@ -7266,7 +7266,8 @@
         "ai-search-prompt-set",
         "schema-markup-for-ai-search",
         "get-ai-engines-to-see-your-updates",
-        "animated-counters-ai-crawlers"
+        "animated-counters-ai-crawlers",
+        "can-ai-agents-use-your-website"
       ],
       "sections": [
         {
@@ -33899,7 +33900,8 @@
         "search-console-bing-ga4-ai-reports",
         "social-platforms-ai-engines-can-see",
         "google-ai-overviews-opt-out-uk-cma",
-        "usage-ai-training-robots-txt"
+        "usage-ai-training-robots-txt",
+        "can-ai-agents-use-your-website"
       ],
       "sections": [
         {
@@ -42332,7 +42334,8 @@
         "ai-crawler-answer-readiness",
         "get-ai-engines-to-see-your-updates",
         "solcrys-content-audit-report",
-        "ai-crawler-access-search-agent-training"
+        "ai-crawler-access-search-agent-training",
+        "can-ai-agents-use-your-website"
       ],
       "sections": [
         {
@@ -43654,6 +43657,316 @@
         {
           "label": "Bing Webmaster Blog: New options for webmasters to control usage of their content in Bing Chat (NOCACHE and NOARCHIVE, September 2023)",
           "url": "https://blogs.bing.com/webmaster/2023/9/Announcing-new-options-for-webmasters-to-control-usage-of-their-content-in-Bing-Chat/"
+        }
+      ]
+    },
+    {
+      "slug": "can-ai-agents-use-your-website",
+      "title": "Can AI Agents Use Your Website? Three Gates to Check",
+      "metaTitle": "Can AI Agents Use Your Website? 3 Gates | SolCrys",
+      "description": "An AI agent has to pass three gates: robots.txt, your bot protection, and what the page shows without JavaScript. How to test each, and what we found on ours.",
+      "h1": "Can AI agents use your website? Three gates to check",
+      "summary": "An AI agent can use your website only if it gets through three gates: your robots.txt rules, your bot protection, and what the page says before any script runs. Each is usually owned by a different team, and passing one says nothing about the next. We tested all three on solcrys.com on Nov. 5, 2026, and published the script.",
+      "category": "Technical Readiness",
+      "published": "2026-11-06",
+      "updated": "2026-11-06",
+      "ogImage": "/og/can-ai-agents-use-your-website.png",
+      "ogEyebrow": "Technical Readiness",
+      "ogTitleParts": [
+        "Can AI agents use your website?",
+        "Three gates to check."
+      ],
+      "ogSubtitle": "Rules, walls, and what the page shows without JavaScript. How to test each, with our own results from solcrys.com.",
+      "primaryKeyword": "can AI agents access my website",
+      "author": {
+        "name": "Eason Wang",
+        "role": "Co-Founder & CPO, SolCrys",
+        "linkedin": "https://www.linkedin.com/in/eason-wang/",
+        "photoUrl": "/team/eason-wang.jpg"
+      },
+      "aeoTargets": [
+        "Can AI agents use my website?",
+        "My robots.txt allows AI crawlers. Why can an AI agent still be blocked?",
+        "Do AI crawlers and AI agents run JavaScript?",
+        "How do I test my website the way an AI agent sees it?"
+      ],
+      "relatedSlugs": [
+        "ai-crawler-access-search-agent-training",
+        "animated-counters-ai-crawlers",
+        "ai-crawler-answer-readiness",
+        "website-consistency-audit-ai-answers",
+        "solcrys-content-audit-report",
+        "get-ai-engines-to-see-your-updates"
+      ],
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "An AI agent can use your website only if it gets through three gates, and each one is usually owned by a different team. **Gate 1, rules:** what your robots.txt says to the agent's name. **Gate 2, walls:** what your CDN or bot protection does when the request arrives. **Gate 3, sight:** whether your facts are on the page before any JavaScript runs, and whether the accessibility tree that browsing agents read states them once and clearly. Passing one gate says nothing about the next.",
+            "Test the three together, the way you'd test an API: send the requests and compare what comes back with what a person sees. On solcrys.com on Nov. 5, 2026, every agent we tried got through gates 1 and 2, and gate 3 found three places where an agent reads something different from what people see. The numbers, the script, and what we're changing are below."
+          ],
+          "figure": {
+            "src": "/figures/can-ai-agents-use-your-website-three-gates.png",
+            "alt": "Diagram of an AI agent passing three gates on the way to an answer. Gate 1, robots.txt: 13 of 13 AI agents and crawlers allowed on solcrys.com and app.solcrys.com. Gate 2, CDN and bot protection: 52 of 52 requests got HTTP 200 whatever agent name they carried; elsewhere, Blend's audit found 29 of 200 retailers refused an AI shopping agent although 24 of the 29 allow AI crawlers in robots.txt. Gate 3, the page before scripts run: 3 places where an agent reads something different from what people see. Microsoft Clarity reports weekly AI-agent sessions nearly doubled in three weeks to almost 2 million.",
+            "caption": "The three gates, with our results on solcrys.com (Nov. 5, 2026) and the dated third-party figures cited in this guide.",
+            "width": 1600,
+            "height": 900
+          }
+        },
+        {
+          "heading": "Why this matters now",
+          "body": [
+            "Three dated reports from the past few weeks show where the gates disagree:"
+          ],
+          "bullets": [
+            "**Robots.txt says yes, the bot wall says no.** In a Sept. 8–15, 2026 test, Blend sent an unmodified Chromium browser that named its audit to 200 UK and US retailers. 29 refused it (14.5%), including 16 of 80 large retailers (20%). Blend could read robots.txt for 24 of the 29, and [according to PPC Land](https://ppc.land/bot-protection-blocks-blends-ai-shopping-agent-at-29-of-200-retailers/), \"every one of the 24 allows the search crawlers from ChatGPT, Perplexity and Claude.\" Blend sells conversion audits and doesn't publish its scoring weights, so read this as evidence that the gap exists, not as a market-wide rate.",
+            "**Agent traffic now has its own analytics.** On Nov. 4, 2026, [Microsoft Clarity](https://clarity.microsoft.com/blog/clarity-connects-agents-LLMs-people/) added an Agent Activity view and tests of whether an agent can finish a task on your site, and wrote that \"weekly sessions from AI agents nearly doubled in three weeks to almost 2 million.\" That is Microsoft's own data, and the post doesn't describe how agents are detected.",
+            "**Some agents read the accessibility tree.** Meta says the browsing sub-agent in Muse \"sees an accessibility tree snapshot of the page, not the raw DOM,\" [Search Engine Journal reported on Oct. 20, 2026](https://www.searchenginejournal.com/personal-ai-agents-meta-muse-openai-dots-seo/592530/). No user agent had been published for it, so robots.txt had no name to match."
+          ]
+        },
+        {
+          "heading": "Gate 1: rules (robots.txt)",
+          "body": [
+            "Robots.txt is matched by name, so it governs only the agents that announce one. Vendors split their agents into three jobs: training, search, and fetches a user triggers. They say different things about whether robots.txt applies to each. In their own documentation, as of Nov. 5, 2026:"
+          ],
+          "table": {
+            "headers": [
+              "Token",
+              "What the vendor says it does, and about robots.txt"
+            ],
+            "rows": [
+              [
+                "GPTBot (OpenAI)",
+                "Training: it crawls content \"that may be used in training our generative AI foundation models.\" \"Disallowing GPTBot indicates a site's content should not be used in training.\""
+              ],
+              [
+                "OAI-SearchBot (OpenAI)",
+                "Search: it surfaces websites \"in search results in ChatGPT's search features.\" Opted-out sites \"will not be shown in ChatGPT search answers.\""
+              ],
+              [
+                "ChatGPT-User (OpenAI)",
+                "User-triggered: \"certain user actions in ChatGPT and Custom GPTs.\" \"Because these actions are initiated by a user, robots.txt rules may not apply.\""
+              ],
+              [
+                "ClaudeBot, Claude-SearchBot, Claude-User (Anthropic)",
+                "Training, search, and user-triggered fetches. \"Anthropic's Bots respect 'do not crawl' signals by honoring industry standard directives in robots.txt.\""
+              ],
+              [
+                "PerplexityBot, Perplexity-User (Perplexity)",
+                "Search (\"not used to crawl content for AI foundation models\") and user-triggered. \"Since a user requested the fetch,\" Perplexity-User \"generally ignores robots.txt rules.\""
+              ],
+              [
+                "Googlebot (Google)",
+                "Search: it crawls for Google's search indexes. Google's crawlers \"always obey robots.txt rules when crawling automatically.\""
+              ],
+              [
+                "Google-Extended (Google)",
+                "A robots.txt token for Gemini training and grounding, not a crawler: it \"doesn't have a separate HTTP request user agent string.\""
+              ],
+              [
+                "Bingbot (Microsoft)",
+                "Search: Bing's crawler. Bing publishes its IP list so you can verify it."
+              ],
+              [
+                "Applebot, Applebot-Extended (Apple)",
+                "Applebot powers search in Spotlight, Siri, and Safari, and \"respects standard robots.txt directives in general search crawls.\" Publishers can refuse training \"by disallowing Applebot-Extended.\""
+              ]
+            ]
+          },
+          "subsections": [
+            {
+              "heading": "What follows",
+              "body": [
+                "User-triggered fetchers may not follow robots.txt: OpenAI says robots.txt rules \"may not apply\" to ChatGPT-User, and Perplexity says Perplexity-User \"generally ignores\" them. An agent with no published name can't be matched at all. Robots.txt states your intent to named crawlers; it isn't access control. Which tokens to allow is covered in [Search, agent, or training?](/ai-crawler-access-search-agent-training/)"
+              ]
+            },
+            {
+              "heading": "What we found on solcrys.com",
+              "body": [
+                "Our robots.txt names 23 crawlers and agents, each with `Allow: /`, plus a catch-all group that allows the rest; Applebot falls to the catch-all. All 13 tokens above are allowed on the homepage and on pricing. The file says why: \"as an AEO platform, SolCrys benefits from being known across both AI retrieval (search) and AI training corpora.\" Our app, where pricing lives, names the same 23 and keeps only sign-in and API paths out. **Gate 1: 13 of 13 allowed on both hosts.**"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Gate 2: walls (bot protection and the CDN)",
+          "body": [
+            "Your CDN, firewall, or bot manager decides on every request, whatever robots.txt says, by name, IP range, behavior, or browser fingerprint. Blend's 24 of 29 is that gap. Cloudflare, for example, sets Search, Agent, and Training separately and keeps a list of [verified bots](https://developers.cloudflare.com/bots/concepts/bot/verified-bots/); a verified bot \"obeys robots.txt and crawl directives, maintains reasonable request rates, and has not been observed evading website owner preferences.\" The settings are covered in [Search, agent, or training?](/ai-crawler-access-search-agent-training/)",
+            "To test the wall, request each key page with each agent's published user agent and with a browser's, a few seconds apart, and record the status, redirects, size, and any challenge page. A 403, 429, 503, or challenge the browser didn't get is the wall. Your requests carry the agent's name but not its IP address, so the test shows what the wall does with the name; the bot manager's logs show what it does with the real crawler."
+          ],
+          "subsections": [
+            {
+              "heading": "What we found on solcrys.com",
+              "body": [
+                "We sent 13 identities (a browser, the 11 tokens above that send requests, and a script that names no agent) to 4 URLs: the homepage, About, the pricing address on solcrys.com, and our app's pricing page. All 52 requests got HTTP 200 with no redirect or challenge, and each URL returned the same bytes to every identity. No bot manager sits in front of either host. **Gate 2: 52 of 52.** We pass partly because there's no wall; if we add one, this test becomes its regression test."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Gate 3: what the agent sees",
+          "body": [
+            "An agent that gets a 200 can still miss your facts. Google renders JavaScript but [notes](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics) that \"not all bots can run JavaScript.\" [Vercel and MERJ](https://vercel.com/blog/the-rise-of-the-ai-crawler) found in December 2024 that \"none of the major AI crawlers currently render JavaScript,\" apart from Gemini (through Googlebot) and Applebot. Browsing agents run the page and read its accessibility tree. So every fact an agent needs has to be in the HTML your server sends, and the accessibility tree should state each one once.",
+            "To test it, load each page twice in a headless browser, once with JavaScript off and once with it on. Compare the words, numbers, headings, JSON-LD, and key facts, and dump the accessibility tree both ways. Look for numbers that read 0 or are blank without JavaScript; [count-up counters do this](/animated-counters-ai-crawlers/).",
+            "**What we found on solcrys.com.** No number read 0 or blank without JavaScript on any of the five pages we checked, and we have no count-up counters. The homepage passed: its HTML carries 2,506 words against 2,353 rendered, all 10 numbers on the page, and its JSON-LD. The gaps were somewhere we didn't expect: in copies and a redirect."
+          ],
+          "table": {
+            "headers": [
+              "Page",
+              "Without JavaScript",
+              "With JavaScript",
+              "What we found"
+            ],
+            "rows": [
+              [
+                "Homepage",
+                "2,506 words; 10 of 10 numbers",
+                "2,353 words",
+                "No gap. Organization, SoftwareApplication, and FAQPage JSON-LD are in the HTML."
+              ],
+              [
+                "About",
+                "2,075 words; 17 of 49 numbers",
+                "4,929 words",
+                "The team bios are typed in two places, and the static copy is shorter and older: it leaves out past employers and a degree, and one years-of-experience figure differs by one."
+              ],
+              [
+                "solcrys.com/pricing/",
+                "7 words; 0 of 9 plan names and prices",
+                "Redirects to the app's pricing page",
+                "Our static host can't send a server-side redirect, so this address uses a zero-second meta refresh. A reader that follows only HTTP redirects stops at \"Redirecting to app.solcrys.com/pricing…\""
+              ],
+              [
+                "app.solcrys.com/pricing",
+                "1,270 words; 9 of 9 plan names and prices",
+                "2,333 words",
+                "The facts are in the HTML and in JSON-LD offers, but in a visually hidden summary; the visible plan cards are drawn by JavaScript. After it runs, the accessibility tree has two h1 headings and lists every plan and all 13 FAQ questions twice."
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "What we'll change on solcrys.com",
+          "body": [
+            "The two pricing copies agree today, so no agent reads a wrong price. The risk is the one a [consistency audit](/website-consistency-audit-ai-answers/) looks for: hand-kept copies of the same fact drift apart, and our About page shows they already have. **Gate 3: three places to fix.**"
+          ],
+          "bullets": [
+            "**About:** build the static team bios from the same data as the page people see.",
+            "**Pricing address:** keep the redirect, and put the plan names and starting prices in its page text, generated at build time.",
+            "**App pricing:** render the visible plan cards on the server and drop the hidden copy.",
+            "**All three gates:** rerun the check after every change to robots.txt, hosting, or templates."
+          ]
+        },
+        {
+          "heading": "Checklist: what to do at each gate",
+          "body": [
+            "Start with the pages that carry your facts: home, pricing, product, and About. Rerun the check after every change to robots.txt, the CDN, or page templates."
+          ],
+          "subsections": [
+            {
+              "heading": "Gate 1: rules",
+              "body": [],
+              "bullets": [
+                "List each agent you care about by its token, and mark it search, user-triggered, or training.",
+                "Give each one its own group, or know what your `*` group gives it.",
+                "Don't count on robots.txt to stop user-triggered fetchers or agents that publish no name."
+              ]
+            },
+            {
+              "heading": "Gate 2: walls",
+              "body": [],
+              "bullets": [
+                "Request key pages with each agent's published user agent and with a browser's, a few seconds apart.",
+                "Flag any status, redirect, or challenge the browser didn't get.",
+                "Make your bot manager's AI and verified-bot settings say what robots.txt says."
+              ]
+            },
+            {
+              "heading": "Gate 3: sight",
+              "body": [],
+              "bullets": [
+                "Put every price, plan name, number, and claim in the server HTML as text.",
+                "Keep one copy of each fact, or generate every copy from one source.",
+                "Check the accessibility tree: one h1, and each fact stated once."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Run the check yourself",
+          "body": [
+            "The script is [check_agent_gates.py](/tools/check_agent_gates.py) (Python, with requests and Playwright). Point it at your own pages with `--pages`, and list the facts each must carry with `--facts`. It sends one request every two seconds and saves the raw HTML, the text with and without JavaScript, both accessibility trees, and a results file. Run it on your own site only.",
+            "Two limits: Anthropic publishes its agents' names but not full user-agent strings, so the script sends those names in a minimal string; and your requests show what your hosts do with an agent's name, not with its IP range.",
+            "For gate 3, a SolCrys [Content Audit](/solcrys-content-audit-report/) reads the page the way a crawler does, runs a fixed set of checks, and turns every failed or partial check into a specific edit."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "If my robots.txt allows AI crawlers, can AI agents use my site?",
+          "answer": "Not necessarily. Robots.txt is only the first gate: bot protection can still refuse the request, and a page that builds its facts with JavaScript can hand the agent an empty copy. In Blend's September 2026 test, 24 of the 29 retailers that refused its agent allowed the ChatGPT, Perplexity, and Claude search crawlers in robots.txt."
+        },
+        {
+          "question": "Do AI crawlers and AI agents run JavaScript?",
+          "answer": "Some do and some don't. Vercel and MERJ found in December 2024 that none of the major AI crawlers rendered JavaScript, apart from Gemini through Googlebot and Applebot. Browsing agents run a real browser. Put your facts in the server HTML and both kinds get them."
+        },
+        {
+          "question": "Is it OK to test my site with an AI crawler's user agent?",
+          "answer": "On your own site, yes, if you keep it slow: a handful of requests, seconds apart. Your requests carry the crawler's name but not its IP address, so also check your bot manager's logs for the real crawlers. Each vendor in the table above publishes IP lists or a way to verify its crawlers."
+        },
+        {
+          "question": "How can I see AI agent visits on my site?",
+          "answer": "Start with your server or CDN logs, filtered by the user agents above and checked against each vendor's IP list. Agents that browse in an ordinary browser are harder to spot. Microsoft Clarity added an Agent Activity view on Nov. 4, 2026, using detection its announcement doesn't describe."
+        }
+      ],
+      "sources": [
+        {
+          "label": "PPC Land: Bot protection blocks Blend's AI shopping agent at 29 of 200 retailers (Nov. 5, 2026)",
+          "url": "https://ppc.land/bot-protection-blocks-blends-ai-shopping-agent-at-29-of-200-retailers/"
+        },
+        {
+          "label": "Microsoft Clarity blog: Clarity connects agents, LLMs, and people (Nov. 4, 2026)",
+          "url": "https://clarity.microsoft.com/blog/clarity-connects-agents-LLMs-people/"
+        },
+        {
+          "label": "Search Engine Journal: personal AI agents and what they read (Oct. 20, 2026)",
+          "url": "https://www.searchenginejournal.com/personal-ai-agents-meta-muse-openai-dots-seo/592530/"
+        },
+        {
+          "label": "OpenAI: Overview of OpenAI crawlers (GPTBot, OAI-SearchBot, ChatGPT-User)",
+          "url": "https://developers.openai.com/api/docs/bots"
+        },
+        {
+          "label": "Anthropic: how Anthropic's bots crawl the web (ClaudeBot, Claude-SearchBot, Claude-User)",
+          "url": "https://support.claude.com/en/articles/8896518"
+        },
+        {
+          "label": "Perplexity: Perplexity crawlers (PerplexityBot, Perplexity-User)",
+          "url": "https://docs.perplexity.ai/guides/bots"
+        },
+        {
+          "label": "Google Search Central: Google's common crawlers (Googlebot, Google-Extended)",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers"
+        },
+        {
+          "label": "Bing Webmaster blog: user agent of the Bing crawler, bingbot",
+          "url": "https://blogs.bing.com/webmaster/april-2022/Announcing-user-agent-change-for-Bing-crawler-bingbot"
+        },
+        {
+          "label": "Apple: About Applebot (Applebot, Applebot-Extended)",
+          "url": "https://support.apple.com/en-us/119829"
+        },
+        {
+          "label": "Cloudflare: Verified bots",
+          "url": "https://developers.cloudflare.com/bots/concepts/bot/verified-bots/"
+        },
+        {
+          "label": "Google Search Central: Understand JavaScript SEO basics (\"not all bots can run JavaScript\")",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+        },
+        {
+          "label": "Vercel: The rise of the AI crawler, with MERJ (Dec. 17, 2024)",
+          "url": "https://vercel.com/blog/the-rise-of-the-ai-crawler"
         }
       ]
     }

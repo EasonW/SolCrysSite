@@ -337,6 +337,27 @@ html {
   color: hsl(var(--muted-foreground));
 }
 
+/* Mirrors the figure in ResourcePage: the image scales to the column. */
+.seo-prerender .seo-figure {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border) / 0.25);
+  border-radius: 0.75rem;
+}
+
+.seo-prerender .seo-figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.seo-prerender .seo-figure figcaption {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  border-top: 1px solid hsl(var(--border) / 0.25);
+}
+
 /* Mirrors the app's table wrapper (overflow-x-auto rounded-xl border in ResourcePage). */
 .seo-prerender .seo-table-wrap {
   margin-top: 1.5rem;
