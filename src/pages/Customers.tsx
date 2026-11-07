@@ -202,6 +202,7 @@ const CustomerStories = () => {
               {/* What Cornelis works with SolCrys on; the same three names as
                   the Products menu. Mirrored in prerender.mjs customersHtml(). */}
               <p className="mt-3 text-sm text-muted-foreground">
+                Works with SolCrys on:{" "}
                 <a href="/#features" className="underline underline-offset-2 hover:text-foreground">SolCrys AEO</a>{" "}
                 ·{" "}
                 <a href="/sites/" className="underline underline-offset-2 hover:text-foreground">SolCrys Sites</a>{" "}

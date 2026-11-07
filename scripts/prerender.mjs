@@ -2001,7 +2001,7 @@ writePage(
         url: canonicalUrl("/customers/"),
         description: "Customer stories from brands using SolCrys for AI search visibility, accuracy, and trust — across enterprise software (UiPath), HPC and AI infrastructure (NextSilicon), AI and HPC networking (Cornelis), and consumer (Wyze).",
         datePublished: site.published || generatedAt,
-        dateModified: "2026-09-22"
+        dateModified: "2026-11-06"
       },
       {
         "@context": "https://schema.org",
