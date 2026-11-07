@@ -68,6 +68,10 @@ const personPhotoMap = {
 };
 const resourceBySlug = new Map(resourcePages.map((p) => [p.slug, p]));
 const generatedAt = "2026-05-04";
+// Modified date for a hand-built page: its entry in site.pageUpdated, else the
+// global site.updated. Every date surface for that page (meta date, sitemap
+// lastmod, schema dateModified, visible "Last updated") reads from here.
+const pageUpdated = (routePath) => site.pageUpdated?.[routePath] || site.updated || generatedAt;
 
 const distIndexPath = path.join(distDir, "index.html");
 const distIndex = fs.readFileSync(distIndexPath, "utf8");
@@ -678,7 +682,7 @@ function webPageSchema({ routePath, title, description, ogImage }) {
     url: canonicalUrl(routePath),
     description,
     datePublished: site.published || generatedAt,
-    dateModified: site.updated || generatedAt,
+    dateModified: pageUpdated(routePath),
     author: {
       "@type": "Organization",
       name: site.maintainer || site.name,
@@ -1227,7 +1231,7 @@ function aboutHtml() {
       <p class="seo-kicker">About SolCrys</p>
       <h1>AI search visibility and Answer Engine Optimization for marketing teams.</h1>
       <p class="seo-lede">SolCrys was built by search, growth, data, and product operators to help brands connect AI visibility measurement with evidence-backed content action.</p>
-      <p>Maintained by ${escapeHtml(site.maintainer || site.name)}. Last updated <time datetime="${escapeAttr(site.updated || generatedAt)}">${escapeHtml(site.updated || generatedAt)}</time>.</p>
+      <p>Maintained by ${escapeHtml(site.maintainer || site.name)}. Last updated <time datetime="${escapeAttr(pageUpdated("/about/"))}">${escapeHtml(pageUpdated("/about/"))}</time>.</p>
     </section>
     <section class="seo-container seo-section">
       <h2>Our story</h2>
@@ -1681,7 +1685,7 @@ function relatedGuidesHtml(page) {
   if (related.length === 0) return "";
   return `
       <section class="seo-section">
-        <h2>Related guides</h2>
+        <h2>${isProjectPage(page) ? "Related" : "Related guides"}</h2>
         <div class="seo-grid">
           ${related
             .map(
@@ -1698,6 +1702,8 @@ function relatedGuidesHtml(page) {
 }
 
 function aeoTargetsHtml(page) {
+  // Product pages (cta: "project") read as product pages, not guides.
+  if (isProjectPage(page)) return "";
   if (!Array.isArray(page.aeoTargets) || page.aeoTargets.length === 0) return "";
   return `
       <section class="seo-section">
@@ -1800,11 +1806,11 @@ function resourcePageHtml(page) {
   <main class="seo-container">
     <article>
       <header class="seo-hero">
-        <p class="seo-kicker">${escapeHtml(page.category)}</p>
+        <p class="seo-kicker">${escapeHtml(isProjectPage(page) ? "Products" : page.category)}</p>
         <h1>${escapeHtml(page.h1)}</h1>
         <p class="seo-lede">${renderInlineHtml(page.summary)}</p>
         ${bylineHtml(page)}
-        ${pageDatesHtml(page)}
+        ${isProjectPage(page) ? "" : pageDatesHtml(page)}
       </header>
       ${aeoTargetsHtml(page)}
       ${page.sections
@@ -1857,7 +1863,7 @@ writePage(
     description: site.description,
     body: homeHtml(),
     ogImage: home.ogImage,
-    lastModified: site.updated,
+    lastModified: pageUpdated("/"),
     schemas: [
       organizationSchema,
       websiteSchema,
@@ -1944,6 +1950,7 @@ writePage(
     ogImage: "/og/about.png",
     description: "Meet the SolCrys founding team and learn why the company is building an AEO platform for AI-driven discovery.",
     body: aboutHtml(),
+    lastModified: pageUpdated("/about/"),
     schemas: [
       organizationSchema,
       breadcrumbSchema([
@@ -1958,7 +1965,7 @@ writePage(
         url: canonicalUrl("/about/"),
         description: "Meet the SolCrys founding team and learn why the company is building an AEO platform for AI-driven discovery.",
         datePublished: site.published || generatedAt,
-        dateModified: site.updated || generatedAt,
+        dateModified: pageUpdated("/about/"),
         author: {
           "@type": "Organization",
           name: site.maintainer || site.name,
@@ -1983,7 +1990,7 @@ writePage(
   "customers/index.html",
   renderLayout({
     routePath: "/customers/",
-    lastModified: "2026-11-06",
+    lastModified: pageUpdated("/customers/"),
     title: "Customer Stories | SolCrys",
     ogImage: "/og/customers.png",
     description: "How leading brands — including UiPath, NextSilicon, Cornelis, and Wyze — use SolCrys to show up in AI answers. NextSilicon lifted its mention rate from 1.9% to 7.4% in 45 days; Cornelis launched a brand-new networking category in four weeks.",
@@ -2001,7 +2008,7 @@ writePage(
         url: canonicalUrl("/customers/"),
         description: "Customer stories from brands using SolCrys for AI search visibility, accuracy, and trust — across enterprise software (UiPath), HPC and AI infrastructure (NextSilicon), AI and HPC networking (Cornelis), and consumer (Wyze).",
         datePublished: site.published || generatedAt,
-        dateModified: "2026-11-06"
+        dateModified: pageUpdated("/customers/")
       },
       {
         "@context": "https://schema.org",
@@ -2134,7 +2141,7 @@ writePage(
   "customers/cornelis/index.html",
   renderLayout({
     routePath: "/customers/cornelis/",
-    lastModified: "2026-09-22",
+    lastModified: pageUpdated("/customers/cornelis/"),
     title: "Cornelis Case Study: A New Category, Answerable in Four Weeks | SolCrys",
     ogImage: "/og/customers-cornelis.png",
     description: "How Cornelis launched a brand-new networking category at the AI Infra Summit with SolCrys — 2\u00d7 AI-readiness on the marquee product page, 12\u00d7 mention rate on the new category prompt set, and #2 share of voice.",
@@ -2154,7 +2161,7 @@ writePage(
         description: "Cornelis named a new networking architecture and unveiled it at the AI Infra Summit. SolCrys made the term answerable on the web, in AI answers, and on the show floor — 2\u00d7 AI-readiness score, 12\u00d7 mention rate on the new category prompt set, and #2 share of voice.",
         url: canonicalUrl("/customers/cornelis/"),
         datePublished: "2026-09-22",
-        dateModified: "2026-09-22",
+        dateModified: pageUpdated("/customers/cornelis/"),
         author: {
           "@type": "Organization",
           name: site.maintainer || site.name,
@@ -2544,25 +2551,35 @@ for (const page of resourcePages) {
       body: (draft ? draftBannerHtml() : "") + resourcePageHtml(page),
       ogImage: page.ogImage,
       lastModified: page.updated,
-      ogType: "article",
+      // Product pages (cta: "project") are web pages with a Service, not articles.
+      ogType: isProjectPage(page) ? "website" : "article",
       publishedTime: page.published || page.updated,
       author: page.author?.name,
       noindex: draft,
       schemas: [
         organizationSchema,
-        breadcrumbSchema([
-          { name: "Home", path: "/" },
-          { name: "Resources", path: "/resources/" },
-          { name: page.title, path: routePath }
-        ]),
+        breadcrumbSchema(
+          isProjectPage(page)
+            ? [
+                { name: "Home", path: "/" },
+                { name: page.serviceName || page.title, path: routePath }
+              ]
+            : [
+                { name: "Home", path: "/" },
+                { name: "Resources", path: "/resources/" },
+                { name: page.title, path: routePath }
+              ]
+        ),
         {
           "@context": "https://schema.org",
-          "@type": "Article",
+          "@type": isProjectPage(page) ? "WebPage" : "Article",
           headline: page.h1,
           description: page.description,
           dateModified: page.updated,
           datePublished: page.published || page.updated,
-          mainEntityOfPage: canonicalUrl(routePath),
+          ...(isProjectPage(page)
+            ? { name: page.title, url: canonicalUrl(routePath) }
+            : { mainEntityOfPage: canonicalUrl(routePath) }),
           author: articleAuthorSchema(page),
           publisher: {
             "@type": "Organization",
@@ -3633,11 +3650,11 @@ writePage("guides/index.html", renderLayout({
 }));
 
 const sitemapUrls = [
-  { path: "/", lastmod: site.updated || generatedAt },
-  { path: "/about/", lastmod: site.updated || generatedAt },
-  { path: "/customers/", lastmod: "2026-11-06" },
+  { path: "/", lastmod: pageUpdated("/") },
+  { path: "/about/", lastmod: pageUpdated("/about/") },
+  { path: "/customers/", lastmod: pageUpdated("/customers/") },
   { path: "/customers/nextsilicon/", lastmod: site.updated || generatedAt },
-  { path: "/customers/cornelis/", lastmod: "2026-09-22" },
+  { path: "/customers/cornelis/", lastmod: pageUpdated("/customers/cornelis/") },
   // /pricing/ removed Phase E — page is now a noindex meta-refresh bridge
   // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
   // index a page whose only job is to redirect away from itself.

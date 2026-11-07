@@ -216,8 +216,12 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
   const page = siteContent.resourcePages.find((item) => item.slug === activeSlug);
 
   const isDraft = page ? (page as { status?: string }).status === "draft" : false;
-  // "project" on the Sites / Motion product pages: the CTA is a project inquiry.
+  // "project" on the Sites / Motion product pages: the CTA is a project inquiry,
+  // and the page reads as a product page rather than a guide: no Resources
+  // breadcrumb, category kicker, dates or "Questions this guide answers" box.
+  // Mirrored in scripts/prerender.mjs (resourcePageHtml and the page schema).
   const pageCta = page ? (page as { cta?: string }).cta : undefined;
+  const isProductPage = pageCta === "project";
 
   useEffect(() => {
     if (!page) return;
@@ -292,19 +296,26 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
               Home
             </a>
             <span className="mx-2">/</span>
-            <a href="/resources/" className="hover:text-foreground">
-              Resources
-            </a>
-            <span className="mx-2">/</span>
-            <span>{page.title}</span>
+            {isProductPage ? (
+              <span>{(page as { serviceName?: string }).serviceName ?? page.title}</span>
+            ) : (
+              <>
+                <a href="/resources/" className="hover:text-foreground">
+                  Resources
+                </a>
+                <span className="mx-2">/</span>
+                <span>{page.title}</span>
+              </>
+            )}
           </nav>
 
           <header className="mb-12">
             <p className="text-sm font-medium text-[hsl(var(--brand-accent))] tracking-wider uppercase mb-4">
-              {page.category}
+              {isProductPage ? "Products" : page.category}
             </p>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">{page.h1}</h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">{renderInline(page.summary)}</p>
+            {isProductPage ? null : (
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               {"author" in page && page.author ? (
                 <>
@@ -348,9 +359,10 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
                   : `Updated ${page.updated}`}
               </span>
             </div>
+            )}
           </header>
 
-          {aeoTargets.length > 0 ? (
+          {aeoTargets.length > 0 && !isProductPage ? (
             <section className="mb-10 rounded-xl border border-[hsl(var(--brand-accent)/0.25)] bg-[hsl(var(--brand-accent)/0.04)] p-6">
               <div className="flex items-center gap-2 mb-3">
                 <HelpCircle className="h-4 w-4 text-[hsl(var(--brand-accent))]" />
@@ -415,7 +427,9 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
           <ResourceEndCTA category={page.category} cta={pageCta} />
 
           <section className="border-t border-border/30 py-10">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Related guides</h2>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">
+              {isProductPage ? "Related" : "Related guides"}
+            </h2>
             <div className="grid md:grid-cols-3 gap-4">
               {related.map((item) => (
                 <a
@@ -430,7 +444,7 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
                     {item.title}
                   </h3>
                   <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                    Read guide
+                    {isProductPage ? "Read more" : "Read guide"}
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </a>

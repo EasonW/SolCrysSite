@@ -107,7 +107,7 @@ const AboutUs = () => {
             </p>
             <p className="fade-in-scroll mt-5 text-xs text-muted-foreground/80 uppercase tracking-wider">
               Maintained by {siteContent.site.maintainer} · Last updated{" "}
-              <time dateTime={siteContent.site.updated}>{siteContent.site.updated}</time>
+              <time dateTime={siteContent.site.pageUpdated["/about/"]}>{siteContent.site.pageUpdated["/about/"]}</time>
             </p>
           </div>
         </section>
