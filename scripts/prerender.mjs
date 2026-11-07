@@ -1983,7 +1983,7 @@ writePage(
   "customers/index.html",
   renderLayout({
     routePath: "/customers/",
-    lastModified: "2026-09-22",
+    lastModified: "2026-11-06",
     title: "Customer Stories | SolCrys",
     ogImage: "/og/customers.png",
     description: "How leading brands — including UiPath, NextSilicon, Cornelis, and Wyze — use SolCrys to show up in AI answers. NextSilicon lifted its mention rate from 1.9% to 7.4% in 45 days; Cornelis launched a brand-new networking category in four weeks.",
@@ -3635,7 +3635,7 @@ writePage("guides/index.html", renderLayout({
 const sitemapUrls = [
   { path: "/", lastmod: site.updated || generatedAt },
   { path: "/about/", lastmod: site.updated || generatedAt },
-  { path: "/customers/", lastmod: "2026-09-22" },
+  { path: "/customers/", lastmod: "2026-11-06" },
   { path: "/customers/nextsilicon/", lastmod: site.updated || generatedAt },
   { path: "/customers/cornelis/", lastmod: "2026-09-22" },
   // /pricing/ removed Phase E — page is now a noindex meta-refresh bridge
