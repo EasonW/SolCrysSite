@@ -70,7 +70,7 @@ const COPY: Record<EarlyAccessMode, {
     successToast: "Thanks. We'll reach out to schedule a call.",
     messagePlaceholder: "What brings you to SolCrys? Team size, AI surfaces, or biggest AEO question...",
   },
-  // Sites / Motion project inquiry (used on /preview/ pages for now). Reuses the founder_chat lead type
+  // Sites / Motion project inquiry (the /sites/ and /motion/ CTAs and the homepage work section). Reuses the founder_chat lead type
   // until the intake API gets its own type and an intent field.
   project: {
     title: "Start a project with SolCrys",

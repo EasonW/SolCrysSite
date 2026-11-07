@@ -15,6 +15,8 @@ export type SolutionsMenuItem = {
   desc: string;
   /** Anchor / route this persona's playbook lives at. */
   href: string;
+  /** Card link label; defaults to "Read the playbook". */
+  cta?: string;
   Icon: LucideIcon;
 };
 

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
 import work from "@/content/work.json";
 import { AUDIT_URL } from "@/lib/audit-cta";
@@ -19,17 +20,21 @@ type SelectedWorkSectionProps = {
   heading?: string;
   intro?: string | null;
   items?: WorkItem[];
+  /** Buttons under the grid (the live homepage passes Start a project). */
+  actions?: ReactNode;
 };
 
 /**
- * PREVIEW — selected work, read from src/content/work.json so /work/, /sites/
- * and /motion/ can share one list. Adding a project = adding one entry.
- * /preview/home-v2/ passes its own use cases.
+ * Selected work, read from src/content/work.json so the homepage and the
+ * preview pages share one list. Adding a project = adding one entry, once the
+ * client approves it. /preview/home-v2/ passes its own use cases.
+ * The live homepage section is mirrored in scripts/prerender.mjs homeHtml().
  */
 const SelectedWorkSection = ({
   heading = "Selected work.",
   intro = "Real pieces, live today. We add each project here once the client approves it.",
   items = work.items,
+  actions,
 }: SelectedWorkSectionProps = {}) => {
   return (
     <section id="work" className="relative scroll-mt-24 py-20 md:py-24 section-fade">
@@ -80,6 +85,8 @@ const SelectedWorkSection = ({
             </a>
           ))}
         </div>
+
+        {actions ? <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">{actions}</div> : null}
       </div>
     </section>
   );

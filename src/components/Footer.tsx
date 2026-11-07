@@ -21,8 +21,10 @@ const previewProductLinks = [
   { href: "/customers/", label: "Customers" },
 ];
 
+// Same three product names, in the same order, as the Navbar Products menu
+// (productsMenuData.ts).
 const productLinks = [
-  { href: "/#features", label: "Platform" },
+  { href: "/#features", label: "SolCrys AEO" },
   { href: "/sites/", label: "SolCrys Sites" },
   { href: "/motion/", label: "SolCrys Motion" },
   // Phase E: pricing moved to app.solcrys.com/pricing. See Navbar.tsx for

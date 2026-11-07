@@ -28,7 +28,7 @@ const BUILT_FOR_YOU = [
   {
     name: "SolCrys Sites",
     href: "/sites/",
-    body: "Homepages, category pages, product pages and articles that AI can quote and buyers can trust.",
+    body: "We plan, write, design, build and host your website, and measure how AI engines describe you before and after launch.",
   },
   {
     name: "SolCrys Motion",
