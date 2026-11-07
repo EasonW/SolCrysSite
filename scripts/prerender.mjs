@@ -28,6 +28,7 @@ const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/conten
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 const promptPulse = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/promptPulse.json"), "utf8"));
 const courseContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/courseContent.json"), "utf8"));
+const work = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/work.json"), "utf8"));
 const userGuides = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/userGuides.json"), "utf8"));
 const userGuideText = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/userGuideText.json"), "utf8"));
 // Resource-page CTA copy — shared with src/components/ResourceCTA.tsx so the
@@ -215,7 +216,10 @@ function navHtml() {
         <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
       </a>
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
-        <a href="/#features">Platform</a>
+        <!-- Products menu. Mirrors PRODUCTS_MENU_ITEMS in src/components/productsMenuData.ts. -->
+        <a href="/#features">SolCrys AEO</a>
+        <a href="/sites/">SolCrys Sites</a>
+        <a href="/motion/">SolCrys Motion</a>
         <a href="/#solutions">Solutions</a>
         <a href="${escapeAttr(APP_PRICING_URL)}">Pricing</a>
         <a href="/customers/">Customers</a>
@@ -788,7 +792,7 @@ function homeHtml() {
         </ol>
       </figure>
       <h3>Need the fix built for you?</h3>
-      <p>Your team can ship from drafts in SolCrys AEO, or SolCrys can build it. <a href="/sites/">SolCrys Sites</a> writes and designs homepages, category pages, product pages and articles that AI can quote and buyers can trust. <a href="/motion/">SolCrys Motion</a> builds booth animation and interactive demos that make deeply technical products clear.</p>
+      <p>Your team can ship from drafts in SolCrys AEO, or SolCrys can build it. <a href="/sites/">SolCrys Sites</a> plans, writes, designs, builds and hosts your website, and measures how AI engines describe you before and after launch. <a href="/motion/">SolCrys Motion</a> builds booth animation and interactive demos that make deeply technical products clear.</p>
       <article class="seo-card" style="margin-top: 2rem;">
         <p class="seo-kicker">Cornelis Networks · In practice</p>
         <h3>Defining a new category</h3>
@@ -817,6 +821,30 @@ function homeHtml() {
         <h3>Staying ahead of competitors</h3>
         <p>SolCrys monitors the news, announcements, and conversations in your space, from competitors to your market and customers, and briefs you every day. Publish your take, and AI has a reason to cite your brand. Competitive intelligence, market intelligence, content strategy, and communications, all in one place. Available when enabled for your organization. <a href="/signal-weekly-market-brief/">How Signals works</a>.</p>
       </article>
+    </section>
+    <section id="work" class="seo-container seo-section">
+      <!-- Mirrors <SelectedWorkSection> in src/pages/Index.tsx (copy: home.work; items: src/content/work.json). -->
+      <h2>${escapeHtml(home.work.heading)}</h2>
+      <p>${escapeHtml(home.work.intro)}</p>
+      <div class="seo-grid">
+        ${work.items
+          .map(
+            (item) => `
+        <article class="seo-card">
+          <p class="seo-kicker">${escapeHtml(item.line)} · ${escapeHtml(item.client)}</p>
+          <h3><a href="${escapeAttr(item.href)}" rel="noopener">${escapeHtml(item.title)}</a></h3>
+          <p>${escapeHtml(item.summary)}</p>${
+            item.quote
+              ? `
+          <blockquote><p>“${escapeHtml(item.quote)}”</p></blockquote>
+          <p>${escapeHtml(item.quoteBy)}, ${escapeHtml(item.client)}</p>`
+              : ""
+          }
+        </article>`
+          )
+          .join("")}
+      </div>
+      <p><a href="${escapeAttr(PROJECT_INQUIRY_URL)}">Start a project</a> or <a href="/sites/">see SolCrys Sites</a>.</p>
     </section>
     <section id="customers" class="seo-container seo-section">
       <h2>Trusted across enterprise software, AI infrastructure, and consumer brands</h2>
@@ -925,6 +953,7 @@ function customersHtml() {
     <section class="seo-container seo-section">
       <h2>Featured customer: Cornelis</h2>
       <p><strong>Category:</strong> AI &amp; HPC networking</p>
+      <p><strong>Works with SolCrys on:</strong> <a href="/#features">SolCrys AEO</a>, <a href="/sites/">SolCrys Sites</a> and <a href="/motion/">SolCrys Motion</a></p>
       <p><strong>Result:</strong> A brand-new category made answerable in four weeks ahead of the AI Infra Summit — 2× AI-readiness score on the marquee product page, 12× mention rate on the new category prompt set, and #2 share of voice, unseating the incumbent #2.</p>
       <article class="seo-card">
         <p class="seo-kicker"><a href="https://www.linkedin.com/in/brandondraeger/" rel="noopener">Brandon Draeger</a> — Chief Marketing Officer, Cornelis Networks</p>
@@ -1205,6 +1234,7 @@ function aboutHtml() {
       <p>Our background sits at the intersection of SEO, search intent, product discovery, and data-driven growth. AI-generated answers add a new distribution layer to that work: a brand can perform well in traditional search, yet still be absent, uncited, or misrepresented inside the answer a buyer sees first.</p>
       <p>Marketing teams now need to know which prompts matter, which sources AI systems cite, how competitors are framed, and how to establish topical authority across AI-visible sources.</p>
       <p>SolCrys was built to connect AI visibility measurement with practical content action. The platform helps teams monitor mentions, citations, share of voice, recommendation, and answer accuracy, then translate those findings into page updates, publisher and analyst content briefs, FAQ improvements, and user-generated content (UGC) strategies.</p>
+      <p>We also take on the work itself. <a href="/sites/">SolCrys Sites</a> plans, writes, designs, builds and hosts websites for technology companies, and <a href="/motion/">SolCrys Motion</a> builds booth animation and interactive demos.</p>
       <p>Our focus is straightforward: help brands sharpen their content strategy so their content is easier for answer engines to retrieve, trust, cite, and summarize.</p>
     </section>
     <section class="seo-container seo-section">
@@ -1844,7 +1874,8 @@ writePage(
         applicationSubCategory: site.softwareSubCategory || undefined,
         operatingSystem: "Web",
         url: site.url,
-        description: site.description,
+        // The AEO software only; site.description names both product lines.
+        description: site.platformDescription,
         softwareVersion: site.softwareVersion || undefined,
         featureList: home.proofPoints,
         screenshot: `${site.url}${reportPath}`,
@@ -1880,9 +1911,26 @@ writePage(
               audienceType: site.audienceType
             }
           : undefined,
-        description: site.description,
+        description: site.platformDescription,
         url: site.url
       },
+      // SolCrys Sites and SolCrys Motion: the built-for-you lines, described
+      // from their own product pages so the homepage and /sites/, /motion/
+      // can't disagree.
+      ...publishedResourcePages.filter(isProjectPage).map((page) => ({
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: page.serviceName || page.title,
+        serviceType: page.serviceType || undefined,
+        provider: {
+          "@type": "Organization",
+          name: site.name,
+          url: site.url
+        },
+        areaServed: "Global",
+        description: page.description,
+        url: `${site.url}/${page.slug}/`
+      })),
       faqSchema(home.faqs, "/")
     ]
   })

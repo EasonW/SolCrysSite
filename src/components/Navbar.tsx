@@ -10,16 +10,20 @@ import {
   RESOURCES_FOOTER_LINKS,
 } from "./resourcesMenuData";
 import { SOLUTIONS_MENU_ITEMS } from "./solutionsMenuData";
+import { PRODUCTS_MENU_FOOTER, PRODUCTS_MENU_ITEMS } from "./productsMenuData";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { APP_PRICING_URL } from "@/lib/pricing-url";
 
 const SearchCommand = lazy(() => import("./SearchCommand"));
 
-// Single source of truth for the top-row order. Flat anchors/routes
-// only — dropdowns (Solutions / Resources / Company) are rendered
-// separately so they can carry their own open-state + mega-menu body.
-// Order convention: product-side first (Platform → Pricing → Customers),
-// discovery-side second (handled via dropdown insertion below).
+// Single source of truth for the flat links in the top row. Dropdowns
+// (Products / Solutions / Resources) are rendered separately so they can
+// carry their own open-state + mega-menu body.
+// Order: Products ▾ · Solutions ▾ · Pricing · Customers · Resources ▾ · Company.
+//
+// 2026-11: the flat "Platform" link became the Products menu (SolCrys AEO,
+// SolCrys Sites, SolCrys Motion), so Sites and Motion sit at the same level
+// as the AEO platform instead of only in the footer.
 //
 // 2026-05 nav cleanup removed two items vs the prior structure:
 //   - "The Loop" (#loop): a same-page anchor with no destination —
@@ -29,7 +33,6 @@ const SearchCommand = lazy(() => import("./SearchCommand"));
 //     lets the Company entry stay a flat link rather than a 1-item
 //     dropdown.
 const flatNavLinks = [
-  { href: "/#features", label: "Platform" },
   // Phase E: /pricing is now hosted on app.solcrys.com. Internal link is
   // absolute so the SPA does a full cross-subdomain navigation rather than
   // routing client-side to the legacy <Pricing /> component. The bridge
@@ -40,20 +43,17 @@ const flatNavLinks = [
   { href: "/about/", label: "Company" },
 ];
 
-// /preview/ only: the proposed master-brand nav (Products + Work). The live
-// site never passes `variant`, so production navigation is unchanged.
-const previewNavLinks = [
+// /preview/ only: the proposed master-brand nav replaces the Products menu
+// with same-page anchors (Products + Work). The live site never passes
+// `variant`.
+const previewLeadLinks = [
   { href: "#products", label: "Products" },
-  { href: APP_PRICING_URL, label: "Pricing" },
-  { href: "/customers/", label: "Customers" },
-  { href: "/about/", label: "Company" },
   { href: "#work", label: "Work" },
 ];
 
-type OpenMenu = "resources" | "solutions" | null;
+type OpenMenu = "products" | "resources" | "solutions" | null;
 
 const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) => {
-  const navLinks = variant === "preview" ? previewNavLinks : flatNavLinks;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   // Single open-menu enum so opening one dropdown auto-closes the
@@ -186,7 +186,7 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
         </div>
 
         {/* Desktop nav — order:
-            Platform · Solutions ▾ · Pricing · Customers · Resources ▾ · Company
+            Products ▾ · Solutions ▾ · Pricing · Customers · Resources ▾ · Company
 
             Prompt Pulse was a seventh top-level link here until 2026-08. It was
             ALSO a featured card inside the Resources mega menu, so the nav
@@ -198,8 +198,18 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
             internal link via the Footer and the prerendered footer nav, so no
             link equity is lost to /prompt-pulse/*. */}
         <div ref={wrapperRef} className="hidden xl:flex items-center gap-6">
-          {renderFlatLink(navLinks[0])}
-          {navLinks[4] ? renderFlatLink(navLinks[4]) : null}
+          {variant === "preview"
+            ? previewLeadLinks.map(renderFlatLink)
+            : renderDropdownTrigger(
+                "products",
+                "Products",
+                <SolutionsMegaMenu
+                  items={PRODUCTS_MENU_ITEMS}
+                  footer={PRODUCTS_MENU_FOOTER}
+                  onItemClick={() => setOpenMenu(null)}
+                />,
+                "wide",
+              )}
 
           {renderDropdownTrigger(
             "solutions",
@@ -208,8 +218,8 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
             "wide",
           )}
 
-          {renderFlatLink(navLinks[1])}
-          {renderFlatLink(navLinks[2])}
+          {renderFlatLink(flatNavLinks[0])}
+          {renderFlatLink(flatNavLinks[1])}
 
           {renderDropdownTrigger(
             "resources",
@@ -218,7 +228,7 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
             "wide",
           )}
 
-          {renderFlatLink(navLinks[3])}
+          {renderFlatLink(flatNavLinks[2])}
         </div>
 
         {/* Right cluster: search + theme toggle + mobile hamburger + Free Audit CTA */}
@@ -279,23 +289,47 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
           className="xl:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto"
         >
           <div className="container mx-auto px-6 py-3 flex flex-col">
-            {/* Platform */}
-            <a
-              href={navLinks[0].href}
-              onClick={closeAll}
-              className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
-            >
-              {navLinks[0].label}
-            </a>
-            {navLinks[4] ? (
-              <a
-                href={navLinks[4].href}
-                onClick={closeAll}
-                className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+            {/* Mobile Products accordion (preview: same-page anchors) */}
+            {variant === "preview" ? (
+              previewLeadLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeAll}
+                  className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
+                >
+                  {link.label}
+                </a>
+              ))
+            ) : (
+              <MobileAccordion
+                label="Products"
+                isOpen={mobileSection === "products"}
+                onToggle={() =>
+                  setMobileSection((m) => (m === "products" ? null : "products"))
+                }
               >
-                {navLinks[4].label}
-              </a>
-            ) : null}
+                <ul className="space-y-1">
+                  {PRODUCTS_MENU_ITEMS.map((item) => (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        onClick={closeAll}
+                        className="flex items-start gap-3 py-2 text-sm text-foreground/90 hover:text-[hsl(var(--brand-accent))] transition-colors"
+                      >
+                        <item.Icon className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                        <span className="min-w-0">
+                          <span className="block font-medium">{item.title}</span>
+                          <span className="block text-[11px] text-muted-foreground leading-snug">
+                            {item.audience}
+                          </span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </MobileAccordion>
+            )}
 
             {/* Mobile Solutions accordion */}
             <MobileAccordion
@@ -338,18 +372,18 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
 
             {/* Pricing + Customers */}
             <a
-              href={navLinks[1].href}
+              href={flatNavLinks[0].href}
               onClick={closeAll}
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
-              {navLinks[1].label}
+              {flatNavLinks[0].label}
             </a>
             <a
-              href={navLinks[2].href}
+              href={flatNavLinks[1].href}
               onClick={closeAll}
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
-              {navLinks[2].label}
+              {flatNavLinks[1].label}
             </a>
 
             {/* Prompt Pulse removed from top level 2026-08 — see the desktop
@@ -473,11 +507,11 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
 
             {/* Company — flat link, no dropdown (News moved to footer). */}
             <a
-              href={navLinks[3].href}
+              href={flatNavLinks[2].href}
               onClick={closeAll}
               className="py-3 text-base text-muted-foreground hover:text-foreground transition-colors border-b border-border/20"
             >
-              {navLinks[3].label}
+              {flatNavLinks[2].label}
             </a>
 
             <a
@@ -513,8 +547,8 @@ const Navbar = ({ variant = "default" }: { variant?: "default" | "preview" }) =>
 };
 
 /**
- * Mobile-only accordion wrapper. Three siblings (Solutions, Resources,
- * Company) all need the same header + collapsible body pattern; pulling
+ * Mobile-only accordion wrapper. Products, Solutions and Resources all
+ * need the same header + collapsible body pattern; pulling
  * it into a small component keeps the mobile panel readable.
  */
 function MobileAccordion({

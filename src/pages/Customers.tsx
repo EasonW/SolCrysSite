@@ -199,6 +199,15 @@ const CustomerStories = () => {
               <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 AI &amp; HPC Networking
               </p>
+              {/* What Cornelis works with SolCrys on; the same three names as
+                  the Products menu. Mirrored in prerender.mjs customersHtml(). */}
+              <p className="mt-3 text-sm text-muted-foreground">
+                <a href="/#features" className="underline underline-offset-2 hover:text-foreground">SolCrys AEO</a>{" "}
+                ·{" "}
+                <a href="/sites/" className="underline underline-offset-2 hover:text-foreground">SolCrys Sites</a>{" "}
+                ·{" "}
+                <a href="/motion/" className="underline underline-offset-2 hover:text-foreground">SolCrys Motion</a>
+              </p>
             </div>
 
             {/* Result metric pull-out */}

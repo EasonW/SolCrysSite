@@ -1,24 +1,41 @@
 import { ArrowRight } from "lucide-react";
-import { SOLUTIONS_MENU_ITEMS } from "./solutionsMenuData";
+import { SOLUTIONS_MENU_ITEMS, type SolutionsMenuItem } from "./solutionsMenuData";
+
+type MegaMenuFooter = { eyebrow: string; text: string; href: string };
 
 interface SolutionsMegaMenuProps {
   onItemClick?: () => void;
+  /** Defaults to the four Solutions personas; the Products menu passes its own. */
+  items?: SolutionsMenuItem[];
+  footer?: MegaMenuFooter;
 }
 
+/** Bottom CTA preserves the homepage Solutions section as the
+ *  "see them all in one place" destination. */
+const SOLUTIONS_FOOTER: MegaMenuFooter = {
+  eyebrow: "All solutions",
+  text: "Compare side-by-side on the homepage",
+  href: "/#solutions",
+};
+
 /**
- * Solutions mega menu — 4 persona cards in a row (or stacked on
- * narrow viewports). Each card is a complete pitch + jump target so
- * users can self-segment from anywhere on the site, not just the
- * homepage `#solutions` section.
+ * Card mega menu — one card per item in a row (or stacked on narrow
+ * viewports). Each card is a complete pitch + jump target. Renders the
+ * Solutions personas by default (solutionsMenuData.ts) and the Products
+ * menu when given PRODUCTS_MENU_ITEMS (productsMenuData.ts).
  *
- * Visual register mirrors ResourcesMegaMenu so the two dropdowns feel
- * like siblings. Item data lives in solutionsMenuData.ts.
+ * Visual register mirrors ResourcesMegaMenu so the dropdowns feel
+ * like siblings.
  */
-const SolutionsMegaMenu = ({ onItemClick }: SolutionsMegaMenuProps) => {
+const SolutionsMegaMenu = ({
+  onItemClick,
+  items = SOLUTIONS_MENU_ITEMS,
+  footer = SOLUTIONS_FOOTER,
+}: SolutionsMegaMenuProps) => {
   return (
     <div className="w-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-border/40 bg-background/95 backdrop-blur-xl shadow-floating-lg p-7 md:p-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5">
-        {SOLUTIONS_MENU_ITEMS.map((item) => (
+      <div className={`grid grid-cols-1 ${items.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4"} gap-4 md:gap-5`}>
+        {items.map((item) => (
           <a
             key={item.href}
             href={item.href}
@@ -38,27 +55,25 @@ const SolutionsMegaMenu = ({ onItemClick }: SolutionsMegaMenuProps) => {
               {item.desc}
             </p>
             <span className="inline-flex items-center gap-1 text-xs font-medium text-[hsl(var(--brand-accent))]">
-              Read the playbook
+              {item.cta ?? "Read the playbook"}
               <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
             </span>
           </a>
         ))}
       </div>
 
-      {/* Bottom CTA preserves the homepage Solutions section as the
-          "see them all in one place" destination. */}
       <div className="mt-6 pt-6 border-t border-border/40">
         <a
-          href="/#solutions"
+          href={footer.href}
           onClick={onItemClick}
           className="group flex items-center justify-between rounded-xl border border-[hsl(var(--brand-accent)/0.35)] bg-[hsl(var(--brand-accent)/0.06)] hover:bg-[hsl(var(--brand-accent)/0.12)] transition-colors px-5 py-4"
         >
           <div className="min-w-0">
             <p className="text-[11px] uppercase tracking-wider font-semibold text-[hsl(var(--brand-accent))]">
-              All solutions
+              {footer.eyebrow}
             </p>
             <p className="text-sm font-medium text-foreground">
-              Compare side-by-side on the homepage
+              {footer.text}
             </p>
           </div>
           <ArrowRight className="h-4 w-4 text-[hsl(var(--brand-accent))] group-hover:translate-x-1 transition-transform" />

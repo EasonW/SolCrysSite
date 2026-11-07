@@ -138,6 +138,17 @@ const AboutUs = () => {
               (UGC) strategies.
             </p>
             <p>
+              We also take on the work itself.{" "}
+              <a href="/sites/" className="text-foreground underline underline-offset-2 hover:text-[hsl(var(--brand-accent))]">
+                SolCrys Sites
+              </a>{" "}
+              plans, writes, designs, builds and hosts websites for technology companies, and{" "}
+              <a href="/motion/" className="text-foreground underline underline-offset-2 hover:text-[hsl(var(--brand-accent))]">
+                SolCrys Motion
+              </a>{" "}
+              builds booth animation and interactive demos.
+            </p>
+            <p>
               Our focus is straightforward: help brands sharpen their content strategy so their
               content is easier for answer engines to retrieve, trust, cite, and summarize.
             </p>
