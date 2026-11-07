@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Company Memory for AI Agents: Rules for Shared Memory | SolCrys</title>
+    <meta name="description" content="Most agent-memory writing follows one agent and its own work. A company&#39;s memory is shared by many writers and readers, and that changes the rules." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/company-memory-for-ai-agents/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="Eason Wang" />
+    <meta name="date" content="2026-11-07" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Company Memory for AI Agents: Rules for Shared Memory | SolCrys" />
+    <meta property="og:description" content="Most agent-memory writing follows one agent and its own work. A company&#39;s memory is shared by many writers and readers, and that changes the rules." />
+    <meta property="og:url" content="https://solcrys.com/company-memory-for-ai-agents/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-11-07" />
+    <meta property="article:modified_time" content="2026-11-07" />
+    <meta property="og:image" content="https://solcrys.com/og/company-memory-for-ai-agents.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/company-memory-for-ai-agents.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BAElhdS9.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Company Memory for AI Agents: Many Writers, Many Readers, One Set of Rules","item":"https://solcrys.com/company-memory-for-ai-agents/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Company memory for AI agents: many writers, many readers, one set of rules","description":"Most agent-memory writing follows one agent and its own work. A company's memory is shared by many writers and readers, and that changes the rules.","dateModified":"2026-11-07","datePublished":"2026-11-07","mainEntityOfPage":"https://solcrys.com/company-memory-for-ai-agents/","author":{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO, SolCrys","sameAs":["https://www.linkedin.com/in/eason-wang/"],"worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"}},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/company-memory-for-ai-agents/","mainEntity":[{"@type":"Question","name":"How big should a company's memory be?","acceptedAnswer":{"@type":"Answer","text":"As small as the jobs that read it allow: distilled pages by topic, each fact stated once, with the detail left in the sources each fact links to. In Anthropic's study, one wiki grew to 1.77 times the size of its source files, a sign that it had abstracted almost nothing. At company scale an agent can list the pages and read the ones its task needs, so we haven't built a search index. We'll add one when a writer can no longer fit what its task needs."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <!-- Products menu. Mirrors PRODUCTS_MENU_ITEMS in src/components/productsMenuData.ts. -->
+        <a href="/#features">SolCrys AEO</a>
+        <a href="/sites/">SolCrys Sites</a>
+        <a href="/motion/">SolCrys Motion</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">How SolCrys Works</p>
+        <h1>Company memory for AI agents: many writers, many readers, one set of rules</h1>
+        <p class="seo-lede">Most writing about agent memory follows one agent remembering its own work. We build agents that share one memory of a customer&#39;s company, and that memory needs different rules.</p>
+        <p>By <a href="https://www.linkedin.com/in/eason-wang/" rel="noopener">Eason Wang</a>, Co-Founder &amp; CPO, SolCrys</p>
+        <p>Updated <time datetime="2026-11-07">2026-11-07</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is company memory for AI agents?</li><li>How is an agent&#39;s memory of a company different from its memory of a person?</li><li>Should AI agents be allowed to change company facts on their own?</li><li>How do you keep AI agents&#39; knowledge of a company up to date?</li><li>What should stay out of an AI agent&#39;s company memory?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Company memory is what AI agents keep about a business between sessions: what it sells, what it may claim, its proof and its rules. Agents read it before they write, review or grade anything. When many people and agents share it, the hard part is deciding who may change a fact, making sure every agent reads the same version, and keeping out what doesn&#39;t belong.</p><p>We&#39;re rebuilding Corporate Context, the memory SolCrys agents keep about each customer&#39;s company, around four rules. They also work as a check for any team running more than one agent on brand work:</p>
+      
+      <ul class="seo-list"><li><strong>Rank the writers.</strong> A scheduled job can&#39;t overwrite a fact a person confirmed. It can propose a change; a person decides.</li><li><strong>Give every reader the same version.</strong> The agent that drafts and the check that grades read the same version of the facts, assembled the same way.</li><li><strong>Store facts, with their sources.</strong> Choices, your own grades and unannounced plans stay out.</li><li><strong>Write back what you learn.</strong> Anything that researches the company files what it finds.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What Anthropic&#39;s study found</h2>
+      <p>On Nov. 6, Anthropic published <a href="https://www.anthropic.com/research/components-of-agent-memory" target="_blank" rel="noopener noreferrer">The components of agent memory</a>, the clearest public account I&#39;ve read of how an agent keeps what it learns between sessions. It describes four layers: a searchable log of past sessions, notes the agent writes, representations such as wikis, and a small block of context loaded into every session. It also describes &quot;dreaming&quot;, a background pass in which the agent rereads its logs, corrects its notes against them and reorganizes what it keeps.</p><p>Two findings matter for anyone storing facts about a business. More memory isn&#39;t better memory: in a Pokémon Red run, a model that wrote 413 memory files earned one badge, and a newer model that kept about ten earned four. And shared memory loses facts when writers collide. When several agents wrote contract terms into one shared table, they overwrote one another&#39;s work, and the brief built from it kept 41 of 57 graded facts. With one agent per contract quoting the terms verbatim, all 57 survived.</p>
+      
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Three kinds of memory</h2>
+      <p>Put memory of a task, of a person and of a company side by side. What changes most is who writes and who reads.</p>
+      
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th></th><th>Memory of a task</th><th>Memory of a person</th><th>Memory of a company</th></tr></thead>
+              <tbody><tr><td>Who writes it</td><td>The agent doing the work</td><td>An assistant, from what the person tells it</td><td>Marketing, product and legal teams, the agents they direct, and scheduled jobs</td></tr><tr><td>Who reads it</td><td>The same agent, next session</td><td>That assistant</td><td>Every agent that acts for the company: writers, reviewers, site builders, the checks that grade AI answers</td></tr><tr><td>Who settles a conflict</td><td>The latest result the agent has checked</td><td>The person&#39;s own words</td><td>What the company has approved; a person outranks a scheduled job</td></tr><tr><td>What makes it stale</td><td>The task&#39;s environment changes</td><td>The person&#39;s life changes</td><td>The company launches, hires, raises money and renames things</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Rule 1: rank the writers</h2>
+      <p>When one agent works on a task, its memory has one writer: that agent. A company memory has many. A product marketer rewrites a positioning page, an agent drafting a blog post asks someone to confirm an integration, a scheduled job picks up last week&#39;s launch. Without an order among them, the last writer wins, and facts disappear, as they did in the contract experiment.</p><p>Ranking them is what makes automation safe to switch on. When a scheduled job disagrees with a fact a person confirmed, it leaves a proposal beside it, and nothing changes until a person accepts it. A team that can see and undo every machine write can afford to let machines write.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Rule 2: give every reader the same version</h2>
+      <p>A company memory has more readers than writers. At SolCrys, the same Corporate Context grounds the agents that draft content, the audit that reviews pages, and <a href="/is-ai-telling-the-truth-about-your-brand/">Answer Accuracy</a>, which grades whether an AI engine described the company correctly.</p><p>If each reader put the memory together on its own, with its own order, its own length limit and its own idea of which copy of a page is current, a writer and a grader could disagree about the company even though nobody changed a fact.</p><p>So the assembly belongs with the memory too, and each reader&#39;s job decides only which parts it gets. A grader needs the approved description. A writer needs that plus the detailed facts and the voice rules. Anthropic notes that one wrong note in the top layer reaches every session. In a shared company memory, one wrong fact reaches every agent.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Rule 3: store facts, with their sources</h2>
+      <p>The most useful decisions were about what to keep out.</p>
+      
+      <ul class="seo-list"><li><strong>Choices.</strong> Which questions to track and which rivals to measure share of voice against are decisions a team makes per market or product line. In SolCrys they belong to a <a href="/workspace-setup-best-practices/">workspace</a>, while one Corporate Context serves every workspace in the organization. Stored as company facts, preferences would read as truth to every agent.</li><li><strong>Your own grades.</strong> Answer Accuracy grades engine answers against the memory. If those grades flowed back in, the memory would drift toward what the grader already believes, and the check would end up confirming itself.</li><li><strong>Unannounced plans.</strong> Every agent that reads company memory writes for someone, so anything in it can end up quoted. A roadmap item in memory is one draft away from a public page.</li></ul>
+      
+      
+      <div class="seo-subsection">
+        <h3>Every fact keeps its source</h3>
+        <p>What does get in carries its source. When a machine adds a fact, the fact has to be checkable against the page it came from: a number must appear in the source, a quote must be word for word, a customer must be named, and the link and date come from the source itself. Anything that fails stays out. For why sourced, current facts decide what AI gets right about a brand, see <a href="/grounding-depth-ai-brand-accuracy/">Why grounding depth decides whether AI gets your brand right</a>.</p>
+        
+      </div>
+    </section>
+    <section class="seo-section">
+      <h2>Rule 4: write back what you learn</h2>
+      <p>Most company memory is written once, at setup, and then read for months while the company launches products, signs partners and publishes case studies. Anthropic&#39;s study names the same drift from the agent&#39;s side: memory goes out of date as the environment changes, and the study suggests the background pass may need to focus on what is likely to change.</p><p>For a company, most of what changes is announced in public: in its newsroom, on its blog and in press coverage. Agents that already read those sources should file what they find, with the link, under the first rule. When a writing agent asks a person to confirm a fact for a draft, the answer should go into memory so the next draft doesn&#39;t ask again. Every agent that learns something about the company should file it the same way.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Where Corporate Context stands today</h2>
+      <p>Corporate Context is set at the organization level: one memory of the company, kept as pages that every workspace shares. People edit it in the dashboard. Agents connected through the <a href="/solcrys-mcp-and-skills/">SolCrys MCP server</a> can read it and propose changes for a person to review. Every change shows who made it, and any page can be restored to an earlier version. When SolCrys builds Corporate Context automatically at setup, it never overwrites a page a person has edited; it leaves a replacement draft instead. Answer Accuracy grades engine answers against it, and the grades don&#39;t flow back in.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>About the author</h2>
+      <p>Eason Wang is Co-Founder &amp; CPO of SolCrys. He holds a PhD in Machine Learning and has spent 18+ years building enterprise products, starting at Microsoft Research Asia. His current focus is agentic AI workflows and the infrastructure required to run them in production. Connect on <a href="https://www.linkedin.com/in/eason-wang/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p><p>Written November 2026. For what Corporate Context contains, see <a href="/corporate-context-ai-marketing/">Corporate Context is the new CMS</a>; for the harness it feeds, see <a href="/models-change-harness-compounds/">Models change. The harness compounds.</a></p>
+      
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://www.anthropic.com/research/components-of-agent-memory" target="_blank" rel="noopener noreferrer">Anthropic, &quot;The components of agent memory&quot; (Nov. 6, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>How big should a company&#39;s memory be?</h3>
+            <p>As small as the jobs that read it allow: distilled pages by topic, each fact stated once, with the detail left in the sources each fact links to. In Anthropic&#39;s study, one wiki grew to 1.77 times the size of its source files, a sign that it had abstracted almost nothing. At company scale an agent can list the pages and read the ones its task needs, so we haven&#39;t built a search index. We&#39;ll add one when a writer can no longer fit what its task needs.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/corporate-context-ai-marketing/">Corporate Context Is the New CMS</a></h3>
+            <p>Corporate Context gives AI marketing agents the brand facts, claims, guardrails, and evidence they need to execute safely across AEO workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/models-change-harness-compounds/">Models Change. The Harness Compounds.</a></h3>
+            <p>Eason Wang, SolCrys CPO, on why the model isn&#39;t the moat, bought or fine-tuned, and what compounds instead: model portfolios, scenario evals, a harness.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/grounding-depth-ai-brand-accuracy/">Why Grounding Depth Decides Whether AI Gets Your Brand Right</a></h3>
+            <p>AI answer accuracy about your brand is only as good as the truth you grade against. A thin baseline context catches crude contradictions; a deep, cited, current source of truth catches drift — and the claims a shallow context is silent about.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/is-ai-telling-the-truth-about-your-brand/">When AI Describes Your Brand, Is It Telling the Truth?</a></h3>
+            <p>AI answers drop claims you earned, quote prices you retired, and assert things you never said, and that text can be steered on purpose. How to grade every AI answer against your own grounding truth, with receipts.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">How SolCrys Works</p>
+            <h3><a href="/workspace-setup-best-practices/">How to Set Up a SolCrys Workspace: A Best-Practices Guide</a></h3>
+            <p>What a SolCrys workspace is, the two ways to create one, and the best practices that keep your AI-visibility measurement clean: scoping the category, when to use multiple workspaces, engines, competitors, Corporate Context, and the prompt set.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">MCP &amp; Skills</p>
+            <h3><a href="/solcrys-mcp-and-skills/">SolCrys MCP and Skills: tools, install, and the workflows that chain them</a></h3>
+            <p>A practical reference for the SolCrys MCP server and the six open-source AEO Skills. The core tools cataloged, OAuth and PAT install paths, the seven-step typical workflow, and how the Skills auto-chain MCP calls inside Claude, Cursor, and other AI clients.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CXp-sWoi.js"></script>
+  </body>
+</html>
