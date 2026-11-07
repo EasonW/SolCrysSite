@@ -2426,6 +2426,7 @@
         "How do I monitor brand accuracy across AI engines?"
       ],
       "relatedSlugs": [
+        "company-memory-for-ai-agents",
         "google-spam-policy-ai-answer-manipulation",
         "ai-hallucination-risk-monitoring",
         "how-ai-describes-your-brand",
@@ -2646,6 +2647,7 @@
         "Can an accuracy check catch a claim my context never recorded?"
       ],
       "relatedSlugs": [
+        "company-memory-for-ai-agents",
         "is-ai-telling-the-truth-about-your-brand",
         "corporate-context-ai-marketing",
         "ai-hallucination-risk-monitoring",
@@ -5061,7 +5063,7 @@
       "category": "How SolCrys Works",
       "ogImage": "/og/corporate-context-ai-marketing.png",
       "published": "2026-05-04",
-      "updated": "2026-09-26",
+      "updated": "2026-11-07",
       "primaryKeyword": "Corporate Context",
       "aeoTargets": [
         "What is Corporate Context for AI marketing agents?",
@@ -5069,6 +5071,7 @@
         "What guardrails should AI marketing agents use?"
       ],
       "relatedSlugs": [
+        "company-memory-for-ai-agents",
         "model-upgrades-are-migrations",
         "ai-visibility-dashboard-vs-aeo-execution-engine",
         "aeo-for-agencies",
@@ -5173,7 +5176,7 @@
               ],
               [
                 "Product facts",
-                "Features, integrations, commercial notes, limitations, roadmap exclusions",
+                "Features, integrations, commercial notes, limitations",
                 "Reduces hallucination and outdated claims"
               ],
               [
@@ -5195,11 +5198,6 @@
                 "Compliance guardrails",
                 "Regulated claims, legal disclaimers, review requirements",
                 "Supports enterprise governance"
-              ],
-              [
-                "AEO targets",
-                "Priority prompts, answer gaps, citation goals, important pages",
-                "Connects brand context to AI search outcomes"
               ]
             ]
           }
@@ -5245,7 +5243,6 @@
             "Which claims are approved and supported by evidence?",
             "Which claims are not allowed?",
             "Which pages should be treated as canonical sources?",
-            "Which prompts should be monitored after each content action?",
             "Who approves agent-generated changes?"
           ]
         },
@@ -5272,7 +5269,7 @@
         },
         {
           "question": "Who owns Corporate Context?",
-          "answer": "In most companies, marketing owns the working content, product marketing owns positioning, legal or compliance owns restricted claims, and growth or SEO owns the AEO prompt targets. The system needs a clear approval owner."
+          "answer": "In most companies, marketing owns the working content, product marketing owns positioning, and legal or compliance owns restricted claims. The system needs a clear approval owner."
         },
         {
           "question": "Why does Corporate Context matter for AEO?",
@@ -17797,6 +17794,7 @@
         "What are the best practices for setting up AI visibility tracking?"
       ],
       "relatedSlugs": [
+        "company-memory-for-ai-agents",
         "golden-prompt-set-methodology",
         "engine-prioritization-framework",
         "corporate-context-ai-marketing",
@@ -22505,6 +22503,7 @@
         }
       ],
       "relatedSlugs": [
+        "company-memory-for-ai-agents",
         "model-upgrades-are-migrations",
         "why-we-bet-on-mcp",
         "agent-readiness-third-audience",
@@ -37024,6 +37023,7 @@
         "How do you tell an AI marketing platform with a harness from a wrapper?"
       ],
       "relatedSlugs": [
+        "company-memory-for-ai-agents",
         "model-upgrades-are-migrations",
         "building-aeo-platform-architecture",
         "production-is-cheap-trust-is-scarce",
@@ -44127,6 +44127,174 @@
         {
           "label": "Google Search Central: Spam policies for Google web search",
           "url": "https://developers.google.com/search/docs/essentials/spam-policies"
+        }
+      ]
+    },
+    {
+      "slug": "company-memory-for-ai-agents",
+      "title": "Company Memory for AI Agents: Many Writers, Many Readers, One Set of Rules",
+      "metaTitle": "Company Memory for AI Agents: Rules for Shared Memory | SolCrys",
+      "description": "Most agent-memory writing follows one agent and its own work. A company's memory is shared by many writers and readers, and that changes the rules.",
+      "h1": "Company memory for AI agents: many writers, many readers, one set of rules",
+      "category": "How SolCrys Works",
+      "published": "2026-11-07",
+      "updated": "2026-11-07",
+      "author": {
+        "name": "Eason Wang",
+        "role": "Co-Founder & CPO, SolCrys",
+        "linkedin": "https://www.linkedin.com/in/eason-wang/",
+        "photoUrl": "/team/eason-wang.jpg"
+      },
+      "ogImage": "/og/company-memory-for-ai-agents.png",
+      "ogEyebrow": "How SolCrys Works",
+      "ogTitleParts": [
+        "Many writers, many readers.",
+        "One company memory."
+      ],
+      "ogSubtitle": "Why memory about a company needs different rules from memory about a task or a person.",
+      "primaryKeyword": "company memory for AI agents",
+      "aeoTargets": [
+        "What is company memory for AI agents?",
+        "How is an agent's memory of a company different from its memory of a person?",
+        "Should AI agents be allowed to change company facts on their own?",
+        "How do you keep AI agents' knowledge of a company up to date?",
+        "What should stay out of an AI agent's company memory?"
+      ],
+      "relatedSlugs": [
+        "corporate-context-ai-marketing",
+        "models-change-harness-compounds",
+        "grounding-depth-ai-brand-accuracy",
+        "is-ai-telling-the-truth-about-your-brand",
+        "workspace-setup-best-practices",
+        "solcrys-mcp-and-skills"
+      ],
+      "summary": "Most writing about agent memory follows one agent remembering its own work. We build agents that share one memory of a customer's company, and that memory needs different rules.",
+      "sections": [
+        {
+          "heading": "Direct answer",
+          "body": [
+            "Company memory is what AI agents keep about a business between sessions: what it sells, what it may claim, its proof and its rules. Agents read it before they write, review or grade anything. When many people and agents share it, the hard part is deciding who may change a fact, making sure every agent reads the same version, and keeping out what doesn't belong.",
+            "We're rebuilding Corporate Context, the memory SolCrys agents keep about each customer's company, around four rules. They also work as a check for any team running more than one agent on brand work:"
+          ],
+          "bullets": [
+            "**Rank the writers.** A scheduled job can't overwrite a fact a person confirmed. It can propose a change; a person decides.",
+            "**Give every reader the same version.** The agent that drafts and the check that grades read the same version of the facts, assembled the same way.",
+            "**Store facts, with their sources.** Choices, your own grades and unannounced plans stay out.",
+            "**Write back what you learn.** Anything that researches the company files what it finds."
+          ]
+        },
+        {
+          "heading": "What Anthropic's study found",
+          "body": [
+            "On Nov. 6, Anthropic published [The components of agent memory](https://www.anthropic.com/research/components-of-agent-memory), the clearest public account I've read of how an agent keeps what it learns between sessions. It describes four layers: a searchable log of past sessions, notes the agent writes, representations such as wikis, and a small block of context loaded into every session. It also describes \"dreaming\", a background pass in which the agent rereads its logs, corrects its notes against them and reorganizes what it keeps.",
+            "Two findings matter for anyone storing facts about a business. More memory isn't better memory: in a Pokémon Red run, a model that wrote 413 memory files earned one badge, and a newer model that kept about ten earned four. And shared memory loses facts when writers collide. When several agents wrote contract terms into one shared table, they overwrote one another's work, and the brief built from it kept 41 of 57 graded facts. With one agent per contract quoting the terms verbatim, all 57 survived."
+          ]
+        },
+        {
+          "heading": "Three kinds of memory",
+          "body": [
+            "Put memory of a task, of a person and of a company side by side. What changes most is who writes and who reads."
+          ],
+          "table": {
+            "headers": [
+              "",
+              "Memory of a task",
+              "Memory of a person",
+              "Memory of a company"
+            ],
+            "rows": [
+              [
+                "Who writes it",
+                "The agent doing the work",
+                "An assistant, from what the person tells it",
+                "Marketing, product and legal teams, the agents they direct, and scheduled jobs"
+              ],
+              [
+                "Who reads it",
+                "The same agent, next session",
+                "That assistant",
+                "Every agent that acts for the company: writers, reviewers, site builders, the checks that grade AI answers"
+              ],
+              [
+                "Who settles a conflict",
+                "The latest result the agent has checked",
+                "The person's own words",
+                "What the company has approved; a person outranks a scheduled job"
+              ],
+              [
+                "What makes it stale",
+                "The task's environment changes",
+                "The person's life changes",
+                "The company launches, hires, raises money and renames things"
+              ]
+            ]
+          }
+        },
+        {
+          "heading": "Rule 1: rank the writers",
+          "body": [
+            "When one agent works on a task, its memory has one writer: that agent. A company memory has many. A product marketer rewrites a positioning page, an agent drafting a blog post asks someone to confirm an integration, a scheduled job picks up last week's launch. Without an order among them, the last writer wins, and facts disappear, as they did in the contract experiment.",
+            "Ranking them is what makes automation safe to switch on. When a scheduled job disagrees with a fact a person confirmed, it leaves a proposal beside it, and nothing changes until a person accepts it. A team that can see and undo every machine write can afford to let machines write."
+          ]
+        },
+        {
+          "heading": "Rule 2: give every reader the same version",
+          "body": [
+            "A company memory has more readers than writers. At SolCrys, the same Corporate Context grounds the agents that draft content, the audit that reviews pages, and [Answer Accuracy](/is-ai-telling-the-truth-about-your-brand/), which grades whether an AI engine described the company correctly.",
+            "If each reader put the memory together on its own, with its own order, its own length limit and its own idea of which copy of a page is current, a writer and a grader could disagree about the company even though nobody changed a fact.",
+            "So the assembly belongs with the memory too, and each reader's job decides only which parts it gets. A grader needs the approved description. A writer needs that plus the detailed facts and the voice rules. Anthropic notes that one wrong note in the top layer reaches every session. In a shared company memory, one wrong fact reaches every agent."
+          ]
+        },
+        {
+          "heading": "Rule 3: store facts, with their sources",
+          "body": [
+            "The most useful decisions were about what to keep out."
+          ],
+          "bullets": [
+            "**Choices.** Which questions to track and which rivals to measure share of voice against are decisions a team makes per market or product line. In SolCrys they belong to a [workspace](/workspace-setup-best-practices/), while one Corporate Context serves every workspace in the organization. Stored as company facts, preferences would read as truth to every agent.",
+            "**Your own grades.** Answer Accuracy grades engine answers against the memory. If those grades flowed back in, the memory would drift toward what the grader already believes, and the check would end up confirming itself.",
+            "**Unannounced plans.** Every agent that reads company memory writes for someone, so anything in it can end up quoted. A roadmap item in memory is one draft away from a public page."
+          ],
+          "subsections": [
+            {
+              "heading": "Every fact keeps its source",
+              "body": [
+                "What does get in carries its source. When a machine adds a fact, the fact has to be checkable against the page it came from: a number must appear in the source, a quote must be word for word, a customer must be named, and the link and date come from the source itself. Anything that fails stays out. For why sourced, current facts decide what AI gets right about a brand, see [Why grounding depth decides whether AI gets your brand right](/grounding-depth-ai-brand-accuracy/)."
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "Rule 4: write back what you learn",
+          "body": [
+            "Most company memory is written once, at setup, and then read for months while the company launches products, signs partners and publishes case studies. Anthropic's study names the same drift from the agent's side: memory goes out of date as the environment changes, and the study suggests the background pass may need to focus on what is likely to change.",
+            "For a company, most of what changes is announced in public: in its newsroom, on its blog and in press coverage. Agents that already read those sources should file what they find, with the link, under the first rule. When a writing agent asks a person to confirm a fact for a draft, the answer should go into memory so the next draft doesn't ask again. Every agent that learns something about the company should file it the same way."
+          ]
+        },
+        {
+          "heading": "Where Corporate Context stands today",
+          "body": [
+            "Corporate Context is set at the organization level: one memory of the company, kept as pages that every workspace shares. People edit it in the dashboard. Agents connected through the [SolCrys MCP server](/solcrys-mcp-and-skills/) can read it and propose changes for a person to review. Every change shows who made it, and any page can be restored to an earlier version. When SolCrys builds Corporate Context automatically at setup, it never overwrites a page a person has edited; it leaves a replacement draft instead. Answer Accuracy grades engine answers against it, and the grades don't flow back in."
+          ]
+        },
+        {
+          "heading": "About the author",
+          "body": [
+            "Eason Wang is Co-Founder & CPO of SolCrys. He holds a PhD in Machine Learning and has spent 18+ years building enterprise products, starting at Microsoft Research Asia. His current focus is agentic AI workflows and the infrastructure required to run them in production. Connect on [LinkedIn](https://www.linkedin.com/in/eason-wang/).",
+            "Written November 2026. For what Corporate Context contains, see [Corporate Context is the new CMS](/corporate-context-ai-marketing/); for the harness it feeds, see [Models change. The harness compounds.](/models-change-harness-compounds/)"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How big should a company's memory be?",
+          "answer": "As small as the jobs that read it allow: distilled pages by topic, each fact stated once, with the detail left in the sources each fact links to. In Anthropic's study, one wiki grew to 1.77 times the size of its source files, a sign that it had abstracted almost nothing. At company scale an agent can list the pages and read the ones its task needs, so we haven't built a search index. We'll add one when a writer can no longer fit what its task needs."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Anthropic, \"The components of agent memory\" (Nov. 6, 2026)",
+          "url": "https://www.anthropic.com/research/components-of-agent-memory"
         }
       ]
     }
