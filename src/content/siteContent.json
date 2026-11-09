@@ -44134,11 +44134,11 @@
       "slug": "company-memory-for-ai-agents",
       "title": "Company Memory for AI Agents: Many Writers, Many Readers, One Set of Rules",
       "metaTitle": "Company Memory for AI Agents: Rules for Shared Memory | SolCrys",
-      "description": "Most agent-memory writing follows one agent and its own work. A company's memory is shared by many writers and readers, and that changes the rules.",
+      "description": "What Anthropic's agent-memory experiments mean for memory about a company, which many people and agents write and read, and the four rules that follow.",
       "h1": "Company memory for AI agents: many writers, many readers, one set of rules",
       "category": "How SolCrys Works",
       "published": "2026-11-07",
-      "updated": "2026-11-07",
+      "updated": "2026-11-08",
       "author": {
         "name": "Eason Wang",
         "role": "Co-Founder & CPO, SolCrys",
@@ -44155,7 +44155,7 @@
       "primaryKeyword": "company memory for AI agents",
       "aeoTargets": [
         "What is company memory for AI agents?",
-        "How is an agent's memory of a company different from its memory of a person?",
+        "What does Anthropic's agent-memory research mean for company knowledge?",
         "Should AI agents be allowed to change company facts on their own?",
         "How do you keep AI agents' knowledge of a company up to date?",
         "What should stay out of an AI agent's company memory?"
@@ -44168,32 +44168,90 @@
         "workspace-setup-best-practices",
         "solcrys-mcp-and-skills"
       ],
-      "summary": "Most writing about agent memory follows one agent remembering its own work. We build agents that share one memory of a customer's company, and that memory needs different rules.",
+      "summary": "Anthropic's new study tests how AI agents keep and correct what they learn. This essay reads its experiments for a harder case: memory about a company, shared by every agent that works for it.",
       "sections": [
         {
           "heading": "Direct answer",
           "body": [
-            "Company memory is what AI agents keep about a business between sessions: what it sells, what it may claim, its proof and its rules. Agents read it before they write, review or grade anything. When many people and agents share it, the hard part is deciding who may change a fact, making sure every agent reads the same version, and keeping out what doesn't belong.",
-            "We're rebuilding Corporate Context, the memory SolCrys agents keep about each customer's company, around four rules. They also work as a check for any team running more than one agent on brand work:"
+            "Company memory is what AI agents keep about a business between sessions: what it sells, what it may claim, its proof and its rules. Agents read it before they write, review or grade anything. Anthropic's experiments suggest that what an agent keeps, and how it corrects it, matters more than how much it keeps. A company's memory adds a problem the study mostly sets aside: many people and agents write to it, and many agents read it.",
+            "We're rebuilding [Corporate Context](/corporate-context-ai-marketing/), the memory SolCrys agents keep about each customer's company, around four rules. They also work as a check for any team running more than one agent on brand work:"
           ],
           "bullets": [
-            "**Rank the writers.** A scheduled job can't overwrite a fact a person confirmed. It can propose a change; a person decides.",
-            "**Give every reader the same version.** The agent that drafts and the check that grades read the same version of the facts, assembled the same way.",
-            "**Store facts, with their sources.** Choices, your own grades and unannounced plans stay out.",
-            "**Write back what you learn.** Anything that researches the company files what it finds."
+            "**Rank the writers.** An automated job can't overwrite a fact a person confirmed. It proposes a change; a person decides.",
+            "**Give every reader the same version.** The agent that drafts and the check that grades read one copy of each page, assembled the same way.",
+            "**Store facts, with their sources.** Each fact says where it came from. Choices, your own grades and unannounced plans stay out.",
+            "**Write back what you learn.** Anything that researches the company files what it finds, under the first rule."
           ]
         },
         {
-          "heading": "What Anthropic's study found",
+          "heading": "How Anthropic describes agent memory",
           "body": [
-            "On Nov. 6, Anthropic published [The components of agent memory](https://www.anthropic.com/research/components-of-agent-memory), the clearest public account I've read of how an agent keeps what it learns between sessions. It describes four layers: a searchable log of past sessions, notes the agent writes, representations such as wikis, and a small block of context loaded into every session. It also describes \"dreaming\", a background pass in which the agent rereads its logs, corrects its notes against them and reorganizes what it keeps.",
-            "Two findings matter for anyone storing facts about a business. More memory isn't better memory: in a Pokémon Red run, a model that wrote 413 memory files earned one badge, and a newer model that kept about ten earned four. And shared memory loses facts when writers collide. When several agents wrote contract terms into one shared table, they overwrote one another's work, and the brief built from it kept 41 of 57 graded facts. With one agent per contract quoting the terms verbatim, all 57 survived."
+            "On Nov. 6, Anthropic published [The components of agent memory](https://www.anthropic.com/research/components-of-agent-memory), the most detailed public account I've read of how an agent keeps what it learns. It defines memory narrowly: knowledge an agent gains from experience and keeps between sessions as text it can read later. Changes to a model's weights and summaries of a long conversation don't count.",
+            "The study arranges memory in four layers. At the bottom is a searchable log of past sessions. Above it are notes the agent writes when something seems worth keeping. Above those are representations, such as a wiki that gathers and links what the agent knows about one subject. At the top is a small block of context loaded into every new session. A background pass called dreaming rereads the logs, corrects notes against them, builds the wiki and decides what moves up to the top.",
+            "Each layer has a counterpart in a company's memory. What differs is the cast: one agent on the left, many writers and readers on the right."
+          ],
+          "figure": {
+            "src": "/figures/company-memory-four-layers.png",
+            "alt": "Two memory stacks side by side. Left, one agent's memory as Anthropic describes it, from bottom to top: a searchable log of past sessions; notes the agent writes; representations such as wikis; and context loaded into every session. A background pass called dreaming checks notes against the log and decides what moves up. Right, the design SolCrys is rebuilding Corporate Context toward: the company's own sources, such as its website, newsroom, filings, press coverage and answers people confirmed; facts, each with its source; Corporate Context pages by topic, such as products, proof, claim rules and voice; and a short approved description every job starts from. A review pass checks facts against sources and proposes changes for a person to accept. On the left, one agent writes and reads. On the right, people, the agents they direct and automated jobs write, and writing agents, page reviews, site builders and answer graders read.",
+            "caption": "Left: the four layers in Anthropic's study. Right: the same layers in the design we're rebuilding Corporate Context toward, with many writers and many readers.",
+            "width": 1600,
+            "height": 1176
+          }
+        },
+        {
+          "heading": "What the experiments show, read for a company",
+          "body": [
+            "The study runs experiments on notes, corrections and wikis. Five of its findings carry over to memory about a business, and the figure shows three of them."
+          ],
+          "figure": {
+            "src": "/figures/company-memory-study-results.png",
+            "alt": "Three results from Anthropic's agent-memory study. Pokémon Red, one run per model: Claude Sonnet 3.7 kept 413 memory files, about 978,000 characters, and earned one badge; Claude Fable 5 kept 10 files, about 43,000 characters, and earned four. Wiki over about 350,000 company files, 25 questions: search alone met 53% of graded criteria, the wiki alone rose from 13% to 48% over 128 sessions, and the wiki plus search reached 61%. In a separate test on a merger's documents, on questions that needed several documents, search alone scored 73% and the wiki 87%. Contract terms: with several agents writing one shared table, 41 of 57 graded facts survived; with one agent per contract quoting terms word for word, 57 of 57 survived.",
+            "caption": "Three of the five results below, redrawn from the data Anthropic published with the study.",
+            "width": 1600,
+            "height": 1104
+          },
+          "subsections": [
+            {
+              "heading": "1. Keep what you can't look up",
+              "body": [
+                "Anthropic compared two models' memory folders about 10,000 steps into Pokémon Red. Claude Sonnet 3.7 had written 413 files across 225 folders, often a file for each battle, item and character, and it earned one badge. Claude Fable 5 had kept 10: a dashboard file plus notes on routes and strategy. It earned four. Part of the larger folder recorded what the game shows on screen every turn, such as money and position, and its detailed record kept going out of date.",
+                "For a company, the screen is its public website: an agent can read any live page whenever it needs to. Memory earns its place by holding what the site doesn't settle: which claim is approved, which number is current when two pages disagree, what must never be said, and who confirmed it."
+              ]
+            },
+            {
+              "heading": "2. A wrong note is trusted until something checks it",
+              "body": [
+                "In another run, Claude noted that the Pokémon Center at Mt. Moon was on the east side of the mountain. It wasn't. Trusting the note, Claude walked off a one-way ledge and dropped back onto the route it had come from, three times, and the run ended without reaching the next city. When a dreaming pass checked the note against the session log, it caught the error and rewrote it. With the corrected note, Claude went back into the cave and reached Cerulean City.",
+                "Company memory goes wrong the same way: a price that changed, a certification that lapsed, an executive who left. Every agent that reads the stale fact repeats it with confidence. Correcting it needs a ground truth, and for a company that is its own published sources."
+              ]
+            },
+            {
+              "heading": "3. A map pays off when answers span documents",
+              "body": [
+                "Anthropic had agents build a wiki over about 350,000 internal files from Stainless, a company it acquired. On 25 questions about them, the wiki plus a search tool met 61% of graded criteria, against 53% for search alone. In a separate test on a merger's documents, the wiki scored 87% against 73% for search on questions that needed several documents. On a task where most answers sat in one document, it showed no clear gain. On another, the wiki grew to 1.77 times the size of its documents: it had abstracted almost nothing.",
+                "Corporate Context plays the map's role for a company. By the same logic, it should help most with questions that combine facts, such as whether the plan a buyer asks about includes the certification they need, and stop helping if it grows as large as its sources."
+              ]
+            },
+            {
+              "heading": "4. Shared pages lose facts",
+              "body": [
+                "In a contract task, several agents wrote terms into one shared table at the same time and overwrote one another's work. A brief built from that wiki included 41 of 57 graded facts, or 72%. The instructions had never said the contract terms mattered most. Anthropic then ran a loop in which Claude reflected on the failures and rewrote the instructions: each contract got its own page, written by one agent, quoting the terms word for word. All 57 facts survived, and the brief could meet every graded criterion.",
+                "In a company's memory, the facts that matter most, such as prices, certifications and named customers, need the same treatment: one owner each, and the exact wording."
+              ]
+            },
+            {
+              "heading": "5. The top layer has to stay small",
+              "body": [
+                "Whatever sits in the top layer loads into every session, so a wrong note there reaches every session, and the study notes that Claude Code's documentation warns longer instruction files are followed less closely. Claude Code keeps its own memory index small for this reason: it loads only the first 200 lines or 25 KB.",
+                "In a company's memory, the top layer is the short approved description that every job starts from. One wrong sentence there reaches every agent that writes or grades for the company."
+              ]
+            }
           ]
         },
         {
-          "heading": "Three kinds of memory",
+          "heading": "What changes when the memory is about a company",
           "body": [
-            "Put memory of a task, of a person and of a company side by side. What changes most is who writes and who reads."
+            "Most of the study follows agents remembering their own work, whether one agent playing a game or several building one wiki for one task. A company's memory has writers with different authority and readers with different jobs. Put memory of a task, of a person and of a company side by side, and the difference is who writes and who reads."
           ],
           "table": {
             "headers": [
@@ -44207,7 +44265,7 @@
                 "Who writes it",
                 "The agent doing the work",
                 "An assistant, from what the person tells it",
-                "Marketing, product and legal teams, the agents they direct, and scheduled jobs"
+                "Marketing, product and legal teams, the agents they direct, and automated jobs"
               ],
               [
                 "Who reads it",
@@ -44219,7 +44277,7 @@
                 "Who settles a conflict",
                 "The latest result the agent has checked",
                 "The person's own words",
-                "What the company has approved; a person outranks a scheduled job"
+                "What the company has approved; a person outranks an automated job"
               ],
               [
                 "What makes it stale",
@@ -44231,18 +44289,32 @@
           }
         },
         {
+          "heading": "The rules live with the memory",
+          "body": [
+            "When one agent owns its memory, the rules for keeping it can live in that agent's instructions. When many writers and readers share it, rules kept in each one's instructions drift apart, and nothing notices until two agents disagree about the company. So the rules have to sit with the memory itself, where every writer and reader meets the same ones."
+          ],
+          "figure": {
+            "src": "/figures/company-memory-rules.png",
+            "alt": "Diagram of the design. Writers, in rank order: people editing directly, agents a person directs, and automated jobs such as the setup scan and a news pass. Their writes pass one write rule: an automated job can't overwrite what a person wrote or approved; it leaves a proposal a person accepts or rejects. Corporate Context holds pages by topic, with each fact kept as its own item with its source. Readers get it through one read rule: one copy of each page, never two versions to choose between; the job decides which parts it reads; and when room runs out, cuts follow the job's priorities. Readers: writing agents, which read every page; page reviews and site builders; and answer graders, which read the approved description and the facts. Kept out: choices, which belong to a workspace; the grader's own grades; and unannounced plans.",
+            "caption": "The design we're rebuilding Corporate Context toward. Live today: people editing, agent proposals, attribution and restore, a setup scan that never overwrites a person's edits, choices kept in workspaces, and grades never written back. The rest is the rebuild.",
+            "width": 1600,
+            "height": 977
+          }
+        },
+        {
           "heading": "Rule 1: rank the writers",
           "body": [
-            "When one agent works on a task, its memory has one writer: that agent. A company memory has many. A product marketer rewrites a positioning page, an agent drafting a blog post asks someone to confirm an integration, a scheduled job picks up last week's launch. Without an order among them, the last writer wins, and facts disappear, as they did in the contract experiment.",
-            "Ranking them is what makes automation safe to switch on. When a scheduled job disagrees with a fact a person confirmed, it leaves a proposal beside it, and nothing changes until a person accepts it. A team that can see and undo every machine write can afford to let machines write."
+            "A company's memory has three kinds of writer: people editing it directly, agents working for a person, such as a writing agent that asks someone to confirm an integration, and automated jobs, such as the scan that builds the memory at setup or a weekly pass over the company's news. Without an order among them, the last writer wins, which is how facts disappeared in the contract task.",
+            "The order: an automated job can't overwrite what a person wrote or approved. It leaves a proposal beside it, and nothing changes until a person accepts it. Every change shows who made it and can be undone, so a team can afford to let machines write.",
+            "Granularity matters as much as order. If a whole page is one unit, a job that finds one new customer has to rewrite prose a person approved, or give up. The rebuild treats a page's prose as one unit and each fact as its own, so a job can add a sourced fact without touching sentences a person wrote.",
+            "These rules decide who may change a fact, not what an agent should notice. The difference matters: Anthropic found that fixed rules about what to write can backfire. Told to record only failures, Claude Opus 5 lost much of the gain memory gave it. Judgment about what's worth keeping stays with the agent. Authority over what the company states stays with people."
           ]
         },
         {
           "heading": "Rule 2: give every reader the same version",
           "body": [
             "A company memory has more readers than writers. At SolCrys, the same Corporate Context grounds the agents that draft content, the audit that reviews pages, and [Answer Accuracy](/is-ai-telling-the-truth-about-your-brand/), which grades whether an AI engine described the company correctly.",
-            "If each reader put the memory together on its own, with its own order, its own length limit and its own idea of which copy of a page is current, a writer and a grader could disagree about the company even though nobody changed a fact.",
-            "So the assembly belongs with the memory too, and each reader's job decides only which parts it gets. A grader needs the approved description. A writer needs that plus the detailed facts and the voice rules. Anthropic notes that one wrong note in the top layer reaches every session. In a shared company memory, one wrong fact reaches every agent."
+            "Three details decide whether those readers agree, and the rebuild settles all three in one read rule that sits with the memory. First, one copy of each page: a reader never gets two versions of the same page to choose between. Second, the job decides which parts it reads: a writer needs the voice rules, and a grader doesn't. Third, when a job runs out of room, what gets cut follows the job's priorities, not the order the pages happen to be stored in."
           ]
         },
         {
@@ -44259,7 +44331,8 @@
             {
               "heading": "Every fact keeps its source",
               "body": [
-                "What does get in carries its source. When a machine adds a fact, the fact has to be checkable against the page it came from: a number must appear in the source, a quote must be word for word, a customer must be named, and the link and date come from the source itself. Anything that fails stays out. For why sourced, current facts decide what AI gets right about a brand, see [Why grounding depth decides whether AI gets your brand right](/grounding-depth-ai-brand-accuracy/)."
+                "What does get in says where it came from. When a machine adds a fact, the fact has to be checkable against the page it came from: a number must appear in the source, a quote must be word for word, a customer must be named, and the link and date come from the source itself. Anything that fails stays out.",
+                "The study points the same way. On a database task, Claude Opus 5 and the models after it turned their mistakes into checked rules: most of Opus 5's memory entries stated a rule and how it knew the rule was true. And the contract facts survived once they were quoted instead of summarized. For why sourced, current facts decide what AI gets right about a brand, see [Why grounding depth decides whether AI gets your brand right](/grounding-depth-ai-brand-accuracy/)."
               ]
             }
           ]
@@ -44267,14 +44340,15 @@
         {
           "heading": "Rule 4: write back what you learn",
           "body": [
-            "Most company memory is written once, at setup, and then read for months while the company launches products, signs partners and publishes case studies. Anthropic's study names the same drift from the agent's side: memory goes out of date as the environment changes, and the study suggests the background pass may need to focus on what is likely to change.",
-            "For a company, most of what changes is announced in public: in its newsroom, on its blog and in press coverage. Agents that already read those sources should file what they find, with the link, under the first rule. When a writing agent asks a person to confirm a fact for a draft, the answer should go into memory so the next draft doesn't ask again. Every agent that learns something about the company should file it the same way."
+            "Most company memory is written once, at setup, and then read for months while the company launches products, signs partners and publishes case studies. The study sees the same drift from the agent's side and names two open questions: when to write memory, and how to keep it current without rechecking everything.",
+            "A company's memory suggests an answer to both. Write in the moment when a person is there to confirm: when a writing agent asks someone to confirm a fact for a draft, the answer should go into memory then, so the next draft doesn't ask again. Write in the background for the rest. Most of what changes at a company is announced in public, in its newsroom, on its blog and in press coverage, and agents that already read those sources can file what they find, with the link, under the first rule.",
+            "For what to recheck, the study suggests focusing the background pass on what is likely to change. For a company that list is short: prices and plans, products and integrations, certifications, leadership, customers and published numbers. A founding year doesn't need a weekly check. A pricing page does."
           ]
         },
         {
           "heading": "Where Corporate Context stands today",
           "body": [
-            "In SolCrys today, people edit Corporate Context in the dashboard, and agents connected through the [SolCrys MCP server](/solcrys-mcp-and-skills/) can read it and propose changes for a person to review. Every change shows who made it, and any page can be restored to an earlier version. When SolCrys builds Corporate Context automatically at setup, it never overwrites a page a person has edited; it leaves a replacement draft instead."
+            "In SolCrys today, people edit Corporate Context in the dashboard, and agents connected through the [SolCrys MCP server](/solcrys-mcp-and-skills/) can read it and, with an admin's permission, propose changes for a person to review. Every change shows who made it, and any page can be restored to an earlier version. When SolCrys builds Corporate Context automatically at setup, it never overwrites a page a person has edited; it leaves a replacement draft instead."
           ]
         },
         {
@@ -44287,8 +44361,8 @@
       ],
       "faqs": [
         {
-          "question": "How big should a company's memory be?",
-          "answer": "As small as the jobs that read it allow: distilled pages by topic, each fact stated once, with the detail left in the sources each fact links to. In Anthropic's study, one wiki grew to 1.77 times the size of its source files, a sign that it had abstracted almost nothing. A company's memory is small enough that the job, not a search step, decides what an agent reads, so we haven't built a search index. We'll add one when the pages a job needs stop fitting in its context."
+          "question": "Is company memory the same as a search index over company documents?",
+          "answer": "No. A search index finds passages in source documents when a question comes in. Company memory sits above the sources: what the company has approved, by topic, each fact stated once and linked to where it came from. In Anthropic's tests on about 350,000 files, the two worked best together. A company's memory is small enough that the job, not a search step, decides what an agent reads, which is why we haven't built a search index. We'll add one when the pages a job needs stop fitting in its context."
         }
       ],
       "sources": [
