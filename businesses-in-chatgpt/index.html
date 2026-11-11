@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Businesses in ChatGPT: What Claiming Changes | SolCrys</title>
+    <meta name="description" content="OpenAI now lets eligible businesses claim a profile in ChatGPT. What claiming, product feeds, and agents change, and what the new Insights count and leave out." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/businesses-in-chatgpt/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-11-10" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Businesses in ChatGPT: What Claiming Changes | SolCrys" />
+    <meta property="og:description" content="OpenAI now lets eligible businesses claim a profile in ChatGPT. What claiming, product feeds, and agents change, and what the new Insights count and leave out." />
+    <meta property="og:url" content="https://solcrys.com/businesses-in-chatgpt/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-11-10" />
+    <meta property="article:modified_time" content="2026-11-10" />
+    <meta property="og:image" content="https://solcrys.com/og/businesses-in-chatgpt.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/businesses-in-chatgpt.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BAElhdS9.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Businesses in ChatGPT: What Claiming Your Business Changes, and What It Doesn't","item":"https://solcrys.com/businesses-in-chatgpt/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Businesses in ChatGPT: what claiming your business changes, and what it doesn't","description":"OpenAI now lets eligible businesses claim a profile in ChatGPT. What claiming, product feeds, and agents change, and what the new Insights count and leave out.","dateModified":"2026-11-10","datePublished":"2026-11-10","mainEntityOfPage":"https://solcrys.com/businesses-in-chatgpt/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/businesses-in-chatgpt/","mainEntity":[{"@type":"Question","name":"Is Businesses in ChatGPT the new Google Business Profile?","acceptedAnswer":{"@type":"Answer","text":"Partly. Both are claimable profiles, but a Business Profile is what a buyer reads, and its performance report shows the search terms people used. ChatGPT writes each answer itself."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <!-- Products menu. Mirrors PRODUCTS_MENU_ITEMS in src/components/productsMenuData.ts. -->
+        <a href="/#features">SolCrys AEO</a>
+        <a href="/sites/">SolCrys Sites</a>
+        <a href="/motion/">SolCrys Motion</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">AI Engine Optimization</p>
+        <h1>Businesses in ChatGPT: what claiming your business changes, and what it doesn&#39;t</h1>
+        <p class="seo-lede">OpenAI now lets eligible businesses claim a ChatGPT profile, much as Google does. What claiming changes in ChatGPT&#39;s answers, and what the new Insights count, is narrower than the launch suggests.</p>
+        
+        <p>Updated <time datetime="2026-11-10">2026-11-10</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is Businesses in ChatGPT?</li><li>How do I claim my business in ChatGPT?</li><li>Does claiming my business in ChatGPT improve visibility?</li><li>What do ChatGPT Business Hub insights show?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>On Nov. 10, 2026, OpenAI opened <a href="https://openai.com/index/introducing-businesses-chatgpt/" target="_blank" rel="noopener noreferrer">Businesses in ChatGPT</a> in beta. In Business Hub, which opens from ChatGPT&#39;s sidebar, an eligible business can claim its profile, edit its details, connect a product feed, and see Insights. Eligible US ecommerce and online-service businesses can also publish a Business Agent that answers customers&#39; questions in a labeled chat.</p><p>Claim yours if you can. It hands ChatGPT your facts directly, and OpenAI lists no fee. Treat it as an input, not a control: OpenAI <a href="https://help.openai.com/en/articles/20001635-setting-up-your-business-on-chatgpt" target="_blank" rel="noopener noreferrer">says</a> claiming &quot;doesn&#39;t guarantee increased visibility or give you direct control over ChatGPT&#39;s independent recommendations,&quot; and its <a href="https://openai.com/policies/businesses-in-chatgpt-terms/" target="_blank" rel="noopener noreferrer">terms</a> let it &quot;supplement, edit, or replace&quot; what you submit using other sources. Your website and the sources that cite you still shape the answers.</p><p>Read the Insights by their definitions: they cover ChatGPT only, count an online business&#39;s website rather than its name, and show themes, not prompts or competitors.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What launched, and who can use it</h2>
+      <p>Claiming takes two checks: proof that you control the business (by phone, business email, a DNS TXT record, or Shopify), then an identity check through Persona. Only after both can you publish edits, see Insights, or create an agent. OpenAI reviews each edit, and a published profile can&#39;t be deleted.</p>
+      
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>Part</th><th>Who can use it, as of Nov. 10, 2026</th><th>What it does</th></tr></thead>
+              <tbody><tr><td><strong>Business profile</strong></td><td>Eligible businesses with a website, where ChatGPT is available; local stores and restaurants can claim only an existing US listing</td><td>Holds your website, description, category, logo, and delivery and return policies</td></tr><tr><td><strong>Product feed</strong></td><td>Businesses that sell products, through Shopify or a file in OpenAI&#39;s feed format</td><td>Shares prices and availability, with no guarantee that ChatGPT recommends your products</td></tr><tr><td><strong>Business Agent</strong></td><td>Eligible US ecommerce and online-service businesses, after an industry review</td><td>Answers from your product and policy information and links to your site; it can&#39;t complete purchases or bookings</td></tr><tr><td><strong>Sponsored Business Agent</strong></td><td>Eligible advertisers on a Conversion optimization campaign; &quot;rolling out ... over the coming weeks&quot;</td><td>An ad with Start chat and Visit site buttons, built in Ads Manager and not yet synced with Business Hub</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>What the Insights count</h2>
+      <p>Insights cover the past 28 days, and most metrics are narrower than their names.</p>
+      
+      <ul class="seo-list"><li><strong>Mentions.</strong> In <a href="https://help.openai.com/en/articles/20001635-setting-up-your-business-on-chatgpt" target="_blank" rel="noopener noreferrer">OpenAI&#39;s definition</a>, for an online business &quot;a mention counts when ChatGPT references the business&#39;s website. The brand name alone doesn&#39;t count.&quot; An answer that recommends you without citing your site isn&#39;t counted.</li><li><strong>Website clicks.</strong> An OpenAI spokesperson <a href="https://digiday.com/marketing/openais-new-business-agents-give-brands-a-free-way-into-the-conversation-its-also-selling-as-an-ad/" target="_blank" rel="noopener noreferrer">told Digiday</a> these are &quot;clicks on links from supported ChatGPT surfaces, not completed visits or purchases.&quot;</li><li><strong>Profile views.</strong> <a href="https://digiday.com/marketing/openais-new-business-agents-give-brands-a-free-way-into-the-conversation-its-also-selling-as-an-ad/" target="_blank" rel="noopener noreferrer">Digiday reports</a> the dashboard shows these too; OpenAI hasn&#39;t published a definition.</li><li><strong>Discovery topics.</strong> &quot;Common themes in ChatGPT answers that mentioned or cited your business,&quot; which OpenAI says &quot;don&#39;t reveal individual prompts.&quot;</li><li><strong>Blank metrics.</strong> Metrics stay blank below a privacy threshold, and a blank &quot;doesn&#39;t necessarily mean zero activity.&quot;</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What the Insights leave out</h2>
+      <p>Businesses don&#39;t see chats, even with their own agent, and the spokesperson said &quot;share of voice isn&#39;t part of this beta.&quot; So the report can&#39;t show which brand ChatGPT recommends when it doesn&#39;t recommend you, whether what it says about you is accurate, or how other engines answer the same buyer. Like <a href="/search-console-bing-ga4-ai-reports/">Search Console&#39;s AI report</a>, it counts your own links.</p><p>Those questions need answer-side measurement: a fixed set of buyer questions, run on each engine before your Business Hub edits publish and rerun after every change. <a href="/find-ai-prompts-your-brand-shows-up-for/">Finding the prompts your brand shows up for</a> covers how to build the set. SolCrys runs one across ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude, depending on plan, and records whether you&#39;re named, who is named instead, and which pages each answer cites.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What to do first</h2>
+      <p>Do these in order.</p>
+      
+      <ul class="seo-list"><li><strong>1. Claim it before someone else does.</strong> Claimable profiles attract hijackers: Google said it stopped nearly 8 million attempts in 2021 to claim Business Profiles that didn&#39;t belong to the claimant. Have the account&#39;s long-term owner claim it, then add teammates or an agency rather than sharing a login.</li><li><strong>2. Make the profile match your site.</strong> Use the description, category, and policies your website states. ChatGPT &quot;may also use other sources,&quot; so a conflicting profile gives it two versions to choose from; a <a href="/website-consistency-audit-ai-answers/">website consistency audit</a> finds conflicts first.</li><li><strong>3. Read the terms before connecting a feed.</strong> Providing a feed obliges you to let OpenAI&#39;s crawlers access your sites, and any text-and-data-mining opt-out you hold &quot;will have no effect&quot; against OpenAI. If you <a href="/ai-crawler-access-search-agent-training/">block OpenAI&#39;s crawlers</a> today, decide with counsel first.</li><li><strong>4. Test an agent before publishing it.</strong> OpenAI may draft one for you; nothing goes live until you publish. Ask it your customers&#39; common questions, and fix the information or instructions when it&#39;s wrong. The terms make you responsible for its answers &quot;whether or not you provided, reviewed, or approved them.&quot;</li></ul>
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://openai.com/index/introducing-businesses-chatgpt/" target="_blank" rel="noopener noreferrer">OpenAI: Introducing Businesses in ChatGPT (Nov. 10, 2026)</a></li><li><a href="https://help.openai.com/en/articles/20001635-setting-up-your-business-on-chatgpt" target="_blank" rel="noopener noreferrer">OpenAI Help: Setting up your business on ChatGPT</a></li><li><a href="https://openai.com/policies/businesses-in-chatgpt-terms/" target="_blank" rel="noopener noreferrer">OpenAI: Businesses in ChatGPT Terms (Nov. 9, 2026)</a></li><li><a href="https://openai.com/policies/business-agents-policy/" target="_blank" rel="noopener noreferrer">OpenAI: Business Agents Policy (Nov. 10, 2026)</a></li><li><a href="https://help.openai.com/en/articles/20001651-setting-up-a-sponsored-business-agent-in-ads-manager" target="_blank" rel="noopener noreferrer">OpenAI Help: Sponsored Business Agent in Ads Manager</a></li><li><a href="https://developers.openai.com/commerce/specs/file-upload/products" target="_blank" rel="noopener noreferrer">OpenAI: product feed specification</a></li><li><a href="https://digiday.com/marketing/openais-new-business-agents-give-brands-a-free-way-into-the-conversation-its-also-selling-as-an-ad/" target="_blank" rel="noopener noreferrer">Digiday: OpenAI&#39;s new business agents give brands a free way into the conversation (Nov. 10, 2026)</a></li><li><a href="https://blog.google/innovation-and-ai/technology/safety-security/protecting-small-businesses-from-scammers/" target="_blank" rel="noopener noreferrer">Google: Protecting small businesses from scammers (Nov. 29, 2022)</a></li><li><a href="https://support.google.com/business/answer/9918094" target="_blank" rel="noopener noreferrer">Google Business Profile Help: performance and insights</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is Businesses in ChatGPT the new Google Business Profile?</h3>
+            <p>Partly. Both are claimable profiles, but a Business Profile is what a buyer reads, and its performance report shows the search terms people used. ChatGPT writes each answer itself.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Prompt Intelligence</p>
+            <h3><a href="/find-ai-prompts-your-brand-shows-up-for/">How to Find the AI Prompts Your Brand Shows Up For (When Search Console Only Gives You Impressions)</a></h3>
+            <p>No AI engine reports the prompts behind your citations. How to find them anyway with Search Console filters, Bing&#39;s grounding queries, and a tested prompt set.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Risk Monitoring</p>
+            <h3><a href="/website-consistency-audit-ai-answers/">Your Own Pages Disagree, and AI Repeats It: Run a Consistency Audit Before AEO</a></h3>
+            <p>When your homepage, FAQ, help center, and press releases disagree, AI answers can repeat either version. How to audit and fix your own pages first.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/chatgpt-ads-sponsored-vs-organic/">ChatGPT Ads Don&#39;t Buy the Answer: How to Budget and Report Sponsored vs. Organic AI Visibility</a></h3>
+            <p>ChatGPT ads sit below the answer; OpenAI says they don&#39;t influence it. How to budget ads beside AEO and report organic and sponsored AI visibility apart.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/optimize-for-chatgpt-search/">How to Optimize for ChatGPT Search: The 2026 Practitioner Guide</a></h3>
+            <p>ChatGPT Search draws on OpenAI&#39;s crawlers, third-party search providers such as Bing, and on-demand fetches. This guide breaks down the five ranking signals, the crawler access checklist, and the content patterns that get cited in ChatGPT answers.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Retail AEO</p>
+            <h3><a href="/chatgpt-shopping-optimization/">ChatGPT Shopping Optimization: A Practitioner&#39;s Guide for DTC and Marketplace Brands</a></h3>
+            <p>ChatGPT Shopping recommends products inside ChatGPT conversations using a different data flow than marketplace assistants. This guide breaks down public signals, practical readiness checks, and the optimization playbook.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Citation &amp; Source Influence</p>
+            <h3><a href="/local-business-ai-visibility-first-steps/">What a Local Business Should Do First to Show Up in ChatGPT, Gemini, and Google AI Overviews</a></h3>
+            <p>A prioritized checklist for local businesses: check what AI answers say now, fix your facts where each engine reads them, then earn the pages and reviews the answers cite.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-DREkayuL.js"></script>
+  </body>
+</html>
