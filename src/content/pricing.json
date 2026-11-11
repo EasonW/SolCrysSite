@@ -1,13 +1,14 @@
 {
+  "_source": "Mirror of pricingContent in the app's lib/marketing/pricing-data.ts, which renders app.solcrys.com/pricing (copied 2026-11-05). Change both together. The static /pricing/ page that scripts/prerender.mjs builds lists these plans for readers that do not run JavaScript, and `npm run check:agents` fails if a plan name or price is missing from it.",
   "meta": {
-    "title": "SolCrys Pricing - AI Visibility Tracking, Deep Analyses, and Content Audits",
-    "description": "Pricing for SolCrys brand and agency plans. Track AI visibility across ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude, with Deep Analyses and Content Audits included.",
+    "title": "SolCrys Pricing - Free Plan, AI Visibility Tracking, Deep Analyses, and Content Audits",
+    "description": "SolCrys pricing: start free with on-demand ChatGPT visibility checks, then upgrade to automatic daily tracking across ChatGPT, Gemini, Google AI Overviews / AI Mode, and Perplexity. Brand and agency plans with Deep Analyses and Content Audits included.",
     "ogImage": "/og/home.png"
   },
   "hero": {
     "eyebrow": "Pricing",
-    "title": "Daily AI visibility tracking with diagnosis built in.",
-    "subtitle": "Start with ChatGPT, expand into Google AI surfaces, then add Perplexity, Claude, and deeper diagnosis as your AEO workflow matures."
+    "title": "Start free. Scale to daily AI visibility tracking.",
+    "subtitle": "Start free with on-demand ChatGPT checks. Upgrade to automatic daily tracking, more engines, and deeper diagnosis as your AEO workflow matures."
   },
   "audiences": [
     {
@@ -15,6 +16,22 @@
       "label": "For Brands",
       "description": "For marketing, SEO, PMM, brand, and content teams tracking their own brand and product lines.",
       "tiers": [
+        {
+          "key": "free",
+          "name": "Free",
+          "tagline": "Check your ChatGPT visibility on demand.",
+          "bestFit": "Check ChatGPT on demand",
+          "monthly": 0,
+          "ctaPrimary": "Start Free",
+          "features": [
+            "10 tracked prompts",
+            "ChatGPT — manual checks (3 / mo)",
+            "1 Deep Analysis / mo",
+            "1 Content Audit / mo",
+            "1 workspace",
+            "No credit card"
+          ]
+        },
         {
           "key": "growth",
           "name": "Starter",
@@ -24,7 +41,7 @@
           "ctaPrimary": "Get Starter",
           "features": [
             "20 tracked prompts",
-            "ChatGPT, Gemini, and Google AI Overviews",
+            "ChatGPT, Gemini, and Google AI Overviews / AI Mode",
             "12 Deep Analyses / mo",
             "4 Content Audits / mo",
             "1 workspace",
@@ -41,12 +58,33 @@
           "ctaPrimary": "Build the Pro workflow",
           "features": [
             "60 tracked prompts",
-            "Any 4 of ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude",
+            "Any 4 of ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude",
             "Answer Accuracy on up to 15 prompts — graded against your Corporate Context",
             "40 Deep Analyses / mo",
             "10 Content Audits / mo",
             "3 workspaces",
             "MCP: 2.5K calls / mo"
+          ]
+        },
+        {
+          "key": "enterprise",
+          "name": "Custom",
+          "tagline": "Built around your brand — from custom scale to full managed delivery.",
+          "bestFit": "Built around your brand",
+          "monthly": 2000,
+          "custom": true,
+          "startsAt": true,
+          "ctaPrimary": "Talk to sales",
+          "features": [
+            "All answer engines — Claude and more",
+            "Managed Corporate Context — we research, verify & maintain your source of truth",
+            "Unlimited Answer Accuracy — graded against your Managed Corporate Context",
+            "Full-site Content Audit — audit your entire site, not one URL at a time",
+            "Retail AEO (Amazon Rufus)",
+            "Customized tracking plans",
+            "Custom prompt & workspace volume",
+            "Custom governance and reporting",
+            "Volume pricing and dedicated support"
           ]
         }
       ]
@@ -67,7 +105,7 @@
           "features": [
             "10 client organizations",
             "30 tracked prompts per client organization",
-            "ChatGPT, Gemini, and Google AI Overviews",
+            "ChatGPT, Gemini, and Google AI Overviews / AI Mode",
             "200 Deep Analyses / mo",
             "50 Content Audits / mo",
             "Client-separated organizations",
@@ -84,7 +122,7 @@
           "features": [
             "25 client organizations",
             "30 tracked prompts per client organization",
-            "Any 4 of ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude",
+            "Any 4 of ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude",
             "700 Deep Analyses / mo",
             "150 Content Audits / mo",
             "Advanced client reporting",
@@ -95,58 +133,16 @@
     }
   ],
   "alwaysIncluded": [
-    "Daily monitoring on included engines",
     "Prompt-level evidence and citations",
     "Deep Analyses for prompt, answer, citation, and source gaps",
     "Content Audits for answer-readiness and crawlability",
     "No seat meter",
     "Data never used to train models"
   ],
-  "comparisonGroups": [
-    {
-      "groupLabel": "Tracking",
-      "rows": [
-        {
-          "label": "Tracked prompts",
-          "values": ["20", "60", "10 orgs x 30", "25 orgs x 30"]
-        },
-        {
-          "label": "Included engines",
-          "values": [
-            "ChatGPT, Gemini, Google AI Overviews",
-            "Any 4 of ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude",
-            "ChatGPT, Gemini, Google AI Overviews",
-            "Any 4 of ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude"
-          ]
-        },
-        {
-          "label": "Workspaces / client orgs",
-          "values": ["1 workspace", "3 workspaces", "10 client orgs", "25 client orgs"]
-        }
-      ]
-    },
-    {
-      "groupLabel": "Diagnose",
-      "rows": [
-        {
-          "label": "Deep Analyses / mo",
-          "values": ["12", "40", "200", "700"]
-        },
-        {
-          "label": "Content Audits / mo",
-          "values": ["4", "10", "50", "150"]
-        },
-        {
-          "label": "MCP calls / mo",
-          "values": ["500", "2.5K", "5K", "15K"]
-        }
-      ]
-    }
-  ],
   "addOns": [
     {
       "label": "Retail AI Add-on Package",
-      "description": "Amazon Alexa for Shopping (formerly Rufus) and Walmart Sparky are packaged separately for ecommerce teams that need retail-assistant snapshots, product prompt analysis, and SKU-level action planning."
+      "description": "Amazon Rufus and Walmart Sparky are packaged separately for ecommerce teams that need retail-assistant snapshots, product prompt analysis, and SKU-level action planning."
     },
     {
       "label": "Scale & governance",
@@ -154,6 +150,18 @@
     }
   ],
   "faqs": [
+    {
+      "question": "Is the Free plan really free?",
+      "answer": "Yes — Free is free forever, no credit card. You can run a ChatGPT visibility check on demand, up to 3 times a month, on 10 tracked prompts. Paid plans automate the tracking daily and add more engines."
+    },
+    {
+      "question": "What's the difference between Free and Starter?",
+      "answer": "Free is a manual ChatGPT spot-check — you run it yourself, up to 3 times a month, on 10 tracked prompts. Starter ($99/mo) automates daily tracking across ChatGPT, Gemini, and Google AI Overviews / AI Mode on 20 prompts, and adds Deep Analyses and Content Audits for diagnosis."
+    },
+    {
+      "question": "How much does SolCrys cost?",
+      "answer": "SolCrys starts free, with no credit card. Paid plans are Starter ($99/mo) and Pro ($399/mo), plus a sales-led Custom plan (from $2,000/mo) — you only upgrade when you outgrow the free tier."
+    },
     {
       "question": "What counts as a tracked prompt?",
       "answer": "A tracked prompt is one buyer question in your workspace. SolCrys runs that prompt against the engines included in your plan unless you disable an engine for that prompt."
@@ -164,27 +172,27 @@
     },
     {
       "question": "How is a Content Audit different?",
-      "answer": "A Content Audit reviews a specific page or content asset for answer-readiness, crawlability, source fit, credibility, and whether it gives AI engines the facts they need to cite or recommend your brand."
-    },
-    {
-      "question": "What engines does each plan track?",
-      "answer": "The Free plan checks ChatGPT on demand. Starter tracks ChatGPT, Gemini, and Google AI Overviews daily. Pro adds Perplexity and Claude — Pro tracks any 4 of the 5 engines, and Custom can run all five."
-    },
-    {
-      "question": "Is Claude included in Pro?",
-      "answer": "Yes. Pro and Custom can track Claude (Anthropic) as one of the five answer engines. Pro picks any 4 of the 5 — ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude — and many teams swap Claude in for Perplexity; Custom can run all five. Claude is opt-in per workspace, not enabled by default."
-    },
-    {
-      "question": "Are Amazon Alexa for Shopping (formerly Rufus) and Walmart Sparky included?",
-      "answer": "Not in the default brand tiers. Alexa for Shopping and Sparky are packaged as a Retail AI Add-on for ecommerce teams because retail assistant access, sampling, and SKU-level validation need a different workflow from standard answer-engine tracking."
-    },
-    {
-      "question": "Is MCP included?",
-      "answer": "Yes. MCP support is included on paid workspaces with monthly call limits by plan. MCP is mostly read access: result lookup, summaries, and evidence retrieval. Opt-in write permissions let an assistant do narrow tasks, such as marking an approved Action Hub task as published. It cannot trigger new runs, create audits, publish content to your site, or write to connected systems."
+      "answer": "A Content Audit reviews a specific page or content asset for answer-readiness, crawlability, source fit, credibility, and whether it gives AI engines the facts they need to cite or recommend your brand. On the Custom plan, Content Audits run full-site — every page on your domain, not one URL at a time."
     },
     {
       "question": "What is Answer Accuracy?",
       "answer": "Answer Accuracy grades each AI answer about your brand pass or fail against your Corporate Context — your source of truth — across the engines you track, and shows exactly what an engine got wrong. Pro includes Answer Accuracy on up to 15 prompts, graded against your auto-generated Corporate Context. Custom grades it on every prompt against a Managed Corporate Context — a deeper, continuously-maintained source of truth we research and verify for you."
+    },
+    {
+      "question": "Why does the Free plan only include ChatGPT?",
+      "answer": "Free focuses on ChatGPT — it's where most teams get their first answer on whether AI discovery surfaces them. Starter then adds Google's AI ecosystem (Gemini, AI Overviews / AI Mode), and Pro adds Perplexity and Claude — Pro tracks any 4 of the 5 engines."
+    },
+    {
+      "question": "Is Claude included in Pro?",
+      "answer": "Yes. Pro and Custom can track Claude (Anthropic) as one of the five answer engines. Pro picks any 4 of the 5 — ChatGPT, Gemini, Google AI Overviews / AI Mode, Perplexity, and Claude — and many teams swap Claude in for Perplexity; Custom can run all five. Claude is opt-in per workspace, not enabled by default."
+    },
+    {
+      "question": "Are Amazon Rufus and Walmart Sparky included?",
+      "answer": "Not in the default brand tiers. Rufus and Sparky are packaged as a Retail AI Add-on for ecommerce teams because retail assistant access, sampling, and SKU-level validation need a different workflow from standard answer-engine tracking."
+    },
+    {
+      "question": "Is MCP included?",
+      "answer": "MCP support is included on paid workspaces with monthly call limits by plan. MCP is mostly read access: result lookup, summaries, and evidence retrieval. Opt-in write permissions let an assistant do narrow tasks, such as marking an approved Action Hub task as published. It cannot trigger new runs, create audits, publish content to your site, or write to connected systems."
     },
     {
       "question": "How are agency plans different?",
@@ -192,18 +200,18 @@
     },
     {
       "question": "Do you offer a Custom plan?",
-      "answer": "Yes — the Custom plan (from $2,000/mo) is scoped with you: higher caps, every engine, retail, a Managed Corporate Context we research and maintain for you, managed delivery, and custom governance and reporting. We confirm the specifics during evaluation instead of treating them as default self-serve features."
+      "answer": "Yes — the Custom plan (from $2,000/mo) is scoped with you: higher caps, every engine, retail, a Managed Corporate Context we research and maintain for you, full-site Content Audits across your entire domain, managed delivery, and custom governance and reporting. We confirm the specifics during evaluation instead of treating them as default self-serve features."
     }
   ],
   "enterprise": {
     "label": "Custom",
     "title": "Need custom governance or deployment review?",
-    "description": "We work with multi-brand, multi-region, and enterprise teams that need scoped engine coverage, a Managed Corporate Context we research and maintain for you, governance, reporting, and deployment controls.",
-    "ctaLabel": "Talk to a founder"
+    "description": "We work with multi-brand, multi-region, and enterprise teams that need scoped engine coverage, governance, reporting, and deployment controls.",
+    "ctaLabel": "Talk to sales"
   },
   "ctaStrip": {
     "title": "Not sure which plan fits?",
-    "description": "Start with a baseline audit or talk to a founder. We'll recommend the smallest plan that gets you useful signal.",
-    "ctaLabel": "Talk to a founder"
+    "description": "Start free or talk to sales. We'll recommend the smallest plan that gets you useful signal.",
+    "ctaLabel": "Talk to sales"
   }
 }
