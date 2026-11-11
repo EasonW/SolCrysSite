@@ -6854,7 +6854,7 @@
             "Run a Retail AI Shelf Diagnostic on your top 50 SKUs. Check which SKUs are absent, mentioned-but-not-recommended, or cited with stale specs.",
             "Diagnose the structural reason for each gap. Is the product page missing the buyer-language attributes the engine retrieves? Are reviews and Q&A surfacing the wrong use cases? Is a third-party comparison page framing a competitor as the obvious choice? Each cause has a different fix path.",
             "Fix at the listing and source layer first. Update product page direct-answer blocks, structured spec tables, and use-case framing. Seed buyer-concern Q&A coverage in compliant ways. Earn third-party citations where the engine already retrieves.",
-            "Retest the same prompt set on a recurring cadence. Daily priority-prompt monitoring with rolling 7-day and 30-day aggregates is what tells you whether a fix moved the answer or whether you are inside normal engine variance. Single-snapshot wins get over-celebrated - run prompts repeatedly and let the rolling window do the work.",
+            "Retest the same prompt set on a recurring cadence. Scheduled reruns with rolling-window aggregates are what tell you whether a fix moved the answer or whether you are inside normal engine variance. Single-snapshot wins get over-celebrated - run prompts repeatedly and let the rolling window do the work.",
             "Stage 2: prepare for agentic transactions. Stage 1 is about being recommended. Stage 2 is about being purchasable by the agent without a human visiting the product page at all. Our [Agentic Commerce Readiness framework](/agentic-commerce-readiness/) covers the 8 dimensions - structured product data, programmatic pricing, machine-readable returns policies, and stable APIs - that determine whether you are a candidate in Stage 2."
           ]
         },
@@ -15080,7 +15080,7 @@
         {
           "heading": "Direct answer",
           "body": [
-            "AEO ROI is calculated as estimated AI-influenced revenue minus AEO program cost, divided by program cost. The hard part is measuring AI-influenced revenue, because most analytics tools undercount it. A finance-reviewable business case uses 3 core measurement methods: GA4 referrer detection as the floor, AI-search-influenced multi-touch attribution, and prompt-set Recovery Scoring that ties citation share lift to estimated revenue at risk per category prompt. Survey answers and cohort comparisons check them, and the AEO Revenue Model formula (estimated AI-influenced visits multiplied by measured conversion behavior, AOV, and frequency) turns the result into revenue.",
+            "AEO ROI is calculated as estimated AI-influenced revenue minus AEO program cost, divided by program cost. The hard part is measuring AI-influenced revenue, because most analytics tools undercount it. A finance-reviewable business case uses 3 core measurement methods: GA4 referrer detection as the floor, AI-search-influenced multi-touch attribution, and prompt-set Recovery Scoring that ties citation share lift to estimated revenue at risk per category prompt. The AEO Revenue Model formula (estimated AI-influenced visits multiplied by measured conversion behavior, AOV, and frequency) turns the result into revenue, with survey answers and cohort comparisons supplying its visit and conversion-lift inputs.",
             "Do not project a default payback period or multiplier without company-specific evidence. The case fails finance scrutiny when it relies only on visibility metrics without revenue mapping. If you cannot explain the dollar value and assumptions behind moving from 8% to 24% citation share, treat the model as a hypothesis until your own data validates it."
           ]
         },
@@ -15138,7 +15138,7 @@
         {
           "heading": "The three core measurement methods (used together)",
           "body": [
-            "A combined business case typically uses Method 1 as the floor, Method 2 for monthly tracking, and Method 3 for the strategic narrative. Survey answers and cohort comparisons check all three."
+            "A combined business case typically uses Method 1 as the floor, Method 2 for monthly tracking, and Method 3 for the strategic narrative. Survey answers and cohort comparisons supply the formula's visit and conversion-lift inputs."
           ],
           "table": {
             "headers": [
@@ -18426,7 +18426,7 @@
             {
               "heading": "Question 4: How do you handle the fact that AI engines give different answers each time?",
               "body": [
-                "What you should listen for: explicit acknowledgement of non-determinism, plus a methodology for it. Strong answers describe repeated capture, daily priority-prompt monitoring, rolling-window aggregates, and an explicit policy for how single snapshots are labeled versus trend movements. Vendors that claim formal confidence intervals should be able to describe the sample sizes that support them; if they cannot, treat that as a marketing label, not a method.",
+                "What you should listen for: explicit acknowledgement of non-determinism, plus a methodology for it. Strong answers describe repeated capture, scheduled reruns of every tracked prompt, rolling-window aggregates, and an explicit policy for how single snapshots are labeled versus trend movements. Vendors that claim formal confidence intervals should be able to describe the sample sizes that support them; if they cannot, treat that as a marketing label, not a method.",
                 "Red flags: 'Our data is highly accurate' without explaining how non-determinism is handled; one run per refresh cycle treated as one data point; no rolling windows or acknowledgement that engines are non-deterministic.",
                 "How we answer: paid workspaces rerun every active prompt on a schedule, daily by default, and aggregate into rolling 7-, 14-, and 30-day windows. Single snapshots are labeled as snapshots, not as trend changes. We do not currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart - and we'd rather show you the underlying responses than overstate the math. Free Audit reports include a single snapshot for a directional read and we say so."
               ]
@@ -20937,7 +20937,7 @@
             {
               "heading": "Cadence",
               "body": [
-                "Every tracked prompt reruns on the engines in your plan, on a schedule that is daily by default on paid plans; we report on rolling 7-, 14-, and 30-day windows. Engine variance within a day is captured in the daily sample but reported on the rolling window — so a single anomalous response on Tuesday doesn't move the weekly number. This is a deliberate trade-off: we accept a 1–2 day lag on emerging movement in exchange for stable trend reporting."
+                "Every tracked prompt reruns on the engines in your plan, on a schedule that is daily by default on paid plans; we report on rolling 7-, 14-, and 30-day windows. Engine variance within a day is captured in the daily sample but reported on the rolling window — so a single anomalous response on Tuesday doesn't move the weekly number. This is a deliberate trade-off: we accept a lag on emerging movement (a day or two on the daily default) in exchange for stable trend reporting."
               ]
             },
             {
