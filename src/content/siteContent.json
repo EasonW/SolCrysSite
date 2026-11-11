@@ -15080,7 +15080,7 @@
         {
           "heading": "Direct answer",
           "body": [
-            "AEO ROI is calculated as estimated AI-influenced revenue minus AEO program cost, divided by program cost. The hard part is measuring AI-influenced revenue, because most analytics tools undercount it. A finance-reviewable business case uses 3 core measurement methods: GA4 referrer detection as the floor, AI-search-influenced multi-touch attribution, and prompt-set Recovery Scoring that ties citation share lift to estimated revenue at risk per category prompt. The AEO Revenue Model formula (estimated AI-influenced visits multiplied by measured conversion behavior, AOV, and frequency) turns the result into revenue, with survey answers and cohort comparisons supplying its visit and conversion-lift inputs.",
+            "AEO ROI is calculated as estimated AI-influenced revenue minus AEO program cost, divided by program cost. The hard part is measuring AI-influenced revenue, because most analytics tools undercount it. A finance-reviewable business case uses 3 core measurement methods: GA4 referrer detection as the floor, AI-search-influenced multi-touch attribution, and prompt-set Recovery Scoring that ties citation share lift to estimated revenue at risk per category prompt. The AEO Revenue Model formula (estimated AI-influenced visits multiplied by measured conversion behavior, AOV, and frequency) turns the visit-based methods into revenue, with survey answers and cohort comparisons supplying its visit and conversion-lift inputs.",
             "Do not project a default payback period or multiplier without company-specific evidence. The case fails finance scrutiny when it relies only on visibility metrics without revenue mapping. If you cannot explain the dollar value and assumptions behind moving from 8% to 24% citation share, treat the model as a hypothesis until your own data validates it."
           ]
         },
@@ -20943,7 +20943,7 @@
             {
               "heading": "Non-determinism",
               "body": [
-                "Each reported number aggregates many runs over the window rather than trusting one. A single day's run is still one sample, and we don't smooth that away at the day level. This is one of the residual uncertainties in our system — high-variance prompts will read as noisy in dashboards, and we don't paper over it."
+                "On the daily default, each reported number aggregates many runs over the window rather than trusting one. A single day's run is still one sample, and we don't smooth that away at the day level. This is one of the residual uncertainties in our system — high-variance prompts will read as noisy in dashboards, and we don't paper over it."
               ]
             },
             {
@@ -21734,7 +21734,7 @@
           ],
           "bullets": [
             "Rolling 7-, 14-, and 30-day windowed aggregation, so a single anomalous sample doesn't move the reported number on its own.",
-            "Scheduled runs of every tracked prompt, daily by default on paid plans, so each windowed number rests on repeated samples rather than a single check.",
+            "Scheduled runs of every tracked prompt, daily by default on paid plans; on that default, each windowed number rests on repeated samples rather than a single check.",
             "Stable prompt set: your Golden Prompt Set — typically tens of prompts per workspace (10 on Free, around 20 on Starter, 60 on Pro, 30 per client organization on Agency, with deeper coverage scoped where a category needs it) — stays frozen between scheduled refreshes, so trend lines are comparable across windows.",
             "Engine-attributed reporting so you can isolate which engine moved (vs an across-the-board shift)."
           ]
