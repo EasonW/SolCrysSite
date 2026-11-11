@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>MMM for AI Search: What the Exposure Series Needs | SolCrys</title>
+    <meta name="description" content="Marketing mix models can take AI search as an unpaid channel, but only with a stable exposure series kept apart from demand. What to build, and what to test first." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/mmm-for-ai-search/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-11-11" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="MMM for AI Search: What the Exposure Series Needs | SolCrys" />
+    <meta property="og:description" content="Marketing mix models can take AI search as an unpaid channel, but only with a stable exposure series kept apart from demand. What to build, and what to test first." />
+    <meta property="og:url" content="https://solcrys.com/mmm-for-ai-search/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-11-11" />
+    <meta property="article:modified_time" content="2026-11-11" />
+    <meta property="og:image" content="https://solcrys.com/og/mmm-for-ai-search.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/mmm-for-ai-search.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BAElhdS9.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Can Marketing Mix Models Measure AI Search? What the Exposure Series Needs First","item":"https://solcrys.com/mmm-for-ai-search/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Can marketing mix models measure AI search? What the exposure series needs first","description":"Marketing mix models can take AI search as an unpaid channel, but only with a stable exposure series kept apart from demand. What to build, and what to test first.","dateModified":"2026-11-11","datePublished":"2026-11-11","mainEntityOfPage":"https://solcrys.com/mmm-for-ai-search/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/mmm-for-ai-search/","mainEntity":[{"@type":"Question","name":"Is AI share of voice a good input for an MMM?","acceptedAnswer":{"@type":"Answer","text":"Not on its own. Share of voice divides your mentions by everyone's, so it rises when a competitor drops out even if buyers saw you no more often. Build the exposure series from your own mention rate on each question, and keep share of voice as a competitive read."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <!-- Products menu. Mirrors PRODUCTS_MENU_ITEMS in src/components/productsMenuData.ts. -->
+        <a href="/#features">SolCrys AEO</a>
+        <a href="/sites/">SolCrys Sites</a>
+        <a href="/motion/">SolCrys Motion</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Attribution &amp; ROI</p>
+        <h1>Can marketing mix models measure AI search? What the exposure series needs first</h1>
+        <p class="seo-lede">Finance teams fund TV and podcasts on the strength of a marketing mix model&#39;s estimate. AI answers also move buyers who never click, so the same model is the natural place to look for AI search.</p>
+        
+        <p>Updated <time datetime="2026-11-11">2026-11-11</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>What is a marketing mix model?</li><li>Can marketing mix models measure AI search?</li><li>What data does an MMM need to measure AI search?</li><li>How can I test whether my AEO changes worked?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Yes, in time. A marketing mix model (MMM) estimates how much each channel contributed to sales from a few years of weekly history, without tracking clicks, which suits AI answers that influence buyers who often never click. Google&#39;s Meridian and Meta&#39;s Robyn, 2 widely used open-source MMM tools, both have a place for unpaid activity, which is where AI visibility fits.</p><p>The catch is the input: a weekly exposure series, meaning how often AI answers show your brand. It needs a method that stays the same over time, enough answers each week that random noise doesn&#39;t swamp it, separation from the demand that also drives sales, and history. <a href="https://facebookexperimental.github.io/Robyn/docs/analysts-guide-to-MMM/" target="_blank" rel="noopener noreferrer">Robyn&#39;s guide</a> asks for &quot;a minimum of two years of historical weekly data,&quot; and every AI exposure report from Google, Microsoft, and OpenAI started in 2026.</p><p>So start the series now, from a fixed set of unbranded buyer questions asked daily on each engine, and save the platform reports alongside it. While it grows, use page-level or prompt-level experiments to test whether your changes move AI visibility; they need weeks, not years.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What a marketing mix model is</h2>
+      <p>An MMM is a statistical model fitted to your own history. Week by week, you give it how much you spent on each channel or how much exposure each one had, outside factors (controls) such as season, price, and overall category demand, and the sales or leads you got. It estimates how much of the outcome each channel explains, and what more or less spend would do.</p><p>Two assumptions shape the estimate. Effects carry over, so a week of exposure keeps working for a while afterward, and returns diminish, so each extra unit adds less than the one before. <a href="https://developers.google.com/meridian/docs/advanced-modeling/organic-and-non-media-variables" target="_blank" rel="noopener noreferrer">Meridian</a> calls these Adstock and Hill effects. Because the model works from weekly totals, it needs no user tracking and no clicks.</p><p>The price is data. The model can only tell channels apart if their levels moved differently over time, and it needs a lot of history: <a href="https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/" target="_blank" rel="noopener noreferrer">Google researchers</a> note that &quot;three years of national weekly data is only 156 data points&quot; for a model that often has 20 or more channels.</p>
+      
+      
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Why click reports miss AI search</h2>
+      <p>When an AI answer names you and the buyer searches your name later, analytics records a branded search or a direct visit, not AI, so click-based reports see only part of AI&#39;s effect, as the <a href="/aeo-web-traffic-attribution/">web traffic attribution</a> guide explains.</p><p>An MMM sits above the <a href="/aeo-actions-to-revenue/">attribution stack</a> rather than replacing it: referrals, surveys, and buyer interviews show that AI influence exists, and the model estimates its size.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How AI search goes into the model</h2>
+      <p>In both tools, AI visibility fits the slot for unpaid channels. Meridian calls it organic media, &quot;media activities that have no direct cost,&quot; and Robyn calls it organic variables, listing &quot;SEO improvements&quot; among its examples.</p><p>With no spend attached, the model reports a contribution to sales, not a return; add your content and staff costs to get one for your <a href="/aeo-roi-business-case/">ROI business case</a>. The harder part is the exposure series, which needs 4 things.</p>
+      
+      
+      <div class="seo-table-wrap"><table>
+              <thead><tr><th>What the series needs</th><th>What goes wrong without it</th><th>How to meet it</th></tr></thead>
+              <tbody><tr><td><strong>A frozen method</strong></td><td>Changing the prompts, engines, or counting rules moves the series on that date, and the model reads the step as a change in exposure</td><td>Keep prompts and engines fixed and report each engine separately; when the set changes, run old and new side by side or mark the break</td></tr><tr><td><strong>Enough answers per week</strong></td><td>Random noise in an input shrinks its estimated effect toward zero, so AI search looks weaker than it is</td><td>Keep enough answers per prompt and engine each week, and track the margin of error (<a href="/how-many-runs-until-ai-visibility-trustworthy/">how many runs</a>)</td></tr><tr><td><strong>Demand kept apart</strong></td><td>When more people ask, platform counts rise, and so do sales, so the model credits AI for demand</td><td>Add category search volume as a control, or ask the same unbranded questions daily, weighted by demand you estimate separately</td></tr><tr><td><strong>History</strong></td><td>Too few weeks for a stable estimate</td><td>Start now, and save the platform reports on a schedule (<a href="/search-console-bing-ga4-ai-reports/">Search Console, Bing, and Business Hub</a>)</td></tr></tbody>
+            </table></div>
+      
+    </section>
+    <section class="seo-section">
+      <h2>Platform counts or a fixed question panel</h2>
+      <p>Two kinds of exposure series exist. Platform counts come from the platforms: Search Console counts impressions of your links in Google&#39;s AI features, Bing counts AI citations, and OpenAI&#39;s <a href="/businesses-in-chatgpt/">Business Hub</a> counts answers that reference an online business&#39;s website. They measure real users, but each covers 1 platform, counts links rather than brand names, and rises and falls with how many people ask.</p><p>That last point is a trap Google&#39;s MMM researchers describe for paid search: ads follow searches, and searches follow demand that also drives sales (<a href="https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/" target="_blank" rel="noopener noreferrer">Chan and Perry</a>), so a naive model &quot;leads to over-estimates of ROAS,&quot; the return on ad spend (<a href="https://arxiv.org/abs/1807.03292" target="_blank" rel="noopener noreferrer">Chen et al.</a>). <a href="https://developers.google.com/meridian/docs/advanced-modeling/control-variables" target="_blank" rel="noopener noreferrer">Meridian&#39;s remedy</a> is to add search volume as a control. Platform counts need the same.</p><p>A fixed question panel asks the same questions on each engine every day, so it doesn&#39;t move with demand, and it records brands named in the text, not only links. It measures how often you appear per question, not how many people saw you, so treat it as a visibility index rather than exposure. Weight each question by its share of demand and keep the weights fixed; Meridian rescales each series by its median, so the index doesn&#39;t need absolute volumes. What it can&#39;t show is a change in how many people ask, which is why the platform counts belong alongside it.</p><p>The panel also needs many answers, because answers change across days: in a <a href="https://arxiv.org/abs/2605.14021" target="_blank" rel="noopener noreferrer">2026 study of Google AI Overviews</a> on trending queries, when a query showed an AI Overview on 2 different days, the 2 answers cited exactly the same set of URLs only 0.24% of the time.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>The harder problem: AI visibility follows demand too</h2>
+      <p>A fixed panel removes one bias but not the deeper one. Engines mention brands that have more coverage, more reviews, and more people talking about them. A brand that grows for other reasons, such as a launch or a TV campaign, can also gain AI mentions, and a model that doesn&#39;t separate the two credits AI search with demand it reflected rather than created.</p><p>Meridian&#39;s documentation describes the same pattern for search volume: TV and other channels drive branded searches, so branded search volume can sit between them and sales, and Meridian&#39;s full-funnel design models it as a result of those channels before using it as a cause; AI visibility can be modeled the same way. Also build the series from unbranded questions, because questions that already name you mostly show demand you had, as branded search does.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Experiments that work while the series grows</h2>
+      <p>Experiments, also called incrementality tests, answer a narrower question than an MMM: did a specific change move AI visibility, or the branded search and leads that follow it. Regional holdout tests rarely fit, because a change to your site reaches every market at once.</p>
+      
+      <ul class="seo-list"><li><strong>Page-level split tests.</strong> Randomly split comparable pages, change only one group, and compare citations and AI impressions by page. Pinterest published this design for SEO: it splits pages, not users.</li><li><strong>Prompt-level rollouts.</strong> Randomly choose which buyer questions get new content first, and compare their mention rates with the rest over many runs.</li><li><strong>Untouched controls.</strong> Track questions you didn&#39;t work on, and 2 or 3 competitors on the same questions. If everything moves together, the engine moved, as <a href="/performance-based-aeo-contracts/">performance-based contracts</a> also check.</li><li><strong>Time-based tests.</strong> When a change is global, compare branded search or leads after it with a forecast of what would have happened without it, built from series the change didn&#39;t touch. That is the approach behind Google&#39;s CausalImpact.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>How SolCrys fits</h2>
+      <p>SolCrys measures the answer side. It reruns a frozen set of buyer prompts on ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude, depending on plan, daily by default on paid plans. For each answer it records whether you were named, how the answer positioned you, and which URLs it cited, and it exports those dated records as CSV or serves them to your own agents over MCP. Each prompt carries a demand band you can use as a weight. SolCrys doesn&#39;t connect to GA4, Search Console, or your CRM and doesn&#39;t fit the model; you join the series to outcomes in your own analysis.</p>
+      
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://developers.google.com/meridian/docs/advanced-modeling/organic-and-non-media-variables" target="_blank" rel="noopener noreferrer">Google Meridian: Organic media and non-media treatment variables</a></li><li><a href="https://developers.google.com/meridian/docs/advanced-modeling/control-variables" target="_blank" rel="noopener noreferrer">Google Meridian: Control variables</a></li><li><a href="https://developers.google.com/meridian/docs/advanced-modeling/input-data" target="_blank" rel="noopener noreferrer">Google Meridian: Input data</a></li><li><a href="https://facebookexperimental.github.io/Robyn/docs/analysts-guide-to-MMM/" target="_blank" rel="noopener noreferrer">Meta Robyn: Analyst&#39;s guide to MMM</a></li><li><a href="https://facebookexperimental.github.io/Robyn/docs/features/" target="_blank" rel="noopener noreferrer">Meta Robyn: Features</a></li><li><a href="https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/" target="_blank" rel="noopener noreferrer">Chan and Perry, Google: Challenges and Opportunities in Media Mix Modeling (2017)</a></li><li><a href="https://arxiv.org/abs/1807.03292" target="_blank" rel="noopener noreferrer">Chen et al., Google: Bias Correction for Paid Search in Media Mix Modeling (2018)</a></li><li><a href="https://uh.edu/~bsorense/measurement_error2025.pdf" target="_blank" rel="noopener noreferrer">Sørensen, University of Houston: Bias of the OLS estimator when the regressor is measured with error (2025)</a></li><li><a href="https://arxiv.org/abs/2605.14021" target="_blank" rel="noopener noreferrer">Xu, Iqbal, and Montgomery, Washington University in St. Louis: Measuring Google AI Overviews (2026)</a></li><li><a href="https://medium.com/pinterest-engineering/demystifying-seo-with-experiments-a183b325cf4c" target="_blank" rel="noopener noreferrer">Pinterest Engineering: Demystifying SEO with experiments (2015)</a></li><li><a href="https://arxiv.org/abs/1506.00356" target="_blank" rel="noopener noreferrer">Brodersen et al., Google: Inferring causal impact using Bayesian structural time-series models (2015)</a></li><li><a href="https://support.google.com/webmasters/answer/16984139" target="_blank" rel="noopener noreferrer">Google Search Console Help: Generative AI performance report</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Is AI share of voice a good input for an MMM?</h3>
+            <p>Not on its own. Share of voice divides your mentions by everyone&#39;s, so it rises when a competitor drops out even if buyers saw you no more often. Build the exposure series from your own mention rate on each question, and keep <a href="/how-to-track-ai-share-of-voice/">share of voice</a> as a competitive read.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-actions-to-revenue/">AEO Actions to Revenue</a></h3>
+            <p>Visibility metrics are not revenue. This guide is the operational playbook for tracking AEO actions through to conversion events - GA4 limits, survey-based attribution, first-party Recovery scoring, and the multi-touch attribution flow.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-web-traffic-attribution/">What AEO Does to Your Web Traffic</a></h3>
+            <p>AI shapes far more buying than it sends clicks, so analytics undercount AEO. What GA4, Search Console, and Bing show, what they miss, and how to attribute it.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/ai-visibility-score-hides-lost-prompts/">Your AI Visibility Score Looks Fine. Here&#39;s How It Hides the Questions You&#39;re Losing.</a></h3>
+            <p>A blended AI visibility score averages prompts and engines, so branded prompts, changes to the tracked prompts, and engine averaging can hide the buyer questions you lose. How to read it per prompt.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Buyer Guides</p>
+            <h3><a href="/performance-based-aeo-contracts/">Performance-Based AEO Contracts: 5 Questions to Ask Before You Sign</a></h3>
+            <p>Pay-for-performance AEO ties an agency&#39;s fee to an AI visibility threshold or a revenue share. Five questions decide whether that threshold means anything.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/prove-ai-influence-closed-won-interviews/">Prove AI Influence with Closed-Won Interviews</a></h3>
+            <p>Your dashboard says branded search. Your buyers say ChatGPT. The fastest defensible way to prove AI influence on pipeline is a monthly closed-won interview — the script, the sample size, the CRM field, and the 1-in-X readout that gets AEO funded.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/aeo-roi-business-case/">AEO ROI Business Case</a></h3>
+            <p>A practitioner framework for estimating and reviewing AEO ROI with finance. Includes the AEO Revenue Model formula, three attribution methods, a 5-slide deck structure, and a 12-month measurement template.</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-CzEJOv-H.js"></script>
+  </body>
+</html>

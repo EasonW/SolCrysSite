@@ -11055,7 +11055,7 @@ A: Patterns observed: developers and engineers skew Claude plus Perplexity; mark
 
 ## AEO ROI Business Case
 
-Answer Engine Optimization ROI is harder to defend than SEO ROI because most AI search visits are unattributed, AI search shapes decisions before any click, and many buyer journeys skip the brand site entirely. A finance-reviewable AEO business case combines multiple measurement methods - GA4 referrer detection as the floor, survey-based attribution, AI-search-influenced multi-touch attribution, prompt-set recovery estimate, and cohort comparison - and translates each into estimated revenue impact rather than visibility metrics alone. This guide walks through the AEO Revenue Model formula, an illustrative B2B SaaS scenario, the five-slide deck structure, common ROI pitfalls, and a 12-month measurement template. SolCrys's distinctive contribution is a multi-method attribution stack that combines GA4, survey response, prompt-set recovery estimate, and cohort comparison so AEO investment can be reviewed with the same measurement discipline as other hard-to-attribute channels.
+Answer Engine Optimization ROI is harder to defend than SEO ROI because most AI search visits are unattributed, AI search shapes decisions before any click, and many buyer journeys skip the brand site entirely. A finance-reviewable AEO business case combines multiple measurement methods - GA4 referrer detection as the floor, survey-based attribution, AI-search-influenced multi-touch attribution, prompt-set recovery estimate, and cohort comparison - and translates each into estimated revenue impact rather than visibility metrics alone. This guide walks through the AEO Revenue Model formula, an illustrative B2B SaaS scenario, the five-slide deck structure, common ROI pitfalls, and a 12-month measurement template.
 
 ### Questions this guide answers
 
@@ -11077,8 +11077,6 @@ Do not project a default payback period or multiplier without company-specific e
 ### Hat-tip: we are not the only ones publishing an AEO ROI framework
 
 Other practitioners have published parallel ROI frameworks for AEO and GEO investment. The category benefits when multiple practitioners publish their working models.
-
-SolCrys's distinctive contribution is the multi-method attribution stack - GA4 referrer detection plus survey-based attribution plus prompt-set recovery estimate plus cohort comparison - which is designed to estimate the AI-influenced revenue that single-method GA4 attribution can miss.
 
 
 
@@ -11170,7 +11168,7 @@ Five recurring failure modes show up across AEO business cases.
 - Over-attributing all unattributed traffic to AI. Use the delta from a clean pre-AEO baseline, controlling for brand campaigns, partnerships, and seasonality.
 - Cherry-picking time windows. A three-month window can show eye-popping ROI; a CFO will discount. Use trailing 12 months.
 - Treating AEO as a one-time investment. AEO is an operating cost, not capex.
-- Ignoring brand-search effects. When buyers see your brand in ChatGPT and then Google your name, that brand-search lift is AEO-attributable.
+- Ignoring brand-search effects. When buyers see your brand in ChatGPT and then Google your name, part of that brand-search lift can come from AEO. Brand strength drives both, so credit it only after a comparison group or a model separates the two ([how to test it](/mmm-for-ai-search/)).
 
 
 
@@ -11215,7 +11213,7 @@ Q: How do I get budget approved without prior AEO data?
 A: Use external benchmarks only as labeled assumptions, then propose a 90-day pilot with a clear measurement plan and exit criteria. The goal of the pilot is to generate company-specific data before the full investment.
 
 Q: My CFO wants per-channel attribution. AEO is fuzzy. How do I respond?
-A: Acknowledge the attribution complexity head-on. Other channels (paid display, brand TV, podcasts) have similar fuzziness and the company funds them anyway based on incrementality testing. Propose AEO be funded with the same incrementality discipline.
+A: Acknowledge the attribution complexity head-on. Other channels (paid display, brand TV, podcasts) have similar fuzziness and the company funds them anyway based on incrementality testing. Propose AEO be funded with the same [incrementality discipline](/mmm-for-ai-search/).
 
 Q: What is the lowest-cost way to start measuring AEO ROI?
 A: GA4 referrer filter plus a small fixed prompt set checked repeatedly during a baseline window, plus a checkbox on signup forms asking 'how did you hear about us?' with an AI tools option. This produces directional data within 30 days at near-zero tooling cost, though production AEO monitoring should move to daily automated capture.
@@ -11338,7 +11336,7 @@ There is no neutral, published equivalent of the Adobe data for B2B. The defensi
 
 You cannot wait for a clean AI referral number. The reports above don't provide one, and the branded-search bridge means a single-channel number may never exist. Attribution here is a stack of imperfect but converging methods. This is the operating model behind our [AEO ROI business case](/aeo-roi-business-case/) and the [actions-to-revenue](/aeo-actions-to-revenue/) playbook; the summary is in the table below.
 
-The join key is the URL. Answer-side tracking tells you which of your URLs engines cite; Search Console reports AI impressions by page; GA4 reports sessions by landing page. Lining them up shows whether the pages that gained citations also gained impressions, branded demand, or AI-referred sessions. No single row is proof; together they make a defensible case. For the version a CEO will trust as a leading indicator, see [is AI visibility a vanity metric](/is-ai-visibility-a-vanity-metric/).
+The join key is the URL. Answer-side tracking tells you which of your URLs engines cite; Search Console reports AI impressions by page; GA4 reports sessions by landing page. Lining them up shows whether the pages that gained citations also gained impressions, branded demand, or AI-referred sessions. No single row is proof; together they make a defensible case, and a [comparison group or a model](/mmm-for-ai-search/) can test the branded-search link itself. For the version a CEO will trust as a leading indicator, see [is AI visibility a vanity metric](/is-ai-visibility-a-vanity-metric/).
 
 
 
@@ -21728,7 +21726,7 @@ Q: How do I evaluate AI usage inside the platform?
 A: Ask three questions. First, which third-party LLMs does the platform call, and for what purpose? Second, what contractual commitments does the vendor have from those LLM providers about training on routed data? Third, what data does the platform send to each LLM — prompts only, or prompts plus customer-specific brand context? The right answer is that the vendor uses zero-retention API tiers and contractually prohibits training on customer data through the sub-processor chain.
 
 Q: What about Marketing Mix Modeling (MMM) integration?
-A: Most AEO platforms today do not integrate directly with MMM systems. Treat AEO contribution to MMM as a downstream analytics question that lives in your data warehouse, fed by AEO platform exports (citation rate, mention rate, action ship counts). Confirm that the AEO vendor exports those metrics in machine-readable form on a documented schedule.
+A: Most AEO platforms today do not integrate directly with MMM systems. Treat AEO contribution to MMM as a downstream analytics question that lives in your data warehouse, fed by AEO platform exports (citation rate, mention rate, action ship counts). Confirm that the AEO vendor exports those metrics in machine-readable form on a documented schedule. For what an AI exposure series needs before it goes into a model, see [MMM for AI search](/mmm-for-ai-search/).
 
 Q: Do I need a separate procurement track for AEO versus my existing SEO platform?
 A: If your SEO platform offers an AEO module (Ahrefs Brand Radar, Semrush AI Visibility Toolkit, Conductor's AEO module), the procurement track can usually be the same — you're amending an existing MSA. If you're adding a pure-play AEO vendor, run it as a fresh procurement cycle with the 25-item checklist above. AEO is an operating layer on top of SEO, so the platforms can coexist, but each platform that can write to your properties needs its own security review.
@@ -24428,9 +24426,9 @@ In the [4-method attribution stack](/aeo-actions-to-revenue/), survey-based attr
 
 ### How SolCrys fits
 
-SolCrys covers the exposure and verification inputs of the stack above. We Measure where you appear and get recommended across engines on the questions your buyers ask, Diagnose why a competitor is recommended where you are not, Execute governed, human-approved fixes, and then Verify by rerunning the same frozen prompt set after the fix ships. That gives the interview number its upstream context: when a buyer says "ChatGPT suggested you," you can show which prompts, which engines, and how that presence has moved.
+SolCrys covers the exposure layer of the stack above and the dated exposure timeline the verification layer is read against. We Measure where you appear and get recommended across engines on the questions your buyers ask, Diagnose why a competitor is recommended where you are not, Execute governed, human-approved fixes, and then Verify by rerunning the same frozen prompt set after the fix ships. That gives the interview number its upstream context: when a buyer says "ChatGPT suggested you," you can show which prompts, which engines, and how that presence has moved.
 
-Where we are honest about scope: the interviews live in your sales motion and the answers live in your CRM. SolCrys does not see inside your CRM and does not claim a guaranteed lift — we supply the exposure and verification layers and the method; your team owns the conversion layer. If you want to see the exposure layer on your own category before running a single interview, [Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys shows you whether ChatGPT shortlists your brand today and which competitors it names instead.
+Where we are honest about scope: the interviews live in your sales motion and the answers live in your CRM. SolCrys does not see inside your CRM and does not claim a guaranteed lift — we supply the exposure layer, its dated timeline, and the method; your team owns the stack's verification layer (branded-search and direct-traffic trends) and its conversion layer. If you want to see the exposure layer on your own category before running a single interview, [Start Free](https://app.solcrys.com/audit) (free, no credit card) and SolCrys shows you whether ChatGPT shortlists your brand today and which competitors it names instead.
 
 
 
@@ -31212,3 +31210,131 @@ Do these in order.
 
 Q: Is Businesses in ChatGPT the new Google Business Profile?
 A: Partly. Both are claimable profiles, but a Business Profile is what a buyer reads, and its performance report shows the search terms people used. ChatGPT writes each answer itself.
+
+## Can Marketing Mix Models Measure AI Search? What the Exposure Series Needs First
+
+Finance teams fund TV and podcasts on the strength of a marketing mix model's estimate. AI answers also move buyers who never click, so the same model is the natural place to look for AI search.
+
+### Questions this guide answers
+
+- What is a marketing mix model?
+- Can marketing mix models measure AI search?
+- What data does an MMM need to measure AI search?
+- How can I test whether my AEO changes worked?
+
+### Direct answer
+
+Yes, in time. A marketing mix model (MMM) estimates how much each channel contributed to sales from a few years of weekly history, without tracking clicks, which suits AI answers that influence buyers who often never click. Google's Meridian and Meta's Robyn, 2 widely used open-source MMM tools, both have a place for unpaid activity, which is where AI visibility fits.
+
+The catch is the input: a weekly exposure series, meaning how often AI answers show your brand. It needs a method that stays the same over time, enough answers each week that random noise doesn't swamp it, separation from the demand that also drives sales, and history. [Robyn's guide](https://facebookexperimental.github.io/Robyn/docs/analysts-guide-to-MMM/) asks for "a minimum of two years of historical weekly data," and every AI exposure report from Google, Microsoft, and OpenAI started in 2026.
+
+So start the series now, from a fixed set of unbranded buyer questions asked daily on each engine, and save the platform reports alongside it. While it grows, use page-level or prompt-level experiments to test whether your changes move AI visibility; they need weeks, not years.
+
+
+
+
+
+### What a marketing mix model is
+
+An MMM is a statistical model fitted to your own history. Week by week, you give it how much you spent on each channel or how much exposure each one had, outside factors (controls) such as season, price, and overall category demand, and the sales or leads you got. It estimates how much of the outcome each channel explains, and what more or less spend would do.
+
+Two assumptions shape the estimate. Effects carry over, so a week of exposure keeps working for a while afterward, and returns diminish, so each extra unit adds less than the one before. [Meridian](https://developers.google.com/meridian/docs/advanced-modeling/organic-and-non-media-variables) calls these Adstock and Hill effects. Because the model works from weekly totals, it needs no user tracking and no clicks.
+
+The price is data. The model can only tell channels apart if their levels moved differently over time, and it needs a lot of history: [Google researchers](https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/) note that "three years of national weekly data is only 156 data points" for a model that often has 20 or more channels.
+
+
+
+
+
+### Why click reports miss AI search
+
+When an AI answer names you and the buyer searches your name later, analytics records a branded search or a direct visit, not AI, so click-based reports see only part of AI's effect, as the [web traffic attribution](/aeo-web-traffic-attribution/) guide explains.
+
+An MMM sits above the [attribution stack](/aeo-actions-to-revenue/) rather than replacing it: referrals, surveys, and buyer interviews show that AI influence exists, and the model estimates its size.
+
+
+
+
+
+### How AI search goes into the model
+
+In both tools, AI visibility fits the slot for unpaid channels. Meridian calls it organic media, "media activities that have no direct cost," and Robyn calls it organic variables, listing "SEO improvements" among its examples.
+
+With no spend attached, the model reports a contribution to sales, not a return; add your content and staff costs to get one for your [ROI business case](/aeo-roi-business-case/). The harder part is the exposure series, which needs 4 things.
+
+
+
+
+What the series needs | What goes wrong without it | How to meet it
+--- | --- | ---
+**A frozen method** | Changing the prompts, engines, or counting rules moves the series on that date, and the model reads the step as a change in exposure | Keep prompts and engines fixed and report each engine separately; when the set changes, run old and new side by side or mark the break
+**Enough answers per week** | Random noise in an input shrinks its estimated effect toward zero, so AI search looks weaker than it is | Keep enough answers per prompt and engine each week, and track the margin of error ([how many runs](/how-many-runs-until-ai-visibility-trustworthy/))
+**Demand kept apart** | When more people ask, platform counts rise, and so do sales, so the model credits AI for demand | Add category search volume as a control, or ask the same unbranded questions daily, weighted by demand you estimate separately
+**History** | Too few weeks for a stable estimate | Start now, and save the platform reports on a schedule ([Search Console, Bing, and Business Hub](/search-console-bing-ga4-ai-reports/))
+
+
+### Platform counts or a fixed question panel
+
+Two kinds of exposure series exist. Platform counts come from the platforms: Search Console counts impressions of your links in Google's AI features, Bing counts AI citations, and OpenAI's [Business Hub](/businesses-in-chatgpt/) counts answers that reference an online business's website. They measure real users, but each covers 1 platform, counts links rather than brand names, and rises and falls with how many people ask.
+
+That last point is a trap Google's MMM researchers describe for paid search: ads follow searches, and searches follow demand that also drives sales ([Chan and Perry](https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/)), so a naive model "leads to over-estimates of ROAS," the return on ad spend ([Chen et al.](https://arxiv.org/abs/1807.03292)). [Meridian's remedy](https://developers.google.com/meridian/docs/advanced-modeling/control-variables) is to add search volume as a control. Platform counts need the same.
+
+A fixed question panel asks the same questions on each engine every day, so it doesn't move with demand, and it records brands named in the text, not only links. It measures how often you appear per question, not how many people saw you, so treat it as a visibility index rather than exposure. Weight each question by its share of demand and keep the weights fixed; Meridian rescales each series by its median, so the index doesn't need absolute volumes. What it can't show is a change in how many people ask, which is why the platform counts belong alongside it.
+
+The panel also needs many answers, because answers change across days: in a [2026 study of Google AI Overviews](https://arxiv.org/abs/2605.14021) on trending queries, when a query showed an AI Overview on 2 different days, the 2 answers cited exactly the same set of URLs only 0.24% of the time.
+
+
+
+
+
+### The harder problem: AI visibility follows demand too
+
+A fixed panel removes one bias but not the deeper one. Engines mention brands that have more coverage, more reviews, and more people talking about them. A brand that grows for other reasons, such as a launch or a TV campaign, can also gain AI mentions, and a model that doesn't separate the two credits AI search with demand it reflected rather than created.
+
+Meridian's documentation describes the same pattern for search volume: TV and other channels drive branded searches, so branded search volume can sit between them and sales, and Meridian's full-funnel design models it as a result of those channels before using it as a cause; AI visibility can be modeled the same way. Also build the series from unbranded questions, because questions that already name you mostly show demand you had, as branded search does.
+
+
+
+
+
+### Experiments that work while the series grows
+
+Experiments, also called incrementality tests, answer a narrower question than an MMM: did a specific change move AI visibility, or the branded search and leads that follow it. Regional holdout tests rarely fit, because a change to your site reaches every market at once.
+
+
+
+- **Page-level split tests.** Randomly split comparable pages, change only one group, and compare citations and AI impressions by page. Pinterest published this design for SEO: it splits pages, not users.
+- **Prompt-level rollouts.** Randomly choose which buyer questions get new content first, and compare their mention rates with the rest over many runs.
+- **Untouched controls.** Track questions you didn't work on, and 2 or 3 competitors on the same questions. If everything moves together, the engine moved, as [performance-based contracts](/performance-based-aeo-contracts/) also check.
+- **Time-based tests.** When a change is global, compare branded search or leads after it with a forecast of what would have happened without it, built from series the change didn't touch. That is the approach behind Google's CausalImpact.
+
+
+
+### How SolCrys fits
+
+SolCrys measures the answer side. It reruns a frozen set of buyer prompts on ChatGPT, Gemini, Google AI Overviews, Perplexity, and Claude, depending on plan, daily by default on paid plans. For each answer it records whether you were named, how the answer positioned you, and which URLs it cited, and it exports those dated records as CSV or serves them to your own agents over MCP. Each prompt carries a demand band you can use as a weight. SolCrys doesn't connect to GA4, Search Console, or your CRM and doesn't fit the model; you join the series to outcomes in your own analysis.
+
+
+
+
+
+
+### Sources
+
+- [Google Meridian: Organic media and non-media treatment variables](https://developers.google.com/meridian/docs/advanced-modeling/organic-and-non-media-variables)
+- [Google Meridian: Control variables](https://developers.google.com/meridian/docs/advanced-modeling/control-variables)
+- [Google Meridian: Input data](https://developers.google.com/meridian/docs/advanced-modeling/input-data)
+- [Meta Robyn: Analyst's guide to MMM](https://facebookexperimental.github.io/Robyn/docs/analysts-guide-to-MMM/)
+- [Meta Robyn: Features](https://facebookexperimental.github.io/Robyn/docs/features/)
+- [Chan and Perry, Google: Challenges and Opportunities in Media Mix Modeling (2017)](https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/)
+- [Chen et al., Google: Bias Correction for Paid Search in Media Mix Modeling (2018)](https://arxiv.org/abs/1807.03292)
+- [Sørensen, University of Houston: Bias of the OLS estimator when the regressor is measured with error (2025)](https://uh.edu/~bsorense/measurement_error2025.pdf)
+- [Xu, Iqbal, and Montgomery, Washington University in St. Louis: Measuring Google AI Overviews (2026)](https://arxiv.org/abs/2605.14021)
+- [Pinterest Engineering: Demystifying SEO with experiments (2015)](https://medium.com/pinterest-engineering/demystifying-seo-with-experiments-a183b325cf4c)
+- [Brodersen et al., Google: Inferring causal impact using Bayesian structural time-series models (2015)](https://arxiv.org/abs/1506.00356)
+- [Google Search Console Help: Generative AI performance report](https://support.google.com/webmasters/answer/16984139)
+
+### FAQ
+
+Q: Is AI share of voice a good input for an MMM?
+A: Not on its own. Share of voice divides your mentions by everyone's, so it rises when a competitor drops out even if buyers saw you no more often. Build the exposure series from your own mention rate on each question, and keep [share of voice](/how-to-track-ai-share-of-voice/) as a competitive read.
