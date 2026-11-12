@@ -496,7 +496,9 @@ function pricingRedirectBridgeHtml() {
           // then an outside referrer's host, then the tab's stored
           // source (sessionStorage solcrys_utm).
           var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-          if (!KEYS.some(function (k) { return params.has(k); })) {
+          // Blank values don't count as UTMs (same as captureAttribution).
+          if (!KEYS.some(function (k) { return (params.get(k) || '').trim(); })) {
+            KEYS.forEach(function (k) { params.delete(k); });
             var source = null;
             try {
               var ref = new URL(document.referrer);

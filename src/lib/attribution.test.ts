@@ -95,6 +95,13 @@ describe("withAttribution", () => {
     expect(withAttribution(url)).toBe(url);
   });
 
+  it("treats blank UTMs on an app link as none", () => {
+    land("?utm_source=luma", "");
+    expect(withAttribution("https://app.solcrys.com/audit?utm_source=&utm_medium=%20")).toBe(
+      "https://app.solcrys.com/audit?utm_source=luma",
+    );
+  });
+
   it("leaves other links alone, and app links when nothing is stored", () => {
     land("?utm_source=luma", "");
     expect(withAttribution("https://example.com/")).toBe("https://example.com/");

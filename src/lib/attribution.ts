@@ -123,7 +123,8 @@ function appHosts(): Set<string> {
 }
 
 /** `url` with the stored UTMs added when it points into the app and
- *  carries no UTMs of its own; otherwise `url` unchanged. */
+ *  carries no UTMs of its own (blank values don't count, as in
+ *  captureAttribution); otherwise `url` unchanged. */
 export function withAttribution(url: string): string {
   if (typeof window === "undefined") return url;
   let parsed: URL;
@@ -133,10 +134,11 @@ export function withAttribution(url: string): string {
     return url;
   }
   if (!appHosts().has(parsed.host)) return url;
-  if (UTM_KEYS.some((key) => parsed.searchParams.has(key))) return url;
+  if (UTM_KEYS.some((key) => capValue(parsed.searchParams.get(key)) !== null)) return url;
   const utm = readAttribution();
   if (!utm) return url;
   for (const key of UTM_KEYS) {
+    parsed.searchParams.delete(key);
     const value = utm[key];
     if (value !== null) parsed.searchParams.set(key, value);
   }
@@ -146,9 +148,10 @@ export function withAttribution(url: string): string {
 /** Tag links into the app at the moment they are followed. Listens on
  *  window in the capture phase so the href is final before any document-
  *  level handler (e.g. the prerendered pricing-link theme handoff) reads
- *  it. Covers plain, modified, middle and right clicks (so "Copy link"
- *  copies the tagged href); a link dragged or copied by keyboard is not
- *  tagged, nor one clicked before this bundle has run. */
+ *  it. Covers plain, modified and middle clicks. Right clicks also fire
+ *  auxclick, but whether a context menu's "Copy link" sees the tagged
+ *  href depends on the platform; dragged links, keyboard copies and
+ *  clicks before this bundle has run are not tagged. */
 export function installAttributionLinks(): void {
   if (typeof window === "undefined") return;
   const tag = (event: MouseEvent) => {
