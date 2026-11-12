@@ -60,15 +60,17 @@ function extractUtm(search: string): StoredUtm {
 }
 
 /** The referring site as a source: its host without "www.", or null when
- *  there is none, it can't be parsed, or it is our own site. */
+ *  there is none, it isn't an http(s) address (e.g. android-app://), or it
+ *  is our own site. */
 export function referrerSource(referrer: string, ownHost: string): string | null {
-  let host: string;
+  let url: URL;
   try {
-    host = new URL(referrer).hostname.toLowerCase();
+    url = new URL(referrer);
   } catch {
     return null;
   }
-  host = host.replace(/^www\./, "");
+  if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+  const host = url.hostname.toLowerCase().replace(/^www\./, "");
   if (!host || host === ownHost.toLowerCase() || /(^|\.)solcrys\.com$/.test(host)) {
     return null;
   }
@@ -144,8 +146,9 @@ export function withAttribution(url: string): string {
 /** Tag links into the app at the moment they are followed. Listens on
  *  window in the capture phase so the href is final before any document-
  *  level handler (e.g. the prerendered pricing-link theme handoff) reads
- *  it. Covers plain, modified and middle clicks; a copied link is not
- *  tagged. */
+ *  it. Covers plain, modified, middle and right clicks (so "Copy link"
+ *  copies the tagged href); a link dragged or copied by keyboard is not
+ *  tagged, nor one clicked before this bundle has run. */
 export function installAttributionLinks(): void {
   if (typeof window === "undefined") return;
   const tag = (event: MouseEvent) => {

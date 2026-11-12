@@ -51,6 +51,11 @@ describe("captureAttribution", () => {
     expect(readAttribution()?.utm_source).toBe("google.com");
   });
 
+  it("an empty utm_source falls through to the referrer", () => {
+    land("?utm_source=", "https://google.com/");
+    expect(readAttribution()).toMatchObject({ utm_source: "google.com", utm_medium: "referral" });
+  });
+
   it.each(["https://solcrys.com/guides/x", "https://app.solcrys.com/pricing", "", "not a url"])(
     "keeps what is stored on arrival from %p",
     (referrer) => {
@@ -69,6 +74,7 @@ describe("referrerSource", () => {
     ["https://solcrys.com.example.org/", "solcrys.com.example.org"],
     ["https://app.solcrys.com/", null],
     ["https://test-solcrys-aeo.up.railway.app/x", null],
+    ["android-app://com.google.android.googlequicksearchbox/", null],
     ["", null],
   ])("%p → %p", (referrer, expected) => {
     expect(referrerSource(referrer, "test-solcrys-aeo.up.railway.app")).toBe(expected);
@@ -118,6 +124,17 @@ describe("installAttributionLinks", () => {
     anchor.remove();
 
     expect(seen).toBe("https://app.solcrys.com/audit?utm_source=youtube.com&utm_medium=video");
+  });
+
+  it("tags on auxclick (middle or right click) too", () => {
+    land("?utm_source=luma", "");
+    installAttributionLinks();
+    const anchor = document.createElement("a");
+    anchor.href = "https://app.solcrys.com/pricing";
+    document.body.appendChild(anchor);
+    anchor.dispatchEvent(new MouseEvent("auxclick", { bubbles: true, cancelable: true, button: 1 }));
+    anchor.remove();
+    expect(anchor.href).toBe("https://app.solcrys.com/pricing?utm_source=luma");
   });
 });
 

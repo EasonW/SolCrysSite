@@ -491,6 +491,33 @@ function pricingRedirectBridgeHtml() {
           // so the app honors what the visitor sees here regardless of
           // any stale app-side localStorage preference.
           var params = new URLSearchParams(window.location.search);
+          // This page never loads the SPA bundle, so it applies
+          // src/lib/attribution.ts's rule inline: UTMs in the URL win,
+          // then an outside referrer's host, then the tab's stored
+          // source (sessionStorage solcrys_utm).
+          var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+          if (!KEYS.some(function (k) { return params.has(k); })) {
+            var source = null;
+            try {
+              var ref = new URL(document.referrer);
+              var host = ref.hostname.toLowerCase().replace(/^www\\./, '');
+              if (/^https?:$/.test(ref.protocol) && host &&host !== window.location.hostname.toLowerCase() && !/(^|\\.)solcrys\\.com$/.test(host)) {
+                source = host.slice(0, 64);
+              }
+            } catch (e) {}
+            if (source) {
+              params.set('utm_source', source);
+              params.set('utm_medium', 'referral');
+            } else {
+              try {
+                var stored = JSON.parse(window.sessionStorage.getItem('solcrys_utm') || 'null');
+                KEYS.forEach(function (k) {
+                  var v = stored && stored[k];
+                  if (typeof v === 'string' && v.trim()) params.set(k, v.trim().slice(0, 64));
+                });
+              } catch (e) {}
+            }
+          }
           if (!params.has('theme')) params.set('theme', resolvedTheme());
           var qs = params.toString();
           if (qs) dest += '?' + qs;
