@@ -1,1 +1,0 @@
-var e=`https://app.solcrys.com/pricing`;export{e as t};
