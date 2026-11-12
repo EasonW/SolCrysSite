@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { withAttribution } from "@/lib/attribution";
 import { trackEvent } from "@/lib/analytics";
 
 /**
@@ -41,7 +42,9 @@ const FreeTrackerSection = () => {
       surface: "home_tracker_section",
       domain: trimmed,
     });
-    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`;
+    window.location.href = withAttribution(
+      `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`,
+    );
   };
 
   return (
