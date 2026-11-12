@@ -19,6 +19,8 @@
  * localhost), Formspree is used directly. Local dev keeps working.
  */
 
+import { readAttribution, UTM_KEYS } from "./attribution";
+
 // ─── Types ──────────────────────────────────────────────────────────
 
 export type LeadFormType =
@@ -74,31 +76,22 @@ export function isPreviewPath(): boolean {
 // ─── Internals ──────────────────────────────────────────────────────
 
 /**
- * POST to the geo-platform lead-intake endpoint. Captures UTM/referrer
- * client-side and adds them to source_context. Returns ok=false on any
- * non-2xx so the caller can fall back to Formspree.
+ * POST to the geo-platform lead-intake endpoint. Adds the visit's source
+ * (see ./attribution: UTMs, or an outside referrer's host) and the form's
+ * page to source_context. Returns ok=false on any non-2xx so the caller
+ * can fall back to Formspree.
  */
 async function postToLeadIntake(
   url: string,
   payload: LeadIntakePayload,
 ): Promise<LeadIntakeResult> {
-  const sp =
-    typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
   const source_context: Record<string, unknown> = {};
-  if (sp) {
-    for (const k of [
-      "utm_source",
-      "utm_medium",
-      "utm_campaign",
-      "utm_term",
-      "utm_content",
-    ]) {
-      const v = sp.get(k);
-      if (v) source_context[k] = v;
+  const utm = typeof window !== "undefined" ? readAttribution() : null;
+  if (utm) {
+    for (const key of UTM_KEYS) {
+      const value = utm[key];
+      if (value !== null) source_context[key] = value;
     }
-  }
-  if (typeof document !== "undefined" && document.referrer) {
-    source_context.referrer = document.referrer;
   }
   if (typeof window !== "undefined") {
     source_context.page_url = window.location.href;

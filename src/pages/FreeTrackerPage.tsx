@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { LOGO_MONO } from "@/components/customerLogos";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { withAttribution } from "@/lib/attribution";
 import { trackEvent } from "@/lib/analytics";
 
 /**
@@ -133,7 +134,9 @@ const FreeTrackerPage = () => {
       surface: "free_tracker_lp",
       domain: trimmed,
     });
-    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`;
+    window.location.href = withAttribution(
+      `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`,
+    );
   };
 
   return (

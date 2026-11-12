@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { withAttribution } from "@/lib/attribution";
 import { APP_PRICING_URL } from "@/lib/pricing-url";
 
 /**
@@ -24,7 +25,9 @@ import { APP_PRICING_URL } from "@/lib/pricing-url";
  * subdomain, different storage namespace, so URL is the only viable
  * cross-domain handoff channel.
  *
- * UTM params are preserved verbatim so attribution survives the hop.
+ * UTM params are preserved verbatim, and the tab's stored source
+ * (lib/attribution) is added when the URL has none, so attribution
+ * survives the hop.
  *
  * Renders a minimal "Redirecting…" message that flashes for ~10ms
  * before the navigation lands; intentionally not styled because it
@@ -61,7 +64,7 @@ export default function PricingRedirect() {
 
     const qs = params.toString();
     const dest = qs ? `${APP_PRICING_URL}?${qs}` : APP_PRICING_URL;
-    window.location.replace(dest);
+    window.location.replace(withAttribution(dest));
   }, []);
 
   return (

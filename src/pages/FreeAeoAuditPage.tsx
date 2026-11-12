@@ -11,6 +11,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { withAttribution } from "@/lib/attribution";
 import { trackEvent } from "@/lib/analytics";
 
 /**
@@ -160,7 +161,9 @@ const FreeAeoAuditPage = () => {
       surface: "free_aeo_audit_lp",
       domain: trimmed,
     });
-    window.location.href = `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`;
+    window.location.href = withAttribution(
+      `${AUDIT_URL}?domain=${encodeURIComponent(trimmed)}&autostart=1`,
+    );
   };
 
   return (
