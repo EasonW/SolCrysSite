@@ -582,11 +582,11 @@
       "metaTitle": "How SolCrys Measures AI Visibility - Real-User Fidelity | SolCrys",
       "description": "How we capture your AI visibility data across supported engines, with each response traceable to a prompt, engine, capture method, available model or surface signal, and timestamp. Consumer-surface and retail-assistant validation are scoped where technically reliable.",
       "h1": "How we measure AI visibility - real-user fidelity, not API approximations",
-      "summary": "We measure AI visibility by running tracked prompts against the engines included in your plan and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates, so we build sample sizes that turn noisy single-snapshot reads into trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.",
+      "summary": "We measure AI visibility by running tracked prompts against the engines included in your plan and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Paid workspaces rerun every active prompt on a schedule, daily by default, with rolling 7-, 14-, and 30-day aggregates, so we build sample sizes that turn noisy single-snapshot reads into trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.",
       "category": "How SolCrys Works",
       "ogImage": "/og/visibility-measurement-methodology.png",
       "published": "2026-05-08",
-      "updated": "2026-09-26",
+      "updated": "2026-11-11",
       "primaryKeyword": "AI visibility measurement methodology",
       "aeoTargets": [
         "How does SolCrys capture AI visibility data?",
@@ -607,7 +607,7 @@
           "heading": "Direct answer",
           "body": [
             "We measure AI visibility by running tracked prompts against supported engines and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it.",
-            "Every data point in your dashboard is traceable to a specific prompt, engine, available model or surface signal, and timestamp. Free Audits are one-time snapshots; ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates so trend lines reflect repeated capture, not yesterday's coin flip."
+            "Every data point in your dashboard is traceable to a specific prompt, engine, available model or surface signal, and timestamp. Free Audits are one-time snapshots; paid workspaces rerun every active prompt on a schedule, daily by default, with rolling 7-, 14-, and 30-day aggregates so trend lines reflect repeated capture, not yesterday's coin flip."
           ]
         },
         {
@@ -712,7 +712,7 @@
           "heading": "How we handle AI engine variability",
           "body": [
             "A single snapshot of an AI response is a snapshot of a noisy system. AI engines are non-deterministic by design - they sample probabilistically so the conversation feels dynamic. Engines also re-route between models, update defaults, and change citation behavior day-to-day. To produce trustworthy trend lines we need repeated capture; one shot isn't enough.",
-            "Free Audit reports include a single snapshot for a directional read on where your brand stands today. Ongoing workspaces monitor priority prompts daily and aggregate results into rolling 7-day and 30-day windows, so trend lines reflect repeated capture rather than a per-snapshot coin flip. Single-snapshot moves are labeled as snapshots, not trend changes.",
+            "Free Audit reports include a single snapshot for a directional read on where your brand stands today. Single-snapshot moves are labeled as snapshots, not trend changes.",
             "We can't eliminate engine noise - that's impossible. What we can do, and what we commit to, is give you enough sample size that your trend lines reflect repeated measurement, not yesterday's coin flip. We don't currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to make that label honest. We'd rather show you the underlying responses and let you judge whether a movement is meaningful."
           ]
         },
@@ -730,7 +730,6 @@
           ],
           "bullets": [
             "We don't promise that fixing a flagged answer gap will guarantee citation lift. Engine behavior is influenced by hundreds of inputs we can't fully see; we tell you what to fix and we remeasure after.",
-            "We don't promise identical refresh depth for every workspace. Priority prompts are designed for daily monitoring in active programs; broader coverage depends on the monitoring problem we are solving.",
             "We don't promise complete coverage of every AI engine. New engines launch frequently; we track the engines your buyers actually use, not every novelty.",
             "We don't promise complete rendered capture across every surface or UI element. Engines redesign their interfaces; when extraction is not reliable for a surface, we scope it separately or flag the limitation instead of silently degrading.",
             "We don't personalize results based on a fake user identity. Sessions run with default state - no logged-in personalization, no memory, no account history - so your data is comparable across customers.",
@@ -749,7 +748,7 @@
         },
         {
           "question": "How do you handle the fact that AI engines give different answers each time?",
-          "answer": "By repeated capture and rolling aggregation. Daily priority-prompt refreshes feed into rolling 7-day and 30-day aggregates so trend lines reflect repeated measurement rather than per-snapshot variance. We are explicit about sample-size limits and label single snapshots as such rather than reporting them as trend movements. We don't currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart."
+          "answer": "By repeated capture and rolling aggregation. Scheduled reruns of every active prompt feed rolling 7-, 14-, and 30-day aggregates, so trend lines reflect repeated measurement rather than per-snapshot variance. We are explicit about sample-size limits and label single snapshots as such rather than reporting them as trend movements. We don't currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart."
         },
         {
           "question": "What happens when an engine changes its default model?",
