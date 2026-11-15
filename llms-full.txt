@@ -2465,7 +2465,7 @@ A directory profile is rarely the highest-leverage move, but the test that tells
 
 ### How SolCrys handles this for you
 
-SolCrys runs the citation test as a governed loop instead of a one-afternoon manual pass: Measure → Diagnose → Execute → Verify. We Measure by running your buyer-intent prompt set daily and recording every cited URL. SolCrys tracks 5 engines (ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude), and coverage depends on plan: Starter covers ChatGPT, Gemini, and Google AI Overviews; Pro covers any 4 of the 5; Custom covers all 5. We Diagnose by classifying those citations by source type (owned, competitor, editorial, UGC, and other) and by domain, so you can see whether G2 or Capterra actually appear in your category's answers and which prompts you are losing. We Execute with human-approved content and source-layer work targeting the surfaces the data says matter; a person on your team approves each change, and SolCrys never publishes for you. We Verify by rerunning the same prompt set on the same engines to see whether citations moved after the change and whether the move held.
+SolCrys runs the citation test as a governed loop instead of a one-afternoon manual pass: Measure → Diagnose → Execute → Verify. We Measure by rerunning your buyer-intent prompt set on a schedule, daily by default on paid plans, and recording every cited URL. SolCrys tracks 5 engines (ChatGPT, Google AI Overviews, Gemini, Perplexity, and Claude), and coverage depends on plan: Starter covers ChatGPT, Gemini, and Google AI Overviews; Pro covers any 4 of the 5; Custom covers all 5. We Diagnose by classifying those citations by source type (owned, competitor, editorial, UGC, and other) and by domain, so you can see whether G2 or Capterra actually appear in your category's answers and which prompts you are losing. We Execute with human-approved content and source-layer work targeting the surfaces the data says matter; a person on your team approves each change, and SolCrys never publishes for you. We Verify by rerunning the same prompt set on the same engines to see whether citations moved after the change and whether the move held.
 
 If you want to see which sources AI cites for your category before you spend a quarter chasing directory listings, [Start Free](https://app.solcrys.com/audit): 10 buyer prompts on ChatGPT, with your mention rate, competitor share of voice, and the sources ChatGPT cited, free, no credit card. Multi-engine tracking is on [paid plans](https://app.solcrys.com/pricing).
 
@@ -5053,7 +5053,7 @@ Shopify frames it cleanly: AI platforms recommend specific products rather than 
 
 In traditional organic search, the funnel runs from category query to category page to filter to product page to cart. In AI-mediated commerce, the funnel runs from conversational prompt to AI recommends specific SKU to product page to cart. Three sub-funnel steps disappear.
 
-The marketing implication is uncomfortable for teams whose AI search strategy is still framed as 'rank higher' or 'increase brand mentions.' When the AI is doing the comparison, being recommended for the right SKU on the right prompt is the funnel. Mention rate, share of voice, even brand awareness in AI - none of these survive contact with this data as the right KPI. The right KPI is whether the answer engine recommends your specific product when buyers ask it to choose. That is what we measure as AI Share of Recommendation, on a tracked prompt set segmented by prompt category, engine, persona, and rolling 7/30-day windows.
+The marketing implication is uncomfortable for teams whose AI search strategy is still framed as 'rank higher' or 'increase brand mentions.' When the AI is doing the comparison, being recommended for the right SKU on the right prompt is the funnel. Mention rate, share of voice, even brand awareness in AI - none of these survive contact with this data as the right KPI. The right KPI is whether the answer engine recommends your specific product when buyers ask it to choose. That is what we measure as AI Share of Recommendation, on a tracked prompt set segmented by prompt category, engine, persona, and rolling 7-, 14-, and 30-day windows.
 
 
 
@@ -5099,7 +5099,7 @@ The Shopify data validates tactics we have been running, but it changes the prio
 - Run a Retail AI Shelf Diagnostic on your top 50 SKUs. Check which SKUs are absent, mentioned-but-not-recommended, or cited with stale specs.
 - Diagnose the structural reason for each gap. Is the product page missing the buyer-language attributes the engine retrieves? Are reviews and Q&A surfacing the wrong use cases? Is a third-party comparison page framing a competitor as the obvious choice? Each cause has a different fix path.
 - Fix at the listing and source layer first. Update product page direct-answer blocks, structured spec tables, and use-case framing. Seed buyer-concern Q&A coverage in compliant ways. Earn third-party citations where the engine already retrieves.
-- Retest the same prompt set on a recurring cadence. Daily priority-prompt monitoring with rolling 7-day and 30-day aggregates is what tells you whether a fix moved the answer or whether you are inside normal engine variance. Single-snapshot wins get over-celebrated - run prompts repeatedly and let the rolling window do the work.
+- Retest the same prompt set on a recurring cadence. Scheduled reruns with rolling-window aggregates are what tell you whether a fix moved the answer or whether you are inside normal engine variance. Single-snapshot wins get over-celebrated - run prompts repeatedly and let the rolling window do the work.
 - Stage 2: prepare for agentic transactions. Stage 1 is about being recommended. Stage 2 is about being purchasable by the agent without a human visiting the product page at all. Our [Agentic Commerce Readiness framework](/agentic-commerce-readiness/) covers the 8 dimensions - structured product data, programmatic pricing, machine-readable returns policies, and stable APIs - that determine whether you are a candidate in Stage 2.
 
 
@@ -5108,7 +5108,7 @@ The Shopify data validates tactics we have been running, but it changes the prio
 
 When SolCrys runs a Retail AEO engagement, the data we report on this exact question - which of your SKUs get recommended, on which prompts, by which engine, against which competitors - is structured for audit, not for pretty charts.
 
-Priority prompts are monitored daily in active workspaces, and rolling 7-day and 30-day windows let you compare current performance against the prior period rather than overreacting to a single snapshot. Every data point traces back to a specific prompt, engine, available model or surface signal, capture method, timestamp, and captured response - you can audit any chart back to the raw answer. Share of Recommendation is reported per engine, per persona, and per prompt category, with engine-by-engine breakdowns surfaced by default rather than hidden inside a blended top-line number.
+Every active prompt reruns on a schedule, daily by default on paid plans, and rolling 7-, 14-, and 30-day windows let you compare current performance against the prior period rather than overreacting to a single snapshot. Every data point traces back to a specific prompt, engine, available model or surface signal, capture method, timestamp, and captured response - you can audit any chart back to the raw answer. Share of Recommendation is reported per engine, per persona, and per prompt category, with engine-by-engine breakdowns surfaced by default rather than hidden inside a blended top-line number.
 
 Where we are honest about scope: we currently deliver the measurement, diagnosis, and structured action briefs - deep analyses, ranked fixes, source-and-listing recommendations. Your team or your agency ships the fixes in your CMS and marketplace consoles. Agent-assisted shipping is on our roadmap. Today we deliver the diagnosis and the brief, and we verify by rerunning the prompt set after fixes go live.
 
@@ -5136,7 +5136,7 @@ Q: What is the difference between mention rate and Share of Recommendation under
 A: Mention rate counts whether your brand appears in the answer. Share of Recommendation measures whether the engine actually recommends your specific product or brand for the prompt. Given the journey-compression data, a brand can have high mention rate and low recommendation rate and still lose most of the AI-referred funnel. We treat Share of Recommendation as the headline metric for Retail AEO programs.
 
 Q: How do you measure AI Share of Recommendation for retail brands specifically?
-A: We build a Golden Prompt Set for your category from search demand, the questions people ask around it, and community discussion where available. We run those prompts on the engines your buyers use, capture and score each answer, and segment recommendation by prompt category, engine, persona, and rolling 7-day or 30-day windows. Every chart drills back to the captured response.
+A: We build a Golden Prompt Set for your category from search demand, the questions people ask around it, and community discussion where available. We run those prompts on the engines your buyers use, capture and score each answer, and segment recommendation by prompt category, engine, persona, and rolling 7-, 14-, or 30-day windows. Every chart drills back to the captured response.
 
 Q: Is this only relevant for Shopify merchants?
 A: No. Shopify's data is the largest public dataset we have seen on AI-referred commerce, but the journey-compression dynamic is platform-independent. Brands on BigCommerce, custom stacks, Amazon, Walmart Marketplace, and DTC platforms face the same structural shift - buyers arrive on product surfaces from AI recommendations regardless of which storefront serves the page.
@@ -11055,7 +11055,7 @@ A: Patterns observed: developers and engineers skew Claude plus Perplexity; mark
 
 ## AEO ROI Business Case
 
-Answer Engine Optimization ROI is harder to defend than SEO ROI because most AI search visits are unattributed, AI search shapes decisions before any click, and many buyer journeys skip the brand site entirely. A finance-reviewable AEO business case combines multiple measurement methods - GA4 referrer detection as the floor, survey-based attribution, AI-search-influenced multi-touch attribution, prompt-set recovery estimate, and cohort comparison - and translates each into estimated revenue impact rather than visibility metrics alone. This guide walks through the AEO Revenue Model formula, an illustrative B2B SaaS scenario, the five-slide deck structure, common ROI pitfalls, and a 12-month measurement template.
+Answer Engine Optimization ROI is harder to defend than SEO ROI because most AI search visits are unattributed, AI search shapes decisions before any click, and many buyer journeys skip the brand site entirely. This guide walks through the AEO Revenue Model formula, an illustrative B2B SaaS scenario, the five-slide deck structure, common ROI pitfalls, and a 12-month measurement template.
 
 ### Questions this guide answers
 
@@ -11066,17 +11066,9 @@ Answer Engine Optimization ROI is harder to defend than SEO ROI because most AI 
 
 ### Direct answer
 
-AEO ROI is calculated as estimated AI-influenced revenue minus AEO program cost, divided by program cost. The hard part is measuring AI-influenced revenue, because most analytics tools undercount it. A finance-reviewable business case combines several measurement methods: the AEO Revenue Model formula (estimated AI-influenced visits multiplied by measured conversion behavior, AOV, and frequency); prompt-set Recovery Scoring that ties citation share lift to estimated revenue at risk per category prompt; survey-based attribution; and AI-search-influenced multi-touch attribution.
+AEO ROI is calculated as estimated AI-influenced revenue minus AEO program cost, divided by program cost. The hard part is measuring AI-influenced revenue, because most analytics tools undercount it. A finance-reviewable business case uses 3 core measurement methods: GA4 referrer detection as the floor, AI-search-influenced multi-touch attribution, and prompt-set Recovery Scoring that ties citation share lift to estimated revenue at risk per category prompt. The AEO Revenue Model formula (estimated AI-influenced visits multiplied by measured conversion behavior, AOV, and frequency) turns the visit-based methods into revenue, with survey answers and cohort comparisons supplying its visit and conversion-lift inputs.
 
 Do not project a default payback period or multiplier without company-specific evidence. The case fails finance scrutiny when it relies only on visibility metrics without revenue mapping. If you cannot explain the dollar value and assumptions behind moving from 8% to 24% citation share, treat the model as a hypothesis until your own data validates it.
-
-
-
-
-
-### Hat-tip: we are not the only ones publishing an AEO ROI framework
-
-Other practitioners have published parallel ROI frameworks for AEO and GEO investment. The category benefits when multiple practitioners publish their working models.
 
 
 
@@ -11130,9 +11122,9 @@ Run those assumptions through the formula and the math points to a meaningful an
 
 
 
-### The three measurement methods (used together)
+### The three core measurement methods (used together)
 
-A combined business case typically uses Method 1 as the floor, Method 2 for monthly tracking, and Method 3 for the strategic narrative.
+A combined business case typically uses Method 1 as the floor, Method 2 for monthly tracking, and Method 3 for the strategic narrative. Survey answers and cohort comparisons supply the formula's visit and conversion-lift inputs.
 
 
 
@@ -11543,7 +11535,7 @@ Combining the four methods (with overlap correction) can produce a different att
 
 Set up GA4 referrer detection this week, add the survey question to signup forms, build the prompt set and engage sales for revenue estimates, run baseline for 60 days, ship AEO changes, and measure at 90 days. Use the unified model for quarterly CFO reports.
 
-If you want a structured AEO Attribution Flow template that maps your prompts to revenue with sales-team input, request early access from the SolCrys team.
+Once these signals have a few years of weekly history, a marketing mix model can estimate the size of AI's effect; [MMM for AI search](/mmm-for-ai-search/) covers what its input needs.
 
 
 
@@ -13512,7 +13504,7 @@ A: Your tracked prompts don't change unless you approve the change. Prompt revis
 
 ## AI Visibility Measurement Methodology
 
-We measure AI visibility by running tracked prompts against the engines included in your plan and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates, so we build sample sizes that turn noisy single-snapshot reads into trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.
+We measure AI visibility by running tracked prompts against the engines included in your plan and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it. Paid workspaces rerun every active prompt on a schedule, daily by default, with rolling 7-, 14-, and 30-day aggregates, so we build sample sizes that turn noisy single-snapshot reads into trend lines you can defend internally. We publish this methodology because most platforms describe their measurement in marketing-speak - we'd rather show our work and let you challenge it.
 
 ### Questions this guide answers
 
@@ -13525,7 +13517,7 @@ We measure AI visibility by running tracked prompts against the engines included
 
 We measure AI visibility by running tracked prompts against supported engines and preserving the evidence behind each response: prompt, engine, capture method, available model or surface signal, timestamp, answer text, citations, and follow-up questions. For surfaces that require rendered or SERP capture, such as Google AI Overviews, we tag the capture method separately. Retail-assistant validation is scoped as an add-on when access and reliability support it.
 
-Every data point in your dashboard is traceable to a specific prompt, engine, available model or surface signal, and timestamp. Free Audits are one-time snapshots; ongoing workspaces use daily priority-prompt monitoring with rolling 7-day and 30-day aggregates so trend lines reflect repeated capture, not yesterday's coin flip.
+Every data point in your dashboard is traceable to a specific prompt, engine, available model or surface signal, and timestamp. Free Audits are one-time snapshots; paid workspaces rerun every active prompt on a schedule, daily by default, with rolling 7-, 14-, and 30-day aggregates so trend lines reflect repeated capture, not yesterday's coin flip.
 
 
 
@@ -13611,7 +13603,7 @@ We treat this kind of traceability as the difference between a dashboard you can
 
 A single snapshot of an AI response is a snapshot of a noisy system. AI engines are non-deterministic by design - they sample probabilistically so the conversation feels dynamic. Engines also re-route between models, update defaults, and change citation behavior day-to-day. To produce trustworthy trend lines we need repeated capture; one shot isn't enough.
 
-Free Audit reports include a single snapshot for a directional read on where your brand stands today. Ongoing workspaces monitor priority prompts daily and aggregate results into rolling 7-day and 30-day windows, so trend lines reflect repeated capture rather than a per-snapshot coin flip. Single-snapshot moves are labeled as snapshots, not trend changes.
+Free Audit reports include a single snapshot for a directional read on where your brand stands today. Single-snapshot moves are labeled as snapshots, not trend changes.
 
 We can't eliminate engine noise - that's impossible. What we can do, and what we commit to, is give you enough sample size that your trend lines reflect repeated measurement, not yesterday's coin flip. We don't currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to make that label honest. We'd rather show you the underlying responses and let you judge whether a movement is meaningful.
 
@@ -13636,7 +13628,6 @@ Trust requires that we name what we won't claim, not just what we will.
 
 
 - We don't promise that fixing a flagged answer gap will guarantee citation lift. Engine behavior is influenced by hundreds of inputs we can't fully see; we tell you what to fix and we remeasure after.
-- We don't promise identical refresh depth for every workspace. Priority prompts are designed for daily monitoring in active programs; broader coverage depends on the monitoring problem we are solving.
 - We don't promise complete coverage of every AI engine. New engines launch frequently; we track the engines your buyers actually use, not every novelty.
 - We don't promise complete rendered capture across every surface or UI element. Engines redesign their interfaces; when extraction is not reliable for a surface, we scope it separately or flag the limitation instead of silently degrading.
 - We don't personalize results based on a fake user identity. Sessions run with default state - no logged-in personalization, no memory, no account history - so your data is comparable across customers.
@@ -13654,7 +13645,7 @@ Q: Why don't you just use the engine's API for everything? It is cheaper.
 A: Cheaper to operate, but API data does not always match what consumer users see. For Google AI Overviews specifically, no public API exists. For consumer chat surfaces, the API and consumer product can return materially different answers to the same prompt. We preserve capture-method metadata so customers understand what was measured.
 
 Q: How do you handle the fact that AI engines give different answers each time?
-A: By repeated capture and rolling aggregation. Daily priority-prompt refreshes feed into rolling 7-day and 30-day aggregates so trend lines reflect repeated measurement rather than per-snapshot variance. We are explicit about sample-size limits and label single snapshots as such rather than reporting them as trend movements. We don't currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart.
+A: By repeated capture and rolling aggregation. Scheduled reruns of every active prompt feed rolling 7-, 14-, and 30-day aggregates, so trend lines reflect repeated measurement rather than per-snapshot variance. We are explicit about sample-size limits and label single snapshots as such rather than reporting them as trend movements. We don't currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart.
 
 Q: What happens when an engine changes its default model?
 A: We monitor provider announcements and model deprecations on an ongoing basis, with internal alerting for default-model changes. When a configured model or surface changes materially, we update tracking as soon as the change is verified and disclose the change so customers can interpret any trend-line discontinuities.
@@ -13735,11 +13726,11 @@ How we answer: we store engine, configured adapter, timestamp, and available mod
 
 #### Question 4: How do you handle the fact that AI engines give different answers each time?
 
-What you should listen for: explicit acknowledgement of non-determinism, plus a methodology for it. Strong answers describe repeated capture, daily priority-prompt monitoring, rolling-window aggregates, and an explicit policy for how single snapshots are labeled versus trend movements. Vendors that claim formal confidence intervals should be able to describe the sample sizes that support them; if they cannot, treat that as a marketing label, not a method.
+What you should listen for: explicit acknowledgement of non-determinism, plus a methodology for it. Strong answers describe repeated capture, scheduled reruns of every tracked prompt, rolling-window aggregates, and an explicit policy for how single snapshots are labeled versus trend movements. Vendors that claim formal confidence intervals should be able to describe the sample sizes that support them; if they cannot, treat that as a marketing label, not a method.
 
 Red flags: 'Our data is highly accurate' without explaining how non-determinism is handled; one run per refresh cycle treated as one data point; no rolling windows or acknowledgement that engines are non-deterministic.
 
-How we answer: active workspaces refresh priority prompts daily and aggregate into rolling 7-day and 30-day windows. Single snapshots are labeled as snapshots, not as trend changes. We do not currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart - and we'd rather show you the underlying responses than overstate the math. Free Audit reports include a single snapshot for a directional read and we say so.
+How we answer: paid workspaces rerun every active prompt on a schedule, daily by default, and aggregate into rolling 7-, 14-, and 30-day windows. Single snapshots are labeled as snapshots, not as trend changes. We do not currently report formal confidence intervals - sample sizes vary too much across prompt sets and engines to put an honest statistical label on the chart - and we'd rather show you the underlying responses than overstate the math. Free Audit reports include a single snapshot for a directional read and we say so.
 
 #### Question 5: Can a specific data point be reproduced?
 
@@ -14001,7 +13992,7 @@ A consumer chat or SERP surface is not always a thin shell over a public API. It
 
 #### AI engines give different answers each time. How does SolCrys handle that?
 
-By repeated capture and rolling-window aggregation. A single snapshot is a noisy data point - engines like ChatGPT are non-deterministic by design, sampling probabilistically so the conversation feels natural. Repeated daily captures aggregated into rolling 7-day and 30-day windows separate real movement from that noise, and a single-snapshot move is labeled as a snapshot rather than reported as a trend.
+By repeated capture and rolling-window aggregation. A single snapshot is a noisy data point - engines like ChatGPT are non-deterministic by design, sampling probabilistically so the conversation feels natural. Repeated scheduled captures, aggregated into rolling 7-, 14-, and 30-day windows, separate real movement from that noise, and a single-snapshot move is labeled as a snapshot rather than reported as a trend.
 
 #### My visibility score moved 12% this week - is that normal?
 
@@ -14075,7 +14066,7 @@ Minutes to first results. SolCrys builds the GPS for your category during setup,
 
 #### How often does SolCrys rerun prompts?
 
-It depends on the plan. The free audit is a single snapshot. On Free, ChatGPT checks run on demand rather than on a schedule - enough to see where you stand, not enough to call a trend. Paid workspaces run on a scheduled daily cadence, aggregated into rolling 7-day and 30-day windows; that is the difference between a snapshot and trend-grade measurement, and we label each as what it is.
+It depends on the plan. The free audit is a single snapshot. On Free, ChatGPT checks run on demand rather than on a schedule - enough to see where you stand, not enough to call a trend. Paid workspaces rerun every active prompt on a schedule, daily by default (weekly or manual if you choose), aggregated into rolling 7-, 14-, and 30-day windows; that is the difference between a snapshot and trend-grade measurement, and we label each as what it is.
 
 ### Comparing SolCrys to other options
 
@@ -14109,7 +14100,7 @@ Any answer that boils down to 'the platform decides which model gets used' - tha
 
 #### Can I export my SolCrys data?
 
-Yes, three ways. The workspace CSV export gives one row per prompt and engine for a run - prompt, engine, whether you were mentioned, mention count, sentiment, verdict, recommendation, position, and the full raw response text. The PDF visibility report is the shareable version for stakeholders. The MCP server is the programmatic path and reaches data the CSV doesn't carry, including citations and Content Audit detail. If a specific field or format matters to your team, ask during evaluation.
+Yes, three ways. CSV exports: the run export gives one row per prompt and engine for a run - prompt, engine, whether you were mentioned, mention count, sentiment, verdict, recommendation, position, and the full raw response text - and the prompts export lists each cited URL by date. The PDF visibility report is the shareable version for stakeholders. The MCP server is the programmatic path and reaches data the CSVs don't carry, such as Content Audit detail. If a specific field or format matters to your team, ask during evaluation.
 
 #### Is my data used to train models, or shared with other customers?
 
@@ -14229,7 +14220,7 @@ SolCrys is an AEO workflow product organized around four published platform laye
 
 #### AI Visibility Measurement
 
-We measure mentions, citations, share of recommendation, competitors, sentiment, and answer accuracy at the prompt level across the engines included in your plan: manual ChatGPT on Free; ChatGPT, Gemini, and Google AI Overviews on Starter; the same set plus Perplexity (any 4 of 5 engines including Claude) on Pro. Priority prompts are monitored daily on paid active workspaces, with rolling 7/30-day windows.
+We measure mentions, citations, share of recommendation, competitors, sentiment, and answer accuracy at the prompt level across the engines included in your plan: manual ChatGPT on Free; ChatGPT, Gemini, and Google AI Overviews on Starter; the same set plus Perplexity (any 4 of 5 engines including Claude) on Pro. Every active prompt reruns on a schedule, daily by default on paid plans, with rolling 7-, 14-, and 30-day windows.
 
 #### Corporate Context Layer
 
@@ -14590,7 +14581,7 @@ SolCrys is an AEO workflow product organized around four published platform laye
 
 
 
-- AI Visibility Measurement - mentions, citations, share of recommendation, competitors, sentiment, and answer accuracy at the prompt level across plan-included engines, with daily monitoring on priority prompts and rolling 7/30-day windows.
+- AI Visibility Measurement - mentions, citations, share of recommendation, competitors, sentiment, and answer accuracy at the prompt level across plan-included engines, with scheduled runs of every active prompt (daily by default on paid plans) and rolling 7-, 14-, and 30-day windows.
 - Corporate Context Layer - approved brand facts, claims, proof, voice, and competitor framing as the governed source for every AEO action.
 - AEO Agent - today SolCrys turns answer gaps into Deep Analyses, content briefs, comparison sections, FAQ improvements, and source recommendations. Publish-ready drafting and agent-assisted CMS shipping are being built.
 - Action-to-Result Tracking - after an action ships, we rerun the same prompt set across the same engines and report movement on citation rate, answer accuracy, and recommendation share.
@@ -15618,15 +15609,15 @@ Here are our honest answers.
 
 #### Prompt set
 
-Our [Golden Prompt Set methodology](/golden-prompt-set-methodology/) builds every customer's prompt set from search demand, the questions people ask around it, and community discussion where available. Typical workspace size: tens of prompts (10 on Free, around 20 on Starter, 60 on Pro, 30 per client organization on Agency), expandable when a category needs deeper coverage. A focused set measured well beats a sprawling set checked once. Refresh: priority prompts daily, full set quarterly, plus event-triggered review when major engine or category news lands.
+Our [Golden Prompt Set methodology](/golden-prompt-set-methodology/) builds every customer's prompt set from search demand, the questions people ask around it, and community discussion where available. Typical workspace size: tens of prompts (10 on Free, around 20 on Starter, 60 on Pro, 30 per client organization on Agency), expandable when a category needs deeper coverage. A focused set measured well beats a sprawling set checked once. Refresh: the set changes only through review, at regular measurement reviews, on your request, or when major engine or category news lands.
 
 #### Cadence
 
-Every tracked prompt runs daily on the engines in your plan; we report on rolling 7- and 30-day windows. Engine variance within a day is captured in the daily sample but reported on the 7/30-day window — so a single anomalous response on Tuesday doesn't move the weekly number. This is a deliberate trade-off: we accept a 1–2 day lag on emerging movement in exchange for stable trend reporting.
+Every tracked prompt reruns on the engines in your plan, on a schedule that is daily by default on paid plans; we report on rolling 7-, 14-, and 30-day windows. Engine variance within a day is captured in the daily sample but reported on the rolling window — so a single anomalous response on Tuesday doesn't move the weekly number. This is a deliberate trade-off: we accept a lag on emerging movement (a day or two on the daily default) in exchange for stable trend reporting.
 
 #### Non-determinism
 
-We run each prompt daily and report on rolling 7- and 30-day windows, so every reported number aggregates many runs rather than trusting one. A single day's run is still one sample, and we don't smooth that away at the day level. This is one of the residual uncertainties in our system — high-variance prompts will read as noisy in dashboards, and we don't paper over it.
+On the daily default, each reported number aggregates many runs over the window rather than trusting one. A single day's run is still one sample, and we don't smooth that away at the day level. This is one of the residual uncertainties in our system — high-variance prompts will read as noisy in dashboards, and we don't paper over it.
 
 #### Citation definition
 
@@ -15640,7 +15631,7 @@ Yes. Every reported number connects back to the underlying prompt-response recor
 
 Five answered questions don't resolve every measurement disagreement. Different platforms making different reasonable choices on the four dimensions will still produce different numbers, and neither has to be wrong. What changes after this conversation is that you know which choices each platform made and can decide which set of choices fits your team's question.
 
-Concretely: if your CMO's quarterly question is "are we trending up across the engines that matter for us," a 7/30-day rolling sample on a stable curated prompt set (our choice) is probably the right design. If your question is "did we move on this specific prompt today," a high-cadence per-prompt sample with multiple reruns (a different design) might fit better. The platforms are answering different questions. That's a feature.
+Concretely: if your CMO's quarterly question is "are we trending up across the engines that matter for us," a rolling 7- to 30-day sample on a stable curated prompt set (our choice) is probably the right design. If your question is "did we move on this specific prompt today," a high-cadence per-prompt sample with multiple reruns (a different design) might fit better. The platforms are answering different questions. That's a feature.
 
 
 
@@ -16274,7 +16265,7 @@ Six factors drive day-to-day and week-to-week movement in your visibility score,
 
 #### 1. Engine non-determinism
 
-Generative AI engines sample probabilistically. The same prompt produces slightly different outputs across reruns — different citation sets, different source rankings, different brand mentions. This is by design: a fully deterministic answer engine would feel mechanical. SolCrys runs each prompt daily and reports on rolling 7- and 30-day windows, which smooths most of this — but a single day's run is still one sample, so day-level numbers carry that variance.
+Generative AI engines sample probabilistically. The same prompt produces slightly different outputs across reruns — different citation sets, different source rankings, different brand mentions. This is by design: a fully deterministic answer engine would feel mechanical. SolCrys reruns each prompt on a schedule, daily by default on paid plans, and reports on rolling 7-, 14-, and 30-day windows, which smooths most of this — but a single day's run is still one sample, so day-level numbers carry that variance.
 
 #### 2. Engine model and behavior updates
 
@@ -16294,7 +16285,7 @@ Several engines, especially Perplexity and Google AI Mode, weight content recenc
 
 #### 6. Sampling cadence and window interaction
 
-The measurement layer itself contributes some variance. A 7-day rolling window with daily samples is more responsive but more noisy than a 30-day window with daily samples. The same data shown on different windows gives different impressions of stability. SolCrys defaults to 7-day for short-term and 30-day for trend; the longer window is more reliable as a quarterly conversation, the shorter is more useful for week-by-week diagnosis.
+The measurement layer itself contributes some variance. A 7-day rolling window with daily samples is more responsive but more noisy than a 30-day window with daily samples. The same data shown on different windows gives different impressions of stability. SolCrys offers 7-, 14-, and 30-day windows; the 30-day window is more reliable as a quarterly conversation, and the 7-day window is more useful for week-by-week diagnosis.
 
 ### The score is the symptom — new content and citations are the real signals
 
@@ -16358,8 +16349,8 @@ Four measurement choices that keep most engine-side variance from making your da
 
 
 
-- Rolling 7-day and 30-day windowed aggregation, so a single anomalous sample doesn't move the reported number on its own.
-- Daily runs of every tracked prompt, so each windowed number rests on repeated samples rather than a single check.
+- Rolling 7-, 14-, and 30-day windowed aggregation, so a single anomalous sample doesn't move the reported number on its own.
+- Scheduled runs of every tracked prompt, daily by default on paid plans; on that default, each windowed number rests on repeated samples rather than a single check.
 - Stable prompt set: your Golden Prompt Set — typically tens of prompts per workspace (10 on Free, around 20 on Starter, 60 on Pro, 30 per client organization on Agency, with deeper coverage scoped where a category needs it) — stays frozen between scheduled refreshes, so trend lines are comparable across windows.
 - Engine-attributed reporting so you can isolate which engine moved (vs an across-the-board shift).
 
@@ -31277,9 +31268,9 @@ What the series needs | What goes wrong without it | How to meet it
 
 Two kinds of exposure series exist. Platform counts come from the platforms: Search Console counts impressions of your links in Google's AI features, Bing counts AI citations, and OpenAI's [Business Hub](/businesses-in-chatgpt/) counts answers that reference an online business's website. They measure real users, but each covers 1 platform, counts links rather than brand names, and rises and falls with how many people ask.
 
-That last point is a trap Google's MMM researchers describe for paid search: ads follow searches, and searches follow demand that also drives sales ([Chan and Perry](https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/)), so a naive model "leads to over-estimates of ROAS," the return on ad spend ([Chen et al.](https://arxiv.org/abs/1807.03292)). [Meridian's remedy](https://developers.google.com/meridian/docs/advanced-modeling/control-variables) is to add search volume as a control. Platform counts need the same.
+That last point is a trap Google's MMM researchers describe for paid search: ads follow searches, and searches follow demand that also drives sales ([Chan and Perry](https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/)), so a naive model "leads to over-estimates of ROAS," the return on ad spend ([Chen et al.](https://arxiv.org/abs/1807.03292)). [Meridian's remedy](https://developers.google.com/meridian/docs/advanced-modeling/control-variables) is to add category search volume as a control. Platform counts need the same.
 
-A fixed question panel asks the same questions on each engine every day, so it doesn't move with demand, and it records brands named in the text, not only links. It measures how often you appear per question, not how many people saw you, so treat it as a visibility index rather than exposure. Weight each question by its share of demand and keep the weights fixed; Meridian rescales each series by its median, so the index doesn't need absolute volumes. What it can't show is a change in how many people ask, which is why the platform counts belong alongside it.
+A fixed question panel asks the same questions on each engine every day, so it doesn't move with how many people ask, and it records brands named in the text, not only links. It measures how often you appear per question, a rate rather than a count of the people who saw you. Weight each question by its share of demand and keep the weights fixed; Meridian rescales each series by its median, so yours doesn't need absolute volumes. What it can't show is a change in how many people ask, which is why the platform counts belong alongside it.
 
 The panel also needs many answers, because answers change across days: in a [2026 study of Google AI Overviews](https://arxiv.org/abs/2605.14021) on trending queries, when a query showed an AI Overview on 2 different days, the 2 answers cited exactly the same set of URLs only 0.24% of the time.
 
