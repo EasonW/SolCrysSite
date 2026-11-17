@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('solcrys-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Phase E theme handoff to app.solcrys.com/pricing.
+      //
+      // Why this lives in the head, not in the Navbar component:
+      //   1. The prerendered nav (raw HTML in navHtml()) renders before
+      //      React hydrates. A user clicking Pricing within the first
+      //      few hundred ms would otherwise navigate via the raw <a>
+      //      tag, bypassing any onClick handler React would later
+      //      attach.
+      //   2. There are multiple entry points (Navbar, Footer, Customers
+      //      page CTA). One global listener is cheaper to maintain than
+      //      three onClick handlers that have to stay in sync.
+      //
+      // Why we pass the RESOLVED theme (not just localStorage):
+      //   localStorage only holds a value when the user explicitly picks
+      //   Light or Dark. System-preference users have an empty entry, so
+      //   reading localStorage gives null and we'd pass nothing. Then
+      //   the app falls back to its own stored preference, which may be
+      //   stale ("light" from a previous session on app.solcrys.com).
+      //   Passing the rendered theme (via matchMedia for system mode)
+      //   forces the app to honor what the user is seeing right now.
+      //
+      // Capture-phase listener so it fires before any React onClick
+      // handler. Modifier keys (cmd/ctrl/shift/alt) are bypassed so
+      // "open in new tab" navigation isn't intercepted.
+      //
+      // The expected app host + pricing path are baked in from the
+      // build-time VITE_APP_PRICING_URL env var so the local-dev
+      // build (host=localhost:3000) and the prod build (host=
+      // app.solcrys.com) both intercept the correct link without a
+      // separate code path.
+      (function () {
+        var APP_HOST = "app.solcrys.com";
+        var APP_PATH_PREFIX = "/pricing";
+        function resolvedTheme() {
+          try {
+            var stored = localStorage.getItem('solcrys-theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+          } catch (e) {}
+          try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          } catch (e) {
+            return 'light';
+          }
+        }
+        document.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var url;
+          try {
+            url = new URL(a.href, window.location.href);
+          } catch (err) {
+            return;
+          }
+          if (url.host !== APP_HOST) return;
+          if (!url.pathname.startsWith(APP_PATH_PREFIX)) return;
+          if (url.searchParams.has('theme')) return;
+          url.searchParams.set('theme', resolvedTheme());
+          e.preventDefault();
+          window.location.href = url.toString();
+        }, true);
+      })();
+    </script>
+    <title>Google AI Numbers Moved in November? 3 Causes | SolCrys</title>
+    <meta name="description" content="A core update, a new Gemini model in Search, and a Search Console bug all landed Nov. 9–12, 2026. How to tell which one moved your AI Overview numbers." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://solcrys.com/google-ai-numbers-november-2026/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/solcrys-tab-icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/solcrys-tab-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/solcrys-tab-icon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="SolCrys — AEO guides and news" href="/feed.xml" />
+    <meta name="author" content="SolCrys" />
+    <meta name="date" content="2026-11-17" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content="SolCrys" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Google AI Numbers Moved in November? 3 Causes | SolCrys" />
+    <meta property="og:description" content="A core update, a new Gemini model in Search, and a Search Console bug all landed Nov. 9–12, 2026. How to tell which one moved your AI Overview numbers." />
+    <meta property="og:url" content="https://solcrys.com/google-ai-numbers-november-2026/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-11-17" />
+    <meta property="article:modified_time" content="2026-11-17" />
+    <meta property="og:image" content="https://solcrys.com/og/google-ai-numbers-november-2026.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://solcrys.com/og/google-ai-numbers-november-2026.png" />
+    <link rel="stylesheet" crossorigin href="/assets/index-BAElhdS9.css">
+    <!-- analytics:start -->
+    <link rel="stylesheet" href="/analytics-consent.css" />
+    <script src="/analytics-consent.js" defer></script>
+    <!-- analytics:end -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SolCrys","url":"https://solcrys.com","logo":"https://solcrys.com/logo.png","description":"SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.","email":"support@solcrys.com","sameAs":["https://www.linkedin.com/company/solcrys-ai"],"founder":[{"@type":"Person","name":"Gwen Chen","jobTitle":"Co-Founder & CEO","description":"AI search & GTM strategy. AEO, content authority, and brand visibility.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/gwenchenx/"]},{"@type":"Person","name":"Eason Wang","jobTitle":"Co-Founder & CPO","description":"Product & AI systems. Product strategy, agentic AI, and enterprise workflows.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/eason-wang/"]},{"@type":"Person","name":"Jia Chang","jobTitle":"Co-Founder & CTO","description":"AI architect; ex-Microsoft engineering leader. 15+ years in AI architecture and engineering systems.","worksFor":{"@type":"Organization","name":"SolCrys","url":"https://solcrys.com"},"sameAs":["https://www.linkedin.com/in/jia-c/"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://solcrys.com/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://solcrys.com/resources/"},{"@type":"ListItem","position":3,"name":"Google AI Numbers Moved in November 2026? Separate the Three Causes","item":"https://solcrys.com/google-ai-numbers-november-2026/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Your Google AI numbers moved in November? Separate Google's three changes first","description":"A core update, a new Gemini model in Search, and a Search Console bug all landed Nov. 9–12, 2026. How to tell which one moved your AI Overview numbers.","dateModified":"2026-11-17","datePublished":"2026-11-17","mainEntityOfPage":"https://solcrys.com/google-ai-numbers-november-2026/","author":{"@type":"Organization","name":"SolCrys"},"publisher":{"@type":"Organization","name":"SolCrys","logo":{"@type":"ImageObject","url":"https://solcrys.com/logo.png"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntityOfPage":"https://solcrys.com/google-ai-numbers-november-2026/","mainEntity":[{"@type":"Question","name":"Will Google restore the missing Nov. 9–11 impressions?","acceptedAnswer":{"@type":"Answer","text":"Google's notice doesn't say so. Plan as if they won't come back."}},{"@type":"Question","name":"Do these changes affect Gemini, ChatGPT, Perplexity, or Claude?","acceptedAnswer":{"@type":"Answer","text":"Hydrogen also arrived in the Gemini app's model menu on Nov. 12, so Gemini answers can shift too. None of the three changes is in ChatGPT, Perplexity, or Claude; if those moved, start with the tracking-break checks."}}]}</script>
+  </head>
+  <body>
+    <div id="root">
+<div class="seo-prerender">
+  
+    <header class="seo-container" style="padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+      <a href="/" aria-label="SolCrys home" style="display: inline-flex; align-items: center;">
+        <img src="/logo-light.png" alt="SolCrys Logo" width="134" height="40" class="block dark:hidden" style="height: 40px; width: auto;">
+        <img src="/logo-dark.png" alt="SolCrys Logo" width="134" height="40" class="hidden dark:block" style="height: 40px; width: auto;">
+      </a>
+      <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
+        <!-- Products menu. Mirrors PRODUCTS_MENU_ITEMS in src/components/productsMenuData.ts. -->
+        <a href="/#features">SolCrys AEO</a>
+        <a href="/sites/">SolCrys Sites</a>
+        <a href="/motion/">SolCrys Motion</a>
+        <a href="/#solutions">Solutions</a>
+        <a href="https://app.solcrys.com/pricing">Pricing</a>
+        <a href="/customers/">Customers</a>
+        <a href="/resources/">Resources</a>
+        <a href="/about/">Company</a>
+      </nav>
+    </header>
+  <main class="seo-container">
+    <article>
+      <header class="seo-hero">
+        <p class="seo-kicker">Measurement</p>
+        <h1>Your Google AI numbers moved in November? Separate Google&#39;s three changes first</h1>
+        <p class="seo-lede">Between Nov. 9 and 12, 2026, Google started a core update, put a new Gemini model into Search, and hit a logging bug in Search Console. A Search Console trend that crosses those dates mixes all three; answers you captured yourself still mix the update and the new model.</p>
+        
+        <p>Updated <time datetime="2026-11-17">2026-11-17</time></p>
+      </header>
+      
+      <section class="seo-section">
+        <h2>Questions this guide answers</h2>
+        <ul class="seo-list">
+          <li>Why did my AI Overviews impressions drop in November 2026?</li><li>What was the Search Console Generative AI report bug on Nov. 9–11, 2026?</li><li>Does Gemini 4 Hydrogen change which sites Google&#39;s AI answers cite?</li><li>When should I remeasure after the November 2026 core update?</li>
+        </ul>
+      </section>
+      
+    <section class="seo-section">
+      <h2>Direct answer</h2>
+      <p>Don&#39;t credit or blame your own content for AI Overview, AI Mode, or Search Console movement between Nov. 9 and about Nov. 24, 2026. Mark that window on every chart. Then compare your last clean week before Nov. 9 with a new baseline taken after the core update finishes, and report that difference instead of the week-by-week line.</p><p>To explain what moved, run four checks: drop the bug dates, compare rankings with AI impressions, check whether answers now cite other pages, and compare the same prompts before and after.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>What changed, and when</h2>
+      <p>Three changes overlap, and the core update is still rolling out.</p>
+      
+      <ul class="seo-list"><li><strong>Nov. 9–11: a Search Console bug.</strong> Google says &quot;a logging error caused a decrease in impressions on the Generative AI performance report&quot; for those dates, and that it &quot;affects data logging only.&quot; The error shrank the report, so those three days can&#39;t tell you whether your pages were also shown less; the core update began on Nov. 10.</li><li><strong>From Nov. 10: the November 2026 core update.</strong> It &quot;applies globally and to all languages.&quot; Google&#39;s AI features are &quot;rooted in our core Search ranking and quality systems,&quot; so a core update can move <a href="/optimize-for-google-ai-overviews-ai-mode/">AI Overview and AI Mode citations</a> as well as rankings.</li><li><strong>Nov. 12: Gemini 4 Hydrogen in Search.</strong> Google put it &quot;in Google Search for all users,&quot; with upgraded query fan-out (the related searches the model runs on a question&#39;s subtopics) &quot;connecting you to a broader range of helpful links than before.&quot; Google&#39;s Robby Stein said it handles &quot;your hardest questions in AI Overviews,&quot; <a href="https://www.searchenginejournal.com/google-gemini-4-hydrogen-default-ai-mode/597096/" target="_blank" rel="noopener noreferrer">Search Engine Journal reported</a>.</li></ul>
+      
+      
+    </section>
+    <aside class="seo-card" aria-label="Free ChatGPT visibility check">
+      <p>Not sure where AI answers skip your brand? <a href="https://app.solcrys.com/audit">Run a free ChatGPT visibility check &rarr;</a></p>
+    </aside>
+    <section class="seo-section">
+      <h2>Check 1: take out the bug dates</h2>
+      <p>Treat Nov. 9–11 as missing data in the Generative AI performance report, not as a drop. Then add your own annotation to the Performance report chart (right-click the date) so anyone reading it later sees the window.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Check 2: rankings vs. AI impressions</h2>
+      <p>Average position in Search Console won&#39;t separate the two: an AI Overview &quot;occupies a single position in search results,&quot; every link in it gets that position, and those positions are averaged in with the classic results. So check each key page&#39;s classic rank on its main queries directly, with signed-out searches or your organic rank tracking, and compare it with the page&#39;s impressions in the Generative AI performance report, in your new baseline week against your last clean week before Nov. 9. <a href="/search-console-bing-ga4-ai-reports/">The free AI reports guide</a> explains what each report counts.</p>
+      
+      <ul class="seo-list"><li><strong>Classic rank and AI impressions fell together:</strong> the core update is the likelier cause. Treat it as a ranking question first.</li><li><strong>Classic rank held, but AI impressions moved:</strong> the AI answers changed around you. Go to Checks 3 and 4.</li></ul>
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Check 3: is fan-out citing other pages?</h2>
+      <p>Broader fan-out lets an answer cite pages that cover one part of the question, such as pricing, setup, or a comparison. On prompts where your citations changed, list the pages cited before and after. If the new ones answer sub-questions your page skips, answer those sub-questions on pages you already have. Don&#39;t publish a page per variation: Google&#39;s guide says publishing pages like that to manipulate generative AI responses violates its scaled content abuse policy.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>Check 4: the same prompts, before and after</h2>
+      <p>Search Console doesn&#39;t show which answers cite you. Rerun the prompt set you tracked before Nov. 9, unchanged, in the same location, language, and login state, <a href="/how-many-runs-until-ai-visibility-trustworthy/">several times per prompt</a>, and compare how often each of your URLs is cited. If prompts you didn&#39;t touch moved as much as the ones you worked on, that points to the engine, unless one source or site-wide change touches both groups.</p><p>Run AI Mode checks signed out or on a free account. Ultra subscribers have had Gemini 4 Carbon in AI Mode since Nov. 10, Pro subscribers <a href="https://www.seroundtable.com/google-ai-mode-drops-gemini-label-42540.html" target="_blank" rel="noopener noreferrer">reportedly</a> by Nov. 16, and AI Mode no longer shows which model is selected. If you track prompts in SolCrys, your AI Overviews captures from before Nov. 9 are that baseline.</p>
+      
+      
+      
+      
+    </section>
+    <section class="seo-section">
+      <h2>When to remeasure</h2>
+      <p>Google marks a core update complete on its Search Status Dashboard; up to 2 weeks from Nov. 10 means around Nov. 24. Take the new baseline from the first full week after that. In the U.S., that week falls next to Thanksgiving (Nov. 26), Black Friday, and Cyber Monday (Nov. 30), so compare traffic and impressions with the same week last year; citation rates on fixed prompts don&#39;t depend on demand.</p><p>If numbers keep drifting after the new baseline, see <a href="/why-ai-visibility-score-moves/">why your AI visibility score moves</a>.</p>
+      
+      
+      
+      
+    </section>
+      
+      <section class="seo-section">
+        <h2>Sources</h2>
+        <ul class="seo-list">
+          <li><a href="https://status.search.google.com/incidents/WLxcJyC6jMWMfryxsKMc" target="_blank" rel="noopener noreferrer">Google Search Status Dashboard: November 2026 core update (began Nov. 10, 2026)</a></li><li><a href="https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/" target="_blank" rel="noopener noreferrer">Google: Gemini 4 Hydrogen in Search (Robby Stein, Nov. 12, 2026)</a></li><li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/" target="_blank" rel="noopener noreferrer">Google: Introducing Gemini 4 Hydrogen (Nov. 12, 2026)</a></li><li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/" target="_blank" rel="noopener noreferrer">Google: Gemini 4 Carbon now available (Nov. 10, 2026)</a></li><li><a href="https://support.google.com/webmasters/answer/6211453" target="_blank" rel="noopener noreferrer">Search Console Help: Data anomalies in Search Console (Nov. 9–11, 2026 entry)</a></li><li><a href="https://support.google.com/webmasters/answer/7042828" target="_blank" rel="noopener noreferrer">Search Console Help: Performance report metrics (AI Overview position)</a></li><li><a href="https://support.google.com/webmasters/answer/16530728" target="_blank" rel="noopener noreferrer">Search Console Help: Custom annotations in Performance reports</a></li><li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener noreferrer">Google Search Central: Optimizing your website for generative AI features on Google Search</a></li><li><a href="https://www.searchenginejournal.com/google-gemini-4-hydrogen-default-ai-mode/597096/" target="_blank" rel="noopener noreferrer">Search Engine Journal: Gemini 4 Hydrogen becomes the default in AI Mode (Nov. 12, 2026)</a></li><li><a href="https://www.seroundtable.com/google-ai-mode-drops-gemini-label-42540.html" target="_blank" rel="noopener noreferrer">Search Engine Roundtable: Google AI Mode drops Gemini label, rolls out Gemini 4 Carbon to Pro (Nov. 16, 2026)</a></li>
+        </ul>
+      </section>
+      <section class="seo-section">
+        <h2>FAQ</h2>
+        
+          <article class="seo-card">
+            <h3>Will Google restore the missing Nov. 9–11 impressions?</h3>
+            <p>Google&#39;s notice doesn&#39;t say so. Plan as if they won&#39;t come back.</p>
+          </article>
+          <article class="seo-card">
+            <h3>Do these changes affect Gemini, ChatGPT, Perplexity, or Claude?</h3>
+            <p>Hydrogen also arrived in the Gemini app&#39;s model menu on Nov. 12, so <a href="/gemini-visibility-tracker/">Gemini answers</a> can shift too. None of the three changes is in ChatGPT, Perplexity, or Claude; if those moved, start with <a href="/ai-traffic-drop-tracking-or-real/">the tracking-break checks</a>.</p>
+          </article>
+      </section>
+      
+      <section class="seo-section">
+        <div class="seo-card">
+          <p class="seo-kicker">Free ChatGPT visibility check</p>
+          <h2>See where AI answers skip your brand — then fix it, free</h2>
+          <p>Start a free workspace with your domain: 10 buyer-intent prompts through ChatGPT show where you are mentioned, cited, or skipped, and who gets recommended instead. A free content audit in the same workspace hands you the first fix to ship.</p>
+          <p><a href="https://app.solcrys.com/audit">Start Free</a></p>
+          <p>Free · No credit card · About 5 minutes</p>
+        </div>
+      </section>
+      
+      <section class="seo-section">
+        <h2>Related guides</h2>
+        <div class="seo-grid">
+          
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/ai-traffic-drop-tracking-or-real/">AI Traffic Dropped? How to Tell a Tracking Break From a Real Loss</a></h3>
+            <p>ChatGPT or Gemini traffic fell overnight? Check measurement, then your site, then the engine, in that order. The checks to run, plus the known 2026 tracking breaks.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Attribution &amp; ROI</p>
+            <h3><a href="/search-console-bing-ga4-ai-reports/">The Free AI Reports: What Search Console, Bing, GA4, and Merchant Center Show, and What None of Them Do</a></h3>
+            <p>Search Console, Bing Webmaster Tools, GA4, and Merchant Center now report AI search for free. What each one shows, what it misses, and how to cover the gaps.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/why-ai-visibility-score-moves/">Why Your AI Visibility Score Moves</a></h3>
+            <p>AI visibility scores move week to week even when nothing you control has changed. Here are the 6 sources of normal variance, the patterns that signal real movement, and what to watch.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Strategy &amp; Positioning</p>
+            <h3><a href="/model-upgrades-are-migrations/">Every Model Upgrade Is a Migration: The Harness Marketing Teams Need Before the Next One</a></h3>
+            <p>Model releases now land every few weeks. Jia Chang, SolCrys CTO, on running each one as a migration, with a 10-step checklist for marketing AI workflows.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Engine Optimization</p>
+            <h3><a href="/optimize-for-google-ai-overviews-ai-mode/">How to Optimize for Google AI Overviews &amp; AI Mode</a></h3>
+            <p>How Google&#39;s AI Overviews and conversational AI Mode are built from your index, the inheritance signals that decide which pages get cited, and the optimization plays that actually move position.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">Measurement</p>
+            <h3><a href="/how-many-runs-until-ai-visibility-trustworthy/">How Many Runs Until Your AI-Visibility Number Is Trustworthy?</a></h3>
+            <p>A single AI check is one sample, not a measurement. How many repeated runs and prompts you need before an AI-visibility number is trustworthy, with the published evidence on sample size and confidence intervals.</p>
+          </article>
+          <article class="seo-card">
+            <p class="seo-kicker">AI Search Tools</p>
+            <h3><a href="/gemini-visibility-tracker/">Gemini Visibility Tracker</a></h3>
+            <p>How to track how Google Gemini mentions and cites your brand, what SolCrys measures on Gemini, and which plans include it (Starter, Pro, and Custom).</p>
+          </article>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+    <footer class="seo-footer">
+      <div class="seo-container" style="padding: 3rem 0; border-top: 1px solid hsl(var(--border) / 0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+        <p style="margin: 0;">SolCrys helps marketing teams turn AI answer gaps into governed execution: SolCrys AEO finds the gaps and verifies the fixes, and SolCrys Sites plans, builds and hosts the website buyers and AI engines read.</p>
+        <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+          <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="/sites/">SolCrys Sites</a>
+          <a href="/motion/">SolCrys Motion</a>
+          <a href="/resources/">Resources</a>
+          <a href="/guides/">User guides</a>
+          <a href="/learn/">Learn</a>
+          <a href="/compare/">Compare</a>
+          <!-- Buyer/procurement FAQ. Mirrors the Company column in
+               src/components/Footer.tsx; this is the only site-wide
+               crawlable internal link to /faq/ in the prerendered output. -->
+          <a href="/faq/">FAQ</a>
+          <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
+               header nav in 2026-08 (de-duplicated into the Resources menu),
+               and this is now the ONLY site-wide crawlable internal link to
+               /prompt-pulse/ in the prerendered output. Removing it would orphan
+               the vertical pages from the link graph. -->
+          <a href="/prompt-pulse/">Prompt Pulse</a>
+          <a href="https://app.solcrys.com/pricing">Pricing</a>
+          <a href="/news/">News</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </nav>
+      </div>
+      <div class="seo-container" style="padding: 0 0 1.5rem; font-size: 0.85rem;">
+        <a href="https://www.nvidia.com/en-us/startups/" rel="noopener">Member of the NVIDIA Inception Program</a>
+      </div>
+    </footer>
+</div></div>
+    <script type="module" crossorigin src="/assets/index-YMd4xzwj.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-CdvZGgm7.js";import{v as t}from"./index-YMd4xzwj.js";import n from"./ResourcePage-DNWtc6Bw.js";var r=e(),i=()=>{let{compareSlug:e}=t();return(0,r.jsx)(n,{slug:`compare/${e}`})};export{i as default};
