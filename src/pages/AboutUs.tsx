@@ -6,11 +6,23 @@ import gwenImg from "@/assets/gwen-chen.jpg";
 import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
 import siteContent from "@/content/siteContent.json";
+import team from "@/content/team.json";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { APP_PRICING_URL } from "@/lib/pricing-url";
 
-const FOUNDER_NAMES = new Set(["Gwen Chen", "Eason Wang", "Jia Chang"]);
+// Founder and advisor bios live in src/content/team.json, the one source for
+// this page, the static copy in scripts/prerender.mjs, and the Person JSON-LD.
+// Only the photos are bundled here.
+const founderPhotos: Record<string, string> = {
+  "Gwen Chen": gwenImg,
+  "Eason Wang": easonImg,
+  "Jia Chang": jiaImg,
+};
+const founders = team.founders.map((founder) => ({ ...founder, image: founderPhotos[founder.name] }));
+const advisors = team.advisors;
+
+const FOUNDER_NAMES = new Set(team.founders.map((founder) => founder.name));
 
 interface ResourceAuthor {
   name: string;
@@ -36,49 +48,6 @@ const founderNotes = (siteContent.resourcePages as unknown as ResourceSummary[])
       page.status !== "draft" && Boolean(page.author && FOUNDER_NAMES.has(page.author.name)),
   )
   .sort((a, b) => (b.updated || "").localeCompare(a.updated || ""));
-
-const advisors = [
-  {
-    image: "/news/raejeanne-skillern.png",
-    initials: "RS",
-    name: "Raejeanne Skillern",
-    title: "Strategic Advisor",
-    background: "Former CMO, AWS · 25+ years at Intel · Boards: Jabil (JBL), Dycom (DY)",
-    expertise:
-      "Scaled hyperscale data center and cloud businesses; brings 30+ years of go-to-market leadership across cloud, AI, and infrastructure",
-    linkedin: "https://www.linkedin.com/in/raejeanne-skillern/",
-  },
-];
-
-const founders = [
-  {
-    image: gwenImg,
-    initials: "GC",
-    name: "Gwen Chen",
-    title: "Co-Founder & CEO",
-    background: "Ex-AWS · Ex-Google (AppSheet)",
-    expertise: "Customer-driven B2B GTM; hosts the Signals podcast with marketing & growth leaders",
-    linkedin: "https://www.linkedin.com/in/gwenchenx/",
-  },
-  {
-    image: easonImg,
-    initials: "EW",
-    name: "Eason Wang",
-    title: "Co-Founder & CPO",
-    background: "Ex-Microsoft (since MSRA) · PhD in Machine Learning",
-    expertise: "18+ years shipping enterprise products; focused on agentic AI workflows",
-    linkedin: "https://www.linkedin.com/in/eason-wang/",
-  },
-  {
-    image: jiaImg,
-    initials: "JC",
-    name: "Jia Chang",
-    title: "Co-Founder & CTO",
-    background: "Ex-Microsoft engineering leader",
-    expertise: "14+ years architecting scalable data infrastructure — the backbone of AEO measurement",
-    linkedin: "https://www.linkedin.com/in/jia-c/",
-  },
-];
 
 const AboutUs = () => {
   const containerRef = useScrollReveal();

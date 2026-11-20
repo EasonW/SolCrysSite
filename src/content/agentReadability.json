@@ -1,0 +1,21 @@
+{
+  "_about": "Key facts an AI agent must be able to read on each page without running JavaScript. scripts/check-agent-readability.mjs checks them in the built static HTML (npm run check:agents, also part of npm run build); src/test/agentReadability.test.tsx checks the same facts in the React page, so the two copies cannot drift apart. `from` adds the facts a page takes from a data file: \"team\" (src/content/team.json: every founder's and advisor's name, role, background and experience) or \"pricing\" (src/content/pricing.json: every plan's name with its price). `rendered` names the React page that shows the same content to people; a page without one is static only.",
+  "pages": [
+    {
+      "path": "/",
+      "rendered": "Index",
+      "facts": ["12×", "18 MCP tools", "6 open-source Skills", "16 industries", "5 minutes"]
+    },
+    {
+      "path": "/about/",
+      "rendered": "AboutUs",
+      "from": ["team"],
+      "facts": ["NVIDIA Inception Program"]
+    },
+    {
+      "path": "/pricing/",
+      "from": ["pricing"],
+      "facts": ["app.solcrys.com/pricing"]
+    }
+  ]
+}
