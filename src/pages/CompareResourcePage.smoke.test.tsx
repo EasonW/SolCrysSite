@@ -15,15 +15,15 @@ describe("nested resource page routes", () => {
     }
   });
 
-  it.each(nested.map((page) => [page.slug, page.h1]))("renders /%s/", (slug, h1) => {
-    const { getByRole, queryByText } = render(
+  it.each(nested.map((page) => [page.slug, page.h1]))("renders /%s/", async (slug, h1) => {
+    const { findByRole, queryByText } = render(
       <MemoryRouter initialEntries={[`/${slug}/`]}>
         <Routes>
           <Route path="/compare/:compareSlug" element={<CompareResourcePage />} />
         </Routes>
       </MemoryRouter>
     );
-    expect(getByRole("heading", { level: 1 }).textContent).toBe(h1);
+    expect((await findByRole("heading", { level: 1 })).textContent).toBe(h1);
     expect(queryByText(/page not found/i)).toBeNull();
   });
 });

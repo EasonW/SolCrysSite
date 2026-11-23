@@ -24,7 +24,7 @@ const previewProductLinks = [
 // Same three product names, in the same order, as the Navbar Products menu
 // (productsMenuData.ts).
 const productLinks = [
-  { href: "/#features", label: "SolCrys AEO" },
+  { href: "/aeo-platform/", label: "SolCrys AEO" },
   { href: "/sites/", label: "SolCrys Sites" },
   { href: "/motion/", label: "SolCrys Motion" },
   // Phase E: pricing moved to app.solcrys.com/pricing. See Navbar.tsx for
@@ -40,6 +40,7 @@ const resourcesLinks = [
   // footer is its only site-wide internal link.
   { href: "/prompt-pulse/", label: "Prompt Pulse" },
   { href: "/free-chatgpt-visibility-tracker/", label: "Free ChatGPT Tracker" },
+  { href: "/free-aeo-audit/", label: "Free AEO Audit" },
   { href: "/learn/aeo-operator/", label: "AEO Operator course" },
   { href: "/resources/", label: "All guides" },
   { href: "/compare/", label: "Compare SolCrys" },

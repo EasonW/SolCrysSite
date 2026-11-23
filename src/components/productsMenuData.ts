@@ -13,7 +13,7 @@ export const PRODUCTS_MENU_ITEMS: SolutionsMenuItem[] = [
     title: "SolCrys AEO",
     audience: "Software · free plan",
     desc: "See how ChatGPT, Gemini, Google AI Overviews, Perplexity and Claude describe you, ship the fixes and verify what changed.",
-    href: "/#features",
+    href: "/aeo-platform/",
     cta: "See SolCrys AEO",
     Icon: Radar,
   },

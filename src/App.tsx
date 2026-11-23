@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "sonner";
 import ContactFloatingButton from "./components/ContactFloatingButton";
 
 const Index = lazy(() => import("./pages/Index"));
+const AeoPlatform = lazy(() => import("./pages/AeoPlatform"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Customers = lazy(() => import("./pages/Customers"));
 const NextSiliconCaseStudy = lazy(() => import("./pages/NextSiliconCaseStudy"));
@@ -48,6 +49,7 @@ const App = () => (
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/aeo-platform" element={<AeoPlatform />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/nextsilicon" element={<NextSiliconCaseStudy />} />

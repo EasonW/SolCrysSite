@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import siteContent from "@/content/siteContent.json";
+import siteContent from "@/content/generated-resources/index.json";
 import { ArrowRight } from "lucide-react";
 import { useEffect } from "react";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
@@ -23,9 +23,7 @@ const Compare = () => {
   }, []);
 
   const pages = siteContent.resourcePages.filter(
-    (page) =>
-      page.category === "Competitor Comparisons" &&
-      (page as { status?: string }).status !== "draft"
+    (page) => page.category === "Competitor Comparisons"
   );
 
   return (

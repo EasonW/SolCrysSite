@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -25,7 +24,6 @@ interface SearchCommandProps {
  * top hit matters more than tidy grouping.
  */
 const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
-  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -51,13 +49,13 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
   const go = (result?: SearchResult) => {
     if (!result) return;
     onOpenChange(false);
-    navigate(`/${result.slug}/`);
+    window.location.assign(`/${result.slug}/`);
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActive((i) => Math.min(i + 1, results.length - 1));
+      setActive((i) => Math.min(i + 1, Math.max(0, results.length - 1)));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActive((i) => Math.max(i - 1, 0));
@@ -103,12 +101,11 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
             </p>
           ) : (
             results.map((result, i) => (
-              <button
+              <a
                 key={result.slug}
-                type="button"
+                href={`/${result.slug}/`}
                 data-idx={i}
                 onMouseEnter={() => setActive(i)}
-                onClick={() => go(result)}
                 className={`flex w-full flex-col items-start gap-1 px-4 py-3 text-left transition-colors ${
                   i === active ? "bg-[hsl(var(--brand-accent)/0.1)]" : ""
                 }`}
@@ -126,7 +123,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                 <span className="line-clamp-1 text-xs text-muted-foreground">
                   {result.description}
                 </span>
-              </button>
+              </a>
             ))
           )}
         </div>
