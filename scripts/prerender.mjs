@@ -1847,7 +1847,7 @@ function resourcePageHtml(page) {
   return `
 <div class="seo-prerender">
   ${navHtml()}
-  <main class="seo-container">
+  <main class="seo-container" data-resource-slug="${escapeAttr(page.slug)}">
     <article>
       <header class="seo-hero">
         <p class="seo-kicker">${escapeHtml(isProjectPage(page) ? "Products" : page.category)}</p>

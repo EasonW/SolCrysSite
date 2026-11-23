@@ -106,6 +106,11 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                 href={`/${result.slug}/`}
                 data-idx={i}
                 onMouseEnter={() => setActive(i)}
+                onClick={(event) => {
+                  if (event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+                    onOpenChange(false);
+                  }
+                }}
                 className={`flex w-full flex-col items-start gap-1 px-4 py-3 text-left transition-colors ${
                   i === active ? "bg-[hsl(var(--brand-accent)/0.1)]" : ""
                 }`}

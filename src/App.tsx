@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ComponentType } from "react";
 import { Toaster as Sonner } from "sonner";
 import ContactFloatingButton from "./components/ContactFloatingButton";
 
@@ -13,7 +13,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Resources = lazy(() => import("./pages/Resources"));
 const ResourcePage = lazy(() => import("./pages/ResourcePage"));
 const Compare = lazy(() => import("./pages/Compare"));
-const CompareResourcePage = lazy(() => import("./pages/CompareResourcePage"));
 const PromptPulseHub = lazy(() => import("./pages/PromptPulseHub"));
 const PromptPulseVertical = lazy(() => import("./pages/PromptPulseVertical"));
 const FreeTrackerPage = lazy(() => import("./pages/FreeTrackerPage"));
@@ -41,7 +40,7 @@ const RouteFallback = () => (
   </div>
 );
 
-const App = () => (
+const App = ({ preloadedResourcePage: ResourceRoute = ResourcePage }: { preloadedResourcePage?: ComponentType }) => (
   <>
     <Sonner richColors position="top-right" />
     <BrowserRouter>
@@ -61,7 +60,7 @@ const App = () => (
           <Route path="/guides" element={<UserGuides />} />
           <Route path="/guides/:guideSlug" element={<UserGuide />} />
           <Route path="/compare" element={<Compare />} />
-          <Route path="/compare/:compareSlug" element={<CompareResourcePage />} />
+          <Route path="/compare/:compareSlug" element={<ResourceRoute />} />
           <Route path="/prompt-pulse" element={<PromptPulseHub />} />
           <Route path="/prompt-pulse/:vertical" element={<PromptPulseVertical />} />
           <Route path="/news" element={<News />} />
@@ -82,7 +81,7 @@ const App = () => (
           <Route path="/preview/cinematic" element={<PreviewCinematic />} />
           <Route path="/preview/bright" element={<PreviewBright />} />
           <Route path="/preview/home-v2" element={<PreviewHomeV2 />} />
-          <Route path="/:slug" element={<ResourcePage />} />
+          <Route path="/:slug" element={<ResourceRoute />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

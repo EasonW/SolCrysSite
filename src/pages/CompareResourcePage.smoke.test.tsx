@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import siteContent from "@/content/siteContent.json";
-import CompareResourcePage from "./CompareResourcePage";
+import ResourcePage from "./ResourcePage";
 
 const nested = siteContent.resourcePages.filter((page) => page.slug.includes("/"));
 
@@ -19,7 +19,7 @@ describe("nested resource page routes", () => {
     const { findByRole, queryByText } = render(
       <MemoryRouter initialEntries={[`/${slug}/`]}>
         <Routes>
-          <Route path="/compare/:compareSlug" element={<CompareResourcePage />} />
+          <Route path="/compare/:compareSlug" element={<ResourcePage />} />
         </Routes>
       </MemoryRouter>
     );

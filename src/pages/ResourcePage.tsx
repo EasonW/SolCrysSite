@@ -1,15 +1,14 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { ResourceEndCTA, ResourceInlineCTA } from "@/components/ResourceCTA";
-import type siteContent from "@/content/siteContent.json";
 import resourceIndex from "@/content/generated-resources/index.json";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { loadedResources, loadResource, resourceLoaders, type ResourcePageData } from "@/lib/resource-data";
 import { ArrowRight, ArrowUpRight, CalendarDays, HelpCircle, User } from "lucide-react";
 import { Fragment, ReactNode, Suspense, lazy, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 
-type ResourcePageData = (typeof siteContent.resourcePages)[number];
 type ResourceSectionData = ResourcePageData["sections"][number];
 type ResourceSubsection = { heading: string; body: string[]; bullets?: string[] };
 // A section image (a diagram or a chart). It sits after the section's
@@ -434,22 +433,21 @@ const ResourceArticle = ({ page }: { page: ResourcePageData }) => {
 
 // Load one article alongside the route renderer, keeping the full corpus
 // out of the JS needed to replace the prerendered page.
-const resourceLoaders = import.meta.glob<ResourcePageData>(
-  "../content/generated-resources/pages/**/*.json",
-  { import: "default" },
-);
-const resourceViews = new Map(Object.entries(resourceLoaders).map(([file, load]) => [
-  file,
+const resourceViews = new Map([...resourceLoaders.keys()].map((slug) => [
+  slug,
   lazy(async () => {
-    const page = await load();
+    const page = await loadResource(slug);
     return { default: () => <ResourceArticle page={page} /> };
   }),
 ]));
 
 const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
-  const { slug: routeSlug } = useParams();
-  const slug = configuredSlug ?? routeSlug;
-  const View = resourceViews.get(`../content/generated-resources/pages/${slug}.json`);
+  const { slug: routeSlug, compareSlug } = useParams();
+  const slug = configuredSlug ?? (compareSlug ? `compare/${compareSlug}` : routeSlug);
+  if (!slug) return <NotFound />;
+  const page = loadedResources.get(slug);
+  if (page) return <ResourceArticle page={page} />;
+  const View = resourceViews.get(slug);
   if (!View) return <NotFound />;
   return (
     <Suspense fallback={<p className="px-6 py-12" role="status">Loading article…</p>}>
