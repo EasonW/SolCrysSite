@@ -1949,6 +1949,7 @@ writePage(
     routePath: aeoPlatform.path,
     title: aeoPlatform.title,
     description: aeoPlatform.description,
+    ogImage: aeoPlatform.ogImage,
     lastModified: aeoPlatform.updated,
     body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
       <header class="seo-hero">
