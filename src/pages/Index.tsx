@@ -33,34 +33,36 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <HeroSection />
-      <ProblemSection />
-      <LoopSection />
-      <FreeTrackerSection />
-      <PlatformLayersSection />
-      <SelectedWorkSection
-        heading={homeContent.home.work.heading}
-        intro={homeContent.home.work.intro}
-        actions={
-          <>
-            <EarlyAccessDialog mode="project" surface="home_work">
-              <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                Start a project
+      <main>
+        <HeroSection />
+        <ProblemSection />
+        <LoopSection />
+        <FreeTrackerSection />
+        <PlatformLayersSection />
+        <SelectedWorkSection
+          heading={homeContent.home.work.heading}
+          intro={homeContent.home.work.intro}
+          actions={
+            <>
+              <EarlyAccessDialog mode="project" surface="home_work">
+                <Button variant="hero" size="lg" className="text-base px-8 py-6">
+                  Start a project
+                </Button>
+              </EarlyAccessDialog>
+              <Button asChild variant="hero-outline" size="lg" className="text-base px-8 py-6">
+                <a href="/sites/">See SolCrys Sites</a>
               </Button>
-            </EarlyAccessDialog>
-            <Button asChild variant="hero-outline" size="lg" className="text-base px-8 py-6">
-              <a href="/sites/">See SolCrys Sites</a>
-            </Button>
-          </>
-        }
-      />
-      <CustomerTestimonialSection />
-      <SolutionsSection />
-      <MCPSkillsSection />
-      <PromptPulseSection />
-      <ResourcesSection />
-      <FAQSection />
-      <CTASection />
+            </>
+          }
+        />
+        <CustomerTestimonialSection />
+        <SolutionsSection />
+        <MCPSkillsSection />
+        <PromptPulseSection />
+        <ResourcesSection />
+        <FAQSection />
+        <CTASection />
+      </main>
       <Footer />
     </div>
   );

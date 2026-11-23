@@ -1,14 +1,14 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { ResourceEndCTA, ResourceInlineCTA } from "@/components/ResourceCTA";
-import siteContent from "@/content/siteContent.json";
+import resourceIndex from "@/content/generated-resources/index.json";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
+import { loadedResources, loadResource, resourceLoaders, type ResourcePageData } from "@/lib/resource-data";
 import { ArrowRight, ArrowUpRight, CalendarDays, HelpCircle, User } from "lucide-react";
-import { Fragment, ReactNode, useEffect } from "react";
+import { Fragment, ReactNode, Suspense, lazy, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 
-type ResourcePageData = (typeof siteContent.resourcePages)[number];
 type ResourceSectionData = ResourcePageData["sections"][number];
 type ResourceSubsection = { heading: string; body: string[]; bullets?: string[] };
 // A section image (a diagram or a chart). It sits after the section's
@@ -210,27 +210,15 @@ const renderSection = (section: ResourceSectionData) => {
   );
 };
 
-const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
-  const { slug: routeSlug } = useParams();
-  const activeSlug = configuredSlug ?? routeSlug;
-  const page = siteContent.resourcePages.find((item) => item.slug === activeSlug);
-
-  const isDraft = page ? (page as { status?: string }).status === "draft" : false;
-  // "project" on the Sites / Motion product pages: the CTA is a project inquiry,
-  // and the page reads as a product page rather than a guide: no Resources
-  // breadcrumb, category kicker, dates or "Questions this guide answers" box.
-  // Mirrored in scripts/prerender.mjs (resourcePageHtml and the page schema).
-  const pageCta = page ? (page as { cta?: string }).cta : undefined;
+const ResourceArticle = ({ page }: { page: ResourcePageData }) => {
+  const isDraft = (page as { status?: string }).status === "draft";
+  const pageCta = (page as { cta?: string }).cta;
   const isProductPage = pageCta === "project";
 
   useEffect(() => {
-    if (!page) return;
     document.title = isDraft ? `[DRAFT] ${page.metaTitle}` : page.metaTitle;
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (description) {
-      description.content = page.description;
-    }
-    // Drafts: set noindex,nofollow so a client-side navigation also flips robots correctly.
+    if (description) description.content = page.description;
     const robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
     if (robots) {
       robots.content = isDraft
@@ -239,30 +227,15 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
     }
   }, [page, isDraft]);
 
-  if (!page) {
-    return <NotFound />;
-  }
-
-  // Drafts are excluded from "Related guides" cross-links.
   const explicitRelated =
     "relatedSlugs" in page && Array.isArray(page.relatedSlugs)
       ? (page.relatedSlugs as string[])
-          .map((relatedSlug) =>
-            siteContent.resourcePages.find((item) => item.slug === relatedSlug)
-          )
-          .filter((item): item is ResourcePageData => Boolean(item))
-          .filter((item) => (item as { status?: string }).status !== "draft")
+          .map((slug) => resourceIndex.resourcePages.find((item) => item.slug === slug))
+          .filter((item): item is NonNullable<typeof item> => Boolean(item))
       : [];
-  // Explicit relatedSlugs render in full — they are the internal-linking
-  // surface that keeps pages from being orphans, so capping them silently
-  // drops declared links. The no-declaration fallback stays capped at 3.
-  const related =
-    explicitRelated.length > 0
-      ? explicitRelated
-      : siteContent.resourcePages
-          .filter((item) => item.slug !== page.slug)
-          .filter((item) => (item as { status?: string }).status !== "draft")
-          .slice(0, 3);
+  const related = explicitRelated.length > 0
+    ? explicitRelated
+    : resourceIndex.resourcePages.filter((item) => item.slug !== page.slug).slice(0, 3);
 
   const aeoTargets =
     "aeoTargets" in page && Array.isArray(page.aeoTargets) ? (page.aeoTargets as string[]) : [];
@@ -455,6 +428,31 @@ const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
       </main>
       <Footer />
     </div>
+  );
+};
+
+// Load one article alongside the route renderer, keeping the full corpus
+// out of the JS needed to replace the prerendered page.
+const resourceViews = new Map([...resourceLoaders.keys()].map((slug) => [
+  slug,
+  lazy(async () => {
+    const page = await loadResource(slug);
+    return { default: () => <ResourceArticle page={page} /> };
+  }),
+]));
+
+const ResourcePage = ({ slug: configuredSlug }: ResourcePageProps) => {
+  const { slug: routeSlug, compareSlug } = useParams();
+  const slug = configuredSlug ?? (compareSlug ? `compare/${compareSlug}` : routeSlug);
+  if (!slug) return <NotFound />;
+  const page = loadedResources.get(slug);
+  if (page) return <ResourceArticle page={page} />;
+  const View = resourceViews.get(slug);
+  if (!View) return <NotFound />;
+  return (
+    <Suspense fallback={<p className="px-6 py-12" role="status">Loading article…</p>}>
+      <View />
+    </Suspense>
   );
 };
 

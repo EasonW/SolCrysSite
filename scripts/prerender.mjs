@@ -24,6 +24,8 @@ for (const [key, value] of Object.entries(viteEnv)) {
 }
 const distDir = path.join(rootDir, "dist");
 const content = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/siteContent.json"), "utf8"));
+const aeoPlatform = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/aeoPlatform.json"), "utf8"));
+const resourcePaths = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/resourcePaths.json"), "utf8"));
 const pricingContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/pricing.json"), "utf8"));
 const newsroomContent = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/newsroom.json"), "utf8"));
 const promptPulse = JSON.parse(fs.readFileSync(path.join(rootDir, "src/content/promptPulse.json"), "utf8"));
@@ -68,10 +70,9 @@ const personPhotoMap = {
 };
 const resourceBySlug = new Map(resourcePages.map((p) => [p.slug, p]));
 const generatedAt = "2026-05-04";
-// Modified date for a hand-built page: its entry in site.pageUpdated, else the
-// global site.updated. Every date surface for that page (meta date, sitemap
-// lastmod, schema dateModified, visible "Last updated") reads from here.
-const pageUpdated = (routePath) => site.pageUpdated?.[routePath] || site.updated || generatedAt;
+// Hand-built pages can declare a page-specific content date.
+const pageUpdated = (routePath) => site.pageUpdated?.[routePath];
+const sitemapUrls = new Map();
 
 const distIndexPath = path.join(distDir, "index.html");
 const distIndex = fs.readFileSync(distIndexPath, "utf8");
@@ -83,10 +84,6 @@ const scriptTags = [...distIndex.matchAll(/<script[^>]+type="module"[^>]*><\/scr
 const analyticsMatch = distIndex.match(/<!--\s*analytics:start\s*-->[\s\S]*?<!--\s*analytics:end\s*-->/);
 const analyticsTags = analyticsMatch ? analyticsMatch[0] : "";
 
-const reportAsset = fs
-  .readdirSync(path.join(distDir, "assets"))
-  .find((file) => /^report-.*\.png$/.test(file));
-const reportPath = reportAsset ? `/assets/${reportAsset}` : "/solcrys-og-card.png";
 const fallbackOgPath = site.defaultOgImage || "/solcrys-og-card.png";
 const ogPublicDir = path.join(distDir, "og");
 const availableOgImages = fs.existsSync(ogPublicDir) ? new Set(fs.readdirSync(ogPublicDir)) : new Set();
@@ -221,7 +218,7 @@ function navHtml() {
       </a>
       <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: hsl(var(--muted-foreground));">
         <!-- Products menu. Mirrors PRODUCTS_MENU_ITEMS in src/components/productsMenuData.ts. -->
-        <a href="/#features">SolCrys AEO</a>
+        <a href="${escapeAttr(aeoPlatform.path)}">SolCrys AEO</a>
         <a href="/sites/">SolCrys Sites</a>
         <a href="/motion/">SolCrys Motion</a>
         <a href="/#solutions">Solutions</a>
@@ -240,6 +237,7 @@ function footerHtml() {
         <p style="margin: 0;">${escapeHtml(site.description)}</p>
         <nav style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
           <!-- Product pages. Mirrors the Product column in src/components/Footer.tsx. -->
+          <a href="${escapeAttr(aeoPlatform.path)}">SolCrys AEO</a>
           <a href="/sites/">SolCrys Sites</a>
           <a href="/motion/">SolCrys Motion</a>
           <a href="/resources/">Resources</a>
@@ -251,6 +249,7 @@ function footerHtml() {
                crawlable internal link to /faq/ in the prerendered output. -->
           <a href="/faq/">FAQ</a>
           <a href="/free-chatgpt-visibility-tracker/">Free ChatGPT Tracker</a>
+          <a href="/free-aeo-audit/">Free AEO Audit</a>
           <!-- Prompt Pulse MUST stay in this footer. It was dropped from the
                header nav in 2026-08 (de-duplicated into the Resources menu),
                and this is now the ONLY site-wide crawlable internal link to
@@ -283,10 +282,13 @@ function ctaHtml() {
     </section>`;
 }
 
-function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false, ogImage, lastModified, ogType = "website", publishedTime, author }) {
+function renderLayout({ routePath, title, description, body, schemas = [], includeApp = true, noindex = false, ogImage, lastModified = pageUpdated(routePath), ogType = "website", publishedTime, author }) {
   const canonical = canonicalUrl(routePath);
   const pageOgImage = ogImage ? resolveOgImage(ogImage) : defaultOgImage;
-  const dateMeta = lastModified || site.updated || generatedAt;
+  if (!noindex) {
+    if (sitemapUrls.has(routePath)) throw new Error(`Duplicate indexable route: ${routePath}`);
+    sitemapUrls.set(routePath, lastModified);
+  }
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -387,7 +389,7 @@ function renderLayout({ routePath, title, description, body, schemas = [], inclu
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="${escapeAttr(site.name)} — AEO guides and news" href="/feed.xml" />
     <meta name="author" content="${escapeAttr(author || site.name)}" />
-    <meta name="date" content="${escapeAttr(dateMeta)}" />
+    ${lastModified ? `<meta name="date" content="${escapeAttr(lastModified)}" />` : ""}
     <meta name="theme-color" content="#000000" />
     <meta property="og:site_name" content="${escapeAttr(site.name)}" />
     <meta property="og:locale" content="${escapeAttr(site.locale || "en_US")}" />
@@ -552,6 +554,7 @@ const organizationSameAs = Array.from(
 
 const organizationSchema = {
   "@context": "https://schema.org",
+  "@id": `${site.url}/#organization`,
   "@type": "Organization",
   name: site.name,
   url: site.url,
@@ -671,7 +674,7 @@ function assertSelfDeclaredCounts(page) {
 // By default that is only the closing `faqs[]` block. Pages that ARE a FAQ —
 // where every subsection heading is itself a buyer question rendered with its
 // answer in the visible HTML — opt in with `faqSchemaIncludesSubsections` so
-// the body Q&As are eligible for FAQ rich results too. Without the opt-in,
+// the body Q&As are also represented as structured data. Without the opt-in,
 // /faq/ shipped 24 visible questions and declared 4 of them.
 //
 // Opt-in only: most resource pages use subsections as prose headings, and
@@ -834,7 +837,7 @@ function homeHtml() {
     </section>
     <section id="free-tracker" class="seo-container seo-section">
       <h2>Free ChatGPT visibility tracker</h2>
-      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the questions your buyers ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you retest that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the retest loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>.</p>
+      <p>See if ChatGPT recommends your brand — or your competitor — then fix it, free. Enter your domain and SolCrys shows where ChatGPT mentions, cites, or skips your brand on the questions your buyers ask (about 5 minutes, no credit card). Unlike a scoreboard, it does not stop at the number: in the same free workspace a free content audit hands you the exact change to ship — the JSON-LD block, the heading rewrite, the FAQ to add, with the points each one recovers — then you retest that the fix moved the answer. That is the SolCrys Loop, and the free tracker is your way in. The free tier covers ChatGPT; paid plans add Gemini, Google AI Overviews, Perplexity and Claude with automatic daily tracking and the retest loop at scale. <a href="/free-chatgpt-visibility-tracker/">Learn how the free ChatGPT visibility tracker works</a> or <a href="${escapeAttr(AUDIT_URL)}">start free</a>. To check a specific page, <a href="/free-aeo-audit/">try the free AEO audit</a>.</p>
     </section>
     <section id="features" class="seo-container seo-section">
       <h2>Four layers, one closed loop — from AI visibility to governed execution</h2>
@@ -849,6 +852,7 @@ function homeHtml() {
           )
           .join("")}
       </div>
+      <p><a href="${escapeAttr(aeoPlatform.path)}">Explore the SolCrys AEO platform</a></p>
       <article class="seo-card" style="margin-top: 2rem;">
         <p class="seo-kicker">Signals</p>
         <h3>Staying ahead of competitors</h3>
@@ -1627,9 +1631,20 @@ function resourcesHtml() {
     <section class="seo-container seo-hero">
       <p class="seo-kicker">AEO Resource Hub</p>
       <h1>Practical guides for AI search visibility.</h1>
-      <p class="seo-lede">Each guide pairs a direct answer with prompt examples, scoring guidance, and concrete follow-up actions. Browse by topic below.</p>
+      <p class="seo-lede">Find guides, original research, and tools for AI search visibility. Start with a task or browse by topic.</p>
+      <section aria-labelledby="resource-paths">
+        <h2 id="resource-paths">What are you working on?</h2>
+        <div class="seo-grid">${resourcePaths.map(({ title, links }) => `
+          <div class="seo-card"><h3>${escapeHtml(title)}</h3>
+            <ul>${links.map(({ href, label }) => `<li><a href="${escapeAttr(href)}">${escapeHtml(label)}</a></li>`).join("")}</ul>
+          </div>`).join("")}</div>
+      </section>
       <div class="seo-card"><h2><a href="/guides/">Looking for SolCrys user guides?</a></h2><p>Set up your workspace, learn the dashboards and tools, run a Deep Analysis, and connect Claude or ChatGPT. Read online or download the PDFs.</p></div>
     </section>
+    <nav class="seo-container seo-section" aria-labelledby="resource-topics">
+      <h2 id="resource-topics">Browse by topic</h2>
+      <ul class="seo-grid">${orderedKeys.map((key) => `<li><a href="#${escapeAttr(categorySlug(key))}">${escapeHtml(key)}</a></li>`).join("")}</ul>
+    </nav>
     ${orderedKeys
       .map((key) => {
         const pages = grouped.get(key) || [];
@@ -1832,7 +1847,7 @@ function resourcePageHtml(page) {
   return `
 <div class="seo-prerender">
   ${navHtml()}
-  <main class="seo-container">
+  <main class="seo-container" data-resource-slug="${escapeAttr(page.slug)}">
     <article>
       <header class="seo-hero">
         <p class="seo-kicker">${escapeHtml(isProjectPage(page) ? "Products" : page.category)}</p>
@@ -1884,12 +1899,15 @@ function notFoundHtml() {
 </div>`;
 }
 
+const homeMetaTitle = "SolCrys | AI Search Software, B2B Websites & Demos";
+const homeMetaDescription = "SolCrys helps technology marketing teams measure AI search visibility, build and host B2B websites, and explain technical products with interactive demos.";
+
 writePage(
   "index.html",
   renderLayout({
     routePath: "/",
-    title: "SolCrys - Governed AEO Execution Platform",
-    description: site.description,
+    title: homeMetaTitle,
+    description: homeMetaDescription,
     body: homeHtml(),
     ogImage: home.ogImage,
     lastModified: pageUpdated("/"),
@@ -1898,57 +1916,9 @@ writePage(
       websiteSchema,
       webPageSchema({
         routePath: "/",
-        title: "SolCrys - Governed AEO Execution Platform",
-        description: site.description
+        title: homeMetaTitle,
+        description: homeMetaDescription
       }),
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        name: site.name,
-        applicationCategory: site.softwareCategory || "BusinessApplication",
-        applicationSubCategory: site.softwareSubCategory || undefined,
-        operatingSystem: "Web",
-        url: site.url,
-        // The AEO software only; site.description names both product lines.
-        description: site.platformDescription,
-        softwareVersion: site.softwareVersion || undefined,
-        featureList: home.proofPoints,
-        screenshot: `${site.url}${reportPath}`,
-        audience: site.audienceType
-          ? {
-              "@type": "Audience",
-              audienceType: site.audienceType
-            }
-          : undefined,
-        publisher: {
-          "@type": "Organization",
-          name: site.name,
-          logo: {
-            "@type": "ImageObject",
-            url: site.logo
-          }
-        }
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: `${site.name} Answer Engine Optimization Platform`,
-        serviceType: "Answer Engine Optimization",
-        provider: {
-          "@type": "Organization",
-          name: site.name,
-          url: site.url
-        },
-        areaServed: "Global",
-        audience: site.audienceType
-          ? {
-              "@type": "Audience",
-              audienceType: site.audienceType
-            }
-          : undefined,
-        description: site.platformDescription,
-        url: site.url
-      },
       // SolCrys Sites and SolCrys Motion: the built-for-you lines, described
       // from their own product pages so the homepage and /sites/, /motion/
       // can't disagree.
@@ -1971,11 +1941,70 @@ writePage(
   })
 );
 
+const platformUrl = canonicalUrl(aeoPlatform.path);
+const platformEntityId = `${platformUrl}#software`;
+writePage(
+  "aeo-platform/index.html",
+  renderLayout({
+    routePath: aeoPlatform.path,
+    title: aeoPlatform.title,
+    description: aeoPlatform.description,
+    ogImage: aeoPlatform.ogImage,
+    lastModified: aeoPlatform.updated,
+    body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
+      <header class="seo-hero">
+        <p class="seo-kicker">${escapeHtml(aeoPlatform.name)}</p>
+        <h1>${escapeHtml(aeoPlatform.heading)}</h1>
+        <p class="seo-lede">${escapeHtml(aeoPlatform.intro)}</p>
+        <p><a href="${escapeAttr(AUDIT_URL)}">Start free</a> ·
+          <a href="${escapeAttr(APP_PRICING_URL)}">See plans and pricing</a></p>
+      </header>
+      <section class="seo-section">
+        <h2>How SolCrys AEO works</h2>
+        <div class="seo-grid">${aeoPlatform.sections.map(({ title, text, link }) => `
+          <article class="seo-card"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(text)}</p>
+            <p><a href="${escapeAttr(link.href)}">${escapeHtml(link.label)}</a></p>
+          </article>`).join("")}</div>
+      </section>
+      <section class="seo-section">
+        <h2>${escapeHtml(aeoPlatform.toolsHeading)}</h2>
+        <ul class="seo-list">${aeoPlatform.tools.map(({ href, label, text }) => `
+          <li><a href="${escapeAttr(href)}">${escapeHtml(label)}</a><p>${escapeHtml(text)}</p></li>`).join("")}</ul>
+      </section>
+    </main>${footerHtml()}</div>`,
+    schemas: [
+      organizationSchema,
+      breadcrumbSchema([{ name: "Home", path: "/" }, { name: aeoPlatform.name, path: aeoPlatform.path }]),
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        url: platformUrl,
+        name: aeoPlatform.heading,
+        description: aeoPlatform.description,
+        dateModified: aeoPlatform.updated,
+        mainEntity: { "@id": platformEntityId },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "@id": platformEntityId,
+        name: aeoPlatform.name,
+        url: platformUrl,
+        applicationCategory: site.softwareCategory,
+        operatingSystem: "Web",
+        description: aeoPlatform.description,
+        featureList: aeoPlatform.sections.map(({ title }) => title),
+        publisher: { "@id": organizationSchema["@id"] },
+      },
+    ],
+  })
+);
+
 writePage(
   "about/index.html",
   renderLayout({
     routePath: "/about/",
-    title: "About SolCrys - AI Search and AEO Team",
+    title: "About SolCrys | AI Search, Websites & Demos",
     ogImage: "/og/about.png",
     description: "Meet the SolCrys founding team and learn why the company is building an AEO platform for AI-driven discovery.",
     body: aboutHtml(),
@@ -2122,7 +2151,7 @@ writePage(
         description: "A challenger in one of tech's most crowded categories used SolCrys to close the visibility gap with incumbents. Mention rate climbed from 1.9% to 7.4% in 45 days — a near 4× lift.",
         url: canonicalUrl("/customers/nextsilicon/"),
         datePublished: site.published || generatedAt,
-        dateModified: site.updated || generatedAt,
+        dateModified: pageUpdated("/customers/nextsilicon/"),
         author: {
           "@type": "Organization",
           name: site.maintainer || site.name,
@@ -2329,7 +2358,6 @@ writePage(
     ogImage: "/og/compare.png",
     description: COMPARE_HUB_DESCRIPTION,
     body: compareHubHtml(),
-    lastModified: site.updated,
     schemas: [
       organizationSchema,
       breadcrumbSchema([
@@ -2534,7 +2562,7 @@ for (const v of promptPulse.verticals) {
       title: `Prompt Pulse — ${v.short}: what buyers ask AI (2026) | SolCrys`,
       description: `The questions ${v.short} buyers bring to AI engines, rated by demand tier and trend. Free.`,
       ogImage: `/og/prompt-pulse-${v.slug}.png`,
-      lastModified: v.updated,
+      lastModified: v.updated || promptPulse.updated,
       body: promptPulseVerticalBody(v),
       schemas: [
         organizationSchema,
@@ -2652,7 +2680,7 @@ writePage(
     description:
       "Press releases, founder notes, and announcements from SolCrys — the AEO operating system for brands in AI search.",
     body: newsIndexHtml(),
-    lastModified: newsPosts[0]?.date || site.updated,
+    lastModified: newsPosts.map((post) => post.updated || post.date).sort().at(-1),
     schemas: [
       organizationSchema,
       breadcrumbSchema([
@@ -2782,9 +2810,6 @@ for (const [file, routePath, title] of previewRoutes) {
   );
 }
 
-// Sitemap: per Google guidance, omit <priority> and <changefreq> (they are ignored)
-// and only set <lastmod> from real content updates, never deploy timestamps.
-const newsLatest = newsPosts[0]?.date || site.updated || generatedAt;
 // Free ChatGPT Visibility Tracker — keyword-targeted landing page. This is the
 // indexable ranking + AI-citation asset on solcrys.com; the actual run happens
 // in-app at app.solcrys.com/audit (the free tier). Mirrors the React
@@ -2952,7 +2977,6 @@ writePage(
     title: freeTrackerTitle,
     description: freeTrackerDescription,
     body: freeTrackerBody(),
-    lastModified: site.updated,
     ogImage: "/og/free-chatgpt-visibility-tracker.png",
     schemas: [
       organizationSchema,
@@ -3152,7 +3176,6 @@ writePage(
     title: freeAeoAuditTitle,
     description: freeAeoAuditDescription,
     body: freeAeoAuditBody(),
-    lastModified: site.updated,
     ogImage: "/og/free-aeo-audit.png",
     schemas: [
       organizationSchema,
@@ -3473,11 +3496,9 @@ function lessonHtml(course, module, lesson, prev, next) {
 </div>`;
 }
 
-const courseRoutes = [];
 for (const course of courses) {
   const flat = courseLessons(course);
   const courseRoute = `/learn/${course.slug}/`;
-  courseRoutes.push({ path: courseRoute, lastmod: course.updated });
 
   writePage(
     `learn/${course.slug}/index.html`,
@@ -3531,7 +3552,6 @@ for (const course of courses) {
 
   flat.forEach(({ module, lesson }, index) => {
     const route = lessonRoute(course, module, lesson);
-    courseRoutes.push({ path: route, lastmod: course.updated });
     writePage(
       `learn/${course.slug}/${module.slug}/${lesson.slug}/index.html`,
       renderLayout({
@@ -3539,7 +3559,6 @@ for (const course of courses) {
         title: `${lesson.title} — ${course.title} | SolCrys`,
         ogImage: course.ogImage,
         description: lesson.summary,
-        lastModified: course.updated,
         ogType: "article",
         publishedTime: course.published,
         body: lessonHtml(
@@ -3630,7 +3649,7 @@ for (const guide of userGuides.guides) {
     title: `${guide.title} — User Guide | SolCrys`,
     description: guide.description,
     ogImage: guide.ogImage,
-    lastModified: userGuides.updated,
+    lastModified: guide.updated,
     body: `<div class="seo-prerender">${navHtml()}<main class="seo-container">
       <nav aria-label="Breadcrumb"><a href="/resources/">Resources</a> / <a href="/guides/">User guides</a> / <span>${escapeHtml(guide.title)}</span></nav>
       <section class="seo-hero"><p class="seo-kicker">Guide ${escapeHtml(guide.number)} &middot; ${escapeHtml(guide.category)}</p>
@@ -3678,51 +3697,23 @@ writePage("guides/index.html", renderLayout({
   }],
 }));
 
-const sitemapUrls = [
-  { path: "/", lastmod: pageUpdated("/") },
-  { path: "/about/", lastmod: pageUpdated("/about/") },
-  { path: "/customers/", lastmod: pageUpdated("/customers/") },
-  { path: "/customers/nextsilicon/", lastmod: site.updated || generatedAt },
-  { path: "/customers/cornelis/", lastmod: pageUpdated("/customers/cornelis/") },
-  // /pricing/ removed Phase E — page is now a noindex meta-refresh bridge
-  // to app.solcrys.com/pricing. Listing the bridge would tell crawlers to
-  // index a page whose only job is to redirect away from itself.
-  { path: "/resources/", lastmod: site.updated || generatedAt },
-  { path: "/guides/", lastmod: userGuides.updated },
-  ...userGuides.guides.map((guide) => ({ path: `/guides/${guide.slug}/`, lastmod: userGuides.updated })),
-  { path: "/compare/", lastmod: site.updated || generatedAt },
-  { path: "/free-chatgpt-visibility-tracker/", lastmod: site.updated || generatedAt },
-  { path: "/free-aeo-audit/", lastmod: site.updated || generatedAt },
-  { path: "/prompt-pulse/", lastmod: promptPulse.updated },
-  ...promptPulse.verticals.map((v) => ({ path: `/prompt-pulse/${v.slug}/`, lastmod: v.updated || promptPulse.updated })),
-  { path: "/learn/", lastmod: courseContent.updated },
-  ...courseRoutes,
-  { path: "/news/", lastmod: newsLatest },
-  ...newsPosts.map((post) => ({ path: `/news/${post.slug}/`, lastmod: post.updated || post.date })),
-  // Drafts are excluded from sitemap (so search engines don't discover them).
-  ...publishedResourcePages.map((page) => ({ path: `/${page.slug}/`, lastmod: page.updated })),
-  { path: "/privacy.html", lastmod: site.updated || generatedAt },
-  { path: "/terms.html", lastmod: site.updated || generatedAt }
-];
+for (const route of ["/privacy.html", "/terms.html"]) {
+  sitemapUrls.set(route, undefined);
+}
 
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemapUrls
-  .map(
-    (url) => `  <url>
-    <loc>${xmlEscape(canonicalUrl(url.path))}</loc>
-    <lastmod>${xmlEscape(url.lastmod)}</lastmod>
-  </url>`
-  )
-  .join("\n")}
+${[...sitemapUrls].map(([route, lastmod]) => `  <url>
+    <loc>${xmlEscape(canonicalUrl(route))}</loc>${lastmod ? `\n    <lastmod>${xmlEscape(lastmod)}</lastmod>` : ""}
+  </url>`).join("\n")}
 </urlset>
 `;
 writePage("sitemap.xml", sitemapXml);
 
-// Emit canonical URL list for IndexNow ping (consumed by scripts/ping-indexnow.mjs)
+// IndexNow and the sitemap use the same indexable URL set.
 writePage(
   "indexnow-urls.json",
-  `${JSON.stringify(sitemapUrls.map((url) => canonicalUrl(url.path)), null, 2)}\n`
+  `${JSON.stringify([...sitemapUrls.keys()].map(canonicalUrl), null, 2)}\n`
 );
 
 // SolCrys Sites / SolCrys Motion: listed under Core Pages in llms.txt.
@@ -3737,6 +3728,7 @@ SolCrys helps marketing and growth teams monitor answer engine visibility, ident
 ## Core Pages
 
 - [Home](${site.url}/): Product overview, AI visibility audit, and platform positioning.
+- [${aeoPlatform.name}](${platformUrl}): ${aeoPlatform.description}
 - [About](${site.url}/about/): Company story, founding team, and advisors.
 - [Customers](${site.url}/customers/): Customer stories from brands using SolCrys across AI engines — featuring Cornelis (AI & HPC networking; a brand-new category made answerable in four weeks for its AI Infra Summit launch), NextSilicon (HPC & AI infrastructure, 1.9% → 7.4% mention rate in 45 days), UiPath (enterprise automation software), and Wyze (consumer smart home).
 - [NextSilicon case study](${site.url}/customers/nextsilicon/): Full case study — how NextSilicon quadrupled its AI mention rate in HPC & AI in 45 days, mention rate 1.9% → 7.4%, with the SolCrys approach (prompt building, content optimization, metadata intelligence, authority mapping, deep analysis) detailed end-to-end.

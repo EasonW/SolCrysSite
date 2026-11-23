@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import siteContent from "@/content/siteContent.json";
+import siteContent from "@/content/generated-resources/index.json";
+import resourcePaths from "@/content/resourcePaths.json";
 import { ArrowRight } from "lucide-react";
 import { categorySlug } from "@/lib/categorySlug";
 import { useHashScroll } from "@/hooks/useHashScroll";
@@ -21,11 +22,10 @@ const Resources = () => {
   // Drafts are filtered out — they are accessible by direct URL but not listed here.
   const grouped = new Map<string, ResourcePageData[]>();
   for (const page of siteContent.resourcePages) {
-    if ((page as { status?: string }).status === "draft") continue;
     const primaryList = grouped.get(page.category) ?? [];
     primaryList.push(page);
     grouped.set(page.category, primaryList);
-    const alsoListIn = (page as { alsoListIn?: string[] }).alsoListIn ?? [];
+    const alsoListIn = page.alsoListIn;
     for (const secondaryCluster of alsoListIn) {
       const secondaryList = grouped.get(secondaryCluster) ?? [];
       secondaryList.push(page);
@@ -51,14 +51,38 @@ const Resources = () => {
             Practical guides for AI search visibility.
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed mb-12">
-            Each guide pairs a direct answer with prompt examples, scoring guidance, and
-            concrete follow-up actions. Browse by topic below.
+            Find guides, original research, and tools for AI search visibility. Start with a task or browse by topic.
           </p>
+
+          <section aria-labelledby="resource-paths" className="mb-12">
+            <h2 id="resource-paths" className="mb-5 text-2xl font-semibold">What are you working on?</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {resourcePaths.map(({ title, links }) => (
+                <div key={title} className="rounded-xl border border-border/50 bg-card/40 p-5">
+                  <h3 className="mb-3 font-semibold">{title}</h3>
+                  <ul className="space-y-3 text-sm">
+                    {links.map(({ href, label }) => (
+                      <li key={href}><a href={href} className="text-[hsl(var(--brand-accent-ink))] underline underline-offset-4">{label}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
 
           <a href="/guides/" className="mb-12 flex items-center justify-between gap-5 rounded-xl border border-[hsl(var(--brand-accent)/0.3)] bg-[hsl(var(--brand-accent)/0.05)] p-6 hover:bg-[hsl(var(--brand-accent)/0.1)] transition-colors">
             <div><h2 className="text-lg font-semibold">Looking for SolCrys user guides?</h2><p className="mt-2 text-sm text-muted-foreground">Set up your workspace, learn the dashboards and tools, run a Deep Analysis, and connect Claude or ChatGPT. Read online or download the PDFs.</p></div>
             <ArrowRight className="h-5 w-5 shrink-0 text-[hsl(var(--brand-accent-ink))]" aria-hidden="true" />
           </a>
+
+          <nav aria-labelledby="resource-topics" className="mb-12 border-y border-border/50 py-6">
+            <h2 id="resource-topics" className="mb-4 text-2xl font-semibold">Browse by topic</h2>
+            <ul className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+              {orderedKeys.map((key) => (
+                <li key={key}><a href={`#${categorySlug(key)}`} className="text-[hsl(var(--brand-accent-ink))] underline underline-offset-4">{key}</a></li>
+              ))}
+            </ul>
+          </nav>
 
           {orderedKeys.map((key) => {
             const pages = grouped.get(key) ?? [];

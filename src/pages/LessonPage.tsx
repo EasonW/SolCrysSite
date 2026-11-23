@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import siteContent from "@/content/siteContent.json";
+import siteContent from "@/content/generated-resources/index.json";
 import { AUDIT_URL } from "@/lib/audit-cta";
 import {
   coursePath,

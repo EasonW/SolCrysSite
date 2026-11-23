@@ -4,6 +4,7 @@
  *
  * Reads:
  *   src/content/siteContent.json   (homepage + resourcePages[])
+ *   src/content/aeoPlatform.json  (AEO product page)
  *   src/content/newsroom.json      (newsroom posts[])
  *   src/content/userGuides.json    (user guides[])
  *
@@ -37,6 +38,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..", "..");
 const SITE_JSON = join(REPO_ROOT, "src", "content", "siteContent.json");
+const AEO_PLATFORM_JSON = join(REPO_ROOT, "src", "content", "aeoPlatform.json");
 const NEWS_JSON = join(REPO_ROOT, "src", "content", "newsroom.json");
 const PULSE_JSON = join(REPO_ROOT, "src", "content", "promptPulse.json");
 const GUIDES_JSON = join(REPO_ROOT, "src", "content", "userGuides.json");
@@ -173,6 +175,7 @@ function deriveSlugFromOgImage(ogImage) {
 // ----- collect render targets -----
 function collectTargets() {
   const site = JSON.parse(readFileSync(SITE_JSON, "utf8"));
+  const platform = JSON.parse(readFileSync(AEO_PLATFORM_JSON, "utf8"));
   const news = JSON.parse(readFileSync(NEWS_JSON, "utf8"));
   const promptPulse = JSON.parse(readFileSync(PULSE_JSON, "utf8"));
   const userGuides = JSON.parse(readFileSync(GUIDES_JSON, "utf8"));
@@ -194,6 +197,16 @@ function collectTargets() {
       },
     });
   }
+
+  targets.push({
+    source: "product",
+    slug: deriveSlugFromOgImage(platform.ogImage),
+    entry: {
+      title: platform.heading,
+      description: platform.description,
+      category: platform.name,
+    },
+  });
 
   // Static hub pages — routes prerendered by scripts/prerender.mjs that
   // have no siteContent entry of their own. Slugs must match the

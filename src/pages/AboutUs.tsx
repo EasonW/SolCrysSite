@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 import gwenImg from "@/assets/gwen-chen.jpg";
 import easonImg from "@/assets/eason-wang.jpg";
 import jiaImg from "@/assets/jia-chang.jpg";
-import siteContent from "@/content/siteContent.json";
+import resourceIndex from "@/content/generated-resources/index.json";
+import { site } from "@/content/homeContent.json";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { AUDIT_URL, trackAuditClick } from "@/lib/audit-cta";
 import { APP_PRICING_URL } from "@/lib/pricing-url";
@@ -30,7 +31,7 @@ interface ResourceSummary {
 
 type FounderNote = ResourceSummary & { author: ResourceAuthor };
 
-const founderNotes = (siteContent.resourcePages as unknown as ResourceSummary[])
+const founderNotes = (resourceIndex.resourcePages as ResourceSummary[])
   .filter(
     (page): page is FounderNote =>
       page.status !== "draft" && Boolean(page.author && FOUNDER_NAMES.has(page.author.name)),
@@ -106,8 +107,8 @@ const AboutUs = () => {
               connect AI visibility measurement with evidence-backed content action.
             </p>
             <p className="fade-in-scroll mt-5 text-xs text-muted-foreground/80 uppercase tracking-wider">
-              Maintained by {siteContent.site.maintainer} · Last updated{" "}
-              <time dateTime={siteContent.site.pageUpdated["/about/"]}>{siteContent.site.pageUpdated["/about/"]}</time>
+              Maintained by {site.maintainer} · Last updated{" "}
+              <time dateTime={site.pageUpdated["/about/"]}>{site.pageUpdated["/about/"]}</time>
             </p>
           </div>
         </section>

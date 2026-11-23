@@ -18,13 +18,37 @@ const content = readContent("siteContent.json");
 writeContent("homeContent.json", {
   site: content.site,
   home: content.home,
-  featuredResourcePages: content.resourcePages.filter((page) => featuredSlugs.has(page.slug)),
+  featuredResourcePages: content.resourcePages
+    .filter((page) => featuredSlugs.has(page.slug))
+    .map(({ slug, title, category, description }) => ({ slug, title, category, description })),
+});
+
+const generatedResources = path.join(contentDir, "generated-resources");
+// Rebuild the generated directory so removed slugs cannot leave client routes behind.
+fs.rmSync(generatedResources, { recursive: true, force: true });
+fs.mkdirSync(generatedResources, { recursive: true });
+for (const page of content.resourcePages) {
+  if (!/^[a-z0-9-]+(?:\/[a-z0-9-]+)*$/.test(page.slug)) {
+    throw new Error(`Invalid resource slug: ${page.slug}`);
+  }
+  const file = path.join("generated-resources/pages", `${page.slug}.json`);
+  fs.mkdirSync(path.join(contentDir, path.dirname(file)), { recursive: true });
+  writeContent(file, page);
+}
+writeContent("generated-resources/index.json", {
+  resourceClusters: content.resourceClusters ?? [],
+  resourcePages: content.resourcePages
+    .filter((page) => page.status !== "draft")
+    .map(({ slug, title, description, category, alsoListIn = [], author, summary, updated }) => ({
+      slug, title, description, category, alsoListIn, author, updated,
+      summary: author ? summary : undefined,
+    })),
 });
 
 // ---------------------------------------------------------------------------
 // searchPages.json — every ⌘K search entry that isn't a resource page or a
-// user guide (those are indexed straight from siteContent.json and
-// userGuides.json in src/lib/searchIndex.ts).
+// user guide. Resource search excerpts are generated separately so opening
+// search never downloads full articles. User guides come from userGuides.json.
 //
 // Pre-flattened here so the search chunk doesn't pull in the full newsroom,
 // course, and Prompt Pulse datasets (Prompt Pulse alone is ~700 KB of prompt
@@ -33,6 +57,7 @@ writeContent("homeContent.json", {
 // ---------------------------------------------------------------------------
 
 const pricing = readContent("pricing.json");
+const platform = readContent("aeoPlatform.json");
 const newsroom = readContent("newsroom.json");
 const courseContent = readContent("courseContent.json");
 const promptPulse = readContent("promptPulse.json");
@@ -60,6 +85,13 @@ const entry = ({ slug, title, description, category, keywords = "", summary = ""
 // pricing page, not an article that compares AEO vendors' pricing.
 const NAV_BOOST = 2;
 const staticPages = [
+  entry({
+    slug: platform.path.replace(/^\/|\/$/g, ""),
+    title: `${platform.name} Platform`,
+    description: platform.description,
+    category: "Product",
+    keywords: "SolCrys AEO platform answer engine optimization software AI visibility tracking",
+  }),
   entry({
     slug: "pricing",
     title: "Pricing",
@@ -157,6 +189,21 @@ const staticPages = [
     keywords: "learn course courses training lessons free education",
   }),
 ];
+
+writeContent("generated-resources/search.json", content.resourcePages
+  .filter((page) => page.status !== "draft")
+  .map((page) => entry({
+    slug: page.slug,
+    title: page.title,
+    description: page.description,
+    category: page.category,
+    keywords: [page.primaryKeyword, ...(page.aeoTargets ?? [])].filter(Boolean).join(" "),
+    summary: page.summary,
+    body: toBody((page.sections ?? []).flatMap((section) => [
+      section.heading, ...(section.body ?? []), section.figure?.caption, ...(section.bullets ?? []),
+      ...(section.subsections ?? []).flatMap((sub) => [sub.heading, ...(sub.body ?? []), ...(sub.bullets ?? [])]),
+    ])),
+  })));
 
 const newsBlockText = (block) => {
   if (block.text) return block.text;

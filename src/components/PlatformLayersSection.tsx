@@ -69,6 +69,12 @@ const PlatformLayersSection = () => {
           })}
         </div>
 
+        <p className="mb-10">
+          <a href="/aeo-platform/" className="font-semibold text-[hsl(var(--brand-accent-ink))] underline underline-offset-4">
+            Explore the SolCrys AEO platform
+          </a>
+        </p>
+
         {/* Action-to-Result reporting band — anchors the 4th layer. (No mock
             product screenshot: the report visual drifted from the copy and led
             on a retired Sentiment tile; when the real report UI is

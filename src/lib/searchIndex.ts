@@ -1,5 +1,5 @@
 import MiniSearch from "minisearch";
-import siteContent from "@/content/siteContent.json";
+import resourceSearch from "@/content/generated-resources/search.json";
 import userGuides from "@/content/userGuides.json";
 import searchPages from "@/content/searchPages.json";
 
@@ -15,32 +15,6 @@ import searchPages from "@/content/searchPages.json";
 // Drafts (status === "draft") are excluded to mirror the /resources hub,
 // sitemap, and llms files — they stay reachable by direct URL only.
 
-interface RawSubsection {
-  heading?: string;
-  body?: string[];
-  bullets?: string[];
-}
-
-interface RawSection {
-  heading?: string;
-  body?: string[];
-  figure?: { caption?: string };
-  bullets?: string[];
-  subsections?: RawSubsection[];
-}
-
-interface RawPage {
-  slug: string;
-  title?: string;
-  description?: string;
-  summary?: string;
-  category?: string;
-  status?: string;
-  primaryKeyword?: string;
-  aeoTargets?: string[];
-  sections?: RawSection[];
-}
-
 export interface SearchResult {
   slug: string;
   title: string;
@@ -48,47 +22,7 @@ export interface SearchResult {
   category: string;
 }
 
-const pages = siteContent.resourcePages as unknown as RawPage[];
-
-// Inline markdown the body strings carry: `[label](url)` and `**bold**`.
-// Strip the syntax so URLs and asterisks don't pollute the token stream.
-const stripMarkdown = (text: string): string =>
-  text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, "").replace(/`/g, "");
-
-// Flatten a page's section/subsection prose into one searchable blob, capped
-// so a single long guide can't dominate the index or slow tokenization.
-const buildBody = (page: RawPage): string => {
-  const parts: string[] = [];
-  for (const section of page.sections ?? []) {
-    if (section.heading) parts.push(section.heading);
-    if (section.body) parts.push(...section.body);
-    if (section.figure?.caption) parts.push(section.figure.caption);
-    if (section.bullets) parts.push(...section.bullets);
-    for (const sub of section.subsections ?? []) {
-      if (sub.heading) parts.push(sub.heading);
-      if (sub.body) parts.push(...sub.body);
-      if (sub.bullets) parts.push(...sub.bullets);
-    }
-  }
-  return stripMarkdown(parts.join(" ")).slice(0, 2000);
-};
-
-const documents = pages
-  .filter((page) => page.status !== "draft")
-  .map((page) => ({
-    id: page.slug,
-    slug: page.slug,
-    title: page.title ?? "",
-    description: page.description ?? "",
-    category: page.category ?? "",
-    // Buyer questions + target keyword carry strong intent signal — index
-    // them as a high-boost field separate from the descriptive prose.
-    keywords: [page.primaryKeyword, ...(page.aeoTargets ?? [])]
-      .filter(Boolean)
-      .join(" "),
-    summary: page.summary ?? "",
-    body: buildBody(page),
-  }));
+const documents = resourceSearch.map(({ boost: _boost, ...page }) => ({ id: page.slug, ...page }));
 
 documents.push(...userGuides.guides.map((guide) => ({
   id: `guides/${guide.slug}`,

@@ -5,6 +5,7 @@ declare global {
 }
 
 export type AuditSurface =
+  | "aeo_platform"
   | "hero"
   | "home_products"
   | "home_work"

@@ -115,7 +115,11 @@ const FreeTrackerSection = () => {
               href="/free-chatgpt-visibility-tracker/"
               className="text-[hsl(var(--brand-accent))] hover:underline"
             >
-              How it works
+              How the tracker works
+            </a>
+            <span className="mx-2 text-muted-foreground/50">·</span>
+            <a href="/free-aeo-audit/" className="text-[hsl(var(--brand-accent))] hover:underline">
+              Free AEO audit
             </a>
           </p>
         </div>
